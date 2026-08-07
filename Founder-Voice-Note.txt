@@ -1,0 +1,239 @@
+Founder Module or Platform
+
+What is Seedicon ?
+Seedicon is an investment banking advisory firm that empowers startups and businesses with fundraising, strategic advisory, and investor engagement services.
+
+What problem does it solve?
+By connecting founders with the right investors and providing end-to-end investment support, Seedicon helps businesses accelerate growth while enabling investors to discover high-potential opportunities more efficiently.
+User Types
+- Founders (Specifically those are below series funding stage)
+- Investors (Who wants to invest in startups that can make them money)
+
+Flow 1: Explore the Platform
+Landing Page → Sign Up → Select User Type (Founder) → Choose "Want to Explore" → Complete Basic Founder Onboarding → Dashboard
+
+Flow 2: List Startup
+Landing Page → Sign Up → Select User Type (Founder) → Choose "Want to List Startup" → Complete Product Listing Form → Pay $5 Listing Fee → Submit for Admin Verification → Product Listed → Product Listing Page
+
+Flow 3: Raise Funds
+Landing Page → Sign Up → Select User Type (Founder) → Choose "Want to Raise Funds" → Complete Fundraising Form → Submit to Seedicon (Investor Curation & Matching by seedicon )→ Dashboard
+
+Features
+Currently, we have 10 module/features/pages under the founders:
+1. Dashboard where the User can see all the use related to startup upcoming start of event events that is happening around them. Government grants learning how to be kind of blocks or articles and there will be some diligence checklist mentioned so that User can understand what all things are here while going for funding and see if you think anymore features or the sections that we can add in the dashboard that value for the founders module then you can just suggest me those things
+2. Second we have products of product listing where all the product that any founder or status listed would be shown so it's a kind of product listing page similar to product hunt as a, and all these kind of platform and in this page there would be of advanced filter, and if the User clicks on any of the product that they like that they want to know more about it they will click on that and then the full product list page of that particular product will be open and they are all the kind of social interaction and about the products. These things should be shown.
+3. So this is networks where only founders can do networking. In this particular part. Investor will be not involved all the founders that are on board on a platform would be shown here on boarding. We will ask certain question basic detail about the founders and all those retail rubbish on here and we will give message option so that User can talk inside a platform.
+4. So then another feature this module is about grants where all the government grants would be listed here start up and see all the grands, and according to the filters, they can filter it up, and according to their preference, they can apply for funding they can apply for funding for these government brands, and these things would be redirected to the new page official period of page of grants of India, so something like this this page will be there
+5. Real market problems so here just showing some of a few real world market problem that are existing right there this will be done by scraping some of the data from online resources or generating from AIS. This will discuss that how this thing will be done. This is the feature that we're building.
+6. Founder struggle challenge here all the founders can post their struggles of challenges that they are having building their startup and they can post it anonymously or by their name, and these posting will be shown to all the founders that are inside platform and people can interact with their post they can share the answers with the foundation, knowing the answer about that particular challenges that they are facing, so it's kind of interaction point in this thing.
+7. Pitch deck reviewer: so this is a module where User will post their current PD that they have and then this will, I will analyze the deck from starting and give a very good insight about how they can improve their tech according to industries that they are in and multiple other things would be there in this and if the User wants to re-create their attack then they will be having another CTA so that becomes a selling factor which would be as deckwale, this is a platform that helps a founders build the decks and some business document so AI will give the inside that these all things are missing and then they can then they attack from scratch from or product only
+7. Due diligence checklist here we will show industry wise due diligence, checklist that the any startup should follow the startup that are in that particular industry industrial sectors they can see all the industries checklist so that if they are going for fundraising can verify portal document or needed prior to going for funding so that they are not blank in front of investor.
+8. Startup news in blogs hear all the status news would be shown scraping from online data and few blocks that we will be posting for SEO purpose so this is for just helping the founder to learn something and our platform would be getting a SEO optimize as well
+9. Product analytics so this is simple analytics where person can see their product listed listed their listing of their product that how that product is performing at the market. It will have certain analytics amount of person of amount of people that have viewed it searches that has been appeared, and a few more analytics things that are possible for products that will help them to improve the thing for the future like every time spend on their product. These all kind of matrix we can show them platforms.
+10. Message : Internal conversations between the founders,.
+
+Make sure to arrange these properly 10 modules, smartly in most viable flow.
+Note: Explain each module, its purpose, features, and workflow in brief
+Founder Onboarding Forms (Basic Detail)
+Founder Details
+LinkedIn Profile URL
+Profile Photo
+Profile Banner
+Full Name
+Designation
+Official Email
+Contact Number
+Country
+City
+Founder Background / Bio
+Professional Experience (Multiple)
+Company Name
+Designation / Role
+Start Date
+End Date
+Education (Multiple)
+University / Institution Name
+Course / Major
+Start Date
+End Date
+Co-Founders / Founding Team (Optional | Multiple)
+Co-Founder Full Name
+Role
+Official Email
+LinkedIn Profile URL
+Add Member Button (Select role, name etc.)
+—----
+Product Listing
+Step 1: Product Description
+Product Information
+Product Logo
+Product Name
+Short Description
+Detailed Description
+
+Step 2: Product Details
+Company Details
+Website
+Company Address
+Social Links
+LinkedIn Social Link
+Instagram Social Link
+X (Twitter) Social Link
+Key Features (Multiple)
+Feature Name
+
+Step 3: Product Media
+Media
+Product Demo Video
+Product Images (Up to 6)
+
+Step 4: Product Integrations
+Integrations (Multiple)
+Integration Name
+
+Step 5: Product Category
+Industries
+Industry (Multi Select)
+Other Industry
+
+Step 6: Target Market & Stage
+Development Stage
+Development Stage
+Frequently Asked Questions
+What problem does your product solve?
+Who is your target audience?
+What makes your product unique?
+What is your business model?
+What are your future plans?
+How do customers use your product?
+
+Step 7: Product Pricing & Competitors
+Pricing Plans (Multiple)
+Plan Name
+Price
+Included Features (Multiple)
+Competitor Links (Multiple)
+Competitor Website URL
+
+Step 8: Important Links
+Important Links (Multiple)
+Link Name
+Link URL
+
+Step 9: Submit for Review
+Required Fields Before Submission
+Product Logo
+Product Name
+Short Description
+Detailed Description
+Website
+Company Address
+At least one Industry (or Other Industry)
+Development Stage
+—----------
+Founder Struggle Form 
+- Challenge Title
+- Description
+- Category 
+- Tags (Auto fill on the basis description)
+—-----
+Pitch Deck Reviewer
+- Upload Pitch Deck (PDF/PPT/PPTX)
+
+
+Business Rules
+Platform Access
+Only registered users can access the Founder Dashboard.
+User can add few details while onboarding that are mandatory and use our platform
+After addition of basic details we will verify until that verification they can’t message anyone of the founder inside the platform.
+While onboarding we can mention phone number as mandatory so that fake profiles are reduced. OR Allow signing up with google and make sure that disposable mails are not used.
+Users must select a role (Founder or Investor) during signup.
+Duplication of user needs to be handled
+Startup Listing
+Only founders can create and manage startup listings.
+A $5 listing fee is mandatory before submission.
+Listings remain Pending Review until approved by the Seedicon team.
+Only approved listings are publicly visible.
+Founders can edit Draft or Rejected listings and resubmit them.
+A startup can have only one active public listing at a time.
+Fundraising
+Only founders can submit fundraising applications.
+Fundraising requests are manually reviewed by the Seedicon team.
+Submission does not guarantee investor meetings or funding.
+Founder Network
+Only founders can access the Founder Network.
+Founders can message only other founders within the platform. If they are verifed
+Users can report or block inappropriate accounts.
+Spam, solicitation, and abusive content are prohibited.
+Government Grants
+Grant information is for discovery purposes only.
+Applications are redirected to the official government portal.
+Seedicon does not guarantee grant approval.
+Real Market Problems
+Problems are AI-generated or aggregated from public sources.
+Content is informational and may not represent real-time market conditions.
+Founder Challenges
+Posts can be published anonymously or with the founder's identity.
+Founders can comment, react, and share solutions.
+Seedicon reserves the right to moderate or remove inappropriate content.
+Pitch Deck Reviewer
+Only PDF, PPT, and PPTX files are supported.
+AI analysis starts automatically after successful upload.
+Uploaded decks remain private to the founder.
+AI recommendations are advisory and do not guarantee fundraising success.
+Users can regenerate the analysis.
+Users can rebuild their deck using Deckwale directly from the review.
+Due Diligence Checklist
+Checklists are displayed based on the startup's selected industry.
+Content is intended as guidance and may change over time.
+Completion of the checklist does not guarantee investment readiness.
+Startup News & Blogs
+News is aggregated from public sources.
+Blog content is published and managed by Seedicon.
+External content links redirect users to their original source.
+Product Analytics
+Analytics are available only for the founder who owns the listing.
+Metrics are updated periodically and may not be real-time.
+Public users cannot access another startup's analytics.
+Dashboard
+Dashboard content is personalized based on the founder's profile.
+Recommendations, grants, events, and articles are dynamically updated.
+Some recommendations may be AI-generated.
+Admin Permissions
+Admins can Approve, Reject, Request Changes, or Remove startup listings.
+Admins can moderate posts, comments, and reported content.
+Admins can manage grants, blogs, featured startups, and platform announcements.
+Notifications
+Users receive notifications for listing status changes, fundraising updates, messages, and important platform activities.
+Security & Privacy
+Only public startup information is visible to other users.
+Uploaded pitch decks and fundraising documents remain private unless explicitly shared.
+User data is handled according to the platform's Privacy Policy.
+Message
+File or image attachments are not allowed.
+Only verified one can chat
+
+Additional Business Rules worth considering (high value) - Pick Few if needed
+Featured Startup listings are selected only by the Seedicon team.
+Duplicate startup listings are not allowed.
+Deleted listings can be restored only by the admin within a defined retention period.
+Founders cannot submit another fundraising request while one is already under review.
+AI-generated content is clearly marked where applicable.
+User accounts violating community guidelines may be suspended or permanently banned.
+Startup analytics are available only after the listing is approved and published.
+These rules are concise, product-focused, and cover the key operational behavior expected in a professional PRD.
+AI Integration
+Yeah, mention all the AI integrations that we have to do inside the platform mainly on a few places AI would be needed and also with AI you should also mention the other technologies of automations that we will be using like amplify, which will be used for scraping the tutor from LinkedIn when the User is on boarding the ID and automatically details would be filled.
+
+AI will be used for pitch reviewer LLM will be used like chatgpt for this. AI Scrape Real market problems and all those things. 
+Success Metrics: You think of these (Tabular way, metrics, definition and target)
+Users Stories: You think and add most important ones
+Pages to Design: Understand from the features that I have provided you (In tabular way you can write it Slug, Ref, Page Name, User Type, Key Components and Purpose)
+Notifications and Email: Have the most important email and notifications in tabular way only you can have it summary dont go in detail just the trigger and what we will send a little description just.
+—--------
+Admin Portal
+Here, we will receive all the forms that are mentioned from the founders while onboarding, just have the important table summary view for it, just in summarized way have this.
+—---------
+UI Structure of the Platform
+Tiny Sidebar (Have Seedicon, All buddy, Deckwale, Watch and then Profile, Settings)- Like just our core products, then on sidebar we have all the pages that we have thought of in features.
+Another thought is like tiny sidebar and navbar that will have the all pages that we have thought of with profile avatar. Think very smartly and build the skeleton just structure of it and nothing else. 

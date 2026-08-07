@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — User Flows Architecture Canvas & Specifications</title>
+<style>
+  :root {
+    --bg-page: #F8FAFC;
+    --card-bg: #FFFFFF;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --border-subtle: #E2E8F0;
+    --border-dark: #0F172A;
+    --accent-blue: #2563EB;
+    --accent-green: #059669;
+    --accent-red: #DC2626;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Fullscreen Canvas Container */
+  #canvasContainer {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    cursor: grab;
+  }
+  #canvasContainer:active {
+    cursor: grabbing;
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Modern Subtle Floating Top Navigation Bar */
+  .top-nav {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    right: 20px;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+  }
+
+  /* Brand Badge */
+  .brand-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #FFFFFF;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    pointer-events: auto;
+  }
+  .brand-badge .logo {
+    width: 26px; height: 26px;
+    background: var(--text-primary);
+    color: #FFFFFF;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px;
+  }
+  .brand-badge h1 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  /* Header Actions Group */
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: auto;
+  }
+
+  /* Flow Selector Filter Pills */
+  .flow-pills-group {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    background: #FFFFFF;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  }
+  .flow-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .flow-btn:hover {
+    background: #F1F5F9;
+    color: var(--text-primary);
+  }
+  .flow-btn.active {
+    background: var(--text-primary);
+    color: #FFFFFF;
+    font-weight: 700;
+  }
+
+  /* Modern Accordion Toggle Button */
+  .specs-toggle-btn {
+    background: #FFFFFF;
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+  }
+  .specs-toggle-btn:hover {
+    background: #F8FAFC;
+    border-color: var(--border-dark);
+  }
+
+  /* Collapsible Modern Drawer Overlay Panel */
+  .specs-drawer {
+    position: absolute;
+    top: 72px;
+    right: 20px;
+    width: 680px;
+    max-height: calc(100vh - 140px);
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+    z-index: 200;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .specs-drawer.open { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .drawer-header {
+    background: #FFFFFF;
+    color: var(--text-primary);
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .drawer-header h2 { font-size: 13.5px; font-weight: 700; color: var(--text-primary); }
+  .drawer-close {
+    background: #F1F5F9;
+    border: none;
+    color: var(--text-secondary);
+    width: 26px; height: 26px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .drawer-close:hover { background: #E2E8F0; color: var(--text-primary); }
+
+  .drawer-content {
+    padding: 16px 20px;
+    overflow-y: auto;
+    user-select: text;
+  }
+
+  /* Accordion Item Styling */
+  .accordion-item {
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .accordion-header {
+    background: #F8FAFC;
+    padding: 11px 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.15s ease;
+  }
+  .accordion-header:hover { background: #F1F5F9; }
+  .accordion-body {
+    padding: 14px;
+    display: none;
+    border-top: 1px solid var(--border-subtle);
+    background: #FFFFFF;
+  }
+  .accordion-item.active .accordion-body { display: block; }
+  .accordion-item.active .accordion-header { background: #0F172A; color: #FFFFFF; font-weight: 700; }
+
+  .story-quote {
+    background: #F8FAFC;
+    border-left: 3px solid #0F172A;
+    padding: 8px 12px;
+    font-size: 11.5px;
+    font-style: italic;
+    color: #334155;
+    margin-bottom: 12px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* Spec Table */
+  table.spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  table.spec-table th {
+    background: #F8FAFC;
+    color: var(--text-secondary);
+    text-align: left;
+    padding: 8px 10px;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  table.spec-table td {
+    padding: 9px 10px;
+    border-bottom: 1px solid #F1F5F9;
+    vertical-align: top;
+    color: var(--text-primary);
+    line-height: 1.45;
+  }
+
+  /* Floating Zoom Controls */
+  .floating-controls {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #FFFFFF;
+    padding: 5px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  }
+  .ctrl-btn {
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .ctrl-btn:hover { background: #F1F5F9; border-color: var(--border-dark); }
+  .ctrl-val { font-size: 12px; font-weight: 700; color: var(--text-primary); min-width: 44px; text-align: center; }
+
+  /* Floating Legend */
+  .floating-legend {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #FFFFFF;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; border: 1px solid var(--border-dark); }
+</style>
+</head>
+<body>
+
+<!-- TOP NAVIGATION BAR -->
+<div class="top-nav">
+  <div class="brand-badge">
+    <div class="logo">S</div>
+    <h1>Seedicon User Flows</h1>
+  </div>
+
+  <div class="header-actions">
+    <!-- Flow Selector Filter Pills -->
+    <div class="flow-pills-group">
+      <button class="flow-btn active" data-flow="all">All Flows</button>
+      <button class="flow-btn" data-flow="f1" title="User Story: Founders want to onboard & explore">Flow 1: Founder onboarding</button>
+      <button class="flow-btn" data-flow="f2" title="User Story: Founders want to list startup">Flow 2: List startup</button>
+      <button class="flow-btn" data-flow="f3" title="User Story: Founders want to raise funds">Flow 3: Raise funds</button>
+      <button class="flow-btn" data-flow="f4" title="User Story: Users want to discover & interact with products">Flow 4: Guest discovery &amp; social</button>
+      <button class="flow-btn" data-flow="f5" title="User Story: Verified founders want to message another founder">Flow 5: Founder messaging</button>
+      <button class="flow-btn" data-flow="f6" title="User Story: Founders want to discover grants and apply">Flow 6: Grant discovery &amp; apply</button>
+      <button class="flow-btn" data-flow="f7" title="User Story: Founders want to view real market problems">Flow 7: View market problems</button>
+      <button class="flow-btn" data-flow="f8" title="User Story: Founders want to resolve struggles & share challenges">Flow 8: Founder struggles</button>
+      <button class="flow-btn" data-flow="f9" title="User Story: Founders want AI pitch deck review & Deckwale creation tool">Flow 9: Pitch deck AI review &amp; Deckwale</button>
+      <button class="flow-btn" data-flow="f10" title="User Story: Listed founders want product page performance analytics">Flow 10: Product analytics</button>
+    </div>
+
+    <!-- Accordion Drawer Toggle Button -->
+    <button class="specs-toggle-btn" id="toggleDrawerBtn">
+      <span>Flow Specs Table</span>
+      <span id="drawerArrow">▾</span>
+    </button>
+  </div>
+</div>
+
+<!-- COLLAPSIBLE ACCORDION SPECS DRAWER -->
+<div class="specs-drawer" id="specsDrawer">
+  <div class="drawer-header">
+    <h2>Detailed User Story Specifications Table</h2>
+    <button class="drawer-close" id="closeDrawerBtn">✕</button>
+  </div>
+  <div class="drawer-content">
+    
+    <!-- ACCORDION ITEM: FLOW 1 -->
+    <div class="accordion-item active">
+      <div class="accordion-header">
+        <span>Flow 1: Founders want to onboard &amp; explore</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As a Founder, I want to explore the Seedicon platform so I can view grants, ecosystem news, and active startup problems.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Landing Page → Sign Up → Select Role: Founder</td><td>Account created (Unverified)</td></tr>
+            <tr><td>02 Onboarding</td><td>Complete basic profile details (LinkedIn Apify auto-fill)</td><td>Data sent to Admin Queue</td></tr>
+            <tr><td>03 State</td><td>Direct redirect to Dashboard</td><td>Read-only access (Grants, News)</td></tr>
+            <tr><td>04 Verification</td><td>Admin reviews LinkedIn &amp; Contact info</td><td>Approve or Deny decision</td></tr>
+            <tr><td>05 Outcome</td><td>Verified status granted</td><td>Full Messaging &amp; Network access</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 2 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span>Flow 2: Founders want to list startup</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As a Founder, I want to list my product/startup so I can get public discovery, upvotes, and customer traction.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Intent</td><td>Select "Want to List Startup"</td><td>Opens 9-step wizard</td></tr>
+            <tr><td>02 Wizard Form</td><td>Fill Description, Media, Categories, Pricing, FAQs</td><td>Step 9 validation check</td></tr>
+            <tr><td>03 Payment</td><td>Pay $5 USD Listing Fee via gateway</td><td>Status set to Pending Review</td></tr>
+            <tr><td>04 Admin Queue</td><td>Admin checks payment &amp; content quality</td><td>Approve or Request Revisions</td></tr>
+            <tr><td>05 Outcome</td><td>Product hosted live on /products</td><td>Listing live + Analytics unlocked</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 3 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span>Flow 3: Founders want to raise funds</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As a Founder, I want to submit my fundraising application so Seedicon advisors can review my deck and match me to investors.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Intent</td><td>Select "Want to Raise Funds"</td><td>Opens Fundraising Application</td></tr>
+            <tr><td>02 Application</td><td>Enter Ask Amount, Valuation, Upload Pitch Deck</td><td>Application saved securely</td></tr>
+            <tr><td>03 Tracking</td><td>Dashboard displays "Under Curation"</td><td>1 active application limit</td></tr>
+            <tr><td>04 Advisory Curation</td><td>Seedicon team deep-reviews deck &amp; traction</td><td>Manual investor matching in DB</td></tr>
+            <tr><td>05 Intros</td><td>Seedicon advisors facilitate warm intros</td><td>Direct Founder-Investor meeting</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 4 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span>Flow 4: Users want to discover &amp; interact with products</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As a Guest Visitor, I want to browse products and upvote/comment/share, seamlessly onboarding when taking social action.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Guest Entry</td><td>Visit Landing Page without signing up</td><td>No authentication required</td></tr>
+            <tr><td>02 Browse</td><td>View list of startups on Product Hub (/products)</td><td>Public read-only view</td></tr>
+            <tr><td>03 Product Detail</td><td>Click product card to read full page details</td><td>Read desc, FAQs, media</td></tr>
+            <tr><td>04 Social Trigger</td><td>Click Upvote, Downvote, Comment, or Share</td><td>Triggers Auth Gate Modal</td></tr>
+            <tr><td>05 Post-Auth</td><td>Complete Sign Up / Log In</td><td>Redirected to page with social unlocked</td></tr>
+            <tr><td>06 Onboarded</td><td>User is fully onboarded on platform</td><td>Can now explore, list or raise</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 5 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span>Flow 5: Verified founders want to message another founder</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As a Verified Founder, I want to search the network directory and send a direct message to another founder so I can collaborate.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Verified Founder logs into platform</td><td>Active Session (Verified Profile)</td></tr>
+            <tr><td>02 Directory</td><td>Navigate to Network Directory (/network)</td><td>View Founder Cards Grid</td></tr>
+            <tr><td>03 Verification Check</td><td>System checks if sender has Verified Status</td><td>If unverified, messaging is blocked</td></tr>
+            <tr><td>04 Action</td><td>Click "Message" button on target founder card</td><td>Opens chat prompt window</td></tr>
+            <tr><td>05 Chat Page</td><td>Redirected to /messages conversation thread</td><td>Conversation initialized</td></tr>
+            <tr><td>06 Message Sent</td><td>Type message text and click Send</td><td>Dispatched via DB / Real-time socket</td></tr>
+            <tr><td>07 Outcome</td><td>Recipient founder receives message</td><td>Push &amp; in-app notification delivered</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 6 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span>Flow 6: Founders want to discover grants and apply</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As a Founder, I want to search curated government &amp; private startup grants, view eligibility criteria, and click apply to be redirected to the official grantor website.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Founder logs into platform session</td><td>Active Session</td></tr>
+            <tr><td>02 Grants Page</td><td>Navigate to Grants Hub (/grants)</td><td>Browse government &amp; private grants</td></tr>
+            <tr><td>03 Select Grant</td><td>Click on grant card matching startup stage</td><td>View grant preview</td></tr>
+            <tr><td>04 View Details</td><td>Read full specs: Funding Amount, Deadline &amp; Criteria</td><td>Check eligibility parameters</td></tr>
+            <tr><td>05 Decision</td><td>Choose to bookmark for later or click "Apply Now"</td><td>If saved, stored in Dashboard</td></tr>
+            <tr><td>06 Redirect</td><td>System triggers external link handshake</td><td>Opens grantor portal in new tab</td></tr>
+            <tr><td>07 Outcome</td><td>Complete application on official site</td><td>Submitted directly to grant authority</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 7 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span>Flow 7: Founders want to view real market problems &amp; startup ideas</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As a Founder, I want to go to the real market problems page and click an accordion to expand and view detailed problem specifications.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Founder or Visitor session on Seedicon</td><td>Active / Guest Session</td></tr>
+            <tr><td>02 Problems Page</td><td>Navigate to Real Market Problems Directory (/problems)</td><td>Browse validated market problems</td></tr>
+            <tr><td>03 Select Card</td><td>Click on a market problem card of interest</td><td>Accordion container highlighted</td></tr>
+            <tr><td>04 Accordion Expand</td><td>Click accordion to expand card details</td><td>Card expands smoothly</td></tr>
+            <tr><td>05 Outcome</td><td>View full problem specs: Pain Points, TAM &amp; Demographic</td><td>Read-only viewing completed</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 8 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span>Flow 8: Founders want to resolve struggles &amp; share challenges</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As a Founder facing a startup challenge, I want to search existing solutions and upvote them, or post my own challenge so other founders can contribute solutions.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Founder active session on platform</td><td>Active Session</td></tr>
+            <tr><td>02 Struggles Page</td><td>Navigate to Founder Struggles Hub (/struggles)</td><td>Browse challenges &amp; solutions</td></tr>
+            <tr><td>03 Search</td><td>Search facing problem using bottleneck keywords</td><td>System performs DB match</td></tr>
+            <tr><td>04 Match Gate</td><td>Check if similar solution already exists</td><td>Decision Branch: Found vs Not Found</td></tr>
+            <tr><td>05 Branch A (Found)</td><td>Read solution &amp; click Upvote button</td><td>Upvote incremented + Saved</td></tr>
+            <tr><td>06 Branch B (Not Found)</td><td>Click "Share Challenge" button</td><td>Opens challenge submission modal</td></tr>
+            <tr><td>07 Form Submit</td><td>Fill problem description, stage &amp; category</td><td>Submit to public directory</td></tr>
+            <tr><td>08 Outcome</td><td>Challenge posted live to directory</td><td>Other founders can now reply &amp; add solutions</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 9 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span>Flow 9: Pitch deck AI review &amp; Deckwale integration</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As a Founder with a pitch deck, I want AI to analyze my PPTX/PDF deck and generate detailed feedback, with an option to create/rebuild decks using our tool Deckwale.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Founder active session on Seedicon</td><td>Active Session</td></tr>
+            <tr><td>02 Review Page</td><td>Navigate to Pitch Deck Reviewer (/deck-reviewer)</td><td>Open AI Deck Reviewer UI</td></tr>
+            <tr><td>03 File Upload</td><td>Upload pitch deck in PPTX or PDF format</td><td>File validation &amp; parse check</td></tr>
+            <tr><td>04 AI Analysis</td><td>AI processes slides, TAM, team &amp; financials</td><td>Generates slide score &amp; red flags</td></tr>
+            <tr><td>05 AI Feedback</td><td>View detailed slide-by-slide AI feedback report</td><td>Actionable suggestions displayed</td></tr>
+            <tr><td>06 Cross-sell Gate</td><td>Deckwale promo banner: Need a new pitch deck?</td><td>Decision Branch: Deckwale vs Download</td></tr>
+            <tr><td>07 Branch A (Deckwale)</td><td>Click "Create with Deckwale" button</td><td>Redirects to Deckwale builder tool</td></tr>
+            <tr><td>08 Branch B (Download)</td><td>Click "Download AI Feedback Report"</td><td>Export detailed feedback PDF</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 10 (NEW) -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span>Flow 10: Listed founders want product page performance analytics</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As a Founder who listed a startup/product, I want to go to my Profile → Product Analytics to view page views, upvotes, click-through rate, and lead conversion insights.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Listed Founder logged into session</td><td>Active Session (Product Listed)</td></tr>
+            <tr><td>02 Profile Entry</td><td>Click Profile Avatar / Menu</td><td>Open User Profile Hub</td></tr>
+            <tr><td>03 Tab Selection</td><td>Click "Product Analytics" tab</td><td>Navigate to Analytics Dashboard</td></tr>
+            <tr><td>04 DB Query</td><td>Retrieve Views, Upvotes, CTR &amp; Leads from DB</td><td>Data fetched &amp; aggregated</td></tr>
+            <tr><td>05 Analytics View</td><td>Inspect Impressions, Upvote Graphs &amp; Conversion Rates</td><td>Visual charts &amp; stats displayed</td></tr>
+            <tr><td>06 Action Gate</td><td>Choose to Export Report or Boost Listing</td><td>Decision Branch: Export vs Boost</td></tr>
+            <tr><td>07 Branch A (Export)</td><td>Export CSV / PDF Analytics Report</td><td>Download performance summary</td></tr>
+            <tr><td>08 Branch B (Boost)</td><td>Click "Boost Listing" button</td><td>Feature product on Seedicon frontpage</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FLOATING ZOOM CONTROLS -->
+<div class="floating-controls">
+  <button class="ctrl-btn" id="zoomOut" title="Zoom Out">−</button>
+  <span class="ctrl-val" id="zoomVal">100%</span>
+  <button class="ctrl-btn" id="zoomIn" title="Zoom In">+</button>
+  <div style="width:1px; height:16px; background:#E2E8F0; margin:0 4px;"></div>
+  <button class="ctrl-btn" id="resetView">Reset</button>
+  <button class="ctrl-btn" id="fitScreen">Fit View</button>
+</div>
+
+<!-- FLOATING LEGEND -->
+<div class="floating-legend">
+  <div class="legend-item"><span class="legend-dot" style="background:#0F172A;"></span> Entry / Auth (Capsule)</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#FFFFFF;"></span> Process Step (Rectangle)</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#F8FAFC; border:1px dashed #0F172A;"></span> Decision / Gate (Rhombus)</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#FFFBEB; border-color:#D97706;"></span> State / Storage (Cylinder)</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#F0FDF4; border-color:#059669;"></span> Live Outcome (Capsule)</div>
+</div>
+
+<div id="canvasContainer">
+  <canvas id="skeletonCanvas"></canvas>
+</div>
+
+<script>
+(function() {
+  const container = document.getElementById('canvasContainer');
+  const canvas = document.getElementById('skeletonCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Camera State
+  let scale = 0.40;
+  let panX = 40;
+  let panY = 60;
+  let isDragging = false;
+  let startX = 0, startY = 0;
+  let activeFlow = 'all';
+
+  function resizeCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    draw();
+  }
+  window.addEventListener('resize', resizeCanvas);
+
+  // Canvas Start Headers
+  const flowStartHeaders = [
+    { flowGroup: 'f1', x: 1050, y: 70, title: 'Flow 1: Founders want to onboard & explore', story: 'User Story: Explore platform to view grants, news & startup problems.' },
+    { flowGroup: 'f2', x: 1050, y: 430, title: 'Flow 2: Founders want to list startup', story: 'User Story: Submit startup for public listing to gain user traction.' },
+    { flowGroup: 'f3', x: 1050, y: 710, title: 'Flow 3: Founders want to raise funds', story: 'User Story: Submit deck to get curated and matched with active investors.' },
+    { flowGroup: 'f4', x: 60, y: 1010, title: 'Flow 4: Users want to discover & interact with products', story: 'User Story: Browse products and engage with social features.' },
+    { flowGroup: 'f5', x: 60, y: 1310, title: 'Flow 5: Verified founders want to message another founder', story: 'User Story: Search founder directory and send direct message to collaborate.' },
+    { flowGroup: 'f6', x: 60, y: 1610, title: 'Flow 6: Founders want to discover grants and apply', story: 'User Story: Search grants directory, view eligibility criteria, and redirect to official site to apply.' },
+    { flowGroup: 'f7', x: 60, y: 1910, title: 'Flow 7: Founders want to view real market problems', story: 'User Story: Go to real market problems page and click accordion to expand and view details.' },
+    { flowGroup: 'f8', x: 60, y: 2210, title: 'Flow 8: Founders want to resolve struggles & share challenges', story: 'User Story: Search startup challenges, upvote existing solutions, or post new challenges for community input.' },
+    { flowGroup: 'f9', x: 60, y: 2510, title: 'Flow 9: Pitch deck AI review & Deckwale integration', story: 'User Story: Upload PPTX/PDF deck for AI feedback and discover our Deckwale pitch deck creation tool.' },
+    { flowGroup: 'f10', x: 60, y: 2810, title: 'Flow 10: Listed founders want product page performance analytics', story: 'User Story: Profile → Product Analytics to inspect impressions, upvotes, click-through rates, and export performance reports.' },
+  ];
+
+  // Nodes Matrix (Adding Flow 10 at Y = 2860)
+  const nodes = [
+    { id: 'start', x: 60, y: 480, w: 240, h: 95, title: 'Landing Page', sub: 'Public Visitor Entry Point', type: 'start', shape: 'capsule', tag: '[01 ENTRY]', flowGroup: 'common' },
+    { id: 'signup', x: 380, y: 480, w: 240, h: 95, title: 'Sign Up Page', sub: 'Role Lock: Founder', type: 'start', shape: 'rect', tag: '[02 AUTH]', flowGroup: 'common' },
+    { id: 'intent', x: 700, y: 480, w: 250, h: 100, title: 'Select Intent', sub: 'Choose Onboarding Path', type: 'intent', shape: 'diamond', tag: '[03 DECISION]', flowGroup: 'common' },
+
+    // Flow 1
+    { id: 'f1_choice', x: 1050, y: 120, w: 250, h: 95, title: 'Want to Explore', sub: 'Explore Intent Chosen', type: 'founder', shape: 'capsule', tag: '[FLOW 1]', flowGroup: 'f1' },
+    { id: 'f1_onboard', x: 1400, y: 120, w: 260, h: 95, title: 'Basic Onboarding', sub: 'LinkedIn URL (Apify Auto-fill)', type: 'founder', shape: 'rect', tag: '[FORM]', flowGroup: 'f1' },
+    { id: 'f1_dash', x: 1760, y: 120, w: 260, h: 95, title: 'Dashboard (Unverified)', sub: 'Read-only: Grants, News, Problems', type: 'warning', shape: 'cylinder', tag: '[STATE]', flowGroup: 'f1' },
+    { id: 'f1_admin', x: 2120, y: 115, w: 270, h: 105, title: 'Admin Verification', sub: 'Check LinkedIn & Contact', type: 'admin', shape: 'diamond', tag: '[ADMIN GATE]', flowGroup: 'f1' },
+    { id: 'f1_approved', x: 2490, y: 40, w: 250, h: 85, title: 'Verified Founder', sub: 'Full Access: Messaging & Network', type: 'outcome', shape: 'capsule', tag: '[APPROVED]', flowGroup: 'f1' },
+    { id: 'f1_denied', x: 2490, y: 200, w: 250, h: 85, title: 'Unverified / Flagged', sub: 'Restricted Access (No Messaging)', type: 'denied', shape: 'capsule', tag: '[DENIED]', flowGroup: 'f1' },
+
+    // Flow 2
+    { id: 'f2_choice', x: 1050, y: 480, w: 250, h: 95, title: 'Want to List Startup', sub: 'Listing Intent Chosen', type: 'founder', shape: 'capsule', tag: '[FLOW 2]', flowGroup: 'f2' },
+    { id: 'f2_form', x: 1400, y: 480, w: 260, h: 95, title: '9-Step Listing Form', sub: 'Logo, Details, Media, Pricing', type: 'founder', shape: 'rect', tag: '[FORM]', flowGroup: 'f2' },
+    { id: 'f2_fee', x: 1760, y: 480, w: 250, h: 95, title: 'Pay $5 Listing Fee', sub: 'Payment Gateway Processing', type: 'founder', shape: 'rect', tag: '[PAYMENT]', flowGroup: 'f2' },
+    { id: 'f2_admin', x: 2120, y: 475, w: 270, h: 105, title: 'Admin Listings Queue', sub: 'Verify Payment, Spam & Quality', type: 'admin', shape: 'diamond', tag: '[ADMIN GATE]', flowGroup: 'f2' },
+    { id: 'f2_live', x: 2490, y: 400, w: 250, h: 85, title: 'Hosted & Live Publicly', sub: 'Live on /products + Analytics', type: 'outcome', shape: 'capsule', tag: '[APPROVED]', flowGroup: 'f2' },
+    { id: 'f2_rejected', x: 2490, y: 560, w: 250, h: 85, title: 'Draft / Revisions Req.', sub: 'Admin Notes → Edit & Resubmit', type: 'denied', shape: 'capsule', tag: '[REVISIONS]', flowGroup: 'f2' },
+
+    // Flow 3
+    { id: 'f3_choice', x: 1050, y: 760, w: 250, h: 95, title: 'Want to Raise Funds', sub: 'Fundraising Intent Chosen', type: 'founder', shape: 'capsule', tag: '[FLOW 3]', flowGroup: 'f3' },
+    { id: 'f3_form', x: 1400, y: 760, w: 260, h: 95, title: 'Fundraising Form', sub: 'Ask, Valuation & Pitch Deck Upload', type: 'founder', shape: 'rect', tag: '[FORM]', flowGroup: 'f3' },
+    { id: 'f3_dash', x: 1760, y: 760, w: 260, h: 95, title: 'Dashboard Tracking', sub: 'Status: Under Curation (1 Limit)', type: 'warning', shape: 'cylinder', tag: '[STATE]', flowGroup: 'f3' },
+    { id: 'f3_admin_rev', x: 2120, y: 755, w: 270, h: 105, title: 'Seedicon Advisory Review', sub: 'In-depth Deck & Traction Curation', type: 'admin', shape: 'diamond', tag: '[ADVISORY]', flowGroup: 'f3' },
+    { id: 'f3_admin_match', x: 2490, y: 755, w: 260, h: 105, title: 'Manual Investor Match', sub: 'Match Sector Mandates in DB', type: 'admin', shape: 'diamond', tag: '[MATCHING]', flowGroup: 'f3' },
+    { id: 'f3_connect', x: 2840, y: 760, w: 250, h: 95, title: 'Warm Investor Intro', sub: 'Direct Founder-Investor Meeting', type: 'outcome', shape: 'capsule', tag: '[OUTCOME]', flowGroup: 'f3' },
+
+    // Flow 4
+    { id: 'f4_guest_entry', x: 60, y: 1060, w: 250, h: 95, title: 'Guest Visitor Entry', sub: 'Browse Without Sign Up', type: 'founder', shape: 'capsule', tag: '[FLOW 4]', flowGroup: 'f4' },
+    { id: 'f4_browse', x: 380, y: 1060, w: 250, h: 95, title: 'Browse Product Hub', sub: 'View Startup Grid (/products)', type: 'founder', shape: 'rect', tag: '[DISCOVERY]', flowGroup: 'f4' },
+    { id: 'f4_detail', x: 700, y: 1060, w: 260, h: 95, title: 'View Product Details', sub: 'Read Desc, Media, FAQs & Pricing', type: 'founder', shape: 'rect', tag: '[PUBLIC VIEW]', flowGroup: 'f4' },
+    { id: 'f4_action_click', x: 1050, y: 1055, w: 270, h: 105, title: 'Click Social Action', sub: 'Upvote, Comment, Share & Vote', type: 'warning', shape: 'diamond', tag: '[DECISION]', flowGroup: 'f4' },
+    { id: 'f4_auth_gate', x: 1400, y: 1055, w: 270, h: 105, title: 'Auth Gate Modal', sub: 'Prompt Sign Up / Log In Flow', type: 'start', shape: 'diamond', tag: '[AUTH GATE]', flowGroup: 'f4' },
+    { id: 'f4_unlocked', x: 1760, y: 1060, w: 270, h: 95, title: 'Social Features Unlocked', sub: 'Upvote, Downvote, Comment & Share', type: 'outcome', shape: 'capsule', tag: '[ENGAGED]', flowGroup: 'f4' },
+    { id: 'f4_onboarded', x: 2120, y: 1060, w: 270, h: 95, title: 'User Fully Onboarded', sub: 'Account Active · Explore, List, or Raise', type: 'outcome', shape: 'capsule', tag: '[ONBOARDED]', flowGroup: 'f4' },
+
+    // Flow 5
+    { id: 'f5_start', x: 60, y: 1360, w: 250, h: 95, title: 'Verified Founder Active', sub: 'Logged In Active Session', type: 'start', shape: 'capsule', tag: '[FLOW 5]', flowGroup: 'f5' },
+    { id: 'f5_network', x: 380, y: 1360, w: 250, h: 95, title: 'Go to /network Page', sub: 'Browse Founders Directory', type: 'founder', shape: 'rect', tag: '[DIRECTORY]', flowGroup: 'f5' },
+    { id: 'f5_gate', x: 700, y: 1355, w: 260, h: 105, title: 'Is Founder Verified?', sub: 'Check Sender Account Status', type: 'admin', shape: 'diamond', tag: '[VERIFIED GATE]', flowGroup: 'f5' },
+    { id: 'f5_blocked', x: 1050, y: 1480, w: 260, h: 85, title: 'Messaging Blocked Modal', sub: 'Prompt: Complete Verification First', type: 'denied', shape: 'capsule', tag: '[BLOCKED]', flowGroup: 'f5' },
+    { id: 'f5_msg_btn', x: 1050, y: 1360, w: 260, h: 95, title: 'Click "Message" Button', sub: 'Located on Target Founder Card', type: 'founder', shape: 'rect', tag: '[ACTION]', flowGroup: 'f5' },
+    { id: 'f5_chat_page', x: 1400, y: 1360, w: 260, h: 95, title: 'Go to /messages Page', sub: 'Open Active Conversation Window', type: 'founder', shape: 'rect', tag: '[CHAT PAGE]', flowGroup: 'f5' },
+    { id: 'f5_send_msg', x: 1760, y: 1360, w: 260, h: 95, title: 'Type & Send Message', sub: 'Dispatched via Socket/DB', type: 'founder', shape: 'rect', tag: '[MESSAGE SENT]', flowGroup: 'f5' },
+    { id: 'f5_received', x: 2120, y: 1360, w: 270, h: 95, title: 'Recipient Receives Msg', sub: 'Instant Push & In-App Notification', type: 'outcome', shape: 'capsule', tag: '[DELIVERED]', flowGroup: 'f5' },
+
+    // Flow 6
+    { id: 'f6_start', x: 60, y: 1660, w: 250, h: 95, title: 'Founder Active Session', sub: 'Logged In Active Session', type: 'start', shape: 'capsule', tag: '[FLOW 6]', flowGroup: 'f6' },
+    { id: 'f6_grants_page', x: 380, y: 1660, w: 250, h: 95, title: 'Go to /grants Page', sub: 'Browse Curated Grants Directory', type: 'founder', shape: 'rect', tag: '[DIRECTORY]', flowGroup: 'f6' },
+    { id: 'f6_select_grant', x: 700, y: 1660, w: 250, h: 95, title: 'Select Suitable Grant', sub: 'Filter by Category, Region & Amount', type: 'founder', shape: 'rect', tag: '[SELECTION]', flowGroup: 'f6' },
+    { id: 'f6_view_details', x: 1050, y: 1660, w: 260, h: 95, title: 'View Grant Details', sub: 'Deadline, Amount & Eligibility Criteria', type: 'founder', shape: 'rect', tag: '[GRANT DETAILS]', flowGroup: 'f6' },
+    { id: 'f6_apply_decision', x: 1400, y: 1655, w: 260, h: 105, title: 'Wants to Apply?', sub: 'Click "Apply Now" or Bookmark', type: 'warning', shape: 'diamond', tag: '[DECISION]', flowGroup: 'f6' },
+    { id: 'f6_bookmark', x: 1760, y: 1780, w: 260, h: 85, title: 'Saved to Bookmarks', sub: 'Stored in Dashboard for Later', type: 'warning', shape: 'capsule', tag: '[BOOKMARKED]', flowGroup: 'f6' },
+    { id: 'f6_redirect', x: 1760, y: 1660, w: 260, h: 95, title: 'External Link Redirection', sub: 'Handshake → Opens Grantor Portal', type: 'founder', shape: 'rect', tag: '[EXTERNAL LINK]', flowGroup: 'f6' },
+    { id: 'f6_official_site', x: 2120, y: 1660, w: 270, h: 95, title: 'Complete Application', sub: 'Submit Directly on Official Portal', type: 'outcome', shape: 'capsule', tag: '[APPLIED]', flowGroup: 'f6' },
+
+    // Flow 7
+    { id: 'f7_start', x: 60, y: 1960, w: 250, h: 95, title: 'Founder Session Entry', sub: 'Discover Real Market Problems', type: 'start', shape: 'capsule', tag: '[FLOW 7]', flowGroup: 'f7' },
+    { id: 'f7_problems_page', x: 380, y: 1960, w: 250, h: 95, title: 'Go to /problems Page', sub: 'Browse Market Problems Directory', type: 'founder', shape: 'rect', tag: '[DIRECTORY]', flowGroup: 'f7' },
+    { id: 'f7_select', x: 700, y: 1960, w: 250, h: 95, title: 'Select Problem Card', sub: 'Choose Problem of Interest', type: 'founder', shape: 'rect', tag: '[SELECTION]', flowGroup: 'f7' },
+    { id: 'f7_accordion', x: 1050, y: 1960, w: 260, h: 95, title: 'Click Accordion', sub: 'Expand Card Container', type: 'founder', shape: 'rect', tag: '[INTERACTION]', flowGroup: 'f7' },
+    { id: 'f7_outcome', x: 1400, y: 1960, w: 270, h: 95, title: 'View Problem Details', sub: 'Pain Points, TAM & Demographics', type: 'outcome', shape: 'capsule', tag: '[VIEWED]', flowGroup: 'f7' },
+
+    // Flow 8
+    { id: 'f8_start', x: 60, y: 2260, w: 250, h: 95, title: 'Founder Session Entry', sub: 'Facing Startup Bottleneck/Challenge', type: 'start', shape: 'capsule', tag: '[FLOW 8]', flowGroup: 'f8' },
+    { id: 'f8_struggles_page', x: 380, y: 2260, w: 250, h: 95, title: 'Go to /struggles Page', sub: 'Browse Challenges & Solutions', type: 'founder', shape: 'rect', tag: '[DIRECTORY]', flowGroup: 'f8' },
+    { id: 'f8_search', x: 700, y: 2260, w: 250, h: 95, title: 'Search Facing Problem', sub: 'Type Bottleneck Keywords (GTM, Hiring)', type: 'founder', shape: 'rect', tag: '[SEARCH]', flowGroup: 'f8' },
+    { id: 'f8_match_decision', x: 1050, y: 2255, w: 260, h: 105, title: 'Found Similar Solution?', sub: 'Check Existing Solutions Database', type: 'warning', shape: 'diamond', tag: '[DECISION]', flowGroup: 'f8' },
+    { id: 'f8_view_sol', x: 1400, y: 2260, w: 260, h: 95, title: 'View Existing Solution', sub: 'Read Advice, Tools & Peer Insights', type: 'founder', shape: 'rect', tag: '[SOLUTION]', flowGroup: 'f8' },
+    { id: 'f8_upvote', x: 1760, y: 2260, w: 260, h: 95, title: 'Upvote Solution', sub: 'Upvote Helpful Solution & Save', type: 'outcome', shape: 'capsule', tag: '[UPVOTED]', flowGroup: 'f8' },
+    { id: 'f8_share_btn', x: 1400, y: 2380, w: 260, h: 95, title: 'Click "Share Challenge"', sub: 'Open Challenge Submission Modal', type: 'founder', shape: 'rect', tag: '[SHARE ACTION]', flowGroup: 'f8' },
+    { id: 'f8_submit_form', x: 1760, y: 2380, w: 260, h: 95, title: 'Submit New Challenge', sub: 'Fill Problem Description & Category', type: 'founder', shape: 'rect', tag: '[FORM SUBMITTED]', flowGroup: 'f8' },
+    { id: 'f8_live_challenge', x: 2120, y: 2380, w: 270, h: 95, title: 'Challenge Posted Live', sub: 'Peer Founders Can Add Solutions', type: 'outcome', shape: 'capsule', tag: '[CHALLENGE LIVE]', flowGroup: 'f8' },
+
+    // Flow 9
+    { id: 'f9_start', x: 60, y: 2560, w: 250, h: 95, title: 'Founder Active Session', sub: 'Has Existing Pitch Deck', type: 'start', shape: 'capsule', tag: '[FLOW 9]', flowGroup: 'f9' },
+    { id: 'f9_review_page', x: 380, y: 2560, w: 250, h: 95, title: 'Go to /deck-reviewer Page', sub: 'Open AI Pitch Deck Reviewer UI', type: 'founder', shape: 'rect', tag: '[PAGE ENTRY]', flowGroup: 'f9' },
+    { id: 'f9_upload', x: 700, y: 2560, w: 250, h: 95, title: 'Upload Pitch Deck File', sub: 'Supports PPTX or PDF Format', type: 'founder', shape: 'rect', tag: '[FILE UPLOAD]', flowGroup: 'f9' },
+    { id: 'f9_ai_process', x: 1050, y: 2560, w: 260, h: 95, title: 'AI Engine Analysis', sub: 'Parses Slides, TAM & Financials', type: 'warning', shape: 'cylinder', tag: '[AI PROCESSING]', flowGroup: 'f9' },
+    { id: 'f9_feedback', x: 1400, y: 2560, w: 260, h: 95, title: 'View AI Feedback Report', sub: 'Slide Score, Strengths & Red Flags', type: 'founder', shape: 'rect', tag: '[AI FEEDBACK]', flowGroup: 'f9' },
+    { id: 'f9_deckwale_gate', x: 1760, y: 2555, w: 260, h: 105, title: 'Need New / Better Deck?', sub: 'Promote Seedicon Tool: Deckwale', type: 'warning', shape: 'diamond', tag: '[DECKWALE PROMO]', flowGroup: 'f9' },
+    { id: 'f9_deckwale_btn', x: 2120, y: 2560, w: 270, h: 95, title: 'Click "Create on Deckwale"', sub: 'Redirects to Deckwale Deck Builder', type: 'founder', shape: 'rect', tag: '[DECKWALE BUILDER]', flowGroup: 'f9' },
+    { id: 'f9_deck_created', x: 2490, y: 2560, w: 260, h: 95, title: 'Build Deck on Deckwale', sub: 'Create Professional Investor Deck', type: 'outcome', shape: 'capsule', tag: '[DECK CREATED]', flowGroup: 'f9' },
+    { id: 'f9_report_saved', x: 2120, y: 2680, w: 270, h: 85, title: 'Download AI PDF Report', sub: 'Export Detailed Feedback Summary', type: 'outcome', shape: 'capsule', tag: '[REPORT SAVED]', flowGroup: 'f9' },
+
+    // FLOW 10: Founder Product Analytics (Lane 10 Y = 2860)
+    { id: 'f10_start', x: 60, y: 2860, w: 250, h: 95, title: 'Listed Founder Session', sub: 'Active Account with Product', type: 'start', shape: 'capsule', tag: '[FLOW 10]', flowGroup: 'f10' },
+    { id: 'f10_profile', x: 380, y: 2860, w: 250, h: 95, title: 'Go to Profile Page', sub: 'Click User Avatar / Profile Menu', type: 'founder', shape: 'rect', tag: '[PROFILE ENTRY]', flowGroup: 'f10' },
+    { id: 'f10_analytics_tab', x: 700, y: 2860, w: 250, h: 95, title: 'Click "Product Analytics"', sub: 'Select Analytics Tab in Profile', type: 'founder', shape: 'rect', tag: '[TAB SELECTION]', flowGroup: 'f10' },
+    { id: 'f10_query_db', x: 1050, y: 2860, w: 260, h: 95, title: 'Fetch Product Metrics', sub: 'Retrieve Views, Upvotes & CTR', type: 'warning', shape: 'cylinder', tag: '[METRICS QUERY]', flowGroup: 'f10' },
+    { id: 'f10_dash_view', x: 1400, y: 2860, w: 260, h: 95, title: 'View Analytics Dashboard', sub: 'Inspect Graphs, Leads & Conversions', type: 'founder', shape: 'rect', tag: '[DASHBOARD VIEW]', flowGroup: 'f10' },
+    { id: 'f10_action_gate', x: 1760, y: 2855, w: 260, h: 105, title: 'Export or Boost?', sub: 'Choose Action: Export or Promote', type: 'warning', shape: 'diamond', tag: '[ANALYTICS ACTION]', flowGroup: 'f10' },
+    { id: 'f10_export', x: 2120, y: 2860, w: 270, h: 95, title: 'Export CSV / PDF Report', sub: 'Download Performance Insights', type: 'outcome', shape: 'capsule', tag: '[REPORT EXPORTED]', flowGroup: 'f10' },
+    { id: 'f10_boost', x: 2120, y: 2980, w: 270, h: 85, title: 'Click "Boost Listing"', sub: 'Feature Product on Seedicon Frontpage', type: 'outcome', shape: 'capsule', tag: '[PROMOTION STARTED]', flowGroup: 'f10' },
+  ];
+
+  // Connections Matrix
+  const connections = [
+    { from: 'start', to: 'signup', flowGroup: 'common' },
+    { from: 'signup', to: 'intent', flowGroup: 'common' },
+
+    { from: 'intent', to: 'f1_choice', flowGroup: 'f1' },
+    { from: 'f1_choice', to: 'f1_onboard', flowGroup: 'f1' },
+    { from: 'f1_onboard', to: 'f1_dash', flowGroup: 'f1' },
+    { from: 'f1_dash', to: 'f1_admin', label: 'Submit Profile', flowGroup: 'f1' },
+    { from: 'f1_admin', to: 'f1_approved', label: 'Approve', color: '#059669', flowGroup: 'f1' },
+    { from: 'f1_admin', to: 'f1_denied', label: 'Deny', color: '#DC2626', flowGroup: 'f1' },
+
+    { from: 'intent', to: 'f2_choice', flowGroup: 'f2' },
+    { from: 'f2_choice', to: 'f2_form', flowGroup: 'f2' },
+    { from: 'f2_form', to: 'f2_fee', flowGroup: 'f2' },
+    { from: 'f2_fee', to: 'f2_admin', label: '$5 Paid', flowGroup: 'f2' },
+    { from: 'f2_admin', to: 'f2_live', label: 'Approve & Host', color: '#059669', flowGroup: 'f2' },
+    { from: 'f2_admin', to: 'f2_rejected', label: 'Revisions', color: '#DC2626', flowGroup: 'f2' },
+
+    { from: 'intent', to: 'f3_choice', flowGroup: 'f3' },
+    { from: 'f3_choice', to: 'f3_form', flowGroup: 'f3' },
+    { from: 'f3_form', to: 'f3_dash', label: 'Submit Deck', flowGroup: 'f3' },
+    { from: 'f3_dash', to: 'f3_admin_rev', label: 'Review Request', flowGroup: 'f3' },
+    { from: 'f3_admin_rev', to: 'f3_admin_match', label: 'Curate', flowGroup: 'f3' },
+    { from: 'f3_admin_match', to: 'f3_connect', label: 'Matched Intros', color: '#059669', flowGroup: 'f3' },
+
+    { from: 'f4_guest_entry', to: 'f4_browse', flowGroup: 'f4' },
+    { from: 'f4_browse', to: 'f4_detail', label: 'Click Product', flowGroup: 'f4' },
+    { from: 'f4_detail', to: 'f4_action_click', label: 'Click Social', flowGroup: 'f4' },
+    { from: 'f4_action_click', to: 'f4_auth_gate', label: 'Triggers Auth', flowGroup: 'f4' },
+    { from: 'f4_auth_gate', to: 'f4_unlocked', label: 'Post-Auth Redirect', color: '#059669', flowGroup: 'f4' },
+    { from: 'f4_unlocked', to: 'f4_onboarded', label: 'Onboarding Complete', color: '#059669', flowGroup: 'f4' },
+
+    { from: 'f5_start', to: 'f5_network', flowGroup: 'f5' },
+    { from: 'f5_network', to: 'f5_gate', label: 'Click Card', flowGroup: 'f5' },
+    { from: 'f5_gate', to: 'f5_blocked', label: 'Unverified', color: '#DC2626', flowGroup: 'f5' },
+    { from: 'f5_gate', to: 'f5_msg_btn', label: 'Verified', color: '#059669', flowGroup: 'f5' },
+    { from: 'f5_msg_btn', to: 'f5_chat_page', label: 'Open Chat', flowGroup: 'f5' },
+    { from: 'f5_chat_page', to: 'f5_send_msg', label: 'Input Text', flowGroup: 'f5' },
+    { from: 'f5_send_msg', to: 'f5_received', label: 'Dispatched', color: '#059669', flowGroup: 'f5' },
+
+    { from: 'f6_start', to: 'f6_grants_page', flowGroup: 'f6' },
+    { from: 'f6_grants_page', to: 'f6_select_grant', label: 'Filter Grants', flowGroup: 'f6' },
+    { from: 'f6_select_grant', to: 'f6_view_details', label: 'Click Grant', flowGroup: 'f6' },
+    { from: 'f6_view_details', to: 'f6_apply_decision', label: 'Review Criteria', flowGroup: 'f6' },
+    { from: 'f6_apply_decision', to: 'f6_bookmark', label: 'Save Later', color: '#D97706', flowGroup: 'f6' },
+    { from: 'f6_apply_decision', to: 'f6_redirect', label: 'Click Apply Now', color: '#059669', flowGroup: 'f6' },
+    { from: 'f6_redirect', to: 'f6_official_site', label: 'Opens External Tab', color: '#059669', flowGroup: 'f6' },
+
+    { from: 'f7_start', to: 'f7_problems_page', flowGroup: 'f7' },
+    { from: 'f7_problems_page', to: 'f7_select', label: 'Browse Cards', flowGroup: 'f7' },
+    { from: 'f7_select', to: 'f7_accordion', label: 'Click Accordion', flowGroup: 'f7' },
+    { from: 'f7_accordion', to: 'f7_outcome', label: 'Expand & View', color: '#059669', flowGroup: 'f7' },
+
+    { from: 'f8_start', to: 'f8_struggles_page', flowGroup: 'f8' },
+    { from: 'f8_struggles_page', to: 'f8_search', label: 'Search Problem', flowGroup: 'f8' },
+    { from: 'f8_search', to: 'f8_match_decision', label: 'Check DB', flowGroup: 'f8' },
+    { from: 'f8_match_decision', to: 'f8_view_sol', label: 'Solution Found', color: '#059669', flowGroup: 'f8' },
+    { from: 'f8_view_sol', to: 'f8_upvote', label: 'Click Upvote', color: '#059669', flowGroup: 'f8' },
+    { from: 'f8_match_decision', to: 'f8_share_btn', label: 'Not Found', color: '#D97706', flowGroup: 'f8' },
+    { from: 'f8_share_btn', to: 'f8_submit_form', label: 'Fill Details', flowGroup: 'f8' },
+    { from: 'f8_submit_form', to: 'f8_live_challenge', label: 'Post to Directory', color: '#059669', flowGroup: 'f8' },
+
+    { from: 'f9_start', to: 'f9_review_page', flowGroup: 'f9' },
+    { from: 'f9_review_page', to: 'f9_upload', label: 'PPTX/PDF', flowGroup: 'f9' },
+    { from: 'f9_upload', to: 'f9_ai_process', label: 'Parse File', flowGroup: 'f9' },
+    { from: 'f9_ai_process', to: 'f9_feedback', label: 'Analysis Complete', color: '#059669', flowGroup: 'f9' },
+    { from: 'f9_feedback', to: 'f9_deckwale_gate', label: 'Review Feedback', flowGroup: 'f9' },
+    { from: 'f9_deckwale_gate', to: 'f9_deckwale_btn', label: 'Use Deckwale', color: '#059669', flowGroup: 'f9' },
+    { from: 'f9_deckwale_btn', to: 'f9_deck_created', label: 'Build Deck', color: '#059669', flowGroup: 'f9' },
+    { from: 'f9_deckwale_gate', to: 'f9_report_saved', label: 'Download PDF', color: '#D97706', flowGroup: 'f9' },
+
+    // Flow 10 Connections
+    { from: 'f10_start', to: 'f10_profile', flowGroup: 'f10' },
+    { from: 'f10_profile', to: 'f10_analytics_tab', label: 'Open Analytics', flowGroup: 'f10' },
+    { from: 'f10_analytics_tab', to: 'f10_query_db', label: 'Query DB', flowGroup: 'f10' },
+    { from: 'f10_query_db', to: 'f10_dash_view', label: 'Render Graphs', color: '#059669', flowGroup: 'f10' },
+    { from: 'f10_dash_view', to: 'f10_action_gate', label: 'Take Action', flowGroup: 'f10' },
+    { from: 'f10_action_gate', to: 'f10_export', label: 'Export Report', color: '#059669', flowGroup: 'f10' },
+    { from: 'f10_action_gate', to: 'f10_boost', label: 'Boost Listing', color: '#D97706', flowGroup: 'f10' },
+  ];
+
+  function getNode(id) {
+    return nodes.find(n => n.id === id);
+  }
+
+  const nodeStyles = {
+    start:   { bg: '#0F172A', border: '#0F172A', title: '#FFFFFF', sub: '#A1A1AA', tagBg: '#334155', tagFg: '#FFFFFF' },
+    intent:  { bg: '#FFFFFF', border: '#0F172A', title: '#0F172A', sub: '#475569', tagBg: '#0F172A', tagFg: '#FFFFFF' },
+    founder: { bg: '#FFFFFF', border: '#0F172A', title: '#0F172A', sub: '#4B5563', tagBg: '#F1F5F9', tagFg: '#0F172A' },
+    admin:   { bg: '#FAFAFA', border: '#0F172A', title: '#0F172A', sub: '#4B5563', tagBg: '#0F172A', tagFg: '#FFFFFF', dashed: true },
+    warning: { bg: '#FFFBEB', border: '#D97706', title: '#92400E', sub: '#B45309', tagBg: '#D97706', tagFg: '#FFFFFF' },
+    outcome: { bg: '#F0FDF4', border: '#059669', title: '#065F46', sub: '#047857', tagBg: '#059669', tagFg: '#FFFFFF' },
+    denied:  { bg: '#FEF2F2', border: '#DC2626', title: '#991B1B', sub: '#B91C1C', tagBg: '#DC2626', tagFg: '#FFFFFF' },
+  };
+
+  function autoFitView() {
+    let minX = 40, maxX = 3140, minY = 20, maxY = 3100;
+
+    if (activeFlow === 'f1') { minY = 20; maxY = 320; }
+    else if (activeFlow === 'f2') { minY = 360; maxY = 680; }
+    else if (activeFlow === 'f3') { minY = 700; maxY = 900; }
+    else if (activeFlow === 'f4') { minY = 980; maxY = 1200; }
+    else if (activeFlow === 'f5') { minY = 1280; maxY = 1580; }
+    else if (activeFlow === 'f6') { minY = 1580; maxY = 1880; }
+    else if (activeFlow === 'f7') { minY = 1880; maxY = 2180; }
+    else if (activeFlow === 'f8') { minY = 2180; maxY = 2500; }
+    else if (activeFlow === 'f9') { minY = 2480; maxY = 2800; }
+    else if (activeFlow === 'f10') { minY = 2780; maxY = 3100; }
+
+    const totalW = maxX - minX;
+    const totalH = maxY - minY;
+
+    const dpr = window.devicePixelRatio || 1;
+    const cssW = canvas.width / dpr;
+    const cssH = canvas.height / dpr;
+
+    const scaleX = (cssW - 120) / totalW;
+    const scaleY = (cssH - 160) / totalH;
+
+    scale = Math.min(scaleX, scaleY);
+    scale = Math.min(Math.max(0.14, scale), 1.2);
+
+    panX = (cssW - totalW * scale) / 2 - minX * scale;
+    panY = (cssH - totalH * scale) / 2 - minY * scale;
+  }
+
+  function isFlowActive(flowGroup) {
+    if (activeFlow === 'all') return true;
+    if (flowGroup === 'common') return true;
+    return flowGroup === activeFlow;
+  }
+
+  function drawShape(shape, x, y, w, h) {
+    ctx.beginPath();
+    if (shape === 'diamond') {
+      ctx.moveTo(x + w / 2, y);
+      ctx.lineTo(x + w, y + h / 2);
+      ctx.lineTo(x + w / 2, y + h);
+      ctx.lineTo(x, y + h / 2);
+      ctx.closePath();
+    } else if (shape === 'capsule') {
+      const r = h / 2;
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.arc(x + w - r, y + r, r, -Math.PI / 2, Math.PI / 2);
+      ctx.lineTo(x + r, y + h);
+      ctx.arc(x + r, y + r, r, Math.PI / 2, -Math.PI / 2);
+      ctx.closePath();
+    } else if (shape === 'cylinder') {
+      const rY = 10;
+      ctx.moveTo(x, y + rY);
+      ctx.ellipse(x + w / 2, y + rY, w / 2, rY, 0, Math.PI, 0, true);
+      ctx.lineTo(x + w, y + h - rY);
+      ctx.ellipse(x + w / 2, y + h - rY, w / 2, rY, 0, 0, Math.PI, false);
+      ctx.lineTo(x, y + rY);
+      ctx.closePath();
+    } else {
+      ctx.rect(x, y, w, h);
+    }
+  }
+
+  function draw() {
+    const dpr = window.devicePixelRatio || 1;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.save();
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.scale(dpr, dpr);
+
+    ctx.translate(panX, panY);
+    ctx.scale(scale, scale);
+
+    // Subtle Grid
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.04)';
+    ctx.lineWidth = 1;
+    const step = 40;
+    const cssW = canvas.width / dpr;
+    const cssH = canvas.height / dpr;
+
+    const startGridX = Math.floor(-panX / scale / step) * step;
+    const endGridX = Math.ceil((cssW - panX) / scale / step) * step;
+    const startGridY = Math.floor(-panY / scale / step) * step;
+    const endGridY = Math.ceil((cssH - panY) / scale / step) * step;
+
+    for (let gx = startGridX; gx < endGridX; gx += step) {
+      ctx.beginPath(); ctx.moveTo(gx, startGridY); ctx.lineTo(gx, endGridY); ctx.stroke();
+    }
+    for (let gy = startGridY; gy < endGridY; gy += step) {
+      ctx.beginPath(); ctx.moveTo(startGridX, gy); ctx.lineTo(endGridX, gy); ctx.stroke();
+    }
+
+    // --- PASS 0: DRAW SUBTLE FLOW START HEADERS ---
+    flowStartHeaders.forEach(hdr => {
+      const active = isFlowActive(hdr.flowGroup);
+      ctx.save();
+      ctx.globalAlpha = active ? 1.0 : 0.15;
+
+      ctx.fillStyle = '#334155';
+      ctx.font = '700 13px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(hdr.title, hdr.x, hdr.y);
+
+      ctx.fillStyle = '#64748B';
+      ctx.font = '500 11px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.fillText(hdr.story, hdr.x, hdr.y + 16);
+
+      ctx.restore();
+    });
+
+    // PASS 1: LINES
+    connections.forEach(conn => {
+      const active = isFlowActive(conn.flowGroup);
+      const src = getNode(conn.from);
+      const tgt = getNode(conn.to);
+      if (!src || !tgt) return;
+
+      const x1 = src.x + src.w;
+      const y1 = src.y + src.h / 2;
+      const x2 = tgt.x;
+      const y2 = tgt.y + tgt.h / 2;
+
+      ctx.save();
+      ctx.globalAlpha = active ? 1.0 : 0.12;
+      ctx.strokeStyle = conn.color || '#000000';
+      ctx.lineWidth = Math.max(2, 2.5 / Math.sqrt(scale));
+
+      const isBranching = Math.abs(y1 - y2) > 10;
+
+      ctx.beginPath();
+      if (!isBranching) {
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+      } else {
+        const midX = x1 + (x2 - x1) / 2;
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(midX, y1);
+        ctx.lineTo(midX, y2);
+        ctx.lineTo(x2, y2);
+      }
+      ctx.stroke();
+
+      ctx.fillStyle = conn.color || '#000000';
+      ctx.beginPath();
+      ctx.moveTo(x2, y2);
+      ctx.lineTo(x2 - 12, y2 - 7);
+      ctx.lineTo(x2 - 12, y2 + 7);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.restore();
+    });
+
+    // PASS 2: CARDS
+    nodes.forEach(node => {
+      const active = isFlowActive(node.flowGroup);
+      const style = nodeStyles[node.type] || nodeStyles.founder;
+      ctx.save();
+      ctx.globalAlpha = active ? 1.0 : 0.12;
+
+      drawShape(node.shape, node.x, node.y, node.w, node.h);
+
+      ctx.fillStyle = style.bg;
+      ctx.fill();
+
+      ctx.strokeStyle = style.border;
+      ctx.lineWidth = Math.max(1.8, 2.2 / Math.sqrt(scale));
+      if (style.dashed) {
+        ctx.setLineDash([6, 4]);
+      } else {
+        ctx.setLineDash([]);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      if (node.shape === 'cylinder') {
+        const rY = 10;
+        ctx.beginPath();
+        ctx.ellipse(node.x + node.w / 2, node.y + rY, node.w / 2, rY, 0, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = style.title;
+      ctx.font = '800 14px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(node.title, node.x + node.w / 2, node.y + (node.sub ? 42 : node.h / 2 + 4));
+
+      if (node.sub) {
+        ctx.fillStyle = style.sub || '#4B5563';
+        ctx.font = '600 11.5px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.fillText(node.sub, node.x + node.w / 2, node.y + 66);
+      }
+
+      ctx.restore();
+    });
+
+    // PASS 3: LINE LABELS
+    connections.forEach(conn => {
+      if (!conn.label) return;
+      const active = isFlowActive(conn.flowGroup);
+      const src = getNode(conn.from);
+      const tgt = getNode(conn.to);
+      if (!src || !tgt) return;
+
+      const x1 = src.x + src.w;
+      const y1 = src.y + src.h / 2;
+      const x2 = tgt.x;
+      const y2 = tgt.y + tgt.h / 2;
+
+      ctx.save();
+      ctx.globalAlpha = active ? 1.0 : 0.12;
+      const isBranching = Math.abs(y1 - y2) > 10;
+      ctx.font = '800 11px -apple-system, BlinkMacSystemFont, sans-serif';
+      const txtWidth = ctx.measureText(conn.label).width;
+      let lx, ly;
+
+      if (!isBranching) {
+        lx = (x1 + x2) / 2;
+        ly = y1;
+      } else {
+        lx = x1 + (x2 - x1) / 2;
+        ly = (y1 + y2) / 2;
+      }
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.strokeStyle = conn.color || '#000000';
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(lx - txtWidth / 2 - 8, ly - 11, txtWidth + 16, 22);
+      ctx.strokeRect(lx - txtWidth / 2 - 8, ly - 11, txtWidth + 16, 22);
+
+      ctx.fillStyle = conn.color || '#000000';
+      ctx.textAlign = 'center';
+      ctx.fillText(conn.label, lx, ly + 4);
+      ctx.restore();
+    });
+
+    // PASS 4: TOP TAGS
+    nodes.forEach(node => {
+      if (!node.tag) return;
+      const active = isFlowActive(node.flowGroup);
+      const style = nodeStyles[node.type] || nodeStyles.founder;
+      ctx.save();
+      ctx.globalAlpha = active ? 1.0 : 0.12;
+
+      ctx.font = '800 9px monospace';
+      const tagWidth = ctx.measureText(node.tag).width + 12;
+
+      let tagX = node.x + 12;
+      let tagY = node.y - 10;
+
+      if (node.shape === 'diamond' || node.shape === 'capsule') {
+        tagX = node.x + (node.w - tagWidth) / 2;
+        tagY = node.y - 11;
+      }
+
+      ctx.fillStyle = style.tagBg;
+      ctx.fillRect(tagX, tagY, tagWidth, 18);
+      ctx.strokeStyle = style.border;
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(tagX, tagY, tagWidth, 18);
+
+      ctx.fillStyle = style.tagFg;
+      ctx.textAlign = 'left';
+      ctx.fillText(node.tag, tagX + 6, tagY + 12);
+
+      ctx.restore();
+    });
+
+    ctx.restore();
+
+    document.getElementById('zoomVal').innerText = Math.round(scale * 100) + '%';
+  }
+
+  // Pan & Drag Handlers
+  container.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX - panX;
+    startY = e.clientY - panY;
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    panX = e.clientX - startX;
+    panY = e.clientY - startY;
+    draw();
+  });
+
+  window.addEventListener('mouseup', () => { isDragging = false; });
+
+  // Zoom Handler (Mouse Wheel)
+  container.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+
+    panX = mouseX - (mouseX - panX) * zoomFactor;
+    panY = mouseY - (mouseY - panY) * zoomFactor;
+    scale *= zoomFactor;
+
+    scale = Math.min(Math.max(0.15, scale), 2.5);
+    draw();
+  }, { passive: false });
+
+  // Controls Handlers
+  document.getElementById('zoomIn').addEventListener('click', () => {
+    scale = Math.min(2.5, scale * 1.2);
+    draw();
+  });
+
+  document.getElementById('zoomOut').addEventListener('click', () => {
+    scale = Math.max(0.15, scale / 1.2);
+    draw();
+  });
+
+  document.getElementById('resetView').addEventListener('click', () => {
+    activeFlow = 'all';
+    document.querySelectorAll('.flow-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.flow-btn[data-flow="all"]').classList.add('active');
+    autoFitView();
+    draw();
+  });
+
+  document.getElementById('fitScreen').addEventListener('click', () => {
+    autoFitView();
+    draw();
+  });
+
+  // Flow Filter Buttons Click Event Handlers
+  document.querySelectorAll('.flow-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      document.querySelectorAll('.flow-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFlow = btn.getAttribute('data-flow');
+      autoFitView();
+      draw();
+    });
+  });
+
+  // Accordion Specs Drawer Toggle Handlers
+  const toggleDrawerBtn = document.getElementById('toggleDrawerBtn');
+  const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+  const specsDrawer = document.getElementById('specsDrawer');
+  const drawerArrow = document.getElementById('drawerArrow');
+
+  toggleDrawerBtn.addEventListener('click', () => {
+    specsDrawer.classList.toggle('open');
+    if (specsDrawer.classList.contains('open')) {
+      drawerArrow.innerText = '▴';
+    } else {
+      drawerArrow.innerText = '▾';
+    }
+  });
+
+  closeDrawerBtn.addEventListener('click', () => {
+    specsDrawer.classList.remove('open');
+    drawerArrow.innerText = '▾';
+  });
+
+  // Accordion Items Expand/Collapse inside Drawer
+  document.querySelectorAll('.accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const item = header.parentElement;
+      item.classList.toggle('active');
+    });
+  });
+
+  // Initial Render & Auto Fit
+  resizeCanvas();
+  autoFitView();
+  draw();
+})();
+</script>
+</body>
+</html>
