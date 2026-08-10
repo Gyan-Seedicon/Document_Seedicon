@@ -102,7 +102,11 @@
     border-radius: 8px;
     border: 1px solid var(--border-subtle);
     box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    max-width: 820px;
+    overflow-x: auto;
   }
+  .flow-pills-group::-webkit-scrollbar { display: none; }
+
   .flow-btn {
     background: transparent;
     border: none;
@@ -123,6 +127,15 @@
     background: var(--text-primary);
     color: #FFFFFF;
     font-weight: 700;
+  }
+  .flow-btn.investor-pill {
+    color: #2563EB;
+    border: 1px solid #DBEAFE;
+  }
+  .flow-btn.investor-pill.active {
+    background: #2563EB;
+    color: #FFFFFF;
+    border-color: #2563EB;
   }
 
   /* Modern Accordion Toggle Button */
@@ -227,6 +240,7 @@
   }
   .accordion-item.active .accordion-body { display: block; }
   .accordion-item.active .accordion-header { background: #0F172A; color: #FFFFFF; font-weight: 700; }
+  .accordion-item.investor-item.active .accordion-header { background: #1E40AF; color: #FFFFFF; }
 
   .story-quote {
     background: #F8FAFC;
@@ -238,6 +252,7 @@
     margin-bottom: 12px;
     border-radius: 0 4px 4px 0;
   }
+  .investor-item .story-quote { border-left-color: #2563EB; }
 
   /* Spec Table */
   table.spec-table {
@@ -328,16 +343,27 @@
     <!-- Flow Selector Filter Pills -->
     <div class="flow-pills-group">
       <button class="flow-btn active" data-flow="all">All Flows</button>
-      <button class="flow-btn" data-flow="f1" title="User Story: Founders want to onboard & explore">Flow 1: Founder onboarding</button>
-      <button class="flow-btn" data-flow="f2" title="User Story: Founders want to list startup">Flow 2: List startup</button>
-      <button class="flow-btn" data-flow="f3" title="User Story: Founders want to raise funds">Flow 3: Raise funds</button>
-      <button class="flow-btn" data-flow="f4" title="User Story: Users want to discover & interact with products">Flow 4: Guest discovery &amp; social</button>
-      <button class="flow-btn" data-flow="f5" title="User Story: Verified founders want to message another founder">Flow 5: Founder messaging</button>
-      <button class="flow-btn" data-flow="f6" title="User Story: Founders want to discover grants and apply">Flow 6: Grant discovery &amp; apply</button>
-      <button class="flow-btn" data-flow="f7" title="User Story: Founders want to view real market problems">Flow 7: View market problems</button>
-      <button class="flow-btn" data-flow="f8" title="User Story: Founders want to resolve struggles & share challenges">Flow 8: Founder struggles</button>
-      <button class="flow-btn" data-flow="f9" title="User Story: Founders want AI pitch deck review & Deckwale creation tool">Flow 9: Pitch deck AI review &amp; Deckwale</button>
-      <button class="flow-btn" data-flow="f10" title="User Story: Listed founders want product page performance analytics">Flow 10: Product analytics</button>
+      <button class="flow-btn" data-flow="f1" title="User Story: Founders want to onboard & explore">Flow 1: Founder wants to onboard &amp; explore</button>
+      <button class="flow-btn" data-flow="f2" title="User Story: Founders want to list startup">Flow 2: Founder wants to list startup</button>
+      <button class="flow-btn" data-flow="f3" title="User Story: Founders want to raise funds">Flow 3: Founder wants to raise funds</button>
+      <button class="flow-btn" data-flow="f4" title="User Story: Guest wants to browse startups & interact">Flow 4: Guest wants to browse &amp; interact</button>
+      <button class="flow-btn" data-flow="f5" title="User Story: Verified founders want to message another founder">Flow 5: Verified founder wants to message founder</button>
+      <button class="flow-btn" data-flow="f6" title="User Story: Founders want to discover grants and apply">Flow 6: Founder wants to discover grants</button>
+      <button class="flow-btn" data-flow="f7" title="User Story: Founders want to view real market problems">Flow 7: Founder wants to view market problems</button>
+      <button class="flow-btn" data-flow="f8" title="User Story: Founders want to resolve struggles & share challenges">Flow 8: Founders want to resolve struggles &amp; share challenges</button>
+      <button class="flow-btn" data-flow="f9" title="User Story: Founders want AI pitch deck review & Deckwale creation tool">Flow 9: Founder wants AI deck review &amp; Deckwale</button>
+      <button class="flow-btn" data-flow="f10" title="User Story: Listed founders want product page performance analytics">Flow 10: Founder wants product analytics</button>
+      <button class="flow-btn investor-pill" data-flow="f11" title="User Story: Investor wants to access startups or explore the platform">Flow 11: Investor wants to explore startups</button>
+      <button class="flow-btn investor-pill" data-flow="f12" title="User Story: Investor wants to check if their documents are performing well">Flow 12: Investor wants to check document performance</button>
+      <button class="flow-btn investor-pill" data-flow="f13" title="User Story: Investor wants to create, import, or share investment thesis">Flow 13: Investor wants to create &amp; share thesis</button>
+      <button class="flow-btn investor-pill" data-flow="f14" title="User Story: Investor wants to manage Limited Partners (LPs) for reporting & records">Flow 14: Investor wants to manage LPs</button>
+      <button class="flow-btn investor-pill" data-flow="f15" title="User Story: Investor wants to create custom intake link & ingest startups into Startup Pool">Flow 15: Investor wants to create intake link &amp; collect startups</button>
+      <button class="flow-btn investor-pill" data-flow="f16" title="User Story: Investor wants to organize potential startups into categorized Deal Pipelines">Flow 16: Investor wants to organize pipeline startups</button>
+      <button class="flow-btn investor-pill" data-flow="f17" title="User Story: Investor wants to create Virtual Data Room (VDR) & track LP Due Diligence analytics">Flow 17: Investor wants to create VDR &amp; track views</button>
+      <button class="flow-btn investor-pill" data-flow="f18" title="User Story: Investor wants to share report with LP & view their comments">Flow 18: Investor wants to share LP reports &amp; feedback</button>
+      <button class="flow-btn investor-pill" data-flow="f19" title="User Story: Investor wants to manage all founders reports in one organized place">Flow 19: Investor wants to request &amp; manage founder reports</button>
+      <button class="flow-btn investor-pill" data-flow="f20" title="User Story: Investor wants to invite co-investors to team workspace for smooth collaboration">Flow 20: Investor wants to invite co-investors to team workspace</button>
+      <button class="flow-btn investor-pill" data-flow="f21" title="User Story: Investor wants to add & share Data Vault with Due Diligence partners">Flow 21: Investor wants to add &amp; share Data Vault with DD partners</button>
     </div>
 
     <!-- Accordion Drawer Toggle Button -->
@@ -355,11 +381,13 @@
     <button class="drawer-close" id="closeDrawerBtn">✕</button>
   </div>
   <div class="drawer-content">
+
+    <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #64748B; letter-spacing: 0.05em; margin-bottom: 8px;">SECTION 1: FOUNDER USER FLOWS</div>
     
     <!-- ACCORDION ITEM: FLOW 1 -->
     <div class="accordion-item active">
       <div class="accordion-header">
-        <span>Flow 1: Founders want to onboard &amp; explore</span>
+        <span>Flow 1: Founder wants to onboard &amp; explore platform</span>
         <span>▾</span>
       </div>
       <div class="accordion-body">
@@ -382,7 +410,7 @@
     <!-- ACCORDION ITEM: FLOW 2 -->
     <div class="accordion-item">
       <div class="accordion-header">
-        <span>Flow 2: Founders want to list startup</span>
+        <span>Flow 2: Founder wants to list a startup</span>
         <span>▾</span>
       </div>
       <div class="accordion-body">
@@ -405,7 +433,7 @@
     <!-- ACCORDION ITEM: FLOW 3 -->
     <div class="accordion-item">
       <div class="accordion-header">
-        <span>Flow 3: Founders want to raise funds</span>
+        <span>Flow 3: Founder wants to raise funds &amp; match with investors</span>
         <span>▾</span>
       </div>
       <div class="accordion-body">
@@ -428,7 +456,7 @@
     <!-- ACCORDION ITEM: FLOW 4 -->
     <div class="accordion-item">
       <div class="accordion-header">
-        <span>Flow 4: Users want to discover &amp; interact with products</span>
+        <span>Flow 4: Guest user wants to browse startups &amp; sign up on action</span>
         <span>▾</span>
       </div>
       <div class="accordion-body">
@@ -452,7 +480,7 @@
     <!-- ACCORDION ITEM: FLOW 5 -->
     <div class="accordion-item">
       <div class="accordion-header">
-        <span>Flow 5: Verified founders want to message another founder</span>
+        <span>Flow 5: Verified founder wants to message another founder</span>
         <span>▾</span>
       </div>
       <div class="accordion-body">
@@ -477,7 +505,7 @@
     <!-- ACCORDION ITEM: FLOW 6 -->
     <div class="accordion-item">
       <div class="accordion-header">
-        <span>Flow 6: Founders want to discover grants and apply</span>
+        <span>Flow 6: Founder wants to discover grants and apply</span>
         <span>▾</span>
       </div>
       <div class="accordion-body">
@@ -502,7 +530,7 @@
     <!-- ACCORDION ITEM: FLOW 7 -->
     <div class="accordion-item">
       <div class="accordion-header">
-        <span>Flow 7: Founders want to view real market problems &amp; startup ideas</span>
+        <span>Flow 7: Founder wants to view real market problems</span>
         <span>▾</span>
       </div>
       <div class="accordion-body">
@@ -551,7 +579,7 @@
     <!-- ACCORDION ITEM: FLOW 9 -->
     <div class="accordion-item">
       <div class="accordion-header">
-        <span>Flow 9: Pitch deck AI review &amp; Deckwale integration</span>
+        <span>Flow 9: Founder wants AI pitch deck review &amp; Deckwale integration</span>
         <span>▾</span>
       </div>
       <div class="accordion-body">
@@ -574,10 +602,10 @@
       </div>
     </div>
 
-    <!-- ACCORDION ITEM: FLOW 10 (NEW) -->
+    <!-- ACCORDION ITEM: FLOW 10 -->
     <div class="accordion-item">
       <div class="accordion-header">
-        <span>Flow 10: Listed founders want product page performance analytics</span>
+        <span>Flow 10: Listed founder wants product page performance analytics</span>
         <span>▾</span>
       </div>
       <div class="accordion-body">
@@ -595,6 +623,288 @@
             <tr><td>06 Action Gate</td><td>Choose to Export Report or Boost Listing</td><td>Decision Branch: Export vs Boost</td></tr>
             <tr><td>07 Branch A (Export)</td><td>Export CSV / PDF Analytics Report</td><td>Download performance summary</td></tr>
             <tr><td>08 Branch B (Boost)</td><td>Click "Boost Listing" button</td><td>Feature product on Seedicon frontpage</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #2563EB; letter-spacing: 0.05em; margin-top: 16px; margin-bottom: 8px;">SECTION 2: INVESTOR USER FLOWS</div>
+
+    <!-- ACCORDION ITEM: FLOW 11 -->
+    <div class="accordion-item investor-item">
+      <div class="accordion-header">
+        <span>Flow 11: Investor wants to access startups or explore the platform</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As an Investor, I want to onboard from the landing page so I can access startups and explore the platform.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Landing Page → Sign Up → Select Role: Investor</td><td>Account created (Investor Pending)</td></tr>
+            <tr><td>02 Onboarding Form</td><td>Paste LinkedIn URL to auto-fill personal &amp; firm info</td><td>Auto-populates Profile, Bio &amp; Work</td></tr>
+            <tr><td>03 Decision Gate</td><td>Fill details or click "Skip for Now" option</td><td>Decision Branch: Submit vs Skip</td></tr>
+            <tr><td>04 Branch A (Submit)</td><td>Submit complete investor profile &amp; thesis details</td><td>Profile saved; queued for admin check</td></tr>
+            <tr><td>05 Branch B (Skip)</td><td>Bypass profile completion step for now</td><td>Profile incomplete; can update later</td></tr>
+            <tr><td>06 Outcome</td><td>Land on blank Investor Dashboard Workspace</td><td>Blank dashboard ready for Funds &amp; Intake</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 12 -->
+    <div class="accordion-item investor-item">
+      <div class="accordion-header">
+        <span>Flow 12: Investor wants to check if their documents are performing well</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As an Investor, I want to upload documents and share trackable links to know if my documents are performing well.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Investor logged into active session</td><td>Active Session</td></tr>
+            <tr><td>02 Documents Page</td><td>Navigate to All Documents repository (/documents)</td><td>Access document drive</td></tr>
+            <tr><td>03 File Upload</td><td>Upload document file (PDF, PPTX, XLSX)</td><td>File saved &amp; encrypted</td></tr>
+            <tr><td>04 Link Creation</td><td>Click "Create Link" to generate tracked URL</td><td>Tracking parameters attached</td></tr>
+            <tr><td>05 Share Gate</td><td>Dispatch via system email OR copy link manually</td><td>Decision Branch: Email vs Manual</td></tr>
+            <tr><td>06 Visitor Auth</td><td>Recipient opens link and signs in with email</td><td>Email verified for session tracking</td></tr>
+            <tr><td>07 Document View</td><td>Visitor reads document; background engine records metrics</td><td>Tracks views &amp; time per slide</td></tr>
+            <tr><td>08 Analytics Engine</td><td>Store total views, avg time spent &amp; viewer IP in DB</td><td>Analytics aggregated</td></tr>
+            <tr><td>09 Outcome</td><td>Investor clicks document card to view analytics dashboard</td><td>Full viewing metrics displayed</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 13 -->
+    <div class="accordion-item investor-item">
+      <div class="accordion-header">
+        <span>Flow 13: Investor wants to create, import, or share investment thesis</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As an Investor with multiple investment mandates, I want to go to Investment Thesis to write a new thesis or import an existing document, and share thesis links with co-investors or LPs.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Investor logged into active session</td><td>Active Session</td></tr>
+            <tr><td>02 Thesis Hub</td><td>Navigate to Investment Thesis page (/thesis)</td><td>View active investment theses</td></tr>
+            <tr><td>03 Path Gate</td><td>Choose creation method: Write manual thesis OR import document</td><td>Decision Branch: Write vs Import</td></tr>
+            <tr><td>04 Branch A (Write)</td><td>Fill form fields: Sectors, Stages, Cheque Size &amp; Mandates</td><td>Save custom thesis criteria to DB</td></tr>
+            <tr><td>05 Branch B (Import)</td><td>Upload local PDF/DOCX file containing investment thesis</td><td>Parsed &amp; saved to investor profile</td></tr>
+            <tr><td>06 Share Action</td><td>Click "Share Thesis" button to generate shareable link</td><td>Generate public/private link</td></tr>
+            <tr><td>07 Outcome</td><td>Thesis shared with co-investors, LPs, or founders</td><td>Link active &amp; accessible</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 14 -->
+    <div class="accordion-item investor-item">
+      <div class="accordion-header">
+        <span>Flow 14: Investor wants to manage Limited Partners (LPs) for reporting &amp; records</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As an Investor, I want to go to LP Lists to add and manage Limited Partners, store contact details, and organize records for report sharing.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Investor logged into active session</td><td>Active Session</td></tr>
+            <tr><td>02 LP Directory</td><td>Navigate to LP Lists page (/lps)</td><td>Browse existing LP directory</td></tr>
+            <tr><td>03 Add Action</td><td>Click "Add LP" button</td><td>Opens LP addition modal</td></tr>
+            <tr><td>04 Form Fill</td><td>Fill LP Entity Name, Contact Person, Email, Phone &amp; Capital Commitment</td><td>Form validation check</td></tr>
+            <tr><td>05 Storage</td><td>Save LP profile &amp; contacts to investor account DB</td><td>LP added to fund records</td></tr>
+            <tr><td>06 Outcome</td><td>Access LP contacts and attach/share quarterly reports</td><td>Full LP management unlocked</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 15 -->
+    <div class="accordion-item investor-item">
+      <div class="accordion-header">
+        <span>Flow 15: Investor wants to create custom intake link &amp; ingest startups into Startup Pool</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As an Investor, I want to customize my public submission link fields, share it with founders, and have their submitted due diligence data automatically land in my Startup Pool page.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Investor logged into active session</td><td>Active Session</td></tr>
+            <tr><td>02 Link Page</td><td>Navigate to Public Submission Link page (/intake-link)</td><td>Access link customizer</td></tr>
+            <tr><td>03 Field Customizer</td><td>Add, remove, or modify required fields (Deck, Financials, Cap Table)</td><td>Custom form schema configured</td></tr>
+            <tr><td>04 Preview &amp; Share</td><td>Preview submission form and generate shareable public link</td><td>URL active for external intake</td></tr>
+            <tr><td>05 Founder Action</td><td>Founder receives link, completes form, and submits due diligence</td><td>External submission received</td></tr>
+            <tr><td>06 Auto Ingest</td><td>System auto-routes submission directly into investor's database</td><td>Data parsed &amp; stored</td></tr>
+            <tr><td>07 Outcome</td><td>Investor accesses newly submitted startup in Startup Pool (/pool)</td><td>Full startup profile &amp; thesis filters unlocked</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 16 -->
+    <div class="accordion-item investor-item">
+      <div class="accordion-header">
+        <span>Flow 16: Investor wants to organize potential startups into categorized Deal Pipelines</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As an Investor, I want to review startups in my Startup Pool, mark promising ones as potential, assign them to category-based pipelines, and manage organized deal flow on the Pipeline Startups page.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Investor logged into active session</td><td>Active Session</td></tr>
+            <tr><td>02 Startup Pool</td><td>Navigate to Startup Pool directory (/pool)</td><td>Browse ingested startups</td></tr>
+            <tr><td>03 Inspect Card</td><td>Click startup card to inspect deck, cap table &amp; due diligence</td><td>Detailed startup view</td></tr>
+            <tr><td>04 Mark Potential</td><td>Click "Mark as Potential" button</td><td>Flagged as potential lead</td></tr>
+            <tr><td>05 Select Pipeline</td><td>Select category pipeline (e.g. Fintech, AI/SaaS, HealthTech)</td><td>Pipeline category assigned</td></tr>
+            <tr><td>06 Storage</td><td>Update startup stage &amp; pipeline category in DB</td><td>Saved in deal flow records</td></tr>
+            <tr><td>07 Outcome</td><td>Access &amp; manage deal flow on Pipeline Startups page (/pipeline)</td><td>Categorized Kanban/Grid view live</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 17 -->
+    <div class="accordion-item investor-item">
+      <div class="accordion-header">
+        <span>Flow 17: Investor wants to create Virtual Data Room (VDR) &amp; track LP Due Diligence analytics</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As an Investor, I want to go to Data Room, create a VDR using blank room or pre-built presets, upload/organize due diligence folders, share access links with LPs, and track document analytics.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Investor logged into active session</td><td>Active Session</td></tr>
+            <tr><td>02 Data Room Hub</td><td>Navigate to Data Room page (/vdr)</td><td>View existing VDRs</td></tr>
+            <tr><td>03 Create VDR</td><td>Click "Create Data Room" button</td><td>Opens VDR configuration wizard</td></tr>
+            <tr><td>04 Room Type Gate</td><td>Choose Preset Template OR Blank Room</td><td>Decision Branch: Presets vs Blank</td></tr>
+            <tr><td>05 Branch A (Presets)</td><td>Auto-generate pre-built folders (Legal, Cap Table, Financials)</td><td>Folder tree auto-structured</td></tr>
+            <tr><td>06 Branch B (Blank)</td><td>Create custom folders and upload due diligence files manually</td><td>Files uploaded &amp; encrypted</td></tr>
+            <tr><td>07 Link Generation</td><td>Save VDR and generate tracked access link</td><td>Permissions &amp; security set</td></tr>
+            <tr><td>08 LP Access</td><td>Share link with LPs/Co-Investors; visitor signs in &amp; reviews DD</td><td>Session duration &amp; views logged</td></tr>
+            <tr><td>09 Outcome</td><td>Investor inspects VDR analytics dashboard (views, time/page, downloads)</td><td>Full due diligence insights live</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 18 -->
+    <div class="accordion-item investor-item">
+      <div class="accordion-header">
+        <span>Flow 18: Investor wants to share report with LP &amp; view their comments</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As an Investor, I want to go to LP Reporting to manage reports, select an LP from the directory, view their profile &amp; chronological report history, upload &amp; dispatch new reports, and track LP comments/feedback directly on the platform.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Investor logged into active session</td><td>Active Session</td></tr>
+            <tr><td>02 LP Reporting Hub</td><td>Navigate to LP Reporting hub (/lp-reports)</td><td>Browse LP list &amp; active reports</td></tr>
+            <tr><td>03 Select LP</td><td>Click target LP from list</td><td>Opens LP detail view</td></tr>
+            <tr><td>04 Details &amp; Timeline</td><td>Inspect LP profile details &amp; date-ordered shared files history</td><td>Chronological history loaded</td></tr>
+            <tr><td>05 Upload File</td><td>Click "Upload Report" to attach PDF/XLSX file</td><td>File validated; Share button enabled</td></tr>
+            <tr><td>06 Dispatch</td><td>Click "Share to LP" button to publish report to LP portal</td><td>Report dispatched &amp; saved in DB</td></tr>
+            <tr><td>07 LP Interaction</td><td>LP logs into platform, reviews report &amp; posts comment</td><td>Comment saved in thread</td></tr>
+            <tr><td>08 Outcome</td><td>Investor receives notification and reads LP feedback on dashboard</td><td>Two-way LP engagement live</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 19 -->
+    <div class="accordion-item investor-item">
+      <div class="accordion-header">
+        <span>Flow 19: Investor wants to manage all founders reports in one organized place</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As an Investor, I want to manage all founders reports in one organized place, select a founder from the list, send a report request via email or platform, have the founder upload the report, and view/access the submitted report directly on the platform.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Investor logged into active session</td><td>Active Session</td></tr>
+            <tr><td>02 Founders Reports Hub</td><td>Navigate to Founders Reports hub (/founder-reports)</td><td>Browse list of founders</td></tr>
+            <tr><td>03 Select Founder</td><td>Click target founder from list</td><td>Opens founder report management view</td></tr>
+            <tr><td>04 Request Report</td><td>Click "Request Founder for Report" button</td><td>Dispatches email &amp; in-app prompt to founder</td></tr>
+            <tr><td>05 Founder Action</td><td>Founder receives request on email/platform &amp; uploads report</td><td>Founder attaches update document</td></tr>
+            <tr><td>06 Storage</td><td>Report parsed, encrypted &amp; saved in investor workspace DB</td><td>Report recorded in investor account</td></tr>
+            <tr><td>07 Outcome</td><td>Investor accesses &amp; reviews founder report directly on platform</td><td>All founder reports organized in one place</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 20 -->
+    <div class="accordion-item investor-item">
+      <div class="accordion-header">
+        <span>Flow 20: Investor wants to invite co-investors to team workspace</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As an Investor, I want to go to My Team, click Invite Member to send an invitation email to a co-investor, have them log in or sign up on the platform, and automatically join the firm's team workspace for smooth collaboration and report sharing.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Investor logged into active session</td><td>Active Session</td></tr>
+            <tr><td>02 My Team Hub</td><td>Navigate to My Team page (/team)</td><td>View existing firm members &amp; roles</td></tr>
+            <tr><td>03 Invite Action</td><td>Click "Invite Member" button</td><td>Opens team invitation modal</td></tr>
+            <tr><td>04 Form Fill</td><td>Enter co-investor email address and assign permission role</td><td>Form validation &amp; role check</td></tr>
+            <tr><td>05 Email Dispatch</td><td>System dispatches magic invite link to co-investor email inbox</td><td>Invitation token created &amp; saved</td></tr>
+            <tr><td>06 Email Received</td><td>Co-investor receives email alert and clicks invitation link</td><td>Redirects to authentication handshake</td></tr>
+            <tr><td>07 Auth Gate</td><td>Co-investor logs in (or creates new account if not registered)</td><td>Session authenticated</td></tr>
+            <tr><td>08 Outcome</td><td>Co-investor added to team workspace with shared access</td><td>Smooth co-investor collaboration live</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FLOW 21 (NEW DD PARTNERS FLOW) -->
+    <div class="accordion-item investor-item">
+      <div class="accordion-header">
+        <span>Flow 21: Investor wants to add &amp; share Data Vault with Due Diligence partners</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">User Story: As an Investor, I want to go to DD Partners, click Add DD Partner, fill partner details, grant Data Room/Vault access to the DD partner, have the DD partner log in to perform due diligence, and track all DD progress &amp; insights directly on the platform.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Admin &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Investor logged into active session</td><td>Active Session</td></tr>
+            <tr><td>02 DD Partners Hub</td><td>Navigate to DD Partners directory (/dd-partners)</td><td>Browse external auditors &amp; partners</td></tr>
+            <tr><td>03 Add Action</td><td>Click "Add DD Partner" button</td><td>Opens DD partner onboarding modal</td></tr>
+            <tr><td>04 Form Fill</td><td>Fill Partner Firm Name, Contact Person, Email &amp; Audit Specialty</td><td>Form validation &amp; record saved</td></tr>
+            <tr><td>05 Share Vault</td><td>Select target startup Data Room &amp; grant Vault access link</td><td>Vault permissions configured</td></tr>
+            <tr><td>06 Partner Auth</td><td>DD Partner receives invite email &amp; logs in as DD Partner role</td><td>Session authenticated with Vault access</td></tr>
+            <tr><td>07 DD Audit</td><td>Partner inspects legal, cap table &amp; financial due diligence files</td><td>Audit logs &amp; comments recorded</td></tr>
+            <tr><td>08 Outcome</td><td>Investor tracks DD audit progress, file access &amp; findings on platform</td><td>Complete DD partner tracking live</td></tr>
           </tbody>
         </table>
       </div>
@@ -650,21 +960,38 @@
   }
   window.addEventListener('resize', resizeCanvas);
 
-  // Canvas Start Headers
-  const flowStartHeaders = [
-    { flowGroup: 'f1', x: 1050, y: 70, title: 'Flow 1: Founders want to onboard & explore', story: 'User Story: Explore platform to view grants, news & startup problems.' },
-    { flowGroup: 'f2', x: 1050, y: 430, title: 'Flow 2: Founders want to list startup', story: 'User Story: Submit startup for public listing to gain user traction.' },
-    { flowGroup: 'f3', x: 1050, y: 710, title: 'Flow 3: Founders want to raise funds', story: 'User Story: Submit deck to get curated and matched with active investors.' },
-    { flowGroup: 'f4', x: 60, y: 1010, title: 'Flow 4: Users want to discover & interact with products', story: 'User Story: Browse products and engage with social features.' },
-    { flowGroup: 'f5', x: 60, y: 1310, title: 'Flow 5: Verified founders want to message another founder', story: 'User Story: Search founder directory and send direct message to collaborate.' },
-    { flowGroup: 'f6', x: 60, y: 1610, title: 'Flow 6: Founders want to discover grants and apply', story: 'User Story: Search grants directory, view eligibility criteria, and redirect to official site to apply.' },
-    { flowGroup: 'f7', x: 60, y: 1910, title: 'Flow 7: Founders want to view real market problems', story: 'User Story: Go to real market problems page and click accordion to expand and view details.' },
-    { flowGroup: 'f8', x: 60, y: 2210, title: 'Flow 8: Founders want to resolve struggles & share challenges', story: 'User Story: Search startup challenges, upvote existing solutions, or post new challenges for community input.' },
-    { flowGroup: 'f9', x: 60, y: 2510, title: 'Flow 9: Pitch deck AI review & Deckwale integration', story: 'User Story: Upload PPTX/PDF deck for AI feedback and discover our Deckwale pitch deck creation tool.' },
-    { flowGroup: 'f10', x: 60, y: 2810, title: 'Flow 10: Listed founders want product page performance analytics', story: 'User Story: Profile → Product Analytics to inspect impressions, upvotes, click-through rates, and export performance reports.' },
+  // Section Headers & Canvas Banners
+  const sectionBanners = [
+    { title: 'SECTION 1: FOUNDER USER FLOWS', x: 60, y: 30, color: '#0F172A' },
+    { title: 'SECTION 2: INVESTOR USER FLOWS', x: 60, y: 3070, color: '#2563EB' },
   ];
 
-  // Nodes Matrix (Adding Flow 10 at Y = 2860)
+  // Canvas Start Headers
+  const flowStartHeaders = [
+    { flowGroup: 'f1', x: 1050, y: 70, title: 'Flow 1: Founder wants to onboard & explore platform', story: 'User Story: Explore platform to view grants, news & startup problems.' },
+    { flowGroup: 'f2', x: 1050, y: 430, title: 'Flow 2: Founder wants to list a startup', story: 'User Story: Submit startup for public listing to gain user traction.' },
+    { flowGroup: 'f3', x: 1050, y: 710, title: 'Flow 3: Founder wants to raise funds & match with investors', story: 'User Story: Submit deck to get curated and matched with active investors.' },
+    { flowGroup: 'f4', x: 60, y: 1010, title: 'Flow 4: Guest user wants to browse startups & sign up on action', story: 'User Story: Browse products and engage with social features.' },
+    { flowGroup: 'f5', x: 60, y: 1310, title: 'Flow 5: Verified founder wants to message another founder', story: 'User Story: Search founder directory and send direct message to collaborate.' },
+    { flowGroup: 'f6', x: 60, y: 1610, title: 'Flow 6: Founder wants to discover grants and apply', story: 'User Story: Search grants directory, view eligibility criteria, and redirect to official site to apply.' },
+    { flowGroup: 'f7', x: 60, y: 1910, title: 'Flow 7: Founder wants to view real market problems', story: 'User Story: Go to real market problems page and click accordion to expand and view details.' },
+    { flowGroup: 'f8', x: 60, y: 2210, title: 'Flow 8: Founders want to resolve struggles & share challenges', story: 'User Story: Search startup challenges, upvote existing solutions, or post new challenges for community input.' },
+    { flowGroup: 'f9', x: 60, y: 2510, title: 'Flow 9: Founder wants AI pitch deck review & Deckwale integration', story: 'User Story: Upload PPTX/PDF deck for AI feedback and discover our Deckwale pitch deck creation tool.' },
+    { flowGroup: 'f10', x: 60, y: 2810, title: 'Flow 10: Listed founder wants product page performance analytics', story: 'User Story: Profile → Product Analytics to inspect impressions, upvotes, click-through rates, and export performance reports.' },
+    { flowGroup: 'f11', x: 60, y: 3110, title: 'Flow 11: Investor wants to access startups or explore the platform', story: 'User Story: Sign up as Investor → LinkedIn auto-fill onboarding (with skip option) → Access startups & explore platform on dashboard.' },
+    { flowGroup: 'f12', x: 60, y: 3410, title: 'Flow 12: Investor wants to check if their documents are performing well', story: 'User Story: Upload document → Create shareable link → Send email or manual copy → Visitor email sign in & view → Check document performance analytics.' },
+    { flowGroup: 'f13', x: 60, y: 3710, title: 'Flow 13: Investor wants to create, import, or share investment thesis', story: 'User Story: Go to /thesis → Write custom thesis OR import local thesis document → Save & share thesis link.' },
+    { flowGroup: 'f14', x: 60, y: 4010, title: 'Flow 14: Investor wants to manage Limited Partners (LPs) for reporting & records', story: 'User Story: Go to /lps → Click "Add LP" → Fill LP contact & commitment details → Save LP record to access & share reports.' },
+    { flowGroup: 'f15', x: 60, y: 4310, title: 'Flow 15: Investor wants to create custom intake link & ingest startups into Startup Pool', story: 'User Story: Go to /intake-link → Modify fields → Preview & share form link → Founder fills form → Auto-ingests startup into Startup Pool page.' },
+    { flowGroup: 'f16', x: 60, y: 4610, title: 'Flow 16: Investor wants to organize potential startups into categorized Deal Pipelines', story: 'User Story: Go to /pool → Open startup → Mark as potential → Select category pipeline → Access on /pipeline page.' },
+    { flowGroup: 'f17', x: 60, y: 4910, title: 'Flow 17: Investor wants to create Virtual Data Room (VDR) & track LP Due Diligence analytics', story: 'User Story: Go to /vdr → Create Data Room → Choose Presets vs Blank → Add files/folders → Share link with LPs → Inspect document analytics.' },
+    { flowGroup: 'f18', x: 60, y: 5210, title: 'Flow 18: Investor wants to share report with LP & view their comments', story: 'User Story: Go to /lp-reports → Select LP → View profile & date-wise history → Upload report → Click Share → LP logs in & comments → Investor reads response.' },
+    { flowGroup: 'f19', x: 60, y: 5510, title: 'Flow 19: Investor wants to manage all founders reports in one organized place', story: 'User Story: Go to /founder-reports → Select founder from list → Click Request Report → Founder receives email/prompt & uploads report → Investor accesses report on platform.' },
+    { flowGroup: 'f20', x: 60, y: 5810, title: 'Flow 20: Investor wants to invite co-investors to team workspace', story: 'User Story: Go to /team → Click Invite Member → Enter co-investor email & role → Send invite link → Co-investor clicks email link & logs in → Co-investor added to team.' },
+    { flowGroup: 'f21', x: 60, y: 6110, title: 'Flow 21: Investor wants to add & share Data Vault with Due Diligence partners', story: 'User Story: Go to /dd-partners → Click Add DD Partner → Fill details & add → Grant Vault access to DD partner → DD partner logs in & audits → Investor tracks DD progress on platform.' },
+  ];
+
+  // Nodes Matrix
   const nodes = [
     { id: 'start', x: 60, y: 480, w: 240, h: 95, title: 'Landing Page', sub: 'Public Visitor Entry Point', type: 'start', shape: 'capsule', tag: '[01 ENTRY]', flowGroup: 'common' },
     { id: 'signup', x: 380, y: 480, w: 240, h: 95, title: 'Sign Up Page', sub: 'Role Lock: Founder', type: 'start', shape: 'rect', tag: '[02 AUTH]', flowGroup: 'common' },
@@ -752,7 +1079,7 @@
     { id: 'f9_deck_created', x: 2490, y: 2560, w: 260, h: 95, title: 'Build Deck on Deckwale', sub: 'Create Professional Investor Deck', type: 'outcome', shape: 'capsule', tag: '[DECK CREATED]', flowGroup: 'f9' },
     { id: 'f9_report_saved', x: 2120, y: 2680, w: 270, h: 85, title: 'Download AI PDF Report', sub: 'Export Detailed Feedback Summary', type: 'outcome', shape: 'capsule', tag: '[REPORT SAVED]', flowGroup: 'f9' },
 
-    // FLOW 10: Founder Product Analytics (Lane 10 Y = 2860)
+    // Flow 10
     { id: 'f10_start', x: 60, y: 2860, w: 250, h: 95, title: 'Listed Founder Session', sub: 'Active Account with Product', type: 'start', shape: 'capsule', tag: '[FLOW 10]', flowGroup: 'f10' },
     { id: 'f10_profile', x: 380, y: 2860, w: 250, h: 95, title: 'Go to Profile Page', sub: 'Click User Avatar / Profile Menu', type: 'founder', shape: 'rect', tag: '[PROFILE ENTRY]', flowGroup: 'f10' },
     { id: 'f10_analytics_tab', x: 700, y: 2860, w: 250, h: 95, title: 'Click "Product Analytics"', sub: 'Select Analytics Tab in Profile', type: 'founder', shape: 'rect', tag: '[TAB SELECTION]', flowGroup: 'f10' },
@@ -761,6 +1088,115 @@
     { id: 'f10_action_gate', x: 1760, y: 2855, w: 260, h: 105, title: 'Export or Boost?', sub: 'Choose Action: Export or Promote', type: 'warning', shape: 'diamond', tag: '[ANALYTICS ACTION]', flowGroup: 'f10' },
     { id: 'f10_export', x: 2120, y: 2860, w: 270, h: 95, title: 'Export CSV / PDF Report', sub: 'Download Performance Insights', type: 'outcome', shape: 'capsule', tag: '[REPORT EXPORTED]', flowGroup: 'f10' },
     { id: 'f10_boost', x: 2120, y: 2980, w: 270, h: 85, title: 'Click "Boost Listing"', sub: 'Feature Product on Seedicon Frontpage', type: 'outcome', shape: 'capsule', tag: '[PROMOTION STARTED]', flowGroup: 'f10' },
+
+    // FLOW 11: Investor Onboarding & Setup (Lane 11 Y = 3160)
+    { id: 'f11_start', x: 60, y: 3160, w: 250, h: 95, title: 'Landing Page', sub: 'Public Visitor Entry Point', type: 'start', shape: 'capsule', tag: '[INV ENTRY]', flowGroup: 'f11' },
+    { id: 'f11_signup', x: 380, y: 3160, w: 250, h: 95, title: 'Sign Up Page (Investor)', sub: 'Role Lock: Investor Account', type: 'start', shape: 'rect', tag: '[INV AUTH]', flowGroup: 'f11' },
+    { id: 'f11_onboard_form', x: 700, y: 3160, w: 260, h: 95, title: 'Investor Onboarding Form', sub: 'LinkedIn URL Auto-Fills Profile Info', type: 'founder', shape: 'rect', tag: '[LINKEDIN FORM]', flowGroup: 'f11' },
+    { id: 'f11_skip_gate', x: 1050, y: 3155, w: 260, h: 105, title: 'Fill or Skip Onboarding?', sub: 'Option to Skip Profile Setup', type: 'warning', shape: 'diamond', tag: '[DECISION]', flowGroup: 'f11' },
+    { id: 'f11_submit', x: 1400, y: 3160, w: 260, h: 95, title: 'Save Investor Profile', sub: 'Submit Personal & Firm Details', type: 'founder', shape: 'rect', tag: '[PROFILE COMPLETED]', flowGroup: 'f11' },
+    { id: 'f11_skip', x: 1400, y: 3280, w: 260, h: 85, title: 'Click "Skip for Now"', sub: 'Bypass Profile Customization', type: 'warning', shape: 'capsule', tag: '[SKIPPED]', flowGroup: 'f11' },
+    { id: 'f11_dash', x: 1760, y: 3160, w: 270, h: 95, title: 'Land on Blank Dashboard', sub: 'Ready to Add Funds, Thesis & Intake', type: 'outcome', shape: 'capsule', tag: '[BLANK DASHBOARD]', flowGroup: 'f11' },
+
+    // FLOW 12: Investor Document Analytics & Tracking (Lane 12 Y = 3460)
+    { id: 'f12_start', x: 60, y: 3460, w: 250, h: 95, title: 'Investor Active Session', sub: 'Logged into Investor Workspace', type: 'start', shape: 'capsule', tag: '[INV SESSION]', flowGroup: 'f12' },
+    { id: 'f12_docs_page', x: 380, y: 3460, w: 250, h: 95, title: 'Go to /documents Page', sub: 'All Documents Storage Repository', type: 'founder', shape: 'rect', tag: '[DOC REPOSITORY]', flowGroup: 'f12' },
+    { id: 'f12_upload', x: 700, y: 3460, w: 260, h: 95, title: 'Upload Document', sub: 'Supports PDF, PPTX & XLSX Files', type: 'founder', shape: 'rect', tag: '[FILE UPLOAD]', flowGroup: 'f12' },
+    { id: 'f12_create_link', x: 1050, y: 3460, w: 260, h: 95, title: 'Create Shareable Link', sub: 'Generate Unique Tracked URL', type: 'founder', shape: 'rect', tag: '[LINK CREATED]', flowGroup: 'f12' },
+    { id: 'f12_share_gate', x: 1400, y: 3455, w: 260, h: 105, title: 'Share Method?', sub: 'Choose Email Dispatch or Copy Link', type: 'warning', shape: 'diamond', tag: '[DECISION]', flowGroup: 'f12' },
+    { id: 'f12_email_share', x: 1760, y: 3460, w: 260, h: 95, title: 'Send Link via Email', sub: 'System Dispatches Magic Access Link', type: 'founder', shape: 'rect', tag: '[EMAIL SENT]', flowGroup: 'f12' },
+    { id: 'f12_manual_share', x: 1760, y: 3580, w: 260, h: 85, title: 'Copy & Send Link Manually', sub: 'Investor Copies & Shares Direct Link', type: 'warning', shape: 'capsule', tag: '[MANUAL COPY]', flowGroup: 'f12' },
+    { id: 'f12_visitor_auth', x: 2120, y: 3460, w: 270, h: 95, title: 'Visitor Sign In with Email', sub: 'Recipient Opens Link & Enters Email', type: 'start', shape: 'diamond', tag: '[VISITOR AUTH]', flowGroup: 'f12' },
+    { id: 'f12_view_doc', x: 2490, y: 3460, w: 260, h: 95, title: 'Visitor Views Document', sub: 'Tracks Time per Page & Total Duration', type: 'founder', shape: 'rect', tag: '[VIEW SESSION]', flowGroup: 'f12' },
+    { id: 'f12_analytics_db', x: 2840, y: 3460, w: 260, h: 95, title: 'Record Analytics in DB', sub: 'Store Views, Duration & Viewer IP', type: 'warning', shape: 'cylinder', tag: '[ANALYTICS LOGGED]', flowGroup: 'f12' },
+    { id: 'f12_view_insights', x: 3190, y: 3460, w: 270, h: 95, title: 'View Document Insights', sub: 'Click Document to View Analytics', type: 'outcome', shape: 'capsule', tag: '[INSIGHTS VIEWED]', flowGroup: 'f12' },
+
+    // FLOW 13: Investor Investment Thesis (Lane 13 Y = 3760)
+    { id: 'f13_start', x: 60, y: 3760, w: 250, h: 95, title: 'Investor Active Session', sub: 'Logged into Investor Workspace', type: 'start', shape: 'capsule', tag: '[INV SESSION]', flowGroup: 'f13' },
+    { id: 'f13_thesis_page', x: 380, y: 3760, w: 250, h: 95, title: 'Go to /thesis Page', sub: 'Investment Thesis Management', type: 'founder', shape: 'rect', tag: '[THESIS HUB]', flowGroup: 'f13' },
+    { id: 'f13_method_gate', x: 700, y: 3755, w: 260, h: 105, title: 'Write or Import Thesis?', sub: 'Choose Thesis Creation Method', type: 'warning', shape: 'diamond', tag: '[DECISION]', flowGroup: 'f13' },
+    { id: 'f13_write_form', x: 1050, y: 3760, w: 260, h: 95, title: 'Write Custom Thesis', sub: 'Fill Sectors, Stages & Cheque Size', type: 'founder', shape: 'rect', tag: '[FORM BUILDER]', flowGroup: 'f13' },
+    { id: 'f13_import_file', x: 1050, y: 3880, w: 260, h: 85, title: 'Import Local Thesis File', sub: 'Upload PDF or Word Document', type: 'warning', shape: 'capsule', tag: '[FILE IMPORT]', flowGroup: 'f13' },
+    { id: 'f13_save_db', x: 1400, y: 3760, w: 260, h: 95, title: 'Save Thesis to Account', sub: 'Stored in Investor Profile DB', type: 'warning', shape: 'cylinder', tag: '[THESIS SAVED]', flowGroup: 'f13' },
+    { id: 'f13_share_btn', x: 1760, y: 3760, w: 260, h: 95, title: 'Click "Share Thesis"', sub: 'Generate Public / Private Link', type: 'founder', shape: 'rect', tag: '[SHARE ACTION]', flowGroup: 'f13' },
+    { id: 'f13_shared', x: 2120, y: 3760, w: 270, h: 95, title: 'Share Thesis Link', sub: 'Shared with Co-Investors, LPs & Founders', type: 'outcome', shape: 'capsule', tag: '[THESIS SHARED]', flowGroup: 'f13' },
+
+    // FLOW 14: Investor LP Management (Lane 14 Y = 4060)
+    { id: 'f14_start', x: 60, y: 4060, w: 250, h: 95, title: 'Investor Active Session', sub: 'Logged into Investor Workspace', type: 'start', shape: 'capsule', tag: '[INV SESSION]', flowGroup: 'f14' },
+    { id: 'f14_lps_page', x: 380, y: 4060, w: 250, h: 95, title: 'Go to /lps Page', sub: 'LP Lists & Records Management', type: 'founder', shape: 'rect', tag: '[LP DIRECTORY]', flowGroup: 'f14' },
+    { id: 'f14_add_btn', x: 700, y: 4060, w: 250, h: 95, title: 'Click "Add LP" Button', sub: 'Open LP Addition Form Modal', type: 'founder', shape: 'rect', tag: '[ADD ACTION]', flowGroup: 'f14' },
+    { id: 'f14_form', x: 1050, y: 4060, w: 260, h: 95, title: 'Fill LP Details Form', sub: 'Entity, Contact, Email & Commitment', type: 'founder', shape: 'rect', tag: '[FORM SUBMITTED]', flowGroup: 'f14' },
+    { id: 'f14_save_db', x: 1400, y: 4060, w: 260, h: 95, title: 'Save LP Record in DB', sub: 'Stored in Fund LP Directory DB', type: 'warning', shape: 'cylinder', tag: '[LP RECORDED]', flowGroup: 'f14' },
+    { id: 'f14_managed', x: 1760, y: 4060, w: 270, h: 95, title: 'Access Contacts & Reports', sub: 'LP Active for Report Sharing', type: 'outcome', shape: 'capsule', tag: '[LP MANAGED]', flowGroup: 'f14' },
+
+    // FLOW 15: Investor Public Submission Link & Startup Pool Intake (Lane 15 Y = 4360)
+    { id: 'f15_start', x: 60, y: 4360, w: 250, h: 95, title: 'Investor Active Session', sub: 'Logged into Investor Workspace', type: 'start', shape: 'capsule', tag: '[INV SESSION]', flowGroup: 'f15' },
+    { id: 'f15_link_page', x: 380, y: 4360, w: 250, h: 95, title: 'Go to Public Link Page', sub: '/intake-link Setup & Customizer', type: 'founder', shape: 'rect', tag: '[LINK CUSTOMIZER]', flowGroup: 'f15' },
+    { id: 'f15_modify_fields', x: 700, y: 4360, w: 260, h: 95, title: 'Modify Required Fields', sub: 'Customize Due Diligence Data Intake', type: 'founder', shape: 'rect', tag: '[FIELDS CONFIGURED]', flowGroup: 'f15' },
+    { id: 'f15_share_link', x: 1050, y: 4360, w: 260, h: 95, title: 'Preview & Share Form Link', sub: 'Generate Public Intake URL', type: 'founder', shape: 'rect', tag: '[LINK GENERATED]', flowGroup: 'f15' },
+    { id: 'f15_founder_submit', x: 1400, y: 4360, w: 260, h: 95, title: 'Founder Fills & Submits Form', sub: 'Manually Enters Startup Details', type: 'founder', shape: 'rect', tag: '[FOUNDER SUBMISSION]', flowGroup: 'f15' },
+    { id: 'f15_ingest_db', x: 1760, y: 4360, w: 260, h: 95, title: 'Auto-Ingest into Pool DB', sub: 'Data Parsed & Saved in Database', type: 'warning', shape: 'cylinder', tag: '[AUTO INGESTED]', flowGroup: 'f15' },
+    { id: 'f15_pool_view', x: 2120, y: 4360, w: 270, h: 95, title: 'Access Startup in Pool Page', sub: 'View Full Profile & Thesis Filters', type: 'outcome', shape: 'capsule', tag: '[STARTUP IN POOL]', flowGroup: 'f15' },
+
+    // FLOW 16: Investor Pipeline Startups & Category Organization (Lane 16 Y = 4660)
+    { id: 'f16_start', x: 60, y: 4660, w: 250, h: 95, title: 'Investor Active Session', sub: 'Logged into Investor Workspace', type: 'start', shape: 'capsule', tag: '[INV SESSION]', flowGroup: 'f16' },
+    { id: 'f16_pool_page', x: 380, y: 4660, w: 250, h: 95, title: 'Go to Startup Pool Page', sub: '/pool Ingested Startups Directory', type: 'founder', shape: 'rect', tag: '[STARTUP POOL]', flowGroup: 'f16' },
+    { id: 'f16_open_card', x: 700, y: 4660, w: 260, h: 95, title: 'Open Startup Details Card', sub: 'Inspect Deck, Cap Table & Due Diligence', type: 'founder', shape: 'rect', tag: '[STARTUP CARD]', flowGroup: 'f16' },
+    { id: 'f16_mark_potential', x: 1050, y: 4660, w: 260, h: 95, title: 'Click "Mark as Potential"', sub: 'Flag Startup as Promising Lead', type: 'founder', shape: 'rect', tag: '[MARK POTENTIAL]', flowGroup: 'f16' },
+    { id: 'f16_select_pipeline', x: 1400, y: 4660, w: 260, h: 95, title: 'Select Category Pipeline', sub: 'Assign Fintech, AI/SaaS or HealthTech', type: 'founder', shape: 'rect', tag: '[PIPELINE CATEGORY]', flowGroup: 'f16' },
+    { id: 'f16_save_db', x: 1760, y: 4660, w: 260, h: 95, title: 'Update Pipeline State in DB', sub: 'Saved in Investor Deal Flow DB', type: 'warning', shape: 'cylinder', tag: '[PIPELINE UPDATED]', flowGroup: 'f16' },
+    { id: 'f16_pipeline_page', x: 2120, y: 4660, w: 270, h: 95, title: 'Access in Pipeline Startups', sub: '/pipeline Categorized Deal Flow', type: 'outcome', shape: 'capsule', tag: '[PIPELINE MANAGED]', flowGroup: 'f16' },
+
+    // FLOW 17: Investor Virtual Data Room (VDR) & LP Analytics (Lane 17 Y = 4960)
+    { id: 'f17_start', x: 60, y: 4960, w: 250, h: 95, title: 'Investor Active Session', sub: 'Logged into Investor Workspace', type: 'start', shape: 'capsule', tag: '[INV SESSION]', flowGroup: 'f17' },
+    { id: 'f17_vdr_page', x: 380, y: 4960, w: 250, h: 95, title: 'Go to Data Room Page', sub: '/vdr Virtual Data Room Hub', type: 'founder', shape: 'rect', tag: '[VDR HUB]', flowGroup: 'f17' },
+    { id: 'f17_create_vdr', x: 700, y: 4960, w: 260, h: 95, title: 'Click "Create Data Room"', sub: 'Open VDR Setup Wizard Modal', type: 'founder', shape: 'rect', tag: '[CREATE VDR]', flowGroup: 'f17' },
+    { id: 'f17_room_gate', x: 1050, y: 4955, w: 260, h: 105, title: 'Presets or Blank Room?', sub: 'Choose Preset Template or Blank', type: 'warning', shape: 'diamond', tag: '[ROOM TYPE DECISION]', flowGroup: 'f17' },
+    { id: 'f17_preset_files', x: 1400, y: 4960, w: 260, h: 95, title: 'Auto-populate Preset Folders', sub: 'Legal, Cap Table, Financials & Tech', type: 'founder', shape: 'rect', tag: '[PRESET FOLDERS]', flowGroup: 'f17' },
+    { id: 'f17_manual_files', x: 1400, y: 5080, w: 260, h: 85, title: 'Manual Folder & File Upload', sub: 'Add Documents to Custom Folders', type: 'warning', shape: 'capsule', tag: '[MANUAL UPLOAD]', flowGroup: 'f17' },
+    { id: 'f17_save_link', x: 1760, y: 4960, w: 260, h: 95, title: 'Save VDR & Share Link', sub: 'Generate Tracked LP Access URL', type: 'warning', shape: 'cylinder', tag: '[VDR SAVED]', flowGroup: 'f17' },
+    { id: 'f17_lp_access', x: 2120, y: 4955, w: 260, h: 105, title: 'LP Opens Link & Views DD', sub: 'Recipient Sign In & Document View', type: 'start', shape: 'diamond', tag: '[LP ACCESS SESSION]', flowGroup: 'f17' },
+    { id: 'f17_analytics_view', x: 2490, y: 4960, w: 270, h: 95, title: 'View VDR Document Analytics', sub: 'Inspect Page Views, Time & Downloads', type: 'outcome', shape: 'capsule', tag: '[VDR ANALYTICS]', flowGroup: 'f17' },
+
+    // FLOW 18: Investor LP Reporting & Comments Feedback (Lane 18 Y = 5260)
+    { id: 'f18_start', x: 60, y: 5260, w: 250, h: 95, title: 'Investor Active Session', sub: 'Logged into Investor Workspace', type: 'start', shape: 'capsule', tag: '[INV SESSION]', flowGroup: 'f18' },
+    { id: 'f18_reports_page', x: 380, y: 5260, w: 250, h: 95, title: 'Go to LP Reporting Page', sub: '/lp-reports Hub & Directory', type: 'founder', shape: 'rect', tag: '[LP REPORTING]', flowGroup: 'f18' },
+    { id: 'f18_select_lp', x: 700, y: 5260, w: 250, h: 95, title: 'Select LP from Directory', sub: 'Choose Target LP Entity/Contact', type: 'founder', shape: 'rect', tag: '[SELECT LP]', flowGroup: 'f18' },
+    { id: 'f18_view_history', x: 1050, y: 5260, w: 260, h: 95, title: 'View LP Details & History', sub: 'Inspect Profile & Date-wise File History', type: 'founder', shape: 'rect', tag: '[LP HISTORY VIEW]', flowGroup: 'f18' },
+    { id: 'f18_upload_report', x: 1400, y: 5260, w: 260, h: 95, title: 'Click "Upload Report"', sub: 'Upload PDF/XLSX File (Share Enabled)', type: 'founder', shape: 'rect', tag: '[FILE UPLOADED]', flowGroup: 'f18' },
+    { id: 'f18_share_dispatch', x: 1760, y: 5260, w: 260, h: 95, title: 'Click "Share to LP"', sub: 'Dispatches Report & Saves in DB', type: 'warning', shape: 'cylinder', tag: '[REPORT SHARED]', flowGroup: 'f18' },
+    { id: 'f18_lp_comment', x: 2120, y: 5255, w: 260, h: 105, title: 'LP Log In & Comments', sub: 'LP Views Report & Submits Feedback', type: 'start', shape: 'diamond', tag: '[LP COMMENTED]', flowGroup: 'f18' },
+    { id: 'f18_investor_response', x: 2490, y: 5260, w: 270, h: 95, title: 'View Response on Platform', sub: 'Investor Reads Feedback & Replies', type: 'outcome', shape: 'capsule', tag: '[RESPONSE VIEWED]', flowGroup: 'f18' },
+
+    // FLOW 19: Investor Founder Reports Management (Lane 19 Y = 5560)
+    { id: 'f19_start', x: 60, y: 5560, w: 250, h: 95, title: 'Investor Active Session', sub: 'Logged into Investor Workspace', type: 'start', shape: 'capsule', tag: '[INV SESSION]', flowGroup: 'f19' },
+    { id: 'f19_hub', x: 380, y: 5560, w: 250, h: 95, title: 'Go to Founders Reports Page', sub: '/founder-reports Hub Directory', type: 'founder', shape: 'rect', tag: '[FOUNDERS REPORTS]', flowGroup: 'f19' },
+    { id: 'f19_select_founder', x: 700, y: 5560, w: 250, h: 95, title: 'Select Founder from List', sub: 'Browse & Choose Target Founder Card', type: 'founder', shape: 'rect', tag: '[SELECT FOUNDER]', flowGroup: 'f19' },
+    { id: 'f19_req_btn', x: 1050, y: 5560, w: 260, h: 95, title: 'Click "Request Report"', sub: 'Send Request via Email or Notification', type: 'founder', shape: 'rect', tag: '[REQUEST SENT]', flowGroup: 'f19' },
+    { id: 'f19_founder_prompt', x: 1400, y: 5555, w: 260, h: 105, title: 'Founder Receives Prompt', sub: 'In-App Alert or Email Prompt Received', type: 'warning', shape: 'diamond', tag: '[NOTIFICATION RECD]', flowGroup: 'f19' },
+    { id: 'f19_upload', x: 1760, y: 5560, w: 260, h: 95, title: 'Founder Uploads Report', sub: 'Attaches Update Doc on Platform', type: 'founder', shape: 'rect', tag: '[REPORT UPLOADED]', flowGroup: 'f19' },
+    { id: 'f19_save_db', x: 2120, y: 5560, w: 260, h: 95, title: 'Save Report in DB', sub: 'Stored in Investor Portal Database', type: 'warning', shape: 'cylinder', tag: '[REPORT SAVED]', flowGroup: 'f19' },
+    { id: 'f19_outcome', x: 2490, y: 5560, w: 270, h: 95, title: 'Access Report on Platform', sub: 'Organized & Viewable on Dashboard', type: 'outcome', shape: 'capsule', tag: '[REPORT ACCESSED]', flowGroup: 'f19' },
+
+    // FLOW 20: Investor Co-Investor Team Invitation (Lane 20 Y = 5860)
+    { id: 'f20_start', x: 60, y: 5860, w: 250, h: 95, title: 'Investor Active Session', sub: 'Logged into Investor Workspace', type: 'start', shape: 'capsule', tag: '[INV SESSION]', flowGroup: 'f20' },
+    { id: 'f20_team_page', x: 380, y: 5860, w: 250, h: 95, title: 'Go to My Team Page', sub: '/team Management & Roles Hub', type: 'founder', shape: 'rect', tag: '[MY TEAM]', flowGroup: 'f20' },
+    { id: 'f20_invite_btn', x: 700, y: 5860, w: 250, h: 95, title: 'Click "Invite Member"', sub: 'Open Team Member Invitation Modal', type: 'founder', shape: 'rect', tag: '[INVITE ACTION]', flowGroup: 'f20' },
+    { id: 'f20_fill_form', x: 1050, y: 5860, w: 260, h: 95, title: 'Fill Co-Investor Details', sub: 'Enter Email & Permission Role Level', type: 'founder', shape: 'rect', tag: '[FORM SUBMITTED]', flowGroup: 'f20' },
+    { id: 'f20_send_email', x: 1400, y: 5860, w: 260, h: 95, title: 'Dispatch Invitation Email', sub: 'Send Magic Invite Link to Inbox', type: 'warning', shape: 'cylinder', tag: '[EMAIL DISPATCHED]', flowGroup: 'f20' },
+    { id: 'f20_email_recd', x: 1760, y: 5855, w: 260, h: 105, title: 'Member Receives Email', sub: 'Co-Investor Clicks Link in Inbox', type: 'start', shape: 'diamond', tag: '[EMAIL RECEIVED]', flowGroup: 'f20' },
+    { id: 'f20_auth_gate', x: 2120, y: 5855, w: 260, h: 105, title: 'Sign In / Sign Up Gate', sub: 'Log In or Create Account if New User', type: 'admin', shape: 'diamond', tag: '[AUTH GATE]', flowGroup: 'f20' },
+    { id: 'f20_outcome', x: 2490, y: 5860, w: 270, h: 95, title: 'Added to Team Workspace', sub: 'Full Access to Shared Deals & Reports', type: 'outcome', shape: 'capsule', tag: '[TEAM MEMBER ADDED]', flowGroup: 'f20' },
+
+    // FLOW 21: Investor Due Diligence Partner Access (Lane 21 Y = 6160)
+    { id: 'f21_start', x: 60, y: 6160, w: 250, h: 95, title: 'Investor Active Session', sub: 'Logged into Investor Workspace', type: 'start', shape: 'capsule', tag: '[INV SESSION]', flowGroup: 'f21' },
+    { id: 'f21_partners_page', x: 380, y: 6160, w: 250, h: 95, title: 'Go to DD Partners Page', sub: '/dd-partners Hub & Directory', type: 'founder', shape: 'rect', tag: '[DD PARTNERS]', flowGroup: 'f21' },
+    { id: 'f21_add_btn', x: 700, y: 6160, w: 250, h: 95, title: 'Click "Add DD Partner"', sub: 'Open DD Partner Registration Modal', type: 'founder', shape: 'rect', tag: '[ADD PARTNER ACTION]', flowGroup: 'f21' },
+    { id: 'f21_fill_details', x: 1050, y: 6160, w: 260, h: 95, title: 'Fill Details & Add Partner', sub: 'Firm Name, Contact, Email & Specialty', type: 'founder', shape: 'rect', tag: '[FORM SUBMITTED]', flowGroup: 'f21' },
+    { id: 'f21_share_vault', x: 1400, y: 6160, w: 260, h: 95, title: 'Grant Vault Access', sub: 'Assign Startup Data Room Permissions', type: 'warning', shape: 'cylinder', tag: '[VAULT SHARED]', flowGroup: 'f21' },
+    { id: 'f21_partner_login', x: 1760, y: 6155, w: 260, h: 105, title: 'DD Partner Log In', sub: 'Partner Sign In with DD Access Token', type: 'start', shape: 'diamond', tag: '[DD PARTNER AUTH]', flowGroup: 'f21' },
+    { id: 'f21_audit_process', x: 2120, y: 6160, w: 260, h: 95, title: 'DD Review & Audit', sub: 'Partner Audits Legal & Cap Table Files', type: 'founder', shape: 'rect', tag: '[DD AUDIT IN PROGRESS]', flowGroup: 'f21' },
+    { id: 'f21_outcome', x: 2490, y: 6160, w: 270, h: 95, title: 'Track DD Progress & Reports', sub: 'Investor Views DD Status & Insights', type: 'outcome', shape: 'capsule', tag: '[DD TRACKED]', flowGroup: 'f21' },
   ];
 
   // Connections Matrix
@@ -835,7 +1271,6 @@
     { from: 'f9_deckwale_btn', to: 'f9_deck_created', label: 'Build Deck', color: '#059669', flowGroup: 'f9' },
     { from: 'f9_deckwale_gate', to: 'f9_report_saved', label: 'Download PDF', color: '#D97706', flowGroup: 'f9' },
 
-    // Flow 10 Connections
     { from: 'f10_start', to: 'f10_profile', flowGroup: 'f10' },
     { from: 'f10_profile', to: 'f10_analytics_tab', label: 'Open Analytics', flowGroup: 'f10' },
     { from: 'f10_analytics_tab', to: 'f10_query_db', label: 'Query DB', flowGroup: 'f10' },
@@ -843,6 +1278,108 @@
     { from: 'f10_dash_view', to: 'f10_action_gate', label: 'Take Action', flowGroup: 'f10' },
     { from: 'f10_action_gate', to: 'f10_export', label: 'Export Report', color: '#059669', flowGroup: 'f10' },
     { from: 'f10_action_gate', to: 'f10_boost', label: 'Boost Listing', color: '#D97706', flowGroup: 'f10' },
+
+    // Flow 11 Connections (Investor Onboarding)
+    { from: 'f11_start', to: 'f11_signup', flowGroup: 'f11' },
+    { from: 'f11_signup', to: 'f11_onboard_form', label: 'Select Investor', flowGroup: 'f11' },
+    { from: 'f11_onboard_form', to: 'f11_skip_gate', label: 'LinkedIn Auto-Fill', flowGroup: 'f11' },
+    { from: 'f11_skip_gate', to: 'f11_submit', label: 'Submit Details', color: '#059669', flowGroup: 'f11' },
+    { from: 'f11_submit', to: 'f11_dash', label: 'Profile Saved', color: '#059669', flowGroup: 'f11' },
+    { from: 'f11_skip_gate', to: 'f11_skip', label: 'Click Skip', color: '#D97706', flowGroup: 'f11' },
+    { from: 'f11_skip', to: 'f11_dash', label: 'Direct Entry', color: '#059669', flowGroup: 'f11' },
+
+    // Flow 12 Connections (Investor Document Analytics)
+    { from: 'f12_start', to: 'f12_docs_page', flowGroup: 'f12' },
+    { from: 'f12_docs_page', to: 'f12_upload', label: 'Upload File', flowGroup: 'f12' },
+    { from: 'f12_upload', to: 'f12_create_link', label: 'Generate Link', flowGroup: 'f12' },
+    { from: 'f12_create_link', to: 'f12_share_gate', label: 'Share Link', flowGroup: 'f12' },
+    { from: 'f12_share_gate', to: 'f12_email_share', label: 'Email Dispatch', color: '#059669', flowGroup: 'f12' },
+    { from: 'f12_share_gate', to: 'f12_manual_share', label: 'Copy Link', color: '#D97706', flowGroup: 'f12' },
+    { from: 'f12_email_share', to: 'f12_visitor_auth', label: 'Click Email Link', flowGroup: 'f12' },
+    { from: 'f12_manual_share', to: 'f12_visitor_auth', label: 'Paste URL', flowGroup: 'f12' },
+    { from: 'f12_visitor_auth', to: 'f12_view_doc', label: 'Email Verified', color: '#059669', flowGroup: 'f12' },
+    { from: 'f12_view_doc', to: 'f12_analytics_db', label: 'Log Session', color: '#059669', flowGroup: 'f12' },
+    { from: 'f12_analytics_db', to: 'f12_view_insights', label: 'Click Document', color: '#059669', flowGroup: 'f12' },
+
+    // Flow 13 Connections (Investor Investment Thesis)
+    { from: 'f13_start', to: 'f13_thesis_page', flowGroup: 'f13' },
+    { from: 'f13_thesis_page', to: 'f13_method_gate', label: 'Add Thesis', flowGroup: 'f13' },
+    { from: 'f13_method_gate', to: 'f13_write_form', label: 'Write Manual', color: '#059669', flowGroup: 'f13' },
+    { from: 'f13_method_gate', to: 'f13_import_file', label: 'Import File', color: '#D97706', flowGroup: 'f13' },
+    { from: 'f13_write_form', to: 'f13_save_db', label: 'Save Mandate', color: '#059669', flowGroup: 'f13' },
+    { from: 'f13_import_file', to: 'f13_save_db', label: 'Parse & Save', color: '#059669', flowGroup: 'f13' },
+    { from: 'f13_save_db', to: 'f13_share_btn', label: 'Click Share', flowGroup: 'f13' },
+    { from: 'f13_share_btn', to: 'f13_shared', label: 'Link Dispatched', color: '#059669', flowGroup: 'f13' },
+
+    // Flow 14 Connections (Investor LP Management)
+    { from: 'f14_start', to: 'f14_lps_page', flowGroup: 'f14' },
+    { from: 'f14_lps_page', to: 'f14_add_btn', label: 'Manage LPs', flowGroup: 'f14' },
+    { from: 'f14_add_btn', to: 'f14_form', label: 'Open Modal', flowGroup: 'f14' },
+    { from: 'f14_form', to: 'f14_save_db', label: 'Submit Form', color: '#059669', flowGroup: 'f14' },
+    { from: 'f14_save_db', to: 'f14_managed', label: 'LP Active', color: '#059669', flowGroup: 'f14' },
+
+    // Flow 15 Connections (Investor Public Intake Link & Startup Pool)
+    { from: 'f15_start', to: 'f15_link_page', flowGroup: 'f15' },
+    { from: 'f15_link_page', to: 'f15_modify_fields', label: 'Custom Intake', flowGroup: 'f15' },
+    { from: 'f15_modify_fields', to: 'f15_share_link', label: 'Generate Link', flowGroup: 'f15' },
+    { from: 'f15_share_link', to: 'f15_founder_submit', label: 'Share Link', flowGroup: 'f15' },
+    { from: 'f15_founder_submit', to: 'f15_ingest_db', label: 'Submit Form', color: '#059669', flowGroup: 'f15' },
+    { from: 'f15_ingest_db', to: 'f15_pool_view', label: 'Auto Route', color: '#059669', flowGroup: 'f15' },
+
+    // Flow 16 Connections (Investor Pipeline Startups & Organization)
+    { from: 'f16_start', to: 'f16_pool_page', flowGroup: 'f16' },
+    { from: 'f16_pool_page', to: 'f16_open_card', label: 'Select Startup', flowGroup: 'f16' },
+    { from: 'f16_open_card', to: 'f16_mark_potential', label: 'Inspect Details', flowGroup: 'f16' },
+    { from: 'f16_mark_potential', to: 'f16_select_pipeline', label: 'Flag Lead', color: '#059669', flowGroup: 'f16' },
+    { from: 'f16_select_pipeline', to: 'f16_save_db', label: 'Assign Category', color: '#059669', flowGroup: 'f16' },
+    { from: 'f16_save_db', to: 'f16_pipeline_page', label: 'Update View', color: '#059669', flowGroup: 'f16' },
+
+    // Flow 17 Connections (Investor VDR & LP Analytics)
+    { from: 'f17_start', to: 'f17_vdr_page', flowGroup: 'f17' },
+    { from: 'f17_vdr_page', to: 'f17_create_vdr', label: 'Create VDR', flowGroup: 'f17' },
+    { from: 'f17_create_vdr', to: 'f17_room_gate', label: 'Open Wizard', flowGroup: 'f17' },
+    { from: 'f17_room_gate', to: 'f17_preset_files', label: 'Presets', color: '#059669', flowGroup: 'f17' },
+    { from: 'f17_room_gate', to: 'f17_manual_files', label: 'Blank Room', color: '#D97706', flowGroup: 'f17' },
+    { from: 'f17_preset_files', to: 'f17_save_link', label: 'Save VDR', color: '#059669', flowGroup: 'f17' },
+    { from: 'f17_manual_files', to: 'f17_save_link', label: 'Save VDR', color: '#059669', flowGroup: 'f17' },
+    { from: 'f17_save_link', to: 'f17_lp_access', label: 'Share Link', flowGroup: 'f17' },
+    { from: 'f17_lp_access', to: 'f17_analytics_view', label: 'Log Metrics', color: '#059669', flowGroup: 'f17' },
+
+    // Flow 18 Connections (Investor LP Dispatch & Feedback)
+    { from: 'f18_start', to: 'f18_reports_page', flowGroup: 'f18' },
+    { from: 'f18_reports_page', to: 'f18_select_lp', label: 'Select LP', flowGroup: 'f18' },
+    { from: 'f18_select_lp', to: 'f18_view_history', label: 'Open Profile', flowGroup: 'f18' },
+    { from: 'f18_view_history', to: 'f18_upload_report', label: 'Upload File', flowGroup: 'f18' },
+    { from: 'f18_upload_report', to: 'f18_share_dispatch', label: 'Click Share', color: '#059669', flowGroup: 'f18' },
+    { from: 'f18_share_dispatch', to: 'f18_lp_comment', label: 'Dispatch Link', color: '#059669', flowGroup: 'f18' },
+    { from: 'f18_lp_comment', to: 'f18_investor_response', label: 'Post Comment', color: '#059669', flowGroup: 'f18' },
+
+    // Flow 19 Connections (Investor Founder Reports Request & Intake)
+    { from: 'f19_start', to: 'f19_hub', flowGroup: 'f19' },
+    { from: 'f19_hub', to: 'f19_select_founder', label: 'Select Founder', flowGroup: 'f19' },
+    { from: 'f19_select_founder', to: 'f19_req_btn', label: 'Request Report', flowGroup: 'f19' },
+    { from: 'f19_req_btn', to: 'f19_founder_prompt', label: 'Dispatch Alert', color: '#059669', flowGroup: 'f19' },
+    { from: 'f19_founder_prompt', to: 'f19_upload', label: 'Open Prompt', color: '#059669', flowGroup: 'f19' },
+    { from: 'f19_upload', to: 'f19_save_db', label: 'Upload Report', color: '#059669', flowGroup: 'f19' },
+    { from: 'f19_save_db', to: 'f19_outcome', label: 'Record Saved', color: '#059669', flowGroup: 'f19' },
+
+    // Flow 20 Connections (Investor Co-Investor Team Invitation)
+    { from: 'f20_start', to: 'f20_team_page', flowGroup: 'f20' },
+    { from: 'f20_team_page', to: 'f20_invite_btn', label: 'Open Team', flowGroup: 'f20' },
+    { from: 'f20_invite_btn', to: 'f20_fill_form', label: 'Click Invite', flowGroup: 'f20' },
+    { from: 'f20_fill_form', to: 'f20_send_email', label: 'Submit Form', color: '#059669', flowGroup: 'f20' },
+    { from: 'f20_send_email', to: 'f20_email_recd', label: 'Dispatch Email', color: '#059669', flowGroup: 'f20' },
+    { from: 'f20_email_recd', to: 'f20_auth_gate', label: 'Click Link', color: '#059669', flowGroup: 'f20' },
+    { from: 'f20_auth_gate', to: 'f20_outcome', label: 'Authenticated', color: '#059669', flowGroup: 'f20' },
+
+    // Flow 21 Connections (Investor Due Diligence Partner Access)
+    { from: 'f21_start', to: 'f21_partners_page', flowGroup: 'f21' },
+    { from: 'f21_partners_page', to: 'f21_add_btn', label: 'Open Directory', flowGroup: 'f21' },
+    { from: 'f21_add_btn', to: 'f21_fill_details', label: 'Click Add Partner', flowGroup: 'f21' },
+    { from: 'f21_fill_details', to: 'f21_share_vault', label: 'Submit Form', color: '#059669', flowGroup: 'f21' },
+    { from: 'f21_share_vault', to: 'f21_partner_login', label: 'Grant Vault Access', color: '#059669', flowGroup: 'f21' },
+    { from: 'f21_partner_login', to: 'f21_audit_process', label: 'Partner Login', color: '#059669', flowGroup: 'f21' },
+    { from: 'f21_audit_process', to: 'f21_outcome', label: 'Conduct Audit', color: '#059669', flowGroup: 'f21' },
   ];
 
   function getNode(id) {
@@ -860,7 +1397,7 @@
   };
 
   function autoFitView() {
-    let minX = 40, maxX = 3140, minY = 20, maxY = 3100;
+    let minX = 40, maxX = 3520, minY = 20, maxY = 6450;
 
     if (activeFlow === 'f1') { minY = 20; maxY = 320; }
     else if (activeFlow === 'f2') { minY = 360; maxY = 680; }
@@ -872,6 +1409,17 @@
     else if (activeFlow === 'f8') { minY = 2180; maxY = 2500; }
     else if (activeFlow === 'f9') { minY = 2480; maxY = 2800; }
     else if (activeFlow === 'f10') { minY = 2780; maxY = 3100; }
+    else if (activeFlow === 'f11') { minY = 3080; maxY = 3420; }
+    else if (activeFlow === 'f12') { minY = 3380; maxY = 3720; }
+    else if (activeFlow === 'f13') { minY = 3680; maxY = 4020; }
+    else if (activeFlow === 'f14') { minY = 3980; maxY = 4320; }
+    else if (activeFlow === 'f15') { minY = 4280; maxY = 4620; }
+    else if (activeFlow === 'f16') { minY = 4580; maxY = 4920; }
+    else if (activeFlow === 'f17') { minY = 4880; maxY = 5220; }
+    else if (activeFlow === 'f18') { minY = 5180; maxY = 5520; }
+    else if (activeFlow === 'f19') { minY = 5480; maxY = 5820; }
+    else if (activeFlow === 'f20') { minY = 5780; maxY = 6120; }
+    else if (activeFlow === 'f21') { minY = 6080; maxY = 6420; }
 
     const totalW = maxX - minX;
     const totalH = maxY - minY;
@@ -956,13 +1504,23 @@
       ctx.beginPath(); ctx.moveTo(startGridX, gy); ctx.lineTo(endGridX, gy); ctx.stroke();
     }
 
-    // --- PASS 0: DRAW SUBTLE FLOW START HEADERS ---
+    // SECTION BANNERS (Demarcating Founder Flows vs Investor Flows)
+    sectionBanners.forEach(b => {
+      ctx.save();
+      ctx.fillStyle = b.color;
+      ctx.font = '800 16px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(b.title, b.x, b.y);
+      ctx.restore();
+    });
+
+    // PASS 0: DRAW SUBTLE FLOW START HEADERS
     flowStartHeaders.forEach(hdr => {
       const active = isFlowActive(hdr.flowGroup);
       ctx.save();
       ctx.globalAlpha = active ? 1.0 : 0.15;
 
-      ctx.fillStyle = '#334155';
+      ctx.fillStyle = (hdr.flowGroup === 'f11' || hdr.flowGroup === 'f12' || hdr.flowGroup === 'f13' || hdr.flowGroup === 'f14' || hdr.flowGroup === 'f15' || hdr.flowGroup === 'f16' || hdr.flowGroup === 'f17' || hdr.flowGroup === 'f18' || hdr.flowGroup === 'f19' || hdr.flowGroup === 'f20' || hdr.flowGroup === 'f21') ? '#1E40AF' : '#334155';
       ctx.font = '700 13px -apple-system, BlinkMacSystemFont, sans-serif';
       ctx.textAlign = 'left';
       ctx.fillText(hdr.title, hdr.x, hdr.y);
@@ -988,7 +1546,7 @@
 
       ctx.save();
       ctx.globalAlpha = active ? 1.0 : 0.12;
-      ctx.strokeStyle = conn.color || '#000000';
+      ctx.strokeStyle = conn.color || ((conn.flowGroup === 'f11' || conn.flowGroup === 'f12' || conn.flowGroup === 'f13' || conn.flowGroup === 'f14' || conn.flowGroup === 'f15' || conn.flowGroup === 'f16' || conn.flowGroup === 'f17' || conn.flowGroup === 'f18' || conn.flowGroup === 'f19' || conn.flowGroup === 'f20' || conn.flowGroup === 'f21') ? '#2563EB' : '#000000');
       ctx.lineWidth = Math.max(2, 2.5 / Math.sqrt(scale));
 
       const isBranching = Math.abs(y1 - y2) > 10;
@@ -1006,7 +1564,7 @@
       }
       ctx.stroke();
 
-      ctx.fillStyle = conn.color || '#000000';
+      ctx.fillStyle = conn.color || ((conn.flowGroup === 'f11' || conn.flowGroup === 'f12' || conn.flowGroup === 'f13' || conn.flowGroup === 'f14' || conn.flowGroup === 'f15' || conn.flowGroup === 'f16' || conn.flowGroup === 'f17' || conn.flowGroup === 'f18' || conn.flowGroup === 'f19' || conn.flowGroup === 'f20' || conn.flowGroup === 'f21') ? '#2563EB' : '#000000');
       ctx.beginPath();
       ctx.moveTo(x2, y2);
       ctx.lineTo(x2 - 12, y2 - 7);
@@ -1089,12 +1647,12 @@
       }
 
       ctx.fillStyle = '#FFFFFF';
-      ctx.strokeStyle = conn.color || '#000000';
+      ctx.strokeStyle = conn.color || ((conn.flowGroup === 'f11' || conn.flowGroup === 'f12' || conn.flowGroup === 'f13' || conn.flowGroup === 'f14' || conn.flowGroup === 'f15' || conn.flowGroup === 'f16' || conn.flowGroup === 'f17' || conn.flowGroup === 'f18' || conn.flowGroup === 'f19' || conn.flowGroup === 'f20' || conn.flowGroup === 'f21') ? '#2563EB' : '#000000');
       ctx.lineWidth = 1.5;
       ctx.fillRect(lx - txtWidth / 2 - 8, ly - 11, txtWidth + 16, 22);
       ctx.strokeRect(lx - txtWidth / 2 - 8, ly - 11, txtWidth + 16, 22);
 
-      ctx.fillStyle = conn.color || '#000000';
+      ctx.fillStyle = conn.color || ((conn.flowGroup === 'f11' || conn.flowGroup === 'f12' || conn.flowGroup === 'f13' || conn.flowGroup === 'f14' || conn.flowGroup === 'f15' || conn.flowGroup === 'f16' || conn.flowGroup === 'f17' || conn.flowGroup === 'f18' || conn.flowGroup === 'f19' || conn.flowGroup === 'f20' || conn.flowGroup === 'f21') ? '#2563EB' : '#000000');
       ctx.textAlign = 'center';
       ctx.fillText(conn.label, lx, ly + 4);
       ctx.restore();

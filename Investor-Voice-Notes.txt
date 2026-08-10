@@ -1,0 +1,83 @@
+Investor Module or Platform
+What is Seedicon ?
+Seedicon is an investment banking advisory firm that empowers startups and businesses with fundraising, strategic advisory, and investor engagement services.
+
+What problem does it solve?
+By connecting founders with the right investors and providing end-to-end investment support, Seedicon helps businesses accelerate growth while enabling investors to discover high-potential opportunities more efficiently.
+User Types
+- Founders (Specifically those are below series funding stage)
+- Investors (Who wants to invest in startups that can make them money)
+Explore the Platform
+Landing Page → Sign Up → Select User Type (Investor) → Complete Basic Investor Onboarding → Investor Dashboard
+Features/ Pages
+Investor Module
+Dashboard: On this page, investors can view a list of startups, watch metrics, the deal pipeline, and recent inbound startups.
+Funds: Investors can add multiple funds from the sidebar and manage the fund amounts charged to them.
+Public Submission Link: Investors can share a public submission link with founders/startups. The link contains a due diligence document requirement form. Investors can customize the form by adding or removing fields according to the information they want to collect. Once submitted, the startup will be automatically added to the Startup Pool.
+All Documents: This feature works like Google Drive, allowing investors to store and access all their documents directly within the platform instead of using an external platform. Documents will have metrics such as total views, average time spent, and visualization graphs.
+Investment Thesis: Investors can create multiple investment theses defining the industries, stages, and types of startups they want to invest in. They can also upload or import an existing thesis from their local computer.
+LP Lists: Investors can manage all their LPs from a single platform, including their records and reporting, so everything remains organized and accessible in one place.
+Startup Pool: This page contains all inbound startups received through the submission link. Investors can open any startup to view its detailed profile and all the information submitted through the form. Startups can also be filtered based on the investor's requirements.
+Pipeline Startups: This works as a saved/bookmark section where investors can add interesting startups from the Startup Pool to their pipeline. Investors can organize startups into different folders based on their investment thesis or requirements.
+Data Room: This works like a VDR where investors can manage due diligence documents. Investors can create multiple VDRs with folders such as General, Financial, and Legal, and share them with founders or other stakeholders. Investors can also add notes, manage sharing, view analytics, and track activity. If a founder has shared a VDR with the investor, it can also be accessed directly from this page.
+Reporting: Investors/VCs can create and submit reports to LPs and maintain a complete record of the reports within the platform.
+Founder Reports: Investors can request reports from founders and manage all founder reporting activities from this section.
+My Team: Investors can add multiple team members and manage their access to VDRs and other platform features.
+DD Partners: Investors can add and manage due diligence partners and share VDRs with them whenever required.
+History Logs: This section records and maintains a complete history of activities and actions performed across the investor account.
+Investor Onboarding Forms (Basic Detail)
+STEP 1: IDENTITY & CREDIBILITY
+Profile Visibility:
+- Public / Private Profile Toggle
+Personal & Professional Info:
+- LinkedIn Profile URL
+- Full Name
+- Designation / Headline
+- Email Address
+- Investor Type (Angel Investor, Venture Capitalist, Micro VC, Family Office, Syndicate Lead, Corporate VC, Accelerator / Incubator)
+- Location (City, Country)
+- Phone Number
+- Bio / Profile Summary
+- Profile Avatar Photo
+- Cover Photo
+Professional Experience (Repeatable):
+- Company / Firm Name
+- Role / Designation
+- Start Date
+- End Date
+- Currently Working Here (Checkbox)
+Education (Repeatable):
+- Institution / University
+- Degree / Field of Study
+- Start Year
+- End Year
+Business Rules
+Investors must complete basic onboarding before accessing investor features.
+Investor data and documents must remain private unless explicitly shared.
+Investors can manage multiple funds, investment theses, LPs, team members, and DD partners.
+Access to sensitive data must be controlled through role-based permissions.
+Startups received through submission links must automatically enter the investor’s Startup Pool.
+Investors can customize submission requirements before sharing the public submission link.
+Startups can only be added to the pipeline by authorized investor/team members.
+VDR access must always be permission-based and revocable.
+Every shared, viewed, downloaded, edited, or deleted document should be tracked.
+Team members and DD partners can access only the resources explicitly permitted to them.
+LP and founder reports must maintain submission status, history, and records.
+All critical investor activities must be captured in History Logs for auditability.
+Deleted or revoked resources should no longer be accessible to previously authorized users.
+Investor-level data should be isolated from other investors unless explicitly shared.
+Note: These are few please think beyond and create much more important rules where required.
+Admin Portal 
+Write all things we will get in the admin part as well
+
+Prompt to Claude:
+Start the document by properly mentioning the Table of Contents. After that, add the Document Overview in a tabular format like this:
+Product Name (Seedicon) | Document Type | Version | Date | Status | Prepared By | Intended Audience
+Fill the remaining fields appropriately.
+Most of the sections can be presented in a tabular format. Use mostly neutral colors, and since blue is our primary color, use it subtly wherever needed.
+For the Features Overview, create a table with Ref, Feature, and Description. After that, create another section where each feature is explained in detail.
+For User Stories, mention them feature-wise in a table with ID, and Priority (Must Have, Should Have, Nice to Have).
+Make sure to include User Personas before the User Stories. Only 1–2 personas are enough.
+For every section that you create, think smartly about which information can be shown in a table. First provide an overview or summary in a table, and then add a detailed explanation below if needed. Make sure the tables are clean, easy to understand, and presentation-ready. Avoid using hyphens throughout the document wherever possible.
+This content is only for your reference. Structure it into a proper PRD with the correct order of sections. Think carefully about the hierarchy and flow of the document. Prioritize what should be included, how it should be written, and how it should be presented.
+Make sure the content is easy to understand and provides a smooth reading experience throughout the document.

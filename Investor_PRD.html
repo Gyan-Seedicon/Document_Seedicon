@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — Investor Module PRD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-900:#14274A;
+    --navy-800:#1B3055;
+    --navy-700:#233C68;
+    --blue-accent:#3D63B8;
+    --blue-soft:#5B7FC4;
+    --page-bg:#EEF0F3;
+    --paper:#FFFFFF;
+    --line:#E2E5EA;
+    --line-soft:#EDEFF3;
+    --text-900:#1D2433;
+    --text-700:#3A4356;
+    --text-500:#6B7482;
+    --stripe:#F7F8FA;
+    --radius:6px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--text-900);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:15.5px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Inter',sans-serif;
+    color:var(--navy-900);
+    margin:0 0 0.5em 0;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  p{margin:0 0 1em 0;color:var(--text-700);}
+  a{color:var(--blue-accent);}
+  ul{margin:0 0 1em 0;padding-left:1.25em;color:var(--text-700);}
+  li{margin-bottom:0.4em;}
+
+  /* ---------- TOP DECORATIVE STRIP + BAR ---------- */
+  .top-strip{
+    height:4px;
+    background:linear-gradient(90deg,#2C3B2E 0%, #1B3055 55%, #14274A 100%);
+  }
+  .topbar{
+    position:sticky; top:0; z-index:30;
+    background:var(--navy-900);
+    color:#EAEFF8;
+  }
+  .topbar-inner{
+    max-width:1080px; margin:0 auto; padding:16px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+    font-size:13.5px;
+  }
+  .topbar-left{font-weight:700; letter-spacing:0.01em;}
+  .topbar-left .sep{color:#7C8CB8; font-weight:400; margin:0 6px;}
+  .topbar-left .doc-name{font-weight:400; color:#C7D1E8;}
+  .topbar-right{color:#B9C6E6; font-weight:500;}
+
+  /* ---------- PAPER WRAPPER ---------- */
+  .paper{
+    max-width:1080px; margin:0 auto;
+    background:var(--paper);
+    box-shadow:0 1px 2px rgba(15,23,42,0.04), 0 1px 0 rgba(15,23,42,0.02);
+  }
+  .inner{max-width:920px; margin:0 auto; padding:0 40px;}
+
+  /* ---------- COVER ---------- */
+  .cover{padding:96px 0 64px 0; text-align:center;}
+  .cover-title{
+    font-size:52px; font-weight:800; letter-spacing:0.01em; color:var(--navy-900); margin-bottom:14px;
+  }
+  .cover-module{font-size:26px; font-weight:700; color:var(--blue-accent); margin-bottom:14px;}
+  .cover-doctype{font-size:16px; color:var(--text-500); font-weight:500; margin-bottom:36px;}
+  .cover-rule{width:64px; height:2px; background:var(--line); margin:0 auto 36px auto;}
+  .cover-meta-line{font-size:15px; color:var(--text-700); margin-bottom:6px;}
+  .cover-meta-line strong{color:var(--navy-900); font-weight:600;}
+  .cover-status{font-size:14.5px; color:var(--text-500); font-style:italic; margin-top:4px;}
+
+  /* ---------- SECTION STRUCTURE ---------- */
+  section{padding:52px 0; border-top:1px solid var(--line-soft);}
+  .sec-head{margin-bottom:26px; padding-bottom:14px; border-bottom:2px solid var(--navy-900);}
+  .sec-head h2{font-size:24px; margin:0;}
+  .sec-head h2 .num{color:var(--blue-accent); margin-right:8px;}
+  h3.subsection{font-size:17px; color:var(--blue-accent); font-weight:700; margin:32px 0 6px 0;}
+  h3.subsection:first-of-type{margin-top:8px;}
+  h4.subhead{
+    font-size:14px; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-500); font-weight:700;
+    margin:28px 0 4px 0;
+  }
+  h4.subhead:first-of-type{margin-top:4px;}
+  .lede{font-size:16px; color:var(--text-700); max-width:760px;}
+
+  /* ---------- TABLE OF CONTENTS ---------- */
+  .toc-list{list-style:none; margin:0; padding:0;}
+  .toc-list a{
+    display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--navy-900);
+    padding:12px 2px; border-bottom:1px solid var(--line-soft);
+  }
+  .toc-list a:hover{color:var(--blue-accent);}
+  .toc-title{font-weight:700; font-size:15.5px; flex-shrink:0;}
+  .toc-fill{flex:1; border-bottom:1px dotted #C7CCD6; position:relative; top:-4px;}
+  .toc-page{font-size:14px; color:var(--navy-900); font-weight:700; min-width:20px; text-align:right;}
+
+  /* ---------- TABLES ---------- */
+  .table-wrap{overflow-x:auto; margin:16px 0 26px 0; border:1px solid var(--line);}
+  table{width:100%; border-collapse:collapse; font-size:14.3px;}
+  thead th{
+    background:var(--navy-900); color:#FFFFFF; text-align:left; font-weight:700;
+    padding:12px 16px; white-space:nowrap; font-size:13.5px;
+  }
+  tbody td{padding:12px 16px; border-bottom:1px solid var(--line-soft); color:var(--text-700); vertical-align:top;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:nth-child(even){background:var(--stripe);}
+  td.ref{color:var(--navy-900); font-weight:700; white-space:nowrap;}
+  td.strong{color:var(--navy-900); font-weight:700;}
+  .kv-table td:first-child{width:230px; font-weight:700; color:var(--navy-900);}
+
+  /* ---------- BADGES ---------- */
+  .badge{
+    display:inline-block; padding:4px 12px; border-radius:100px; font-size:12px; font-weight:700;
+    white-space:nowrap;
+  }
+  .badge-must{background:var(--navy-900); color:#fff;}
+  .badge-should{background:#E4EAF7; color:var(--navy-900); border:1px solid #CBD8EF;}
+  .badge-nice{background:#F1F2F4; color:var(--text-500); border:1px solid var(--line);}
+
+  /* ---------- USER TYPES / PLATFORM NOTE ---------- */
+  .note{
+    background:var(--stripe); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px 20px; font-size:14px; color:var(--text-700); margin:20px 0; font-style:italic;
+  }
+
+  /* ---------- FLOW ---------- */
+  .flow-row{display:flex; align-items:stretch; gap:0; flex-wrap:wrap; margin:24px 0 8px 0;}
+  .flow-step{
+    flex:1; min-width:150px; background:var(--stripe); border:1px solid var(--line);
+    padding:18px 16px; text-align:center;
+  }
+  .flow-step .fn{
+    width:26px; height:26px; border-radius:50%; background:var(--navy-900); color:#fff;
+    font-size:12px; display:flex; align-items:center; justify-content:center; margin:0 auto 10px auto; font-weight:700;
+  }
+  .flow-step .ft{font-size:13.5px; font-weight:700; color:var(--navy-900);}
+  .flow-arrow{display:flex; align-items:center; justify-content:center; width:34px; color:var(--text-500); font-size:18px; flex-shrink:0;}
+  @media (max-width:720px){ .flow-arrow{width:100%; transform:rotate(90deg); padding:4px 0;} }
+
+  /* ---------- FEATURE DETAILS ---------- */
+  .feature-block{
+    display:grid; grid-template-columns:52px 1fr; gap:16px; padding:22px 0; border-bottom:1px solid var(--line-soft);
+  }
+  .feature-block:last-child{border-bottom:none;}
+  .feature-badge{
+    width:40px; height:40px; background:var(--navy-900); color:#fff; font-weight:700; font-size:12.5px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .feature-block h4{font-size:17px; margin-bottom:6px; color:var(--navy-900);}
+  .feature-block p{margin-bottom:10px;}
+  .feature-block ul{margin-bottom:0; font-size:14.3px;}
+
+  footer{
+    background:var(--navy-900); color:#B9C6E6; text-align:center; padding:30px 20px; font-size:12.5px;
+  }
+  footer span{color:#fff; font-weight:600;}
+
+  @media (max-width:720px){
+    .cover-title{font-size:36px;}
+    .inner{padding:0 20px;}
+    .feature-block{grid-template-columns:40px 1fr;}
+  }
+  @media print{
+    .topbar,.top-strip{display:none;}
+    section{page-break-inside:avoid; padding:24px 0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="top-strip"></div>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">SEEDICON<span class="sep">·</span><span class="doc-name">Investor Module PRD</span></div>
+    <div class="topbar-right">v1.0 · Aug 7, 2026</div>
+  </div>
+</div>
+
+<div class="paper">
+  <div class="inner">
+
+    <!-- ================= COVER ================= -->
+    <div class="cover">
+      <div class="cover-title">SEEDICON</div>
+      <div class="cover-module">Investor Module</div>
+      <div class="cover-doctype">Product Requirements Document</div>
+      <div class="cover-rule"></div>
+      <div class="cover-meta-line"><strong>Version</strong> 1.0</div>
+      <div class="cover-meta-line"><strong>Date</strong> August 7, 2026</div>
+      <div class="cover-status">Status: Draft for Review</div>
+    </div>
+
+    <!-- ================= TABLE OF CONTENTS ================= -->
+    <section id="toc" style="border-top:1px solid var(--line);">
+      <div class="sec-head"><h2>Table of Contents</h2></div>
+      <ul class="toc-list">
+        <li><a href="#sec-01"><span class="toc-title">1. Document Overview</span><span class="toc-fill"></span><span class="toc-page">01</span></a></li>
+        <li><a href="#sec-02"><span class="toc-title">2. Introduction</span><span class="toc-fill"></span><span class="toc-page">02</span></a></li>
+        <li><a href="#sec-03"><span class="toc-title">3. Product Overview</span><span class="toc-fill"></span><span class="toc-page">02</span></a></li>
+        <li><a href="#sec-04"><span class="toc-title">4. User Types</span><span class="toc-fill"></span><span class="toc-page">03</span></a></li>
+        <li><a href="#sec-05"><span class="toc-title">5. User Personas</span><span class="toc-fill"></span><span class="toc-page">03</span></a></li>
+        <li><a href="#sec-06"><span class="toc-title">6. Core User Flow</span><span class="toc-fill"></span><span class="toc-page">04</span></a></li>
+        <li><a href="#sec-07"><span class="toc-title">7. Features Overview</span><span class="toc-fill"></span><span class="toc-page">05</span></a></li>
+        <li><a href="#sec-08"><span class="toc-title">8. Feature Details</span><span class="toc-fill"></span><span class="toc-page">06</span></a></li>
+        <li><a href="#sec-09"><span class="toc-title">9. Investor Onboarding Requirements</span><span class="toc-fill"></span><span class="toc-page">09</span></a></li>
+        <li><a href="#sec-10"><span class="toc-title">10. User Stories</span><span class="toc-fill"></span><span class="toc-page">10</span></a></li>
+        <li><a href="#sec-11"><span class="toc-title">11. Business Rules</span><span class="toc-fill"></span><span class="toc-page">13</span></a></li>
+        <li><a href="#sec-12"><span class="toc-title">12. Admin Portal</span><span class="toc-fill"></span><span class="toc-page">14</span></a></li>
+        <li><a href="#sec-13"><span class="toc-title">13. Appendix</span><span class="toc-fill"></span><span class="toc-page">14</span></a></li>
+      </ul>
+    </section>
+
+    <!-- ================= 01 DOCUMENT OVERVIEW ================= -->
+    <section id="sec-01">
+      <div class="sec-head"><h2><span class="num">1.</span>Document Overview</h2></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Product Name</th><th>Document Type</th><th>Version</th><th>Date</th><th>Status</th><th>Prepared By</th><th>Intended Audience</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="strong">Seedicon</td>
+              <td>Product Requirements Document (PRD)</td>
+              <td>1.0</td>
+              <td>August 7, 2026</td>
+              <td>Draft for Review</td>
+              <td>Product Management Team</td>
+              <td>Product, Engineering, Design, QA, and Business Stakeholders</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h4 class="subhead">Revision History</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Version</th><th>Date</th><th>Description</th><th>Author</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">1.0</td><td>August 7, 2026</td><td>Initial draft of the Investor Module PRD, covering onboarding, core features, user stories, business rules, and admin oversight.</td><td>Product Management Team</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= 02 INTRODUCTION ================= -->
+    <section id="sec-02">
+      <div class="sec-head"><h2><span class="num">2.</span>Introduction</h2></div>
+      <p class="lede">This document defines the purpose, scope, and requirements of the Investor Module on Seedicon. It is intended to guide product, design, and engineering teams through a shared understanding of what needs to be built and why.</p>
+      <div class="table-wrap">
+        <table class="kv-table">
+          <tbody>
+            <tr><td>Purpose</td><td>To describe the investor facing experience on Seedicon in enough detail that design, engineering, and QA teams can plan, build, and validate the module with a shared understanding.</td></tr>
+            <tr><td>Scope</td><td>Investor onboarding, dashboard, funds, public submission links, document storage, investment thesis, LP lists, startup pool, pipeline, data room, reporting, founder reports, team management, DD partners, history logs, and the related admin oversight modules.</td></tr>
+            <tr><td>Out of Scope</td><td>Founder side workflows beyond what is required for interaction with investors, billing and payment processing, and platform wide mobile application specifications. These are expected to be addressed in separate documents.</td></tr>
+            <tr><td>Assumptions</td><td>Investors have completed account creation and email verification before reaching the onboarding flow described in this document. Team and permission structures build on a shared role based access model used across the platform.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= 03 PRODUCT OVERVIEW ================= -->
+    <section id="sec-03">
+      <div class="sec-head"><h2><span class="num">3.</span>Product Overview</h2></div>
+      <p class="lede">Seedicon is an investment banking advisory platform that helps startups raise capital and helps investors discover and manage promising opportunities, all within one connected system.</p>
+      <p>Founders below the Series funding stage often struggle to reach the right investors, while investors spend significant time sourcing, evaluating, and managing deals across disconnected tools such as email, spreadsheets, and generic file storage. Seedicon addresses both sides of this gap by connecting founders with relevant investors and giving investors a purpose built workspace to manage the full investing lifecycle, from first contact through due diligence and ongoing reporting.</p>
+      <div class="table-wrap">
+        <table class="kv-table">
+          <tbody>
+            <tr><td>Platform Type</td><td>Investment banking advisory and deal management platform</td></tr>
+            <tr><td>Primary Value Proposition</td><td>Connects founders with the right investors and gives investors a single workspace to source, evaluate, and manage deals</td></tr>
+            <tr><td>Core Problem Solved</td><td>Fragmented, manual investor discovery and deal management that slows down both fundraising and investing</td></tr>
+            <tr><td>Module Covered in this Document</td><td>Investor Module, including the related sections of the Admin Portal</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= 04 USER TYPES ================= -->
+    <section id="sec-04">
+      <div class="sec-head"><h2><span class="num">4.</span>User Types</h2></div>
+      <p class="lede">Seedicon supports two primary user types at the platform level, though this document focuses on the Investor experience.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>User Type</th><th>Definition</th><th>Primary Goal on Platform</th></tr></thead>
+          <tbody>
+            <tr><td class="strong">Founders</td><td>Early stage founders, specifically those below the Series funding stage, building a startup.</td><td>Get discovered, raise funds, and become investment ready.</td></tr>
+            <tr><td class="strong">Investors</td><td>Individuals or firms looking to invest in startups that can generate strong returns, including Angel Investors, VCs, Micro VCs, Family Offices, Syndicate Leads, Corporate VCs, and Accelerators or Incubators.</td><td>Discover, evaluate, and manage high potential startups efficiently.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">Note: Founder side features are governed by a separate module and are referenced here only where they intersect with investor flows, for example the public submission link and its intake form.</div>
+    </section>
+
+    <!-- ================= 05 USER PERSONAS ================= -->
+    <section id="sec-05">
+      <div class="sec-head"><h2><span class="num">5.</span>User Personas</h2></div>
+      <p class="lede">Two representative investor personas are used throughout this document to ground feature decisions in real user intent.</p>
+
+      <h3 class="subsection">5.1 Persona One: The Independent Investor</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribute</th><th>Detail</th></tr></thead>
+          <tbody>
+            <tr><td>Name</td><td>Meera Iyer (representative persona)</td></tr>
+            <tr><td>Role</td><td>Independent Angel Investor, Bengaluru</td></tr>
+            <tr><td>Background</td><td>Former operator who now invests her own capital across five to eight early stage deals a year, working without a dedicated team.</td></tr>
+            <tr><td>Goals</td><td>Find credible startups quickly, keep due diligence organized, and avoid juggling email, spreadsheets, and cloud storage separately.</td></tr>
+            <tr><td>Frustrations</td><td>Inbound deal flow is inconsistent and unstructured, and tracking which startups she has reviewed is manual and easy to lose track of.</td></tr>
+            <tr><td>Key Needs</td><td>A simple submission link, an organized startup pool, and a lightweight pipeline to track interesting companies.</td></tr>
+            <tr><td>Primary Features Used</td><td>Public Submission Link, Startup Pool, Pipeline Startups, All Documents</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="subsection">5.2 Persona Two: The Team Based Investor</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribute</th><th>Detail</th></tr></thead>
+          <tbody>
+            <tr><td>Name</td><td>Arjun Rao (representative persona)</td></tr>
+            <tr><td>Role</td><td>Investment Associate, Micro VC Fund</td></tr>
+            <tr><td>Background</td><td>Works within a three person investment team managing two active funds, and reports regularly to a set of Limited Partners.</td></tr>
+            <tr><td>Goals</td><td>Keep the whole team aligned on pipeline status, run structured due diligence, and deliver timely, consistent LP reporting.</td></tr>
+            <tr><td>Frustrations</td><td>Sensitive due diligence documents get shared over email with no visibility into who viewed what, and LP reports are assembled manually each cycle.</td></tr>
+            <tr><td>Key Needs</td><td>Secure, permissioned data rooms, team level access controls, and a reliable way to track and submit LP reports.</td></tr>
+            <tr><td>Primary Features Used</td><td>Data Room, My Team, LP Lists, Reporting, Investment Thesis</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= 06 CORE USER FLOW ================= -->
+    <section id="sec-06">
+      <div class="sec-head"><h2><span class="num">6.</span>Core User Flow</h2></div>
+      <p class="lede">The path an investor follows from first arriving on Seedicon to reaching their fully set up dashboard.</p>
+      <div class="flow-row">
+        <div class="flow-step"><div class="fn">1</div><div class="ft">Landing Page</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="fn">2</div><div class="ft">Sign Up</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="fn">3</div><div class="ft">Select User Type<br>(Investor)</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="fn">4</div><div class="ft">Complete Basic<br>Investor Onboarding</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="fn">5</div><div class="ft">Investor Dashboard</div></div>
+      </div>
+      <h4 class="subhead">Flow Breakdown</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Step</th><th>Action</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">Step 1</td><td class="strong">Landing Page</td><td>Visitor arrives on Seedicon and reviews the platform proposition before signing up.</td></tr>
+            <tr><td class="ref">Step 2</td><td class="strong">Sign Up</td><td>Visitor creates an account using their email or a supported identity provider.</td></tr>
+            <tr><td class="ref">Step 3</td><td class="strong">Select User Type</td><td>User selects Investor as their account type, directing them into the investor onboarding path.</td></tr>
+            <tr><td class="ref">Step 4</td><td class="strong">Complete Onboarding</td><td>User fills in identity and credibility details described in Section 9, which are required before accessing investor features.</td></tr>
+            <tr><td class="ref">Step 5</td><td class="strong">Investor Dashboard</td><td>User lands on the Investor Dashboard, the home base for all subsequent activity on the platform.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= 07 FEATURES OVERVIEW ================= -->
+    <section id="sec-07">
+      <div class="sec-head"><h2><span class="num">7.</span>Features Overview</h2></div>
+      <p class="lede">Fourteen features make up the Investor Module. Each is summarized below and expanded in full detail in Section 8.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Ref</th><th>Feature</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">F01</td><td class="strong">Dashboard</td><td>Consolidated view of tracked startups, key metrics, pipeline summary, and recent inbound activity.</td></tr>
+            <tr><td class="ref">F02</td><td class="strong">Funds</td><td>Add and manage multiple funds, including amounts allocated or charged to each.</td></tr>
+            <tr><td class="ref">F03</td><td class="strong">Public Submission Link</td><td>Shareable link with a customizable intake form that routes new startups into the Startup Pool.</td></tr>
+            <tr><td class="ref">F04</td><td class="strong">All Documents</td><td>Private document library with engagement analytics, replacing the need for external storage tools.</td></tr>
+            <tr><td class="ref">F05</td><td class="strong">Investment Thesis</td><td>Define and manage multiple investment theses, or import an existing one.</td></tr>
+            <tr><td class="ref">F06</td><td class="strong">LP Lists</td><td>Centralized records and reporting history for all Limited Partners.</td></tr>
+            <tr><td class="ref">F07</td><td class="strong">Startup Pool</td><td>All inbound startups, with detailed profiles and filtering based on investor requirements.</td></tr>
+            <tr><td class="ref">F08</td><td class="strong">Pipeline Startups</td><td>Saved startups organized into folders for ongoing evaluation.</td></tr>
+            <tr><td class="ref">F09</td><td class="strong">Data Room</td><td>Virtual Data Rooms for secure due diligence document sharing, notes, and activity tracking.</td></tr>
+            <tr><td class="ref">F10</td><td class="strong">Reporting</td><td>Create and submit performance reports to LPs, with a full submission record.</td></tr>
+            <tr><td class="ref">F11</td><td class="strong">Founder Reports</td><td>Request and manage performance reports from portfolio founders.</td></tr>
+            <tr><td class="ref">F12</td><td class="strong">My Team</td><td>Add team members and manage their access to VDRs and platform features.</td></tr>
+            <tr><td class="ref">F13</td><td class="strong">DD Partners</td><td>Add external due diligence partners and share relevant VDRs with them.</td></tr>
+            <tr><td class="ref">F14</td><td class="strong">History Logs</td><td>Complete, auditable record of activity across the investor account.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= 08 FEATURE DETAILS ================= -->
+    <section id="sec-08">
+      <div class="sec-head"><h2><span class="num">8.</span>Feature Details</h2></div>
+      <p class="lede">Full description and key capabilities for each feature listed in Section 7.</p>
+
+      <div class="feature-block">
+        <div class="feature-badge">F01</div>
+        <div>
+          <h4>Dashboard</h4>
+          <p>The Dashboard is the investor's home base within Seedicon, presenting a consolidated view of activity across the platform as soon as they sign in. It brings together startup visibility, pipeline health, and recent inbound activity so investors do not need to navigate multiple sections to stay informed.</p>
+          <ul>
+            <li>Snapshot list of tracked startups with core details</li>
+            <li>Key metrics such as startups reviewed, active pipeline count, and documents shared</li>
+            <li>Deal pipeline summary broken down by stage</li>
+            <li>Recent inbound startups received through the public submission link</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-block">
+        <div class="feature-badge">F02</div>
+        <div>
+          <h4>Funds</h4>
+          <p>The Funds section allows investors, particularly those managing capital across multiple vehicles, to organize their investing activity by fund. Each fund can be added from the sidebar and tracked independently.</p>
+          <ul>
+            <li>Add and label multiple funds</li>
+            <li>Track amounts allocated or charged to each fund</li>
+            <li>Associate pipeline startups and reports with a specific fund</li>
+            <li>View fund level summaries alongside the overall dashboard</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-block">
+        <div class="feature-badge">F03</div>
+        <div>
+          <h4>Public Submission Link</h4>
+          <p>The Public Submission Link gives investors a simple way to source startups without manual coordination. Investors generate a shareable link that opens a due diligence intake form, which they can tailor to the exact information they want to collect.</p>
+          <ul>
+            <li>Generate a unique public link per investor or fund</li>
+            <li>Add or remove fields on the intake form</li>
+            <li>Automatic routing of completed submissions into the Startup Pool</li>
+            <li>Track submission volume over time</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-block">
+        <div class="feature-badge">F04</div>
+        <div>
+          <h4>All Documents</h4>
+          <p>All Documents functions as the investor's private document library within Seedicon, removing the need for a separate storage tool. Beyond storage, it surfaces how recipients engage with shared files.</p>
+          <ul>
+            <li>Upload, organize, and retrieve documents in folders</li>
+            <li>Track total views and average time spent per document</li>
+            <li>Visual engagement graphs for shared materials</li>
+            <li>Centralized access across the investor account</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-block">
+        <div class="feature-badge">F05</div>
+        <div>
+          <h4>Investment Thesis</h4>
+          <p>Investment Thesis lets investors formalize what they are looking for, defining target industries, stages, and startup types. Multiple theses can be maintained to reflect different funds or strategies, and existing thesis documents can be imported directly.</p>
+          <ul>
+            <li>Create multiple theses with defined criteria</li>
+            <li>Import an existing thesis file from a local device</li>
+            <li>Use thesis criteria to guide filtering in the Startup Pool</li>
+            <li>Edit or archive theses as strategy evolves</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-block">
+        <div class="feature-badge">F06</div>
+        <div>
+          <h4>LP Lists</h4>
+          <p>LP Lists centralizes everything related to an investor's Limited Partners, keeping records and reporting history in a single organized place rather than spread across spreadsheets and email threads.</p>
+          <ul>
+            <li>Maintain LP contact and commitment records</li>
+            <li>Link LPs to relevant funds</li>
+            <li>Track report history sent to each LP</li>
+            <li>Keep LP information private and isolated by default</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-block">
+        <div class="feature-badge">F07</div>
+        <div>
+          <h4>Startup Pool</h4>
+          <p>The Startup Pool is the landing area for every inbound startup received through an investor's submission link. From here, investors can review full startup profiles and filter the pool to focus on the opportunities that match their criteria.</p>
+          <ul>
+            <li>View all inbound startups in a single list</li>
+            <li>Open a detailed profile for each startup, showing submitted form responses</li>
+            <li>Filter startups by industry, stage, or custom criteria</li>
+            <li>Move a startup into the pipeline directly from the pool</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-block">
+        <div class="feature-badge">F08</div>
+        <div>
+          <h4>Pipeline Startups</h4>
+          <p>Pipeline Startups works as a save or bookmark space where investors track opportunities they want to pursue further. Startups can be grouped into folders that reflect a thesis, a fund, or a stage of evaluation.</p>
+          <ul>
+            <li>Add startups from the pool into the pipeline</li>
+            <li>Create custom folders for organization</li>
+            <li>Move startups between folders as evaluation progresses</li>
+            <li>Restrict pipeline additions to authorized investor or team members</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-block">
+        <div class="feature-badge">F09</div>
+        <div>
+          <h4>Data Room</h4>
+          <p>The Data Room functions as a Virtual Data Room, giving investors a secure space to manage due diligence documents for each deal. Investors can structure a VDR into folders such as General, Financial, and Legal, and share it with founders or other stakeholders under controlled permissions. Where a founder has already shared their own VDR with the investor, it also appears here.</p>
+          <ul>
+            <li>Create multiple VDRs, one per deal or relationship</li>
+            <li>Organize documents into General, Financial, and Legal folders</li>
+            <li>Add notes and manage sharing permissions per recipient</li>
+            <li>View analytics and an activity log for every VDR</li>
+            <li>Access VDRs shared by founders</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-block">
+        <div class="feature-badge">F10</div>
+        <div>
+          <h4>Reporting</h4>
+          <p>Reporting supports investors and VCs in preparing and submitting performance updates to their LPs, with a complete history of what was sent and when, maintained inside the platform for future reference.</p>
+          <ul>
+            <li>Build and submit performance reports to LPs</li>
+            <li>Maintain a record of past reports and submission dates</li>
+            <li>Track report status such as draft, submitted, or acknowledged</li>
+            <li>Reuse report templates across reporting cycles</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-block">
+        <div class="feature-badge">F11</div>
+        <div>
+          <h4>Founder Reports</h4>
+          <p>Founder Reports lets investors request periodic updates from the founders in their portfolio and manage the full lifecycle of those requests from one place.</p>
+          <ul>
+            <li>Send report requests to individual founders</li>
+            <li>Track which requests are pending, submitted, or overdue</li>
+            <li>Store received founder reports alongside other documents</li>
+            <li>Set recurring reporting schedules where needed</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-block">
+        <div class="feature-badge">F12</div>
+        <div>
+          <h4>My Team</h4>
+          <p>My Team allows investors to bring colleagues onto the platform and control what each person can see and do, particularly around access to VDRs and other sensitive features.</p>
+          <ul>
+            <li>Invite and manage team members</li>
+            <li>Assign permissions at a feature and VDR level</li>
+            <li>Adjust or remove access as team roles change</li>
+            <li>Review team activity through History Logs</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-block">
+        <div class="feature-badge">F13</div>
+        <div>
+          <h4>DD Partners</h4>
+          <p>DD Partners covers external due diligence collaborators, such as legal or financial advisors, whom investors can add and grant access to specific VDRs whenever a deal requires outside review.</p>
+          <ul>
+            <li>Add and manage due diligence partner profiles</li>
+            <li>Share selected VDRs with a partner without exposing unrelated data</li>
+            <li>Revoke partner access once due diligence concludes</li>
+            <li>Track partner activity within shared VDRs</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-block">
+        <div class="feature-badge">F14</div>
+        <div>
+          <h4>History Logs</h4>
+          <p>History Logs provides a complete, auditable record of activity across the investor account, supporting transparency, accountability, and troubleshooting.</p>
+          <ul>
+            <li>Record all critical actions taken across the account</li>
+            <li>Capture document level activity such as views, shares, downloads, and deletions</li>
+            <li>Filter logs by date, action type, or team member</li>
+            <li>Retain history for audit purposes, even after resources are revoked or deleted</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 09 ONBOARDING ================= -->
+    <section id="sec-09">
+      <div class="sec-head"><h2><span class="num">9.</span>Investor Onboarding Requirements</h2></div>
+      <p class="lede">Investors must complete this onboarding flow, covering identity and credibility details, before they can access any investor feature described in Section 8.</p>
+
+      <h4 class="subhead">Profile Visibility</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td class="strong">Profile Visibility</td><td>Toggle (Public / Private)</td><td>Controls whether the investor profile is discoverable by founders and other platform users.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">Personal &amp; Professional Info</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="strong">LinkedIn Profile URL</td><td>URL</td><td>Optional</td><td>Supports identity verification during admin review.</td></tr>
+            <tr><td class="strong">Full Name</td><td>Text</td><td>Required</td><td>&mdash;</td></tr>
+            <tr><td class="strong">Designation / Headline</td><td>Text</td><td>Required</td><td>For example, "Partner" or "Angel Investor".</td></tr>
+            <tr><td class="strong">Email Address</td><td>Email</td><td>Required</td><td>Used for login and notifications.</td></tr>
+            <tr><td class="strong">Investor Type</td><td>Single select</td><td>Required</td><td>Angel Investor, Venture Capitalist, Micro VC, Family Office, Syndicate Lead, Corporate VC, or Accelerator / Incubator.</td></tr>
+            <tr><td class="strong">Location</td><td>Text (City, Country)</td><td>Required</td><td>&mdash;</td></tr>
+            <tr><td class="strong">Phone Number</td><td>Phone</td><td>Optional</td><td>&mdash;</td></tr>
+            <tr><td class="strong">Bio / Profile Summary</td><td>Long text</td><td>Optional</td><td>Displayed on the public profile when visibility is set to Public.</td></tr>
+            <tr><td class="strong">Profile Avatar Photo</td><td>Image upload</td><td>Optional</td><td>&mdash;</td></tr>
+            <tr><td class="strong">Cover Photo</td><td>Image upload</td><td>Optional</td><td>&mdash;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">Professional Experience (Repeatable)</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="strong">Company / Firm Name</td><td>Text</td><td>&mdash;</td></tr>
+            <tr><td class="strong">Role / Designation</td><td>Text</td><td>&mdash;</td></tr>
+            <tr><td class="strong">Start Date</td><td>Date</td><td>&mdash;</td></tr>
+            <tr><td class="strong">End Date</td><td>Date</td><td>Not required when "Currently Working Here" is selected.</td></tr>
+            <tr><td class="strong">Currently Working Here</td><td>Checkbox</td><td>When checked, disables the End Date field.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">Education (Repeatable)</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="strong">Institution / University</td><td>Text</td><td>&mdash;</td></tr>
+            <tr><td class="strong">Degree / Field of Study</td><td>Text</td><td>&mdash;</td></tr>
+            <tr><td class="strong">Start Year</td><td>Year</td><td>&mdash;</td></tr>
+            <tr><td class="strong">End Year</td><td>Year</td><td>&mdash;</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">Note: Investors can add multiple Professional Experience and Education entries. Completion of this onboarding step is required before an investor is granted access to any feature described in Section 8.</div>
+    </section>
+
+    <!-- ================= 10 USER STORIES ================= -->
+    <section id="sec-10">
+      <div class="sec-head"><h2><span class="num">10.</span>User Stories</h2></div>
+      <p class="lede">User stories are grouped by feature. Priority follows the MoSCoW scale: Must Have, Should Have, and Nice to Have.</p>
+
+      <h4 class="subhead">F01 · Dashboard</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>User Story</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">US-001</td><td>As an investor, I want to view a summary of key startup metrics on my dashboard so that I can quickly assess pipeline health.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-002</td><td>As an investor, I want to see a summary of my deal pipeline stages so that I can track progress at a glance.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-003</td><td>As an investor, I want to view recently received inbound startups on my dashboard so that I do not miss new opportunities.</td><td><span class="badge badge-should">Should Have</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">F02 · Funds</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>User Story</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">US-004</td><td>As an investor, I want to add multiple funds so that I can manage investments across different vehicles.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-005</td><td>As an investor, I want to track the amount charged to each fund so that I can monitor fund utilization.</td><td><span class="badge badge-should">Should Have</span></td></tr>
+            <tr><td class="ref">US-006</td><td>As an investor, I want to switch between funds so that I can view fund specific data separately.</td><td><span class="badge badge-nice">Nice to Have</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">F03 · Public Submission Link</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>User Story</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">US-007</td><td>As an investor, I want to generate a public submission link so that founders can submit their startup details directly.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-008</td><td>As an investor, I want to customize the fields in the submission form so that I collect only the information relevant to me.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-009</td><td>As an investor, I want submitted startups to automatically enter my Startup Pool so that I do not need to add them manually.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">F04 · All Documents</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>User Story</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">US-010</td><td>As an investor, I want to upload and organize documents within the platform so that I do not rely on external storage tools.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-011</td><td>As an investor, I want to view engagement metrics such as views and time spent on shared documents so that I understand recipient interest.</td><td><span class="badge badge-should">Should Have</span></td></tr>
+            <tr><td class="ref">US-012</td><td>As an investor, I want to view visual analytics of document engagement so that I can identify materials that generate the most interest.</td><td><span class="badge badge-nice">Nice to Have</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">F05 · Investment Thesis</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>User Story</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">US-013</td><td>As an investor, I want to create multiple investment theses so that I can define distinct investment strategies.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-014</td><td>As an investor, I want to import an existing thesis document so that I do not have to recreate it manually.</td><td><span class="badge badge-should">Should Have</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">F06 · LP Lists</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>User Story</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">US-015</td><td>As an investor, I want to maintain a list of my Limited Partners so that I can manage LP records centrally.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-016</td><td>As an investor, I want to track LP reporting history so that I stay organized for compliance and communication.</td><td><span class="badge badge-should">Should Have</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">F07 · Startup Pool</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>User Story</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">US-017</td><td>As an investor, I want to view all inbound startups in one place so that I can evaluate new opportunities easily.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-018</td><td>As an investor, I want to open a startup's detailed profile so that I can review the information it submitted.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-019</td><td>As an investor, I want to filter startups based on my requirements so that I can focus on the most relevant opportunities.</td><td><span class="badge badge-should">Should Have</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">F08 · Pipeline Startups</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>User Story</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">US-020</td><td>As an investor, I want to add startups from the pool to my pipeline so that I can track the ones I am interested in.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-021</td><td>As an investor, I want to organize pipeline startups into folders so that I can categorize them by thesis or stage.</td><td><span class="badge badge-should">Should Have</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">F09 · Data Room</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>User Story</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">US-022</td><td>As an investor, I want to create multiple VDRs so that I can organize due diligence materials by deal.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-023</td><td>As an investor, I want to structure VDRs into folders such as General, Financial, and Legal so that documents remain organized.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-024</td><td>As an investor, I want to control and revoke sharing access so that sensitive documents remain secure.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-025</td><td>As an investor, I want to view VDR activity analytics so that I can track who accessed which document and when.</td><td><span class="badge badge-should">Should Have</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">F10 · Reporting</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>User Story</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">US-026</td><td>As an investor, I want to create performance reports for my LPs so that I can keep them informed.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-027</td><td>As an investor, I want to maintain a record of submitted LP reports so that I have an auditable history.</td><td><span class="badge badge-should">Should Have</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">F11 · Founder Reports</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>User Story</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">US-028</td><td>As an investor, I want to request reports from founders so that I can monitor portfolio company performance.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-029</td><td>As an investor, I want to track the status of requested founder reports so that I know which ones are still pending.</td><td><span class="badge badge-should">Should Have</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">F12 · My Team</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>User Story</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">US-030</td><td>As an investor, I want to add team members to my account so that we can collaborate on deal evaluation.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-031</td><td>As an investor, I want to control team member access to VDRs and other features so that sensitive data stays protected.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">F13 · DD Partners</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>User Story</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">US-032</td><td>As an investor, I want to add due diligence partners so that I can involve external experts in evaluation.</td><td><span class="badge badge-should">Should Have</span></td></tr>
+            <tr><td class="ref">US-033</td><td>As an investor, I want to share specific VDRs with DD partners so that they can review only the materials relevant to them.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">F14 · History Logs</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>User Story</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">US-034</td><td>As an investor, I want to view a complete history of account activity so that I can maintain auditability.</td><td><span class="badge badge-must">Must Have</span></td></tr>
+            <tr><td class="ref">US-035</td><td>As an investor, I want to filter history logs by action type or date so that I can investigate specific events.</td><td><span class="badge badge-nice">Nice to Have</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= 11 BUSINESS RULES ================= -->
+    <section id="sec-11">
+      <div class="sec-head"><h2><span class="num">11.</span>Business Rules</h2></div>
+      <p class="lede">Rules that govern how the Investor Module behaves, independent of any single feature.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Ref</th><th>Business Rule</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">BR01</td><td>Investors must complete basic onboarding before accessing investor features.</td></tr>
+            <tr><td class="ref">BR02</td><td>Investor data and documents must remain private unless explicitly shared.</td></tr>
+            <tr><td class="ref">BR03</td><td>Investors can manage multiple funds, investment theses, LPs, team members, and DD partners.</td></tr>
+            <tr><td class="ref">BR04</td><td>Access to sensitive data must be controlled through role based permissions.</td></tr>
+            <tr><td class="ref">BR05</td><td>Startups received through submission links must automatically enter the investor's Startup Pool.</td></tr>
+            <tr><td class="ref">BR06</td><td>Investors can customize submission requirements before sharing the public submission link.</td></tr>
+            <tr><td class="ref">BR07</td><td>Startups can only be added to the pipeline by authorized investor or team members.</td></tr>
+            <tr><td class="ref">BR08</td><td>VDR access must always be permission based and revocable.</td></tr>
+            <tr><td class="ref">BR09</td><td>Every document that is shared, viewed, downloaded, edited, or deleted must be tracked.</td></tr>
+            <tr><td class="ref">BR10</td><td>Team members and DD partners can access only the resources explicitly permitted to them.</td></tr>
+            <tr><td class="ref">BR11</td><td>LP and founder reports must maintain submission status, history, and records.</td></tr>
+            <tr><td class="ref">BR12</td><td>All critical investor activities must be captured in History Logs for auditability.</td></tr>
+            <tr><td class="ref">BR13</td><td>Deleted or revoked resources should no longer be accessible to previously authorized users.</td></tr>
+            <tr><td class="ref">BR14</td><td>Investor level data should be isolated from other investors unless explicitly shared.</td></tr>
+            <tr><td class="ref">BR15</td><td>Investors must be verified by the admin team before their public submission link can be activated and shared.</td></tr>
+            <tr><td class="ref">BR16</td><td>Investors and team members should receive notifications for key events, including new startup submissions, document access, and pending report requests.</td></tr>
+            <tr><td class="ref">BR17</td><td>Archiving a fund, thesis, or VDR should not permanently remove the underlying data unless the investor explicitly confirms deletion.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= 12 ADMIN PORTAL ================= -->
+    <section id="sec-12">
+      <div class="sec-head"><h2><span class="num">12.</span>Admin Portal</h2></div>
+      <p class="lede">Admin functionality that oversees, verifies, and secures the investor experience described in this document.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Module</th><th>Purpose &amp; Features</th></tr></thead>
+          <tbody>
+            <tr><td class="strong">Investor Verification &amp; Approval</td><td>Review submitted investor onboarding profiles, verify LinkedIn and other credibility information, and grant verified status.</td></tr>
+            <tr><td class="strong">Startup Pool Oversight</td><td>Oversee inbound startups, manage public submission links, and handle flagged submissions.</td></tr>
+            <tr><td class="strong">VDR &amp; Security Audit</td><td>Audit platform wide VDR access permissions, document view logs, and data security compliance.</td></tr>
+            <tr><td class="strong">User &amp; Team Management</td><td>Manage investor team permissions, DD partner links, and user access controls across the platform.</td></tr>
+            <tr><td class="strong">Platform Analytics &amp; Reporting</td><td>Monitor platform wide usage, feature adoption, and engagement trends across investors and founders to guide product decisions.</td></tr>
+            <tr><td class="strong">Support &amp; Escalations</td><td>Manage support tickets, disputes, and escalations raised by investors or founders, and coordinate resolution across teams.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= 13 APPENDIX ================= -->
+    <section id="sec-13">
+      <div class="sec-head"><h2><span class="num">13.</span>Appendix</h2></div>
+
+      <h4 class="subhead">Glossary</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="strong">VDR</td><td>Virtual Data Room; a secure digital space used to store and share due diligence documents.</td></tr>
+            <tr><td class="strong">LP</td><td>Limited Partner; an entity or individual who commits capital to a fund without taking part in its daily management.</td></tr>
+            <tr><td class="strong">DD</td><td>Due Diligence; the process of researching and verifying details about a startup before investing.</td></tr>
+            <tr><td class="strong">Micro VC</td><td>A venture capital fund that typically manages a smaller pool of capital and writes smaller checks than a traditional VC fund.</td></tr>
+            <tr><td class="strong">Syndicate Lead</td><td>An individual who organizes a group of investors to co invest in a single deal.</td></tr>
+            <tr><td class="strong">Corporate VC</td><td>A venture investment arm operated by a corporation rather than an independent fund.</td></tr>
+            <tr><td class="strong">PRD</td><td>Product Requirements Document; a document that defines the purpose, features, and requirements of a product for its build team.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="subhead">Document Sign Off</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Role</th><th>Name</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Product Owner</td><td>Pending assignment</td><td><span class="badge badge-nice">Pending</span></td></tr>
+            <tr><td>Engineering Lead</td><td>Pending assignment</td><td><span class="badge badge-nice">Pending</span></td></tr>
+            <tr><td>Design Lead</td><td>Pending assignment</td><td><span class="badge badge-nice">Pending</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer>
+  <span>Seedicon</span> · Investor Module Product Requirements Document · Version 1.0 · August 2026
+</footer>
+
+</body>
+</html>
