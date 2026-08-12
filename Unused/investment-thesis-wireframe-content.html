@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Investment Thesis — Lofi Wireframe v2</title>
+<style>
+  :root{
+    --ink:#2b2b2b;
+    --mid:#6b6b6b;
+    --line:#b9b9b9;
+    --line-soft:#d8d8d8;
+    --panel:#f4f4f4;
+    --panel2:#ececec;
+    --white:#fff;
+    --note:#c0472a;
+    --note-bg:#fdece6;
+    --good:#3f6b3f;
+    --good-bg:#eaf3ea;
+    --warn:#8a6d1d;
+    --warn-bg:#faf3df;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    color:var(--ink);
+    background:#e7e7e7;
+  }
+  .canvas{max-width:1320px;margin:0 auto;padding:28px 28px 80px;}
+
+  .banner{
+    background:var(--ink);color:#fff;font-size:12px;letter-spacing:.04em;
+    text-align:center;padding:8px 12px;text-transform:uppercase;
+  }
+
+  /* --- Top App Bar --- */
+  .appbar{
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--white);border:1px solid var(--line);
+    padding:14px 18px;margin-top:20px;
+  }
+  .appbar .crumb{font-weight:700;font-size:15px;}
+  .appbar .right{display:flex;gap:18px;align-items:center;font-size:13px;color:var(--mid);}
+  .bell{width:20px;height:20px;border:1.5px solid var(--mid);border-radius:50%;display:inline-block;position:relative;}
+
+  /* --- Page header --- */
+  .pagehead{
+    background:var(--white);border:1px solid var(--line);border-top:none;
+    padding:20px 18px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  }
+  .pagehead-left{display:flex;gap:14px;}
+  .icon-box{width:44px;height:44px;border:2px solid var(--ink);flex:none;display:flex;align-items:center;justify-content:center;font-size:18px;}
+  .pagehead h1{margin:0 0 4px;font-size:22px;}
+  .pagehead p.sub{margin:0;color:var(--mid);font-size:13px;}
+  .status-row{display:flex;gap:10px;align-items:center;margin-top:8px;flex-wrap:wrap;}
+  .pill{border:1px solid var(--line);padding:3px 10px;font-size:11px;color:var(--mid);border-radius:20px;}
+  .pill.draft{border-color:var(--warn);color:var(--warn);background:var(--warn-bg);}
+
+  .health{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mid);}
+  .health-bar{width:140px;height:8px;background:var(--panel2);border:1px solid var(--line);position:relative;}
+  .health-bar > span{position:absolute;left:0;top:0;bottom:0;background:var(--ink);}
+
+  .pagehead-actions{display:flex;gap:8px;align-items:flex-start;}
+  .btn{border:1px solid var(--ink);background:#fff;padding:9px 16px;font-size:13px;cursor:default;white-space:nowrap;}
+  .btn.primary{background:var(--ink);color:#fff;}
+  .btn.ghost{border-color:var(--line);color:var(--mid);}
+
+  /* --- Annotation badge --- */
+  .anno{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:20px;height:20px;border-radius:50%;background:var(--note);color:#fff;
+    font-size:11px;font-weight:700;flex:none;margin-left:8px;
+  }
+  .anno-note{
+    background:var(--note-bg);border:1px dashed var(--note);color:var(--note);
+    font-size:12px;padding:8px 10px;margin:8px 0 14px;line-height:1.45;
+  }
+  .anno-note b{color:var(--note);}
+
+  /* --- Body layout --- */
+  .body-grid{
+    display:grid;grid-template-columns:1fr 320px;gap:0;
+    background:var(--white);border:1px solid var(--line);border-top:none;
+  }
+  .main{padding:22px 22px 10px;border-right:1px solid var(--line);}
+  .rail{padding:22px 16px;}
+
+  /* --- Section block --- */
+  .section{border:1px solid var(--line-soft);margin-bottom:18px;background:#fff;}
+  .section-head{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    padding:14px 16px;background:var(--panel);border-bottom:1px solid var(--line-soft);
+  }
+  .section-head h2{margin:0;font-size:15px;display:flex;align-items:center;}
+  .section-head .why{margin:4px 0 0;font-size:11.5px;color:var(--mid);max-width:520px;}
+  .section-body{padding:16px;}
+
+  label{display:block;font-size:11.5px;color:var(--mid);margin-bottom:5px;text-transform:uppercase;letter-spacing:.03em;}
+  .field{margin-bottom:14px;}
+  .input{border:1px solid var(--line);padding:10px 12px;font-size:13px;color:var(--mid);background:#fdfdfd;}
+  .input.block{display:block;width:100%;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+  .example-toggle{font-size:11px;color:var(--mid);border-bottom:1px dotted var(--mid);display:inline-block;margin-top:2px;}
+
+  textarea.wf, .wf-textarea{
+    border:1px solid var(--line);background:#fdfdfd;width:100%;min-height:78px;padding:12px;
+  }
+  .placeholder-lines span{
+    display:block;height:8px;background:var(--panel2);margin-bottom:8px;border-radius:2px;
+  }
+  .placeholder-lines span:nth-child(1){width:92%;}
+  .placeholder-lines span:nth-child(2){width:78%;}
+  .placeholder-lines span:nth-child(3){width:55%;}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{border:1px solid var(--line);padding:6px 12px;font-size:12px;color:var(--mid);border-radius:20px;}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .chip.add{border-style:dashed;color:var(--mid);}
+
+  .hint{font-size:11px;color:#8a8a8a;margin-top:6px;}
+  .link-note{font-size:11px;color:var(--mid);margin-top:8px;background:var(--panel);border-left:3px solid var(--ink);padding:6px 10px;}
+
+  .prompt-chip{
+    display:inline-block;border:1px solid var(--line);padding:5px 10px;font-size:11.5px;
+    color:var(--mid);margin:0 6px 6px 0;background:#fafafa;
+  }
+
+  .criteria-row{display:grid;grid-template-columns:26px 1fr 90px;gap:10px;align-items:center;margin-bottom:8px;}
+  .criteria-row .box{width:16px;height:16px;border:1.5px solid var(--mid);}
+  .weight{border:1px solid var(--line);padding:5px 8px;font-size:11px;text-align:center;color:var(--mid);}
+
+  .slider-track{height:6px;background:var(--panel2);border:1px solid var(--line);position:relative;margin:14px 0 6px;}
+  .slider-track .fill{position:absolute;left:0;top:-1px;bottom:-1px;background:var(--ink);width:65%;}
+  .slider-track .handle{position:absolute;top:-6px;left:65%;width:16px;height:16px;background:#fff;border:2px solid var(--ink);border-radius:50%;transform:translateX(-50%);}
+  .slider-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--mid);}
+
+  /* --- Rail --- */
+  .rail .card{border:1px solid var(--line-soft);margin-bottom:16px;}
+  .rail .card h3{margin:0;padding:11px 14px;background:var(--panel);font-size:12.5px;border-bottom:1px solid var(--line-soft);text-transform:uppercase;letter-spacing:.03em;}
+  .rail .card .inner{padding:12px 14px;font-size:12px;}
+  .check-item{display:flex;align-items:center;gap:8px;margin-bottom:9px;font-size:12px;}
+  .check-item .mark{width:15px;height:15px;border:1.5px solid var(--mid);flex:none;display:flex;align-items:center;justify-content:center;font-size:10px;}
+  .check-item.done .mark{background:var(--good);border-color:var(--good);color:#fff;}
+  .check-item.warn .mark{background:var(--warn-bg);border-color:var(--warn);color:var(--warn);}
+  .check-item.done{color:var(--good);}
+  .check-item.warn{color:var(--warn);}
+  .warn-note{background:var(--warn-bg);border:1px solid var(--warn);color:var(--warn);font-size:11px;padding:7px 9px;margin-top:8px;}
+
+  .ai-btn{border:1px dashed var(--mid);padding:9px;text-align:center;font-size:12px;color:var(--mid);margin-bottom:8px;}
+  .tip{background:var(--panel);padding:12px 14px;font-size:12px;color:var(--mid);line-height:1.5;}
+
+  .version-line{font-size:11px;color:var(--mid);display:flex;justify-content:space-between;padding:10px 14px;border-top:1px dashed var(--line);}
+
+  /* --- Legend footer --- */
+  .legend{background:var(--white);border:1px solid var(--line);border-top:none;padding:22px;}
+  .legend h2{font-size:15px;margin:0 0 14px;}
+  .legend-item{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+  .legend-item p{margin:0;font-size:12.5px;color:var(--mid);line-height:1.55;}
+  .legend-item b{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<div class="banner">LOFI WIREFRAME — structure &amp; content only, not a final visual design</div>
+
+<div class="canvas">
+
+  <!-- App bar -->
+  <div class="appbar">
+    <div class="crumb">My Funds</div>
+    <div class="right">
+      <span>🔗 My Link</span>
+      <span class="bell"></span>
+    </div>
+  </div>
+
+  <!-- Page head -->
+  <div class="pagehead">
+    <div class="pagehead-left">
+      <div class="icon-box">💼</div>
+      <div>
+        <h1>Investment Thesis</h1>
+        <p class="sub">Define and share your fund's core investment philosophy</p>
+        <div class="status-row">
+          <span class="pill draft">Draft · v3</span>
+          <div class="health">
+            <span>Thesis health: 5/8 sections</span>
+            <div class="health-bar"><span style="width:62%;"></span></div>
+          </div>
+          <span class="anno">⑧</span>
+        </div>
+      </div>
+    </div>
+    <div class="pagehead-actions">
+      <button class="btn ghost">↑ Import (AI-parse deck/PDF)</button>
+      <button class="btn ghost">👁 Preview founder view</button>
+      <button class="btn primary">Share</button>
+    </div>
+  </div>
+
+  <div class="body-grid">
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- 1. Thesis statement builder -->
+      <div class="section" style="border:2px solid var(--ink);">
+        <div class="section-head" style="background:#eae7e2;">
+          <div>
+            <h2>Thesis Statement <span class="anno">①</span></h2>
+            <p class="why">Built sentence-by-sentence from a fill-in-the-blank formula, not a blank box. This is what generates your Elevator Pitch, your public-link headline, and your founder-facing match summary.</p>
+          </div>
+        </div>
+        <div class="section-body">
+
+          <div class="hint" style="margin-bottom:12px;">Formula (VC Lab / Carta pattern): <b style="color:var(--ink);">[Fund Name] is raising/manages a [$ size] [stage] fund to back [target founders/sector] in [geography], leveraging [your edge].</b></div>
+
+          <div class="row2" style="margin-bottom:10px;">
+            <div class="field"><label>Fund name</label><div class="input block">___ Ventures</div></div>
+            <div class="field"><label>Fund size</label><div class="input block">$ ___ M</div></div>
+          </div>
+          <div class="row2" style="margin-bottom:10px;">
+            <div class="field"><label>Stage (pick one — not a range)</label><div class="input block">Seed ▾</div></div>
+            <div class="field"><label>Geography</label><div class="input block">___</div></div>
+          </div>
+          <div class="field" style="margin-bottom:10px;">
+            <label>Who you back — sector / founder type</label>
+            <div class="input block">e.g. "B2B SaaS startups with vertical-specific AI"</div>
+            <div class="hint">Weak: "we invest in tech." Strong: names the sub-segment specifically.</div>
+          </div>
+          <div class="field" style="margin-bottom:14px;">
+            <label>Your edge — why you, not another fund</label>
+            <div class="input block">e.g. "a network of 20 years in enterprise data infra"</div>
+          </div>
+
+          <div style="border-top:1px dashed var(--line);padding-top:12px;">
+            <label>⟶ Auto-composed statement (editable)</label>
+            <div class="wf-textarea" style="min-height:50px;background:#fff;border-color:var(--ink);">
+              <span style="color:#9a9a9a;font-size:13px;">Krakatoa Ventures is raising a $25M seed fund to back climate-tech and earth-sciences startups in the U.S., leveraging a specialist network built over two decades in volcanology and climatology.</span>
+            </div>
+            <div class="hint"><span id="wc">37</span> / ~40 words · VC Lab's benchmark: the ideal thesis statement runs 35–40 words</div>
+          </div>
+
+          <div class="example-toggle" style="margin-top:10px;">▸ See 3 more real thesis-statement examples</div>
+        </div>
+      </div>
+
+      <!-- 1b. Thesis stress test -->
+      <div class="section">
+        <div class="section-head">
+          <div>
+            <h2>Thesis Stress Test <span class="anno">⑨</span></h2>
+            <p class="why">Runs your statement above against the 3 most common failure patterns fund managers hit.</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="check-item warn" style="font-size:12.5px;"><div class="mark">!</div> <b>Too broad to be trackable</b> — "we invest in tech" can't be measured or matched against. Name the sub-segment.</div>
+          <div class="check-item done" style="font-size:12.5px;"><div class="mark">✓</div> <b>Anyone-could-run-this test</b> — your edge is specific and hard to copy, not generic ("great network," "deep expertise").</div>
+          <div class="check-item warn" style="font-size:12.5px;"><div class="mark">!</div> <b>Portfolio math check</b> — fund size, check size and reserve split (below) haven't been filled in yet to confirm this thesis is fundable at this size.</div>
+        </div>
+      </div>
+
+      <!-- 2. Fund overview -->
+      <div class="section">
+        <div class="section-head">
+          <div>
+            <h2>Fund Overview <span class="anno">②</span></h2>
+            <p class="why">Structured, not prose — these numbers set every other constraint in your thesis.</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="row3">
+            <div class="field"><label>Fund size</label><div class="input block">$ ___ M</div></div>
+            <div class="field"><label>Structure</label><div class="input block">Venture Fund ▾</div></div>
+            <div class="field"><label>Investment horizon</label><div class="input block">___ years</div></div>
+          </div>
+          <div class="field"><label>Target number of portfolio companies</label><div class="input block" style="max-width:200px;">___</div></div>
+        </div>
+      </div>
+
+      <!-- 3. Investment focus -->
+      <div class="section">
+        <div class="section-head">
+          <div>
+            <h2>Investment Focus &amp; Sectors <span class="anno">③</span></h2>
+            <p class="why">Tag-based, not freeform — these tags are what drive Startup Pool matching.</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="field">
+            <label>Stage</label>
+            <div class="chips">
+              <span class="chip on">Seed</span><span class="chip on">Series A</span>
+              <span class="chip">Pre-seed</span><span class="chip">Series B+</span>
+              <span class="chip add">+ Add</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Sector / Industry</label>
+            <div class="chips">
+              <span class="chip on">B2B SaaS</span><span class="chip on">Vertical AI</span>
+              <span class="chip add">+ Add</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Geography</label>
+            <div class="chips">
+              <span class="chip on">India</span><span class="chip">SEA</span><span class="chip add">+ Add</span>
+            </div>
+          </div>
+          <div class="link-note">🔗 These tags auto-power Startup Pool filtering and your founder-facing match score (F07)</div>
+        </div>
+      </div>
+
+      <!-- 4. Target founders -->
+      <div class="section">
+        <div class="section-head">
+          <div>
+            <h2>Target Founders &amp; Companies <span class="anno">④</span></h2>
+            <p class="why">Guidance shown inline, right where you write — not hidden in a side panel.</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="wf-textarea">
+            <div class="placeholder-lines"><span></span><span></span><span></span></div>
+          </div>
+          <div class="example-toggle">▸ See example</div>
+        </div>
+      </div>
+
+      <!-- 5. Portfolio construction -->
+      <div class="section">
+        <div class="section-head">
+          <div>
+            <h2>Portfolio Construction <span class="anno">⑤</span></h2>
+            <p class="why">Missing from the current page entirely — Carta calls this one of 3 core steps.</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="row2">
+            <div class="field"><label>Check size range</label><div class="input block">$ ___ – $ ___ </div></div>
+            <div class="field"><label>Target ownership</label><div class="input block">___ %</div></div>
+          </div>
+          <div class="field">
+            <label>Initial vs. follow-on reserve split</label>
+            <div class="slider-track"><div class="fill"></div><div class="handle"></div></div>
+            <div class="slider-labels"><span>Initial 65%</span><span>Reserved for follow-on 35%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Edge / value prop -->
+      <div class="section">
+        <div class="section-head">
+          <div>
+            <h2>Your Edge / Value Proposition <span class="anno">⑥</span></h2>
+            <p class="why">Flagged as the single most important section — the "why us," not just the "what."</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div style="margin-bottom:10px;">
+            <span class="prompt-chip">+ Proprietary network</span>
+            <span class="prompt-chip">+ Operational expertise</span>
+            <span class="prompt-chip">+ Track record</span>
+          </div>
+          <div class="wf-textarea">
+            <div class="placeholder-lines"><span></span><span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Decision criteria -->
+      <div class="section">
+        <div class="section-head">
+          <div>
+            <h2>Decision Criteria <span class="anno">⑦</span></h2>
+            <p class="why">A weighted checklist, not a paragraph — reusable later in deal scoring &amp; DD.</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="criteria-row"><div class="box"></div><span>Team</span><div class="weight">High ▾</div></div>
+          <div class="criteria-row"><div class="box"></div><span>Total addressable market</span><div class="weight">High ▾</div></div>
+          <div class="criteria-row"><div class="box"></div><span>Traction</span><div class="weight">Medium ▾</div></div>
+          <div class="criteria-row"><div class="box"></div><span>Terms</span><div class="weight">Medium ▾</div></div>
+          <div class="criteria-row"><div class="box"></div><span>Timing</span><div class="weight">Low ▾</div></div>
+          <div class="example-toggle">+ Add custom criteria</div>
+        </div>
+      </div>
+
+      <!-- 8. Track record -->
+      <div class="section">
+        <div class="section-head">
+          <div>
+            <h2>Track Record</h2>
+            <p class="why">Optional — stats + narrative, strongest for funds beyond Fund I.</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="row3">
+            <div class="field"><label>Investments to date</label><div class="input block">___</div></div>
+            <div class="field"><label>Notable exits</label><div class="input block">___</div></div>
+            <div class="field"><label>Follow-on rate</label><div class="input block">___ %</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RAIL -->
+    <div class="rail">
+      <div class="card">
+        <h3>Thesis Health <span class="anno" style="margin-left:6px;">⑧</span></h3>
+        <div class="inner">
+          <div class="check-item done"><div class="mark">✓</div> Thesis statement</div>
+          <div class="check-item done"><div class="mark">✓</div> Fund overview</div>
+          <div class="check-item warn"><div class="mark">!</div> Investment focus</div>
+          <div class="check-item done"><div class="mark">✓</div> Target founders</div>
+          <div class="check-item"><div class="mark"></div> Portfolio construction</div>
+          <div class="check-item done"><div class="mark">✓</div> Your edge</div>
+          <div class="check-item"><div class="mark"></div> Decision criteria</div>
+          <div class="check-item"><div class="mark"></div> Track record</div>
+          <div class="warn-note">⚠ Investment focus is broad — 6 sectors selected. Narrow it for stronger Startup Pool matches.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>AI Assist</h3>
+        <div class="inner">
+          <div class="ai-btn">✨ Draft this section from my fund data</div>
+          <div class="ai-btn">✨ Tighten my elevator pitch</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Tip</h3>
+        <div class="inner">
+          <div class="tip">💡 A strong thesis is typically 1–3 pages: concise, opinionated, founder-facing. A narrow, specific focus attracts better-matched deal flow than a broad one.</div>
+        </div>
+      </div>
+
+      <div class="version-line">
+        <span>v3 · edited 2 days ago</span>
+        <span>View history</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <h2>What changed, and why</h2>
+
+    <div class="legend-item"><span class="anno">①</span>
+      <p><b>The thesis statement itself is now built from a formula, not written from a blank page — this is the main gap versus Carta/VC Lab guidance.</b> Right now the editor opens on "Investment Thesis Title…" and "Start writing your investment thesis…" with zero structure — the investor has to know the formula already. Carta frames a thesis as sayable in one or two sentences, and VC Lab's template (used as the standard reference by a majority of new fund managers) gives the exact fill-in-the-blank pattern: <i>[Fund Name] is raising a [$size] [stage] fund to back [target sector/founders] in [geography], leveraging [edge]</i> — with a target length of roughly 35–40 words. The wireframe turns that formula into six small fields (name, size, stage, geography, who you back, your edge) that auto-compose into the statement, which the investor can then hand-edit. This is also the piece every other part of the module depends on — it's what generates the public-link headline, the founder-facing match summary, and the one-line description GPs use when pitching LPs.</p>
+    </div>
+    <div class="legend-item"><span class="anno">⑨</span>
+      <p><b>Thesis Stress Test added — checks the statement against known failure patterns, not just word count.</b> Carta's guide names specific pitfalls: a thesis vague enough to be "untrackable" (e.g. "investing in innovation"), an edge generic enough that "anybody could go out and execute" it, and portfolio math that doesn't actually support the stated fund size. None of these are things a word counter catches — this section runs the statement against exactly those three checks and tells the investor which one is failing, instead of silently accepting whatever they type.</p>
+    </div>
+    <div class="legend-item"><span class="anno">②</span>
+      <p><b>Fund Overview becomes real input fields, not a collapsed guidance accordion.</b> Today "Fund Overview" is just a label you click to read advice, then go write about elsewhere. Fund size, structure, and horizon are numbers — capturing them as data (not prose) means they can drive fund math later instead of living unstructured in a paragraph.</p>
+    </div>
+    <div class="legend-item"><span class="anno">③</span>
+      <p><b>Investment Focus becomes tags, not a paragraph.</b> This is the highest-leverage change: your own PRD says thesis criteria should power Startup Pool filtering (F07). That's only possible if stage/sector/geography are structured tags the system can query — a sentence like "we like B2B SaaS" can't be filtered on.</p>
+    </div>
+    <div class="legend-item"><span class="anno">④</span>
+      <p><b>Guidance moved inline, next to the field it explains.</b> The current "What to Include" panel forces the investor to read guidance on the right, then scroll back to write on the left, holding it in memory. Putting the "what to write here" hint directly under the field removes that round-trip.</p>
+    </div>
+    <div class="legend-item"><span class="anno">⑤</span>
+      <p><b>Portfolio Construction added as its own section — currently missing entirely.</b> Check size, ownership target, and reserve split are one of the three pillars Carta's guide treats as core to a thesis, and your PRD explicitly calls this out as underused. Right now there's nowhere on the page to enter it at all.</p>
+    </div>
+    <div class="legend-item"><span class="anno">⑥</span>
+      <p><b>Your Edge is called out as the most important section, with starter prompts.</b> This is the part LPs and founders actually weigh most heavily — "why you, not another fund." Giving it named prompts (network / operational expertise / track record) instead of a blank box lowers the blank-page barrier for the hardest section to write.</p>
+    </div>
+    <div class="legend-item"><span class="anno">⑦</span>
+      <p><b>Decision Criteria becomes a weighted checklist instead of free text.</b> Written as prose today, it can't be reused. Structured as criteria + weight, the same list can later drive deal scoring in the Pipeline and a DD checklist in the Data Room — one thing written once, used three places.</p>
+    </div>
+    <div class="legend-item"><span class="anno">⑧</span>
+      <p><b>Thesis Health meter replaces silent, ungraded guidance.</b> The current page never tells you if your thesis is actually complete or too vague — a known failure mode Carta calls "the strategic but untrackable thesis." A visible completion score, plus warnings when focus is too broad, gives the investor real feedback instead of just reminders.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

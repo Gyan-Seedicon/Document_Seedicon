@@ -1,0 +1,450 @@
+/* ==========================================================================
+   SEEDICON INVESTOR PLATFORM — INTERACTIVE WIREFRAME LOGIC
+   ========================================================================== */
+
+document.addEventListener('DOMContentLoaded', () => {
+  // 01. Automatic Page Routing & Active Sidebar Navigation Detection
+  let pageNav = 'dashboard';
+  const pathName = window.location.pathname.toLowerCase();
+
+  if (pathName.includes('capital-calls')) {
+    pageNav = 'capital-calls';
+  } else if (pathName.includes('investment-thesis')) {
+    pageNav = 'investment-thesis';
+  } else if (pathName.includes('all-documents')) {
+    pageNav = 'all-documents';
+  } else {
+    pageNav = 'dashboard';
+  }
+
+  // Initialize Layout Components with detected active page
+  if (typeof LayoutComponents !== 'undefined' && document.getElementById('appHeaderSlot')) {
+    LayoutComponents.init({ activeNav: pageNav, activeApp: 'investor' });
+  }
+
+  // 02. Initialize Lucide Icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+
+  // 03. Bind App Events
+  bindAppEvents();
+});
+
+function bindAppEvents() {
+  // Sidebar Collapse / Expand Handler
+  const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+  const mainSidebar = document.getElementById('mainSidebar');
+  const toggleSidebarIcon = document.getElementById('toggleSidebarIcon');
+
+  function toggleSidebar() {
+    if (mainSidebar) {
+      mainSidebar.classList.toggle('collapsed');
+      const isCollapsed = mainSidebar.classList.contains('collapsed');
+      if (toggleSidebarIcon) {
+        toggleSidebarIcon.setAttribute('data-lucide', isCollapsed ? 'panel-left-open' : 'panel-left-close');
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      }
+    }
+  }
+
+  if (toggleSidebarBtn) {
+    toggleSidebarBtn.addEventListener('click', toggleSidebar);
+  }
+
+  // Keyboard Shortcut: Cmd+[ or Ctrl+[ to toggle sidebar collapse
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === '[') {
+      e.preventDefault();
+      toggleSidebar();
+    }
+  });
+
+  // Modal Handlers
+  window.openModal = function(title, contentHtml) {
+    const overlay = document.getElementById('modalOverlay');
+    const titleEl = document.getElementById('modalTitle');
+    const bodyEl = document.getElementById('modalBody');
+
+    if (titleEl && bodyEl && overlay) {
+      titleEl.textContent = title;
+      bodyEl.innerHTML = contentHtml;
+      overlay.style.display = 'flex';
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    }
+  };
+
+  window.closeModal = function() {
+    const overlay = document.getElementById('modalOverlay');
+    if (overlay) {
+      overlay.style.display = 'none';
+    }
+  };
+
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', closeModal);
+  }
+
+  const modalOverlay = document.getElementById('modalOverlay');
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+  }
+
+  // Fund Switcher Dropdown Logic
+  const btnFundDropdown = document.getElementById('btnFundDropdown');
+  const fundDropdownMenu = document.getElementById('fundDropdownMenu');
+  const activeFundLabel = document.getElementById('activeFundLabel');
+
+  if (btnFundDropdown && fundDropdownMenu) {
+    btnFundDropdown.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeAllDropdowns();
+      fundDropdownMenu.classList.toggle('show');
+    });
+  }
+
+  // Switch Active Fund
+  window.selectFund = function(fundName, element) {
+    if (activeFundLabel) {
+      activeFundLabel.textContent = fundName;
+    }
+    
+    const allItems = document.querySelectorAll('#fundDropdownMenu .dropdown-item');
+    allItems.forEach(item => {
+      item.classList.remove('active-fund-item');
+      const icon = item.querySelector('.font-radio-icon');
+      if (icon) {
+        icon.setAttribute('data-lucide', 'circle');
+      }
+    });
+
+    if (element) {
+      element.classList.add('active-fund-item');
+      const icon = element.querySelector('.font-radio-icon');
+      if (icon) {
+        icon.setAttribute('data-lucide', 'check-circle');
+      }
+    }
+
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+
+    closeAllDropdowns();
+    landOnDashboard(fundName);
+  };
+
+  function landOnDashboard(fundName) {
+    const pageHeaderTitle = document.getElementById('pageHeaderTitle');
+    const pageHeaderSub = document.getElementById('pageHeaderSub');
+    
+    if (pageHeaderTitle) pageHeaderTitle.textContent = "Investor Command Center";
+    if (pageHeaderSub) pageHeaderSub.textContent = fundName + " — Dashboard Active";
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Edit Fund Settings Modal
+  window.editFundSettings = function(name, size, currency, vintage, investmentPeriod, term) {
+    closeAllDropdowns();
+    openModal('Edit Fund Parameters (' + name + ')', `
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-muted); padding:8px 12px; border-radius:6px; border:1px solid var(--border-main);">
+          <span style="font-size:12px; font-weight:600; color:var(--text-muted);">Quick Action</span>
+          <button type="button" class="btn btn-sm" onclick="autoFillFundForm('edit')" style="gap:4px;">
+            <i data-lucide="sparkles" class="lucide-sm"></i>
+            <span>✨ Auto-fill Sample Data</span>
+          </button>
+        </div>
+
+        <div>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
+            <span>FUND NAME</span>
+            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Official legal title of the fund entity"></i>
+          </label>
+          <input type="text" id="inputFundName" value="${name}" placeholder="Seedicon Ventures Fund I" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+        </div>
+
+        <div>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
+            <span>TARGET FUND SIZE</span>
+            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Total capital corpus target for investment"></i>
+          </label>
+          <input type="text" id="inputFundSize" value="${size}" placeholder="₹20 Cr" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+        </div>
+
+        <div>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
+            <span>CURRENCY</span>
+            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Base currency of the fund corpus"></i>
+          </label>
+          <select id="inputFundCurrency" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
+            <option value="INR" ${currency==='INR'?'selected':''}>INR (₹ - Indian Rupee)</option>
+            <option value="USD" ${currency==='USD'?'selected':''}>USD ($ - US Dollar)</option>
+            <option value="EUR" ${currency==='EUR'?'selected':''}>EUR (€ - Euro)</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
+            <span>VINTAGE YEAR</span>
+            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Year fund was legally established"></i>
+          </label>
+          <input type="text" id="inputFundVintage" value="${vintage}" placeholder="2026" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+        </div>
+
+        <div>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
+            <span>INVESTMENT PERIOD</span>
+            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Active deployment window for deal sourcing"></i>
+          </label>
+          <input type="text" id="inputFundPeriod" value="${investmentPeriod}" placeholder="2026–2030" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+        </div>
+
+        <div>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
+            <span>FUND TERM</span>
+            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Total legal duration of fund life cycle"></i>
+          </label>
+          <input type="text" id="inputFundTerm" value="${term}" placeholder="10 Years" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px;">
+          <button onclick="document.getElementById('modalOverlay').style.display='none'" class="btn">Cancel</button>
+          <button onclick="submitFundForm(false)" class="btn btn-primary">Save Settings &amp; Return to Dashboard</button>
+        </div>
+      </div>
+    `);
+  };
+
+  // Open Create New Fund Modal Form
+  const btnOpenCreateFundModal = document.getElementById('btnOpenCreateFundModal');
+  if (btnOpenCreateFundModal) {
+    btnOpenCreateFundModal.addEventListener('click', () => {
+      closeAllDropdowns();
+      openModal('Create New Fund Entity', `
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-muted); padding:8px 12px; border-radius:6px; border:1px solid var(--border-main);">
+            <span style="font-size:12px; font-weight:600; color:var(--text-muted);">Quick Action</span>
+            <button type="button" class="btn btn-sm" onclick="autoFillFundForm('create')" style="gap:4px;">
+              <i data-lucide="sparkles" class="lucide-sm"></i>
+              <span>✨ Auto-fill Sample Data</span>
+            </button>
+          </div>
+
+          <div>
+            <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
+              <span>FUND NAME</span>
+              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Official legal title of the fund entity"></i>
+            </label>
+            <input type="text" id="inputFundName" placeholder="Seedicon Ventures Fund I" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+          </div>
+
+          <div>
+            <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
+              <span>TARGET FUND SIZE</span>
+              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Total capital corpus target for investment"></i>
+            </label>
+            <input type="text" id="inputFundSize" placeholder="₹20 Cr" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+          </div>
+
+          <div>
+            <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
+              <span>CURRENCY</span>
+              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Base currency of the fund corpus"></i>
+            </label>
+            <select id="inputFundCurrency" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
+              <option value="INR" selected>INR (₹ - Indian Rupee)</option>
+              <option value="USD">USD ($ - US Dollar)</option>
+              <option value="EUR">EUR (€ - Euro)</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
+              <span>VINTAGE YEAR</span>
+              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Year fund was legally established"></i>
+            </label>
+            <input type="text" id="inputFundVintage" placeholder="2026" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+          </div>
+
+          <div>
+            <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
+              <span>INVESTMENT PERIOD</span>
+              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Active deployment window for deal sourcing"></i>
+            </label>
+            <input type="text" id="inputFundPeriod" placeholder="2026–2030" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+          </div>
+
+          <div>
+            <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
+              <span>FUND TERM</span>
+              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Total legal duration of fund life cycle"></i>
+            </label>
+            <input type="text" id="inputFundTerm" placeholder="10 Years" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px;">
+            <button onclick="document.getElementById('modalOverlay').style.display='none'" class="btn">Cancel</button>
+            <button onclick="submitFundForm(true)" class="btn btn-primary">Create Fund &amp; Go to Dashboard</button>
+          </div>
+        </div>
+      `);
+    });
+  }
+
+  // Auto-fill form fields logic
+  window.autoFillFundForm = function(mode) {
+    const inputFundName = document.getElementById('inputFundName');
+    const inputFundSize = document.getElementById('inputFundSize');
+    const inputFundCurrency = document.getElementById('inputFundCurrency');
+    const inputFundVintage = document.getElementById('inputFundVintage');
+    const inputFundPeriod = document.getElementById('inputFundPeriod');
+    const inputFundTerm = document.getElementById('inputFundTerm');
+
+    if (inputFundName) inputFundName.value = "Seedicon Ventures Fund I";
+    if (inputFundSize) inputFundSize.value = "₹20 Cr";
+    if (inputFundCurrency) inputFundCurrency.value = "INR";
+    if (inputFundVintage) inputFundVintage.value = "2026";
+    if (inputFundPeriod) inputFundPeriod.value = "2026–2030";
+    if (inputFundTerm) inputFundTerm.value = "10 Years";
+  };
+
+  // Submit fund form & land on Dashboard
+  window.submitFundForm = function(isNew) {
+    const inputFundName = document.getElementById('inputFundName');
+    const inputFundSize = document.getElementById('inputFundSize');
+
+    const nameVal = (inputFundName && inputFundName.value.trim()) ? inputFundName.value.trim() : "Seedicon Ventures Fund I";
+    const sizeVal = (inputFundSize && inputFundSize.value.trim()) ? inputFundSize.value.trim() : "₹20 Cr";
+    const fullName = `${nameVal} (${sizeVal})`;
+
+    if (activeFundLabel) {
+      activeFundLabel.textContent = fullName;
+    }
+
+    const overlay = document.getElementById('modalOverlay');
+    if (overlay) {
+      overlay.style.display = 'none';
+    }
+
+    landOnDashboard(fullName);
+    alert(isNew ? `New Fund "${fullName}" created successfully! Landed on Dashboard.` : `Fund Parameters for "${fullName}" updated! Landed on Dashboard.`);
+  };
+
+  // Create Actions Context Menu Logic
+  const btnCreateActions = document.getElementById('btnCreateActions');
+  const createActionsMenu = document.getElementById('createActionsMenu');
+
+  if (btnCreateActions && createActionsMenu) {
+    btnCreateActions.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeAllDropdowns();
+      createActionsMenu.classList.toggle('show');
+    });
+  }
+
+  function closeAllDropdowns() {
+    const fMenu = document.getElementById('fundDropdownMenu');
+    const cMenu = document.getElementById('createActionsMenu');
+    if (fMenu) fMenu.classList.remove('show');
+    if (cMenu) cMenu.classList.remove('show');
+  }
+
+  document.addEventListener('click', closeAllDropdowns);
+
+  // 01. Create Intake startup Link
+  const menuIntakeLink = document.getElementById('menuIntakeLink');
+  if (menuIntakeLink) {
+    menuIntakeLink.addEventListener('click', () => {
+      closeAllDropdowns();
+      openModal('Create Startup Intake Submission Link', `
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <p style="font-size:12.5px; color:#5A5A54;">Generate a public submission link to collect inbound startup applications directly into the <strong>Startups Pools</strong>.</p>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">TARGET FUND</label>
+          <select style="padding:8px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
+            <option>Seedicon Venture Fund I (₹20 Cr)</option>
+            <option>Opportunity Fund II (₹50 Cr)</option>
+          </select>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">INTAKE LINK TITLE</label>
+          <input type="text" value="Seedicon Q3 2026 Founder Application" style="padding:8px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">REQUIRED FORM FIELDS</label>
+          <div style="font-size:12px; color:#2B2B28; display:flex; flex-direction:column; gap:6px;">
+            <label><input type="checkbox" checked /> Startup Name &amp; Pitch Deck (PDF)</label>
+            <label><input type="checkbox" checked /> Target ARR / Monthly Revenue</label>
+            <label><input type="checkbox" checked /> Current Round &amp; Valuation Cap</label>
+            <label><input type="checkbox" checked /> Founder Contact &amp; Linkedin</label>
+          </div>
+          <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+            <button onclick="document.getElementById('modalOverlay').style.display='none'" class="btn">Cancel</button>
+            <button onclick="alert('Public Intake Link Generated: https://seedicon.app/intake/q3-2026'); document.getElementById('modalOverlay').style.display='none';" class="btn btn-primary">Generate Link &amp; Share</button>
+          </div>
+        </div>
+      `);
+    });
+  }
+
+  // 02. Create Data Room (VDR)
+  const menuDataRoom = document.getElementById('menuDataRoom');
+  if (menuDataRoom) {
+    menuDataRoom.addEventListener('click', () => {
+      closeAllDropdowns();
+      openModal('Create Virtual Data Room (VDR)', `
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <p style="font-size:12.5px; color:#5A5A54;">Set up a new Virtual Data Room vault with preset folder structures or a blank room for due diligence.</p>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">DATAROOM NAME</label>
+          <input type="text" value="FinFlow Tech — DD Dataroom Vault" style="padding:8px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">PRESET TEMPLATE</label>
+          <select style="padding:8px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
+            <option>Full Legal, Cap Table &amp; Financial Preset</option>
+            <option>Technical &amp; Architecture Audit Preset</option>
+            <option>Blank Data Room (Custom Folders)</option>
+          </select>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">ASSIGN TO STARTUP</label>
+          <select style="padding:8px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
+            <option>FinFlow Tech (Seed Stage)</option>
+            <option>Apex AI (Series A)</option>
+            <option>Nova Health (Pre-Seed)</option>
+          </select>
+          <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+            <button onclick="document.getElementById('modalOverlay').style.display='none'" class="btn">Cancel</button>
+            <button onclick="alert('VDR Data Room Created &amp; Request Dispatched to Founder!'); document.getElementById('modalOverlay').style.display='none';" class="btn btn-primary">Create Data Room</button>
+          </div>
+        </div>
+      `);
+    });
+  }
+
+  // 03. Create Investment Thesis
+  const menuInvestmentThesis = document.getElementById('menuInvestmentThesis');
+  if (menuInvestmentThesis) {
+    menuInvestmentThesis.addEventListener('click', () => {
+      closeAllDropdowns();
+      openModal('Create Investment Thesis Page', `
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <p style="font-size:12.5px; color:#5A5A54;">Draft a new fund thesis page to align co-investors and LPs on investment criteria.</p>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">THESIS TITLE</label>
+          <input type="text" value="Seedicon Fund I — AI &amp; SaaS Thesis" style="padding:8px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">TARGET SECTORS &amp; CHEQUE SIZE</label>
+          <input type="text" value="Enterprise AI, B2B FinTech · ₹1 Cr - ₹3 Cr Cheque" style="padding:8px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">SHARE WITH CO-INVESTORS / LPs</label>
+          <div style="font-size:12px; color:#2B2B28; display:flex; flex-direction:column; gap:6px;">
+            <label><input type="checkbox" checked /> Share on Co-Investor Single Alignment Page</label>
+            <label><input type="checkbox" checked /> Publish to LP Portal Directory</label>
+          </div>
+          <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+            <button onclick="document.getElementById('modalOverlay').style.display='none'" class="btn">Cancel</button>
+            <button onclick="alert('Investment Thesis Created &amp; Published to Co-Investors!'); document.getElementById('modalOverlay').style.display='none';" class="btn btn-primary">Publish Thesis</button>
+          </div>
+        </div>
+      `);
+    });
+  }
+}

@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — LP Commitments &amp; Capital Calls</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="./css/styles.css">
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Top Header Component Slot -->
+  <div id="appHeaderSlot"></div>
+
+  <!-- Body Shell -->
+  <div class="body-shell">
+    <!-- Tiny Sidebar Component Slot -->
+    <div id="tinySidebarSlot"></div>
+
+    <!-- Main Navigation Sidebar Component Slot -->
+    <div id="mainSidebarSlot"></div>
+
+    <!-- MAIN WORKSPACE CONTENT AREA (LP COMMITMENTS & CAPITAL CALLS) -->
+    <main class="main-workspace">
+      <div class="content-scrollable">
+
+        <!-- Page Header Container -->
+        <div class="page-header-container">
+          <div class="page-header-top-row">
+            <div class="header-titles">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <h1 class="page-title">LP Commitments &amp; Capital Calls</h1>
+                <span class="badge-pill neutral-soft" id="viewModeBadge">LP &amp; Capital · Preview Mode</span>
+              </div>
+              <p class="page-subtitle">Seedicon Venture Fund I (₹20 Cr) — Commitments come in from LPs. Issue a capital call only when the fund needs capital, and track payments as they are received.</p>
+            </div>
+
+            <div class="header-action-group">
+              <button class="btn btn-outline" title="Export register as CSV" onclick="alert('Commitment & Call Register (CSV) exported!')">
+                <i data-lucide="download" class="lucide-sm"></i>
+                <span>Export</span>
+              </button>
+
+              <!-- Create Capital Call Button (PRIMARY ACTION) -->
+              <button class="btn btn-primary" onclick="openCreateCallModal()">
+                <i data-lucide="coins"></i>
+                <span>Create Capital Call</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Header Bottom Divider Line -->
+        <div class="page-header-divider"></div>
+
+        <!-- CONTAINER FOR POPULATED STATE -->
+        <div id="filledCCContainer">
+
+        <!-- 01. TOP METRIC CARDS ROW -->
+        <div class="metrics-grid">
+
+<div class="metric-card">
+            <div class="metric-label">Committed Capital</div>
+            <div class="metric-value" id="mCommit">₹20.00 Cr</div>
+            <div class="metric-hint" id="mCommitHint">16 LPs · ₹200M</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Total Called</div>
+            <div class="metric-value" id="mCalled">₹4.30 Cr</div>
+            <div class="metric-hint"><span id="mCallPct">21.5</span>% of committed</div>
+            <div class="metric-progress"><div style="width:21.5%" id="mCallBar"></div></div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Total Paid</div>
+            <div class="metric-value" id="mPaid">₹4.30 Cr</div>
+            <div class="metric-hint"><span id="mPaidPct">100</span>% of called</div>
+            <div class="metric-progress"><div style="width:100%" id="mPaidBar"></div></div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Outstanding Due</div>
+            <div class="metric-value" id="mOut">₹0.00 Cr</div>
+            <div class="metric-hint" id="mOutHint">No payments outstanding</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Uncalled (Callable)</div>
+            <div class="metric-value" id="mCallable">₹15.70 Cr</div>
+            <div class="metric-hint"><span id="mUncalledPct">78.5</span>% uncalled</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Calls Issued</div>
+            <div class="metric-value" id="mCallsIssued">2</div>
+            <div class="metric-hint" id="mCallsHint">CC-001, CC-002 · both settled</div>
+          </div>
+
+        </div>
+
+        <!-- 02. WORKSPACE (TABS + TABLES + RAIL) -->
+        <div class="cc-grid">
+
+          <!-- MAIN COLUMN -->
+          <div class="cc-main-col">
+
+            <!-- Tabs (Underline Style) -->
+            <div class="cc-tabs" role="tablist">
+              <button class="cc-tab active" id="tabCommitments" onclick="switchCC('commitments')">
+                <i data-lucide="clipboard-list" class="lucide-sm"></i>
+                <span>Commitments</span>
+                <span class="cc-tab-count" id="tabCommitCount">16</span>
+              </button>
+              <button class="cc-tab" id="tabCallsList" onclick="switchCC('calls')">
+                <i data-lucide="coins" class="lucide-sm"></i>
+                <span>Capital Calls</span>
+                <span class="cc-tab-count" id="tabCallsCount">2</span>
+              </button>
+            </div>
+
+            <!-- TAB 01: COMMITMENTS TABLE -->
+            <div id="panelCommitments">
+              <div class="table-card">
+                <div class="table-toolbar">
+                  <div class="table-toolbar-left">
+                    <strong style="font-size:12.5px; color:var(--text-dark);">LP Commitment Register</strong>
+                    <span class="badge-pill neutral-soft" id="commitAcceptedBadge">16 LPs</span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <div class="inpage-search-box">
+                      <i data-lucide="search" class="search-icon"></i>
+                      <input type="text" class="inpage-search-input" placeholder="Search LP…" oninput="filterCommitments(this.value)" />
+                    </div>
+                  </div>
+                </div>
+
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>LP Name</th>
+                      <th>LP Type</th>
+                      <th class="num">Commitment</th>
+                      <th class="num">Called</th>
+                      <th class="num">Paid</th>
+                      <th class="num">Uncalled</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="commitTableBody"><!-- Rendered by JS --></tbody>
+                </table>
+
+                <div class="table-footer">
+                  <span id="commitFooterNote">Commitments come in from LPs · Uncalled = Commitment − Called</span>
+                  <div style="display:flex; gap:6px;">
+                    <button class="pager-btn">← Prev</button>
+                    <button class="pager-btn">Next →</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 02: CAPITAL CALLS TABLE -->
+            <div id="panelCallsList" style="display:none;">
+              <div class="table-card">
+                <div class="table-toolbar">
+                  <div class="table-toolbar-left">
+                    <strong style="font-size:12.5px; color:var(--text-dark);">Capital Call Ledger</strong>
+                    <span class="badge-pill neutral-soft" id="callsOpenBadge">2 settled</span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="btn btn-outline btn-sm" onclick="openRecordPaymentModal()" style="gap:4px;">
+                      <i data-lucide="wallet" class="lucide-sm"></i>
+                      <span>Record payment</span>
+                    </button>
+                    <button class="btn btn-primary btn-sm" onclick="openCreateCallModal()" style="gap:4px;">
+                      <i data-lucide="plus"></i>
+                      <span>Create call</span>
+                    </button>
+                  </div>
+                </div>
+
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Call ID</th>
+                      <th>Fund</th>
+                      <th class="num">Call Amount</th>
+                      <th>Issue Date</th>
+                      <th>Due Date</th>
+                      <th class="num">Paid Amount</th>
+                      <th class="num">Outstanding</th>
+                      <th>Payment Status</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="callsTableBody"><!-- Rendered by JS --></tbody>
+                </table>
+
+                <div class="table-footer">
+                  <span>Read-only ledger — edit payments via <strong>Record payment</strong> on each call (audited). Outstanding = Call Amount − Paid</span>
+                  <div style="display:flex; gap:6px;">
+                    <button class="pager-btn">← Prev</button>
+                    <button class="pager-btn">Next →</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT RAIL COLUMN -->
+          <div class="cc-rail-col">
+
+            <!-- Fund Call Health Card -->
+            <div class="thesis-card">
+              <div class="thesis-card-head">
+                <div class="thesis-card-title">
+                  <i data-lucide="activity" class="lucide-sm"></i>
+                  <span>Fund Call Health</span>
+                </div>
+                <span class="badge-pill neutral-soft" id="healthCalledBadge">21.5% Called</span>
+              </div>
+              <div class="thesis-card-body" style="display:flex; flex-direction:column; gap:10px;">
+                <div>
+                  <div class="health-row">
+                    <span class="health-row-label">Called of Committed</span>
+                    <span class="health-row-value" id="healthCalled">₹4.30 Cr</span>
+                  </div>
+                  <div style="height:6px; background:var(--bg-muted); border-radius:4px; overflow:hidden; margin-top:5px;">
+                    <div style="width:21.5%; height:100%; background:var(--accent-graphite);" id="healthCalledBar"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="health-row">
+                    <span class="health-row-label">Collected of Called</span>
+                    <span class="health-row-value" id="healthCollected">₹4.30 Cr · 100%</span>
+                  </div>
+                  <div style="height:6px; background:var(--bg-muted); border-radius:4px; overflow:hidden; margin-top:5px;">
+                    <div style="width:100%; height:100%; background:var(--accent-graphite);" id="healthCollectedBar"></div>
+                  </div>
+                </div>
+                <div style="height:1px; background:var(--border-faint); margin:2px 0;"></div>
+                <div style="display:flex; flex-direction:column; gap:5px; font-size:11.5px; color:var(--text-muted);" id="healthChips">
+                  <div style="display:flex; justify-content:space-between;"><span>✓ CC-001 settled</span><span class="badge-pill neutral-dark">Paid</span></div>
+                  <div style="display:flex; justify-content:space-between;"><span>✓ CC-002 settled</span><span class="badge-pill neutral-dark">Paid</span></div>
+                  <div style="display:flex; justify-content:space-between;"><span>○ No outstanding calls</span><span class="badge-pill neutral-soft">—</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Ledger Card -->
+            <div class="thesis-card">
+              <div class="thesis-card-head">
+                <div class="thesis-card-title">
+                  <i data-lucide="wallet" class="lucide-sm"></i>
+                  <span>Payment Ledger</span>
+                </div>
+                <a href="#" onclick="event.preventDefault(); switchCC('calls');" style="font-size:11px; font-weight:600; color:var(--text-dark); text-decoration:none;">View calls</a>
+              </div>
+              <div class="thesis-card-body" id="paymentLedger" style="padding-top:6px; padding-bottom:8px;"><!-- Rendered by JS --></div>
+            </div>
+
+            <!-- Payment Audit Trail Card -->
+            <div class="thesis-card">
+              <div class="thesis-card-head">
+                <div class="thesis-card-title">
+                  <i data-lucide="history" class="lucide-sm"></i>
+                  <span>Payment Audit Trail</span>
+                </div>
+                <a href="#" onclick="event.preventDefault(); openAuditTrail();" style="font-size:11px; font-weight:600; color:var(--text-dark); text-decoration:none;">View all</a>
+              </div>
+              <div class="thesis-card-body" id="paymentAuditBox" style="padding-top:6px; padding-bottom:8px;"><!-- Rendered by JS --></div>
+            </div>
+
+            <!-- Quick Actions Card -->
+            <div class="thesis-card">
+              <div class="thesis-card-head">
+                <div class="thesis-card-title">
+                  <i data-lucide="zap" class="lucide-sm"></i>
+                  <span>Quick Actions</span>
+                </div>
+              </div>
+              <div class="thesis-card-body" style="padding-top:12px; padding-bottom:14px;">
+                <div class="quick-actions-grid">
+
+                  <button class="qq-tile" onclick="openRecordPaymentModal()">
+                    <span class="qq-tile-icon"><i data-lucide="wallet" class="lucide-sm"></i></span>
+                    <span style="display:flex; flex-direction:column;">
+                      <span class="qq-tile-label">Record payment</span>
+                      <span class="qq-tile-sub" id="qqRecordSub">Manual receipt entry</span>
+                    </span>
+                  </button>
+
+                  <button class="qq-tile" onclick="alert('Reminders sent to LPs with outstanding balances on open calls.')">
+                    <span class="qq-tile-icon"><i data-lucide="bell-ring" class="lucide-sm"></i></span>
+                    <span style="display:flex; flex-direction:column;">
+                      <span class="qq-tile-label">Send reminders</span>
+                      <span class="qq-tile-sub" id="qqRemindSub">Follow up on dues</span>
+                    </span>
+                  </button>
+
+                  <button class="qq-tile" onclick="openCreateCallModal()">
+                    <span class="qq-tile-icon"><i data-lucide="calendar-plus" class="lucide-sm"></i></span>
+                    <span style="display:flex; flex-direction:column;">
+                      <span class="qq-tile-label">Create call</span>
+                      <span class="qq-tile-sub">Draw when needed</span>
+                    </span>
+                  </button>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        </div><!-- END filledCCContainer -->
+
+        <!-- 03. EMPTY / FIRST-RUN STATE (Toggled via Bottom Right FAB) -->
+        <div id="emptyCCView" style="display:none;">
+          <div class="empty-canvas-box">
+            <div class="empty-canvas-icon">
+              <i data-lucide="coins" class="lucide-lg"></i>
+            </div>
+            <h2 class="empty-canvas-title">No LP commitments or capital calls yet</h2>
+            <p class="empty-canvas-sub">Commitments arrive from LPs directly. Once an LP commits, issue a capital call only when the fund needs capital. Payments are tracked manually.</p>
+            <button class="btn btn-primary" style="margin-top:10px;" onclick="toggleCCEmpty(false)">
+              <i data-lucide="plus"></i>
+              <span>View sample LPs</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<!-- SUBTLE FLOATING FAB TOGGLE BUTTON (BOTTOM RIGHT CORNER) -->
+<button class="fab-toggle-btn" id="fabToggleState" title="Toggle between Populated Records and Empty State" onclick="toggleCCEmpty()">
+  <i data-lucide="eye" class="lucide-sm"></i>
+  <span id="fabToggleText">Toggle Empty State</span>
+</button>
+
+<!-- Modal Dialog Container Slot -->
+<div id="modalSlot"></div>
+
+<!-- Scripts -->
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+<script>
+  // ========================================================================
+  // LP COMMITMENTS & CAPITAL CALLS PAGE LOGIC
+  // ========================================================================
+
+  LayoutComponents.init({ activeNav: 'capital-calls', activeApp: 'investor' });
+
+  // ---------- SAMPLE LP COMMITMENT DATA (16 LPs) ----------
+  // Commitments always come in from the LPs — the fund takes them in, no GP-initiated flow.
+  const LPs = [
+    { name: 'Shikhar Kapoor',           type: 'Family Office',   comm: 2.50, called: 0.94, paid: 0.94, status: 'Accepted' },
+    { name: 'Horizon Capital Partners', type: 'Institutional',   comm: 2.40, called: 0.58, paid: 0.58, status: 'Accepted' },
+    { name: 'Ananya Raghunathan',       type: 'Trust',           comm: 2.00, called: 0.48, paid: 0.48, status: 'Accepted' },
+    { name: 'Krish Kaul',               type: 'HNI',             comm: 1.80, called: 0.43, paid: 0.43, status: 'Accepted' },
+    { name: 'Meridian Family Office',   type: 'Family Office',   comm: 1.60, called: 0.00, paid: 0.00, status: 'Pending Acceptance' },
+    { name: 'Aurum Global Trust',       type: 'Institutional',   comm: 1.40, called: 0.00, paid: 0.00, status: 'Pending Acceptance' },
+    { name: 'Vidhi Sharma',             type: 'Angel',           comm: 1.20, called: 0.29, paid: 0.29, status: 'Accepted' },
+    { name: 'Nishant Vohra',            type: 'SFO',             comm: 1.10, called: 0.26, paid: 0.26, status: 'Accepted' },
+    { name: 'Tara Investment Office',   type: 'Asset Office',    comm: 1.00, called: 0.24, paid: 0.24, status: 'Accepted' },
+    { name: 'FinCity Entrepreneurs Fund', type: 'Institutional', comm: 1.00, called: 0.24, paid: 0.24, status: 'Accepted' },
+    { name: 'Bhanu Chandrasekhar',      type: 'HNI',             comm: 0.90, called: 0.22, paid: 0.22, status: 'Accepted' },
+    { name: 'Rohan Mehta',              type: 'Founder Angel',   comm: 0.80, called: 0.19, paid: 0.19, status: 'Accepted' },
+    { name: 'Surya Nair',               type: 'Corporate',       comm: 0.70, called: 0.17, paid: 0.17, status: 'Accepted' },
+    { name: 'Devanshi Patel',           type: 'HNI',             comm: 0.60, called: 0.14, paid: 0.14, status: 'Accepted' },
+    { name: 'Arcus Capital',            type: 'Trust',           comm: 0.50, called: 0.00, paid: 0.00, status: 'Declined' },
+    { name: 'Kenji Watanabe',           type: 'Global Angel',    comm: 0.50, called: 0.12, paid: 0.12, status: 'Accepted' },
+  ];
+
+  // ---------- CAPITAL CALLS ISSUED BY THE GP (manually maintained) ----------
+  const CALLS = [
+    { id: 'CC-002', fund: 'Seedicon Fund I', amount: 1.80, issue: '28 Jul 2026', due: '27 Aug 2026', paid: 1.80, paidDate: '25 Aug 2026', status: 'Paid', notes: 'All LP remittances confirmed against bank statement.' },
+    { id: 'CC-001', fund: 'Seedicon Fund I', amount: 2.50, issue: '02 Jul 2026', due: '01 Aug 2026', paid: 2.50, paidDate: '01 Aug 2026', status: 'Paid', notes: 'Initial deployment call fully settled.' },
+  ];
+
+  // ---------- AUDIT TRAIL (who updated a payment + when) ----------
+  const AUDIT = [
+    { id: 'CC-002', who: 'Rahul Sharma (GP)', ts: '25 Aug 2026 · 4:18 PM', what: 'Paid updated ₹0.00 → ₹1.80 Cr · Status → Paid', note: 'All LP remittances confirmed against bank statement.' },
+    { id: 'CC-001', who: 'Rahul Sharma (GP)', ts: '01 Aug 2026 · 11:02 AM', what: 'Paid updated ₹0.00 → ₹2.50 Cr · Status → Paid', note: 'Initial deployment call fully settled.' },
+  ];
+
+  const fmtCr = (v) => '₹' + v.toFixed(2) + ' Cr';
+  const round2 = (v) => Math.round(v * 100) / 100;
+  const initials = (name) => name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  const totalComm = () => round2(LPs.reduce((s, lp) => s + lp.comm, 0));
+  const totalCalled = () => round2(LPs.reduce((s, lp) => s + lp.called, 0));
+  const totalPaid = () => round2(LPs.reduce((s, lp) => s + lp.paid, 0));
+
+  function paymentStatus(call) {
+    if (call.status) return call.status;
+    if (call.paid >= call.amount - 0.001) return 'Paid';
+    if (call.paid > 0) return 'Partially Paid';
+    return 'Not Paid';
+  }
+
+  function nowStr() {
+    const d = new Date();
+    const ds = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    const ts = d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    return ds + ' · ' + ts;
+  }
+
+  function set(id, val) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (el.tagName === 'DIV' && id.endsWith('Bar')) el.style.width = val;
+    else el.textContent = val;
+  }
+
+  // ---------- METRICS (all LP commitments) ----------
+  function renderMetrics() {
+    const tComm = totalComm();
+    const tCalled = totalCalled();
+    const tPaid = totalPaid();
+    const tOut = round2(tCalled - tPaid);
+    const callPct = (tCalled / tComm) * 100;
+    const paidPct = tCalled ? (tPaid / tCalled) * 100 : 0;
+    const pending = LPs.filter(lp => lp.status === 'Pending Acceptance').length;
+    const dueCount = LPs.filter(lp => round2(lp.called - lp.paid) > 0).length;
+    const openCalls = CALLS.filter(c => round2(c.amount - c.paid) > 0).length;
+    const settled = CALLS.filter(c => c.status === 'Paid').length;
+
+    set('mCommit', fmtCr(tComm));
+    set('mCalled', fmtCr(tCalled));
+    set('mPaid', fmtCr(tPaid));
+    set('mOut', fmtCr(tOut));
+    set('mCallable', fmtCr(round2(tComm - tCalled)));
+    set('mCallPct', callPct.toFixed(1));
+    set('mPaidPct', paidPct.toFixed(1));
+    set('mUncalledPct', (100 - callPct).toFixed(1));
+    set('mCallBar', 'width:' + callPct.toFixed(1) + '%');
+    set('mPaidBar', 'width:' + paidPct.toFixed(1) + '%');
+    set('mCommitHint', LPs.length + ' LPs · ₹' + (tComm * 10).toFixed(1) + 'M' + (pending ? ' · ' + pending + ' pending' : ''));
+    set('mOutHint', dueCount > 0 ? dueCount + ' LP' + (dueCount > 1 ? 's' : '') + ' with outstanding · ' + openCalls + ' open call' + (openCalls > 1 ? 's' : '') : 'No payments outstanding');
+    set('mCallsIssued', String(CALLS.length));
+    set('mCallsHint', CALLS.length ? 'CC-001 → ' + CALLS[CALLS.length - 1].id + ' · ' + settled + ' settled' : 'No calls issued yet');
+    set('commitAcceptedBadge', LPs.length + ' LPs');
+    set('commitFooterNote', 'Commitments come in from LPs · Uncalled = Commitment − Called');
+    set('callsOpenBadge', openCalls > 0 ? openCalls + ' open' : settled + ' settled');
+
+    set('healthCalledBadge', callPct.toFixed(1) + '% Called');
+    set('healthCalled', fmtCr(tCalled));
+    set('healthCollected', fmtCr(tPaid) + ' · ' + (paidPct || 0).toFixed(1) + '%');
+    set('healthCalledBar', 'width:' + callPct.toFixed(1) + '%');
+    set('healthCollectedBar', 'width:' + (paidPct || 0).toFixed(1) + '%');
+
+    const chips = document.getElementById('healthChips');
+    if (chips) {
+      chips.innerHTML = CALLS.map(c => {
+        const ok = c.status === 'Paid';
+        return `<div style="display:flex; justify-content:space-between;">
+          <span>${ok ? '✓' : '○'} ${c.id} ${ok ? 'settled' : 'open'}</span>
+          <span class="badge-pill ${ok ? 'neutral-dark' : 'neutral-soft'}">${c.status}</span>
+        </div>`;
+      }).join('') || `<div style="color:var(--text-light);">No capital calls issued</div>`;
+    }
+
+    const remindSub = document.getElementById('qqRemindSub');
+    if (remindSub) remindSub.textContent = openCalls > 0 ? openCalls + ' open call' + (openCalls > 1 ? 's' : '') + ' to follow up' : 'No open calls';
+    const recSub = document.getElementById('qqRecordSub');
+    if (recSub) recSub.textContent = openCalls > 0 ? 'Enter receipts on ' + openCalls + ' open' : 'No receipts pending';
+  }
+
+  // ---------- COMMITMENTS TABLE (read-only — commitments come in from LPs) ----------
+  const commitStatusClass = (s) => s === 'Accepted' ? 'paid' : (s === 'Declined' ? 'partial' : 'pending');
+
+  function renderCommitmentsTable() {
+    const tbody = document.getElementById('commitTableBody');
+    const filter = (window.__commitFilter || '').toLowerCase();
+    const rows = LPs.map((lp, i) => {
+      const uncalled = round2(lp.comm - lp.called);
+      return `<tr>
+        <td>
+          <div class="lp-cell">
+            <div class="lp-avatar">${initials(lp.name)}</div>
+            <span class="lp-name">${lp.name}</span>
+          </div>
+        </td>
+        <td><span class="lp-tag">${lp.type}</span></td>
+        <td class="num">${fmtCr(lp.comm)}</td>
+        <td class="num">${fmtCr(lp.called)}</td>
+        <td class="num">${fmtCr(lp.paid)}</td>
+        <td class="num"><span style="font-weight:${uncalled === 0 ? 400 : 700}; color:${uncalled === 0 ? 'var(--text-light)' : 'var(--text-dark)'};">${fmtCr(uncalled)}</span></td>
+        <td><span class="status-pill ${commitStatusClass(lp.status)}">${lp.status}</span></td>
+      </tr>`;
+    }).filter(r => r.toLowerCase().includes(filter));
+
+    tbody.innerHTML = rows.join('') || `<tr><td colspan="7" style="text-align:center; color:var(--text-light); padding:18px;">No LPs match the search.</td></tr>`;
+    const count = document.getElementById('tabCommitCount');
+    if (count) count.textContent = String(rows.length);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function filterCommitments(q) {
+    window.__commitFilter = q;
+    renderCommitmentsTable();
+  }
+
+  // ---------- CAPITAL CALLS TABLE (READ-ONLY — edit via Record payment) ----------
+  function renderCallsTable() {
+    const tbody = document.getElementById('callsTableBody');
+    tbody.innerHTML = CALLS.map((c, i) => {
+      const out = round2(c.amount - c.paid);
+      const st = paymentStatus(c);
+      return `<tr>
+        <td><span style="font-weight:700; color:var(--text-dark);">${c.id}</span></td>
+        <td><span style="font-size:12px; color:var(--text-main);">${c.fund}</span></td>
+        <td class="num">${fmtCr(c.amount)}</td>
+        <td style="font-size:12px; color:var(--text-main);">${c.issue}</td>
+        <td style="font-size:12px; color:var(--text-muted);">${c.due}</td>
+        <td class="num" style="font-weight:600;">${fmtCr(c.paid)}${c.paidDate && c.paid > 0 ? '<div style="font-size:10px; color:var(--text-light); font-weight:400;">' + c.paidDate + '</div>' : ''}</td>
+        <td class="num"><span style="font-weight:${out > 0 ? 700 : 400}; color:${out > 0 ? 'var(--text-dark)' : 'var(--text-light)'};">${fmtCr(out)}</span></td>
+        <td><span class="status-pill ${st === 'Paid' ? 'paid' : (st === 'Partially Paid' ? 'partial' : (st === 'Overdue' ? 'overdue' : 'pending'))}">${st}</span></td>
+        <td>
+          <button class="row-action-btn" title="Edit / Record payment" onclick="openRecordPaymentModal('${c.id}')"><i data-lucide="wallet" class="lucide-sm"></i></button>
+          <button class="row-action-btn" title="Call options" onclick="openCallOptions('${c.id}')"><i data-lucide="more-horizontal" class="lucide-sm"></i></button>
+        </td>
+      </tr>`;
+    }).join('') || `<tr><td colspan="9" style="text-align:center; color:var(--text-light); padding:18px;">No capital calls issued yet — click "Create Capital Call" when the fund needs capital.</td></tr>`;
+
+    const tabCount = document.getElementById('tabCallsCount');
+    if (tabCount) tabCount.textContent = String(CALLS.length);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // Re-distribute LP paid balances so fund-level paid = sum of call payments
+  function redistributeLPPayments() {
+    const totalPaid = round2(CALLS.reduce((s, c) => s + c.paid, 0));
+    const tCalled = totalCalled() || 1;
+    let assigned = 0;
+    LPs.forEach((lp, idx) => {
+      let p;
+      if (idx === LPs.length - 1) {
+        p = round2(Math.max(0, Math.min(lp.called, totalPaid - assigned)));
+      } else {
+        p = round2(Math.max(0, Math.min(lp.called, (totalPaid * lp.called) / tCalled)));
+      }
+      lp.paid = p;
+      assigned += p;
+    });
+
+    renderCallsTable();
+    renderCommitmentsTable();
+    renderPaymentLedger();
+    renderPaymentAudit();
+    renderMetrics();
+  }
+
+  // ---------- RECORD / EDIT PAYMENT MODAL (manual, audited) ----------
+  function openRecordPaymentModal(callId) {
+    const openCalls = CALLS.filter(c => round2(c.amount - c.paid) > 0);
+    const target = (callId && CALLS.find(c => c.id === callId)) || openCalls[0] || CALLS[0];
+    if (!target) { alert('No capital calls exist yet.'); return; }
+
+    openModal('Record / Edit Payment — ' + target.id, `
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-muted); border:1px solid var(--border-main); border-radius:6px; padding:8px 12px; font-size:11.5px;">
+          <span style="color:var(--text-muted);">Call Amount</span>
+          <strong style="color:var(--text-dark); font-variant-numeric:tabular-nums;">${fmtCr(target.amount)}</strong>
+        </div>
+
+        <div>
+          <label class="form-label">CAPITAL CALL</label>
+          <select class="form-input" id="rpCall" onchange="refreshRPDisplay()">
+            ${CALLS.map(c => `<option value="${c.id}" ${c.id === target.id ? 'selected' : ''}>${c.id} · ${fmtCr(c.amount)}</option>`).join('')}
+          </select>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div>
+            <label class="form-label">PAID AMOUNT (₹ Cr)</label>
+            <div class="input-with-suffix">
+              <span class="suffix">₹</span>
+              <input type="number" class="form-input" id="rpAmount" value="${target.paid}" step="0.05" min="0" oninput="refreshRPDisplay()" />
+              <span class="suffix">Crore</span>
+            </div>
+            <p class="form-hint" id="rpOutstandingHint">Outstanding: ${fmtCr(round2(target.amount - target.paid))}</p>
+          </div>
+          <div>
+            <label class="form-label">PAYMENT DATE</label>
+            <input type="text" class="form-input" id="rpDate" value="${target.paidDate || '12 Aug 2026'}" placeholder="dd MMM yyyy" />
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label">PAYMENT STATUS</label>
+          <select class="form-input" id="rpStatus">
+            ${['Not Paid', 'Partially Paid', 'Paid', 'Overdue'].map(o =>
+              `<option ${o === (target.status || paymentStatus(target)) ? 'selected' : ''}>${o}</option>`).join('')}
+          </select>
+        </div>
+
+        <div>
+          <label class="form-label">NOTES</label>
+          <textarea class="form-input" id="rpNotes" style="min-height:52px;">${target.notes || ''}</textarea>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px;">
+          <button onclick="document.getElementById('modalOverlay').style.display='none'" class="btn">Cancel</button>
+          <button class="btn btn-primary" onclick="savePayment()">
+            <i data-lucide="check-circle"></i>
+            <span>Save Payment</span>
+          </button>
+        </div>
+      </div>
+    `);
+  }
+
+  function currentRPCall() {
+    const id = document.getElementById('rpCall').value;
+    return CALLS.find(c => c.id === id);
+  }
+
+  function refreshRPDisplay() {
+    const call = currentRPCall();
+    if (!call) return;
+    const amt = parseFloat(document.getElementById('rpAmount').value) || 0;
+    const out = round2(call.amount - Math.max(0, amt));
+    const hint = document.getElementById('rpOutstandingHint');
+    if (hint) hint.textContent = 'Outstanding (auto): ' + fmtCr(out);
+  }
+
+  function savePayment() {
+    const call = currentRPCall();
+    let amt = parseFloat(document.getElementById('rpAmount').value) || 0;
+    if (amt < 0) amt = 0;
+    if (amt > call.amount) { alert('Paid amount cannot exceed the call amount (' + fmtCr(call.amount) + ').'); return; }
+    amt = round2(amt);
+
+    const date = document.getElementById('rpDate').value.trim() || '—';
+    const status = document.getElementById('rpStatus').value;
+    const notes = document.getElementById('rpNotes').value.trim();
+
+    const oldPaid = call.paid;
+    const oldStatus = call.status || paymentStatus(call);
+
+    call.paid = amt;
+    call.paidDate = amt > 0 ? date : '—';
+    call.status = status;
+    call.notes = notes;
+
+    AUDIT.unshift({
+      id: call.id,
+      who: 'Rahul Sharma (GP)',
+      ts: nowStr(),
+      what: `Paid updated ${fmtCr(oldPaid)} → ${fmtCr(amt)} · Status → ${status}`,
+      note: notes || '—'
+    });
+
+    redistributeLPPayments();
+    document.getElementById('modalOverlay').style.display = 'none';
+    alert(`Payment saved for ${call.id}.\n\n${fmtCr(amt)} of ${fmtCr(call.amount)} received (${status})\nOutstanding: ${fmtCr(round2(call.amount - amt))}\n\nAudit entry created — updated by Rahul Sharma (GP) at ${nowStr()}.`);
+  }
+
+  // ---------- CALL OPTIONS + AUDIT MODALS ----------
+  function openCallOptions(id) {
+    const c = CALLS.find(x => x.id === id);
+    if (!c) return;
+    const entries = AUDIT.filter(a => a.id === id);
+    openModal('Call Options — ' + id, `
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div class="flow-action" onclick="document.getElementById('modalOverlay').style.display='none'; openRecordPaymentModal('${id}')" style="cursor:pointer;">
+          <div>
+            <div class="flow-action-label">Edit / Record payment</div>
+            <div class="flow-action-sub">Update paid amount, date, status &amp; notes (audited)</div>
+          </div>
+          <i data-lucide="chevron-right" class="lucide-sm"></i>
+        </div>
+        <div class="flow-action" onclick="document.getElementById('modalOverlay').style.display='none'; openAuditTrail('${id}')" style="cursor:pointer;">
+          <div>
+            <div class="flow-action-label">Payment audit trail</div>
+            <div class="flow-action-sub">${entries.length} update${entries.length === 1 ? '' : 's'} recorded for this call</div>
+          </div>
+          <i data-lucide="chevron-right" class="lucide-sm"></i>
+        </div>
+        <div class="flow-action" onclick="alert('Capital call statement exported for ${id}.')" style="cursor:pointer;">
+          <div>
+            <div class="flow-action-label">Export statement</div>
+            <div class="flow-action-sub">Download PDF / CSV for ${id}</div>
+          </div>
+          <i data-lucide="chevron-right" class="lucide-sm"></i>
+        </div>
+        <div class="flow-action" onclick="alert('Payment reminder re-dispatched to outstanding LPs on ${id}.')" style="cursor:pointer;">
+          <div>
+            <div class="flow-action-label">Resend notice</div>
+            <div class="flow-action-sub">Notify LPs with unpaid balances</div>
+          </div>
+          <i data-lucide="chevron-right" class="lucide-sm"></i>
+        </div>
+      </div>
+    `);
+  }
+
+  function openAuditTrail(callId) {
+    const entries = callId ? AUDIT.filter(a => a.id === callId) : AUDIT;
+    const title = callId ? 'Payment Audit — ' + callId : 'Payment Audit Trail (All Calls)';
+    openModal(title, `
+      <div style="display:flex; flex-direction:column; gap:4px; max-height:420px; overflow-y:auto;">
+        ${entries.length ? entries.map(a => `
+          <div class="audit-row">
+            <div class="audit-icon"><i data-lucide="pencil" class="lucide-sm"></i></div>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px;">
+                <span class="audit-title">${a.id} · ${a.what}</span>
+                <span class="audit-meta" style="white-space:nowrap;">${a.ts}</span>
+              </div>
+              <div class="audit-meta">By <strong>${a.who}</strong></div>
+              <div class="audit-note">${a.note}</div>
+            </div>
+          </div>`).join('')
+        : `<div style="font-size:12px; color:var(--text-light); padding:12px;">No payment updates recorded yet.</div>`}
+      </div>
+    `);
+  }
+
+  // ---------- PAYMENT LEDGER + AUDIT TRAIL (RAIL) ----------
+  function renderPaymentLedger() {
+    const box = document.getElementById('paymentLedger');
+    if (!box) return;
+    box.innerHTML = CALLS.map(c => {
+      const out = round2(c.amount - c.paid);
+      const st = paymentStatus(c);
+      return `<div class="ledger-row">
+        <div>
+          <div class="ledger-row-head">
+            <i data-lucide="coins" class="lucide-sm" style="color:var(--text-light);"></i>
+            <span>${c.id}</span>
+            <span class="status-pill ${st === 'Paid' ? 'paid' : (st === 'Partially Paid' ? 'partial' : (st === 'Overdue' ? 'overdue' : 'pending'))}">${st}</span>
+          </div>
+          <div class="ledger-row-meta">${st === 'Paid' ? 'Received in full' : 'Outstanding ' + fmtCr(out)} · due ${c.due}</div>
+        </div>
+        <div>
+          <div class="ledger-amt">${fmtCr(c.paid)}</div>
+          <div class="ledger-row-meta" style="text-align:right;">of ${fmtCr(c.amount)}</div>
+        </div>
+      </div>`;
+    }).join('') || `<div style="font-size:11.5px; color:var(--text-light); padding:6px 0;">No payments recorded yet.</div>`;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function renderPaymentAudit() {
+    const box = document.getElementById('paymentAuditBox');
+    if (!box) return;
+    box.innerHTML = AUDIT.slice(0, 3).map(a => `
+      <div class="audit-row">
+        <div class="audit-icon" style="width:24px; height:24px;"><i data-lucide="pencil" class="lucide-sm"></i></div>
+        <div style="flex:1; min-width:0;">
+          <div class="audit-title">${a.id} · ${a.what}</div>
+          <div class="audit-meta">${a.who} · ${a.ts}</div>
+        </div>
+      </div>`).join('') || `<div style="font-size:11.5px; color:var(--text-light); padding:6px 0;">No payment updates yet.</div>`;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // ---------- TAB SWITCHING ----------
+  function switchCC(tab) {
+    const isCommit = tab === 'commitments';
+    document.getElementById('panelCommitments').style.display = isCommit ? 'block' : 'none';
+    document.getElementById('panelCallsList').style.display = isCommit ? 'none' : 'block';
+    document.getElementById('tabCommitments').classList.toggle('active', isCommit);
+    document.getElementById('tabCallsList').classList.toggle('active', !isCommit);
+  }
+
+  // ---------- EMPTY / POPULATED STATE TOGGLE (FAB) ----------
+  let isCCEmptyState = false;
+  function toggleCCEmpty(forceState) {
+    const filledContainer = document.getElementById('filledCCContainer');
+    const emptyView = document.getElementById('emptyCCView');
+    const fabText = document.getElementById('fabToggleText');
+
+    isCCEmptyState = typeof forceState === 'boolean' ? forceState : !isCCEmptyState;
+
+    if (filledContainer) filledContainer.style.display = isCCEmptyState ? 'none' : 'block';
+    if (emptyView) emptyView.style.display = isCCEmptyState ? 'block' : 'none';
+    if (fabText) fabText.textContent = isCCEmptyState ? 'Toggle Populated State' : 'Toggle Empty State';
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // ---------- CREATE CAPITAL CALL MODAL (SMART 2-STEP FORM) ----------
+  let ccMethod = 'pct';
+  let ccPct = 5;
+  let ccAmt = 1.0;
+  let ccShares = [];
+  let ccSelected = [];
+
+  function ccTotals() {
+    const tCalled = totalCalled();
+    return { commit: totalComm(), callable: round2(totalComm() - tCalled) };
+  }
+
+  function nextCallId() {
+    return 'CC-' + String(CALLS.length + 1).padStart(3, '0');
+  }
+
+  function openCreateCallModal() {
+    const t = ccTotals();
+    openModal('Create Capital Call — ' + nextCallId(), `
+      <div style="display:flex; flex-direction:column; gap:12px;">
+
+        <div class="form-steps">
+          <span class="form-step active" id="ccStepLabel">1 · Call Parameters</span>
+          <span class="form-step-line"></span>
+          <span class="form-step" id="ccStepLabel2">2 · Allocation &amp; Issue</span>
+        </div>
+
+        <div id="ccStep1">
+          <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-muted); border:1px solid var(--border-main); border-radius:6px; padding:8px 12px; font-size:11.5px;">
+            <span style="color:var(--text-muted);">Callable headroom (uncalled)</span>
+            <strong id="ccHeadroom" style="color:var(--text-dark); font-variant-numeric:tabular-nums;">${fmtCr(t.callable)}</strong>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label class="form-label">DISTRIBUTION METHOD</label>
+            <div class="seg-control">
+              <button type="button" class="seg-opt active" id="segPct" onclick="setCCMethod('pct')">% of commitment</button>
+              <button type="button" class="seg-opt" id="segAmt" onclick="setCCMethod('amt')">Flat ₹ amount</button>
+            </div>
+          </div>
+
+          <div id="ccPctBlock" style="margin-top:10px;">
+            <label class="form-label">CALL SIZE — % OF COMMITMENT</label>
+            <div class="preset-chips" style="margin-bottom:8px;">
+              <span class="prompt-chip" onclick="setCCPct(2.5)">2.5% · ₹0.50 Cr</span>
+              <span class="prompt-chip" onclick="setCCPct(5)">5% · ₹1.00 Cr</span>
+              <span class="prompt-chip" onclick="setCCPct(7.5)">7.5% · ₹1.50 Cr</span>
+              <span class="prompt-chip" onclick="setCCPct(10)">10% · ₹2.00 Cr</span>
+              <span class="prompt-chip" onclick="setCCPct(12.5)">12.5% · ₹2.50 Cr</span>
+            </div>
+            <div class="input-with-suffix">
+              <input type="number" class="form-input" id="ccPctInput" value="5" step="0.5" min="0" oninput="onCCPctInput()" />
+              <span class="suffix">% of fund</span>
+            </div>
+            <p class="form-hint" id="ccPctHint">Draw total ≈ <strong>₹1.00 Cr</strong> · across committed LPs</p>
+          </div>
+
+          <div id="ccAmtBlock" style="display:none; margin-top:10px;">
+            <label class="form-label">CALL SIZE — ₹ AMOUNT</label>
+            <div class="preset-chips" style="margin-bottom:8px;">
+              <span class="prompt-chip" onclick="setCCAmt(0.5)">₹0.50 Cr</span>
+              <span class="prompt-chip" onclick="setCCAmt(1)">₹1.00 Cr</span>
+              <span class="prompt-chip" onclick="setCCAmt(1.5)">₹1.50 Cr</span>
+              <span class="prompt-chip" onclick="setCCAmt(2)">₹2.00 Cr</span>
+              <span class="prompt-chip" onclick="setCCAmt(2.5)">₹2.50 Cr</span>
+            </div>
+            <div class="input-with-suffix">
+              <span class="suffix">₹</span>
+              <input type="number" class="form-input" id="ccAmtInput" value="1.00" step="0.25" min="0" oninput="onCCAmtInput()" />
+              <span class="suffix">Crore</span>
+            </div>
+            <p class="form-hint" id="ccAmtHint">≤ callable · drawn pro-rata by commitment</p>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+            <div>
+              <label class="form-label">CALL DATE</label>
+              <input type="text" class="form-input" id="ccIssueDate" value="12 Aug 2026" />
+            </div>
+            <div>
+              <label class="form-label">PAYMENT DUE</label>
+              <select class="form-input" id="ccDueDays">
+                <option value="21">+21 days</option>
+                <option value="30" selected>+30 days</option>
+                <option value="45">+45 days</option>
+                <option value="60">+60 days</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label class="form-label">PURPOSE / NOTE</label>
+            <div class="preset-chips" style="margin-bottom:6px;">
+              <span class="prompt-chip" onclick="setCCPurpose('Initial deployment for portfolio round 03')">Initial deployment</span>
+              <span class="prompt-chip" onclick="setCCPurpose('Follow-on reserves for portfolio rounds')">Follow-on reserves</span>
+              <span class="prompt-chip" onclick="setCCPurpose('Management fees & fund operating expenses')">Management fees</span>
+            </div>
+            <textarea class="form-input" id="ccPurpose" style="min-height:52px;">Follow-on deployment for portfolio rounds closing in Q3 2026.</textarea>
+          </div>
+
+          <label class="cc-check-row" style="margin-top:10px;">
+            <input type="checkbox" id="ccNotify" checked />
+            <span>Notify LPs by email on issue</span>
+            <span class="cc-check-note">Payments recorded manually</span>
+          </label>
+        </div>
+
+        <div id="ccStep2" style="display:none;">
+          <div class="cc-summary-row">
+            <div class="cc-summary-box">
+              <div class="cc-summary-label">Call Amount</div>
+              <div class="cc-summary-value" id="ccSumAmt">—</div>
+            </div>
+            <div class="cc-summary-box">
+              <div class="cc-summary-label">LPs Selected</div>
+              <div class="cc-summary-value" id="ccSumLps">—</div>
+            </div>
+            <div class="cc-summary-box">
+              <div class="cc-summary-label">Avg per LP</div>
+              <div class="cc-summary-value" id="ccSumAvg">—</div>
+            </div>
+          </div>
+
+          <div class="alloc-scroll" style="border:1px solid var(--border-main); border-radius:8px; overflow:hidden; margin-top:10px;">
+            <table class="allocation-table" style="margin-top:0;">
+              <thead>
+                <tr>
+                  <th style="width:32px;">✓</th>
+                  <th>LP</th>
+                  <th class="num">Commitment</th>
+                  <th class="num">Amount</th>
+                </tr>
+              </thead>
+              <tbody id="ccAllocBody"></tbody>
+              <tfoot>
+                <tr class="allocation-total">
+                  <td colspan="3">Selected Total</td>
+                  <td class="num" id="ccAllocTotal">—</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <p class="form-hint" id="ccExcludedHint" style="display:none;">Declined LPs are auto-excluded — their commitment is not callable.</p>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px;">
+          <button onclick="document.getElementById('modalOverlay').style.display='none'" class="btn">Cancel</button>
+          <button id="ccBackBtn" style="display:none;" class="btn btn-outline" onclick="goCCStep(1)">
+            <i data-lucide="chevron-left" class="lucide-sm"></i>
+            <span>Back</span>
+          </button>
+          <button id="ccNextBtn" class="btn btn-primary" onclick="goCCStep(2)">
+            <span>Review allocation</span>
+            <i data-lucide="arrow-right" class="lucide-sm"></i>
+          </button>
+          <button id="ccIssueBtn" style="display:none;" class="btn btn-primary" onclick="issueCall()">
+            <i data-lucide="send"></i>
+            <span>Issue Capital Call</span>
+          </button>
+        </div>
+      </div>
+    `);
+
+    goCCStep(1);
+  }
+
+  function setCCMethod(m) {
+    ccMethod = m;
+    document.getElementById('segPct').classList.toggle('active', m === 'pct');
+    document.getElementById('segAmt').classList.toggle('active', m === 'amt');
+    document.getElementById('ccPctBlock').style.display = m === 'pct' ? 'block' : 'none';
+    document.getElementById('ccAmtBlock').style.display = m === 'amt' ? 'block' : 'none';
+    ccRefreshHints();
+  }
+
+  function setCCPct(p) { ccPct = p; const inp = document.getElementById('ccPctInput'); if (inp) inp.value = p; ccRefreshHints(); }
+  function onCCPctInput() { ccPct = parseFloat(document.getElementById('ccPctInput').value) || 0; ccRefreshHints(); }
+  function setCCAmt(a) { ccAmt = a; const inp = document.getElementById('ccAmtInput'); if (inp) inp.value = a.toFixed(2); ccRefreshHints(); }
+  function onCCAmtInput() { ccAmt = parseFloat(document.getElementById('ccAmtInput').value) || 0; ccRefreshHints(); }
+  function setCCPurpose(text) { const area = document.getElementById('ccPurpose'); if (area) area.value = text; }
+
+  function ccTotalAmount() {
+    const t = ccTotals();
+    return ccMethod === 'pct' ? (t.commit * ccPct) / 100 : ccAmt;
+  }
+
+  function ccRefreshHints() {
+    const total = ccTotalAmount();
+    const t = ccTotals();
+    const over = total > t.callable + 0.0001;
+    const pH = document.getElementById('ccPctHint');
+    if (pH) pH.innerHTML = `Draw total ≈ <strong>${fmtCr(total)}</strong> · across committed LPs` + (over ? ' · <span style="font-weight:700;">exceeds callable</span>' : '');
+    const aH = document.getElementById('ccAmtHint');
+    if (aH) aH.innerHTML = `≤ ${fmtCr(round2(t.callable))} callable · drawn pro-rata by commitment` + (over ? ' · <span style="font-weight:700;">exceeds callable</span>' : '');
+  }
+
+  function goCCStep(n) {
+    const step1 = document.getElementById('ccStep1');
+    const step2 = document.getElementById('ccStep2');
+    const l1 = document.getElementById('ccStepLabel');
+    const l2 = document.getElementById('ccStepLabel2');
+    const back = document.getElementById('ccBackBtn');
+    const next = document.getElementById('ccNextBtn');
+    const issue = document.getElementById('ccIssueBtn');
+
+    if (n === 2) {
+      const total = ccTotalAmount();
+      if (total <= 0) { alert('Enter a call size greater than zero first.'); return; }
+      step1.style.display = 'none';
+      step2.style.display = 'block';
+      l1.classList.remove('active');
+      l2.classList.add('active');
+      back.style.display = 'inline-flex';
+      next.style.display = 'none';
+      issue.style.display = 'inline-flex';
+      buildCCAllocation();
+    } else {
+      step2.style.display = 'none';
+      step1.style.display = 'block';
+      l2.classList.remove('active');
+      l1.classList.add('active');
+      back.style.display = 'none';
+      next.style.display = 'inline-flex';
+      issue.style.display = 'none';
+    }
+  }
+
+  function buildCCAllocation() {
+    const t = ccTotals();
+    const total = ccTotalAmount();
+    const factor = ccMethod === 'pct' ? ccPct / 100 : total / t.commit;
+
+    ccShares = LPs.map(lp => { const share = round2(lp.comm * factor); return { ...lp, share }; });
+    ccSelected = ccShares.map(s => s.share > 0 && s.status !== 'Declined');
+
+    const body = document.getElementById('ccAllocBody');
+    body.innerHTML = ccShares.map((lp, i) => {
+      const allowed = lp.status !== 'Declined';
+      return `<tr style="${allowed ? '' : 'opacity:.55;'}">
+        <td><input type="checkbox" ${ccSelected[i] ? 'checked' : ''} ${allowed ? '' : 'disabled title="Declined — commitment not callable"'} onclick="toggleCCAlloc(${i})" /></td>
+        <td>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="lp-avatar">${initials(lp.name)}</span>
+            <div>
+              <div style="font-weight:600; font-size:12px; color:var(--text-dark);">${lp.name}${allowed ? '' : ' · ' + lp.status}</div>
+              <div style="font-size:10.5px; color:var(--text-light);">${lp.type}</div>
+            </div>
+          </div>
+        </td>
+        <td class="num">${fmtCr(lp.comm)}</td>
+        <td class="num" style="font-weight:600;">${fmtCr(lp.share)}</td>
+      </tr>`;
+    }).join('');
+
+    ccRefreshAlloc();
+  }
+
+  function toggleCCAlloc(i) {
+    if (ccShares[i].status === 'Declined') return;
+    ccSelected[i] = !ccSelected[i];
+    ccRefreshAlloc();
+  }
+
+  function ccRefreshAlloc() {
+    let total = 0, count = 0;
+    ccSelected.forEach((on, i) => { if (on) { total += ccShares[i].share; count++; } });
+    total = round2(total);
+    document.getElementById('ccAllocTotal').textContent = fmtCr(total);
+    document.getElementById('ccSumAmt').textContent = fmtCr(total);
+    document.getElementById('ccSumLps').textContent = count + ' / ' + ccShares.length;
+    document.getElementById('ccSumAvg').textContent = count ? fmtCr(round2(total / count)) : '—';
+    const hint = document.getElementById('ccExcludedHint');
+    const declined = LPs.filter(lp => lp.status === 'Declined').length;
+    if (hint) hint.style.display = declined > 0 ? 'block' : 'none';
+  }
+
+  function issueCall() {
+    let total = 0, count = 0;
+    ccShares.forEach((lp, i) => { if (ccSelected[i]) { total += lp.share; count++; } });
+    total = round2(total);
+    if (count === 0) { alert('Select at least one committed LP to issue the call.'); return; }
+
+    const dueDays = parseInt(document.getElementById('ccDueDays').value, 10);
+    const due = new Date();
+    due.setDate(due.getDate() + dueDays);
+    const dueStr = due.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    const issueDate = document.getElementById('ccIssueDate').value || '12 Aug 2026';
+    const id = nextCallId();
+    const pctLabel = ccMethod === 'pct' ? ccPct.toFixed(1) + '% of commitment' : 'flat ' + fmtCr(round2(ccAmt));
+    const purpose = document.getElementById('ccPurpose').value.trim();
+
+    // A call raises new capital → LP "called" grows, but NO payment is assumed.
+    ccShares.forEach((lp, i) => { if (ccSelected[i]) LPs[i].called = round2(LPs[i].called + lp.share); });
+
+    CALLS.unshift({
+      id, fund: 'Seedicon Fund I', amount: total, issue: issueDate, due: dueStr,
+      paid: 0, paidDate: '—', status: 'Not Paid', notes: purpose || ''
+    });
+
+    renderCallsTable();
+    renderCommitmentsTable();
+    renderPaymentLedger();
+    renderPaymentAudit();
+    renderMetrics();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    document.getElementById('modalOverlay').style.display = 'none';
+    alert(`${id} issued!\n${fmtCr(total)} drawn pro-rata across ${count} committed LPs (${pctLabel}).\n\nMoney is now CALLED but not received — record payments manually via the call row.`);
+  }
+
+  // ---------- INIT ----------
+  document.addEventListener('DOMContentLoaded', () => {
+    renderMetrics();
+    renderCommitmentsTable();
+    renderCallsTable();
+    renderPaymentLedger();
+    renderPaymentAudit();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
+</script>
+</body>
+</html>

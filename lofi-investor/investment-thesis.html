@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — Investment Thesis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="./css/styles.css">
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Top Header Component Slot -->
+  <div id="appHeaderSlot"></div>
+
+  <!-- Body Shell -->
+  <div class="body-shell">
+    <!-- Tiny Sidebar Component Slot -->
+    <div id="tinySidebarSlot"></div>
+
+    <!-- Main Navigation Sidebar Component Slot -->
+    <div id="mainSidebarSlot"></div>
+
+    <!-- MAIN WORKSPACE CONTENT AREA (INVESTMENT THESIS PAGE) -->
+    <main class="main-workspace">
+      <div class="content-scrollable">
+
+        <!-- Page Header Container -->
+        <div class="page-header-container">
+          <div class="page-header-top-row">
+            <div class="header-titles">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <h1 class="page-title">Investment Thesis</h1>
+                <span class="badge-pill neutral-soft" id="viewModeBadge">Preview Mode · v3</span>
+              </div>
+              <p class="page-subtitle">Seedicon Venture Fund I (₹20 Cr) — Define, share, and manage LP approval for fund investment criteria.</p>
+            </div>
+            
+            <div class="header-action-group">
+              <!-- Import Thesis Button -->
+              <button class="btn btn-outline" title="Import PDF or deck for thesis auto-parsing">
+                <i data-lucide="upload-cloud" class="lucide-sm"></i>
+                <span>Import thesis</span>
+              </button>
+
+              <!-- Mode Switcher: Toggle between Executive Preview Mode and Form Edit Mode -->
+              <button class="btn btn-outline" id="btnToggleMode" onclick="toggleEditPreviewMode()">
+                <i data-lucide="edit-3" class="lucide-sm"></i>
+                <span id="btnToggleModeText">Edit Thesis</span>
+              </button>
+
+              <!-- Share with LPs Button -->
+              <button class="btn btn-primary" onclick="document.getElementById('menuInvestmentThesis').click()">
+                <i data-lucide="share-2"></i>
+                <span>Share with LPs</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Header Bottom Divider Line -->
+        <div class="page-header-divider"></div>
+
+        <!-- CONTAINER FOR FILLED THESIS STATES -->
+        <div id="filledThesisContainer">
+          
+          <!-- ====================================================================
+               MODE 01: EXECUTIVE PREVIEW MODE (CENTERED DOCUMENT VIEW — MAX-WIDTH 920px)
+               ==================================================================== -->
+          <div id="previewThesisView">
+            <div class="preview-centered-wrapper">
+              
+              <!-- Top Executive Summary Quote Card -->
+              <div class="preview-summary-card">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                  <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted);">
+                    FORMULA THESIS STATEMENT (37 WORDS)
+                  </div>
+                  <span class="badge-pill neutral-dark">Approved by LPs</span>
+                </div>
+
+                <div class="preview-formula-quote">
+                  “Seedicon Ventures Fund I is raising a ₹20 Cr seed fund to back B2B SaaS &amp; Vertical AI startups in India &amp; SEA, leveraging a specialist network of 20+ enterprise tech operators and founders.”
+                </div>
+
+                <!-- Key Stat Parameters Bar -->
+                <div class="preview-grid-3">
+                  <div class="preview-stat-box">
+                    <div class="preview-stat-label">TARGET CORPUS</div>
+                    <div class="preview-stat-value">₹20 Cr</div>
+                  </div>
+                  <div class="preview-stat-box">
+                    <div class="preview-stat-label">STAGE FOCUS</div>
+                    <div class="preview-stat-value">Seed &amp; Pre-Seed</div>
+                  </div>
+                  <div class="preview-stat-box">
+                    <div class="preview-stat-label">INVESTMENT HORIZON</div>
+                    <div class="preview-stat-value">10 Years</div>
+                  </div>
+                  <div class="preview-stat-box">
+                    <div class="preview-stat-label">TARGET PORTFOLIO</div>
+                    <div class="preview-stat-value">15 Startups</div>
+                  </div>
+                  <div class="preview-stat-box">
+                    <div class="preview-stat-label">CHEQUE SIZE RANGE</div>
+                    <div class="preview-stat-value">₹1 Cr – ₹2.5 Cr</div>
+                  </div>
+                  <div class="preview-stat-box">
+                    <div class="preview-stat-label">TARGET OWNERSHIP</div>
+                    <div class="preview-stat-value">8% – 12%</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Two-Column Preview Layout -->
+              <div class="thesis-grid">
+                <!-- Left Main Content Column -->
+                <div class="thesis-main-col">
+
+                  <!-- 01. Focus & Sector Tags -->
+                  <div class="thesis-card">
+                    <div class="thesis-card-head">
+                      <div class="thesis-card-title">
+                        <i data-lucide="tags" class="lucide-sm"></i>
+                        <span>Investment Focus &amp; Target Tags</span>
+                      </div>
+                    </div>
+                    <div class="thesis-card-body" style="display:flex; flex-direction:column; gap:12px;">
+                      <div>
+                        <label class="form-label">TARGET STAGES</label>
+                        <div class="tag-chips">
+                          <span class="tag-chip active">Seed</span>
+                          <span class="tag-chip active">Pre-Seed</span>
+                        </div>
+                      </div>
+                      <div>
+                        <label class="form-label">PRIMARY SECTORS</label>
+                        <div class="tag-chips">
+                          <span class="tag-chip active">B2B SaaS</span>
+                          <span class="tag-chip active">Vertical AI</span>
+                          <span class="tag-chip active">Enterprise Tech</span>
+                        </div>
+                      </div>
+                      <div>
+                        <label class="form-label">GEOGRAPHIES</label>
+                        <div class="tag-chips">
+                          <span class="tag-chip active">India</span>
+                          <span class="tag-chip active">SEA</span>
+                        </div>
+                      </div>
+                      <div class="info-note-box">
+                        🔗 These tags auto-power Startup Pool filtering and your founder-facing match score.
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 02. Target Founder Profile -->
+                  <div class="thesis-card">
+                    <div class="thesis-card-head">
+                      <div class="thesis-card-title">
+                        <i data-lucide="user-check" class="lucide-sm"></i>
+                        <span>Target Founder Profile</span>
+                      </div>
+                    </div>
+                    <div class="thesis-card-body">
+                      <p style="font-size:13px; color:var(--text-dark); line-height:1.55; font-weight:500;">
+                        Second-time founders or domain experts with 5+ years building in enterprise software, demonstrating high speed of execution, strong product intuition, and clear GTM distribution leverage.
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- 03. Portfolio Reserve Split -->
+                  <div class="thesis-card">
+                    <div class="thesis-card-head">
+                      <div class="thesis-card-title">
+                        <i data-lucide="pie-chart" class="lucide-sm"></i>
+                        <span>Portfolio Construction &amp; Reserves</span>
+                      </div>
+                    </div>
+                    <div class="thesis-card-body">
+                      <div style="height: 8px; background: var(--bg-muted); border: 1px solid var(--border-main); border-radius: 4px; position: relative; margin-bottom: 8px;">
+                        <div style="position: absolute; left:0; top:0; bottom:0; width: 65%; background: var(--accent-graphite); border-radius: 3px;"></div>
+                      </div>
+                      <div style="display:flex; justify-content:space-between; font-size:11.5px; color:var(--text-muted); font-weight:600;">
+                        <span>Initial Deployment: 65% (₹13 Cr)</span>
+                        <span>Follow-on Reserves: 35% (₹7 Cr)</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 04. Value Proposition & Edge -->
+                  <div class="thesis-card">
+                    <div class="thesis-card-head">
+                      <div class="thesis-card-title">
+                        <i data-lucide="zap" class="lucide-sm"></i>
+                        <span>Value Proposition &amp; Fund Edge</span>
+                      </div>
+                    </div>
+                    <div class="thesis-card-body">
+                      <div class="tag-chips" style="margin-bottom: 10px;">
+                        <span class="tag-chip active">+ Proprietary Founder Network</span>
+                        <span class="tag-chip active">+ GTM &amp; Enterprise Sales Playbook</span>
+                        <span class="tag-chip active">+ Follow-on Access</span>
+                      </div>
+                      <p style="font-size:12.5px; color:var(--text-muted); line-height:1.5;">
+                        Hands-on GTM support to help early portfolio companies close their first $100k ARR through direct warm introductions to enterprise buyer networks.
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- 05. Decision Criteria Checklist -->
+                  <div class="thesis-card">
+                    <div class="thesis-card-head">
+                      <div class="thesis-card-title">
+                        <i data-lucide="check-square" class="lucide-sm"></i>
+                        <span>Decision Criteria &amp; Weighted Checklist</span>
+                      </div>
+                    </div>
+                    <div class="thesis-card-body">
+                      <div class="criteria-list-row">
+                        <i data-lucide="check" class="lucide-sm"></i>
+                        <span style="font-weight: 600; font-size: 12.5px;">Team &amp; Founder Capability</span>
+                        <span class="badge-pill neutral-dark">High (40%)</span>
+                      </div>
+                      <div class="criteria-list-row">
+                        <i data-lucide="check" class="lucide-sm"></i>
+                        <span style="font-weight: 600; font-size: 12.5px;">TAM &amp; Market Dynamics</span>
+                        <span class="badge-pill neutral-dark">High (30%)</span>
+                      </div>
+                      <div class="criteria-list-row">
+                        <i data-lucide="check" class="lucide-sm"></i>
+                        <span style="font-weight: 600; font-size: 12.5px;">Early Traction &amp; Customer Signals</span>
+                        <span class="badge-pill neutral-soft">Medium (20%)</span>
+                      </div>
+                      <div class="criteria-list-row">
+                        <i data-lucide="check" class="lucide-sm"></i>
+                        <span style="font-weight: 600; font-size: 12.5px;">Valuation Cap &amp; Deal Terms</span>
+                        <span class="badge-pill neutral-soft">Low (10%)</span>
+                      </div>
+                      <div class="info-note-box">
+                        Structured criteria reusable in Deal CRM scoring and Data Room Due Diligence.
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- RIGHT RAIL COLUMN (Includes Thesis Stress Test Checkpoints) -->
+                <div class="thesis-rail-col">
+                  
+                  <!-- THESIS STRESS TEST CHECKPOINTS (MOVED TO RIGHT RAIL AS REQUESTED) -->
+                  <div class="thesis-card">
+                    <div class="thesis-card-head">
+                      <div class="thesis-card-title">
+                        <i data-lucide="shield-alert" class="lucide-sm"></i>
+                        <span>Thesis Stress Test</span>
+                      </div>
+                    </div>
+                    <div class="thesis-card-body" style="display:flex; flex-direction:column; gap:10px;">
+                      <div style="display:flex; flex-direction:column; gap:4px; font-size:12px;">
+                        <span class="badge-pill neutral-soft" style="width:fit-content;">⚠ Notice</span>
+                        <span style="font-weight:600; color:var(--text-dark);">Too broad check</span>
+                        <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">"We invest in tech" is unmeasurable. Narrow sub-segments.</span>
+                      </div>
+                      <div style="height:1px; background:var(--border-main); margin:2px 0;"></div>
+                      <div style="display:flex; flex-direction:column; gap:4px; font-size:12px;">
+                        <span class="badge-pill neutral-dark" style="width:fit-content;">✓ Passed</span>
+                        <span style="font-weight:600; color:var(--text-dark);">Anyone-could-run test</span>
+                        <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">20+ operator network is specific and defensible.</span>
+                      </div>
+                      <div style="height:1px; background:var(--border-main); margin:2px 0;"></div>
+                      <div style="display:flex; flex-direction:column; gap:4px; font-size:12px;">
+                        <span class="badge-pill neutral-dark" style="width:fit-content;">✓ Passed</span>
+                        <span style="font-weight:600; color:var(--text-dark);">Portfolio math check</span>
+                        <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">Cheque size range fits ₹20 Cr fund corpus.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Health Card -->
+                  <div class="thesis-card">
+                    <div class="thesis-card-head">
+                      <div class="thesis-card-title">
+                        <i data-lucide="heart-pulse" class="lucide-sm"></i>
+                        <span>Thesis Health</span>
+                      </div>
+                      <span class="badge-pill neutral-soft">5/8 Done</span>
+                    </div>
+                    <div class="thesis-card-body">
+                      <div style="height: 6px; background: var(--bg-muted); border-radius: 4px; overflow:hidden; margin-bottom: 12px;">
+                        <div style="width: 62%; height: 100%; background: var(--accent-graphite);"></div>
+                      </div>
+
+                      <div style="display:flex; flex-direction:column; gap:6px; font-size:12px; color:var(--text-main);">
+                        <div>✓ Thesis statement</div>
+                        <div>✓ Fund overview</div>
+                        <div style="color:var(--text-muted);">⚠ Investment focus (6 sectors)</div>
+                        <div>✓ Target founders</div>
+                        <div style="color:var(--text-light);">○ Portfolio construction</div>
+                        <div>✓ Your edge</div>
+                        <div style="color:var(--text-light);">○ Decision criteria</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- AI Copilot Card -->
+                  <div class="thesis-card">
+                    <div class="thesis-card-head">
+                      <div class="thesis-card-title">
+                        <i data-lucide="wand-2" class="lucide-sm"></i>
+                        <span>AI Assist</span>
+                      </div>
+                    </div>
+                    <div class="thesis-card-body" style="display:flex; flex-direction:column; gap:8px;">
+                      <button class="btn btn-outline btn-sm" style="justify-content:flex-start;" onclick="alert('AI Copilot: Drafted thesis section from Fund Parameters!')">
+                        <i data-lucide="sparkles" class="lucide-sm"></i>
+                        <span>Draft section from fund data</span>
+                      </button>
+                      <button class="btn btn-outline btn-sm" style="justify-content:flex-start;" onclick="alert('AI Copilot: Elevator pitch tightened to 37 words!')">
+                        <i data-lucide="file-check" class="lucide-sm"></i>
+                        <span>Tighten elevator pitch</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Version History -->
+                  <div class="thesis-card">
+                    <div class="thesis-card-head">
+                      <div class="thesis-card-title">
+                        <i data-lucide="history" class="lucide-sm"></i>
+                        <span>Version History</span>
+                      </div>
+                      <span class="form-hint">v3 Active</span>
+                    </div>
+                    <div class="thesis-card-body" style="font-size:11.5px; color:var(--text-muted); display:flex; justify-content:space-between;">
+                      <span>v3 · Edited 2 days ago</span>
+                      <a href="#" style="color:var(--text-dark); font-weight:600; text-decoration:none;">Compare</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ====================================================================
+               MODE 02: FORM EDIT MODE (Toggled via "Edit Thesis" Button)
+               ==================================================================== -->
+          <div id="editThesisView" style="display: none;">
+            <div class="thesis-grid">
+              <div class="thesis-main-col">
+                
+                <!-- 01. Formula Thesis Statement Builder -->
+                <div class="thesis-card" style="border: 1px solid var(--border-dark);">
+                  <div class="thesis-card-head" style="background: var(--bg-muted);">
+                    <div>
+                      <div class="thesis-card-title">
+                        <i data-lucide="sparkles" class="lucide-sm"></i>
+                        <span>1. Formula Thesis Statement Builder</span>
+                      </div>
+                      <p class="thesis-card-desc">Formula pattern: <strong>[Fund Name] is raising a [$ size] [stage] fund to back [target sector] in [geography], leveraging [your edge].</strong></p>
+                    </div>
+                    <span class="badge-pill neutral-dark">Core Formula</span>
+                  </div>
+
+                  <div class="thesis-card-body">
+                    <div class="info-note-box" style="margin-bottom:12px;">
+                      Formula (VC Lab / Carta pattern): <strong>[Fund Name] is raising/manages a [$ size] [stage] fund to back [target founders/sector] in [geography], leveraging [your edge].</strong>
+                    </div>
+
+                    <div class="form-row-2">
+                      <div>
+                        <label class="form-label">FUND NAME</label>
+                        <input type="text" class="form-input" id="thFundName" value="Seedicon Ventures Fund I" />
+                      </div>
+                      <div>
+                        <label class="form-label">FUND SIZE</label>
+                        <input type="text" class="form-input" id="thFundSize" value="₹20 Cr" />
+                      </div>
+                    </div>
+
+                    <div class="form-row-2">
+                      <div>
+                        <label class="form-label">STAGE (PICK ONE — NOT A RANGE)</label>
+                        <select class="form-input" id="thStage">
+                          <option value="Seed" selected>Seed Stage</option>
+                          <option value="Pre-Seed">Pre-Seed Stage</option>
+                          <option value="Series A">Series A</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label class="form-label">GEOGRAPHY</label>
+                        <input type="text" class="form-input" id="thGeo" value="India &amp; South East Asia" />
+                      </div>
+                    </div>
+
+                    <div style="margin-bottom: 12px;">
+                      <label class="form-label">WHO YOU BACK — SECTOR / FOUNDER TYPE</label>
+                      <input type="text" class="form-input" id="thSector" value="Early-stage B2B SaaS and Vertical AI startups" />
+                      <p class="form-hint">Strong: names specific sub-segments rather than generic "tech".</p>
+                    </div>
+
+                    <div style="margin-bottom: 14px;">
+                      <label class="form-label">YOUR EDGE — WHY YOU VS OTHER FUNDS</label>
+                      <input type="text" class="form-input" id="thEdge" value="Specialist network of 20+ enterprise tech operators &amp; founders" />
+                    </div>
+
+                    <div style="border-top: 1px dashed var(--border-strong); padding-top: 12px;">
+                      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 6px;">
+                        <label class="form-label" style="margin-bottom:0;">⟶ AUTO-COMPOSED STATEMENT (EDITABLE)</label>
+                        <span class="form-hint"><strong>37</strong> / ~40 words · VC Lab benchmark</span>
+                      </div>
+                      <textarea class="form-input" id="thAutoStatement" style="min-height: 64px; font-weight: 500; line-height: 1.5; color: var(--text-dark);">Seedicon Ventures Fund I is raising a ₹20 Cr seed fund to back B2B SaaS &amp; Vertical AI startups in India &amp; SEA, leveraging a specialist network of 20+ enterprise tech operators and founders.</textarea>
+                    </div>
+
+                    <div style="font-size:11.5px; color:var(--text-muted); cursor:pointer; text-decoration:underline; margin-top:8px;" onclick="alert('Real Thesis Examples:\n1. Krakatoa Ventures: $25M climate seed fund in US.\n2. FinTech Collective: $50M B2B payments fund in SEA.\n3. Apex AI: $30M enterprise infrastructure fund.')">
+                      ▸ See 3 more real thesis-statement examples
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 02. Fund Overview & Parameters -->
+                <div class="thesis-card">
+                  <div class="thesis-card-head">
+                    <div class="thesis-card-title">
+                      <i data-lucide="building-2" class="lucide-sm"></i>
+                      <span>2. Fund Overview &amp; Parameters</span>
+                    </div>
+                  </div>
+                  <div class="thesis-card-body">
+                    <div class="form-row-3">
+                      <div>
+                        <label class="form-label">FUND SIZE</label>
+                        <input type="text" class="form-input" value="₹20 Cr" />
+                      </div>
+                      <div>
+                        <label class="form-label">STRUCTURE</label>
+                        <select class="form-input">
+                          <option selected>Venture Capital Fund (AIF Cat II)</option>
+                          <option>Angel Syndicate</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label class="form-label">INVESTMENT HORIZON</label>
+                        <input type="text" class="form-input" value="10 Years" />
+                      </div>
+                    </div>
+                    <div>
+                      <label class="form-label">TARGET # OF PORTFOLIO COMPANIES</label>
+                      <input type="number" class="form-input" style="max-width: 200px;" value="15" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 03. Investment Focus & Sectors -->
+                <div class="thesis-card">
+                  <div class="thesis-card-head">
+                    <div class="thesis-card-title">
+                      <i data-lucide="tags" class="lucide-sm"></i>
+                      <span>3. Investment Focus Tags</span>
+                    </div>
+                  </div>
+                  <div class="thesis-card-body" style="display:flex; flex-direction:column; gap:12px;">
+                    <div>
+                      <label class="form-label">TARGET STAGES</label>
+                      <div class="tag-chips">
+                        <span class="tag-chip active" onclick="this.classList.toggle('active')">Seed</span>
+                        <span class="tag-chip active" onclick="this.classList.toggle('active')">Pre-Seed</span>
+                        <span class="tag-chip" onclick="this.classList.toggle('active')">Series A</span>
+                        <span class="tag-chip add-tag" onclick="addNewTag(this, 'Stage')">+ Add Stage</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label class="form-label">PRIMARY SECTORS</label>
+                      <div class="tag-chips">
+                        <span class="tag-chip active" onclick="this.classList.toggle('active')">B2B SaaS</span>
+                        <span class="tag-chip active" onclick="this.classList.toggle('active')">Vertical AI</span>
+                        <span class="tag-chip active" onclick="this.classList.toggle('active')">Enterprise Tech</span>
+                        <span class="tag-chip" onclick="this.classList.toggle('active')">FinTech</span>
+                        <span class="tag-chip add-tag" onclick="addNewTag(this, 'Sector')">+ Add Sector</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label class="form-label">GEOGRAPHIES</label>
+                      <div class="tag-chips">
+                        <span class="tag-chip active" onclick="this.classList.toggle('active')">India</span>
+                        <span class="tag-chip active" onclick="this.classList.toggle('active')">SEA</span>
+                        <span class="tag-chip" onclick="this.classList.toggle('active')">US / Global</span>
+                        <span class="tag-chip add-tag" onclick="addNewTag(this, 'Geography')">+ Add Region</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 04. Target Founders & Profile -->
+                <div class="thesis-card">
+                  <div class="thesis-card-head">
+                    <div class="thesis-card-title">
+                      <i data-lucide="user-check" class="lucide-sm"></i>
+                      <span>4. Target Founders &amp; Founder Profile</span>
+                    </div>
+                  </div>
+                  <div class="thesis-card-body">
+                    <textarea class="form-input" style="min-height: 70px; line-height:1.5;">Second-time founders or domain experts with 5+ years building in enterprise software, demonstrating high speed of execution, strong product intuition, and clear GTM distribution leverage.</textarea>
+                    <div style="font-size:11.5px; color:var(--text-muted); cursor:pointer; text-decoration:underline; margin-top:6px;" onclick="alert('Founder Criteria Example:\nWe look for technical co-founders with deep domain expertise in B2B SaaS who have previously managed products with $1M+ ARR.')">
+                      ▸ See example guidance
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 05. Portfolio Construction -->
+                <div class="thesis-card">
+                  <div class="thesis-card-head">
+                    <div class="thesis-card-title">
+                      <i data-lucide="pie-chart" class="lucide-sm"></i>
+                      <span>5. Portfolio Construction &amp; Reserves</span>
+                    </div>
+                  </div>
+                  <div class="thesis-card-body">
+                    <div class="form-row-2">
+                      <div>
+                        <label class="form-label">CHECK SIZE RANGE</label>
+                        <input type="text" class="form-input" value="₹1 Cr – ₹2.5 Cr" />
+                      </div>
+                      <div>
+                        <label class="form-label">TARGET OWNERSHIP</label>
+                        <input type="text" class="form-input" value="8% – 12%" />
+                      </div>
+                    </div>
+
+                    <div style="margin-top: 8px;">
+                      <label class="form-label">INITIAL VS. FOLLOW-ON RESERVE SPLIT</label>
+                      <div style="height: 8px; background: var(--bg-muted); border: 1px solid var(--border-main); border-radius: 4px; position: relative; margin: 8px 0;">
+                        <div style="position: absolute; left:0; top:0; bottom:0; width: 65%; background: var(--accent-graphite); border-radius: 3px;"></div>
+                      </div>
+                      <div style="display:flex; justify-content:space-between; font-size:11.5px; color:var(--text-muted); font-weight:600;">
+                        <span>Initial Deployment: 65% (₹13 Cr)</span>
+                        <span>Follow-on Reserves: 35% (₹7 Cr)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 06. Your Edge / Value Proposition (INTERACTIVE PROMPT CHIPS!) -->
+                <div class="thesis-card">
+                  <div class="thesis-card-head">
+                    <div class="thesis-card-title">
+                      <i data-lucide="zap" class="lucide-sm"></i>
+                      <span>6. Value Proposition &amp; Fund Edge</span>
+                    </div>
+                  </div>
+                  <div class="thesis-card-body">
+                    <label class="form-label">CLICK PROMPT CHIPS TO INSERT EDGE HELPERS</label>
+                    <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;">
+                      <span class="prompt-chip" onclick="appendPromptToEdge('+ Proprietary founder network')">+ Proprietary network</span>
+                      <span class="prompt-chip" onclick="appendPromptToEdge('+ Operational GTM expertise')">+ Operational expertise</span>
+                      <span class="prompt-chip" onclick="appendPromptToEdge('+ Enterprise buyer track record')">+ Track record</span>
+                      <span class="prompt-chip" onclick="appendPromptToEdge('+ Domain specialist access')">+ Domain focus</span>
+                    </div>
+                    <textarea class="form-input" id="thValuePropText" style="min-height: 64px;">Hands-on GTM support to help early portfolio companies close their first $100k ARR through direct warm introductions to enterprise buyer networks.</textarea>
+                  </div>
+                </div>
+
+                <!-- 07. Decision Criteria Checklist (Weighted Scoring) -->
+                <div class="thesis-card">
+                  <div class="thesis-card-head">
+                    <div class="thesis-card-title">
+                      <i data-lucide="check-square" class="lucide-sm"></i>
+                      <span>7. Decision Criteria &amp; Weighted Checklist</span>
+                    </div>
+                  </div>
+                  <div class="thesis-card-body" id="criteriaListContainer">
+                    <div class="criteria-list-row">
+                      <input type="checkbox" checked />
+                      <span style="font-weight: 600; font-size: 12.5px;">Team &amp; Founder Capability</span>
+                      <select class="form-input btn-sm"><option selected>High (40%)</option><option>Medium</option><option>Low</option></select>
+                    </div>
+                    <div class="criteria-list-row">
+                      <input type="checkbox" checked />
+                      <span style="font-weight: 600; font-size: 12.5px;">TAM &amp; Market Dynamics</span>
+                      <select class="form-input btn-sm"><option selected>High (30%)</option><option>Medium</option><option>Low</option></select>
+                    </div>
+                    <div class="criteria-list-row">
+                      <input type="checkbox" checked />
+                      <span style="font-weight: 600; font-size: 12.5px;">Early Traction &amp; Customer Signals</span>
+                      <select class="form-input btn-sm"><option selected>Medium (20%)</option><option>High</option><option>Low</option></select>
+                    </div>
+                    <div class="criteria-list-row">
+                      <input type="checkbox" checked />
+                      <span style="font-weight: 600; font-size: 12.5px;">Valuation Cap &amp; Deal Terms</span>
+                      <select class="form-input btn-sm"><option selected>Low (10%)</option><option>Medium</option><option>High</option></select>
+                    </div>
+                    <div class="criteria-list-row">
+                      <input type="checkbox" checked />
+                      <span style="font-weight: 600; font-size: 12.5px;">Timing &amp; Market Window</span>
+                      <select class="form-input btn-sm"><option selected>Low (10%)</option><option>Medium</option><option>High</option></select>
+                    </div>
+                    <button class="btn btn-outline btn-sm" style="margin-top: 10px;" onclick="addCustomCriteria()">+ Add Custom Criteria</button>
+                  </div>
+                </div>
+
+                <!-- 08. Track Record (Optional) -->
+                <div class="thesis-card">
+                  <div class="thesis-card-head">
+                    <div class="thesis-card-title">
+                      <i data-lucide="trending-up" class="lucide-sm"></i>
+                      <span>8. Track Record (Fund I Historical)</span>
+                    </div>
+                  </div>
+                  <div class="thesis-card-body">
+                    <div class="form-row-3">
+                      <div>
+                        <label class="form-label">INVESTMENTS TO DATE</label>
+                        <input type="number" class="form-input" value="12" />
+                      </div>
+                      <div>
+                        <label class="form-label">NOTABLE EXITS</label>
+                        <input type="number" class="form-input" value="2" />
+                      </div>
+                      <div>
+                        <label class="form-label">FOLLOW-ON RATE (%)</label>
+                        <input type="text" class="form-input" value="75%" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Save Changes Button Bar -->
+                <div style="display:flex; justify-content:flex-end; gap:8px;">
+                  <button class="btn btn-outline" onclick="toggleEditPreviewMode()">Cancel</button>
+                  <button class="btn btn-primary" onclick="toggleEditPreviewMode(); alert('Thesis changes saved! Switched to Preview Mode.');">Save Changes &amp; Switch to Preview</button>
+                </div>
+              </div>
+
+              <!-- Rail Column in Edit Mode -->
+              <div class="thesis-rail-col">
+                <!-- THESIS STRESS TEST CHECKPOINTS (MOVED TO RIGHT RAIL IN EDIT MODE TOO) -->
+                <div class="thesis-card">
+                  <div class="thesis-card-head">
+                    <div class="thesis-card-title">
+                      <i data-lucide="shield-alert" class="lucide-sm"></i>
+                      <span>Thesis Stress Test</span>
+                    </div>
+                  </div>
+                  <div class="thesis-card-body" style="display:flex; flex-direction:column; gap:10px;">
+                    <div style="display:flex; flex-direction:column; gap:4px; font-size:12px;">
+                      <span class="badge-pill neutral-soft" style="width:fit-content;">⚠ Notice</span>
+                      <span style="font-weight:600; color:var(--text-dark);">Too broad check</span>
+                      <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">"We invest in tech" is unmeasurable. Narrow sub-segments.</span>
+                    </div>
+                    <div style="height:1px; background:var(--border-main); margin:2px 0;"></div>
+                    <div style="display:flex; flex-direction:column; gap:4px; font-size:12px;">
+                      <span class="badge-pill neutral-dark" style="width:fit-content;">✓ Passed</span>
+                      <span style="font-weight:600; color:var(--text-dark);">Anyone-could-run test</span>
+                      <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">20+ operator network is specific and defensible.</span>
+                    </div>
+                    <div style="height:1px; background:var(--border-main); margin:2px 0;"></div>
+                    <div style="display:flex; flex-direction:column; gap:4px; font-size:12px;">
+                      <span class="badge-pill neutral-dark" style="width:fit-content;">✓ Passed</span>
+                      <span style="font-weight:600; color:var(--text-dark);">Portfolio math check</span>
+                      <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">Cheque size range fits ₹20 Cr fund corpus.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="thesis-card">
+                  <div class="thesis-card-head">
+                    <div class="thesis-card-title">
+                      <i data-lucide="heart-pulse" class="lucide-sm"></i>
+                      <span>Thesis Health</span>
+                    </div>
+                    <span class="badge-pill neutral-soft">5/8 Done</span>
+                  </div>
+                  <div class="thesis-card-body">
+                    <div style="height: 6px; background: var(--bg-muted); border-radius: 4px; overflow:hidden; margin-bottom: 12px;">
+                      <div style="width: 62%; height: 100%; background: var(--accent-graphite);"></div>
+                    </div>
+                    <div style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">
+                      Editing mode active. Update fields on the left to complete remaining sections.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ====================================================================
+             MODE 03: EMPTY CANVASES STATE (Toggled via Bottom Right FAB)
+             ==================================================================== -->
+        <div id="emptyThesisView" style="display: none;">
+          <div class="empty-canvas-box">
+            <div class="empty-canvas-icon">
+              <i data-lucide="file-plus" class="lucide-lg"></i>
+            </div>
+            <h2 class="empty-canvas-title">No investment thesis here</h2>
+            <p class="empty-canvas-sub">Get started by creating a new investment thesis for Seedicon Venture Fund I.</p>
+            <button class="btn btn-primary" style="margin-top: 10px;" onclick="toggleEmptyState(false)">
+              <i data-lucide="plus"></i>
+              <span>Create Investment Thesis</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<!-- SUBTLE FLOATING FAB TOGGLE BUTTON (BOTTOM RIGHT CORNER) -->
+<button class="fab-toggle-btn" id="fabToggleState" title="Toggle between Populated Active Thesis and Empty State" onclick="toggleEmptyState()">
+  <i data-lucide="eye" class="lucide-sm"></i>
+  <span id="fabToggleText">Toggle Empty State</span>
+</button>
+
+<!-- Modal Dialog Container Slot -->
+<div id="modalSlot"></div>
+
+<!-- Scripts -->
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+<script>
+  // Automatically highlights 'investment-thesis' in the sidebar!
+  LayoutComponents.init({ activeNav: 'investment-thesis', activeApp: 'investor' });
+
+  // 01. Edit / Preview Mode Toggle Logic
+  let isPreviewMode = true;
+  function toggleEditPreviewMode() {
+    const previewView = document.getElementById('previewThesisView');
+    const editView = document.getElementById('editThesisView');
+    const btnText = document.getElementById('btnToggleModeText');
+    const modeBadge = document.getElementById('viewModeBadge');
+
+    isPreviewMode = !isPreviewMode;
+
+    if (isPreviewMode) {
+      if (previewView) previewView.style.display = 'block';
+      if (editView) editView.style.display = 'none';
+      if (btnText) btnText.textContent = 'Edit Thesis';
+      if (modeBadge) modeBadge.textContent = 'Preview Mode · v3';
+    } else {
+      if (previewView) previewView.style.display = 'none';
+      if (editView) editView.style.display = 'block';
+      if (btnText) btnText.textContent = 'View Preview';
+      if (modeBadge) modeBadge.textContent = 'Editing Mode · v3';
+    }
+
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  }
+
+  // 02. Empty State FAB Toggle Logic
+  let isEmptyState = false;
+  function toggleEmptyState(forceState) {
+    const filledContainer = document.getElementById('filledThesisContainer');
+    const emptyView = document.getElementById('emptyThesisView');
+    const fabText = document.getElementById('fabToggleText');
+
+    isEmptyState = typeof forceState === 'boolean' ? forceState : !isEmptyState;
+
+    if (isEmptyState) {
+      if (filledContainer) filledContainer.style.display = 'none';
+      if (emptyView) emptyView.style.display = 'block';
+      if (fabText) fabText.textContent = 'Toggle Populated State';
+    } else {
+      if (filledContainer) filledContainer.style.display = 'block';
+      if (emptyView) emptyView.style.display = 'none';
+      if (fabText) fabText.textContent = 'Toggle Empty State';
+    }
+
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  }
+
+  // Helper: Append Prompt Chips to Value Proposition Textarea
+  function appendPromptToEdge(chipText) {
+    const area = document.getElementById('thValuePropText');
+    if (area) {
+      area.value += (area.value ? ' ' : '') + chipText;
+    }
+  }
+
+  // Helper: Add Custom Criteria to Decision Checklist
+  function addCustomCriteria() {
+    const title = prompt('Enter custom decision criteria (e.g. Technical Moat):');
+    if (title && title.trim()) {
+      const container = document.getElementById('criteriaListContainer');
+      const addBtn = container.querySelector('button');
+      const newRow = document.createElement('div');
+      newRow.className = 'criteria-list-row';
+      newRow.innerHTML = `
+        <input type="checkbox" checked />
+        <span style="font-weight: 600; font-size: 12.5px;">${title.trim()}</span>
+        <select class="form-input btn-sm"><option selected>Medium (20%)</option><option>High</option><option>Low</option></select>
+      `;
+      container.insertBefore(newRow, addBtn);
+    }
+  }
+
+  // Helper: Add New Tag Chip
+  function addNewTag(btnEl, promptLabel) {
+    const inputTag = prompt(`Enter ${promptLabel}:`);
+    if (inputTag && inputTag.trim()) {
+      const chipHtml = `<span class="tag-chip active" onclick="this.classList.toggle('active')">${inputTag.trim()}</span>`;
+      btnEl.parentElement.insertAdjacentHTML('afterbegin', chipHtml);
+    }
+  }
+</script>
+</body>
+</html>
