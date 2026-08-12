@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fund Platform — Process Flows</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+
+  :root{
+    --ink:#F8FAFC;
+    --ink-soft:#F1F5F9;
+    --panel:#FFFFFF;
+    --panel-line:#E2E8F0;
+    --paper:#0F172A;
+    --paper-dim:#475569;
+    --paper-faint:#94A3B8;
+    --signal:#D97706;
+    --signal-soft:#FFFBEB;
+    --signal-border:#FDE68A;
+    --lp:#7C3AED;
+    --gp:#D97706;
+    --founder:#059669;
+    --dd:#2563EB;
+    --sys:#64748B;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Inter', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--signal-soft); color:var(--signal); }
+
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  /* ===== Texture ===== */
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:1; opacity:.015; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ===== Hero ===== */
+  .hero{
+    min-height:55vh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:6vh 8vw;
+    position:relative;
+    background: #FFFFFF;
+    border-bottom:1px solid var(--panel-line);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; top:-20%; right:-10%; width:50vw; height:50vw;
+    background:radial-gradient(circle, rgba(217,119,6,0.08) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--signal); margin-bottom:20px; display:flex; align-items:center; gap:10px; font-weight:700;
+  }
+  .hero-eyebrow::before{ content:""; width:26px; height:2px; background:var(--signal); display:inline-block; }
+  .hero h1{
+    font-family:'Fraunces', serif; font-weight:600;
+    font-size:clamp(2.4rem, 5.2vw, 4.4rem);
+    line-height:1.05; letter-spacing:-.02em;
+    max-width:18ch; color:var(--paper);
+  }
+  .hero h1 em{ font-style:italic; color:var(--signal); font-weight:500; }
+  .hero-sub{
+    margin-top:20px; max-width:56ch; font-size:1.05rem; color:var(--paper-dim); font-weight:400; line-height:1.6;
+  }
+  .hero-map{
+    margin-top:36px; display:flex; flex-wrap:wrap; gap:10px;
+  }
+  .hero-map a{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.03em;
+    color:var(--paper-dim); text-decoration:none; padding:8px 14px;
+    background: var(--panel);
+    border:1px solid var(--panel-line); border-radius:100px;
+    box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+    transition:all .2s ease; white-space:nowrap; font-weight:600;
+  }
+  .hero-map a:hover{ border-color:var(--signal); color:var(--signal); background:var(--signal-soft); box-shadow: 0 4px 12px rgba(217,119,6,0.12); }
+  .hero-map a span{ color:var(--signal); margin-right:7px; font-weight:700; }
+
+  /* ===== Legend Bar ===== */
+  .legend{
+    display:flex; gap:22px; flex-wrap:wrap; padding:14px 8vw;
+    background:rgba(255, 255, 255, 0.94); border-bottom:1px solid var(--panel-line);
+    position:sticky; top:0; z-index:50; backdrop-filter:blur(10px);
+    box-shadow: 0 2px 10px rgba(15,23,42,0.04);
+  }
+  .legend-item{ display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono', monospace; font-size:11.5px; font-weight:600; color:var(--paper-dim); }
+  .legend-dot{ width:10px; height:10px; border-radius:50%; }
+
+  /* ===== Section Shell ===== */
+  section.flow{
+    padding:7vh 8vw;
+    border-bottom:1px solid var(--panel-line);
+    position:relative;
+    background: var(--ink);
+  }
+  section.flow:nth-of-type(even){ background:var(--ink-soft); }
+
+  .section-head{
+    display:grid; grid-template-columns:auto 1fr; gap:24px;
+    align-items:start; margin-bottom:36px;
+  }
+  .section-num{
+    font-family:'Fraunces', serif; font-size:clamp(2.2rem,3.6vw,3.2rem);
+    font-weight:600; color:#CBD5E1; line-height:1;
+  }
+  .section-title h2{
+    font-family:'Fraunces', serif; font-weight:600; font-size:clamp(1.6rem,2.8vw,2.3rem);
+    letter-spacing:-.01em; margin-bottom:8px; color:var(--paper);
+  }
+  .section-title p{
+    color:var(--paper-dim); max-width:64ch; font-size:.98rem; line-height:1.6;
+  }
+
+  /* ===== Horizontal Flow Cards Lane ===== */
+  .leg-title{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--signal); margin:28px 0 14px; display:flex; align-items:center; gap:8px;
+  }
+
+  .flow-lane{
+    display:flex;
+    align-items:stretch;
+    gap:0;
+    overflow-x:auto;
+    padding:12px 4px 20px;
+    scroll-behavior:smooth;
+  }
+  .flow-lane::-webkit-scrollbar{ height:8px; }
+  .flow-lane::-webkit-scrollbar-track{ background:transparent; }
+  .flow-lane::-webkit-scrollbar-thumb{ background:#CBD5E1; border-radius:4px; }
+  .flow-lane::-webkit-scrollbar-thumb:hover{ background:#94A3B8; }
+
+  /* ===== Flow Card Node ===== */
+  .flow-card{
+    width:240px;
+    min-height:140px;
+    flex-shrink:0;
+    background:#FFFFFF;
+    border:1px solid #E2E8F0;
+    border-radius:12px;
+    padding:20px 22px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    box-shadow:0 1px 4px rgba(15,23,42,0.04);
+    transition:all .2s ease;
+    position:relative;
+  }
+  .flow-card:hover{
+    border-color:var(--signal);
+    box-shadow:0 6px 20px rgba(217,119,6,0.12);
+    transform:translateY(-2px);
+  }
+
+  .actor-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--signal);
+    margin-bottom:10px;
+  }
+  .actor-tag.lp{ color:var(--lp); }
+  .actor-tag.gp{ color:var(--gp); }
+  .actor-tag.founder{ color:var(--founder); }
+  .actor-tag.dd{ color:var(--dd); }
+  .actor-tag.sys{ color:var(--sys); }
+
+  .card-title{
+    font-size:14.5px;
+    font-weight:700;
+    color:var(--paper);
+    line-height:1.35;
+    margin-bottom:8px;
+  }
+  .card-desc{
+    font-size:12.5px;
+    color:var(--paper-dim);
+    line-height:1.45;
+  }
+
+  /* ===== Connecting Arrow ===== */
+  .flow-arrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 14px;
+    color:var(--signal);
+    font-size:22px;
+    font-weight:700;
+    flex-shrink:0;
+  }
+
+  /* ===== Loop / Rejection Banner Callout ===== */
+  .loop-banner{
+    background:var(--signal-soft);
+    border:1px solid var(--signal-border);
+    border-radius:10px;
+    padding:14px 20px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:#B45309;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:18px;
+    box-shadow:0 1px 3px rgba(217,119,6,0.05);
+  }
+  .loop-banner svg{ flex-shrink:0; }
+
+  /* ===== Fund Size Badge ===== */
+  .figure-badge{
+    display:inline-flex; align-items:baseline; gap:6px;
+    font-family:'IBM Plex Mono', monospace;
+    background:#FEF3C7; color:#B45309; border:1px solid #FDE68A;
+    padding:3px 10px; border-radius:5px; font-size:.85em; font-weight:700;
+  }
+
+  /* Footer */
+  footer{
+    padding:6vh 8vw; text-align:center; color:var(--paper-faint);
+    font-family:'IBM Plex Mono', monospace; font-size:12px; background:#FFFFFF;
+    border-top:1px solid var(--panel-line);
+  }
+  footer .mark{ color:var(--signal); font-weight:700; }
+
+  /* Scroll reveal */
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="hero-eyebrow">Platform Process Map</div>
+  <h1>How capital, deals &amp; <em>reporting</em> move through the platform.</h1>
+  <p class="hero-sub">A complete walkthrough of every workflow on the platform — from an LP committing capital, to sourcing and diligencing a startup, to ongoing reporting and eventual LP exit. Eight connected horizontal flows, one continuous loop.</p>
+  <div class="hero-map">
+    <a href="#flow-1"><span>01</span>LP Fundraising</a>
+    <a href="#flow-2"><span>02</span>Startup Sourcing</a>
+    <a href="#flow-3"><span>03</span>Due Diligence</a>
+    <a href="#flow-4"><span>04</span>DD Partner Onboarding</a>
+    <a href="#flow-5"><span>05</span>Sharing VDR with DD</a>
+    <a href="#flow-6"><span>06</span>Portfolio &amp; Investment</a>
+    <a href="#flow-7"><span>07</span>Reporting Loop</a>
+    <a href="#flow-8"><span>08</span>LP Exit &amp; Distribution</a>
+  </div>
+</div>
+
+<!-- ============ LEGEND ============ -->
+<div class="legend">
+  <div class="legend-item"><span class="legend-dot" style="background:var(--gp)"></span>GP / Investor</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--lp)"></span>LP</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--founder)"></span>Founder / Startup</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--dd)"></span>DD Partner</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--sys)"></span>System / Platform</div>
+</div>
+
+<!-- ============ FLOW 01 — LP FUNDRAISING ============ -->
+<section class="flow reveal" id="flow-1">
+  <div class="section-head">
+    <div class="section-num">01</div>
+    <div class="section-title">
+      <h2>How Investors Approach LPs for Investment</h2>
+      <p>The GP defines a fund thesis, brings LPs onto the platform, and converts their agreement into committed, called capital — through either of two capital call paths.</p>
+    </div>
+  </div>
+
+  <div class="leg-title">Primary Fundraising Flow</div>
+  <div class="flow-lane">
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Creates a Fund</div>
+      <div class="card-desc">Investor sets up a new fund entity &amp; defines fund thesis and target size.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Shares Thesis</div>
+      <div class="card-desc">Fund thesis is published to prospective LPs through the platform.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag lp">LP</div>
+      <div class="card-title">Receives &amp; Onboards</div>
+      <div class="card-desc">LP creates an account on the platform if new to view the thesis.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag lp">LP</div>
+      <div class="card-title">Reviews Thesis</div>
+      <div class="card-desc">LP evaluates fund thesis to decide on capital commitment.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag sys">System</div>
+      <div class="card-title">Marked as Approved</div>
+      <div class="card-desc">If LP agrees, status on GP's LP list updates to Approved.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag lp">LP</div>
+      <div class="card-title">Commits Capital</div>
+      <div class="card-desc">Capital commitment is recorded &amp; falls under Capital Calls.</div>
+    </div>
+  </div>
+
+  <div class="leg-title">Path A — LP-Initiated Commitment</div>
+  <div class="flow-lane">
+    <div class="flow-card">
+      <div class="actor-tag lp">LP</div>
+      <div class="card-title">Commits Capital</div>
+      <div class="card-desc">LP commits capital against approved thesis.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-card">
+      <div class="actor-tag sys">System</div>
+      <div class="card-title">Lands in Calls</div>
+      <div class="card-desc">Commitment record falls under Capital Calls.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Accepts Call</div>
+      <div class="card-desc">Investor accepts the capital call record.</div>
+    </div>
+  </div>
+
+  <div class="leg-title">Path B — GP-Initiated Capital Call (Manual)</div>
+  <div class="flow-lane">
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Creates Call</div>
+      <div class="card-desc">Investor manually creates a new capital call.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Adds LPs</div>
+      <div class="card-desc">GP adds all relevant LPs to the capital call.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-card">
+      <div class="actor-tag lp">LP</div>
+      <div class="card-title">Accepts Call</div>
+      <div class="card-desc">LPs receive notification and accept the call.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-card">
+      <div class="actor-tag sys">System</div>
+      <div class="card-title">Capital Deployed</div>
+      <div class="card-desc">Fund raises capital; GP invests into finalized startups.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FLOW 02 — STARTUP SOURCING ============ -->
+<section class="flow reveal" id="flow-2">
+  <div class="section-head">
+    <div class="section-num">02</div>
+    <div class="section-title">
+      <h2>How Startups Get Shortlisted</h2>
+      <p>Documented for the <b>new fund</b> path first. Worked example: a fresh <span class="figure-badge">₹20 Cr</span> fund, sourcing startups inbound through a public submission link.</p>
+    </div>
+  </div>
+
+  <div class="flow-lane">
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Onboards Platform</div>
+      <div class="card-desc">Investor registers &amp; logs into active workspace session.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Creates ₹20 Cr Fund</div>
+      <div class="card-desc">Sets target corpus to ₹20 Cr for sourcing.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Shares Thesis</div>
+      <div class="card-desc">Shares thesis with co-investors &amp; LPs for alignment.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag sys">System</div>
+      <div class="card-title">Thesis Approved</div>
+      <div class="card-desc">Co-investors &amp; LPs align on shared thesis page.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Creates Submission Link</div>
+      <div class="card-desc">Generates public intake link for founder inbound.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Shares Link</div>
+      <div class="card-desc">Dispatches submission link to founders.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag founder">Founder</div>
+      <div class="card-title">Fills &amp; Submits Form</div>
+      <div class="card-desc">Founder inputs startup metrics &amp; submits.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag sys">System</div>
+      <div class="card-title">Startup Pool</div>
+      <div class="card-desc">Applications fall under Startup Pool directory.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Marks as Potential</div>
+      <div class="card-desc">Investor flags promising startups as Potential.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag sys">System</div>
+      <div class="card-title">Deal CRM</div>
+      <div class="card-desc">Added into Deal CRM for structured pipeline tracking.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Founder</div>
+      <div class="card-title">Meetings &amp; Reviews</div>
+      <div class="card-desc">Conducts evaluation meetings; CRM updates each round.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Selects Startup</div>
+      <div class="card-desc">Deal moves into Due-Diligence (DD) Stage.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag sys">System</div>
+      <div class="card-title">Added to Portfolio</div>
+      <div class="card-desc">After DD &amp; term sheet completed, added to Portfolio.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FLOW 03 — DUE DILIGENCE ============ -->
+<section class="flow reveal" id="flow-3">
+  <div class="section-head">
+    <div class="section-num">03</div>
+    <div class="section-title">
+      <h2>Due-Diligence Process Starts</h2>
+      <p>GP opens Virtual Data Room (VDR), configures dataroom folders, and requests document submissions from the founder.</p>
+    </div>
+  </div>
+
+  <div class="flow-lane">
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Goes to VDR</div>
+      <div class="card-desc">Investor opens Data Room hub on platform.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Creates Dataroom</div>
+      <div class="card-desc">Uses presets or creates blank room as needed.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Selects Startup</div>
+      <div class="card-desc">Links target startup for Due Diligence audit.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag founder">Founder</div>
+      <div class="card-title">Receives Request</div>
+      <div class="card-desc">Startup receives dataroom prompt notification.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag founder">Founder</div>
+      <div class="card-title">Uploads Documents</div>
+      <div class="card-desc">Adds all required legal, financial &amp; cap table files.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Receives Dataroom</div>
+      <div class="card-desc">GP inspects populated VDR &amp; begins review.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FLOW 04 — DD PARTNER ONBOARDING ============ -->
+<section class="flow reveal" id="flow-4">
+  <div class="section-head">
+    <div class="section-num">04</div>
+    <div class="section-title">
+      <h2>Due-Diligence Partner Addition</h2>
+      <p>GP invites an external legal/audit firm as a DD Partner, collects firm credentials, and approves their dedicated portal access.</p>
+    </div>
+  </div>
+
+  <div class="flow-lane">
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Goes to DD Partners</div>
+      <div class="card-desc">Navigates to DD Partners directory page.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Adds DD Partner</div>
+      <div class="card-desc">Clicks Add DD Partner &amp; fills onboarding form.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Shares Form</div>
+      <div class="card-desc">Dispatches form link to DD Partner contact.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag dd">DD Partner</div>
+      <div class="card-title">Fills Details</div>
+      <div class="card-desc">DD Partner inputs firm details &amp; submits form.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag sys">System</div>
+      <div class="card-title">Approval Pending</div>
+      <div class="card-desc">Details shown on GP workspace as Approval Pending.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Approves Partner</div>
+      <div class="card-desc">GP views firm details &amp; clicks Approve.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag sys">System</div>
+      <div class="card-title">DD Portal Created</div>
+      <div class="card-desc">DD Partner onboarded; portal access activated.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FLOW 05 — SHARING VDR WITH DD ============ -->
+<section class="flow reveal" id="flow-5">
+  <div class="section-head">
+    <div class="section-num">05</div>
+    <div class="section-title">
+      <h2>Sharing DD Partners Founder's Received VDR</h2>
+      <p>GP selects an onboarded DD partner firm and grants them secure audit access to the founder's Virtual Data Room.</p>
+    </div>
+  </div>
+
+  <div class="flow-lane">
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Opens Startup VDR</div>
+      <div class="card-desc">Opens Potential Startup VDR page or Shared With Me.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Share to DD Team</div>
+      <div class="card-desc">Clicks Share to DD Team button.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Selects DD Partner</div>
+      <div class="card-desc">Chooses onboarded DD partner firm to grant access.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag dd">DD Partner</div>
+      <div class="card-title">Receives Dataroom</div>
+      <div class="card-desc">DD team receives VDR access on their portal.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FLOW 06 — PORTFOLIO ENTRY ============ -->
+<section class="flow reveal" id="flow-6">
+  <div class="section-head">
+    <div class="section-num">06</div>
+    <div class="section-title">
+      <h2>Investment Closes &amp; Portfolio Entry</h2>
+      <p>Following term sheet completion, GP adds startup into official Portfolio and configures investment terms &amp; reporting schedules.</p>
+    </div>
+  </div>
+
+  <div class="flow-lane">
+    <div class="flow-card">
+      <div class="actor-tag sys">System</div>
+      <div class="card-title">DD Complete</div>
+      <div class="card-desc">Due diligence &amp; term sheet agreements finalized.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Add to Portfolio</div>
+      <div class="card-desc">GP clicks Add Startup to Portfolio directory.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Fills Details</div>
+      <div class="card-desc">Inputs investment amount &amp; sets reporting date.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag sys">System</div>
+      <div class="card-title">Startup Live</div>
+      <div class="card-desc">Startup active in Portfolio; reporting cycle begins.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FLOW 07 — REPORTING LOOP ============ -->
+<section class="flow reveal" id="flow-7">
+  <div class="section-head">
+    <div class="section-num">07</div>
+    <div class="section-title">
+      <h2>Portfolio Management &amp; Reporting Loop</h2>
+      <p>Dual reporting cycle: Founder reports to Investor, and Investor compiles &amp; shares reports with LPs on schedule.</p>
+    </div>
+  </div>
+
+  <div class="leg-title">Leg A — Founder Reports to Investor</div>
+  <div class="flow-lane">
+    <div class="flow-card">
+      <div class="actor-tag sys">Trigger</div>
+      <div class="card-title">Reporting Date Arrives</div>
+      <div class="card-desc">Auto-reminder sent to the founder's portal.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag founder">Founder</div>
+      <div class="card-title">Adds the Report</div>
+      <div class="card-desc">Founder fills in the report in their portal and shares it.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">Investor</div>
+      <div class="card-title">Reviews the Report</div>
+      <div class="card-desc">Report is visible under Founder Reports; investor can approve or reject.</div>
+    </div>
+  </div>
+
+  <div class="loop-banner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 12v-3a8 8 0 0115.3-3.3M20 12v3a8 8 0 01-15.3 3.3" stroke="#B45309" stroke-width="2.2" stroke-linecap="round"/><path d="M20 4v5h-5M4 20v-5h5" stroke="#B45309" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>↺ On reject, the same loop repeats — founder revises and resubmits until approved.</span>
+  </div>
+
+  <div class="leg-title">Leg B — Investor Reports to LP</div>
+  <div class="flow-lane">
+    <div class="flow-card">
+      <div class="actor-tag lp">LP</div>
+      <div class="card-title">Requests the Report</div>
+      <div class="card-desc">LP raises a report request to the GP from their portal.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">Investor</div>
+      <div class="card-title">Receives the Request</div>
+      <div class="card-desc">GP gets the LP's report request.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">Investor</div>
+      <div class="card-title">Compiles &amp; Uploads</div>
+      <div class="card-desc">GP creates the report manually and uploads it to the portal.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag lp">LP</div>
+      <div class="card-title">Approves or Denies</div>
+      <div class="card-desc">LP receives the report and responds accordingly.</div>
+    </div>
+  </div>
+
+  <div class="loop-banner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 12v-3a8 8 0 0115.3-3.3M20 12v3a8 8 0 01-15.3 3.3" stroke="#B45309" stroke-width="2.2" stroke-linecap="round"/><path d="M20 4v5h-5M4 20v-5h5" stroke="#B45309" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>↺ Ongoing cycle — repeats every reporting date across all portfolio startups.</span>
+  </div>
+</section>
+
+<!-- ============ FLOW 08 — LP EXIT & DISTRIBUTION ============ -->
+<section class="flow reveal" id="flow-8">
+  <div class="section-head">
+    <div class="section-num">08</div>
+    <div class="section-title">
+      <h2>LP Exit Request &amp; Distribution Calls</h2>
+      <p>LP initiates fund exit request, GP accepts under Exit Strategy, and executes distribution call based on capital call records.</p>
+    </div>
+  </div>
+
+  <div class="flow-lane">
+    <div class="flow-card">
+      <div class="actor-tag lp">LP</div>
+      <div class="card-title">Sends Exit Request</div>
+      <div class="card-desc">LP dispatches exit plan request to GP via portal.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Receives Exit Plan</div>
+      <div class="card-desc">Receives request under Exit Strategy module.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Accepts Request</div>
+      <div class="card-desc">Investor reviews &amp; accepts LP exit request.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Distribution Hub</div>
+      <div class="card-desc">Opens Distribution Call Management module.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Views Capital Calls</div>
+      <div class="card-desc">Inspects historical Capital Call records for exiting LP.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag gp">GP / Investor</div>
+      <div class="card-title">Creates Distribution</div>
+      <div class="card-desc">Creates distribution call &amp; adds payout figures.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+
+    <div class="flow-card">
+      <div class="actor-tag lp">LP</div>
+      <div class="card-title">Receives Payout Call</div>
+      <div class="card-desc">Distribution call shared with LP; exit complete.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="mark">Platform Process Map</span> — Full End-to-End GP / LP / Startup Lifecycle
+</footer>
+
+<script>
+  // Scroll reveal animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

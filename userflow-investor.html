@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — GP/LP/Startup Platform Full Lifecycle Architecture Canvas & Specifications</title>
+<style>
+  :root {
+    --bg-page: #F8FAFC;
+    --card-bg: #FFFFFF;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --border-subtle: #E2E8F0;
+    --border-dark: #0F172A;
+    --accent-blue: #2563EB;
+    --accent-green: #059669;
+    --accent-red: #DC2626;
+    --accent-violet: #7C6FE0;
+    --accent-amber: #D97706;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Fullscreen Canvas Container */
+  #canvasContainer {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    cursor: grab;
+  }
+  #canvasContainer:active {
+    cursor: grabbing;
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Modern Subtle Floating Top Navigation Bar */
+  .top-nav {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    right: 20px;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+  }
+
+  /* Brand Badge */
+  .brand-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #FFFFFF;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    pointer-events: auto;
+  }
+  .brand-badge .logo {
+    width: 26px; height: 26px;
+    background: var(--text-primary);
+    color: #FFFFFF;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px;
+  }
+  .brand-badge h1 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  /* Header Actions Group */
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: auto;
+  }
+
+  /* Flow Selector Filter Pills */
+  .flow-pills-group {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    background: #FFFFFF;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    max-width: 840px;
+    overflow-x: auto;
+  }
+  .flow-pills-group::-webkit-scrollbar { display: none; }
+
+  .flow-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .flow-btn:hover {
+    background: #F1F5F9;
+    color: var(--text-primary);
+  }
+  .flow-btn.active {
+    background: var(--text-primary);
+    color: #FFFFFF;
+    font-weight: 700;
+  }
+  .flow-btn.gp-pill {
+    color: #2563EB;
+    border: 1px solid #DBEAFE;
+  }
+  .flow-btn.gp-pill.active {
+    background: #2563EB;
+    color: #FFFFFF;
+    border-color: #2563EB;
+  }
+
+  /* Modern Accordion Toggle Button */
+  .specs-toggle-btn {
+    background: #FFFFFF;
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+  }
+  .specs-toggle-btn:hover {
+    background: #F8FAFC;
+    border-color: var(--border-dark);
+  }
+
+  /* Collapsible Modern Drawer Overlay Panel */
+  .specs-drawer {
+    position: absolute;
+    top: 72px;
+    right: 20px;
+    width: 680px;
+    max-height: calc(100vh - 140px);
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+    z-index: 200;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .specs-drawer.open { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .drawer-header {
+    background: #FFFFFF;
+    color: var(--text-primary);
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .drawer-header h2 { font-size: 13.5px; font-weight: 700; color: var(--text-primary); }
+  .drawer-close {
+    background: #F1F5F9;
+    border: none;
+    color: var(--text-secondary);
+    width: 26px; height: 26px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .drawer-close:hover { background: #E2E8F0; color: var(--text-primary); }
+
+  .drawer-content {
+    padding: 16px 20px;
+    overflow-y: auto;
+    user-select: text;
+  }
+
+  /* Accordion Item Styling */
+  .accordion-item {
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .accordion-header {
+    background: #F8FAFC;
+    padding: 11px 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.15s ease;
+  }
+  .accordion-header:hover { background: #F1F5F9; }
+  .accordion-body {
+    padding: 14px;
+    display: none;
+    border-top: 1px solid var(--border-subtle);
+    background: #FFFFFF;
+  }
+  .accordion-item.active .accordion-body { display: block; }
+  .accordion-item.active .accordion-header { background: #0F172A; color: #FFFFFF; font-weight: 700; }
+  .accordion-item.gp-item.active .accordion-header { background: #1E40AF; color: #FFFFFF; }
+
+  .story-quote {
+    background: #F8FAFC;
+    border-left: 3px solid #2563EB;
+    padding: 8px 12px;
+    font-size: 11.5px;
+    font-style: italic;
+    color: #334155;
+    margin-bottom: 12px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* Spec Table */
+  table.spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  table.spec-table th {
+    background: #F8FAFC;
+    color: var(--text-secondary);
+    text-align: left;
+    padding: 8px 10px;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  table.spec-table td {
+    padding: 9px 10px;
+    border-bottom: 1px solid #F1F5F9;
+    vertical-align: top;
+    color: var(--text-primary);
+    line-height: 1.45;
+  }
+
+  /* Floating Zoom Controls */
+  .floating-controls {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #FFFFFF;
+    padding: 5px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  }
+  .ctrl-btn {
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .ctrl-btn:hover { background: #F1F5F9; border-color: var(--border-dark); }
+  .ctrl-val { font-size: 12px; font-weight: 700; color: var(--text-primary); min-width: 44px; text-align: center; }
+
+  /* Floating Legend */
+  .floating-legend {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #FFFFFF;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; border: 1px solid var(--border-dark); }
+</style>
+</head>
+<body>
+
+<!-- TOP NAVIGATION BAR -->
+<div class="top-nav">
+  <div class="brand-badge">
+    <div class="logo">S</div>
+    <h1>GP-LP-Startup Platform Lifecycle</h1>
+  </div>
+
+  <div class="header-actions">
+    <!-- Flow Selector Filter Pills -->
+    <div class="flow-pills-group">
+      <button class="flow-btn active" data-flow="all">All Frames</button>
+      <button class="flow-btn gp-pill" data-flow="f1" title="Frame 1: GP approaches LPs for capital">Frame 1: Fundraising &amp; Capital Calls</button>
+      <button class="flow-btn gp-pill" data-flow="f2" title="Frame 2: Startup sourcing & shortlisting">Frame 2: Startup Sourcing &amp; CRM</button>
+      <button class="flow-btn gp-pill" data-flow="f3" title="Frame 3: Due diligence process starts in VDR">Frame 3: VDR Dataroom Setup</button>
+      <button class="flow-btn gp-pill" data-flow="f4" title="Frame 4: Due diligence partner onboarding">Frame 4: DD Partner Onboarding</button>
+      <button class="flow-btn gp-pill" data-flow="f5" title="Frame 5: Share founder VDR with DD team">Frame 5: Share VDR with DD Team</button>
+      <button class="flow-btn gp-pill" data-flow="f6" title="Frame 6: Investment closes & startup enters portfolio">Frame 6: Investment &amp; Portfolio Entry</button>
+      <button class="flow-btn gp-pill" data-flow="f7" title="Frame 7: Founder -> GP -> LP reporting loop">Frame 7: Portfolio Reporting Loops</button>
+      <button class="flow-btn gp-pill" data-flow="f8" title="Frame 8: LP exit request & distribution calls">Frame 8: LP Exit &amp; Distribution</button>
+    </div>
+
+    <!-- Accordion Drawer Toggle Button -->
+    <button class="specs-toggle-btn" id="toggleDrawerBtn">
+      <span>Lifecycle Specs Table</span>
+      <span id="drawerArrow">▾</span>
+    </button>
+  </div>
+</div>
+
+<!-- COLLAPSIBLE ACCORDION SPECS DRAWER -->
+<div class="specs-drawer" id="specsDrawer">
+  <div class="drawer-header">
+    <h2>GP / LP / Startup Lifecycle Specifications Table</h2>
+    <button class="drawer-close" id="closeDrawerBtn">✕</button>
+  </div>
+  <div class="drawer-content">
+
+    <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #2563EB; letter-spacing: 0.05em; margin-bottom: 8px;">FULL PLATFORM LIFECYCLE FRAMES</div>
+    
+    <!-- ACCORDION ITEM: FRAME 1 -->
+    <div class="accordion-item gp-item active">
+      <div class="accordion-header">
+        <span>Frame 1: Fundraising — GP approaches LPs for capital</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">Lifecycle Overview: Investor/GP creates a Fund, defines thesis and target size, shares thesis with LPs. LPs review, approve, commit capital, and capital calls are executed via LP-initiated or GP-initiated paths.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Actor &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Investor / GP creates a Fund</td><td>GP Active Session</td></tr>
+            <tr><td>02 Thesis Setup</td><td>Defines thesis &amp; target fund size</td><td>GP Fund Config</td></tr>
+            <tr><td>03 Share Thesis</td><td>Shares thesis with LPs via platform</td><td>Dispatched to LPs</td></tr>
+            <tr><td>04 LP Intake</td><td>LP receives thesis (creates account if new to platform)</td><td>LP Account Auth</td></tr>
+            <tr><td>05 Review</td><td>LP reviews &amp; understands thesis</td><td>LP Mandate Review</td></tr>
+            <tr><td>06 Approval Gate</td><td>Decision: LP agrees to participate?</td><td>LP Agreement Gate</td></tr>
+            <tr><td>07 Verification</td><td>Marked "Approved" in GP's LP list</td><td>System Verified</td></tr>
+            <tr><td>08 Commitment</td><td>LP commits capital amount (record created)</td><td>Commitment Saved in DB</td></tr>
+            <tr><td>09 Path A</td><td>LP-initiated: Commitment record falls into Capital Calls → GP accepts capital call</td><td>LP Initiated Call</td></tr>
+            <tr><td>09 Path B</td><td>GP-initiated: GP manually creates capital call → LP receives &amp; accepts call</td><td>GP Initiated Call</td></tr>
+            <tr><td>10 Outcome</td><td>Fund raises capital; GP invests capital into finalized startups</td><td>Capital Raised &amp; Ready</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FRAME 2 -->
+    <div class="accordion-item gp-item">
+      <div class="accordion-header">
+        <span>Frame 2: Startup sourcing &amp; shortlisting</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">Lifecycle Overview: Investor creates ₹20 Cr fund and thesis, aligns co-investors, generates public submission link for founder inbound, ingests applications into Startup Pool, flags potential deals into CRM, conducts meetings, and selects startups for DD.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Actor &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Onboard</td><td>Investor onboards on platform</td><td>Active Session</td></tr>
+            <tr><td>02 Fund Setup</td><td>Creates new fund (e.g. ₹20 Cr)</td><td>Fund Workspace Live</td></tr>
+            <tr><td>03 Thesis Alignment</td><td>Creates thesis; shares with co-investors / LPs</td><td>Co-investor Portal Shared</td></tr>
+            <tr><td>04 Alignment Gate</td><td>Co-investors review and align on single thesis page</td><td>Thesis Approved</td></tr>
+            <tr><td>05 Public Intake</td><td>GP creates public submission link for founder inbound</td><td>Intake Form Configured</td></tr>
+            <tr><td>06 Share Link</td><td>GP shares submission link with founders</td><td>Public URL Active</td></tr>
+            <tr><td>07 Founder Submit</td><td>Founder fills &amp; submits startup due diligence form</td><td>Form Dispatched</td></tr>
+            <tr><td>08 Pool Ingestion</td><td>System auto-routes submission into "Startup Pool"</td><td>Startup Pool DB</td></tr>
+            <tr><td>09 Potential Gate</td><td>Decision: Mark startup as potential deal lead?</td><td>CRM Screening Gate</td></tr>
+            <tr><td>10 Deal CRM</td><td>Added to Deal CRM as "Potential" lead</td><td>Deal Pipeline Active</td></tr>
+            <tr><td>11 Review Loop</td><td>Meetings &amp; reviews with founder; CRM updates each round</td><td>Iterative Review Loop</td></tr>
+            <tr><td>12 Selection</td><td>Startup selected; Deal moves to Due-Diligence stage</td><td>Selected for DD</td></tr>
+            <tr><td>13 Final Gate</td><td>DD + term sheet complete?</td><td>Term Sheet Gate</td></tr>
+            <tr><td>14 Outcome</td><td>Added to Portfolio; investor prepares capital investment</td><td>Portfolio Ready</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FRAME 3 -->
+    <div class="accordion-item gp-item">
+      <div class="accordion-header">
+        <span>Frame 3: Due-diligence process starts — VDR (Virtual Data Room)</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">Lifecycle Overview: Investor creates a new VDR (using preset templates or blank room), selects target startup for DD, dispatches dataroom request to founder, and founder uploads all requested due diligence files.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Actor &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>Investor navigates to VDR Data Room Hub</td><td>VDR Workspace</td></tr>
+            <tr><td>02 Room Creation</td><td>Creates new dataroom (with preset folders or blank)</td><td>VDR Configured</td></tr>
+            <tr><td>03 Select Deal</td><td>Selects the target startup for Due Diligence</td><td>Deal Linked to VDR</td></tr>
+            <tr><td>04 Founder Alert</td><td>Startup receives dataroom request alert</td><td>Founder Prompt Delivered</td></tr>
+            <tr><td>05 File Upload</td><td>Founder adds all requested documents (Legal, Financials, Cap Table)</td><td>Files Uploaded &amp; Encrypted</td></tr>
+            <tr><td>06 Outcome</td><td>Founder submission received by GP; dataroom fully populated</td><td>VDR Live &amp; Ready</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FRAME 4 -->
+    <div class="accordion-item gp-item">
+      <div class="accordion-header">
+        <span>Frame 4: Due-diligence partner addition — onboarding a DD firm</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">Lifecycle Overview: GP navigates to DD Partners directory, initiates DD partner addition, sends onboarding form to DD partner, partner fills &amp; submits firm details, and GP reviews &amp; approves to activate the DD partner portal.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Actor &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Directory Entry</td><td>GP goes to "DD Partners" directory page</td><td>Active Session</td></tr>
+            <tr><td>02 Add Action</td><td>GP clicks "Add DD Partner"</td><td>Onboarding Modal Opened</td></tr>
+            <tr><td>03 Form Dispatch</td><td>GP fills onboarding details and dispatches form link to DD partner</td><td>Form Sent to DD Email</td></tr>
+            <tr><td>04 Partner Intake</td><td>DD Partner completes firm details, contact info &amp; audit specialty</td><td>DD Partner Form Fill</td></tr>
+            <tr><td>05 Submission</td><td>DD Partner submits onboarding form</td><td>Data Queued for Review</td></tr>
+            <tr><td>06 System Queue</td><td>Details displayed on GP side with status "Approval Pending"</td><td>Pending GP Approval</td></tr>
+            <tr><td>07 Approval Gate</td><td>Decision: GP views and approves DD partner?</td><td>GP Verification Gate</td></tr>
+            <tr><td>08 Outcome</td><td>DD Partner onboarded; dedicated DD portal created</td><td>DD Partner Active</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FRAME 5 -->
+    <div class="accordion-item gp-item">
+      <div class="accordion-header">
+        <span>Frame 5: Sharing DD partners the founder's VDR</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">Lifecycle Overview: GP opens potential startup's VDR page, clicks "Share to DD Team", selects target DD partner firm, and dispatches dataroom access to partner's dedicated portal.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Actor &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Entry</td><td>GP opens Potential Startup's VDR page or "Shared with me" repository</td><td>VDR Page Active</td></tr>
+            <tr><td>02 Share Trigger</td><td>GP clicks "Share to DD Team" button</td><td>Permissions Modal Opened</td></tr>
+            <tr><td>03 Select Partner</td><td>GP selects which onboarded DD partner to grant access</td><td>Access Token Assigned</td></tr>
+            <tr><td>04 Outcome</td><td>DD Partner receives dataroom access on their own portal</td><td>DD Audit Access Live</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FRAME 6 -->
+    <div class="accordion-item gp-item">
+      <div class="accordion-header">
+        <span>Frame 6: Investment closes — startup added to portfolio</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">Lifecycle Overview: Following completion of due diligence and term sheet execution, GP adds startup to Portfolio, fills investment parameters (cheque size, valuation, reporting dates), and begins active portfolio management.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Actor &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Prerequisite</td><td>Due diligence &amp; term sheet agreement complete</td><td>DD Approved</td></tr>
+            <tr><td>02 Add Portfolio</td><td>GP adds startup to official Portfolio directory</td><td>Portfolio DB Entry</td></tr>
+            <tr><td>03 Investment Details</td><td>GP fills key investment details (amount invested, date, reporting schedule)</td><td>Investment Record Saved</td></tr>
+            <tr><td>04 Outcome</td><td>Startup live in GP's Portfolio; recurring reporting cycle begins</td><td>Portfolio Tracking Active</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FRAME 7 -->
+    <div class="accordion-item gp-item">
+      <div class="accordion-header">
+        <span>Frame 7: Portfolio management — Founder → GP → LP reporting loop</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">Lifecycle Overview: Dual reporting workflow: (1) Founder → GP loop triggered on schedule, founder submits update, GP approves or rejects back for revisions. (2) GP → LP loop triggered by LP request, GP creates &amp; uploads report, LP approves or denies back for updates.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Actor &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 Founder Trigger</td><td>Reporting date reached; system sends auto-reminder to founder portal</td><td>Scheduled Trigger</td></tr>
+            <tr><td>02 Founder Submission</td><td>Founder attaches metrics &amp; updates; shares report with GP</td><td>Report Uploaded</td></tr>
+            <tr><td>03 GP Review Gate</td><td>Decision: GP approves founder report? (Approve → Accept / Reject → Send Back ↺)</td><td>GP Review Gate</td></tr>
+            <tr><td>04 LP Request</td><td>LP requests periodic report from GP on their portal schedule</td><td>LP Request Dispatched</td></tr>
+            <tr><td>05 GP Creation</td><td>GP receives request, creates report, and uploads to portal</td><td>GP Report Published</td></tr>
+            <tr><td>06 LP Review Gate</td><td>Decision: LP approves report? (Approve → Accepted / Deny → Sent Back to GP ↺)</td><td>LP Approval Gate</td></tr>
+            <tr><td>07 Outcome</td><td>Ongoing reporting loop repeats every cycle across all portfolio startups</td><td>Active Portfolio Monitoring</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACCORDION ITEM: FRAME 8 -->
+    <div class="accordion-item gp-item">
+      <div class="accordion-header">
+        <span>Frame 8: LP exit request — distribution call management</span>
+        <span>▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="story-quote">Lifecycle Overview: LP dispatches exit request, GP receives under "Exit Strategy", reviews and accepts exit, opens Distribution Call Management, inspects capital calls, creates distribution call, and dispatches payout details to LP.</div>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Step</th><th>Action &amp; Details</th><th>Actor &amp; Access State</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01 LP Intent</td><td>LP decides to request fund exit</td><td>LP Session Active</td></tr>
+            <tr><td>02 Send Request</td><td>LP sends exit request to GP via platform portal</td><td>Exit Request Dispatched</td></tr>
+            <tr><td>03 GP Intake</td><td>GP receives request under "Exit Strategy" dashboard</td><td>Exit Request Received</td></tr>
+            <tr><td>04 Acceptance Gate</td><td>Decision: GP accepts exit request?</td><td>GP Exit Decision Gate</td></tr>
+            <tr><td>05 Distribution Hub</td><td>GP opens Distribution Call Management workspace</td><td>Distribution Module Active</td></tr>
+            <tr><td>06 View Capital Call</td><td>GP inspects historical Capital Call records for exiting LP</td><td>Capital Records Loaded</td></tr>
+            <tr><td>07 Call Creation</td><td>GP creates distribution call, enters payout amounts &amp; financial figures</td><td>Distribution Call Built</td></tr>
+            <tr><td>08 Outcome</td><td>Distribution call shared with LP; full fund exit cycle complete</td><td>Exit &amp; Distribution Finalized</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FLOATING ZOOM CONTROLS -->
+<div class="floating-controls">
+  <button class="ctrl-btn" id="zoomOut" title="Zoom Out">−</button>
+  <span class="ctrl-val" id="zoomVal">100%</span>
+  <button class="ctrl-btn" id="zoomIn" title="Zoom In">+</button>
+  <div style="width:1px; height:16px; background:#E2E8F0; margin:0 4px;"></div>
+  <button class="ctrl-btn" id="resetView">Reset</button>
+  <button class="ctrl-btn" id="fitScreen">Fit View</button>
+</div>
+
+<!-- FLOATING LEGEND -->
+<div class="floating-legend">
+  <div class="legend-item"><span class="legend-dot" style="background:#2563EB;"></span> GP / Investor (Blue)</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#7C6FE0;"></span> LP (Violet)</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#059669;"></span> Founder (Green)</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#D97706;"></span> DD Partner (Amber)</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#F8FAFC; border:1px dashed #0F172A;"></span> Decision / Gate</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#F0FDF4; border-color:#059669;"></span> Outcome</div>
+</div>
+
+<div id="canvasContainer">
+  <canvas id="skeletonCanvas"></canvas>
+</div>
+
+<script>
+(function() {
+  const container = document.getElementById('canvasContainer');
+  const canvas = document.getElementById('skeletonCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Camera State
+  let scale = 0.42;
+  let panX = 40;
+  let panY = 50;
+  let isDragging = false;
+  let startX = 0, startY = 0;
+  let activeFlow = 'all';
+
+  function resizeCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    draw();
+  }
+  window.addEventListener('resize', resizeCanvas);
+
+  // Frame Start Headers
+  const flowStartHeaders = [
+    { flowGroup: 'f1', x: 60, y: 70, title: 'Frame 01: Fundraising — GP approaches LPs for capital', story: 'Paths: LP-initiated commitment & GP-initiated manual call leading to capital raised.' },
+    { flowGroup: 'f2', x: 60, y: 390, title: 'Frame 02: Startup sourcing & shortlisting', story: 'Worked example: ₹20 Cr fund sourcing, intake link, Deal CRM, meetings, and selection.' },
+    { flowGroup: 'f3', x: 60, y: 710, title: 'Frame 03: Due-diligence process starts — VDR (Virtual Data Room)', story: 'VDR creation (preset/blank), startup selection, request dispatch & founder file uploads.' },
+    { flowGroup: 'f4', x: 60, y: 1010, title: 'Frame 04: Due-diligence partner addition — onboarding a DD firm', story: 'GP dispatches onboarding form, DD partner submits details, GP reviews and approves.' },
+    { flowGroup: 'f5', x: 60, y: 1310, title: 'Frame 05: Sharing DD partners the founder\'s VDR', story: 'GP opens VDR, clicks Share to DD Team, selects partner firm, and dispatches access.' },
+    { flowGroup: 'f6', x: 60, y: 1610, title: 'Frame 06: Investment closes — startup added to portfolio', story: 'DD & term sheet complete, GP adds startup to Portfolio, fills parameters & starts tracking.' },
+    { flowGroup: 'f7', x: 60, y: 1910, title: 'Frame 07: Portfolio management — Founder → GP → LP reporting loop', story: 'Dual loop: (1) Founder updates GP on schedule (2) GP reports to LP on request.' },
+    { flowGroup: 'f8', x: 60, y: 2360, title: 'Frame 08: LP exit request — distribution call management', story: 'LP exit request → GP accepts → Distribution Call Management → Payout call shared.' },
+  ];
+
+  // Nodes Matrix
+  const nodes = [
+    // FRAME 1: FUNDRAISING (Y = 110)
+    { id: 'f1_start', x: 60, y: 120, w: 230, h: 95, title: 'Investor Creates Fund', sub: 'GP Fund Creation Entry', type: 'gp', shape: 'capsule', tag: '[01 ENTRY]', flowGroup: 'f1' },
+    { id: 'f1_thesis', x: 340, y: 120, w: 240, h: 95, title: 'Define Thesis & Size', sub: 'Set Mandates & Target Size', type: 'gp', shape: 'rect', tag: '[THESIS]', flowGroup: 'f1' },
+    { id: 'f1_share_lp', x: 630, y: 120, w: 240, h: 95, title: 'Share Thesis with LPs', sub: 'Dispatched via Platform', type: 'gp', shape: 'rect', tag: '[DISPATCH]', flowGroup: 'f1' },
+    { id: 'f1_lp_recd', x: 920, y: 120, w: 240, h: 95, title: 'LP Receives Thesis', sub: 'Creates Account if New LP', type: 'lp', shape: 'rect', tag: '[LP INTAKE]', flowGroup: 'f1' },
+    { id: 'f1_lp_review', x: 1210, y: 120, w: 240, h: 95, title: 'LP Reviews Mandate', sub: 'Evaluates Fund Terms', type: 'lp', shape: 'rect', tag: '[LP REVIEW]', flowGroup: 'f1' },
+    { id: 'f1_lp_decision', x: 1500, y: 115, w: 250, h: 105, title: 'LP Agrees?', sub: 'Check Investment Fit', type: 'warning', shape: 'diamond', tag: '[DECISION]', flowGroup: 'f1' },
+    { id: 'f1_approved_lp', x: 1800, y: 120, w: 240, h: 95, title: 'Marked "Approved"', sub: 'Updated in GP LP List', type: 'lp', shape: 'cylinder', tag: '[APPROVED]', flowGroup: 'f1' },
+    { id: 'f1_commit', x: 2090, y: 120, w: 240, h: 95, title: 'LP Commits Capital', sub: 'Commitment Record Saved', type: 'lp', shape: 'rect', tag: '[COMMITMENT]', flowGroup: 'f1' },
+    // Frame 1 Branches
+    { id: 'f1_path_a_sys', x: 2380, y: 60, w: 250, h: 85, title: 'Commitment → Capital Call', sub: 'Path A: LP-initiated', type: 'lp', shape: 'rect', tag: '[PATH A]', flowGroup: 'f1' },
+    { id: 'f1_path_a_gp', x: 2680, y: 60, w: 240, h: 85, title: 'GP Accepts Capital Call', sub: 'Capital Call Approved', type: 'gp', shape: 'rect', tag: '[GP ACCEPT]', flowGroup: 'f1' },
+    { id: 'f1_path_b_gp', x: 2380, y: 180, w: 250, h: 85, title: 'GP Creates Capital Call', sub: 'Path B: GP-initiated (Manual)', type: 'gp', shape: 'rect', tag: '[PATH B]', flowGroup: 'f1' },
+    { id: 'f1_path_b_lp', x: 2680, y: 180, w: 240, h: 85, title: 'LP Accepts Call', sub: 'LP Dispatches Capital', type: 'lp', shape: 'rect', tag: '[LP ACCEPT]', flowGroup: 'f1' },
+    { id: 'f1_raised', x: 2970, y: 120, w: 240, h: 95, title: 'Fund Raises Capital', sub: 'Capital Secured in Fund', type: 'outcome', shape: 'capsule', tag: '[CAPITAL RAISED]', flowGroup: 'f1' },
+    { id: 'f1_outcome', x: 3260, y: 120, w: 260, h: 95, title: 'Invest into Startups', sub: 'Proceeds to Sourcing (Frame 02)', type: 'outcome', shape: 'capsule', tag: '[INVESTMENT READY]', flowGroup: 'f1' },
+
+    // FRAME 2: SOURCING & CRM (Y = 440)
+    { id: 'f2_start', x: 60, y: 440, w: 230, h: 95, title: 'Investor Onboarded', sub: 'Logged In Active Session', type: 'gp', shape: 'capsule', tag: '[01 ENTRY]', flowGroup: 'f2' },
+    { id: 'f2_create_fund', x: 340, y: 440, w: 240, h: 95, title: 'Creates New Fund', sub: 'e.g. ₹20 Cr Fund Size', type: 'gp', shape: 'rect', tag: '[FUND CREATED]', flowGroup: 'f2' },
+    { id: 'f2_thesis', x: 630, y: 440, w: 240, h: 95, title: 'Creates Thesis', sub: 'Shares with Co-Investors', type: 'gp', shape: 'rect', tag: '[THESIS]', flowGroup: 'f2' },
+    { id: 'f2_coinvestor', x: 920, y: 440, w: 240, h: 95, title: 'Co-Investors Align', sub: 'Shared Thesis Single View', type: 'gp', shape: 'rect', tag: '[ALIGNMENT]', flowGroup: 'f2' },
+    { id: 'f2_thesis_gate', x: 1210, y: 435, w: 250, h: 105, title: 'Thesis Approved?', sub: 'Co-Investor Signoff', type: 'warning', shape: 'diamond', tag: '[DECISION]', flowGroup: 'f2' },
+    { id: 'f2_link', x: 1500, y: 440, w: 240, h: 95, title: 'Create Submission Link', sub: 'Public Intake Config', type: 'gp', shape: 'rect', tag: '[INTAKE LINK]', flowGroup: 'f2' },
+    { id: 'f2_share_link', x: 1790, y: 440, w: 240, h: 95, title: 'Share Link to Founders', sub: 'Dispatched to Inbound', type: 'gp', shape: 'rect', tag: '[SHARE LINK]', flowGroup: 'f2' },
+    { id: 'f2_founder_submit', x: 2080, y: 440, w: 240, h: 95, title: 'Founder Fills Form', sub: 'Submits Startup Details', type: 'startup', shape: 'rect', tag: '[SUBMISSION]', flowGroup: 'f2' },
+    { id: 'f2_pool', x: 2370, y: 440, w: 240, h: 95, title: 'Land in Startup Pool', sub: 'Auto-routed to Database', type: 'warning', shape: 'cylinder', tag: '[STARTUP POOL]', flowGroup: 'f2' },
+    { id: 'f2_potential_gate', x: 2660, y: 435, w: 250, h: 105, title: 'Mark as Potential?', sub: 'Initial Screening Gate', type: 'warning', shape: 'diamond', tag: '[DECISION]', flowGroup: 'f2' },
+    { id: 'f2_crm', x: 2960, y: 440, w: 240, h: 95, title: 'Added to Deal CRM', sub: 'Flagged as Potential Lead', type: 'gp', shape: 'rect', tag: '[DEAL CRM]', flowGroup: 'f2' },
+    { id: 'f2_review_loop', x: 3250, y: 440, w: 250, h: 95, title: 'Meetings & Reviews', sub: 'Deal CRM Updated Each Round', type: 'startup', shape: 'cylinder', tag: '[REVIEW LOOP]', flowGroup: 'f2' },
+    { id: 'f2_selected', x: 3550, y: 440, w: 240, h: 95, title: 'Startup Selected', sub: 'Moves to Due Diligence Stage', type: 'gp', shape: 'rect', tag: '[SELECTED]', flowGroup: 'f2' },
+    { id: 'f2_dd_gate', x: 3840, y: 435, w: 250, h: 105, title: 'DD & Term Sheet Done?', sub: 'Final Term Sheet Signoff', type: 'warning', shape: 'diamond', tag: '[DECISION]', flowGroup: 'f2' },
+    { id: 'f2_outcome', x: 4140, y: 440, w: 250, h: 95, title: 'Added to Portfolio', sub: 'Proceeds to Investment (Frame 06)', type: 'outcome', shape: 'capsule', tag: '[PORTFOLIO ADDED]', flowGroup: 'f2' },
+
+    // FRAME 3: VDR DATAROOM (Y = 760)
+    { id: 'f3_start', x: 60, y: 760, w: 230, h: 95, title: 'GP Opens VDR Hub', sub: 'Virtual Data Room Active', type: 'gp', shape: 'capsule', tag: '[01 ENTRY]', flowGroup: 'f3' },
+    { id: 'f3_create_vdr', x: 340, y: 760, w: 240, h: 95, title: 'Create Dataroom', sub: 'Preset Folders or Blank Room', type: 'gp', shape: 'rect', tag: '[VDR SETUP]', flowGroup: 'f3' },
+    { id: 'f3_select_deal', x: 630, y: 760, w: 240, h: 95, title: 'Select Startup for DD', sub: 'Target Deal Linked to VDR', type: 'gp', shape: 'rect', tag: '[LINK DEAL]', flowGroup: 'f3' },
+    { id: 'f3_request_recd', x: 920, y: 760, w: 240, h: 95, title: 'Founder Receives Alert', sub: 'VDR Request Delivered', type: 'startup', shape: 'rect', tag: '[REQUEST RECD]', flowGroup: 'f3' },
+    { id: 'f3_upload_files', x: 1210, y: 760, w: 250, h: 95, title: 'Founder Uploads Files', sub: 'Legal, Financials & Cap Table', type: 'startup', shape: 'rect', tag: '[UPLOADS]', flowGroup: 'f3' },
+    { id: 'f3_outcome', x: 1510, y: 760, w: 260, h: 95, title: 'Dataroom Populated', sub: 'Submission Received by GP', type: 'outcome', shape: 'capsule', tag: '[VDR POPULATED]', flowGroup: 'f3' },
+
+    // FRAME 4: DD PARTNER ONBOARDING (Y = 1060)
+    { id: 'f4_start', x: 60, y: 1060, w: 230, h: 95, title: 'Go to DD Partners', sub: '/dd-partners Directory Entry', type: 'gp', shape: 'capsule', tag: '[01 ENTRY]', flowGroup: 'f4' },
+    { id: 'f4_add_btn', x: 340, y: 1060, w: 240, h: 95, title: 'Click "Add DD Partner"', sub: 'Open Onboarding Modal', type: 'gp', shape: 'rect', tag: '[ADD ACTION]', flowGroup: 'f4' },
+    { id: 'f4_fill_form', x: 630, y: 1060, w: 240, h: 95, title: 'GP Dispatches Form', sub: 'Form Link Sent to DD Partner', type: 'gp', shape: 'rect', tag: '[FORM SENT]', flowGroup: 'f4' },
+    { id: 'f4_partner_fill', x: 920, y: 1060, w: 240, h: 95, title: 'DD Partner Fills Info', sub: 'Contact, Firm & Specialty', type: 'dd', shape: 'rect', tag: '[PARTNER FORM]', flowGroup: 'f4' },
+    { id: 'f4_partner_submit', x: 1210, y: 1060, w: 240, h: 95, title: 'DD Partner Submits', sub: 'Queued for GP Verification', type: 'dd', shape: 'rect', tag: '[SUBMITTED]', flowGroup: 'f4' },
+    { id: 'f4_pending_sys', x: 1500, y: 1060, w: 250, h: 95, title: 'Status: Pending Review', sub: 'Displayed on GP Workspace', type: 'warning', shape: 'cylinder', tag: '[PENDING QUEUE]', flowGroup: 'f4' },
+    { id: 'f4_approve_gate', x: 1790, y: 1055, w: 250, h: 105, title: 'GP Reviews & Approves?', sub: 'Verification Check', type: 'warning', shape: 'diamond', tag: '[DECISION]', flowGroup: 'f4' },
+    { id: 'f4_outcome', x: 2090, y: 1060, w: 260, h: 95, title: 'DD Partner Onboarded', sub: 'Dedicated DD Portal Activated', type: 'outcome', shape: 'capsule', tag: '[DD ONBOARDED]', flowGroup: 'f4' },
+
+    // FRAME 5: SHARE VDR WITH DD (Y = 1360)
+    { id: 'f5_start', x: 60, y: 1360, w: 240, h: 95, title: 'GP Opens Startup VDR', sub: 'Potential Startup VDR Page', type: 'gp', shape: 'capsule', tag: '[01 ENTRY]', flowGroup: 'f5' },
+    { id: 'f5_share_btn', x: 340, y: 1360, w: 240, h: 95, title: 'Click "Share to DD Team"', sub: 'Open Share Permissions', type: 'gp', shape: 'rect', tag: '[SHARE ACTION]', flowGroup: 'f5' },
+    { id: 'f5_select_partner', x: 630, y: 1360, w: 250, h: 95, title: 'Select DD Partner Firm', sub: 'Choose Onboarded DD Team', type: 'gp', shape: 'rect', tag: '[SELECT PARTNER]', flowGroup: 'f5' },
+    { id: 'f5_outcome', x: 930, y: 1360, w: 260, h: 95, title: 'DD Partner Recvs VDR', sub: 'Access Live on DD Portal', type: 'outcome', shape: 'capsule', tag: '[VDR ACCESSED]', flowGroup: 'f5' },
+
+    // FRAME 6: PORTFOLIO & INVESTMENT (Y = 1660)
+    { id: 'f6_start', x: 60, y: 1660, w: 240, h: 95, title: 'DD & Term Sheet Done', sub: 'All Agreements Finalized', type: 'gp', shape: 'capsule', tag: '[01 ENTRY]', flowGroup: 'f6' },
+    { id: 'f6_add_portfolio', x: 340, y: 1660, w: 240, h: 95, title: 'Add to Portfolio', sub: 'Startup Added to Fund Records', type: 'gp', shape: 'rect', tag: '[PORTFOLIO ADDED]', flowGroup: 'f6' },
+    { id: 'f6_fill_details', x: 630, y: 1660, w: 250, h: 95, title: 'Fill Investment Terms', sub: 'Cheque Size, Valuation & Dates', type: 'gp', shape: 'rect', tag: '[INVESTMENT DETAILS]', flowGroup: 'f6' },
+    { id: 'f6_outcome', x: 930, y: 1660, w: 260, h: 95, title: 'Live in Portfolio', sub: 'Reporting Cycle Begins (Frame 07)', type: 'outcome', shape: 'capsule', tag: '[PORTFOLIO LIVE]', flowGroup: 'f6' },
+
+    // FRAME 7: REPORTING LOOPS (Y = 1960 for Founder->GP, Y = 2110 for GP->LP)
+    // Founder -> GP Loop
+    { id: 'f7_founder_start', x: 60, y: 1960, w: 240, h: 95, title: 'Reporting Date Reached', sub: 'Trigger: Scheduled Cycle Date', type: 'startup', shape: 'capsule', tag: '[FOUNDER LOOP]', flowGroup: 'f7' },
+    { id: 'f7_reminder_sys', x: 340, y: 1960, w: 240, h: 95, title: 'Auto-Reminder Sent', sub: 'Prompted on Founder Portal', type: 'startup', shape: 'rect', tag: '[AUTO REMINDER]', flowGroup: 'f7' },
+    { id: 'f7_founder_add', x: 630, y: 1960, w: 240, h: 95, title: 'Founder Adds Report', sub: 'Enters Performance Updates', type: 'startup', shape: 'rect', tag: '[REPORT CREATED]', flowGroup: 'f7' },
+    { id: 'f7_founder_share', x: 920, y: 1960, w: 240, h: 95, title: 'Shares with Investor', sub: 'Report Dispatched to GP', type: 'startup', shape: 'rect', tag: '[REPORT SENT]', flowGroup: 'f7' },
+    { id: 'f7_gp_review_gate', x: 1210, y: 1955, w: 250, h: 105, title: 'GP Approves Report?', sub: 'Review Metrics & Financials', type: 'warning', shape: 'diamond', tag: '[GP REVIEW]', flowGroup: 'f7' },
+    { id: 'f7_gp_accepted', x: 1510, y: 1910, w: 240, h: 85, title: 'Report Accepted', sub: 'Saved in Fund Records', type: 'outcome', shape: 'capsule', tag: '[APPROVED]', flowGroup: 'f7' },
+    { id: 'f7_gp_rejected', x: 1510, y: 2010, w: 240, h: 85, title: 'Sent Back to Founder', sub: 'Repeats Loop ↺ for Revisions', type: 'gp', shape: 'rect', tag: '[REVISIONS REQD]', flowGroup: 'f7' },
+
+    // GP -> LP Loop
+    { id: 'f7_lp_req_start', x: 60, y: 2160, w: 240, h: 95, title: 'LP Requests Report', sub: 'Trigger: Dispatched from LP Portal', type: 'lp', shape: 'capsule', tag: '[LP LOOP]', flowGroup: 'f7' },
+    { id: 'f7_gp_recd_req', x: 340, y: 2160, w: 240, h: 95, title: 'GP Receives Request', sub: 'Notification on GP Dashboard', type: 'gp', shape: 'rect', tag: '[REQUEST RECD]', flowGroup: 'f7' },
+    { id: 'f7_gp_create_rep', x: 630, y: 240, w: 240, h: 95, title: 'GP Creates LP Report', sub: 'Aggregates Portfolio Stats', type: 'gp', shape: 'rect', tag: '[REPORT BUILT]', flowGroup: 'f7' },
+    { id: 'f7_gp_upload_lp', x: 920, y: 2160, w: 240, h: 95, title: 'Uploads Report to Portal', sub: 'Published to LP Workspace', type: 'gp', shape: 'rect', tag: '[PUBLISHED]', flowGroup: 'f7' },
+    { id: 'f7_lp_recd_rep', x: 1210, y: 2160, w: 240, h: 95, title: 'LP Receives Report', sub: 'LP Reviews Fund Performance', type: 'lp', shape: 'rect', tag: '[LP INTAKE]', flowGroup: 'f7' },
+    { id: 'f7_lp_review_gate', x: 1500, y: 2155, w: 250, h: 105, title: 'LP Approves Report?', sub: 'LP Signoff Gate', type: 'warning', shape: 'diamond', tag: '[DECISION]', flowGroup: 'f7' },
+    { id: 'f7_lp_accepted', x: 1790, y: 2110, w: 240, h: 85, title: 'Report Accepted by LP', sub: 'Quarterly Record Finalized', type: 'outcome', shape: 'capsule', tag: '[LP APPROVED]', flowGroup: 'f7' },
+    { id: 'f7_lp_denied', x: 1790, y: 2210, w: 240, h: 85, title: 'Sent Back to GP', sub: 'Repeats Loop ↺ for Updates', type: 'lp', shape: 'rect', tag: '[REVISIONS REQD]', flowGroup: 'f7' },
+    { id: 'f7_ongoing', x: 2080, y: 2160, w: 260, h: 95, title: 'Repeats Every Cycle', sub: 'Active Across All Portfolio Deals', type: 'outcome', shape: 'capsule', tag: '[ONGOING MONITORING]', flowGroup: 'f7' },
+
+    // FRAME 8: LP EXIT & DISTRIBUTION (Y = 2410)
+    { id: 'f8_start', x: 60, y: 2410, w: 240, h: 95, title: 'LP Wants to Exit', sub: 'LP Initiates Exit Request', type: 'lp', shape: 'capsule', tag: '[01 ENTRY]', flowGroup: 'f8' },
+    { id: 'f8_send_req', x: 340, y: 2410, w: 240, h: 95, title: 'Sends Exit Request to GP', sub: 'Dispatched via LP Portal', type: 'lp', shape: 'rect', tag: '[EXIT REQUEST]', flowGroup: 'f8' },
+    { id: 'f8_gp_recd_exit', x: 630, y: 2410, w: 240, h: 95, title: 'Receives Exit Request', sub: 'Under Exit Strategy Module', type: 'gp', shape: 'rect', tag: '[REQUEST RECD]', flowGroup: 'f8' },
+    { id: 'f8_gp_accept_gate', x: 920, y: 2405, w: 250, h: 105, title: 'GP Accepts Exit?', sub: 'Fund Liquidity & Terms Check', type: 'warning', shape: 'diamond', tag: '[DECISION]', flowGroup: 'f8' },
+    { id: 'f8_open_dist', x: 1210, y: 2410, w: 250, h: 95, title: 'Open Distribution Calls', sub: 'Distribution Module Active', type: 'gp', shape: 'rect', tag: '[DISTRIBUTION HUB]', flowGroup: 'f8' },
+    { id: 'f8_view_calls', x: 1500, y: 2410, w: 250, h: 95, title: 'View Capital Calls for LP', sub: 'Inspect Exiting LP Payouts', type: 'gp', shape: 'rect', tag: '[CAPITAL CALLS]', flowGroup: 'f8' },
+    { id: 'f8_create_dist', x: 1790, y: 2410, w: 250, h: 95, title: 'Create Distribution Call', sub: 'Adds Payout Amount & Figures', type: 'gp', shape: 'rect', tag: '[CALL CREATED]', flowGroup: 'f8' },
+    { id: 'f8_outcome', x: 2080, y: 2410, w: 260, h: 95, title: 'Distribution Call Shared', sub: 'Exit Cycle Completed', type: 'outcome', shape: 'capsule', tag: '[EXIT COMPLETED]', flowGroup: 'f8' },
+  ];
+
+  // Connections Matrix
+  const connections = [
+    // FRAME 1
+    { from: 'f1_start', to: 'f1_thesis', flowGroup: 'f1' },
+    { from: 'f1_thesis', to: 'f1_share_lp', flowGroup: 'f1' },
+    { from: 'f1_share_lp', to: 'f1_lp_recd', label: 'Dispatch', flowGroup: 'f1' },
+    { from: 'f1_lp_recd', to: 'f1_lp_review', flowGroup: 'f1' },
+    { from: 'f1_lp_review', to: 'f1_lp_decision', label: 'Review Fit', flowGroup: 'f1' },
+    { from: 'f1_lp_decision', to: 'f1_approved_lp', label: 'LP Agrees', color: '#059669', flowGroup: 'f1' },
+    { from: 'f1_approved_lp', to: 'f1_commit', label: 'Commit Capital', flowGroup: 'f1' },
+    { from: 'f1_commit', to: 'f1_path_a_sys', label: 'Path A (LP Call)', color: '#2563EB', flowGroup: 'f1' },
+    { from: 'f1_path_a_sys', to: 'f1_path_a_gp', label: 'Call Recd', flowGroup: 'f1' },
+    { from: 'f1_path_a_gp', to: 'f1_raised', label: 'Accept Call', color: '#059669', flowGroup: 'f1' },
+    { from: 'f1_commit', to: 'f1_path_b_gp', label: 'Path B (GP Call)', color: '#D97706', flowGroup: 'f1' },
+    { from: 'f1_path_b_gp', to: 'f1_path_b_lp', label: 'Dispatch Call', flowGroup: 'f1' },
+    { from: 'f1_path_b_lp', to: 'f1_raised', label: 'Accept Call', color: '#059669', flowGroup: 'f1' },
+    { from: 'f1_raised', to: 'f1_outcome', label: 'Funded', color: '#059669', flowGroup: 'f1' },
+
+    // FRAME 2
+    { from: 'f2_start', to: 'f2_create_fund', flowGroup: 'f2' },
+    { from: 'f2_create_fund', to: 'f2_thesis', label: '₹20 Cr Fund', flowGroup: 'f2' },
+    { from: 'f2_thesis', to: 'f2_coinvestor', label: 'Share Mandate', flowGroup: 'f2' },
+    { from: 'f2_coinvestor', to: 'f2_thesis_gate', label: 'Single View', flowGroup: 'f2' },
+    { from: 'f2_thesis_gate', to: 'f2_link', label: 'Approved', color: '#059669', flowGroup: 'f2' },
+    { from: 'f2_link', to: 'f2_share_link', label: 'Generate Link', flowGroup: 'f2' },
+    { from: 'f2_share_link', to: 'f2_founder_submit', label: 'Share Link', flowGroup: 'f2' },
+    { from: 'f2_founder_submit', to: 'f2_pool', label: 'Submit Form', color: '#059669', flowGroup: 'f2' },
+    { from: 'f2_pool', to: 'f2_potential_gate', label: 'Auto Route', flowGroup: 'f2' },
+    { from: 'f2_potential_gate', to: 'f2_crm', label: 'Mark Potential', color: '#059669', flowGroup: 'f2' },
+    { from: 'f2_crm', to: 'f2_review_loop', label: 'Add to CRM', flowGroup: 'f2' },
+    { from: 'f2_review_loop', to: 'f2_selected', label: 'Select Deal', color: '#059669', flowGroup: 'f2' },
+    { from: 'f2_selected', to: 'f2_dd_gate', label: 'Start DD', flowGroup: 'f2' },
+    { from: 'f2_dd_gate', to: 'f2_outcome', label: 'Term Sheet Signed', color: '#059669', flowGroup: 'f2' },
+
+    // FRAME 3
+    { from: 'f3_start', to: 'f3_create_vdr', flowGroup: 'f3' },
+    { from: 'f3_create_vdr', to: 'f3_select_deal', label: 'Preset/Blank', flowGroup: 'f3' },
+    { from: 'f3_select_deal', to: 'f3_request_recd', label: 'Link Deal', flowGroup: 'f3' },
+    { from: 'f3_request_recd', to: 'f3_upload_files', label: 'Open Prompt', flowGroup: 'f3' },
+    { from: 'f3_upload_files', to: 'f3_outcome', label: 'Upload Files', color: '#059669', flowGroup: 'f3' },
+
+    // FRAME 4
+    { from: 'f4_start', to: 'f4_add_btn', flowGroup: 'f4' },
+    { from: 'f4_add_btn', to: 'f4_fill_form', label: 'Open Modal', flowGroup: 'f4' },
+    { from: 'f4_fill_form', to: 'f4_partner_fill', label: 'Send Link', flowGroup: 'f4' },
+    { from: 'f4_partner_fill', to: 'f4_partner_submit', label: 'Fill Info', flowGroup: 'f4' },
+    { from: 'f4_partner_submit', to: 'f4_pending_sys', label: 'Submit Form', color: '#059669', flowGroup: 'f4' },
+    { from: 'f4_pending_sys', to: 'f4_approve_gate', label: 'Pending Review', flowGroup: 'f4' },
+    { from: 'f4_approve_gate', to: 'f4_outcome', label: 'Approve DD Partner', color: '#059669', flowGroup: 'f4' },
+
+    // FRAME 5
+    { from: 'f5_start', to: 'f5_share_btn', flowGroup: 'f5' },
+    { from: 'f5_share_btn', to: 'f5_select_partner', label: 'Click Share', flowGroup: 'f5' },
+    { from: 'f5_select_partner', to: 'f5_outcome', label: 'Grant Access', color: '#059669', flowGroup: 'f5' },
+
+    // FRAME 6
+    { from: 'f6_start', to: 'f6_add_portfolio', flowGroup: 'f6' },
+    { from: 'f6_add_portfolio', to: 'f6_fill_details', label: 'DD Complete', flowGroup: 'f6' },
+    { from: 'f6_fill_details', to: 'f6_outcome', label: 'Save Terms', color: '#059669', flowGroup: 'f6' },
+
+    // FRAME 7
+    { from: 'f7_founder_start', to: 'f7_reminder_sys', flowGroup: 'f7' },
+    { from: 'f7_reminder_sys', to: 'f7_founder_add', label: 'Prompt', flowGroup: 'f7' },
+    { from: 'f7_founder_add', to: 'f7_founder_share', label: 'Add Report', flowGroup: 'f7' },
+    { from: 'f7_founder_share', to: 'f7_gp_review_gate', label: 'Share with GP', flowGroup: 'f7' },
+    { from: 'f7_gp_review_gate', to: 'f7_gp_accepted', label: 'Approve Report', color: '#059669', flowGroup: 'f7' },
+    { from: 'f7_gp_review_gate', to: 'f7_gp_rejected', label: 'Reject Report', color: '#DC2626', flowGroup: 'f7' },
+
+    { from: 'f7_lp_req_start', to: 'f7_gp_recd_req', flowGroup: 'f7' },
+    { from: 'f7_gp_recd_req', to: 'f7_gp_create_rep', label: 'Request Recd', flowGroup: 'f7' },
+    { from: 'f7_gp_create_rep', to: 'f7_gp_upload_lp', label: 'Create Report', flowGroup: 'f7' },
+    { from: 'f7_gp_upload_lp', to: 'f7_lp_recd_rep', label: 'Publish to LP', color: '#059669', flowGroup: 'f7' },
+    { from: 'f7_lp_recd_rep', to: 'f7_lp_review_gate', label: 'Review Report', flowGroup: 'f7' },
+    { from: 'f7_lp_review_gate', to: 'f7_lp_accepted', label: 'Approve LP Report', color: '#059669', flowGroup: 'f7' },
+    { from: 'f7_lp_review_gate', to: 'f7_lp_denied', label: 'Deny LP Report', color: '#DC2626', flowGroup: 'f7' },
+    { from: 'f7_lp_accepted', to: 'f7_ongoing', label: 'Loop Active', color: '#059669', flowGroup: 'f7' },
+
+    // FRAME 8
+    { from: 'f8_start', to: 'f8_send_req', flowGroup: 'f8' },
+    { from: 'f8_send_req', to: 'f8_gp_recd_exit', label: 'Send Request', flowGroup: 'f8' },
+    { from: 'f8_gp_recd_exit', to: 'f8_gp_accept_gate', label: 'Exit Request', flowGroup: 'f8' },
+    { from: 'f8_gp_accept_gate', to: 'f8_open_dist', label: 'Accept Exit', color: '#059669', flowGroup: 'f8' },
+    { from: 'f8_open_dist', to: 'f8_view_calls', label: 'Open Module', flowGroup: 'f8' },
+    { from: 'f8_view_calls', to: 'f8_create_dist', label: 'Inspect Calls', flowGroup: 'f8' },
+    { from: 'f8_create_dist', to: 'f8_outcome', label: 'Share Call', color: '#059669', flowGroup: 'f8' },
+  ];
+
+  function getNode(id) {
+    return nodes.find(n => n.id === id);
+  }
+
+  const nodeStyles = {
+    gp:      { bg: '#FFFFFF', border: '#2563EB', title: '#0F172A', sub: '#475569', tagBg: '#DBEAFE', tagFg: '#1E40AF' },
+    lp:      { bg: '#FFFFFF', border: '#7C6FE0', title: '#0F172A', sub: '#475569', tagBg: '#EEECFC', tagFg: '#5B4DCC' },
+    startup: { bg: '#FFFFFF', border: '#059669', title: '#0F172A', sub: '#475569', tagBg: '#E7F5EE', tagFg: '#047857' },
+    dd:      { bg: '#FFFFFF', border: '#D97706', title: '#0F172A', sub: '#475569', tagBg: '#FBF1E1', tagFg: '#B45309' },
+    warning: { bg: '#FFFBEB', border: '#D97706', title: '#92400E', sub: '#B45309', tagBg: '#D97706', tagFg: '#FFFFFF' },
+    outcome: { bg: '#F0FDF4', border: '#059669', title: '#065F46', sub: '#047857', tagBg: '#059669', tagFg: '#FFFFFF' },
+  };
+
+  function autoFitView() {
+    let minX = 40, maxX = 4450, minY = 20, maxY = 2650;
+
+    if (activeFlow === 'f1') { minY = 20; maxY = 340; maxX = 3600; }
+    else if (activeFlow === 'f2') { minY = 340; maxY = 660; maxX = 4480; }
+    else if (activeFlow === 'f3') { minY = 660; maxY = 960; maxX = 1850; }
+    else if (activeFlow === 'f4') { minY = 960; maxY = 1260; maxX = 2420; }
+    else if (activeFlow === 'f5') { minY = 1260; maxY = 1560; maxX = 1250; }
+    else if (activeFlow === 'f6') { minY = 1560; maxY = 1860; maxX = 1250; }
+    else if (activeFlow === 'f7') { minY = 1860; maxY = 2320; maxX = 2400; }
+    else if (activeFlow === 'f8') { minY = 2320; maxY = 2650; maxX = 2400; }
+
+    const totalW = maxX - minX;
+    const totalH = maxY - minY;
+
+    const dpr = window.devicePixelRatio || 1;
+    const cssW = canvas.width / dpr;
+    const cssH = canvas.height / dpr;
+
+    const scaleX = (cssW - 120) / totalW;
+    const scaleY = (cssH - 160) / totalH;
+
+    scale = Math.min(scaleX, scaleY);
+    scale = Math.min(Math.max(0.14, scale), 1.2);
+
+    panX = (cssW - totalW * scale) / 2 - minX * scale;
+    panY = (cssH - totalH * scale) / 2 - minY * scale;
+  }
+
+  function isFlowActive(flowGroup) {
+    if (activeFlow === 'all') return true;
+    return flowGroup === activeFlow;
+  }
+
+  function drawShape(shape, x, y, w, h) {
+    ctx.beginPath();
+    if (shape === 'diamond') {
+      ctx.moveTo(x + w / 2, y);
+      ctx.lineTo(x + w, y + h / 2);
+      ctx.lineTo(x + w / 2, y + h);
+      ctx.lineTo(x, y + h / 2);
+      ctx.closePath();
+    } else if (shape === 'capsule') {
+      const r = h / 2;
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.arc(x + w - r, y + r, r, -Math.PI / 2, Math.PI / 2);
+      ctx.lineTo(x + r, y + h);
+      ctx.arc(x + r, y + r, r, Math.PI / 2, -Math.PI / 2);
+      ctx.closePath();
+    } else if (shape === 'cylinder') {
+      const rY = 10;
+      ctx.moveTo(x, y + rY);
+      ctx.ellipse(x + w / 2, y + rY, w / 2, rY, 0, Math.PI, 0, true);
+      ctx.lineTo(x + w, y + h - rY);
+      ctx.ellipse(x + w / 2, y + h - rY, w / 2, rY, 0, 0, Math.PI, false);
+      ctx.lineTo(x, y + rY);
+      ctx.closePath();
+    } else {
+      ctx.rect(x, y, w, h);
+    }
+  }
+
+  function draw() {
+    const dpr = window.devicePixelRatio || 1;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.save();
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.scale(dpr, dpr);
+
+    ctx.translate(panX, panY);
+    ctx.scale(scale, scale);
+
+    // Subtle Grid
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.04)';
+    ctx.lineWidth = 1;
+    const step = 40;
+    const cssW = canvas.width / dpr;
+    const cssH = canvas.height / dpr;
+
+    const startGridX = Math.floor(-panX / scale / step) * step;
+    const endGridX = Math.ceil((cssW - panX) / scale / step) * step;
+    const startGridY = Math.floor(-panY / scale / step) * step;
+    const endGridY = Math.ceil((cssH - panY) / scale / step) * step;
+
+    for (let gx = startGridX; gx < endGridX; gx += step) {
+      ctx.beginPath(); ctx.moveTo(gx, startGridY); ctx.lineTo(gx, endGridY); ctx.stroke();
+    }
+    for (let gy = startGridY; gy < endGridY; gy += step) {
+      ctx.beginPath(); ctx.moveTo(startGridX, gy); ctx.lineTo(endGridX, gy); ctx.stroke();
+    }
+
+    // PASS 0: DRAW SUBTLE FLOW START HEADERS
+    flowStartHeaders.forEach(hdr => {
+      const active = isFlowActive(hdr.flowGroup);
+      ctx.save();
+      ctx.globalAlpha = active ? 1.0 : 0.15;
+
+      ctx.fillStyle = '#1E40AF';
+      ctx.font = '700 13.5px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(hdr.title, hdr.x, hdr.y);
+
+      ctx.fillStyle = '#64748B';
+      ctx.font = '500 11px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.fillText(hdr.story, hdr.x, hdr.y + 16);
+
+      ctx.restore();
+    });
+
+    // PASS 1: LINES
+    connections.forEach(conn => {
+      const active = isFlowActive(conn.flowGroup);
+      const src = getNode(conn.from);
+      const tgt = getNode(conn.to);
+      if (!src || !tgt) return;
+
+      const x1 = src.x + src.w;
+      const y1 = src.y + src.h / 2;
+      const x2 = tgt.x;
+      const y2 = tgt.y + tgt.h / 2;
+
+      ctx.save();
+      ctx.globalAlpha = active ? 1.0 : 0.12;
+      ctx.strokeStyle = conn.color || '#2563EB';
+      ctx.lineWidth = Math.max(2, 2.5 / Math.sqrt(scale));
+
+      const isBranching = Math.abs(y1 - y2) > 10;
+
+      ctx.beginPath();
+      if (!isBranching) {
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+      } else {
+        const midX = x1 + (x2 - x1) / 2;
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(midX, y1);
+        ctx.lineTo(midX, y2);
+        ctx.lineTo(x2, y2);
+      }
+      ctx.stroke();
+
+      ctx.fillStyle = conn.color || '#2563EB';
+      ctx.beginPath();
+      ctx.moveTo(x2, y2);
+      ctx.lineTo(x2 - 12, y2 - 7);
+      ctx.lineTo(x2 - 12, y2 + 7);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.restore();
+    });
+
+    // PASS 2: CARDS
+    nodes.forEach(node => {
+      const active = isFlowActive(node.flowGroup);
+      const style = nodeStyles[node.type] || nodeStyles.gp;
+      ctx.save();
+      ctx.globalAlpha = active ? 1.0 : 0.12;
+
+      drawShape(node.shape, node.x, node.y, node.w, node.h);
+
+      ctx.fillStyle = style.bg;
+      ctx.fill();
+
+      ctx.strokeStyle = style.border;
+      ctx.lineWidth = Math.max(1.8, 2.2 / Math.sqrt(scale));
+      ctx.stroke();
+
+      if (node.shape === 'cylinder') {
+        const rY = 10;
+        ctx.beginPath();
+        ctx.ellipse(node.x + node.w / 2, node.y + rY, node.w / 2, rY, 0, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = style.title;
+      ctx.font = '800 13.5px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(node.title, node.x + node.w / 2, node.y + (node.sub ? 42 : node.h / 2 + 4));
+
+      if (node.sub) {
+        ctx.fillStyle = style.sub || '#4B5563';
+        ctx.font = '600 11px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.fillText(node.sub, node.x + node.w / 2, node.y + 65);
+      }
+
+      ctx.restore();
+    });
+
+    // PASS 3: LINE LABELS
+    connections.forEach(conn => {
+      if (!conn.label) return;
+      const active = isFlowActive(conn.flowGroup);
+      const src = getNode(conn.from);
+      const tgt = getNode(conn.to);
+      if (!src || !tgt) return;
+
+      const x1 = src.x + src.w;
+      const y1 = src.y + src.h / 2;
+      const x2 = tgt.x;
+      const y2 = tgt.y + tgt.h / 2;
+
+      ctx.save();
+      ctx.globalAlpha = active ? 1.0 : 0.12;
+      const isBranching = Math.abs(y1 - y2) > 10;
+      ctx.font = '800 10.5px -apple-system, BlinkMacSystemFont, sans-serif';
+      const txtWidth = ctx.measureText(conn.label).width;
+      let lx, ly;
+
+      if (!isBranching) {
+        lx = (x1 + x2) / 2;
+        ly = y1;
+      } else {
+        lx = x1 + (x2 - x1) / 2;
+        ly = (y1 + y2) / 2;
+      }
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.strokeStyle = conn.color || '#2563EB';
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(lx - txtWidth / 2 - 8, ly - 11, txtWidth + 16, 22);
+      ctx.strokeRect(lx - txtWidth / 2 - 8, ly - 11, txtWidth + 16, 22);
+
+      ctx.fillStyle = conn.color || '#2563EB';
+      ctx.textAlign = 'center';
+      ctx.fillText(conn.label, lx, ly + 4);
+      ctx.restore();
+    });
+
+    // PASS 4: TOP TAGS
+    nodes.forEach(node => {
+      if (!node.tag) return;
+      const active = isFlowActive(node.flowGroup);
+      const style = nodeStyles[node.type] || nodeStyles.gp;
+      ctx.save();
+      ctx.globalAlpha = active ? 1.0 : 0.12;
+
+      ctx.font = '800 9px monospace';
+      const tagWidth = ctx.measureText(node.tag).width + 12;
+
+      let tagX = node.x + 12;
+      let tagY = node.y - 10;
+
+      if (node.shape === 'diamond' || node.shape === 'capsule') {
+        tagX = node.x + (node.w - tagWidth) / 2;
+        tagY = node.y - 11;
+      }
+
+      ctx.fillStyle = style.tagBg;
+      ctx.fillRect(tagX, tagY, tagWidth, 18);
+      ctx.strokeStyle = style.border;
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(tagX, tagY, tagWidth, 18);
+
+      ctx.fillStyle = style.tagFg;
+      ctx.textAlign = 'left';
+      ctx.fillText(node.tag, tagX + 6, tagY + 12);
+
+      ctx.restore();
+    });
+
+    ctx.restore();
+
+    document.getElementById('zoomVal').innerText = Math.round(scale * 100) + '%';
+  }
+
+  // Pan & Drag Handlers
+  container.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX - panX;
+    startY = e.clientY - panY;
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    panX = e.clientX - startX;
+    panY = e.clientY - startY;
+    draw();
+  });
+
+  window.addEventListener('mouseup', () => { isDragging = false; });
+
+  // Zoom Handler (Mouse Wheel)
+  container.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+
+    panX = mouseX - (mouseX - panX) * zoomFactor;
+    panY = mouseY - (mouseY - panY) * zoomFactor;
+    scale *= zoomFactor;
+
+    scale = Math.min(Math.max(0.15, scale), 2.5);
+    draw();
+  }, { passive: false });
+
+  // Controls Handlers
+  document.getElementById('zoomIn').addEventListener('click', () => {
+    scale = Math.min(2.5, scale * 1.2);
+    draw();
+  });
+
+  document.getElementById('zoomOut').addEventListener('click', () => {
+    scale = Math.max(0.15, scale / 1.2);
+    draw();
+  });
+
+  document.getElementById('resetView').addEventListener('click', () => {
+    activeFlow = 'all';
+    document.querySelectorAll('.flow-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.flow-btn[data-flow="all"]').classList.add('active');
+    autoFitView();
+    draw();
+  });
+
+  document.getElementById('fitScreen').addEventListener('click', () => {
+    autoFitView();
+    draw();
+  });
+
+  // Flow Filter Buttons Click Event Handlers
+  document.querySelectorAll('.flow-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      document.querySelectorAll('.flow-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFlow = btn.getAttribute('data-flow');
+      autoFitView();
+      draw();
+    });
+  });
+
+  // Accordion Specs Drawer Toggle Handlers
+  const toggleDrawerBtn = document.getElementById('toggleDrawerBtn');
+  const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+  const specsDrawer = document.getElementById('specsDrawer');
+  const drawerArrow = document.getElementById('drawerArrow');
+
+  toggleDrawerBtn.addEventListener('click', () => {
+    specsDrawer.classList.toggle('open');
+    if (specsDrawer.classList.contains('open')) {
+      drawerArrow.innerText = '▴';
+    } else {
+      drawerArrow.innerText = '▾';
+    }
+  });
+
+  closeDrawerBtn.addEventListener('click', () => {
+    specsDrawer.classList.remove('open');
+    drawerArrow.innerText = '▾';
+  });
+
+  // Accordion Items Expand/Collapse inside Drawer
+  document.querySelectorAll('.accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const item = header.parentElement;
+      item.classList.toggle('active');
+    });
+  });
+
+  // Initial Render & Auto Fit
+  resizeCanvas();
+  autoFitView();
+  draw();
+})();
+</script>
+</body>
+</html>
