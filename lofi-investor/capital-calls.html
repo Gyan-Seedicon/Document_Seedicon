@@ -477,7 +477,7 @@
   }
 
   // ---------- COMMITMENTS TABLE (read-only — commitments come in from LPs) ----------
-  const commitStatusClass = (s) => s === 'Accepted' ? 'paid' : (s === 'Declined' ? 'partial' : 'pending');
+  const commitStatusClass = (s) => s === 'Accepted' ? 'accepted' : (s === 'Declined' ? 'declined' : 'pending');
 
   function renderCommitmentsTable() {
     const tbody = document.getElementById('commitTableBody');
@@ -792,303 +792,333 @@
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 
-  // ---------- CREATE CAPITAL CALL MODAL (SMART 2-STEP FORM) ----------
-  let ccMethod = 'pct';
-  let ccPct = 5;
-  let ccAmt = 1.0;
-  let ccShares = [];
-  let ccSelected = [];
-
-  function ccTotals() {
-    const tCalled = totalCalled();
-    return { commit: totalComm(), callable: round2(totalComm() - tCalled) };
-  }
+  // ---------- CREATE CAPITAL CALL (COMPACT SINGLE-STEP, MANUAL ALLOCATION) ----------
+  let ccEligible = [];
 
   function nextCallId() {
     return 'CC-' + String(CALLS.length + 1).padStart(3, '0');
   }
 
-  function openCreateCallModal() {
-    const t = ccTotals();
-    openModal('Create Capital Call — ' + nextCallId(), `
-      <div style="display:flex; flex-direction:column; gap:12px;">
+  function currentFundName() {
+    const el = document.getElementById('activeFundLabel');
+    return (el && el.textContent.trim()) ? el.textContent.trim() : 'Seedicon Fund I (₹20 Cr)';
+  }
 
-        <div class="form-steps">
-          <span class="form-step active" id="ccStepLabel">1 · Call Parameters</span>
-          <span class="form-step-line"></span>
-          <span class="form-step" id="ccStepLabel2">2 · Allocation &amp; Issue</span>
-        </div>
+  function todayDateStr() {
+    return new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
 
-        <div id="ccStep1">
-          <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-muted); border:1px solid var(--border-main); border-radius:6px; padding:8px 12px; font-size:11.5px;">
-            <span style="color:var(--text-muted);">Callable headroom (uncalled)</span>
-            <strong id="ccHeadroom" style="color:var(--text-dark); font-variant-numeric:tabular-nums;">${fmtCr(t.callable)}</strong>
+  function defaultDueStr() {
+    const d = new Date();
+    d.setDate(d.getDate() + 30);
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  function setCCDue(days) {
+    const d = new Date();
+    d.setDate(d.getDate() + days);
+    const inp = document.getElementById('ccDueDate');
+    if (inp) inp.value = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  function setCCPurpose(text) {
+    const area = document.getElementById('ccPurpose');
+    if (area) area.value = text;
+  }
+
+  function parseTotal() {
+    return round2(parseFloat((document.getElementById('ccTotalAmt') || {}).value) || 0);
+  }
+
+  function ccCallable() {
+    return round2(totalComm() - totalCalled());
+  }
+
+  let currentCCStep = 1;
+  let ccSavedTotal = 0;
+
+  function openCreateCallDrawer() {
+    currentCCStep = 1;
+    // Eligible = Accepted/Active LPs with available uncalled commitment > 0
+    ccEligible = LPs.map((lp, i) => {
+      const uncalled = round2(lp.comm - lp.called);
+      return { i, name: lp.name, type: lp.type, comm: lp.comm, called: lp.called, uncalled, status: lp.status, alloc: 0 };
+    }).filter(x => x.status === 'Accepted' && x.uncalled > 0);
+
+    const fund = currentFundName();
+    const id = nextCallId();
+
+    const bodyHtml = `
+      <div style="display:flex; flex-direction:column; gap:14px;">
+
+        <!-- STEP 1: CALL PARAMETERS -->
+        <div id="drawerCCStep1" style="display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:8px; border-bottom:1px solid var(--border-main);">
+            <span style="font-size:11px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:var(--text-muted);">STEP 1 OF 2 · CALL PARAMETERS</span>
+            <span class="badge-pill neutral-dark">Fund Active</span>
           </div>
 
-          <div style="margin-top:10px;">
-            <label class="form-label">DISTRIBUTION METHOD</label>
-            <div class="seg-control">
-              <button type="button" class="seg-opt active" id="segPct" onclick="setCCMethod('pct')">% of commitment</button>
-              <button type="button" class="seg-opt" id="segAmt" onclick="setCCMethod('amt')">Flat ₹ amount</button>
-            </div>
+          <div>
+            <label class="form-label">FUND</label>
+            <input type="text" class="form-input" value="${fund}" disabled style="background:var(--bg-muted); color:var(--text-muted);"/>
+            <p class="form-hint">Disabled field · Capital call is issued on current active fund</p>
           </div>
 
-          <div id="ccPctBlock" style="margin-top:10px;">
-            <label class="form-label">CALL SIZE — % OF COMMITMENT</label>
-            <div class="preset-chips" style="margin-bottom:8px;">
-              <span class="prompt-chip" onclick="setCCPct(2.5)">2.5% · ₹0.50 Cr</span>
-              <span class="prompt-chip" onclick="setCCPct(5)">5% · ₹1.00 Cr</span>
-              <span class="prompt-chip" onclick="setCCPct(7.5)">7.5% · ₹1.50 Cr</span>
-              <span class="prompt-chip" onclick="setCCPct(10)">10% · ₹2.00 Cr</span>
-              <span class="prompt-chip" onclick="setCCPct(12.5)">12.5% · ₹2.50 Cr</span>
-            </div>
-            <div class="input-with-suffix">
-              <input type="number" class="form-input" id="ccPctInput" value="5" step="0.5" min="0" oninput="onCCPctInput()" />
-              <span class="suffix">% of fund</span>
-            </div>
-            <p class="form-hint" id="ccPctHint">Draw total ≈ <strong>₹1.00 Cr</strong> · across committed LPs</p>
-          </div>
-
-          <div id="ccAmtBlock" style="display:none; margin-top:10px;">
-            <label class="form-label">CALL SIZE — ₹ AMOUNT</label>
-            <div class="preset-chips" style="margin-bottom:8px;">
-              <span class="prompt-chip" onclick="setCCAmt(0.5)">₹0.50 Cr</span>
-              <span class="prompt-chip" onclick="setCCAmt(1)">₹1.00 Cr</span>
-              <span class="prompt-chip" onclick="setCCAmt(1.5)">₹1.50 Cr</span>
-              <span class="prompt-chip" onclick="setCCAmt(2)">₹2.00 Cr</span>
-              <span class="prompt-chip" onclick="setCCAmt(2.5)">₹2.50 Cr</span>
-            </div>
-            <div class="input-with-suffix">
-              <span class="suffix">₹</span>
-              <input type="number" class="form-input" id="ccAmtInput" value="1.00" step="0.25" min="0" oninput="onCCAmtInput()" />
-              <span class="suffix">Crore</span>
-            </div>
-            <p class="form-hint" id="ccAmtHint">≤ callable · drawn pro-rata by commitment</p>
-          </div>
-
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
             <div>
-              <label class="form-label">CALL DATE</label>
-              <input type="text" class="form-input" id="ccIssueDate" value="12 Aug 2026" />
+              <label class="form-label">TOTAL CALL AMOUNT</label>
+              <div class="input-with-suffix">
+                <span class="suffix">₹</span>
+                <input type="number" class="form-input" id="ccTotalAmt" value="2.00" step="0.05" min="0" placeholder="0.00" />
+                <span class="suffix">Crore</span>
+              </div>
             </div>
+
             <div>
-              <label class="form-label">PAYMENT DUE</label>
-              <select class="form-input" id="ccDueDays">
-                <option value="21">+21 days</option>
-                <option value="30" selected>+30 days</option>
-                <option value="45">+45 days</option>
-                <option value="60">+60 days</option>
-              </select>
+              <label class="form-label">DUE DATE</label>
+              <input type="text" class="form-input" id="ccDueDate" value="${defaultDueStr()}" placeholder="dd MMM yyyy" />
             </div>
           </div>
 
-          <div style="margin-top:10px;">
-            <label class="form-label">PURPOSE / NOTE</label>
-            <div class="preset-chips" style="margin-bottom:6px;">
-              <span class="prompt-chip" onclick="setCCPurpose('Initial deployment for portfolio round 03')">Initial deployment</span>
-              <span class="prompt-chip" onclick="setCCPurpose('Follow-on reserves for portfolio rounds')">Follow-on reserves</span>
-              <span class="prompt-chip" onclick="setCCPurpose('Management fees & fund operating expenses')">Management fees</span>
-            </div>
-            <textarea class="form-input" id="ccPurpose" style="min-height:52px;">Follow-on deployment for portfolio rounds closing in Q3 2026.</textarea>
+          <div>
+            <label class="form-label">CALL PURPOSE</label>
+            <input type="text" class="form-input" id="ccPurpose" value="Follow-on deployment for portfolio rounds closing in Q3 2026." />
           </div>
 
-          <label class="cc-check-row" style="margin-top:10px;">
-            <input type="checkbox" id="ccNotify" checked />
-            <span>Notify LPs by email on issue</span>
-            <span class="cc-check-note">Payments recorded manually</span>
-          </label>
+          <div>
+            <label class="form-label">OPTIONAL NOTE</label>
+            <textarea class="form-input" id="ccNote" style="min-height:56px;" placeholder="Add a note for the LPs (optional)"></textarea>
+          </div>
+
+          <div style="background:var(--bg-muted); border:1px solid var(--border-main); border-radius:6px; padding:10px 12px; font-size:11.5px; display:flex; justify-content:space-between;">
+            <span style="color:var(--text-muted);">Available Callable Headroom</span>
+            <strong style="color:var(--text-dark);">${fmtCr(ccCallable())}</strong>
+          </div>
         </div>
 
-        <div id="ccStep2" style="display:none;">
-          <div class="cc-summary-row">
-            <div class="cc-summary-box">
-              <div class="cc-summary-label">Call Amount</div>
-              <div class="cc-summary-value" id="ccSumAmt">—</div>
-            </div>
-            <div class="cc-summary-box">
-              <div class="cc-summary-label">LPs Selected</div>
-              <div class="cc-summary-value" id="ccSumLps">—</div>
-            </div>
-            <div class="cc-summary-box">
-              <div class="cc-summary-label">Avg per LP</div>
-              <div class="cc-summary-value" id="ccSumAvg">—</div>
-            </div>
+        <!-- STEP 2: LP ALLOCATION (STREAMLINED ESSENTIAL INFORMATION ONLY) -->
+        <div id="drawerCCStep2" style="display:none; flex-direction:column; gap:12px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:8px; border-bottom:1px solid var(--border-main);">
+            <span style="font-size:11px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:var(--text-muted);">STEP 2 OF 2 · LP ALLOCATION</span>
+            <button class="btn btn-outline btn-sm" onclick="ccProRataFill()" title="Auto-fill LP allocations proportionally based on uncalled commitment">
+              <i data-lucide="sparkles" class="lucide-sm"></i>
+              <span>⚡ Pro-Rata Auto-Fill</span>
+            </button>
           </div>
 
-          <div class="alloc-scroll" style="border:1px solid var(--border-main); border-radius:8px; overflow:hidden; margin-top:10px;">
-            <table class="allocation-table" style="margin-top:0;">
-              <thead>
-                <tr>
-                  <th style="width:32px;">✓</th>
-                  <th>LP</th>
-                  <th class="num">Commitment</th>
-                  <th class="num">Amount</th>
-                </tr>
-              </thead>
-              <tbody id="ccAllocBody"></tbody>
-              <tfoot>
-                <tr class="allocation-total">
-                  <td colspan="3">Selected Total</td>
-                  <td class="num" id="ccAllocTotal">—</td>
-                </tr>
-              </tfoot>
-            </table>
+          <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:8px 12px; font-size:12px;">
+            <span style="color:var(--text-muted);">Target Call Amount:</span>
+            <strong id="drawerTargetLabel" style="color:var(--text-dark); font-size:13px;">₹2.00 Cr</strong>
           </div>
-          <p class="form-hint" id="ccExcludedHint" style="display:none;">Declined LPs are auto-excluded — their commitment is not callable.</p>
+
+          <div>
+            <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">
+              Showing eligible LPs with available uncalled commitment.
+            </p>
+
+            <!-- SURFACE DATA TABLE FOR LP ALLOCATION -->
+            <div style="max-height:380px; overflow-y:auto; border:1px solid var(--border-main); border-radius:6px;">
+              <table class="drawer-surface-table">
+                <thead>
+                  <tr>
+                    <th>LP Name</th>
+                    <th class="num">Available Uncalled</th>
+                    <th class="num">Call Allocation</th>
+                  </tr>
+                </thead>
+                <tbody id="ccEligibleList"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
-        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px;">
-          <button onclick="document.getElementById('modalOverlay').style.display='none'" class="btn">Cancel</button>
-          <button id="ccBackBtn" style="display:none;" class="btn btn-outline" onclick="goCCStep(1)">
-            <i data-lucide="chevron-left" class="lucide-sm"></i>
-            <span>Back</span>
-          </button>
-          <button id="ccNextBtn" class="btn btn-primary" onclick="goCCStep(2)">
-            <span>Review allocation</span>
-            <i data-lucide="arrow-right" class="lucide-sm"></i>
-          </button>
-          <button id="ccIssueBtn" style="display:none;" class="btn btn-primary" onclick="issueCall()">
-            <i data-lucide="send"></i>
-            <span>Issue Capital Call</span>
-          </button>
-        </div>
       </div>
-    `);
+    `;
 
-    goCCStep(1);
+    const footerHtml = `
+      <div id="ccSummaryBar" class="cc-summary-bar">Call Amount ₹2.00 Cr · Allocated ₹0.00 Cr · Remaining ₹2.00 Cr</div>
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button onclick="closeDrawer()" class="btn">Cancel</button>
+        
+        <!-- Step 1 Button -->
+        <button class="btn btn-primary" id="drawerBtnNext" onclick="goToDrawerStep(2)">
+          <span>Next: LP Allocation</span>
+          <i data-lucide="chevron-right" class="lucide-sm"></i>
+        </button>
+
+        <!-- Step 2 Buttons -->
+        <button class="btn btn-outline" id="drawerBtnBack" onclick="goToDrawerStep(1)" style="display:none;">
+          <i data-lucide="chevron-left" class="lucide-sm"></i>
+          <span>Back</span>
+        </button>
+        <button class="btn btn-primary" id="ccCreateBtn" onclick="createCallDrawer()" style="display:none;" disabled>
+          <i data-lucide="send"></i>
+          <span>Create Capital Call</span>
+        </button>
+      </div>
+    `;
+
+    openDrawer('Create Capital Call — ' + id, 'Seedicon Venture Fund I (₹20 Cr)', bodyHtml, footerHtml);
   }
 
-  function setCCMethod(m) {
-    ccMethod = m;
-    document.getElementById('segPct').classList.toggle('active', m === 'pct');
-    document.getElementById('segAmt').classList.toggle('active', m === 'amt');
-    document.getElementById('ccPctBlock').style.display = m === 'pct' ? 'block' : 'none';
-    document.getElementById('ccAmtBlock').style.display = m === 'amt' ? 'block' : 'none';
-    ccRefreshHints();
+  function openCreateCallModal() {
+    openCreateCallDrawer();
   }
 
-  function setCCPct(p) { ccPct = p; const inp = document.getElementById('ccPctInput'); if (inp) inp.value = p; ccRefreshHints(); }
-  function onCCPctInput() { ccPct = parseFloat(document.getElementById('ccPctInput').value) || 0; ccRefreshHints(); }
-  function setCCAmt(a) { ccAmt = a; const inp = document.getElementById('ccAmtInput'); if (inp) inp.value = a.toFixed(2); ccRefreshHints(); }
-  function onCCAmtInput() { ccAmt = parseFloat(document.getElementById('ccAmtInput').value) || 0; ccRefreshHints(); }
-  function setCCPurpose(text) { const area = document.getElementById('ccPurpose'); if (area) area.value = text; }
+  function goToDrawerStep(step) {
+    currentCCStep = step;
+    const s1 = document.getElementById('drawerCCStep1');
+    const s2 = document.getElementById('drawerCCStep2');
+    const btnNext = document.getElementById('drawerBtnNext');
+    const btnBack = document.getElementById('drawerBtnBack');
+    const btnCreate = document.getElementById('ccCreateBtn');
 
-  function ccTotalAmount() {
-    const t = ccTotals();
-    return ccMethod === 'pct' ? (t.commit * ccPct) / 100 : ccAmt;
-  }
+    if (step === 2) {
+      const total = parseTotal();
+      if (total <= 0) { alert('Please enter a Total Call Amount greater than zero.'); return; }
+      if (total > ccCallable() + 0.0001) {
+        alert(`Call Amount (${fmtCr(total)}) exceeds total available callable headroom (${fmtCr(ccCallable())}).`);
+        return;
+      }
+      ccSavedTotal = total;
 
-  function ccRefreshHints() {
-    const total = ccTotalAmount();
-    const t = ccTotals();
-    const over = total > t.callable + 0.0001;
-    const pH = document.getElementById('ccPctHint');
-    if (pH) pH.innerHTML = `Draw total ≈ <strong>${fmtCr(total)}</strong> · across committed LPs` + (over ? ' · <span style="font-weight:700;">exceeds callable</span>' : '');
-    const aH = document.getElementById('ccAmtHint');
-    if (aH) aH.innerHTML = `≤ ${fmtCr(round2(t.callable))} callable · drawn pro-rata by commitment` + (over ? ' · <span style="font-weight:700;">exceeds callable</span>' : '');
-  }
+      s1.style.display = 'none';
+      s2.style.display = 'flex';
 
-  function goCCStep(n) {
-    const step1 = document.getElementById('ccStep1');
-    const step2 = document.getElementById('ccStep2');
-    const l1 = document.getElementById('ccStepLabel');
-    const l2 = document.getElementById('ccStepLabel2');
-    const back = document.getElementById('ccBackBtn');
-    const next = document.getElementById('ccNextBtn');
-    const issue = document.getElementById('ccIssueBtn');
+      btnNext.style.display = 'none';
+      btnBack.style.display = 'inline-flex';
+      btnCreate.style.display = 'inline-flex';
 
-    if (n === 2) {
-      const total = ccTotalAmount();
-      if (total <= 0) { alert('Enter a call size greater than zero first.'); return; }
-      step1.style.display = 'none';
-      step2.style.display = 'block';
-      l1.classList.remove('active');
-      l2.classList.add('active');
-      back.style.display = 'inline-flex';
-      next.style.display = 'none';
-      issue.style.display = 'inline-flex';
-      buildCCAllocation();
+      document.getElementById('drawerTargetLabel').textContent = fmtCr(total);
+
+      // Render Streamlined LP Allocation Table
+      const list = document.getElementById('ccEligibleList');
+      if (list) list.innerHTML = ccEligible.map(ccRowHtml).join('');
+
+      ccRefreshDrawer();
     } else {
-      step2.style.display = 'none';
-      step1.style.display = 'block';
-      l2.classList.remove('active');
-      l1.classList.add('active');
-      back.style.display = 'none';
-      next.style.display = 'inline-flex';
-      issue.style.display = 'none';
+      s2.style.display = 'none';
+      s1.style.display = 'flex';
+
+      btnNext.style.display = 'inline-flex';
+      btnBack.style.display = 'none';
+      btnCreate.style.display = 'none';
     }
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 
-  function buildCCAllocation() {
-    const t = ccTotals();
-    const total = ccTotalAmount();
-    const factor = ccMethod === 'pct' ? ccPct / 100 : total / t.commit;
+  function ccProRataFill() {
+    const total = ccSavedTotal || parseTotal();
+    if (total <= 0) { alert('Enter a Total Call Amount greater than zero first.'); return; }
+    const totalUncalled = ccEligible.reduce((s, x) => s + x.uncalled, 0) || 1;
+    let accum = 0;
 
-    ccShares = LPs.map(lp => { const share = round2(lp.comm * factor); return { ...lp, share }; });
-    ccSelected = ccShares.map(s => s.share > 0 && s.status !== 'Declined');
+    ccEligible.forEach((lp, idx) => {
+      let share = 0;
+      if (idx === ccEligible.length - 1) {
+        share = round2(Math.max(0, total - accum));
+      } else {
+        share = round2((total * lp.uncalled) / totalUncalled);
+        accum += share;
+      }
+      if (share > lp.uncalled) share = lp.uncalled;
+      
+      const inp = document.getElementById('ccAlloc_' + idx);
+      if (inp) inp.value = share > 0 ? share.toFixed(2) : '0.00';
+    });
 
-    const body = document.getElementById('ccAllocBody');
-    body.innerHTML = ccShares.map((lp, i) => {
-      const allowed = lp.status !== 'Declined';
-      return `<tr style="${allowed ? '' : 'opacity:.55;'}">
-        <td><input type="checkbox" ${ccSelected[i] ? 'checked' : ''} ${allowed ? '' : 'disabled title="Declined — commitment not callable"'} onclick="toggleCCAlloc(${i})" /></td>
-        <td>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="lp-avatar">${initials(lp.name)}</span>
-            <div>
-              <div style="font-weight:600; font-size:12px; color:var(--text-dark);">${lp.name}${allowed ? '' : ' · ' + lp.status}</div>
-              <div style="font-size:10.5px; color:var(--text-light);">${lp.type}</div>
-            </div>
+    ccRefreshDrawer();
+  }
+
+  function ccRowHtml(lp, idx) {
+    return `
+      <tr>
+        <td style="padding: 10px 12px;">
+          <div style="font-weight:600; color:var(--text-dark); font-size:12.5px;">${lp.name}</div>
+          <div style="font-size:11px; color:var(--text-muted);">${lp.type}</div>
+        </td>
+        <td class="num" style="padding: 10px 12px; font-weight:600; color:var(--text-dark);">
+          ${fmtCr(lp.uncalled)}
+        </td>
+        <td class="num" style="padding: 10px 12px;">
+          <div class="input-with-suffix" style="width:130px; margin-left:auto;">
+            <span class="suffix">₹</span>
+            <input type="number" class="form-input" id="ccAlloc_${idx}" value="" step="0.05" min="0" max="${lp.uncalled}" placeholder="0.00" oninput="ccAllocInputDrawer(${idx})" style="text-align:right; font-weight:600;" />
+            <span class="suffix">Cr</span>
           </div>
         </td>
-        <td class="num">${fmtCr(lp.comm)}</td>
-        <td class="num" style="font-weight:600;">${fmtCr(lp.share)}</td>
       </tr>`;
-    }).join('');
-
-    ccRefreshAlloc();
   }
 
-  function toggleCCAlloc(i) {
-    if (ccShares[i].status === 'Declined') return;
-    ccSelected[i] = !ccSelected[i];
-    ccRefreshAlloc();
+  function ccAllocInputDrawer(idx) {
+    const inp = document.getElementById('ccAlloc_' + idx);
+    const unc = ccEligible[idx].uncalled;
+    let v = parseFloat(inp.value) || 0;
+    if (v > unc) {
+      v = unc;
+      inp.value = unc.toFixed(2);
+    }
+    ccRefreshDrawer();
   }
 
-  function ccRefreshAlloc() {
-    let total = 0, count = 0;
-    ccSelected.forEach((on, i) => { if (on) { total += ccShares[i].share; count++; } });
-    total = round2(total);
-    document.getElementById('ccAllocTotal').textContent = fmtCr(total);
-    document.getElementById('ccSumAmt').textContent = fmtCr(total);
-    document.getElementById('ccSumLps').textContent = count + ' / ' + ccShares.length;
-    document.getElementById('ccSumAvg').textContent = count ? fmtCr(round2(total / count)) : '—';
-    const hint = document.getElementById('ccExcludedHint');
-    const declined = LPs.filter(lp => lp.status === 'Declined').length;
-    if (hint) hint.style.display = declined > 0 ? 'block' : 'none';
+  function ccAllocationTotals() {
+    let allocated = 0;
+    ccEligible.forEach((_, idx) => {
+      allocated += parseFloat((document.getElementById('ccAlloc_' + idx) || {}).value) || 0;
+    });
+    return round2(allocated);
   }
 
-  function issueCall() {
-    let total = 0, count = 0;
-    ccShares.forEach((lp, i) => { if (ccSelected[i]) { total += lp.share; count++; } });
-    total = round2(total);
-    if (count === 0) { alert('Select at least one committed LP to issue the call.'); return; }
+  function ccRefreshDrawer() {
+    const total = ccSavedTotal || parseTotal();
+    const allocated = ccAllocationTotals();
+    const remaining = round2(total - allocated);
+    const bar = document.getElementById('ccSummaryBar');
+    const btn = document.getElementById('ccCreateBtn');
+    const ok = total > 0.005 && Math.abs(remaining) < 0.001;
 
-    const dueDays = parseInt(document.getElementById('ccDueDays').value, 10);
-    const due = new Date();
-    due.setDate(due.getDate() + dueDays);
-    const dueStr = due.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-    const issueDate = document.getElementById('ccIssueDate').value || '12 Aug 2026';
+    if (bar) {
+      bar.innerHTML = `Call Amount <strong>${fmtCr(total)}</strong> · Allocated <strong>${fmtCr(allocated)}</strong> · Remaining <strong>${fmtCr(remaining)}</strong>`;
+      bar.className = 'cc-summary-bar' + (total <= 0 ? '' : (Math.abs(remaining) < 0.001 ? ' ok' : (remaining > 0 ? '' : ' over')));
+    }
+    if (btn) btn.disabled = !ok;
+  }
+
+  function createCallDrawer() {
+    const total = ccSavedTotal || parseTotal();
+    if (total <= 0) { alert('Enter a total call amount greater than zero first.'); return; }
+
+    const allocated = ccAllocationTotals();
+    if (Math.abs(allocated - total) >= 0.001) {
+      alert(`Allocated ${fmtCr(allocated)} does not match the Total Call Amount ${fmtCr(total)}.\n\nAllocate the full amount before creating the call.`);
+      return;
+    }
+
+    let usedCount = 0;
+    ccEligible.forEach((lp, idx) => {
+      const v = parseFloat((document.getElementById('ccAlloc_' + idx) || {}).value) || 0;
+      if (v > 0.001) {
+        LPs[lp.i].called = round2(LPs[lp.i].called + v);
+        usedCount++;
+      }
+    });
+    if (usedCount === 0) { alert('Allocate at least one LP before creating the call.'); return; }
+
     const id = nextCallId();
-    const pctLabel = ccMethod === 'pct' ? ccPct.toFixed(1) + '% of commitment' : 'flat ' + fmtCr(round2(ccAmt));
     const purpose = document.getElementById('ccPurpose').value.trim();
-
-    // A call raises new capital → LP "called" grows, but NO payment is assumed.
-    ccShares.forEach((lp, i) => { if (ccSelected[i]) LPs[i].called = round2(LPs[i].called + lp.share); });
-
+    const note = document.getElementById('ccNote').value.trim();
     CALLS.unshift({
-      id, fund: 'Seedicon Fund I', amount: total, issue: issueDate, due: dueStr,
-      paid: 0, paidDate: '—', status: 'Not Paid', notes: purpose || ''
+      id,
+      fund: currentFundName(),
+      amount: total,
+      issue: todayDateStr(),
+      due: document.getElementById('ccDueDate').value.trim() || defaultDueStr(),
+      paid: 0,
+      paidDate: '—',
+      status: 'Not Paid',
+      notes: purpose || 'Capital call issued',
+      note: note || ''
     });
 
     renderCallsTable();
@@ -1098,8 +1128,8 @@
     renderMetrics();
     if (typeof lucide !== 'undefined') lucide.createIcons();
 
-    document.getElementById('modalOverlay').style.display = 'none';
-    alert(`${id} issued!\n${fmtCr(total)} drawn pro-rata across ${count} committed LPs (${pctLabel}).\n\nMoney is now CALLED but not received — record payments manually via the call row.`);
+    closeDrawer();
+    alert(`${id} created!\n${fmtCr(total)} allocated across ${usedCount} committed LPs.\n\nMoney is now CALLED but not received — record payments manually via Record Payment on the call row.`);
   }
 
   // ---------- INIT ----------

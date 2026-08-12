@@ -1256,7 +1256,7 @@ html, body {
   white-space: nowrap;
 }
 
-/* Status Pills (Grayscale Only) */
+/* Status Pills (Subtle Warm Light Grey Neutrals) */
 .status-pill {
   display: inline-flex;
   align-items: center;
@@ -1268,22 +1268,24 @@ html, body {
   white-space: nowrap;
 }
 
-.status-pill.paid {
-  background: var(--accent-graphite);
-  color: var(--text-inverse);
-  border: 1px solid var(--accent-graphite);
+.status-pill.paid,
+.status-pill.accepted {
+  background: #E8E8E4;
+  color: #2B2B28;
+  border: 1px solid #C8C8BF;
 }
 
-.status-pill.partial {
+.status-pill.partial,
+.status-pill.declined {
   background: #FFFFFF;
-  color: var(--text-dark);
-  border: 1px solid var(--border-dark);
+  color: #4A4A46;
+  border: 1px solid #C8C8BF;
 }
 
 .status-pill.pending {
-  background: var(--bg-muted);
-  color: var(--text-muted);
-  border: 1px dashed var(--border-strong);
+  background: #F4F4F0;
+  color: #5A5A54;
+  border: 1px dashed #C8C8BF;
 }
 
 .row-action-btn {
@@ -1975,3 +1977,209 @@ html, body {
   color: var(--text-light);
   margin-top: 1px;
 }
+
+/* ==========================================================================
+   HIGH-DENSITY CONDENSED SURFACE RIGHT DRAWER (NO CARDS / CLEAN SURFACE TABLE)
+   ========================================================================== */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.drawer-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.drawer-panel {
+  width: 560px;
+  max-width: 94vw;
+  height: 100%;
+  background: #FFFFFF;
+  border-left: 1px solid var(--border-strong);
+  box-shadow: -12px 0 32px rgba(0, 0, 0, 0.14);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.drawer-overlay.show .drawer-panel {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  padding: 14px 18px;
+  background: var(--bg-sidebar);
+  border-bottom: 1px solid var(--border-main);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.drawer-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: -0.01em;
+}
+
+.drawer-sub {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.drawer-footer {
+  padding: 12px 18px;
+  background: #FFFFFF;
+  border-top: 1px solid var(--border-main);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
+}
+
+.drawer-step-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-main);
+}
+
+.drawer-step-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.drawer-step-btn.active {
+  color: var(--text-dark);
+  background: var(--bg-muted);
+  font-weight: 700;
+}
+
+.drawer-step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 10.5px;
+  font-weight: 700;
+  background: var(--border-main);
+  color: var(--text-muted);
+}
+
+.drawer-step-btn.active .drawer-step-badge {
+  background: var(--accent-graphite);
+  color: #FFFFFF;
+}
+
+/* SURFACE DATA TABLE FOR LP ALLOCATIONS (NO NESTED CARDS!) */
+.drawer-surface-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.drawer-surface-table th {
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border-main);
+  background: var(--bg-sidebar);
+}
+
+.drawer-surface-table th.num,
+.drawer-surface-table td.num {
+  text-align: right;
+}
+
+.drawer-surface-table td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--border-faint);
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.drawer-surface-table tr:hover td {
+  background: var(--bg-subtle);
+}
+
+.drawer-surface-input {
+  width: 100px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--border-strong);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dark);
+  text-align: right;
+  outline: none;
+  background: #FFFFFF;
+}
+
+.drawer-surface-input:focus {
+  border-color: var(--accent-graphite);
+  box-shadow: 0 0 0 2px rgba(58, 58, 56, 0.08);
+}
+
+.cc-summary-bar {
+  background: var(--bg-muted);
+  border: 1px solid var(--border-main);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-dark);
+  text-align: center;
+  transition: all 0.15s ease;
+}
+
+.cc-summary-bar.ok {
+  background: #F4F9F4;
+  border-color: #C2E2C2;
+  color: #2D5A2D;
+}
+
+.cc-summary-bar.over {
+  background: #FFF5F5;
+  border-color: #F8C4C4;
+  color: #8C2D2D;
+}
+

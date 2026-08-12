@@ -97,6 +97,45 @@ function bindAppEvents() {
     });
   }
 
+  // Slide-Over Drawer Helpers
+  window.openDrawer = function(title, subtitle, bodyHtml, footerHtml) {
+    let overlay = document.getElementById('drawerOverlay');
+    if (!overlay) {
+      document.body.insertAdjacentHTML('beforeend', `
+        <div id="drawerOverlay" class="drawer-overlay">
+          <div class="drawer-panel">
+            <div class="drawer-header">
+              <div>
+                <h3 id="drawerTitle" class="drawer-title">Drawer</h3>
+                <p id="drawerSub" class="drawer-sub">Subtitle</p>
+              </div>
+              <button onclick="closeDrawer()" class="btn-icon" style="border:none; background:transparent;"><i data-lucide="x"></i></button>
+            </div>
+            <div id="drawerBody" class="drawer-body"></div>
+            <div id="drawerFooter" class="drawer-footer"></div>
+          </div>
+        </div>
+      `);
+      overlay = document.getElementById('drawerOverlay');
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeDrawer();
+      });
+    }
+
+    document.getElementById('drawerTitle').textContent = title;
+    document.getElementById('drawerSub').textContent = subtitle || '';
+    document.getElementById('drawerBody').innerHTML = bodyHtml || '';
+    document.getElementById('drawerFooter').innerHTML = footerHtml || '';
+    
+    overlay.classList.add('show');
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  };
+
+  window.closeDrawer = function() {
+    const overlay = document.getElementById('drawerOverlay');
+    if (overlay) overlay.classList.remove('show');
+  };
+
   // Fund Switcher Dropdown Logic
   const btnFundDropdown = document.getElementById('btnFundDropdown');
   const fundDropdownMenu = document.getElementById('fundDropdownMenu');
