@@ -9,80 +9,74 @@
   <style>
     /* ── Executive Neutral VDR Detail Layout ── */
     .vdr-banner {
-      height: 105px;
-      background: linear-gradient(135deg, #1A1A18 0%, #3A3A38 100%);
-      border-radius: 8px 8px 0 0;
+      height: 76px;
+      background: linear-gradient(120deg, #1A1A18 0%, #3A3A38 100%);
+      border-radius: 10px 10px 0 0;
       position: relative;
       z-index: 1;
-      overflow: visible;
+      overflow: hidden;
     }
     .vdr-banner-grid {
       position: absolute;
       inset: 0;
-      opacity: 0.12;
+      opacity: 0.1;
       background-image: radial-gradient(#FFFFFF 1px, transparent 1px);
-      background-size: 16px 16px;
-      border-radius: 8px 8px 0 0;
-      overflow: hidden;
+      background-size: 18px 18px;
+      border-radius: 10px 10px 0 0;
       pointer-events: none;
     }
-    .vdr-banner-actions {
+    .vdr-banner-glow {
       position: absolute;
-      top: 12px;
-      right: 14px;
-      display: flex;
-      gap: 8px;
-      z-index: 20;
+      right: -80px;
+      top: -120px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 70%);
+      pointer-events: none;
     }
-    .banner-btn {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      color: #FFFFFF;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 5px 11px;
-      border-radius: 5px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: background 0.12s;
-      font-family: Inter, sans-serif;
-    }
-    .banner-btn:hover { background: rgba(255, 255, 255, 0.28); }
 
     /* Room Header Surface Card */
     .vdr-header-card {
       background: #FFFFFF;
       border: 1px solid #DFDEDE;
       border-top: none;
-      border-radius: 0 0 8px 8px;
-      padding: 16px 20px 14px;
+      border-radius: 0 0 10px 10px;
+      padding: 0;
       margin-bottom: 16px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       position: relative;
       z-index: 10;
+    }
+    .vdr-header-inner {
+      padding: 16px 20px 0;
     }
     .vdr-header-top {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 16px;
+      gap: 18px;
+    }
+    .vdr-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      margin-top: 3px;
     }
     .vdr-title-group {
       display: flex;
       align-items: flex-start;
-      gap: 14px;
+      gap: 16px;
       flex: 1;
       min-width: 0;
     }
     .vdr-main-icon {
       width: 48px;
       height: 48px;
-      border-radius: 10px;
-      background: #FFFFFF;
-      border: 1px solid #DFDEDE;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #FFFFFF 0%, #F0F0EE 100%);
+      border: 1px solid #DCDCDA;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -91,11 +85,18 @@
       margin-top: -34px;
       position: relative;
       z-index: 15;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.16);
     }
-    .vdr-title-text { flex: 1; min-width: 0; }
+    .vdr-icon-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 16px;
+      border: 1px solid rgba(26,26,24,0.12);
+      pointer-events: none;
+    }
+    .vdr-title-text { flex: 1; min-width: 0; padding-top: 3px; }
     .vdr-name-heading {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 800;
       color: #1A1A18;
       letter-spacing: -0.02em;
@@ -110,18 +111,61 @@
       color: #6A6A68;
       margin-top: 5px;
       line-height: 1.5;
+      max-width: 680px;
     }
-    .vdr-meta-strip {
+
+    /* Header divider + condensed stat bar */
+    .vdr-header-divider {
+      height: 1px;
+      background: #EFEFED;
+      margin-top: 14px;
+    }
+    .vdr-stat-bar {
       display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-top: 10px;
-      font-size: 11px;
-      color: #8A8A88;
-      flex-wrap: wrap;
+      align-items: stretch;
+      padding: 0 12px;
     }
-    .vdr-meta-item { display: flex; align-items: center; gap: 5px; font-weight: 500; }
-    .vdr-meta-item strong { color: #1A1A18; font-weight: 700; }
+    @media (max-width: 900px) {
+      .vdr-stat-bar { flex-wrap: wrap; }
+    }
+    .vdr-stat {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 12px 14px;
+    }
+    .vdr-stat:first-child { padding-left: 20px; }
+    .vdr-stat:last-child { padding-right: 20px; }
+    .vdr-stat-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #8A8A88;
+      white-space: nowrap;
+    }
+    .vdr-stat-value {
+      font-size: 14px;
+      font-weight: 800;
+      color: #1A1A18;
+      letter-spacing: -0.01em;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .vdr-stat-value small {
+      font-size: 10px;
+      font-weight: 600;
+      color: #8A8A88;
+      letter-spacing: 0;
+      margin-left: 2px;
+    }
+    .vdr-stat-divider {
+      width: 1px;
+      background: #EFEFED;
+      flex-shrink: 0;
+    }
 
     /* Tag badge */
     .vdr-type-tag {
@@ -159,15 +203,16 @@
     /* ── Detail Tabs Bar ── */
     .vdr-tabs {
       display: flex;
-      gap: 4px;
+      align-items: stretch;
+      gap: 2px;
       margin-bottom: 14px;
       border-bottom: 1px solid #E0E0DE;
     }
     .vdr-tab-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 9px 14px;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 3px;
+      padding: 9px 18px;
       font-size: 12px;
       font-weight: 600;
       color: #7A7A78;
@@ -178,6 +223,7 @@
       transition: color 0.12s, border-color 0.12s;
       font-family: Inter, sans-serif;
       white-space: nowrap;
+      user-select: none;
     }
     .vdr-tab-btn:hover { color: #1A1A18; }
     .vdr-tab-btn.active {
@@ -185,15 +231,16 @@
       font-weight: 800;
       border-bottom-color: #1A1A18;
     }
-    .tab-badge {
+    .tab-count {
       font-size: 10px;
       font-weight: 700;
-      padding: 1px 6px;
-      border-radius: 10px;
-      background: #EAEAE8;
-      color: #5A5A58;
+      color: #A8A8A4;
+      font-variant-numeric: tabular-nums;
+      transition: color 0.12s;
     }
-    .vdr-tab-btn.active .tab-badge { background: #1A1A18; color: #FFFFFF; }
+    .tab-count::before { content: "("; }
+    .tab-count::after { content: ")"; }
+    .vdr-tab-btn.active .tab-count { color: #1A1A18; }
 
     /* Clean surface tab panels (No double card nesting) */
     .vdr-tab-panel {
@@ -530,75 +577,71 @@
         <!-- ── BANNER + ROOM HEADER CARD SURFACE ── -->
         <div class="vdr-banner" id="vdrBannerBg">
           <div class="vdr-banner-grid"></div>
-          <div class="vdr-banner-actions">
-            <button class="banner-btn" onclick="openCustomizeModal()">
-              <i data-lucide="sliders" style="width:12px; height:12px;"></i>
-              <span>Customize Room</span>
-            </button>
-            <div style="position:relative;">
-              <button class="banner-btn" onclick="togglePresetDropdown(event)">
-                <i data-lucide="bookmark" style="width:12px; height:12px;"></i>
-                <span>Load Presets</span>
-                <i data-lucide="chevron-down" style="width:11px; height:11px;"></i>
-              </button>
-              <div class="preset-dropdown-menu" id="presetMenu">
-                <div style="font-size:9.5px; font-weight:800; color:#9A9A96; text-transform:uppercase; padding:4px 8px 6px; letter-spacing:0.05em;">Select Preset Template</div>
-                <div class="preset-item" onclick="applyPreset('seed-standard')">
-                  <span>Pre-Seed Standard DD</span>
-                </div>
-                <div class="preset-item" onclick="applyPreset('series-a-pack')">
-                  <span>Series A Full Due Diligence</span>
-                </div>
-                <div class="preset-item" onclick="applyPreset('legal-compliance')">
-                  <span>Legal &amp; Regulatory Check</span>
-                </div>
-                <div class="preset-item" onclick="applyPreset('fintech-pack')">
-                  <span>FinTech &amp; Financials Review</span>
-                </div>
-                <div style="height:1px; background:#EBEBEA; margin:4px 0;"></div>
-                <div class="preset-item" onclick="saveAsPreset()" style="color:#1A1A18; font-weight:700;">
-                  <span>+ Save Current as Preset</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="vdr-banner-glow"></div>
         </div>
 
         <div class="vdr-header-card">
-          <div class="vdr-header-top">
-            <div class="vdr-title-group">
-              <div class="vdr-main-icon" id="vdrIconBox">
-                <i data-lucide="folder-lock" style="width:20px; height:20px;"></i>
+          <div class="vdr-header-inner">
+            <div class="vdr-header-top">
+              <div class="vdr-title-group">
+                <div class="vdr-main-icon" id="vdrIconBox">
+                  <span class="vdr-icon-ring"></span>
+                  <i data-lucide="folder-lock" style="width:20px; height:20px;"></i>
+                </div>
+                <div class="vdr-title-text">
+                  <div class="vdr-name-heading">
+                    <span id="headerName">Loading…</span>
+                    <span class="vdr-type-tag" id="headerTag">—</span>
+                  </div>
+                  <p class="vdr-desc-text" id="headerDesc">—</p>
+                </div>
               </div>
-              <div class="vdr-title-text">
-                <div class="vdr-name-heading">
-                  <span id="headerName">Loading…</span>
-                  <span class="vdr-type-tag" id="headerTag">—</span>
-                </div>
-                <p class="vdr-desc-text" id="headerDesc">—</p>
-                <div class="vdr-meta-strip">
-                  <div class="vdr-meta-item">
-                    <i data-lucide="file-text" style="width:12px; height:12px; color:#8A8A88;"></i>
-                    <span id="metaDocCount"><strong>0</strong> Documents Required</span>
-                  </div>
-                  <span style="color:#D8D8D6;">·</span>
-                  <div class="vdr-meta-item">
-                    <i data-lucide="users" style="width:12px; height:12px; color:#8A8A88;"></i>
-                    <span id="metaSharedCount">Shared with <strong>0</strong> startups</span>
-                  </div>
-                  <span style="color:#D8D8D6;">·</span>
-                  <div class="vdr-meta-item">
-                    <i data-lucide="clock" style="width:12px; height:12px; color:#8A8A88;"></i>
-                    <span>Updated <strong id="metaUpdated">—</strong></span>
+
+              <div class="vdr-header-actions">
+                <div style="position:relative;">
+                  <button class="doc-btn" onclick="togglePresetDropdown(event)">
+                    <i data-lucide="bookmark" style="width:12px; height:12px;"></i>
+                    <span>Load Preset</span>
+                    <i data-lucide="chevron-down" style="width:11px; height:11px;"></i>
+                  </button>
+                  <div class="preset-dropdown-menu" id="presetMenu">
+                    <div style="font-size:9.5px; font-weight:800; color:#9A9A96; text-transform:uppercase; padding:4px 8px 6px; letter-spacing:0.05em;">Select Preset Template</div>
+                    <div class="preset-item" onclick="applyPreset('seed-standard')"><span>Pre-Seed Standard DD</span></div>
+                    <div class="preset-item" onclick="applyPreset('series-a-pack')"><span>Series A Full Due Diligence</span></div>
+                    <div class="preset-item" onclick="applyPreset('legal-compliance')"><span>Legal &amp; Regulatory Check</span></div>
+                    <div class="preset-item" onclick="applyPreset('fintech-pack')"><span>FinTech &amp; Financials Review</span></div>
+                    <div style="height:1px; background:#EBEBEA; margin:4px 0;"></div>
+                    <div class="preset-item" onclick="saveAsPreset()" style="color:#1A1A18; font-weight:700;"><span>+ Save Current as Preset</span></div>
                   </div>
                 </div>
+                <button class="doc-btn" onclick="openCustomizeModal()">
+                  <i data-lucide="pencil" style="width:12px; height:12px;"></i> Edit Details
+                </button>
               </div>
             </div>
+          </div>
 
-            <div style="display:flex; gap:6px; flex-shrink:0; margin-top:4px;">
-              <button class="doc-btn" onclick="openCustomizeModal()">
-                <i data-lucide="pencil" style="width:12px; height:12px;"></i> Edit Details
-              </button>
+          <div class="vdr-header-divider"></div>
+
+          <div class="vdr-stat-bar">
+            <div class="vdr-stat">
+              <div class="vdr-stat-label">Documents Required</div>
+              <div class="vdr-stat-value" id="statDocs"><strong>0</strong> <small>docs</small></div>
+            </div>
+            <div class="vdr-stat-divider"></div>
+            <div class="vdr-stat">
+              <div class="vdr-stat-label">Shared Startups</div>
+              <div class="vdr-stat-value" id="statShared"><strong>0</strong> <small>startups</small></div>
+            </div>
+            <div class="vdr-stat-divider"></div>
+            <div class="vdr-stat">
+              <div class="vdr-stat-label">Avg Upload Progress</div>
+              <div class="vdr-stat-value" id="statProgress"><strong>—</strong> <small>avg</small></div>
+            </div>
+            <div class="vdr-stat-divider"></div>
+            <div class="vdr-stat">
+              <div class="vdr-stat-label">Document Folders</div>
+              <div class="vdr-stat-value" id="statFolders"><strong>0</strong> <small>folders</small></div>
             </div>
           </div>
         </div>
@@ -606,17 +649,14 @@
         <!-- ── DETAIL TABS ── -->
         <div class="vdr-tabs">
           <button class="vdr-tab-btn active" id="tabBtnDocs" onclick="switchTab('docs')">
-            <i data-lucide="folder" style="width:13px; height:13px;"></i>
             <span>Documents &amp; Structure</span>
-            <span class="tab-badge" id="badgeDocsCount">0</span>
+            <span class="tab-count" id="badgeDocsCount">0</span>
           </button>
           <button class="vdr-tab-btn" id="tabBtnShared" onclick="switchTab('shared')">
-            <i data-lucide="users" style="width:13px; height:13px;"></i>
             <span>Shared Startups</span>
-            <span class="tab-badge" id="badgeSharedCount">0</span>
+            <span class="tab-count" id="badgeSharedCount">0</span>
           </button>
           <button class="vdr-tab-btn" id="tabBtnHistory" onclick="switchTab('history')">
-            <i data-lucide="clock" style="width:13px; height:13px;"></i>
             <span>Activity Log</span>
           </button>
         </div>
@@ -875,8 +915,6 @@
   document.addEventListener('click', () => {
     closeAllPopovers();
     document.getElementById('presetMenu')?.classList.remove('show');
-    const banner = document.getElementById('vdrBannerBg');
-    if (banner) banner.style.zIndex = '1';
   });
 
   function closeAllPopovers() {
@@ -886,15 +924,79 @@
     }
   }
 
+  // ── PRESET TEMPLATE HANDLERS ──
+  const PRESET_TEMPLATES = {
+    'seed-standard': {
+      label: 'Pre-Seed Standard DD',
+      folders: [
+        { id: 'f_p1', title: '01. Corporate & Incorporation', docs: [
+          { id: 'd_p1', title: 'Certificate of Incorporation & Bylaws', template: 'Incorporation_Template.pdf', required: true },
+          { id: 'd_p2', title: 'Cap Table & Shareholder Agreements', template: 'CapTable_Template.xlsx', required: true }
+        ]},
+        { id: 'f_p2', title: '02. Financials & Taxes', docs: [
+          { id: 'd_p3', title: 'Bank Statements & P&L Statement', template: 'PL_Statement_Template.xlsx', required: true }
+        ]}
+      ]
+    },
+    'series-a-pack': {
+      label: 'Series A Full Due Diligence',
+      folders: [
+        { id: 'f_sa1', title: '01. Corporate Governance & Legal', docs: [
+          { id: 'd_sa1', title: 'Articles of Association & Bylaws', template: 'AOA_Bylaws_Template.pdf', required: true },
+          { id: 'd_sa2', title: 'Cap Table & Convertible Notes Summary', template: 'CapTable_Template_v2.xlsx', required: true },
+          { id: 'd_sa3', title: 'Board & Shareholder Meeting Minutes', template: null, required: false }
+        ]},
+        { id: 'f_sa2', title: '02. Financials & Tax Statements', docs: [
+          { id: 'd_sa4', title: 'Audited Financial Statements (Last 3 Yrs)', template: 'Financials_3Yr_Template.xlsx', required: true },
+          { id: 'd_sa5', title: 'Monthly P&L, Cash Flow & Financial Model', template: 'Financial_Model_v3.xlsx', required: true }
+        ]},
+        { id: 'f_sa3', title: '03. IP & Technology Ownership', docs: [
+          { id: 'd_sa6', title: 'IP Assignment & Proprietary Invention Agreements', template: 'IP_Assignment_Template.pdf', required: true },
+          { id: 'd_sa7', title: 'Patents, Trademarks & Copyright Registrations', template: null, required: false }
+        ]}
+      ]
+    },
+    'legal-compliance': {
+      label: 'Legal & Regulatory Check',
+      folders: [
+        { id: 'f_lc1', title: '01. Legal & Regulatory Audit', docs: [
+          { id: 'd_lc1', title: 'Regulatory Licenses & Government Permits', template: 'Regulatory_Checklist.pdf', required: true },
+          { id: 'd_lc2', title: 'Litigation History & Outstanding Claims Declaration', template: 'Litigation_Declaration.pdf', required: true }
+        ]}
+      ]
+    },
+    'fintech-pack': {
+      label: 'FinTech & Financials Review',
+      folders: [
+        { id: 'f_ft1', title: '01. Banking & Escrow Accounts', docs: [
+          { id: 'd_ft1', title: 'Sponsor Bank & Payment Gateway Agreements', template: null, required: true },
+          { id: 'd_ft2', title: 'AML / KYC Compliance Program Manual', template: 'AML_Manual_Template.pdf', required: true }
+        ]}
+      ]
+    }
+  };
+
+  function applyPreset(key) {
+    const preset = PRESET_TEMPLATES[key];
+    if (!preset) return;
+    document.getElementById('presetMenu')?.classList.remove('show');
+    roomData.folders = JSON.parse(JSON.stringify(preset.folders));
+    roomData.history.unshift({ icon: 'bookmark', text: `Loaded preset template "${preset.label}"`, time: 'Just now' });
+    renderHeader();
+    renderFolders();
+    renderHistory();
+    if (window.showToast) window.showToast(`Applied preset: "${preset.label}"`);
+  }
+
+  function saveAsPreset() {
+    document.getElementById('presetMenu')?.classList.remove('show');
+    if (window.showToast) window.showToast('Saved current folder structure as custom preset template!');
+  }
+
   // ── PRESETS HANDLER ──
   function togglePresetDropdown(e) {
     e.stopPropagation();
-    const menu = document.getElementById('presetMenu');
-    const isShown = menu?.classList.toggle('show');
-    const banner = document.getElementById('vdrBannerBg');
-    if (banner) {
-      banner.style.zIndex = isShown ? '100' : '1';
-    }
+    document.getElementById('presetMenu')?.classList.toggle('show');
   }
 
   // ── LOCAL MODAL SYSTEM ──
@@ -915,6 +1017,333 @@
     if (e.target === document.getElementById('vdrModalBackdrop')) hideVDRModal();
   }
 
+  // ── FOLDER MODAL ACTIONS ──
+  function openAddFolderModal() {
+    showVDRModal('Add New Folder', `
+      <div class="field-group">
+        <div class="field-label">Folder Name <span style="color:#DC2626;">*</span></div>
+        <input type="text" id="newFolderNameInput" class="field-input" placeholder="e.g. 04. IP &amp; Technology Ownership" />
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-primary" onclick="confirmAddFolder()">Create Folder</button>
+      </div>
+    `);
+    setTimeout(() => document.getElementById('newFolderNameInput')?.focus(), 80);
+  }
+
+  function confirmAddFolder() {
+    const title = document.getElementById('newFolderNameInput')?.value?.trim();
+    if (!title) {
+      if (window.showToast) window.showToast('Folder name cannot be empty', 'alert-circle');
+      return;
+    }
+    const newFolder = {
+      id: 'f_' + Date.now(),
+      title,
+      docs: []
+    };
+    roomData.folders.push(newFolder);
+    roomData.history.unshift({ icon: 'folder-plus', text: `Added new folder "${title}"`, time: 'Just now' });
+    hideVDRModal();
+    renderHeader();
+    renderFolders();
+    renderHistory();
+    if (window.showToast) window.showToast(`Folder "${title}" created successfully`);
+  }
+
+  function editFolder(folderId) {
+    const folder = roomData.folders.find(f => f.id === folderId);
+    if (!folder) return;
+
+    showVDRModal('Rename Folder', `
+      <div class="field-group">
+        <div class="field-label">Folder Name <span style="color:#DC2626;">*</span></div>
+        <input type="text" id="editFolderNameInput" class="field-input" value="${folder.title.replace(/"/g, '&quot;')}" placeholder="e.g. 01. Corporate &amp; Legal" />
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-primary" onclick="confirmEditFolder('${folderId}')">Save Changes</button>
+      </div>
+    `);
+    setTimeout(() => document.getElementById('editFolderNameInput')?.focus(), 80);
+  }
+
+  function confirmEditFolder(folderId) {
+    const title = document.getElementById('editFolderNameInput')?.value?.trim();
+    if (!title) {
+      if (window.showToast) window.showToast('Folder name cannot be empty', 'alert-circle');
+      return;
+    }
+    const folder = roomData.folders.find(f => f.id === folderId);
+    if (!folder) return;
+    folder.title = title;
+    roomData.history.unshift({ icon: 'pencil', text: `Renamed folder to "${title}"`, time: 'Just now' });
+    hideVDRModal();
+    renderFolders();
+    renderHistory();
+    if (window.showToast) window.showToast(`Folder renamed to "${title}"`);
+  }
+
+  function promptDeleteFolder(folderId) {
+    const folder = roomData.folders.find(f => f.id === folderId);
+    if (!folder) return;
+    _pendingDeleteFolderId = folderId;
+
+    showVDRModal('Delete Folder', `
+      <div style="text-align:center; padding:8px 0 4px;">
+        <div style="width:44px; height:44px; border-radius:50%; background:#FEF2F2; border:1px solid #FECACA; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+          <i data-lucide="trash-2" style="width:20px; height:20px; color:#DC2626;"></i>
+        </div>
+        <div style="font-size:13.5px; font-weight:800; color:#1A1A18; margin-bottom:6px;">Delete "${folder.title}"?</div>
+        <p style="font-size:11.5px; color:#6A6A68; line-height:1.5;">
+          This will permanently delete this folder and all ${folder.docs.length} document requirement(s) inside it.
+        </p>
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-danger" onclick="confirmDeleteFolder()">Delete Folder</button>
+      </div>
+    `);
+  }
+
+  function confirmDeleteFolder() {
+    const folderId = _pendingDeleteFolderId;
+    const folder = roomData.folders.find(f => f.id === folderId);
+    const title = folder?.title || 'Folder';
+    roomData.folders = roomData.folders.filter(f => f.id !== folderId);
+    roomData.history.unshift({ icon: 'trash-2', text: `Deleted folder "${title}"`, time: 'Just now' });
+    hideVDRModal();
+    renderHeader();
+    renderFolders();
+    renderHistory();
+    if (window.showToast) window.showToast(`Deleted folder "${title}"`);
+  }
+
+  // ── TEMPLATE FILE UPLOAD HELPERS ──
+  function handleTemplateFileSelected(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const fileName = file.name;
+    const valInput = document.getElementById('docTemplateVal');
+    if (valInput) valInput.value = fileName;
+
+    const prompt = document.getElementById('templateUploadPrompt');
+    const chip = document.getElementById('templateFileSelectedChip');
+    const nameText = document.getElementById('templateFileNameText');
+
+    if (prompt) prompt.style.display = 'none';
+    if (chip) chip.style.display = 'flex';
+    if (nameText) nameText.textContent = fileName;
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    if (window.showToast) window.showToast(`Reference template attached: "${fileName}"`);
+  }
+
+  function clearSelectedTemplateFile() {
+    const valInput = document.getElementById('docTemplateVal');
+    if (valInput) valInput.value = '';
+
+    const fileInput = document.getElementById('templateFileInput');
+    if (fileInput) fileInput.value = '';
+
+    const prompt = document.getElementById('templateUploadPrompt');
+    const chip = document.getElementById('templateFileSelectedChip');
+
+    if (prompt) prompt.style.display = 'flex';
+    if (chip) chip.style.display = 'none';
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // ── DOCUMENT REQUIREMENT MODAL ACTIONS ──
+  function openAddDocModal(folderId) {
+    const folder = roomData.folders.find(f => f.id === folderId);
+    if (!folder) return;
+
+    showVDRModal(`Add Requirement to "${folder.title}"`, `
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div class="field-group">
+          <div class="field-label">Requirement Title <span style="color:#DC2626;">*</span></div>
+          <input type="text" id="newDocTitleInput" class="field-input" placeholder="e.g. Cap Table &amp; Convertible Notes Summary" />
+        </div>
+        
+        <!-- Smart Reference Template File Upload Control -->
+        <div class="field-group">
+          <div class="field-label" style="display:flex; justify-space-between; align-items:center;">
+            <span>Reference Template File (Optional)</span>
+            <span style="font-size:10px; font-weight:500; color:#8C8C88;">PDF, XLSX, DOCX (Max 15MB)</span>
+          </div>
+          
+          <div id="templateFileDropzone" style="border:1.5px dashed #DCDCDA; border-radius:6px; background:#FAFAFA; padding:12px; text-align:center; cursor:pointer; transition:background 0.12s;" onclick="document.getElementById('templateFileInput').click()">
+            <input type="file" id="templateFileInput" accept=".pdf,.xlsx,.xls,.docx,.doc,.zip" style="display:none;" onchange="handleTemplateFileSelected(event)" />
+            
+            <div id="templateUploadPrompt" style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+              <i data-lucide="upload-cloud" style="width:20px; height:20px; color:#8C8C88;"></i>
+              <div style="font-size:11.5px; font-weight:700; color:#1A1A18;">Click to upload reference template file</div>
+              <div style="font-size:10.5px; color:#8C8C88;">or drag and drop sample template file here</div>
+            </div>
+
+            <div id="templateFileSelectedChip" style="display:none; align-items:center; justify-content:space-between; background:#FFFFFF; border:1px solid #DCDCDA; border-radius:5px; padding:6px 10px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <i data-lucide="paperclip" style="width:13px; height:13px; color:#047857;"></i>
+                <span id="templateFileNameText" style="font-size:11.5px; font-weight:700; color:#1A1A18;"></span>
+              </div>
+              <button type="button" onclick="event.stopPropagation(); clearSelectedTemplateFile();" style="background:transparent; border:none; color:#8C8C88; cursor:pointer; font-size:14px; font-weight:700; padding:0 4px;" title="Remove template file">&times;</button>
+            </div>
+          </div>
+          <input type="hidden" id="docTemplateVal" value="" />
+        </div>
+
+        <div style="display:flex; align-items:center; gap:8px;">
+          <input type="checkbox" id="newDocRequiredCheckbox" checked style="width:14px; height:14px; cursor:pointer;" />
+          <label for="newDocRequiredCheckbox" style="font-size:12px; font-weight:600; color:#1A1A18; cursor:pointer;">
+            Mandatory Requirement (Mark with red asterisk *)
+          </label>
+        </div>
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-primary" onclick="confirmAddDoc('${folderId}')">Add Requirement</button>
+      </div>
+    `);
+    setTimeout(() => document.getElementById('newDocTitleInput')?.focus(), 80);
+  }
+
+  function confirmAddDoc(folderId) {
+    const title = document.getElementById('newDocTitleInput')?.value?.trim();
+    if (!title) {
+      if (window.showToast) window.showToast('Requirement title cannot be empty', 'alert-circle');
+      return;
+    }
+    const template = document.getElementById('docTemplateVal')?.value?.trim() || null;
+    const required = document.getElementById('newDocRequiredCheckbox')?.checked ?? true;
+
+    const folder = roomData.folders.find(f => f.id === folderId);
+    if (!folder) return;
+
+    const newDoc = {
+      id: 'd_' + Date.now(),
+      title,
+      template,
+      required
+    };
+    folder.docs.push(newDoc);
+    roomData.history.unshift({ icon: 'plus', text: `Added requirement "${title}" to folder "${folder.title}"`, time: 'Just now' });
+
+    hideVDRModal();
+    renderHeader();
+    renderFolders();
+    renderHistory();
+    if (window.showToast) window.showToast(`Requirement "${title}" added successfully`);
+  }
+
+  function openEditDocModal(folderId, docId) {
+    const folder = roomData.folders.find(f => f.id === folderId);
+    const doc = folder?.docs.find(d => d.id === docId);
+    if (!doc) return;
+
+    const hasTemplate = Boolean(doc.template);
+
+    showVDRModal('Edit Requirement', `
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div class="field-group">
+          <div class="field-label">Requirement Title <span style="color:#DC2626;">*</span></div>
+          <input type="text" id="editDocTitleInput" class="field-input" value="${doc.title.replace(/"/g, '&quot;')}" placeholder="e.g. Cap Table Summary" />
+        </div>
+        
+        <!-- Smart Reference Template File Upload Control -->
+        <div class="field-group">
+          <div class="field-label" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>Reference Template File (Optional)</span>
+            <span style="font-size:10px; font-weight:500; color:#8C8C88;">PDF, XLSX, DOCX (Max 15MB)</span>
+          </div>
+          
+          <div id="templateFileDropzone" style="border:1.5px dashed #DCDCDA; border-radius:6px; background:#FAFAFA; padding:12px; text-align:center; cursor:pointer; transition:background 0.12s;" onclick="document.getElementById('templateFileInput').click()">
+            <input type="file" id="templateFileInput" accept=".pdf,.xlsx,.xls,.docx,.doc,.zip" style="display:none;" onchange="handleTemplateFileSelected(event)" />
+            
+            <div id="templateUploadPrompt" style="display:${hasTemplate ? 'none' : 'flex'}; flex-direction:column; align-items:center; gap:4px;">
+              <i data-lucide="upload-cloud" style="width:20px; height:20px; color:#8C8C88;"></i>
+              <div style="font-size:11.5px; font-weight:700; color:#1A1A18;">Click to upload reference template file</div>
+              <div style="font-size:10.5px; color:#8C8C88;">or drag and drop sample template file here</div>
+            </div>
+
+            <div id="templateFileSelectedChip" style="display:${hasTemplate ? 'flex' : 'none'}; align-items:center; justify-content:space-between; background:#FFFFFF; border:1px solid #DCDCDA; border-radius:5px; padding:6px 10px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <i data-lucide="paperclip" style="width:13px; height:13px; color:#047857;"></i>
+                <span id="templateFileNameText" style="font-size:11.5px; font-weight:700; color:#1A1A18;">${(doc.template || '').replace(/"/g, '&quot;')}</span>
+              </div>
+              <button type="button" onclick="event.stopPropagation(); clearSelectedTemplateFile();" style="background:transparent; border:none; color:#8C8C88; cursor:pointer; font-size:14px; font-weight:700; padding:0 4px;" title="Remove template file">&times;</button>
+            </div>
+          </div>
+          <input type="hidden" id="docTemplateVal" value="${(doc.template || '').replace(/"/g, '&quot;')}" />
+        </div>
+
+        <div style="display:flex; align-items:center; gap:8px;">
+          <input type="checkbox" id="editDocRequiredCheckbox" ${doc.required ? 'checked' : ''} style="width:14px; height:14px; cursor:pointer;" />
+          <label for="editDocRequiredCheckbox" style="font-size:12px; font-weight:600; color:#1A1A18; cursor:pointer;">
+            Mandatory Requirement (Mark with red asterisk *)
+          </label>
+        </div>
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-primary" onclick="saveEditDoc('${folderId}', '${docId}')">Save Changes</button>
+      </div>
+    `);
+    setTimeout(() => document.getElementById('editDocTitleInput')?.focus(), 80);
+  }
+
+  function saveEditDoc(folderId, docId) {
+    const title = document.getElementById('editDocTitleInput')?.value?.trim();
+    if (!title) {
+      if (window.showToast) window.showToast('Title cannot be empty', 'alert-circle');
+      return;
+    }
+    const template = document.getElementById('docTemplateVal')?.value?.trim() || null;
+    const required = document.getElementById('editDocRequiredCheckbox')?.checked ?? true;
+
+    const folder = roomData.folders.find(f => f.id === folderId);
+    const doc = folder?.docs.find(d => d.id === docId);
+    if (!doc) return;
+
+    doc.title = title;
+    doc.template = template;
+    doc.required = required;
+
+    roomData.history.unshift({ icon: 'pencil', text: `Updated requirement "${title}"`, time: 'Just now' });
+
+    hideVDRModal();
+    renderFolders();
+    renderHistory();
+    if (window.showToast) window.showToast(`Requirement "${title}" updated successfully`);
+  }
+
+  function deleteDoc(folderId, docId) {
+    const folder = roomData.folders.find(f => f.id === folderId);
+    if (!folder) return;
+    const doc = folder.docs.find(d => d.id === docId);
+    const title = doc?.title || 'Requirement';
+
+    folder.docs = folder.docs.filter(d => d.id !== docId);
+    roomData.history.unshift({ icon: 'trash-2', text: `Deleted requirement "${title}"`, time: 'Just now' });
+
+    renderHeader();
+    renderFolders();
+    renderHistory();
+    if (window.showToast) window.showToast(`Requirement "${title}" deleted`);
+  }
+
+  function copyDocLink(docTitle) {
+    const link = `https://seedicon.app/vdr/upload?req=${encodeURIComponent(docTitle)}`;
+    if (navigator.clipboard) navigator.clipboard.writeText(link);
+    if (window.showToast) window.showToast(`Upload link copied for "${docTitle}"`);
+  }
+
+  function attachTemplate(folderId, docId) {
+    openEditDocModal(folderId, docId);
+  }
+
   // ── RENDER HEADER ──
   function renderHeader() {
     document.title = `${roomData.name} — VDR | Seedicon`;
@@ -924,14 +1353,25 @@
     document.getElementById('headerTag').textContent = (roomData.industry || 'GENERAL DD').toUpperCase();
 
     const totalDocs = roomData.folders.reduce((acc, f) => acc + f.docs.length, 0);
-    document.getElementById('metaDocCount').innerHTML = `<strong>${totalDocs}</strong> Documents Required`;
-    document.getElementById('metaSharedCount').innerHTML = `Shared with <strong>${roomData.sharedStartups.length}</strong> startup${roomData.sharedStartups.length !== 1 ? 's' : ''}`;
-    document.getElementById('metaUpdated').textContent = roomData.updated;
+    const totalFolders = roomData.folders.length;
+    const shared = roomData.sharedStartups || [];
+
     document.getElementById('badgeDocsCount').textContent = totalDocs;
-    document.getElementById('badgeSharedCount').textContent = roomData.sharedStartups.length;
+    document.getElementById('badgeSharedCount').textContent = shared.length;
+
+    // Structured stat bar
+    document.getElementById('statDocs').innerHTML = `<strong>${totalDocs}</strong> <small>docs</small>`;
+    document.getElementById('statShared').innerHTML = `<strong>${shared.length}</strong> <small>startups</small>`;
+    document.getElementById('statFolders').innerHTML = `<strong>${totalFolders}</strong> <small>folders</small>`;
+
+    const progressValues = shared.map(s => parseInt(s.progress || 0)).filter(v => !isNaN(v));
+    const avgProgress = progressValues.length ? Math.round(progressValues.reduce((a, b) => a + b, 0) / progressValues.length) : null;
+    document.getElementById('statProgress').innerHTML = avgProgress === null
+      ? '<strong>—</strong>'
+      : `<strong>${avgProgress}%</strong> <small>avg</small>`;
 
     const iconName = INDUSTRY_TYPES[roomData.industry]?.icon || 'folder-lock';
-    document.getElementById('vdrIconBox').innerHTML = `<i data-lucide="${iconName}" style="width:20px; height:20px;"></i>`;
+    document.getElementById('vdrIconBox').innerHTML = `<span class="vdr-icon-ring"></span><i data-lucide="${iconName}" style="width:21px; height:21px;"></i>`;
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 
@@ -1454,7 +1894,7 @@
               <th>Type</th>
               <th>Last Updated On</th>
               <th>Submitted Document File</th>
-              <th>Template Added</th>
+              <th>Template</th>
               <th>Status</th>
               <th style="text-align:right;">Actions</th>
             </tr>
@@ -1519,7 +1959,11 @@
                     ` : '<span style="font-size:11px; color:#A8A8A4;">Waiting for upload</span>'}
                   </td>
                   <td style="white-space:nowrap;">
-                    ${item.template ? `<span class="template-badge"><i data-lucide="paperclip" style="width:9px; height:9px;"></i> Ref: ${item.template}</span>` : '<span style="font-size:10px; color:#A8A8A4;">None</span>'}
+                    ${item.template ? `
+                      <span style="font-size:11.5px; color:#2A2A28; font-weight:700; display:inline-flex; align-items:center; gap:4px; cursor:pointer;" title="Reference template: ${item.template}" onclick="if (window.showToast) window.showToast('Reference Template: ${item.template}');">
+                        <i data-lucide="paperclip" style="width:12px; height:12px; color:#6A6A68;"></i> Ref
+                      </span>
+                    ` : '<span style="font-size:11px; color:#A8A8A4;">None</span>'}
                   </td>
                   <td style="white-space:nowrap;">${statusTagHtml}</td>
                   <td style="text-align:right; white-space:nowrap;">

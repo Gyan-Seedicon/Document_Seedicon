@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
     pageNav = 'startups-pool';
   } else if (pathName.includes('deal-crm')) {
     pageNav = 'deal-crm';
+  } else if (pathName.includes('dd-partners') || pathName.includes('dd-onboard-builder') || pathName.includes('dd-partner-detail')) {
+    pageNav = 'dd-partners';
   } else if (pathName.includes('vdr')) {
     pageNav = 'vdr';
   } else {

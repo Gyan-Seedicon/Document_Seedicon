@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DD Partner Details — Seedicon Investor Platform</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ── DEDICATED DD PARTNER DETAIL PAGE STYLES ── */
+    .vdr-breadcrumb-bar {
+      padding: 10px 24px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .vdr-breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      color: #8C8C88;
+    }
+    .vdr-breadcrumbs a {
+      color: #6A6A68;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .vdr-breadcrumbs a:hover { color: #1A1A18; }
+    .vdr-breadcrumbs .curr { color: #1A1A18; font-weight: 700; }
+
+    /* Header Card */
+    .vdr-header-card {
+      background: #FFFFFF;
+      border-bottom: 1px solid #EBEBEA;
+      padding: 20px 24px 0 24px;
+    }
+    .vdr-header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .vdr-title-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .vdr-main-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: #F0F0EE;
+      border: 1px solid #DCDCDA;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 15px;
+      color: #1A1A18;
+      flex-shrink: 0;
+    }
+    .vdr-name-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .vdr-name-heading h1 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1A1A18;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    .vdr-type-tag {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      background: #F0F0EE;
+      color: #1A1A18;
+      border: 1px solid #DCDCDA;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .vdr-desc-text {
+      font-size: 12px;
+      color: #6A6A68;
+      margin-top: 4px;
+      line-height: 1.45;
+    }
+    .vdr-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Underline Tabs */
+    .vdr-tabs-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border-bottom: 1px solid #EBEBEA;
+      margin-top: 6px;
+    }
+    .vdr-tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #7A7A78;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      font-family: Inter, sans-serif;
+      transition: all 0.12s ease;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .vdr-tab-btn:hover {
+      color: #1A1A18;
+    }
+    .vdr-tab-btn.active {
+      color: #1A1A18;
+      font-weight: 700;
+      border-bottom-color: #1A1A18;
+    }
+    .tab-badge {
+      font-size: 10px;
+      font-weight: 700;
+      background: #F0F0EE;
+      color: #5A5A58;
+      border: 1px solid #DCDCDA;
+      border-radius: 10px;
+      padding: 1px 6px;
+    }
+    .vdr-tab-btn.active .tab-badge {
+      background: #1A1A18;
+      color: #FFFFFF;
+      border-color: #1A1A18;
+    }
+
+    /* Tab Panels Layout */
+    .vdr-tab-panel {
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Filled Onboarding Details Grid */
+    .details-section-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .details-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #F0F0EE;
+    }
+    .details-section-title {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #1A1A18;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px 20px;
+    }
+    .detail-item-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #8C8C88;
+      margin-bottom: 3px;
+    }
+    .detail-item-val {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #1A1A18;
+      word-break: break-word;
+    }
+
+    /* ── TWO-COLUMN DETAILS LAYOUT (MAIN + RAIL) ── */
+    .dd-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 18px;
+      align-items: start;
+    }
+    @media (max-width: 1080px) {
+      .dd-layout { grid-template-columns: 1fr; }
+    }
+    .dd-main-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
+    }
+    .dd-rail-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Right Rail Card */
+    .rail-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .rail-card-header {
+      padding: 11px 14px;
+      background: #FAFAFA;
+      border-bottom: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .rail-card-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #1A1A18;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .rail-card-body { padding: 12px 14px; }
+
+    /* Contact / key rows inside rail */
+    .rail-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 0;
+      border-bottom: 1px solid #F3F3F1;
+      font-size: 11.5px;
+    }
+    .rail-row:last-child { border-bottom: none; }
+    .rail-row-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: #F0F0EE;
+      border: 1px solid #E0E0DE;
+      color: #3A3A38;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .rail-row-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #8C8C88;
+    }
+    .rail-row-val {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1A1A18;
+      word-break: break-word;
+    }
+
+    /* Mini stat tiles inside rail */
+    .rail-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .rail-stat-box {
+      background: #FAFAFA;
+      border: 1px solid #EBEBEA;
+      border-radius: 6px;
+      padding: 9px 11px;
+    }
+    .rail-stat-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #8C8C88;
+    }
+    .rail-stat-val {
+      font-size: 15px;
+      font-weight: 800;
+      color: #1A1A18;
+      letter-spacing: -0.02em;
+      margin-top: 2px;
+    }
+
+    /* Recent activity mini list (rail) */
+    .rail-activity-item {
+      display: flex;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid #F3F3F1;
+      align-items: flex-start;
+    }
+    .rail-activity-item:last-child { border-bottom: none; }
+    .rail-activity-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #F0F0EE;
+      border: 1px solid #E0E0DE;
+      color: #3A3A38;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .rail-activity-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #1A1A18;
+      line-height: 1.3;
+    }
+    .rail-activity-meta {
+      font-size: 10.5px;
+      color: #8C8C88;
+      margin-top: 1px;
+    }
+
+    /* Compact Single-Line Data Table */
+    .table-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .table-toolbar {
+      padding: 10px 16px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .data-table th {
+      text-align: left;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #8C8C88;
+      padding: 8px 12px;
+      border-bottom: 1px solid #EBEBEA;
+      background: #FAFAFA;
+      white-space: nowrap;
+    }
+    .data-table td {
+      padding: 9px 12px;
+      font-size: 12px;
+      color: #3A3A38;
+      border-bottom: 1px solid #F3F3F1;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: #FAFAFA; }
+    .table-footer {
+      padding: 10px 16px;
+      background: #FAFAFA;
+      border-top: 1px solid #EBEBEA;
+      font-size: 11px;
+      color: #8C8C88;
+    }
+
+    /* Action buttons */
+    .vdr-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 5px;
+      border: 1px solid #E0E0DE;
+      background: #FFFFFF;
+      cursor: pointer;
+      color: #7A7A78;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+    }
+    .vdr-action-btn:hover {
+      background: #1A1A18;
+      color: #FFFFFF;
+      border-color: #1A1A18;
+    }
+    .vdr-action-btn.danger { color: #DC2626; border-color: #FECACA; }
+    .vdr-action-btn.danger:hover { background: #DC2626; border-color: #DC2626; color: #FFFFFF; }
+
+    .doc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #5A5A58;
+      background: #FFFFFF;
+      border: 1px solid #E0E0DE;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+      font-family: Inter, sans-serif;
+      white-space: nowrap;
+    }
+    .doc-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+
+    /* History single-liner surface list */
+    .timeline-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .timeline-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      border-bottom: 1px solid #F3F3F1;
+      font-size: 12px;
+      gap: 12px;
+      transition: background 0.1s;
+    }
+    .timeline-row:last-child { border-bottom: none; }
+    .timeline-row:hover { background: #FAFAFA; }
+    .timeline-row-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+    .timeline-row-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #F0F0EE;
+      border: 1px solid #E0E0DE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #3A3A38;
+      flex-shrink: 0;
+    }
+    .timeline-row-text {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1A1A18;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .timeline-row-time {
+      font-size: 11px;
+      color: #8C8C88;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-weight: 500;
+    }
+
+    /* Floating FAB Toggle Button */
+    .fab-toggle-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: #1A1A18;
+      color: #FFFFFF;
+      border: 1px solid #1A1A18;
+      border-radius: 30px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+      font-family: Inter, sans-serif;
+      transition: all 0.15s ease;
+    }
+    .fab-toggle-btn:hover {
+      background: #2A2A28;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <!-- Top App Header Slot -->
+  <div id="appHeaderSlot"></div>
+
+  <div class="main-workspace" style="display:flex; flex-direction:row;">
+    <!-- Tiny Sidebar Slot -->
+    <div id="tinySidebarSlot"></div>
+
+    <!-- Main Navigation Sidebar Slot -->
+    <div id="mainSidebarSlot"></div>
+
+    <!-- Main Content Workspace -->
+    <main class="content-scrollable" style="padding:0; display:flex; flex-direction:column; background:#F5F5F3; overflow-y:auto;">
+
+      <!-- BREADCRUMB STRIP -->
+      <div class="vdr-breadcrumb-bar">
+        <div class="vdr-breadcrumbs">
+          <a href="./dd-partners.html">Due Diligence Partners</a>
+          <i data-lucide="chevron-right" style="width:12px; height:12px; color:#A8A8A4;"></i>
+          <span class="curr" id="breadcrumbPartnerName">PwC Advisory Legal</span>
+        </div>
+      </div>
+
+      <!-- EXECUTIVE HEADER CARD -->
+      <div class="vdr-header-card">
+        <div class="vdr-header-top">
+          <div class="vdr-title-group">
+            <div class="vdr-main-icon" id="partnerAvatarBox">PW</div>
+            <div>
+              <div class="vdr-name-heading">
+                <h1 id="partnerTitle">PwC Advisory Legal</h1>
+                <span class="vdr-type-tag" id="partnerSpecialtyTag">LEGAL AUDIT</span>
+                <span style="font-size:9.5px; font-weight:800; padding:2px 8px; background:#F0F0EE; color:#1A1A18; border:1px solid #DCDCDA; border-radius:4px; text-transform:uppercase; letter-spacing:0.04em;" id="partnerStatusTag">ACTIVE</span>
+              </div>
+              <p class="vdr-desc-text" id="partnerSubtitle">
+                Accredited third-party diligence partner specializing in corporate governance, compliance review, and M&amp;A legal audits.
+              </p>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:6px; flex-shrink:0;">
+            <button class="doc-btn" onclick="openEditModal()">
+              <i data-lucide="edit-3" style="width:12px; height:12px;"></i> Edit Profile
+            </button>
+          </div>
+        </div>
+
+        <!-- UNDERLINE TABS BAR (NO ICONS, PARENTHESES COUNTERS IN NORMAL TEXT) -->
+        <div class="vdr-tabs-bar">
+          <button class="vdr-tab-btn active" id="tabBtnDetails" onclick="switchTab('details')">
+            <span>Details</span>
+          </button>
+          <button class="vdr-tab-btn" id="tabBtnVDR" onclick="switchTab('vdr')">
+            <span>VDR Shared (<span id="badgeVDRCount">3</span>)</span>
+          </button>
+          <button class="vdr-tab-btn" id="tabBtnDocs" onclick="switchTab('docs')">
+            <span>Documents (<span id="badgeDocsCount">1</span>)</span>
+          </button>
+          <button class="vdr-tab-btn" id="tabBtnHistory" onclick="switchTab('history')">
+            <span>History</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- MAIN TABS CONTAINER -->
+      <div id="tabContentArea">
+
+        <!-- ── TAB 1: DETAILS (TWO-COLUMN: MAIN SECTIONS + RIGHT RECENT RAIL) ── -->
+        <div id="panelDetails" class="vdr-tab-panel">
+          <div id="detailsContent"></div>
+        </div>
+
+        <!-- ── TAB 2: VDR SHARED REGISTER (COMPACT SINGLE-LINE DATA TABLE) ── -->
+        <div id="panelVDR" class="vdr-tab-panel" style="display:none;">
+          <div id="vdrContent"></div>
+        </div>
+
+        <!-- ── TAB 3: DOCUMENTS (EMPTY STATE DEFAULT) ── -->
+        <div id="panelDocs" class="vdr-tab-panel" style="display:none;">
+          <div id="docsTabContent"></div>
+        </div>
+
+        <!-- ── TAB 4: HISTORY (AUDIT ACTIVITY LOG) ── -->
+        <div id="panelHistory" class="vdr-tab-panel" style="display:none;">
+          <div id="historyContent"></div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- FLOATING FAB STATE TOGGLE BUTTON (BOTTOM RIGHT CORNER) -->
+<button class="fab-toggle-btn" id="fabToggleState" title="Toggle between Populated State and Empty State" onclick="toggleStateFAB()">
+  <i data-lucide="eye" style="width:13px; height:13px;"></i>
+  <span id="fabToggleText">Toggle Empty State</span>
+</button>
+
+<!-- Global Modal Slot -->
+<div id="modalSlot"></div>
+
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+<script>
+  // ── DUMMY DATA FOR DD PARTNER DETAILS ──
+  const PARTNER_DATA = {
+    ddp_1: {
+      id: 'ddp_1',
+      name: 'PwC Advisory Legal',
+      avatar: 'PW',
+      specialty: 'Legal Audit',
+      lead: 'Marcus Vance',
+      role: 'Partner – Legal Audit',
+      email: 'marcus.vance@pwc.com',
+      phone: '+91 98765 43210',
+      firm: 'PwC Advisory Legal',
+      expertise: 'Corporate Law, M&A, Startup Compliance',
+      location: 'Mumbai, India',
+      linkedin: 'linkedin.com/in/marcus-vance',
+      vdrAssigned: 'Seed Round Due Diligence (Alpha Health)',
+      status: 'Active',
+      slaDays: '3 Business Days',
+      permissions: 'View + Download (Audit Rights)',
+      expiry: '30 Sep 2026',
+      onboarded: '14 Jan 2026',
+      vdrs: [
+        { room: 'Alpha Health Seed Diligence', startup: 'Alpha Health Inc.', scope: 'Legal & Governance Folder', docs: 12, status: 'Review In Progress', progress: 88, expiry: '30 Sep 2026' },
+        { room: 'FinFlow Tech M&A Diligence', startup: 'FinFlow Solutions', scope: 'Corporate Compliance Only', docs: 8, status: 'Approved', progress: 100, expiry: '15 Oct 2026' },
+        { room: 'LogiChain Series A Diligence', startup: 'LogiChain Labs', scope: 'Full Legal Data Room', docs: 14, status: 'Query Raised', progress: 45, expiry: '30 Nov 2026' }
+      ],
+      activity: [
+        { icon: 'check-circle', text: 'Approved FinFlow Tech M&A diligence package', meta: 'Today, 09:12 AM' },
+        { icon: 'message-square', text: 'Raised 2 queries on LogiChain Series A room', meta: 'Yesterday, 04:40 PM' },
+        { icon: 'folder-lock', text: 'Access assigned to Alpha Health Seed Diligence', meta: '18 Jan 2026, 02:45 PM' },
+        { icon: 'user-check', text: 'Email verified & MFA enforced', meta: '14 Jan 2026, 11:15 AM' }
+      ]
+    },
+    ddp_2: {
+      id: 'ddp_2',
+      name: 'Deloitte Financial Audit',
+      avatar: 'DL',
+      specialty: 'Financial Audit',
+      lead: 'Elena Rostova',
+      role: 'Senior Director – Tax & Financials',
+      email: 'elena.rostova@deloitte.com',
+      phone: '+91 98765 11223',
+      firm: 'Deloitte Financial Advisory',
+      expertise: 'Financial Audit, Tax Structuring, Cap Table Audit',
+      location: 'Bengaluru, India',
+      linkedin: 'linkedin.com/in/elena-rostova',
+      vdrAssigned: 'FinFlow Financials Diligence',
+      status: 'Active',
+      slaDays: '4 Business Days',
+      permissions: 'View + Download (Audit Rights)',
+      expiry: '15 Oct 2026',
+      onboarded: '28 Jan 2026',
+      vdrs: [
+        { room: 'FinFlow Series A Financials', startup: 'FinFlow Solutions', scope: 'Financials & Tax Folder', docs: 16, status: 'Review In Progress', progress: 75, expiry: '15 Oct 2026' },
+        { room: 'Alpha Health Audit Review', startup: 'Alpha Health Inc.', scope: 'Cap Table & Statements', docs: 10, status: 'Approved', progress: 100, expiry: '30 Sep 2026' }
+      ],
+      activity: [
+        { icon: 'check-circle', text: 'Approved Alpha Health cap table audit', meta: 'Yesterday, 12:30 PM' },
+        { icon: 'file-search', text: 'Started review on FinFlow Series A financials', meta: '10 Feb 2026, 03:10 PM' }
+      ]
+    },
+    ddp_3: {
+      id: 'ddp_3',
+      name: 'KPMG Code & Tech Reviewers',
+      avatar: 'KP',
+      specialty: 'Tech Audit',
+      lead: 'David Tanaka',
+      role: 'Lead Technical Auditor',
+      email: 'd.tanaka@kpmg.io',
+      phone: '+91 98111 22334',
+      firm: 'KPMG Cyber & Tech Advisory',
+      expertise: 'Source Code Review, Cybersecurity, IP Audit',
+      location: 'Singapore',
+      linkedin: 'linkedin.com/in/david-tanaka',
+      vdrAssigned: 'LogiChain Code Review VDR',
+      status: 'Inactive',
+      slaDays: '2 Business Days',
+      permissions: 'View Only',
+      expiry: '15 Dec 2026',
+      onboarded: '05 Feb 2026',
+      vdrs: [
+        { room: 'LogiChain Tech Architecture', startup: 'LogiChain Labs', scope: 'Tech & Architecture Folder', docs: 18, status: 'Pending Review', progress: 20, expiry: '15 Dec 2026' }
+      ],
+      activity: [
+        { icon: 'folder-lock', text: 'Access assigned to LogiChain Code Review VDR', meta: '05 Feb 2026, 05:20 PM' }
+      ]
+    },
+    ddp_4: {
+      id: 'ddp_4',
+      name: 'EY Risk & ESG Compliance',
+      avatar: 'EY',
+      specialty: 'ESG & Risk',
+      lead: 'Sophia Martinez',
+      email: 'sophia.m@ey.com',
+      phone: '+91 98222 33445',
+      firm: 'EY Global Risk & ESG Advisory',
+      expertise: 'ESG Audit, Regulatory Risk, Data Privacy',
+      location: 'Delhi NCR, India',
+      linkedin: 'linkedin.com/in/sophia-martinez',
+      vdrAssigned: 'Global ESG Compliance Room',
+      status: 'Pending',
+      slaDays: '5 Business Days',
+      permissions: 'View Only',
+      expiry: '31 Dec 2026',
+      onboarded: '10 Feb 2026',
+      vdrs: [],
+      activity: [
+        { icon: 'user-plus', text: 'Onboarded & invitation sent to Sophia Martinez', meta: '10 Feb 2026, 04:00 PM' }
+      ]
+    }
+  };
+
+  let activePartner = PARTNER_DATA.ddp_1;
+  let activeTab = 'details';
+  let isStoreEmpty = false;
+
+  // NOTE: The tab/panel ids use "VDR" casing (tabBtnVDR / panelVDR), so the
+  // panelId helper must preserve that acronym casing for the 'vdr' tab.
+  const TAB_ID_MAP = {
+    details: { panel: 'panelDetails' },
+    vdr:     { panel: 'panelVDR' },
+    docs:    { panel: 'panelDocs' },
+    history: { panel: 'panelHistory' }
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof LayoutComponents !== 'undefined' && document.getElementById('appHeaderSlot')) {
+      LayoutComponents.init({ activeNav: 'dd-partners', activeApp: 'investor' });
+    }
+    if (typeof bindAppEvents === 'function') {
+      bindAppEvents();
+    }
+
+    // Parse URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    const partnerId = urlParams.get('id') || 'ddp_1';
+    if (PARTNER_DATA[partnerId]) {
+      activePartner = PARTNER_DATA[partnerId];
+    }
+
+    renderAll();
+  });
+
+  function renderAll() {
+    renderPartnerHeader();
+    renderDetails();
+    renderVDRTable();
+    renderDocsTab();
+    renderHistory();
+  }
+
+  function renderPartnerHeader() {
+    document.getElementById('breadcrumbPartnerName').textContent = activePartner.name;
+    document.getElementById('partnerTitle').textContent = activePartner.name;
+    document.getElementById('partnerAvatarBox').textContent = activePartner.avatar;
+    document.getElementById('partnerSpecialtyTag').textContent = activePartner.specialty.toUpperCase();
+    document.getElementById('partnerStatusTag').textContent = activePartner.status.toUpperCase();
+    document.getElementById('badgeVDRCount').textContent = (activePartner.vdrs || []).length;
+  }
+
+  // ── DETAILS TAB: TWO-COLUMN LAYOUT ──
+  function renderDetails() {
+    const container = document.getElementById('detailsContent');
+    if (!container) return;
+
+    if (isStoreEmpty) {
+      container.innerHTML = `
+        <div style="background:#FFFFFF; border:1px dashed #DCDCDA; border-radius:8px; padding:48px 24px; text-align:center;">
+          <div style="width:48px; height:48px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#6A6A68;">
+            <i data-lucide="user-round" style="width:22px; height:22px;"></i>
+          </div>
+          <div style="font-size:14px; font-weight:800; color:#1A1A18; margin-bottom:4px;">No Partner Details Filled In Yet</div>
+          <p style="font-size:11.5px; color:#8C8C88; max-width:380px; margin:0 auto 16px; line-height:1.5;">
+            Complete the onboarding form to capture lead contact, organization, and access credentials for this diligence partner.
+          </p>
+          <a href="./dd-onboard-builder.html" class="btn btn-primary" style="font-size:12px; text-decoration:none;">
+            <i data-lucide="edit-3" class="lucide-sm"></i>
+            <span>Complete Onboarding Details</span>
+          </a>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    const p = activePartner;
+    const vdrCount = (p.vdrs || []).length;
+    const completedVDRs = (p.vdrs || []).filter(v => v.status === 'Approved').length;
+    const avgProgress = vdrCount
+      ? Math.round((p.vdrs || []).reduce((acc, v) => acc + (v.progress || 0), 0) / vdrCount)
+      : 0;
+
+    const recentActivity = (p.activity || []).slice(0, 4).map(a => `
+      <div class="rail-activity-item">
+        <div class="rail-activity-icon">
+          <i data-lucide="${a.icon}" style="width:11px; height:11px;"></i>
+        </div>
+        <div style="flex:1; min-width:0;">
+          <div class="rail-activity-title">${a.text}</div>
+          <div class="rail-activity-meta">${a.meta}</div>
+        </div>
+      </div>
+    `).join('');
+
+    container.innerHTML = `
+      <div class="dd-layout">
+        <!-- LEFT: MAIN DETAIL SECTIONS -->
+        <div class="dd-main-col">
+
+          <div class="details-section-card">
+            <div class="details-section-header">
+              <div class="details-section-title">
+                <i data-lucide="user" style="width:13px; height:13px; color:#4A4A48;"></i>
+                <span>1. Basic Details</span>
+              </div>
+              <span class="badge-pill neutral-soft" style="font-size:10px;">Mandatory Contact</span>
+            </div>
+            <div class="details-grid">
+              <div>
+                <div class="detail-item-label">Full Name</div>
+                <div class="detail-item-val" id="valLead">${p.lead}</div>
+              </div>
+              <div>
+                <div class="detail-item-label">Work Email</div>
+                <div class="detail-item-val" id="valEmail">${p.email}</div>
+              </div>
+              <div>
+                <div class="detail-item-label">Phone Number</div>
+                <div class="detail-item-val" id="valPhone">${p.phone || '+91 98765 43210'}</div>
+              </div>
+              <div>
+                <div class="detail-item-label">Designation / Role</div>
+                <div class="detail-item-val" id="valRole">${p.role || 'Partner – Audit'}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="details-section-card">
+            <div class="details-section-header">
+              <div class="details-section-title">
+                <i data-lucide="building-2" style="width:13px; height:13px; color:#4A4A48;"></i>
+                <span>2. Organization Details</span>
+              </div>
+              <span class="badge-pill neutral-soft" style="font-size:10px;">Audit Entity</span>
+            </div>
+            <div class="details-grid">
+              <div>
+                <div class="detail-item-label">Firm / Organization Name</div>
+                <div class="detail-item-val" id="valFirm">${p.firm || p.name}</div>
+              </div>
+              <div>
+                <div class="detail-item-label">Partner Type</div>
+                <div class="detail-item-val" id="valPartnerType">${p.specialty}</div>
+              </div>
+              <div>
+                <div class="detail-item-label">Turnaround SLA</div>
+                <div class="detail-item-val" id="valSLA">${p.slaDays || '3 Business Days'}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="details-section-card">
+            <div class="details-section-header">
+              <div class="details-section-title">
+                <i data-lucide="briefcase" style="width:13px; height:13px; color:#4A4A48;"></i>
+                <span>3. Professional Info</span>
+              </div>
+              <span class="badge-pill neutral-soft" style="font-size:10px;">Credentials</span>
+            </div>
+            <div class="details-grid">
+              <div>
+                <div class="detail-item-label">Areas of Expertise</div>
+                <div class="detail-item-val" id="valExpertise">${p.expertise || 'Corporate Audit & Compliance'}</div>
+              </div>
+              <div>
+                <div class="detail-item-label">LinkedIn Profile</div>
+                <div class="detail-item-val">
+                  <a href="https://${p.linkedin}" target="_blank" style="color:#1A1A18; font-weight:700;">${p.linkedin}</a>
+                </div>
+              </div>
+              <div>
+                <div class="detail-item-label">Location / Country</div>
+                <div class="detail-item-val" id="valLocation">${p.location || 'Mumbai, India'}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="details-section-card">
+            <div class="details-section-header">
+              <div class="details-section-title">
+                <i data-lucide="key" style="width:13px; height:13px; color:#4A4A48;"></i>
+                <span>4. Access Setup</span>
+              </div>
+              <span class="badge-pill neutral-soft" style="font-size:10px;">Active VDR Permissions</span>
+            </div>
+            <div class="details-grid">
+              <div>
+                <div class="detail-item-label">Primary VDR Assigned</div>
+                <div class="detail-item-val" id="valVDR">${p.vdrAssigned || 'Seed Round Due Diligence'}</div>
+              </div>
+              <div>
+                <div class="detail-item-label">Folder Access Scope</div>
+                <div class="detail-item-val">${p.folderScope || 'Legal & Corporate Folder Only'}</div>
+              </div>
+              <div>
+                <div class="detail-item-label">Permissions Level</div>
+                <div class="detail-item-val">${p.permissions || 'View + Download (Audit Rights)'}</div>
+              </div>
+              <div>
+                <div class="detail-item-label">Access Expiry Date</div>
+                <div class="detail-item-val" style="color:#047857;">${p.expiry || '30 Sep 2026'}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="details-section-card">
+            <div class="details-section-header">
+              <div class="details-section-title">
+                <i data-lucide="shield-check" style="width:13px; height:13px; color:#4A4A48;"></i>
+                <span>5. Account &amp; Security</span>
+              </div>
+              <span class="badge-pill neutral-dark" style="font-size:10px;">System Enforced</span>
+            </div>
+            <div class="details-grid">
+              <div>
+                <div class="detail-item-label">Invitation Status</div>
+                <div class="detail-item-val" style="color:#047857;">Invited &amp; Accepted</div>
+              </div>
+              <div>
+                <div class="detail-item-label">Email Verification</div>
+                <div class="detail-item-val" style="color:#047857;">Verified (${p.email})</div>
+              </div>
+              <div>
+                <div class="detail-item-label">MFA / 2FA Status</div>
+                <div class="detail-item-val" style="color:#047857;">Enforced &amp; Active</div>
+              </div>
+              <div>
+                <div class="detail-item-label">Account Status</div>
+                <div class="detail-item-val">
+                  <span style="font-size:9.5px; font-weight:800; padding:2px 6px; background:#F0F0EE; color:#1A1A18; border:1px solid #DCDCDA; border-radius:3px;">${(p.status || 'Active').toUpperCase()} PARTNER</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: RAIL (KEY CONTACT, STATS, RECENT ACTIVITY, ACCESS SUMMARY) -->
+        <div class="dd-rail-col">
+
+          <div class="rail-card">
+            <div class="rail-card-header">
+              <div class="rail-card-title">
+                <i data-lucide="contact-2" style="width:12px; height:12px; color:#4A4A48;"></i>
+                Key Contact
+              </div>
+            </div>
+            <div class="rail-card-body">
+              <div class="rail-row">
+                <div class="rail-row-icon"><i data-lucide="user" style="width:12px; height:12px;"></i></div>
+                <div style="flex:1; min-width:0;">
+                  <div class="rail-row-label">Lead Contact</div>
+                  <div class="rail-row-val">${p.lead}</div>
+                </div>
+              </div>
+              <div class="rail-row">
+                <div class="rail-row-icon"><i data-lucide="mail" style="width:12px; height:12px;"></i></div>
+                <div style="flex:1; min-width:0;">
+                  <div class="rail-row-label">Work Email</div>
+                  <div class="rail-row-val">${p.email}</div>
+                </div>
+              </div>
+              <div class="rail-row">
+                <div class="rail-row-icon"><i data-lucide="phone" style="width:12px; height:12px;"></i></div>
+                <div style="flex:1; min-width:0;">
+                  <div class="rail-row-label">Phone</div>
+                  <div class="rail-row-val">${p.phone || '+91 98765 43210'}</div>
+                </div>
+              </div>
+              <div class="rail-row">
+                <div class="rail-row-icon"><i data-lucide="briefcase" style="width:12px; height:12px;"></i></div>
+                <div style="flex:1; min-width:0;">
+                  <div class="rail-row-label">Designation</div>
+                  <div class="rail-row-val">${p.role || 'Partner – Audit'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rail-card">
+            <div class="rail-card-header">
+              <div class="rail-card-title">
+                <i data-lucide="bar-chart-3" style="width:12px; height:12px; color:#4A4A48;"></i>
+                Diligence Snapshot
+              </div>
+            </div>
+            <div class="rail-card-body">
+              <div class="rail-stats-grid">
+                <div class="rail-stat-box">
+                  <div class="rail-stat-label">VDRs Assigned</div>
+                  <div class="rail-stat-val">${vdrCount}</div>
+                </div>
+                <div class="rail-stat-box">
+                  <div class="rail-stat-label">Packages Approved</div>
+                  <div class="rail-stat-val">${completedVDRs}</div>
+                </div>
+                <div class="rail-stat-box">
+                  <div class="rail-stat-label">Avg Completion</div>
+                  <div class="rail-stat-val">${avgProgress}%</div>
+                </div>
+                <div class="rail-stat-box">
+                  <div class="rail-stat-label">Turnaround SLA</div>
+                  <div class="rail-stat-val" style="font-size:12px;">${p.slaDays || '3 Days'}</div>
+                </div>
+              </div>
+              <div style="font-size:10.5px; color:#8C8C88; margin-top:10px; display:flex; align-items:center; gap:5px;">
+                <i data-lucide="calendar" style="width:11px; height:11px;"></i>
+                Onboarded on <strong style="color:#1A1A18;">${p.onboarded || '14 Jan 2026'}</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="rail-card">
+            <div class="rail-card-header">
+              <div class="rail-card-title">
+                <i data-lucide="clock" style="width:12px; height:12px; color:#4A4A48;"></i>
+                Recent Activity
+              </div>
+              <span style="font-size:9.5px; font-weight:700; color:#8C8C88;">Latest 4</span>
+            </div>
+            <div class="rail-card-body" style="padding-top:4px; padding-bottom:8px;">
+              ${recentActivity}
+            </div>
+          </div>
+
+          <div class="rail-card">
+            <div class="rail-card-header">
+              <div class="rail-card-title">
+                <i data-lucide="shield-check" style="width:12px; height:12px; color:#4A4A48;"></i>
+                Access Summary
+              </div>
+            </div>
+            <div class="rail-card-body">
+              <div class="rail-row">
+                <div class="rail-row-icon"><i data-lucide="folder-lock" style="width:12px; height:12px;"></i></div>
+                <div style="flex:1; min-width:0;">
+                  <div class="rail-row-label">Primary VDR</div>
+                  <div class="rail-row-val">${p.vdrAssigned || 'Seed Round Due Diligence'}</div>
+                </div>
+              </div>
+              <div class="rail-row">
+                <div class="rail-row-icon"><i data-lucide="key" style="width:12px; height:12px;"></i></div>
+                <div style="flex:1; min-width:0;">
+                  <div class="rail-row-label">Permissions</div>
+                  <div class="rail-row-val">${p.permissions || 'View + Download'}</div>
+                </div>
+              </div>
+              <div class="rail-row">
+                <div class="rail-row-icon"><i data-lucide="calendar-x" style="width:12px; height:12px;"></i></div>
+                <div style="flex:1; min-width:0;">
+                  <div class="rail-row-label">Expires</div>
+                  <div class="rail-row-val" style="color:#047857;">${p.expiry || '30 Sep 2026'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    `;
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function switchTab(tab) {
+    activeTab = tab;
+    Object.keys(TAB_ID_MAP).forEach(t => {
+      const panelId = TAB_ID_MAP[t].panel;
+      const btnId = 'tabBtn' + TAB_ID_MAP[t].panel.replace('panel', '');
+      const btn = document.getElementById(btnId);
+      const panel = document.getElementById(panelId);
+      if (btn) btn.classList.toggle('active', t === tab);
+      if (panel) panel.style.display = t === tab ? 'flex' : 'none';
+    });
+  }
+
+  // ── PARTNER-SIDE STATUS PILL HELPER ──
+  function getPartnerStatusTagHtml(status) {
+    const s = status || 'Pending Review';
+    if (s === 'Approved') {
+      return `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#F0F0EE; color:#1A1A18; border:1px solid #DCDCDA; border-radius:3px; white-space:nowrap;">APPROVED</span>`;
+    } else if (s === 'Rejected') {
+      return `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#F5F5F3; color:#7A7A78; border:1px solid #E0E0DE; border-radius:3px; white-space:nowrap;">REJECTED</span>`;
+    } else if (s === 'Query Raised') {
+      return `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#F5F5F3; color:#7A7A78; border:1px solid #E0E0DE; border-radius:3px; white-space:nowrap;">QUERY RAISED</span>`;
+    } else if (s === 'Review In Progress') {
+      return `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#F0F0EE; color:#1A1A18; border:1px solid #DCDCDA; border-radius:3px; white-space:nowrap;">REVIEW IN PROGRESS</span>`;
+    } else {
+      return `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#F5F5F3; color:#7A7A78; border:1px solid #E0E0DE; border-radius:3px; white-space:nowrap;">${s.toUpperCase()}</span>`;
+    }
+  }
+
+  // ── VDR SHARED REGISTER (COMPACT SINGLE-LINE TABLE) ──
+  function renderVDRTable() {
+    const container = document.getElementById('vdrContent');
+    if (!container) return;
+
+    const list = activePartner.vdrs || [];
+    const badge = document.getElementById('badgeVDRCount');
+    if (badge) badge.textContent = list.length;
+
+    if (isStoreEmpty || !list.length) {
+      container.innerHTML = `
+        <div style="background:#FFFFFF; border:1px dashed #DCDCDA; border-radius:8px; padding:48px 24px; text-align:center;">
+          <div style="width:48px; height:48px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#6A6A68;">
+            <i data-lucide="folder-lock" style="width:22px; height:22px;"></i>
+          </div>
+          <div style="font-size:14px; font-weight:800; color:#1A1A18; margin-bottom:4px;">No VDR Rooms Shared Yet</div>
+          <p style="font-size:11.5px; color:#8C8C88; max-width:380px; margin:0 auto 16px; line-height:1.5;">
+            Assign due diligence data rooms to this partner from the VDR hub to start the audit workflow.
+          </p>
+          <a href="./vdr.html" class="btn btn-primary" style="font-size:12px; text-decoration:none;">
+            <i data-lucide="folder-lock" class="lucide-sm"></i>
+            <span>Open VDR Hub</span>
+          </a>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="table-card">
+        <div class="table-toolbar">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <strong style="font-size:12.5px; color:#1A1A18;">Shared Data Rooms &amp; Startup Packages</strong>
+            <span class="badge-pill neutral-soft">${list.length} Room${list.length !== 1 ? 's' : ''} Assigned</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <button class="doc-btn" onclick="copyPartnerLink()">
+              <i data-lucide="link" style="width:11px; height:11px;"></i> Copy Link
+            </button>
+          </div>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="white-space:nowrap;">VDR Room / Deal</th>
+              <th style="white-space:nowrap;">Target Startup</th>
+              <th style="white-space:nowrap;">Category / Scope</th>
+              <th style="white-space:nowrap;">Documents Assigned</th>
+              <th style="white-space:nowrap;">Partner Review Status</th>
+              <th style="white-space:nowrap;">Completion %</th>
+              <th style="white-space:nowrap;">Access Expiry</th>
+              <th style="text-align:right; white-space:nowrap;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${list.map(v => `
+              <tr>
+                <td style="font-weight:700; color:#1A1A18; white-space:nowrap;">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <i data-lucide="folder-lock" style="width:13px; height:13px; color:#4A4A48;"></i>
+                    <span>${v.room}</span>
+                  </div>
+                </td>
+                <td style="white-space:nowrap; font-weight:600; color:#2A2A28;">${v.startup}</td>
+                <td style="white-space:nowrap; color:#6A6A68;">${v.scope}</td>
+                <td style="white-space:nowrap; font-weight:700; color:#1A1A18;">${v.docs} Requirements</td>
+                <td style="white-space:nowrap;">${getPartnerStatusTagHtml(v.status)}</td>
+                <td style="white-space:nowrap; width:130px;">
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <div style="flex:1; height:5px; background:#EAEAE8; border-radius:3px; overflow:hidden;">
+                      <div style="width:${v.progress}%; height:100%; background:#1A1A18; border-radius:3px;"></div>
+                    </div>
+                    <span style="font-size:10.5px; font-weight:700; color:#1A1A18;">${v.progress}%</span>
+                  </div>
+                </td>
+                <td style="white-space:nowrap; color:#047857; font-weight:600;">${v.expiry}</td>
+                <td style="text-align:right; white-space:nowrap;">
+                  <button class="vdr-action-btn" onclick="openVDRRoom('${v.room}')" title="Open VDR Room">
+                    <i data-lucide="external-link" style="width:12px; height:12px;"></i>
+                  </button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+        <div class="table-footer">Active VDR rooms assigned to this diligence audit partner</div>
+      </div>
+    `;
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // ── DOCUMENTS TAB ──
+  function renderDocsTab() {
+    const container = document.getElementById('docsTabContent');
+    if (!container) return;
+
+    const badge = document.getElementById('badgeDocsCount');
+    if (badge) badge.textContent = isStoreEmpty ? '0' : '1';
+
+    if (isStoreEmpty) {
+      container.innerHTML = `
+        <div style="background:#FFFFFF; border:1px dashed #DCDCDA; border-radius:8px; padding:48px 24px; text-align:center;">
+          <div style="width:48px; height:48px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#6A6A68;">
+            <i data-lucide="file-text" style="width:22px; height:22px;"></i>
+          </div>
+          <div style="font-size:14px; font-weight:800; color:#1A1A18; margin-bottom:4px;">No Audit Documents Uploaded</div>
+          <p style="font-size:11.5px; color:#8C8C88; max-width:380px; margin:0 auto 16px; line-height:1.5;">
+            Upload third-party diligence audit reports, legal opinions, or financial certificates for this partner.
+          </p>
+          <button class="btn btn-primary" onclick="simulateUploadDoc()" style="font-size:12px;">
+            <i data-lucide="upload" class="lucide-sm"></i>
+            <span>Upload Audit Document</span>
+          </button>
+        </div>
+      `;
+    } else {
+      container.innerHTML = `
+        <div class="table-card">
+          <div class="table-toolbar">
+            <strong style="font-size:12.5px; color:#1A1A18;">Uploaded Audit Reports &amp; Legal Opinions</strong>
+            <button class="btn btn-primary btn-sm" onclick="simulateUploadDoc()">
+              <i data-lucide="upload" class="lucide-sm"></i>
+              <span>Upload Document</span>
+            </button>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Document Title</th>
+                <th>Category</th>
+                <th>Target Startup</th>
+                <th>Uploaded Date</th>
+                <th>File Size</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:700; color:#1A1A18; white-space:nowrap;">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <i data-lucide="file-check" style="width:13px; height:13px; color:#047857;"></i>
+                    <span>Legal Audit Opinion &amp; Cap Table Review v1.2</span>
+                  </div>
+                </td>
+                <td style="white-space:nowrap; color:#6A6A68;">Legal Audit</td>
+                <td style="white-space:nowrap; font-weight:600; color:#2A2A28;">Alpha Health Inc.</td>
+                <td style="white-space:nowrap; color:#6A6A68;">02 Feb 2026</td>
+                <td style="white-space:nowrap; color:#6A6A68;">2.4 MB</td>
+                <td style="text-align:right; white-space:nowrap;">
+                  <button class="vdr-action-btn" title="Download Document"><i data-lucide="download" style="width:12px; height:12px;"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // ── HISTORY TAB (SINGLE-LINER AUDIT LOG) ──
+  function renderHistory() {
+    const container = document.getElementById('historyContent');
+    if (!container) return;
+
+    const list = activePartner.activity || [
+      { icon: 'user-plus', text: 'DD Partner Profile Created', meta: '14 Jan 2026, 10:30 AM' },
+      { icon: 'shield-check', text: 'Email & Security Verified', meta: '14 Jan 2026, 11:15 AM' },
+      { icon: 'folder-lock', text: 'VDR Room Access Assigned', meta: '18 Jan 2026, 02:45 PM' }
+    ];
+
+    if (isStoreEmpty || !list.length) {
+      container.innerHTML = `
+        <div style="background:#FFFFFF; border:1px dashed #DCDCDA; border-radius:8px; padding:48px 24px; text-align:center;">
+          <div style="width:48px; height:48px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#6A6A68;">
+            <i data-lucide="clock" style="width:22px; height:22px;"></i>
+          </div>
+          <div style="font-size:14px; font-weight:800; color:#1A1A18; margin-bottom:4px;">No Activity Recorded Yet</div>
+          <p style="font-size:11.5px; color:#8C8C88; max-width:380px; margin:0 auto; line-height:1.5;">
+            System and audit events for this partner will appear here once workflows begin.
+          </p>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="timeline-card">
+        ${list.map(h => `
+          <div class="timeline-row">
+            <div class="timeline-row-left">
+              <div class="timeline-row-icon">
+                <i data-lucide="${h.icon}" style="width:12px; height:12px;"></i>
+              </div>
+              <span class="timeline-row-text">${h.text}</span>
+            </div>
+            <span class="timeline-row-time">${h.meta}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function toggleStateFAB() {
+    isStoreEmpty = !isStoreEmpty;
+    const fabText = document.getElementById('fabToggleText');
+    if (fabText) fabText.textContent = isStoreEmpty ? 'Toggle Populated State' : 'Toggle Empty State';
+    renderAll();
+    if (window.showToast) window.showToast(isStoreEmpty ? 'Switched to Empty State' : 'Switched to Populated State');
+  }
+
+  function copyPartnerLink() {
+    const link = `https://seedicon.app/vdr/dd-partner?id=${activePartner.id}`;
+    if (navigator.clipboard) navigator.clipboard.writeText(link);
+    if (window.showToast) window.showToast(`Partner Access Link copied to clipboard!`);
+  }
+
+  function openEditModal() {
+    if (window.showToast) window.showToast(`Editing profile for ${activePartner.name}`);
+  }
+
+  const VDR_ROOM_MAP = {
+    'Alpha Health Seed Diligence': 'vdr1',
+    'Alpha Health Audit Review': 'vdr1',
+    'FinFlow Tech M&A Diligence': 'vdr4',
+    'FinFlow Series A Financials': 'vdr2',
+    'LogiChain Series A Diligence': 'vdr2',
+    'LogiChain Tech Architecture': 'vdr2'
+  };
+
+  function openVDRRoom(roomName) {
+    const vdrId = VDR_ROOM_MAP[roomName];
+    if (vdrId) {
+      window.location.href = `./vdr-detail.html?id=${vdrId}`;
+    } else {
+      window.location.href = './vdr.html';
+    }
+  }
+
+  function simulateUploadDoc() {
+    if (window.showToast) window.showToast(`Upload Document dialog opened for ${activePartner.name}`);
+  }
+</script>
+</body>
+</html>
