@@ -1557,6 +1557,14 @@
     { id: 'dd_6', name: 'BioCore Diagnostics', avatar: 'BC', sector: 'BioTech', founder: 'James Whitfield', email: 'james@biocore.com', ask: '$3.00M', arr: '$1.1M' }
   ];
 
+  // ── DD PARTNERS DATA STORE (SHARE TO DD TEAM) ──
+  const DD_PARTNERS = [
+    { id: 'ddp_1', name: 'PwC Advisory Legal', avatar: 'PW', specialty: 'Legal Audit', lead: 'Marcus Vance', email: 'marcus.vance@pwc.com', slaDays: '3 Days', status: 'Active' },
+    { id: 'ddp_2', name: 'Deloitte Financial Audit', avatar: 'DL', specialty: 'Financial Audit', lead: 'Elena Rostova', email: 'elena.rostova@deloitte.com', slaDays: '4 Days', status: 'Active' },
+    { id: 'ddp_3', name: 'KPMG Code & Tech Reviewers', avatar: 'KP', specialty: 'Tech Audit', lead: 'David Tanaka', email: 'd.tanaka@kpmg.io', slaDays: '2 Days', status: 'Inactive' },
+    { id: 'ddp_4', name: 'EY Risk & ESG Compliance', avatar: 'EY', specialty: 'ESG & Risk', lead: 'Sophia Martinez', email: 'sophia.m@ey.com', slaDays: '5 Days', status: 'Pending' }
+  ];
+
   let _activeStartupId = null;
   let _pendingRejectDocId = null;
 
@@ -1882,9 +1890,14 @@
             <strong style="font-size:12.5px; color:#1A1A18;">Submitted Documents &amp; Due Diligence Review</strong>
             <span class="badge-pill neutral-soft">${startup.name} Submissions</span>
           </div>
-          <button class="doc-btn" onclick="resendInvite('${startup.name}')">
-            <i data-lucide="send" style="width:11px; height:11px;"></i> Resend Access Link
-          </button>
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="openShareWithDDTeam('${startup.id}')" style="font-size:11px; padding:6px 12px; display:inline-flex; align-items:center; gap:6px;">
+              <i data-lucide="users" style="width:12px; height:12px;"></i> Share with DD Team
+            </button>
+            <button class="doc-btn" onclick="resendInvite('${startup.name}')">
+              <i data-lucide="send" style="width:11px; height:11px;"></i> Resend Access Link
+            </button>
+          </div>
         </div>
 
         <table class="data-table">
@@ -2196,6 +2209,111 @@
     switchTab('shared');
 
     if (window.showToast) window.showToast(`VDR successfully shared with ${startup.name}!`);
+  }
+
+  // ── OPEN SHARE WITH DD TEAM DRAWER (List DD Partners) ──
+  function openShareWithDDTeam(startupId) {
+    const startup = roomData.sharedStartups.find(s => s.id === startupId);
+    const startupLabel = startup ? startup.name : 'this startup';
+
+    const bodyHtml = `
+      <p style="font-size:11.5px; color:#6A6A68; margin-bottom:14px; line-height:1.5;">
+        Select a <strong>DD Partner</strong> to give review access to <strong>${startupLabel}</strong>'s submitted documents in <strong>${roomData.name}</strong>.
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        ${DD_PARTNERS.map(p => {
+          const alreadyShared = (roomData.sharedPartners || []).some(sp => sp.name === p.name);
+          return `
+            <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:7px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+              <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+                <div style="width:34px; height:34px; border-radius:6px; background:#1A1A18; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; color:#FFFFFF; flex-shrink:0;">
+                  ${p.avatar}
+                </div>
+                <div style="flex:1; min-width:0;">
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <span style="font-size:12.5px; font-weight:800; color:#1A1A18; line-height:1.2;">${p.name}</span>
+                    <span class="vdr-type-tag" style="font-size:8.5px;">${p.specialty.toUpperCase()}</span>
+                  </div>
+                  <div style="font-size:11px; color:#6A6A68; margin-top:2px;">
+                    ${p.lead} · <span style="color:#8A8A88;">${p.email}</span>
+                  </div>
+                  <div style="font-size:10px; color:#9A9A96; margin-top:2px;">
+                    Review SLA: <strong style="color:#5A5A58;">${p.slaDays}</strong>
+                  </div>
+                </div>
+              </div>
+
+              ${alreadyShared ? `
+                <span style="font-size:10px; font-weight:700; color:#047857; background:#ECFDF5; padding:4px 8px; border-radius:4px; border:1px solid #A7F3D0; flex-shrink:0;">Already Shared</span>
+              ` : `
+                <button type="button" class="btn btn-primary" onclick="confirmShareWithDDTeam('${p.id}')" style="font-size:11px; padding:5px 11px; flex-shrink:0;">
+                  <i data-lucide="send" style="width:11px; height:11px;"></i> Share VDR
+                </button>
+              `}
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+
+    const footerHtml = `
+      <button type="button" class="btn-modal-cancel" onclick="window.closeDrawer()">Close</button>
+    `;
+
+    if (window.openDrawer) {
+      window.openDrawer('Share with DD Team', `Due Diligence Partners`, bodyHtml, footerHtml);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  function confirmShareWithDDTeam(partnerId) {
+    const partner = DD_PARTNERS.find(p => p.id === partnerId);
+    if (!partner) return;
+
+    showVDRModal('Confirm Share Data Room', `
+      <div style="text-align:center; padding:8px 0 4px;">
+        <div style="width:44px; height:44px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+          <i data-lucide="users" style="width:20px; height:20px; color:#1A1A18;"></i>
+        </div>
+        <div style="font-size:13.5px; font-weight:800; color:#1A1A18; margin-bottom:6px;">Share with ${partner.name}?</div>
+        <p style="font-size:11.5px; color:#6A6A68; line-height:1.5;">
+          Review access will be granted to <strong>${partner.lead}</strong> (${partner.email}). They will be able to review submitted documents for this data room.
+        </p>
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-primary" onclick="executeShareWithDDTeam('${partnerId}')">Confirm &amp; Grant Access</button>
+      </div>
+    `);
+  }
+
+  function executeShareWithDDTeam(partnerId) {
+    const partner = DD_PARTNERS.find(p => p.id === partnerId);
+    if (!partner) return;
+
+    if (!roomData.sharedPartners) roomData.sharedPartners = [];
+    roomData.sharedPartners.unshift({
+      id: 'sp_' + Date.now(),
+      name: partner.name,
+      avatar: partner.avatar,
+      specialty: partner.specialty,
+      lead: partner.lead,
+      email: partner.email,
+      slaDays: partner.slaDays,
+      date: 'Just now'
+    });
+
+    roomData.history.unshift({ icon: 'users', text: `Data room shared with DD team: ${partner.name} (${partner.lead})`, time: 'Just now' });
+    roomData.updated = 'Just now';
+
+    hideVDRModal();
+    if (window.closeDrawer) window.closeDrawer();
+
+    renderHeader();
+    renderHistory();
+
+    if (window.showToast) window.showToast(`VDR shared with ${partner.name} (${partner.lead})!`);
   }
 
   // ── RESEND INVITE ──

@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Management — Seedicon Investor Platform</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ── KPI METRICS CARDS GRID ── */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .metric-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .metric-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .metric-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #8C8C88;
+    }
+    .metric-icon-wrap {
+      width: 26px;
+      height: 26px;
+      border-radius: 5px;
+      background: #F0F0EE;
+      border: 1px solid #E0E0DE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #3A3A38;
+    }
+    .metric-val {
+      font-size: 19px;
+      font-weight: 800;
+      color: #1A1A18;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .metric-val small { font-size: 11px; font-weight: 700; color: #8A8A88; }
+    .metric-sub {
+      font-size: 10.5px;
+      color: #8A8A88;
+      margin-top: 5px;
+    }
+    .metric-sub.green { color: #047857; font-weight: 700; }
+    .metric-sub.red { color: #DC2626; font-weight: 700; }
+
+    /* ── CONDENSED DATA TABLE CARD (single row per item) ── */
+    .table-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .table-toolbar {
+      padding: 9px 14px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .table-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .table-scroll { overflow-x: auto; }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1080px;
+    }
+    .data-table th {
+      text-align: left;
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #8C8C88;
+      padding: 7px 12px;
+      border-bottom: 1px solid #EBEBEA;
+      background: #FAFAFA;
+      white-space: nowrap;
+    }
+    .data-table th.num { text-align: right; }
+    .data-table td {
+      padding: 6px 12px;
+      font-size: 11.5px;
+      color: #3A3A38;
+      border-bottom: 1px solid #F1F1EF;
+      vertical-align: middle;
+      white-space: nowrap;
+      height: 40px;
+    }
+    .data-table td.num { text-align: right; }
+    .data-table tr { cursor: pointer; }
+    .data-table tr:hover td { background: #FAFAFA; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .table-footer {
+      padding: 9px 14px;
+      background: #FAFAFA;
+      border-top: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #8A8A88;
+    }
+
+    .company-cell {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+    .company-logo {
+      width: 26px;
+      height: 26px;
+      border-radius: 5px;
+      background: #1A1A18;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+    .company-name {
+      font-weight: 700;
+      color: #1A1A18;
+      max-width: 170px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .sector-pill {
+      font-size: 8.5px;
+      font-weight: 700;
+      padding: 1.5px 6px;
+      border-radius: 3px;
+      border: 1px solid #DCDCDA;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #5A5A58;
+      background: #F0F0EE;
+      white-space: nowrap;
+    }
+    .stage-tag {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 12px;
+      background: #F0F0EE;
+      border: 1px solid #DCDCDA;
+      color: #2A2A28;
+      white-space: nowrap;
+    }
+
+    /* Status pills (grey tones) */
+    .pill {
+      font-size: 8.5px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      border: 1px solid #DCDCDA;
+    }
+    .pill-active { background: #F0F0EE; color: #1A1A18; }
+    .pill-exited { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+    .pill-distributed { background: #F5F5F3; color: #7A7A78; border-color: #E0E0DE; }
+
+    /* Action buttons */
+    .vdr-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      border: 1px solid #E0E0DE;
+      background: #FFFFFF;
+      cursor: pointer;
+      color: #7A7A78;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+    }
+    .vdr-action-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+    .vdr-action-btn.danger { color: #DC2626; border-color: #FECACA; }
+    .vdr-action-btn.danger:hover { background: #DC2626; border-color: #DC2626; color: #FFFFFF; }
+
+    .doc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #5A5A58;
+      background: #FFFFFF;
+      border: 1px solid #E0E0DE;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+      font-family: Inter, sans-serif;
+      white-space: nowrap;
+    }
+    .doc-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+
+    /* Local modal styles */
+    .vdr-modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInBd 0.12s ease;
+    }
+    @keyframes fadeInBd { from { opacity:0; } to { opacity:1; } }
+    .vdr-modal-box {
+      background: #FFFFFF;
+      border-radius: 8px;
+      border: 1px solid #E0E0DE;
+      width: 580px;
+      max-width: 95vw;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.14);
+      overflow: hidden;
+    }
+    .vdr-modal-header {
+      padding: 13px 18px;
+      border-bottom: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FAFAFA;
+    }
+    .vdr-modal-title { font-size: 13.5px; font-weight: 800; color: #1A1A18; }
+    .vdr-modal-close {
+      border: none; background: transparent; cursor: pointer; color: #8A8A88;
+      font-size: 15px; font-weight: 700; padding: 2px 6px; border-radius: 4px;
+    }
+    .vdr-modal-close:hover { background: #EAEAE8; color: #1A1A18; }
+    .vdr-modal-body { padding: 18px; }
+    .vdr-modal-footer {
+      padding: 12px 18px;
+      border-top: 1px solid #EBEBEA;
+      background: #FAFAFA;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .field-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+    .field-label { font-size: 11px; font-weight: 700; color: #3A3A38; }
+    .field-input {
+      font-family: Inter, sans-serif;
+      font-size: 12px;
+      padding: 7px 10px;
+      border: 1px solid #DCDCDA;
+      border-radius: 6px;
+      outline: none;
+      color: #1A1A18;
+      background: #FFFFFF;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .field-input:focus { border-color: #1A1A18; }
+
+    .btn-modal-cancel {
+      font-size: 11.5px; font-weight: 700; border: 1px solid #DCDCDA; border-radius: 6px;
+      padding: 7px 14px; cursor: pointer; background: #F5F5F3; color: #3A3A38;
+      font-family: Inter, sans-serif; transition: background 0.1s;
+    }
+    .btn-modal-cancel:hover { background: #EBEBEA; }
+    .btn-modal-primary {
+      font-size: 11.5px; font-weight: 700; border: 1px solid #1A1A18; border-radius: 6px;
+      padding: 7px 14px; cursor: pointer; background: #1A1A18; color: #FFFFFF;
+      font-family: Inter, sans-serif; transition: background 0.1s;
+    }
+    .btn-modal-primary:hover { background: #2A2A28; }
+
+    /* Floating FAB Toggle Button (Bottom Right) */
+    .fab-toggle-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: #1A1A18;
+      color: #FFFFFF;
+      border: 1px solid #1A1A18;
+      border-radius: 30px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+      font-family: Inter, sans-serif;
+      transition: all 0.15s ease;
+    }
+    .fab-toggle-btn:hover {
+      background: #2A2A28;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div id="appHeaderSlot"></div>
+  <div class="main-workspace" style="display:flex; flex-direction:row;">
+    <div id="tinySidebarSlot"></div>
+    <div id="mainSidebarSlot"></div>
+
+    <main class="content-scrollable" style="padding:0; display:flex; flex-direction:column; background:#F5F5F3;">
+
+      <!-- PAGE HEADER BAR -->
+      <header style="padding:10px 22px; background:#FFFFFF; border-bottom:1px solid #E4E4E2; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; position:sticky; top:0; z-index:10;">
+        <div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <h1 style="font-size:16.5px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em;">Portfolio Management</h1>
+            <span id="portfolioCountBadge" style="font-size:10.5px; font-weight:700; background:#F0F0EE; color:#4A4A48; border:1px solid #DCDCDA; border-radius:10px; padding:2px 8px;">12 Companies</span>
+          </div>
+          <p style="font-size:11px; color:#8C8C88; margin-top:1px;">
+            Track active portfolio holdings, capital deployed, valuations and realised exits across the fund.
+          </p>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="btn btn-outline" onclick="openImportCSVModal()" style="font-size:11.5px; padding:5px 12px; background:#FFFFFF;">
+            <i data-lucide="upload" class="lucide-sm"></i>
+            <span>Import from CSV</span>
+          </button>
+          <button class="btn btn-primary" onclick="openAddToPortfolio()" style="font-size:12px;">
+            <i data-lucide="plus" class="lucide-sm"></i>
+            <span>Add to Portfolio</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- SEARCH & CONTROLS STRIP -->
+      <div style="padding:7px 22px; background:#FFFFFF; border-bottom:1px solid #EBEBEA; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-shrink:0;">
+        <div style="display:flex; align-items:center; gap:6px; flex:1; max-width:400px; background:#F7F7F5; border:1px solid #E0E0DE; border-radius:6px; padding:5px 10px;">
+          <i data-lucide="search" style="width:13px; height:13px; color:#9A9A96; flex-shrink:0;"></i>
+          <input type="text" id="portfolioSearch" onkeyup="renderPortfolio()" placeholder="Search company, sector, stage or status..." style="border:none; background:transparent; outline:none; font-family:Inter,sans-serif; font-size:11.5px; width:100%; color:#1A1A18;" />
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+            <span>Status:</span>
+            <select id="portfolioStatusFilter" onchange="renderPortfolio()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 6px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18;">
+              <option value="all">All Statuses</option>
+              <option value="Active">Active</option>
+              <option value="Exited">Exited</option>
+              <option value="Distributed">Distributed</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT WORKSPACE -->
+      <div style="padding:14px 22px; flex:1;">
+
+        <!-- TOP KPI METRICS CARDS -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Portfolio Companies</span>
+              <div class="metric-icon-wrap"><i data-lucide="briefcase" style="width:13px; height:13px;"></i></div>
+            </div>
+            <div class="metric-val" id="statCompanies">12</div>
+            <div class="metric-sub" id="statCompaniesSub">10 Active · 2 Exited</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Total Capital Invested</span>
+              <div class="metric-icon-wrap"><i data-lucide="banknote" style="width:13px; height:13px;"></i></div>
+            </div>
+            <div class="metric-val" id="statInvested">$18.7<small>M</small></div>
+            <div class="metric-sub">Deployed across all positions</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Current Portfolio Value</span>
+              <div class="metric-icon-wrap"><i data-lucide="trending-up" style="width:13px; height:13px;"></i></div>
+            </div>
+            <div class="metric-val" id="statCurrentVal">$24.3<small>M</small></div>
+            <div class="metric-sub">Mark-to-market estimate</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Unrealized Gains</span>
+              <div class="metric-icon-wrap"><i data-lucide="piggy-bank" style="width:13px; height:13px;"></i></div>
+            </div>
+            <div class="metric-val" id="statGains">$5.6<small>M</small></div>
+            <div class="metric-sub green" id="statGainsSub">TVPI 1.30x on deployed</div>
+          </div>
+        </div>
+
+        <!-- CONDENSED DATA TABLE CONTAINER -->
+        <div id="portfolioContainer"></div>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- FLOATING FAB STATE TOGGLE BUTTON (BOTTOM RIGHT CORNER) -->
+<button class="fab-toggle-btn" id="fabToggleState" title="Toggle between Populated Data and Empty State" onclick="togglePortfolioState()">
+  <i data-lucide="eye" style="width:13px; height:13px;"></i>
+  <span id="fabToggleText">Toggle Empty State</span>
+</button>
+
+<!-- Local Modal Backdrop -->
+<div id="vdrModalBackdrop" style="display:none;" class="vdr-modal-backdrop" onclick="handleBackdropClick(event)">
+  <div class="vdr-modal-box" onclick="event.stopPropagation()">
+    <div class="vdr-modal-header">
+      <span class="vdr-modal-title" id="vdrModalTitle">Modal</span>
+      <button class="vdr-modal-close" onclick="hideVDRModal()" title="Close">&#x2715;</button>
+    </div>
+    <div class="vdr-modal-body" id="vdrModalBody"></div>
+  </div>
+</div>
+
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+<script>
+  // ── DATA STORE: PORTFOLIO COMPANIES ──
+  let isStoreEmpty = false;
+
+  const INITIAL_PORTFOLIO = [
+    { id: 'pf_1',  name: 'FinFlow Tech',          avatar: 'FF', sector: 'FinTech',    stage: 'Seed',      ccy: '$', invested: 1.20, valuation: 12.50, currentVal: 15.80, ownership: '9.6%',  investedOn: '12 Jan 2026', status: 'Active' },
+    { id: 'pf_2',  name: 'LogiChain Labs',        avatar: 'LC', sector: 'Logistics',  stage: 'Series A',  ccy: '€', invested: 2.00, valuation: 24.00, currentVal: 28.50, ownership: '8.3%',  investedOn: '08 Dec 2025', status: 'Active' },
+    { id: 'pf_3',  name: 'Alpha Health',          avatar: 'AH', sector: 'Healthcare', stage: 'Pre-Seed',  ccy: '$', invested: 0.45, valuation: 3.50,  currentVal: 4.20,  ownership: '12.9%', investedOn: '02 Feb 2026', status: 'Active' },
+    { id: 'pf_4',  name: 'Apex AI',               avatar: 'AA', sector: 'AI / Software',stage: 'Seed',    ccy: '₹', invested: 1.20, valuation: 12.00, currentVal: 16.50, ownership: '10.0%', investedOn: '20 Jan 2026', status: 'Active' },
+    { id: 'pf_5',  name: 'EcoPulse Energy',       avatar: 'EP', sector: 'CleanTech',  stage: 'Seed',      ccy: '$', invested: 0.85, valuation: 6.00,  currentVal: 6.80,  ownership: '14.2%', investedOn: '03 Mar 2026', status: 'Active' },
+    { id: 'pf_6',  name: 'NeuroPulse Health',     avatar: 'NP', sector: 'Healthcare', stage: 'Pre-Seed',  ccy: '$', invested: 0.32, valuation: 2.50,  currentVal: 2.90,  ownership: '12.8%', investedOn: '18 Feb 2026', status: 'Active' },
+    { id: 'pf_7',  name: 'SkyTrack Mobility',     avatar: 'SM', sector: 'Logistics',  stage: 'Seed',      ccy: '$', invested: 1.10, valuation: 9.00,  currentVal: 11.00, ownership: '12.2%', investedOn: '25 Nov 2025', status: 'Active' },
+    { id: 'pf_8',  name: 'BioCore Diagnostics',   avatar: 'BC', sector: 'BioTech',    stage: 'Seed',      ccy: '$', invested: 1.00, valuation: 8.50,  currentVal: 9.40,  ownership: '11.8%', investedOn: '15 Jan 2026', status: 'Active' },
+    { id: 'pf_9',  name: 'Finnexia',              avatar: 'FN', sector: 'FinTech',    stage: 'Series A',  ccy: '₹', invested: 1.80, valuation: 18.00, currentVal: 21.00, ownership: '10.0%', investedOn: '08 Oct 2025', status: 'Active' },
+    { id: 'pf_10', name: 'GreenVolt Energy',      avatar: 'GV', sector: 'CleanTech',  stage: 'Seed',      ccy: '$', invested: 0.70, valuation: 5.20,  currentVal: 5.60,  ownership: '13.5%', investedOn: '12 Dec 2025', status: 'Active' },
+    { id: 'pf_11', name: 'Nova Mobility',         avatar: 'NM', sector: 'Logistics',  stage: 'Seed',      ccy: '$', invested: 0.90, valuation: 4.00,  currentVal: 4.50,  ownership: '15.0%', investedOn: '05 Jun 2025', status: 'Exited', exitMultiple: '5.0x' },
+    { id: 'pf_12', name: 'OrbitPay',              avatar: 'OP', sector: 'FinTech',    stage: 'Seed',      ccy: '$', invested: 1.50, valuation: 6.00,  currentVal: 3.20,  ownership: '13.0%', investedOn: '20 Apr 2025', status: 'Distributed', exitMultiple: '2.1x' }
+  ];
+
+  let portfolioStore = JSON.parse(JSON.stringify(INITIAL_PORTFOLIO));
+
+  // ── STARTUP POOL (from Startups Pool page) — for "Add to Portfolio" ──
+  const POOL_STARTUPS = [
+    { id: 'sup_1', name: 'Alpha Health',   avatar: 'AH', sector: 'Healthcare',       stage: 'Pre-Seed', ask: '$3.00M' },
+    { id: 'sup_2', name: 'Apex AI',        avatar: 'AA', sector: 'AI / Software',    stage: 'Seed',     ask: '₹5.00 Cr' },
+    { id: 'sup_3', name: 'FinFlow Tech',   avatar: 'FF', sector: 'FinTech',          stage: 'Seed',     ask: '$2.50M' },
+    { id: 'sup_4', name: 'LogiChain Labs', avatar: 'LC', sector: 'Logistics',        stage: 'Series A', ask: '€4.00M' },
+    { id: 'sup_5', name: 'EcoPulse Energy',avatar: 'EP', sector: 'CleanTech',        stage: 'Seed',     ask: '$3.50M' },
+    { id: 'sup_6', name: 'NeuroPulse Health', avatar: 'NP', sector: 'Healthcare',    stage: 'Pre-Seed', ask: '$1.80M' }
+  ];
+
+  // ── ACTION MENU DROPDOWN HELPERS ──
+  function toggleActionMenu(e, id) {
+    if (e) e.stopPropagation();
+    const menu = document.getElementById(`actionMenu_${id}`);
+    const isVisible = menu && menu.style.display === 'block';
+    hideActionMenus();
+    if (menu && !isVisible) menu.style.display = 'block';
+  }
+  function hideActionMenus() {
+    document.querySelectorAll('.action-dropdown-menu').forEach(m => m.style.display = 'none');
+  }
+  document.addEventListener('click', () => hideActionMenus());
+
+  // Initialize layout
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof LayoutComponents !== 'undefined' && document.getElementById('appHeaderSlot')) {
+      LayoutComponents.init({ activeNav: 'portfolio-management', activeApp: 'investor' });
+    }
+    if (typeof bindAppEvents === 'function') bindAppEvents();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    renderPortfolio();
+  });
+
+  function handleBackdropClick(e) {
+    if (e.target === document.getElementById('vdrModalBackdrop')) hideVDRModal();
+  }
+  function showVDRModal(title, bodyHtml) {
+    document.getElementById('vdrModalTitle').textContent = title;
+    document.getElementById('vdrModalBody').innerHTML = bodyHtml;
+    document.getElementById('vdrModalBackdrop').style.display = 'flex';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+  function hideVDRModal() {
+    document.getElementById('vdrModalBackdrop').style.display = 'none';
+    document.getElementById('vdrModalBody').innerHTML = '';
+  }
+
+  // ── TOGGLE STATE (FULL VS EMPTY) ──
+  function togglePortfolioState() {
+    isStoreEmpty = !isStoreEmpty;
+    const fabText = document.getElementById('fabToggleText');
+    if (fabText) fabText.textContent = isStoreEmpty ? 'Toggle Populated State' : 'Toggle Empty State';
+    renderPortfolio();
+    if (window.showToast) window.showToast(isStoreEmpty ? 'Switched to Empty State' : 'Switched to Populated State');
+  }
+
+  // ── FORMAT HELPERS ──
+  function fmtMoney(ccy, num) {
+    return ccy + (num >= 1 ? num.toFixed(1) : (num * 1000).toFixed(0)) + (num >= 1 ? 'M' : 'K');
+  }
+
+  function statusPill(status) {
+    const map = {
+      'Active': '<span class="pill pill-active">Active</span>',
+      'Exited': '<span class="pill pill-exited">Exited</span>',
+      'Distributed': '<span class="pill pill-distributed">Distributed</span>'
+    };
+    return map[status] || map['Active'];
+  }
+
+  // ── RENDER ──
+  function renderPortfolio() {
+    const container = document.getElementById('portfolioContainer');
+    if (!container) return;
+
+    if (isStoreEmpty || !portfolioStore.length) {
+      document.getElementById('portfolioCountBadge').textContent = '0 Companies';
+      document.getElementById('statCompanies').textContent = '0';
+      document.getElementById('statCompaniesSub').textContent = '0 Active · 0 Exited';
+      document.getElementById('statInvested').innerHTML = '$0<small>M</small>';
+      document.getElementById('statCurrentVal').innerHTML = '$0<small>M</small>';
+      document.getElementById('statGains').innerHTML = '$0<small>M</small>';
+      document.getElementById('statGainsSub').textContent = 'TVPI — on deployed';
+
+      container.innerHTML = `
+        <div style="background:#FFFFFF; border:1px dashed #DCDCDA; border-radius:8px; padding:48px 24px; text-align:center;">
+          <div style="width:48px; height:48px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#6A6A68;">
+            <i data-lucide="briefcase" style="width:22px; height:22px;"></i>
+          </div>
+          <div style="font-size:14px; font-weight:800; color:#1A1A18; margin-bottom:4px;">No Portfolio Companies Yet</div>
+          <p style="font-size:11.5px; color:#8C8C88; max-width:380px; margin:0 auto 16px; line-height:1.5;">
+            Add startups to your portfolio or import a holdings CSV to start tracking valuations, ownership and exits.
+          </p>
+          <div style="display:flex; justify-content:center; gap:8px;">
+            <button class="btn btn-outline" onclick="openImportCSVModal()">
+              <i data-lucide="upload" class="lucide-sm"></i>
+              <span>Import from CSV</span>
+            </button>
+            <button class="btn btn-primary" onclick="openAddToPortfolio()" style="font-size:12px;">
+              <i data-lucide="plus" class="lucide-sm"></i>
+              <span>Add First Company</span>
+            </button>
+          </div>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    // Filter logic
+    const q = (document.getElementById('portfolioSearch')?.value || '').toLowerCase().trim();
+    const statusFilter = document.getElementById('portfolioStatusFilter')?.value || 'all';
+    let filtered = portfolioStore.filter(p => {
+      const mSearch = !q || p.name.toLowerCase().includes(q) || p.sector.toLowerCase().includes(q) || p.stage.toLowerCase().includes(q) || p.status.toLowerCase().includes(q);
+      const mStatus = statusFilter === 'all' || p.status === statusFilter;
+      return mSearch && mStatus;
+    });
+
+    // Aggregate KPI metrics
+    const activeCount = filtered.filter(p => p.status === 'Active').length;
+    const exitedCount = filtered.filter(p => p.status === 'Exited' || p.status === 'Distributed').length;
+    const totalInvested = filtered.reduce((a, p) => a + p.invested, 0);
+    const totalCurrent = filtered.reduce((a, p) => a + p.currentVal, 0);
+    const gains = totalCurrent - totalInvested;
+    const tvpi = totalInvested > 0 ? (totalCurrent / totalInvested).toFixed(2) : '—';
+
+    document.getElementById('portfolioCountBadge').textContent = `${filtered.length} Compan${filtered.length !== 1 ? 'ies' : 'y'}`;
+    document.getElementById('statCompanies').textContent = filtered.length;
+    document.getElementById('statCompaniesSub').textContent = `${activeCount} Active · ${exitedCount} Exited`;
+    document.getElementById('statInvested').innerHTML = `$${totalInvested.toFixed(1)}<small>M</small>`;
+    document.getElementById('statCurrentVal').innerHTML = `$${totalCurrent.toFixed(1)}<small>M</small>`;
+    document.getElementById('statGains').innerHTML = `$${(gains >= 0 ? gains : 0).toFixed(1)}<small>M</small>`;
+    const gainsSub = document.getElementById('statGainsSub');
+    if (gainsSub) {
+      gainsSub.textContent = `TVPI ${tvpi}x on deployed`;
+      gainsSub.className = 'metric-sub ' + (gains >= 0 ? 'green' : 'red');
+    }
+
+    if (!filtered.length) {
+      container.innerHTML = `
+        <div style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:36px; text-align:center; color:#8C8C88;">
+          <i data-lucide="search" style="width:24px; height:24px; color:#B0B0AE; margin-bottom:8px;"></i>
+          <div style="font-size:13px; font-weight:700; color:#1A1A18; margin-bottom:2px;">No Matching Portfolio Companies</div>
+          <p style="font-size:11px; color:#8C8C88;">No companies match your search and status filters.</p>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="table-card">
+        <div class="table-toolbar">
+          <div class="table-toolbar-left">
+            <strong style="font-size:12.5px; color:#1A1A18;">Portfolio Holdings</strong>
+            <span class="badge-pill neutral-soft">${filtered.length} Compan${filtered.length !== 1 ? 'ies' : 'y'}</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <button class="doc-btn" onclick="openImportCSVModal()">
+              <i data-lucide="upload" style="width:11px; height:11px;"></i> Import CSV
+            </button>
+            <button class="doc-btn" onclick="openAddToPortfolio()">
+              <i data-lucide="plus" style="width:11px; height:11px;"></i> Add to Portfolio
+            </button>
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Sector</th>
+                <th>Stage</th>
+                <th class="num">Invested</th>
+                <th class="num">Valuation</th>
+                <th class="num">Ownership</th>
+                <th>Invested On</th>
+                <th class="num">Current Value</th>
+                <th>Status</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${filtered.map(p => `
+                <tr onclick="openCompanyProfile('${p.id}')">
+                  <td style="max-width:200px;">
+                    <div class="company-cell">
+                      <div class="company-logo">${p.avatar}</div>
+                      <span class="company-name" title="${p.name}">${p.name}</span>
+                    </div>
+                  </td>
+                  <td><span class="sector-pill">${p.sector}</span></td>
+                  <td><span class="stage-tag">${p.stage}</span></td>
+                  <td class="num" style="font-weight:700; color:#1A1A18;">${fmtMoney(p.ccy, p.invested)}</td>
+                  <td class="num" style="color:#5A5A58;">${fmtMoney(p.ccy, p.valuation)}</td>
+                  <td class="num" style="color:#5A5A58;">${p.ownership}</td>
+                  <td style="color:#6A6A68;">${p.investedOn}</td>
+                  <td class="num" style="color:#5A5A58;">${fmtMoney(p.ccy, p.currentVal)}${p.exitMultiple ? ` <span style="color:#047857; font-weight:800;">(${p.exitMultiple})</span>` : ''}</td>
+                  <td>${statusPill(p.status)}</td>
+                  <td style="text-align:right; position:relative;" onclick="event.stopPropagation()">
+                    <div style="display:inline-block; text-align:left;">
+                      <button class="vdr-action-btn" onclick="toggleActionMenu(event, '${p.id}')" title="More Actions" style="padding:4px 7px;">
+                        <i data-lucide="more-horizontal" style="width:14px; height:14px;"></i>
+                      </button>
+                      <div id="actionMenu_${p.id}" class="action-dropdown-menu" style="display:none; position:absolute; right:10px; top:30px; z-index:100; background:#FFFFFF; border:1px solid #E0E0DE; border-radius:6px; box-shadow:0 4px 14px rgba(0,0,0,0.1); min-width:160px; padding:4px 0;">
+                        <button onclick="openCompanyProfile('${p.id}'); hideActionMenus();" style="width:100%; text-align:left; padding:6px 12px; font-size:11.5px; font-family:Inter,sans-serif; color:#1A1A18; background:transparent; border:none; cursor:pointer; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='#F5F5F3'" onmouseout="this.style.background='transparent'">
+                          <i data-lucide="eye" style="width:12px; height:12px;"></i> View Profile
+                        </button>
+                        <button onclick="openEditCompanyModal('${p.id}'); hideActionMenus();" style="width:100%; text-align:left; padding:6px 12px; font-size:11.5px; font-family:Inter,sans-serif; color:#1A1A18; background:transparent; border:none; cursor:pointer; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='#F5F5F3'" onmouseout="this.style.background='transparent'">
+                          <i data-lucide="edit-3" style="width:12px; height:12px;"></i> Edit Holding
+                        </button>
+                        <div style="height:1px; background:#EBEBEA; margin:4px 0;"></div>
+                        <button onclick="promptRemoveCompany('${p.id}'); hideActionMenus();" style="width:100%; text-align:left; padding:6px 12px; font-size:11.5px; font-family:Inter,sans-serif; color:#DC2626; background:transparent; border:none; cursor:pointer; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='#FEF2F2'" onmouseout="this.style.background='transparent'">
+                          <i data-lucide="trash-2" style="width:12px; height:12px;"></i> Remove from Portfolio
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="table-footer">
+          <span>Showing ${filtered.length} of ${portfolioStore.length} portfolio companies</span>
+          <span style="display:flex; align-items:center; gap:5px;"><i data-lucide="info" style="width:11px; height:11px;"></i> Click a row to view company profile</span>
+        </div>
+      </div>
+    `;
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // ── ADD TO PORTFOLIO DRAWER (Primary CTA) ──
+  function openAddToPortfolio() {
+    const bodyHtml = `
+      <p style="font-size:11.5px; color:#6A6A68; margin-bottom:14px; line-height:1.5;">
+        Select a startup from your <strong>Inbound Pool</strong> to add it as a new portfolio holding. New companies are added as <strong>Active</strong>.
+      </p>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        ${POOL_STARTUPS.map(s => {
+          const inPortfolio = portfolioStore.some(p => p.name === s.name);
+          return `
+            <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:7px; padding:11px 14px; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+              <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+                <div class="company-logo" style="width:30px; height:30px; font-size:10.5px;">${s.avatar}</div>
+                <div style="flex:1; min-width:0;">
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <span style="font-size:12.5px; font-weight:800; color:#1A1A18; line-height:1.2;">${s.name}</span>
+                    <span class="sector-pill">${s.sector}</span>
+                  </div>
+                  <div style="font-size:11px; color:#6A6A68; margin-top:2px; display:flex; align-items:center; gap:6px;">
+                    <span class="stage-tag" style="font-size:8.5px;">${s.stage}</span>
+                    <span>Ask: <strong style="color:#1A1A18;">${s.ask}</strong></span>
+                    <a href="./startup-detail.html?id=${s.id}" onclick="event.stopPropagation()" style="color:#7A7A78; display:inline-flex;" title="Open startup detail">
+                      <i data-lucide="external-link" style="width:12px; height:12px;"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              ${inPortfolio ? `
+                <span class="pill pill-distributed" style="flex-shrink:0;">In Portfolio</span>
+              ` : `
+                <button type="button" class="btn btn-primary" onclick="confirmAddToPortfolio('${s.id}')" style="font-size:11px; padding:5px 11px; flex-shrink:0;">
+                  <i data-lucide="plus" style="width:11px; height:11px;"></i> Add
+                </button>
+              `}
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+    const footerHtml = `<button type="button" class="btn-modal-cancel" onclick="window.closeDrawer()">Close</button>`;
+    if (window.openDrawer) {
+      window.openDrawer('Add to Portfolio', 'Startups from Inbound Pool', bodyHtml, footerHtml);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  function confirmAddToPortfolio(poolId) {
+    const st = POOL_STARTUPS.find(s => s.id === poolId);
+    if (!st) return;
+    showVDRModal('Confirm Add to Portfolio', `
+      <div style="text-align:center; padding:8px 0 4px;">
+        <div style="width:44px; height:44px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+          <i data-lucide="briefcase" style="width:20px; height:20px; color:#1A1A18;"></i>
+        </div>
+        <div style="font-size:13.5px; font-weight:800; color:#1A1A18; margin-bottom:6px;">Add ${st.name} to Portfolio?</div>
+        <p style="font-size:11.5px; color:#6A6A68; line-height:1.5;">
+          This will create a new <strong>Active</strong> holding with a default investment. You can edit the invested amount, valuation and ownership afterwards.
+        </p>
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-primary" onclick="executeAddToPortfolio('${st.id}')">Add to Portfolio</button>
+      </div>
+    `);
+  }
+
+  function executeAddToPortfolio(poolId) {
+    const st = POOL_STARTUPS.find(s => s.id === poolId);
+    if (!st) return;
+    portfolioStore.unshift({
+      id: 'pfn_' + Date.now(),
+      name: st.name,
+      avatar: st.avatar,
+      sector: st.sector,
+      stage: st.stage,
+      ccy: '$',
+      invested: 0.50,
+      valuation: 3.00,
+      currentVal: 3.00,
+      ownership: '10.0%',
+      investedOn: 'New',
+      status: 'Active'
+    });
+    hideVDRModal();
+    if (window.closeDrawer) window.closeDrawer();
+    renderPortfolio();
+    if (window.showToast) window.showToast(`${st.name} added to portfolio!`);
+  }
+
+  // ── IMPORT FROM CSV MODAL (Secondary CTA) ──
+  function openImportCSVModal() {
+    showVDRModal('Import Portfolio from CSV', `
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div style="border:1.5px dashed #DCDCDA; border-radius:6px; background:#FAFAFA; padding:22px; text-align:center; cursor:pointer;" onclick="simulateCSVSelect()">
+          <i data-lucide="upload-cloud" style="width:26px; height:26px; color:#9A9A96;"></i>
+          <div style="font-size:12px; font-weight:700; color:#1A1A18; margin-top:8px;">Drop your CSV here or click to browse</div>
+          <div style="font-size:10.5px; color:#8A8A88; margin-top:3px;">Expected columns: company, sector, stage, invested, valuation, ownership, current_value, status</div>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Template</div>
+          <select class="field-input" id="csvTemplate">
+            <option>Portfolio Holdings — Standard</option>
+            <option>YTD Valuation Marks</option>
+            <option>Exits &amp; Distributions</option>
+          </select>
+        </div>
+        <div style="font-size:10.5px; color:#8A8A88; display:flex; align-items:center; gap:6px;">
+          <i data-lucide="info" style="width:12px; height:12px;"></i>
+          2 new companies detected. Duplicates will be merged, not re-added.
+        </div>
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-primary" onclick="executeImportCSV()">Import &amp; Merge</button>
+      </div>
+    `);
+  }
+
+  function simulateCSVSelect() {
+    if (window.showToast) window.showToast('CSV file ready: portfolio_export_2026.csv (12 rows)');
+  }
+
+  function executeImportCSV() {
+    portfolioStore.unshift(
+      { id: 'pfim_' + Date.now(), name: 'Quantica AI',      avatar: 'QA', sector: 'AI / Software', stage: 'Seed',     ccy: '$', invested: 0.75, valuation: 5.50, currentVal: 6.10, ownership: '11.4%', investedOn: '20 Mar 2026', status: 'Active' },
+      { id: 'pfim_' + Date.now() + 1, name: 'BlueOrb Analytics', avatar: 'BO', sector: 'SaaS',      stage: 'Pre-Seed', ccy: '$', invested: 0.40, valuation: 2.80, currentVal: 3.05, ownership: '14.3%', investedOn: '22 Mar 2026', status: 'Active' }
+    );
+    hideVDRModal();
+    renderPortfolio();
+    if (window.showToast) window.showToast('Imported 2 companies from CSV!');
+  }
+
+  // ── COMPANY PROFILE MODAL ──
+  function openCompanyProfile(id) {
+    const c = portfolioStore.find(p => p.id === id);
+    if (!c) return;
+    showVDRModal(c.name, `
+      <div style="display:flex; align-items:center; gap:14px; padding-bottom:14px; border-bottom:1px solid #EBEBEA; margin-bottom:14px;">
+        <div style="width:46px; height:46px; border-radius:8px; background:#1A1A18; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px;">${c.avatar}</div>
+        <div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:15px; font-weight:800; color:#1A1A18;">${c.name}</span>
+            ${statusPill(c.status)}
+          </div>
+          <div style="font-size:11px; color:#6A6A68; margin-top:2px;">${c.sector} · ${c.stage} · ${c.ownership} ownership</div>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div style="background:#F7F7F5; border:1px solid #E4E4E2; border-radius:6px; padding:10px 12px;">
+          <div style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#8A8A88;">Invested</div>
+          <div style="font-size:15px; font-weight:800; color:#1A1A18; margin-top:2px;">${fmtMoney(c.ccy, c.invested)}</div>
+        </div>
+        <div style="background:#F7F7F5; border:1px solid #E4E4E2; border-radius:6px; padding:10px 12px;">
+          <div style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#8A8A88;">Valuation</div>
+          <div style="font-size:15px; font-weight:800; color:#1A1A18; margin-top:2px;">${fmtMoney(c.ccy, c.valuation)}</div>
+        </div>
+        <div style="background:#F7F7F5; border:1px solid #E4E4E2; border-radius:6px; padding:10px 12px;">
+          <div style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#8A8A88;">Current Value</div>
+          <div style="font-size:15px; font-weight:800; color:#047857; margin-top:2px;">${fmtMoney(c.ccy, c.currentVal)}${c.exitMultiple ? ` (${c.exitMultiple})` : ''}</div>
+        </div>
+        <div style="background:#F7F7F5; border:1px solid #E4E4E2; border-radius:6px; padding:10px 12px;">
+          <div style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#8A8A88;">Invested On</div>
+          <div style="font-size:15px; font-weight:800; color:#1A1A18; margin-top:2px;">${c.investedOn}</div>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Close</button>
+        <button class="btn-modal-primary" onclick="openEditCompanyModal('${c.id}'); hideVDRModal();">Edit Holding</button>
+      </div>
+    `);
+  }
+
+  // ── EDIT HOLDING MODAL ──
+  function openEditCompanyModal(id) {
+    const c = portfolioStore.find(p => p.id === id);
+    if (!c) return;
+    showVDRModal(`Edit Holding: ${c.name}`, `
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div class="field-group">
+          <div class="field-label">Invested Amount</div>
+          <input type="number" step="0.01" id="edInvested" class="field-input" value="${c.invested}" />
+        </div>
+        <div class="field-group">
+          <div class="field-label">Valuation</div>
+          <input type="number" step="0.01" id="edValuation" class="field-input" value="${c.valuation}" />
+        </div>
+        <div class="field-group">
+          <div class="field-label">Current Value</div>
+          <input type="number" step="0.01" id="edCurrent" class="field-input" value="${c.currentVal}" />
+        </div>
+        <div class="field-group">
+          <div class="field-label">Ownership</div>
+          <input type="text" id="edOwnership" class="field-input" value="${c.ownership}" />
+        </div>
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-primary" onclick="saveEditCompany('${c.id}')">Save Changes</button>
+      </div>
+    `);
+  }
+
+  function saveEditCompany(id) {
+    const c = portfolioStore.find(p => p.id === id);
+    if (!c) return;
+    c.invested = parseFloat(document.getElementById('edInvested')?.value) || c.invested;
+    c.valuation = parseFloat(document.getElementById('edValuation')?.value) || c.valuation;
+    c.currentVal = parseFloat(document.getElementById('edCurrent')?.value) || c.currentVal;
+    c.ownership = document.getElementById('edOwnership')?.value || c.ownership;
+    hideVDRModal();
+    renderPortfolio();
+    if (window.showToast) window.showToast(`${c.name} holding updated`);
+  }
+
+  // ── REMOVE COMPANY ──
+  function promptRemoveCompany(id) {
+    const c = portfolioStore.find(p => p.id === id);
+    if (!c) return;
+    showVDRModal('Remove from Portfolio', `
+      <div style="text-align:center; padding:8px 0 4px;">
+        <div style="width:44px; height:44px; border-radius:50%; background:#FEF2F2; border:1px solid #FECACA; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#DC2626;">
+          <i data-lucide="trash-2" style="width:20px; height:20px;"></i>
+        </div>
+        <div style="font-size:13.5px; font-weight:800; color:#1A1A18; margin-bottom:6px;">Remove "${c.name}"?</div>
+        <p style="font-size:11.5px; color:#6A6A68; line-height:1.5;">This will remove the holding from your portfolio tracking. It will not delete the startup record.</p>
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-danger" onclick="confirmRemoveCompany('${c.id}')">Remove Holding</button>
+      </div>
+    `);
+  }
+
+  function confirmRemoveCompany(id) {
+    const c = portfolioStore.find(p => p.id === id);
+    const name = c?.name || 'Company';
+    portfolioStore = portfolioStore.filter(p => p.id !== id);
+    hideVDRModal();
+    renderPortfolio();
+    if (window.showToast) window.showToast(`${name} removed from portfolio`);
+  }
+</script>
+</body>
+</html>
