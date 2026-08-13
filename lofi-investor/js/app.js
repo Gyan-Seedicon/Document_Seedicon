@@ -13,6 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
     pageNav = 'investment-thesis';
   } else if (pathName.includes('all-documents')) {
     pageNav = 'all-documents';
+  } else if (pathName.includes('intake-builder')) {
+    pageNav = 'intake-builder';
+  } else if (pathName.includes('startups-pool')) {
+    pageNav = 'startups-pool';
+  } else if (pathName.includes('deal-crm')) {
+    pageNav = 'deal-crm';
+  } else if (pathName.includes('vdr')) {
+    pageNav = 'vdr';
   } else {
     pageNav = 'dashboard';
   }
@@ -134,6 +142,35 @@ function bindAppEvents() {
   window.closeDrawer = function() {
     const overlay = document.getElementById('drawerOverlay');
     if (overlay) overlay.classList.remove('show');
+  };
+
+  // Reusable Bottom-Right Toast Helper Component
+  window.showToast = function(message, iconName = 'check-circle') {
+    let container = document.getElementById('toastContainer');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'toastContainer';
+      container.style.cssText = 'position:fixed; bottom:24px; right:24px; display:flex; flex-direction:column; gap:8px; z-index:99999; pointer-events:none;';
+      document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.style.cssText = 'background:#1A1A18; color:#FFFFFF; font-family:Inter,sans-serif; font-size:12px; font-weight:600; padding:10px 16px; border-radius:8px; display:flex; align-items:center; gap:8px; box-shadow:0 8px 24px rgba(0,0,0,0.18); pointer-events:auto; transition:opacity 0.2s ease, transform 0.2s ease; opacity:0; transform:translateY(10px);';
+    toast.innerHTML = `<i data-lucide="${iconName}" style="width:15px; height:15px;"></i> <span>${message}</span>`;
+    container.appendChild(toast);
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    requestAnimationFrame(() => {
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+    });
+
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(10px)';
+      setTimeout(() => toast.remove(), 200);
+    }, 3000);
   };
 
   // Fund Switcher Dropdown Logic
@@ -404,29 +441,7 @@ function bindAppEvents() {
   if (menuIntakeLink) {
     menuIntakeLink.addEventListener('click', () => {
       closeAllDropdowns();
-      openModal('Create Startup Intake Submission Link', `
-        <div style="display:flex; flex-direction:column; gap:12px;">
-          <p style="font-size:12.5px; color:#5A5A54;">Generate a public submission link to collect inbound startup applications directly into the <strong>Startups Pools</strong>.</p>
-          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">TARGET FUND</label>
-          <select style="padding:8px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
-            <option>Seedicon Venture Fund I (₹20 Cr)</option>
-            <option>Opportunity Fund II (₹50 Cr)</option>
-          </select>
-          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">INTAKE LINK TITLE</label>
-          <input type="text" value="Seedicon Q3 2026 Founder Application" style="padding:8px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
-          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">REQUIRED FORM FIELDS</label>
-          <div style="font-size:12px; color:#2B2B28; display:flex; flex-direction:column; gap:6px;">
-            <label><input type="checkbox" checked /> Startup Name &amp; Pitch Deck (PDF)</label>
-            <label><input type="checkbox" checked /> Target ARR / Monthly Revenue</label>
-            <label><input type="checkbox" checked /> Current Round &amp; Valuation Cap</label>
-            <label><input type="checkbox" checked /> Founder Contact &amp; Linkedin</label>
-          </div>
-          <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
-            <button onclick="document.getElementById('modalOverlay').style.display='none'" class="btn">Cancel</button>
-            <button onclick="alert('Public Intake Link Generated: https://seedicon.app/intake/q3-2026'); document.getElementById('modalOverlay').style.display='none';" class="btn btn-primary">Generate Link &amp; Share</button>
-          </div>
-        </div>
-      `);
+      window.location.href = './intake-builder.html';
     });
   }
 

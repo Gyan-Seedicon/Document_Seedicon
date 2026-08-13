@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Startup Record Detail — Seedicon Investor Platform</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Executive Neutral Color Palette & Condensed High-Density Key-Value Layout */
+    .detail-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .detail-card:last-child {
+      margin-bottom: 0;
+    }
+    .detail-sec-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-faint);
+    }
+
+    /* Key-Value Pair Rows (Each Info in a Separate Row) */
+    .kv-rows-container {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .kv-row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      align-items: center;
+      font-size: 13px;
+      padding: 2.5px 0;
+    }
+    .kv-label {
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .kv-value {
+      color: var(--text-main);
+      word-break: break-word;
+    }
+    .kv-value a {
+      color: var(--text-dark);
+      text-decoration: underline;
+      font-weight: 500;
+    }
+
+    /* Connected Left Vertical Navigation Rail */
+    .nav-rail-wrapper {
+      position: sticky;
+      top: 10px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
+      border-radius: 6px;
+      padding: 12px 10px;
+    }
+    .nav-rail-list {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    /* Vertical connecting line */
+    .nav-rail-list::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 10px;
+      bottom: 10px;
+      width: 1.5px;
+      background: var(--border-main);
+      z-index: 1;
+    }
+    .rail-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 3.5px 4px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      transition: color 0.12s ease;
+    }
+    .rail-item:hover {
+      color: var(--text-dark);
+    }
+    .rail-item.active {
+      color: var(--text-dark);
+      font-weight: 700;
+    }
+    .rail-dot-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border-strong);
+      border: 2px solid #FFFFFF;
+      flex-shrink: 0;
+      transition: background 0.12s ease;
+    }
+    .rail-item.active .rail-dot-indicator {
+      background: var(--accent-graphite);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- App Header Navbar Slot -->
+    <div id="appHeaderSlot"></div>
+
+    <div class="main-workspace" style="display:flex; flex-direction:row;">
+      <!-- Tiny Icon Sidebar Slot -->
+      <div id="tinySidebarSlot"></div>
+
+      <!-- Main Navigation Sidebar Slot -->
+      <div id="mainSidebarSlot"></div>
+
+      <!-- Main Canvas -->
+      <main class="content-scrollable" style="padding:14px 20px; display:flex; flex-direction:column; gap:10px; background:#F8F8F6; overflow-y:auto;">
+        
+        <!-- BREADCRUMBS (2 ROUTES ONLY, NO BACK ARROW) -->
+        <div style="display:flex; align-items:center; gap:8px; font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">
+          <a href="./startups-pool.html" style="color:var(--text-muted); text-decoration:none;">
+            <span>Startups Pools</span>
+          </a>
+          <span>/</span>
+          <span style="color:var(--text-dark); font-weight:700;" id="breadName">Alpha Health 1</span>
+        </div>
+
+        <!-- TOP EXECUTIVE HEADER CARD (MATCHING REFERENCE IMAGE - CONDENSED HEIGHT) -->
+        <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; padding:12px 18px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+          
+          <!-- LEFT: LOGO, TITLE, LINKS & METADATA BADGES -->
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div style="width:42px; height:42px; background:var(--accent-graphite); color:#FFFFFF; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:15px;" id="headerAvatar">
+              AH
+            </div>
+            <div>
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                <h1 style="font-size:18px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em;" id="headerTitle">Alpha Health 1</h1>
+                <a href="#" style="color:var(--text-muted); font-size:13px;" id="headerWebLink"><i data-lucide="globe" class="lucide-sm"></i></a>
+                <a href="#" style="color:var(--text-muted); font-size:13px;" id="headerLinkedInLink"><i data-lucide="linkedin" class="lucide-sm"></i></a>
+              </div>
+
+              <div style="display:flex; align-items:center; gap:8px; font-size:12px; color:var(--text-muted);">
+                <span style="display:flex; align-items:center; gap:4px;" id="headerLoc">
+                  <i data-lucide="map-pin" class="lucide-sm"></i>
+                  <span>San Francisco, CA</span>
+                </span>
+                <span>•</span>
+                <span id="headerYear">2023</span>
+                <span>•</span>
+                <span class="badge-pill neutral-dark" id="headerStage">Pre-Seed</span>
+                <span class="badge-pill neutral-soft" id="headerSector">Healthcare</span>
+                <span class="badge-pill neutral-dark" id="headerStatus" style="font-weight:600;">Status: New</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: NEUTRAL EXECUTIVE ACTION BUTTONS (NO DROPDOWNS, STAR POTENTIAL, SUBTLE DOWNLOAD) -->
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="btn btn-outline" style="font-size:12px;" onclick="openTeamCommentsDrawer()">
+              <i data-lucide="message-square" class="lucide-sm"></i>
+              <span>Team Comments</span>
+            </button>
+            <button class="btn btn-outline" style="font-size:12px;" onclick="openHistoryDrawer()">
+              <i data-lucide="history" class="lucide-sm"></i>
+              <span>History</span>
+            </button>
+            <button class="btn" id="btnAddPotential" style="font-size:12px; font-weight:700; background:#FFFBEB; border:1px solid #FCD34D; color:#92400E; display:flex; align-items:center; gap:6px;" onclick="confirmAddPotential()">
+              <i data-lucide="star" class="lucide-sm" style="fill:#F59E0B; color:#F59E0B;"></i>
+              <span>Add as Potential</span>
+            </button>
+            <button class="btn btn-outline" style="font-size:12px; color:var(--text-muted); border-color:var(--border-main); opacity:0.85;" onclick="downloadPackage()" title="Download Due Diligence Package">
+              <i data-lucide="download" class="lucide-sm"></i>
+              <span>Download</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- MAIN CONTENT WORKSPACE GRID (LEFT RAIL + RIGHT SECTIONS - CONDENSED GAP) -->
+        <div style="display:grid; grid-template-columns:220px 1fr; gap:14px; align-items:start;">
+          
+          <!-- LEFT CONNECTED NAVIGATION RAIL -->
+          <div class="nav-rail-wrapper">
+            <div class="nav-rail-list" id="navRailList">
+              <a class="rail-item active" onclick="scrollToSection('sec_overview', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>Overview</span>
+              </a>
+              <a class="rail-item" onclick="scrollToSection('sec_metrics', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>Key Metrics</span>
+              </a>
+              <a class="rail-item" onclick="scrollToSection('sec_pitch', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>Pitch Deck</span>
+              </a>
+              <a class="rail-item" onclick="scrollToSection('sec_journey', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>Funding Journey</span>
+              </a>
+              <a class="rail-item" onclick="scrollToSection('sec_ask', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>Investment Ask</span>
+              </a>
+              <a class="rail-item" onclick="scrollToSection('sec_docs', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>Documents</span>
+              </a>
+              <a class="rail-item" onclick="scrollToSection('sec_employees', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>Employee Count</span>
+              </a>
+              <a class="rail-item" onclick="scrollToSection('sec_board', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>Board Members &amp; Signatories</span>
+              </a>
+              <a class="rail-item" onclick="scrollToSection('sec_financials', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>Financials</span>
+              </a>
+              <a class="rail-item" onclick="scrollToSection('sec_loans', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>Loans &amp; Charges</span>
+              </a>
+              <a class="rail-item" onclick="scrollToSection('sec_legal', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>Legal Cases</span>
+              </a>
+              <a class="rail-item" onclick="scrollToSection('sec_gstin', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>GSTIN Details</span>
+              </a>
+              <a class="rail-item" onclick="scrollToSection('sec_captable', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>CapTable</span>
+              </a>
+              <a class="rail-item" onclick="scrollToSection('sec_ip', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>Trademarks &amp; Patents</span>
+              </a>
+              <a class="rail-item" onclick="scrollToSection('sec_competitors', this)">
+                <span class="rail-dot-indicator"></span>
+                <span>Competitors</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- RIGHT SECTION CONTENT CARDS (EACH INFO IN SEPARATE ROW) -->
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            
+            <!-- SECTION 1: OVERVIEW -->
+            <div id="sec_overview" class="detail-card">
+              <div class="detail-sec-header">Overview</div>
+              <p style="font-size:13px; color:var(--text-main); line-height:1.55; margin-bottom:16px;" id="secPitch">
+                Next-gen predictive diagnostics for early disease detection. Our proprietary AI analyzes multi-modal biometric data to identify patterns invisible to the human eye, enabling preventative care at scale across global healthcare systems.
+              </p>
+
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">Industry/Sector</div>
+                  <div class="kv-value" id="valSector">Healthcare</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Company Website</div>
+                  <div class="kv-value"><a href="#" id="valWeb">www.alphahealth.io</a></div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Company LinkedIn</div>
+                  <div class="kv-value"><a href="#" id="valLinkedIn">linkedin.com/company/alpha-health</a></div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Social</div>
+                  <div class="kv-value" style="display:flex; gap:8px; align-items:center;">
+                    <i data-lucide="instagram" class="lucide-sm" style="color:var(--text-muted);"></i>
+                    <i data-lucide="twitter" class="lucide-sm" style="color:var(--text-muted);"></i>
+                  </div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Incorporation Date</div>
+                  <div class="kv-value">Jan 12, 2023</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Stage</div>
+                  <div class="kv-value" id="valStage">Pre-Seed</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Email</div>
+                  <div class="kv-value" id="valEmail">hello@alphahealth.io</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Location</div>
+                  <div class="kv-value" id="valLoc">San Francisco, CA</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Uploaded on</div>
+                  <div class="kv-value" id="valUploaded">Feb 28, 2026</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Org. Size</div>
+                  <div class="kv-value" id="valOrg">1–10 employees</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 2: KEY METRICS -->
+            <div id="sec_metrics" class="detail-card">
+              <div class="detail-sec-header">
+                <i data-lucide="trending-up" class="lucide-sm"></i>
+                <span>Key Metrics</span>
+              </div>
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">Annual Revenue (ARR)</div>
+                  <div class="kv-value" style="font-weight:700;" id="valArr">$850K ARR</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Gross Margin</div>
+                  <div class="kv-value">68%</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Monthly Burn Rate</div>
+                  <div class="kv-value" id="valBurn">$40K / month</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Runway Remaining</div>
+                  <div class="kv-value">14 Months</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 3: PITCH DECK -->
+            <div id="sec_pitch" class="detail-card">
+              <div class="detail-sec-header">Pitch Deck</div>
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">Pitch Presentation</div>
+                  <div class="kv-value" style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:8px 12px;">
+                    <span style="display:flex; align-items:center; gap:8px;"><i data-lucide="file-text" class="lucide-sm"></i> <strong id="valDeck">AlphaHealth_PitchDeck_2026.pdf</strong></span>
+                    <button class="btn btn-outline btn-sm" style="padding:2px 8px;"><i data-lucide="download" class="lucide-sm"></i> Download</button>
+                  </div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Product Demo</div>
+                  <div class="kv-value"><a href="#">loom.com/share/demo-alphahealth</a></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 4: FUNDING JOURNEY -->
+            <div id="sec_journey" class="detail-card">
+              <div class="detail-sec-header">Funding Journey</div>
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">Round Name</div>
+                  <div class="kv-value">Pre-Seed</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Round Date</div>
+                  <div class="kv-value">Jan 2023</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Amount Raised</div>
+                  <div class="kv-value" style="font-weight:700;" id="valRaised">$500K</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Post-Money Valuation</div>
+                  <div class="kv-value">$4.00M</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Key Investors</div>
+                  <div class="kv-value">Nexus Angel Syndicate, YC Alumni Fund</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 5: INVESTMENT ASK -->
+            <div id="sec_ask" class="detail-card">
+              <div class="detail-sec-header">Investment Ask</div>
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">Target Round Size</div>
+                  <div class="kv-value" id="valTarget">$5.00M</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Current Ask Amount</div>
+                  <div class="kv-value" style="font-weight:800; color:var(--text-dark);" id="valAsk">$3.00M</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Equity Dilution</div>
+                  <div class="kv-value">15%</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Debt Component</div>
+                  <div class="kv-value">None</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 6: DOCUMENTS -->
+            <div id="sec_docs" class="detail-card">
+              <div class="detail-sec-header">Documents</div>
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">Certificate of Incorporation</div>
+                  <div class="kv-value"><a href="#">Incorporation_Certificate_Delaware.pdf</a></div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">MOA / AOA</div>
+                  <div class="kv-value"><a href="#">Memorandum_of_Association.pdf</a></div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Audited Financials</div>
+                  <div class="kv-value"><a href="#">Audited_Financials_FY25.pdf</a></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 7: EMPLOYEES & ORG -->
+            <div id="sec_employees" class="detail-card">
+              <div class="detail-sec-header">Employee Count &amp; Organisation</div>
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">Total Employees</div>
+                  <div class="kv-value" id="valTotalEmp">9</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Full-Time</div>
+                  <div class="kv-value">7</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Part-Time / Contract</div>
+                  <div class="kv-value">2</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Average Tenure</div>
+                  <div class="kv-value">1.8 Years</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 8: BOARD MEMBERS & SIGNATORIES -->
+            <div id="sec_board" class="detail-card">
+              <div class="detail-sec-header">Board Members &amp; Signatories</div>
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">Board Director 1</div>
+                  <div class="kv-value">Dr. Sarah Jenkins (Founder &amp; CEO)</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Board Director 2</div>
+                  <div class="kv-value">Markus Vance (Co-Founder CTO)</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Authorised Signatory</div>
+                  <div class="kv-value">Dr. Sarah Jenkins</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 9: FINANCIALS -->
+            <div id="sec_financials" class="detail-card">
+              <div class="detail-sec-header">Financials</div>
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">Financial Year</div>
+                  <div class="kv-value">FY 2025-26</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Revenue</div>
+                  <div class="kv-value" id="valFinRev">$850K</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Gross Profit</div>
+                  <div class="kv-value" id="valFinGross">$420K</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">EBITDA</div>
+                  <div class="kv-value">-$280K</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Net Profit/Loss</div>
+                  <div class="kv-value">-$310K</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 10: LOANS & CHARGES -->
+            <div id="sec_loans" class="detail-card">
+              <div class="detail-sec-header">Loans &amp; Charges</div>
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">Existing Debt</div>
+                  <div class="kv-value">None</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Registered MCA Charges</div>
+                  <div class="kv-value">Nil</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 11: LEGAL CASES -->
+            <div id="sec_legal" class="detail-card">
+              <div class="detail-sec-header">Legal Cases &amp; Compliance</div>
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">Pending Litigation</div>
+                  <div class="kv-value">None</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Jurisdiction</div>
+                  <div class="kv-value" id="valJurisdiction">Delaware, USA</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Statutory Filings</div>
+                  <div class="kv-value">Up-to-Date</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 12: GSTIN DETAILS -->
+            <div id="sec_gstin" class="detail-card">
+              <div class="detail-sec-header">GSTIN &amp; Tax Registration</div>
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">PAN</div>
+                  <div class="kv-value">N/A (US Entity)</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">GSTIN Status</div>
+                  <div class="kv-value">N/A (US Entity)</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 13: CAP TABLE -->
+            <div id="sec_captable" class="detail-card">
+              <div class="detail-sec-header">CapTable</div>
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">Dr. Sarah Jenkins</div>
+                  <div class="kv-value">Founder &amp; CEO — 45.0% Ownership (4,500,000 shares)</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Markus Vance</div>
+                  <div class="kv-value">Co-Founder CTO — 35.0% Ownership (3,500,000 shares)</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">ESOP Pool</div>
+                  <div class="kv-value">Option Pool — 10.0% Ownership (1,000,000 shares)</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Nexus Angel Syndicate</div>
+                  <div class="kv-value">Pre-Seed Investor — 10.0% Ownership (1,000,000 shares)</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 14: INTELLECTUAL PROPERTY -->
+            <div id="sec_ip" class="detail-card">
+              <div class="detail-sec-header">Trademarks &amp; Patents</div>
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">Registered Trademarks</div>
+                  <div class="kv-value">"AlphaHealth", "BioDetect AI"</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Filed Patents</div>
+                  <div class="kv-value">US Patent Application #18/921,440 — Biometric Neural Diagnostics</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 15: COMPETITORS -->
+            <div id="sec_competitors" class="detail-card">
+              <div class="detail-sec-header">Competitors</div>
+              <div class="kv-rows-container">
+                <div class="kv-row">
+                  <div class="kv-label">Primary Competitor</div>
+                  <div class="kv-value" id="valComp">HealthAI Corp (Boston, MA)</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Competitor Website</div>
+                  <div class="kv-value"><a href="#" id="valCompWeb">healthai.io</a></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Global Modal & Drawer Slots -->
+  <div id="modalSlot"></div>
+
+  <script src="./js/components.js"></script>
+  <script src="./js/app.js"></script>
+  <script>
+    const DATA = {
+      'sup_1': {
+        name: 'Alpha Health 1', avatar: 'AH', stage: 'Pre-Seed', sector: 'Healthcare', status: 'Status: New',
+        location: 'San Francisco, CA', year: '2023', web: 'www.alphahealth.io', email: 'hello@alphahealth.io',
+        linkedin: 'linkedin.com/company/alpha-health', pitch: 'Next-gen predictive diagnostics for early disease detection. Our proprietary AI analyzes multi-modal biometric data to identify patterns invisible to the human eye, enabling preventative care at scale across global healthcare systems.',
+        org: '1–10 employees', arr: '$850K ARR', burn: '$40K / month', deck: 'AlphaHealth_PitchDeck_2026.pdf',
+        target: '$5.00M', ask: '$3.00M', raised: '$2.00M', totalEmp: '9', finRev: '$850K', finGross: '$420K',
+        jurisdiction: 'Delaware, USA', comp: 'HealthAI Corp (Boston, MA)', compWeb: 'healthai.io', uploaded: 'Feb 28, 2026'
+      },
+      'sup_2': {
+        name: 'Apex AI', avatar: 'AA', stage: 'Seed', sector: 'Artificial Intelligence', status: 'Status: Shortlisted',
+        location: 'Bengaluru, India', year: '2024', web: 'www.apexai.in', email: 'founders@apexai.in',
+        linkedin: 'linkedin.com/company/apex-ai', pitch: 'Autonomous agent platform for enterprise financial workflows and automated invoice reconciliation across multi-entity ERPs.',
+        org: '11–50 employees', arr: '₹1.5 Cr ARR', burn: '₹12L / month', deck: 'Apex_AI_PitchDeck.pdf',
+        target: '₹8.00 Cr', ask: '₹5.00 Cr', raised: '₹2.00 Cr', totalEmp: '24', finRev: '₹1.5 Cr', finGross: '₹80L',
+        jurisdiction: 'Karnataka, India', comp: 'Leena AI (Bengaluru, India)', compWeb: 'leena.ai', uploaded: 'Feb 25, 2026'
+      },
+      'sup_3': {
+        name: 'FinFlow Tech', avatar: 'FF', stage: 'Seed', sector: 'FinTech', status: 'Status: In Pipeline',
+        location: 'London, UK', year: '2023', web: 'www.finflowtech.io', email: 'team@finflowtech.io',
+        linkedin: 'linkedin.com/company/finflowtech', pitch: 'Cross-border liquidity engine enabling real-time instant settlement for corporate treasury.',
+        org: '11–50 employees', arr: '$1.2M ARR', burn: '$32K / month', deck: 'FinFlow_Pitch_2026.pdf',
+        target: '$4.00M', ask: '$2.50M', raised: '$1.00M', totalEmp: '18', finRev: '$1.2M', finGross: '$700K',
+        jurisdiction: 'England & Wales', comp: 'Airwallex (Melbourne, AU)', compWeb: 'airwallex.com', uploaded: 'Feb 20, 2026'
+      },
+      'sup_4': {
+        name: 'LogiChain Labs', avatar: 'LC', stage: 'Series A', sector: 'Logistics', status: 'Status: Reviewed',
+        location: 'Berlin, Germany', year: '2022', web: 'www.logichainlabs.de', email: 'hello@logichainlabs.de',
+        linkedin: 'linkedin.com/company/logichain', pitch: 'AI-driven supply chain route optimization reducing carbon emissions and freight transit times.',
+        org: '51–200 employees', arr: '€2.8M ARR', burn: '€80K / month', deck: 'LogiChain_Pitch_A.pdf',
+        target: '€7.00M', ask: '€4.00M', raised: '€2.50M', totalEmp: '62', finRev: '€2.8M', finGross: '€1.8M',
+        jurisdiction: 'Berlin, Germany', comp: 'Samsara (San Francisco, CA)', compWeb: 'samsara.com', uploaded: 'Feb 18, 2026'
+      },
+      'sup_5': {
+        name: 'EcoPulse Energy', avatar: 'EP', stage: 'Seed', sector: 'CleanTech', status: 'Status: New',
+        location: 'Austin, TX', year: '2024', web: 'www.ecopulse.io', email: 'team@ecopulse.io',
+        linkedin: 'linkedin.com/company/ecopulse', pitch: 'Solid-state battery thermal management architecture for commercial electric vehicle fleets.',
+        org: '1–10 employees', arr: '$600K ARR', burn: '$45K / month', deck: 'EcoPulse_PitchDeck.pdf',
+        target: '$5.00M', ask: '$3.50M', raised: '$1.50M', totalEmp: '9', finRev: '$600K', finGross: '$320K',
+        jurisdiction: 'Texas, USA', comp: 'QuantumScape (San Jose, CA)', compWeb: 'quantumscape.com', uploaded: 'Feb 27, 2026'
+      },
+      'sup_6': {
+        name: 'NeuroPulse Health', avatar: 'NP', stage: 'Pre-Seed', sector: 'Healthcare', status: 'Status: New',
+        location: 'Boston, MA', year: '2024', web: 'www.neuropulse.ai', email: 'founders@neuropulse.ai',
+        linkedin: 'linkedin.com/company/neuropulse', pitch: 'Non-invasive EEG brain-computer interface monitoring neurological rehabilitation recovery.',
+        org: '1–10 employees', arr: '$300K ARR', burn: '$25K / month', deck: 'NeuroPulse_Pitch.pdf',
+        target: '$2.50M', ask: '$1.80M', raised: '$500K', totalEmp: '6', finRev: '$300K', finGross: '$140K',
+        jurisdiction: 'Massachusetts, USA', comp: 'Muse Headband (Toronto, CA)', compWeb: 'choosemuse.com', uploaded: 'Feb 26, 2026'
+      }
+    };
+
+    let currentStartup = DATA['sup_1'];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id') || 'sup_1';
+      const s = DATA[id] || DATA['sup_1'];
+      currentStartup = s;
+
+      document.getElementById('breadName').textContent = s.name;
+      document.getElementById('headerTitle').textContent = s.name;
+      document.getElementById('headerAvatar').textContent = s.avatar;
+      document.getElementById('headerStage').textContent = s.stage;
+      document.getElementById('headerSector').textContent = s.sector;
+      document.getElementById('headerStatus').textContent = s.status;
+      document.getElementById('headerYear').textContent = s.year;
+      document.getElementById('headerLoc').querySelector('span').textContent = s.location;
+
+      document.getElementById('secPitch').textContent = s.pitch;
+      document.getElementById('valSector').textContent = s.sector;
+      document.getElementById('valStage').textContent = s.stage;
+      document.getElementById('valWeb').textContent = s.web;
+      document.getElementById('valWeb').href = 'https://' + s.web;
+      document.getElementById('valLinkedIn').textContent = s.linkedin;
+      document.getElementById('valEmail').textContent = s.email;
+      document.getElementById('valLoc').textContent = s.location;
+      document.getElementById('valOrg').textContent = s.org;
+      document.getElementById('valUploaded').textContent = s.uploaded;
+
+      document.getElementById('valArr').textContent = s.arr;
+      document.getElementById('valBurn').textContent = s.burn;
+      document.getElementById('valDeck').textContent = s.deck;
+      document.getElementById('valRaised').textContent = s.raised;
+      document.getElementById('valTarget').textContent = s.target;
+      document.getElementById('valAsk').textContent = s.ask;
+
+      document.getElementById('valTotalEmp').textContent = s.totalEmp;
+      document.getElementById('valFinRev').textContent = s.finRev;
+      document.getElementById('valFinGross').textContent = s.finGross;
+      document.getElementById('valJurisdiction').textContent = s.jurisdiction;
+      document.getElementById('valComp').textContent = s.comp;
+      document.getElementById('valCompWeb').textContent = s.compWeb;
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+
+    function scrollToSection(id, el) {
+      const target = document.getElementById(id);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.querySelectorAll('.rail-item').forEach(i => i.classList.remove('active'));
+        el.classList.add('active');
+      }
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // TEAM COMMENTS DRAWER (COMMENT INPUT AT BOTTOM, NO FOOTER CLOSE BUTTON)
+    // ──────────────────────────────────────────────────────────────────────────
+    function openTeamCommentsDrawer() {
+      openDrawer('Team Comments & Internal Notes', `Startup: ${currentStartup.name}`, `
+        <div style="display:flex; flex-direction:column; justify-content:space-between; height:100%; min-height:480px; gap:16px;">
+          <!-- TOP: COMMENTS FEED -->
+          <div style="display:flex; flex-direction:column; gap:10px; flex:1; overflow-y:auto; padding-right:4px;" id="commentsFeed">
+            <div style="background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:10px 12px; font-size:12px;">
+              <div style="display:flex; justify-content:space-between; font-weight:700; color:var(--text-dark); margin-bottom:4px;">
+                <span>Shikhar Kapoor (GP)</span>
+                <span style="font-weight:400; font-size:10.5px; color:var(--text-muted);">Feb 28, 2026 04:15 PM</span>
+              </div>
+              <p style="color:var(--text-main); margin:0; line-height:1.45;">Strong founder background from Stanford &amp; Mayo Clinic. Biometric diagnostic AI accuracy looks promising.</p>
+            </div>
+            <div style="background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:10px 12px; font-size:12px;">
+              <div style="display:flex; justify-content:space-between; font-weight:700; color:var(--text-dark); margin-bottom:4px;">
+                <span>Ananya Roy (Investment Manager)</span>
+                <span style="font-weight:400; font-size:10.5px; color:var(--text-muted);">Mar 01, 2026 11:30 AM</span>
+              </div>
+              <p style="color:var(--text-main); margin:0; line-height:1.45;">Referred by Nexus Syndicate. Cap table is clean with 10% ESOP pool created.</p>
+            </div>
+          </div>
+
+          <!-- BOTTOM: STICKY COMMENT INPUT -->
+          <div style="display:flex; flex-direction:column; gap:8px; border-top:1px solid var(--border-main); padding-top:12px; background:#FFFFFF;">
+            <label class="form-label" style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--text-muted);">ADD TEAM NOTE</label>
+            <textarea id="newCommentInput" class="form-input" style="min-height:75px; font-size:12px;" placeholder="Write a comment or internal feedback for the investment committee..."></textarea>
+            <div style="display:flex; justify-content:flex-end;">
+              <button class="btn btn-primary btn-sm" onclick="postComment()" style="padding:6px 14px; font-weight:700;">
+                <i data-lucide="send" class="lucide-sm"></i>
+                <span>Post Comment</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `, '');
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function postComment() {
+      const inp = document.getElementById('newCommentInput');
+      if (!inp || !inp.value.trim()) return;
+      const text = inp.value.trim();
+      const feed = document.getElementById('commentsFeed');
+      if (feed) {
+        const div = document.createElement('div');
+        div.style.cssText = 'background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:10px 12px; font-size:12px; margin-top:4px;';
+        div.innerHTML = `
+          <div style="display:flex; justify-content:space-between; font-weight:700; color:var(--text-dark); margin-bottom:4px;">
+            <span>You (GP)</span>
+            <span style="font-weight:400; font-size:10.5px; color:var(--text-muted);">Just now</span>
+          </div>
+          <p style="color:var(--text-main); margin:0; line-height:1.45;">${text}</p>
+        `;
+        feed.appendChild(div);
+        inp.value = '';
+        feed.scrollTop = feed.scrollHeight;
+      }
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // HISTORY DRAWER (NO FOOTER CLOSE BUTTON)
+    // ──────────────────────────────────────────────────────────────────────────
+    function openHistoryDrawer() {
+      openDrawer('Submission History & Audit Trail', `Startup: ${currentStartup.name}`, `
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; flex-direction:column; gap:16px; position:relative; padding-left:18px;">
+            <div style="position:absolute; left:7px; top:6px; bottom:6px; width:1.5px; background:var(--border-main);"></div>
+            
+            <div style="position:relative; font-size:12px;">
+              <div style="position:absolute; left:-15px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--accent-graphite);"></div>
+              <div style="font-weight:700; color:var(--text-dark);">Submitted Inbound Application</div>
+              <div style="font-size:11px; color:var(--text-muted);">Feb 28, 2026 10:14 AM via Public Intake Link</div>
+            </div>
+
+            <div style="position:relative; font-size:12px;">
+              <div style="position:absolute; left:-15px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--border-strong);"></div>
+              <div style="font-weight:700; color:var(--text-dark);">Automated Compliance Verification</div>
+              <div style="font-size:11px; color:var(--text-muted);">Feb 28, 2026 10:15 AM · 13 sections verified</div>
+            </div>
+
+            <div style="position:relative; font-size:12px;">
+              <div style="position:absolute; left:-15px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--border-strong);"></div>
+              <div style="font-weight:700; color:var(--text-dark);">Assigned to Investment Team</div>
+              <div style="font-size:11px; color:var(--text-muted);">Mar 01, 2026 09:30 AM · Lead: Ananya Roy</div>
+            </div>
+
+            <div style="position:relative; font-size:12px;">
+              <div style="position:absolute; left:-15px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--border-strong);"></div>
+              <div style="font-weight:700; color:var(--text-dark);">Pitch Deck Downloaded</div>
+              <div style="font-size:11px; color:var(--text-muted);">Mar 02, 2026 02:15 PM by Shikhar Kapoor</div>
+            </div>
+          </div>
+        </div>
+      `, '');
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // CONFIRM ADD TO POTENTIAL (ROBUST CONFIRMATION MODAL POPUP)
+    // ──────────────────────────────────────────────────────────────────────────
+    function confirmAddPotential() {
+      const modalBody = `
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <p style="font-size:13px; color:var(--text-dark); line-height:1.5; font-weight:500;">
+            Are you sure you want to add <strong>${currentStartup.name}</strong> as a <strong>Potential Deal</strong>?
+          </p>
+
+          <div style="background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:12px; display:flex; align-items:center; gap:10px; font-size:12px; color:var(--text-dark);">
+            <i data-lucide="sparkles" class="lucide-sm" style="color:#D97706; flex-shrink:0;"></i>
+            <span>Your startup will be visible in the <strong>Deal CRM</strong> now.</span>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+            <button class="btn btn-outline" onclick="closeModalDirect()">Cancel</button>
+            <button class="btn btn-primary" onclick="executeAddPotential()">Confirm &amp; Add to Deal CRM</button>
+          </div>
+        </div>
+      `;
+
+      if (typeof openModal === 'function') {
+        openModal('Confirm Action', modalBody);
+      } else {
+        const slot = document.getElementById('modalSlot');
+        if (slot) {
+          slot.innerHTML = `
+            <div id="modalOverlay" style="position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:999; display:flex; align-items:center; justify-content:center;">
+              <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:8px; padding:20px; width:420px; box-shadow:0 10px 25px rgba(0,0,0,0.15);">
+                <div style="font-size:16px; font-weight:800; color:var(--text-dark); margin-bottom:12px;">Confirm Action</div>
+                ${modalBody}
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function closeModalDirect() {
+      const overlay = document.getElementById('modalOverlay');
+      if (overlay) overlay.style.display = 'none';
+    }
+
+    function executeAddPotential() {
+      closeModalDirect();
+      
+      const badge = document.getElementById('headerStatus');
+      if (badge) {
+        badge.textContent = 'Status: Potential (In Deal CRM)';
+        badge.style.background = '#ECFDF5';
+        badge.style.color = '#065F46';
+      }
+
+      const btn = document.getElementById('btnAddPotential');
+      if (btn) {
+        btn.style.background = '#ECFDF5';
+        btn.style.borderColor = '#A7F3D0';
+        btn.style.color = '#065F46';
+        btn.innerHTML = `<i data-lucide="check-circle" class="lucide-sm" style="color:#059669;"></i> <span>Added to Deal CRM</span>`;
+      }
+
+      alert(`✨ ${currentStartup.name} has been added as a Potential Deal!\n\nYour startup will be visible in the Deal CRM now.`);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function downloadPackage() {
+      alert(`Downloading complete due-diligence package for ${currentStartup.name} (ZIP)...`);
+    }
+  </script>
+</body>
+</html>

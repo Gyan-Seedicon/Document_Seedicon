@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VDR (Data Room) — Seedicon Investor Platform</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Table View Styling matching capital-calls.html data-table */
+    .table-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .table-toolbar {
+      padding: 10px 16px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .table-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .data-table th {
+      text-align: left;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #8C8C88;
+      padding: 9px 14px;
+      border-bottom: 1px solid #EBEBEA;
+      background: #FAFAFA;
+    }
+    .data-table td {
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #3A3A38;
+      border-bottom: 1px solid #F3F3F1;
+      vertical-align: middle;
+    }
+    .data-table tr:hover td { background: #FAFAFA; cursor: pointer; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .table-footer {
+      padding: 10px 16px;
+      background: #FAFAFA;
+      border-top: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .pager-btn {
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      background: #FFFFFF;
+      border: 1px solid #DCDCDA;
+      border-radius: 4px;
+      color: var(--text-dark);
+      cursor: pointer;
+    }
+    .pager-btn:hover { background: #F0F0EE; }
+
+    /* Card View Styling */
+    .vdr-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.13s, box-shadow 0.13s, transform 0.1s;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .vdr-card:hover {
+      border-color: #B0B0AE;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+      transform: translateY(-1px);
+    }
+    .vdr-card-header {
+      padding: 14px 15px 12px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .vdr-icon-wrap {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      background: #F0F0EE;
+      border: 1px solid #E0E0DE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #3A3A38;
+    }
+    .vdr-card-name {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #1A1A18;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* Square corner tag for industry */
+    .vdr-type-tag {
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 0px;
+      background: #F0F0EE;
+      color: #3A3A38;
+      border: 1px solid #DCDCDA;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .vdr-card-footer {
+      padding: 8px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FAFAFA;
+      border-top: 1px solid #F0F0EE;
+      margin-top: auto;
+    }
+    .vdr-card-date {
+      font-size: 10px;
+      color: #9A9A96;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .vdr-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .vdr-action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      border: 1px solid #E0E0DE;
+      background: #FFFFFF;
+      cursor: pointer;
+      color: #7A7A78;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+    }
+    .vdr-action-btn:hover {
+      background: #1A1A18;
+      color: #FFFFFF;
+      border-color: #1A1A18;
+    }
+    .vdr-action-btn.danger:hover {
+      background: #DC2626;
+      border-color: #DC2626;
+      color: #FFFFFF;
+    }
+
+    /* Local modal styles */
+    .vdr-modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInBd 0.12s ease;
+    }
+    @keyframes fadeInBd { from { opacity:0; } to { opacity:1; } }
+    .vdr-modal-box {
+      background: #FFFFFF;
+      border-radius: 8px;
+      border: 1px solid #E0E0DE;
+      width: 420px;
+      max-width: 94vw;
+      padding: 0;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.14);
+      animation: slideUpMd 0.14s ease;
+    }
+    @keyframes slideUpMd { from { transform: translateY(12px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+    .vdr-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #EBEBEA;
+      padding: 14px 18px;
+    }
+    .vdr-modal-title { font-size: 14px; font-weight: 800; color: #1A1A18; }
+    .vdr-modal-close {
+      background: transparent; border: none; cursor: pointer; color: #7A7A78;
+      display: flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 5px;
+      transition: background 0.1s; font-size: 18px; line-height: 1;
+    }
+    .vdr-modal-close:hover { background: #F0F0EE; color: #1A1A18; }
+    .vdr-modal-body { padding: 18px 18px 0; }
+    .vdr-modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      padding: 14px 18px;
+      border-top: 1px solid #EBEBEA;
+      margin-top: 16px;
+    }
+    .vdr-modal-footer-split {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 14px 18px;
+      border-top: 1px solid #EBEBEA;
+      margin-top: 16px;
+    }
+
+    .field-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .field-label { font-size: 10.5px; font-weight: 700; color: #4A4A48; text-transform: uppercase; letter-spacing: 0.05em; }
+    .field-input {
+      border: 1px solid #E0E0DE; border-radius: 6px; padding: 8px 10px;
+      font-size: 12px; font-family: Inter, sans-serif; color: #1A1A18;
+      background: #FAFAFA; outline: none; transition: border-color 0.12s;
+      width: 100%; box-sizing: border-box;
+    }
+    .field-input:focus { border-color: #1A1A18; background: #FFFFFF; }
+    .field-select { cursor: pointer; }
+
+    .btn-modal-cancel {
+      font-size: 11.5px; font-weight: 700; border: 1px solid #DCDCDA; border-radius: 6px;
+      padding: 7px 14px; cursor: pointer; background: #F5F5F3; color: #3A3A38;
+      font-family: Inter, sans-serif; transition: background 0.1s;
+    }
+    .btn-modal-cancel:hover { background: #EBEBEA; }
+    .btn-modal-primary {
+      font-size: 11.5px; font-weight: 700; border: 1px solid #1A1A18; border-radius: 6px;
+      padding: 7px 14px; cursor: pointer; background: #1A1A18; color: #FFFFFF;
+      font-family: Inter, sans-serif; transition: background 0.1s;
+    }
+    .btn-modal-primary:hover { background: #2A2A28; }
+    .btn-modal-danger {
+      font-size: 11.5px; font-weight: 700; border: 1px solid #FECACA; border-radius: 6px;
+      padding: 7px 14px; cursor: pointer; background: #FEF2F2; color: #DC2626;
+      font-family: Inter, sans-serif; transition: background 0.1s;
+    }
+    .btn-modal-danger:hover { background: #FEE2E2; }
+
+    /* Empty state */
+    .vdr-empty-state {
+      background: #FFFFFF;
+      border: 1px dashed #DCDCDA;
+      border-radius: 8px;
+      padding: 52px 24px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div id="appHeaderSlot"></div>
+  <div class="main-workspace" style="display:flex; flex-direction:row;">
+    <div id="tinySidebarSlot"></div>
+    <div id="mainSidebarSlot"></div>
+
+    <main class="content-scrollable" style="padding:0; display:flex; flex-direction:column; background:#F5F5F3;">
+
+      <!-- PAGE HEADER BAR -->
+      <header style="padding:10px 22px; background:#FFFFFF; border-bottom:1px solid #E4E4E2; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; position:sticky; top:0; z-index:10;">
+        <div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <h1 style="font-size:16.5px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em;">VDR (Data Room)</h1>
+            <span id="vdrCountBadge" style="font-size:10.5px; font-weight:700; background:#F0F0EE; color:#4A4A48; border:1px solid #DCDCDA; border-radius:10px; padding:2px 8px;">4 Data Rooms</span>
+          </div>
+          <p style="font-size:11px; color:#8C8C88; margin-top:1px;">
+            Create and manage Virtual Data Rooms. Share structured document templates with founders securely.
+          </p>
+        </div>
+        <button class="btn btn-primary" onclick="openCreateVDR()" style="font-size:12px;">
+          <i data-lucide="plus" class="lucide-sm"></i>
+          <span>Create Data Room</span>
+        </button>
+      </header>
+
+      <!-- SEARCH + CONTROLS STRIP -->
+      <div style="padding:7px 22px; background:#FFFFFF; border-bottom:1px solid #EBEBEA; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-shrink:0;">
+        <div style="display:flex; align-items:center; gap:6px; flex:1; max-width:380px; background:#F7F7F5; border:1px solid #E0E0DE; border-radius:6px; padding:5px 10px;">
+          <i data-lucide="search" style="width:13px; height:13px; color:#9A9A96; flex-shrink:0;"></i>
+          <input type="text" id="vdrSearch" onkeyup="filterVDR()" placeholder="Search data rooms..." style="border:none; background:transparent; outline:none; font-family:Inter,sans-serif; font-size:11.5px; width:100%; color:#1A1A18;" />
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+            <span>Sort:</span>
+            <select id="vdrSort" onchange="filterVDR()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 6px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18;">
+              <option value="newest">Newest First</option>
+              <option value="name">Name A–Z</option>
+              <option value="docs">Most Documents</option>
+              <option value="shared">Most Shared</option>
+            </select>
+          </div>
+          <!-- View Toggle Buttons -->
+          <div style="display:flex; background:#F0F0EE; padding:2px; border-radius:6px; border:1px solid #E0E0DE; gap:1px;">
+            <button id="btnViewGrid" onclick="setViewMode('grid')" style="display:flex; align-items:center; gap:4px; padding:3px 9px; border-radius:4px; border:1px solid #C8C8C6; background:#FFFFFF; font-size:11px; font-weight:700; color:#1A1A18; cursor:pointer; font-family:Inter,sans-serif;">
+              <i data-lucide="layout-grid" style="width:12px; height:12px;"></i> Cards
+            </button>
+            <button id="btnViewTable" onclick="setViewMode('table')" style="display:flex; align-items:center; gap:4px; padding:3px 9px; border-radius:4px; border:none; background:transparent; font-size:11px; font-weight:500; color:#7A7A78; cursor:pointer; font-family:Inter,sans-serif;">
+              <i data-lucide="list" style="width:12px; height:12px;"></i> Table
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT WORKSPACE -->
+      <div style="padding:16px 22px; flex:1;">
+        <div id="vdrContainer"></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- VDR Local Modal -->
+<div id="vdrModalBackdrop" style="display:none;" class="vdr-modal-backdrop" onclick="handleBackdropClick(event)">
+  <div class="vdr-modal-box" onclick="event.stopPropagation()">
+    <div class="vdr-modal-header">
+      <span class="vdr-modal-title" id="vdrModalTitle">Modal</span>
+      <button class="vdr-modal-close" onclick="hideVDRModal()" title="Close">&#x2715;</button>
+    </div>
+    <div class="vdr-modal-body" id="vdrModalBody"></div>
+  </div>
+</div>
+
+<!-- Global Modal Slot (from app.js) -->
+<div id="modalSlot"></div>
+
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+<script>
+  // Industry & Type mappings for icons
+  const INDUSTRY_TYPES = {
+    'Healthcare':     { icon: 'activity',       label: 'Healthcare' },
+    'FinTech':        { icon: 'credit-card',    label: 'FinTech' },
+    'AI / Software':  { icon: 'cpu',            label: 'AI / Software' },
+    'Logistics':      { icon: 'truck',          label: 'Logistics' },
+    'CleanTech':      { icon: 'zap',            label: 'CleanTech' },
+    'Legal & Corp':   { icon: 'scale',          label: 'Legal & Corp' },
+    'General DD':     { icon: 'folder-lock',    label: 'General DD' }
+  };
+
+  let VDRs = [
+    {
+      id: 'vdr1',
+      name: 'Seed Round Due Diligence',
+      industry: 'Healthcare',
+      desc: 'Standard due diligence checklist for Pre-Seed and Seed stage companies.',
+      docs: 24,
+      sharedStartups: 5,
+      sharedNames: ['Alpha Health', 'NeuroPulse', 'EcoPulse', 'Apex AI', 'FinFlow'],
+      createdDate: 'Jan 12, 2026',
+      lastUpdated: '3 days ago',
+    },
+    {
+      id: 'vdr2',
+      name: 'Series A Package',
+      industry: 'Logistics',
+      desc: 'Comprehensive Series A due diligence package for logistics & mobility startups.',
+      docs: 31,
+      sharedStartups: 3,
+      sharedNames: ['LogiChain Labs', 'SkyTrack Mobility', 'BioCore'],
+      createdDate: 'Feb 5, 2026',
+      lastUpdated: '1 week ago',
+    },
+    {
+      id: 'vdr3',
+      name: 'Compliance Checklist',
+      industry: 'Legal & Corp',
+      desc: 'Regulatory and legal compliance verification documents for portfolio companies.',
+      docs: 18,
+      sharedStartups: 3,
+      sharedNames: ['FinFlow Tech', 'NovaPay', 'Apex AI'],
+      createdDate: 'Feb 18, 2026',
+      lastUpdated: '5 days ago',
+    },
+    {
+      id: 'vdr4',
+      name: 'Financial Health Review',
+      industry: 'FinTech',
+      desc: 'Financial review and auditing document checklist for FinTech startups.',
+      docs: 14,
+      sharedStartups: 0,
+      sharedNames: [],
+      createdDate: 'Mar 1, 2026',
+      lastUpdated: 'Today',
+    },
+  ];
+
+  let viewMode = 'grid';
+  let _pendingDeleteId = null;
+
+  document.addEventListener('DOMContentLoaded', () => { filterVDR(); });
+
+  /* ── LOCAL MODAL SYSTEM ── */
+  function showVDRModal(title, bodyHtml) {
+    document.getElementById('vdrModalTitle').textContent = title;
+    document.getElementById('vdrModalBody').innerHTML = bodyHtml;
+    document.getElementById('vdrModalBackdrop').style.display = 'flex';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+  function hideVDRModal() {
+    document.getElementById('vdrModalBackdrop').style.display = 'none';
+    document.getElementById('vdrModalBody').innerHTML = '';
+    _pendingDeleteId = null;
+  }
+  function handleBackdropClick(e) {
+    if (e.target === document.getElementById('vdrModalBackdrop')) hideVDRModal();
+  }
+
+  /* ── VIEW TOGGLE ── */
+  function setViewMode(mode) {
+    viewMode = mode;
+    const gridStyle = 'display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:4px;font-size:11px;cursor:pointer;font-family:Inter,sans-serif;';
+    document.getElementById('btnViewGrid').style.cssText = gridStyle + (mode === 'grid'
+      ? 'border:1px solid #C8C8C6;background:#FFFFFF;font-weight:700;color:#1A1A18;'
+      : 'border:none;background:transparent;font-weight:500;color:#7A7A78;');
+    document.getElementById('btnViewTable').style.cssText = gridStyle + (mode === 'table'
+      ? 'border:1px solid #C8C8C6;background:#FFFFFF;font-weight:700;color:#1A1A18;'
+      : 'border:none;background:transparent;font-weight:500;color:#7A7A78;');
+    filterVDR();
+  }
+
+  /* ── FILTER + SORT ── */
+  function filterVDR() {
+    const q = (document.getElementById('vdrSearch')?.value || '').toLowerCase();
+    const sort = document.getElementById('vdrSort')?.value || 'newest';
+
+    let list = VDRs.filter(v => {
+      if (q && !v.name.toLowerCase().includes(q) && !(v.industry || '').toLowerCase().includes(q)) return false;
+      return true;
+    });
+
+    if (sort === 'name')   list.sort((a,b) => a.name.localeCompare(b.name));
+    if (sort === 'docs')   list.sort((a,b) => b.docs - a.docs);
+    if (sort === 'shared') list.sort((a,b) => b.sharedStartups - a.sharedStartups);
+
+    renderVDR(list);
+  }
+
+  function getIconByIndustry(ind) {
+    return INDUSTRY_TYPES[ind]?.icon || 'folder-lock';
+  }
+
+  /* ── RENDER ── */
+  function renderVDR(list) {
+    const container = document.getElementById('vdrContainer');
+    const badge = document.getElementById('vdrCountBadge');
+    if (badge) badge.textContent = `${list.length} Data Room${list.length !== 1 ? 's' : ''}`;
+    if (!container) return;
+
+    if (!list.length) {
+      container.innerHTML = `
+        <div class="vdr-empty-state">
+          <i data-lucide="folder-lock" style="width:30px; height:30px; color:#B0B0AE; margin-bottom:10px;"></i>
+          <div style="font-size:13.5px; font-weight:800; color:#2A2A28; margin-bottom:4px;">No Data Rooms Found</div>
+          <p style="font-size:11.5px; color:#8C8C88; margin-bottom:14px;">No data rooms match your search. Try a different keyword or create one.</p>
+          <button class="btn btn-primary" onclick="openCreateVDR()" style="font-size:12px;">
+            <i data-lucide="plus" class="lucide-sm"></i> Create Data Room
+          </button>
+        </div>`;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    if (viewMode === 'grid') {
+      container.innerHTML = `
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">
+          ${list.map(v => {
+            const sharedText = v.sharedStartups > 0
+              ? `${v.sharedStartups} startup${v.sharedStartups !== 1 ? 's' : ''}`
+              : 'Not shared';
+            return `
+              <div class="vdr-card" onclick="navigateToDetail('${v.id}')">
+                <div class="vdr-card-header">
+                  <div style="display:flex; align-items:flex-start; gap:10px; flex:1; min-width:0;">
+                    <div class="vdr-icon-wrap">
+                      <i data-lucide="${getIconByIndustry(v.industry)}" style="width:17px; height:17px;"></i>
+                    </div>
+                    <div style="flex:1; min-width:0;">
+                      <div class="vdr-card-name">${v.name}</div>
+                      <div style="display:flex; align-items:center; gap:8px; margin-top:7px; font-size:11px; color:#5A5A58; font-weight:600; flex-wrap:nowrap; overflow:hidden;">
+                        <span style="display:inline-flex; align-items:center; gap:4px; white-space:nowrap;"><i data-lucide="file-text" style="width:11px; height:11px; color:#8A8A88; flex-shrink:0;"></i> ${v.docs} Docs</span>
+                        <span style="color:#D0D0CE; flex-shrink:0;">·</span>
+                        <span style="display:inline-flex; align-items:center; gap:4px; white-space:nowrap;"><i data-lucide="users" style="width:11px; height:11px; color:#8A8A88; flex-shrink:0;"></i> ${sharedText}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="vdr-type-tag">${(v.industry || 'GENERAL DD').toUpperCase()}</span>
+                </div>
+                <div class="vdr-card-footer">
+                  <div class="vdr-card-date">
+                    <i data-lucide="calendar" style="width:10px; height:10px;"></i>
+                    ${v.createdDate}
+                  </div>
+                  <div class="vdr-card-actions" onclick="event.stopPropagation()">
+                    <button class="vdr-action-btn" title="Share with startup" onclick="openShareVDR('${v.id}')">
+                      <i data-lucide="send" style="width:12px; height:12px;"></i>
+                    </button>
+                    <button class="vdr-action-btn" title="Edit data room" onclick="openEditVDR('${v.id}')">
+                      <i data-lucide="pencil" style="width:12px; height:12px;"></i>
+                    </button>
+                    <button class="vdr-action-btn danger" title="Delete data room" onclick="promptDeleteVDR('${v.id}')">
+                      <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    } else {
+      // TABLE VIEW
+      container.innerHTML = `
+        <div class="table-card">
+          <div class="table-toolbar">
+            <div class="table-toolbar-left">
+              <strong style="font-size:12.5px; color:var(--text-dark);">Data Room Register</strong>
+              <span class="badge-pill neutral-soft">${list.length} Room${list.length !== 1 ? 's' : ''}</span>
+            </div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Data Room</th>
+                <th>Industry</th>
+                <th>Documents</th>
+                <th>Shared Startups</th>
+                <th>Created</th>
+                <th>Last Updated</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${list.map(v => `
+                <tr onclick="navigateToDetail('${v.id}')">
+                  <td>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                      <div style="width:30px; height:30px; border-radius:6px; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; color:#3A3A38; flex-shrink:0;">
+                        <i data-lucide="${getIconByIndustry(v.industry)}" style="width:14px; height:14px;"></i>
+                      </div>
+                      <span style="font-weight:700; color:#1A1A18;">${v.name}</span>
+                    </div>
+                  </td>
+                  <td><span class="vdr-type-tag">${(v.industry || 'General DD').toUpperCase()}</span></td>
+                  <td style="font-weight:700; color:#1A1A18;">${v.docs}</td>
+                  <td style="font-weight:600; color:#3A3A38;">${v.sharedStartups > 0 ? v.sharedStartups + ' startups' : '—'}</td>
+                  <td style="color:#8C8C88;">${v.createdDate}</td>
+                  <td style="color:#8C8C88;">${v.lastUpdated}</td>
+                  <td style="text-align:right;" onclick="event.stopPropagation()">
+                    <div style="display:flex; justify-content:flex-end; gap:4px;">
+                      <button class="vdr-action-btn" title="Share" onclick="openShareVDR('${v.id}')">
+                        <i data-lucide="send" style="width:12px; height:12px;"></i>
+                      </button>
+                      <button class="vdr-action-btn" title="Edit" onclick="openEditVDR('${v.id}')">
+                        <i data-lucide="pencil" style="width:12px; height:12px;"></i>
+                      </button>
+                      <button class="vdr-action-btn danger" title="Delete" onclick="promptDeleteVDR('${v.id}')">
+                        <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <span>Data Room Register · Templates created for founder due diligence</span>
+            <span style="font-size:11px; color:#9A9A96;">${list.length} room${list.length !== 1 ? 's' : ''} total</span>
+          </div>
+        </div>
+      `;
+    }
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  /* ── NAVIGATION ── */
+  function navigateToDetail(id) {
+    window.location.href = `./vdr-detail.html?id=${id}`;
+  }
+
+  /* ── SHARE VDR MODAL ── */
+  function openShareVDR(id) {
+    const vdr = VDRs.find(v => v.id === id);
+    if (!vdr) return;
+
+    showVDRModal('Share Data Room', `
+      <p style="font-size:11.5px; color:#6A6A68; margin-bottom:14px;">Sharing <strong>${vdr.name}</strong> will send a secure invite link to the founder.</p>
+      <div class="field-group">
+        <div class="field-label">Select Startup</div>
+        <select id="shareStartupSelect" class="field-input field-select">
+          <option value="">Choose a startup...</option>
+          <option>Alpha Health</option>
+          <option>Apex AI</option>
+          <option>FinFlow Tech</option>
+          <option>LogiChain Labs</option>
+          <option>EcoPulse Energy</option>
+          <option>NeuroPulse Health</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Primary Contact Email</div>
+        <input id="shareEmail" class="field-input" placeholder="founder@startup.com" type="email" />
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-primary" onclick="confirmShare('${id}')">
+          <i data-lucide="send" style="width:12px; height:12px; display:inline;"></i> Send Invite
+        </button>
+      </div>
+    `);
+  }
+
+  function confirmShare(id) {
+    const startup = document.getElementById('shareStartupSelect')?.value;
+    if (!startup) {
+      if (window.showToast) window.showToast('Please select a startup to share with.', 'alert-circle');
+      return;
+    }
+    const vdr = VDRs.find(v => v.id === id);
+    if (vdr) { vdr.sharedStartups += 1; }
+    hideVDRModal();
+    filterVDR();
+    if (window.showToast) window.showToast(`Data room shared with ${startup}!`);
+  }
+
+  /* ── EDIT VDR MODAL ── */
+  function openEditVDR(id) {
+    const vdr = VDRs.find(v => v.id === id);
+    if (!vdr) return;
+
+    showVDRModal('Edit Data Room', `
+      <div class="field-group">
+        <div class="field-label">Room Name</div>
+        <input id="editVdrName" class="field-input" value="${vdr.name}" placeholder="Room name..." />
+      </div>
+      <div class="field-group">
+        <div class="field-label">Industry / Sector</div>
+        <select id="editVdrIndustry" class="field-input field-select">
+          ${Object.keys(INDUSTRY_TYPES).map(ind => `<option value="${ind}" ${vdr.industry === ind ? 'selected' : ''}>${ind}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Description (Optional)</div>
+        <textarea id="editVdrDesc" class="field-input" rows="2" placeholder="Brief internal description...">${vdr.desc || ''}</textarea>
+      </div>
+      <div class="vdr-modal-footer-split">
+        <button class="btn-modal-danger" onclick="promptDeleteVDR('${id}', true)">Delete Room</button>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+          <button class="btn-modal-primary" onclick="saveEditVDR('${id}')">Save Changes</button>
+        </div>
+      </div>
+    `);
+  }
+
+  function saveEditVDR(id) {
+    const vdr = VDRs.find(v => v.id === id);
+    if (!vdr) return;
+    const name = document.getElementById('editVdrName')?.value?.trim();
+    if (!name) {
+      if (window.showToast) window.showToast('Room name cannot be empty.', 'alert-circle');
+      return;
+    }
+    vdr.name = name;
+    vdr.industry = document.getElementById('editVdrIndustry')?.value || vdr.industry;
+    vdr.desc = document.getElementById('editVdrDesc')?.value || '';
+    hideVDRModal();
+    filterVDR();
+    if (window.showToast) window.showToast(`Data room "${vdr.name}" updated`);
+  }
+
+  /* ── DELETE VDR MODAL ── */
+  function promptDeleteVDR(id, fromEdit = false) {
+    const vdr = VDRs.find(v => v.id === id);
+    if (!vdr) return;
+    _pendingDeleteId = id;
+
+    showVDRModal('Delete Data Room', `
+      <div style="text-align:center; padding:8px 0 4px;">
+        <div style="width:44px; height:44px; border-radius:50%; background:#FEF2F2; border:1px solid #FECACA; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+          <i data-lucide="trash-2" style="width:20px; height:20px; color:#DC2626;"></i>
+        </div>
+        <div style="font-size:13px; font-weight:800; color:#1A1A18; margin-bottom:6px;">Delete "${vdr.name}"?</div>
+        <p style="font-size:11.5px; color:#6A6A68; line-height:1.5;">
+          This will permanently remove the data room and all its document structure. This action cannot be undone.
+        </p>
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="${fromEdit ? `openEditVDR('${id}')` : 'hideVDRModal()'}">Cancel</button>
+        <button class="btn-modal-danger" onclick="confirmDeleteVDR()">Yes, Delete Room</button>
+      </div>
+    `);
+  }
+
+  function confirmDeleteVDR() {
+    const id = _pendingDeleteId;
+    const vdr = VDRs.find(v => v.id === id);
+    const name = vdr?.name || 'Data room';
+    VDRs = VDRs.filter(v => v.id !== id);
+    hideVDRModal();
+    filterVDR();
+    if (window.showToast) window.showToast(`"${name}" deleted`);
+  }
+
+  /* ── CREATE VDR MODAL ── */
+  function openCreateVDR() {
+    showVDRModal('Create New Data Room', `
+      <div class="field-group">
+        <div class="field-label">Room Name <span style="color:#DC2626;">*</span></div>
+        <input id="newVdrName" class="field-input" placeholder="e.g. Healthcare Due Diligence Package" />
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Industry / Sector</div>
+        <select id="newVdrIndustry" class="field-input field-select">
+          ${Object.keys(INDUSTRY_TYPES).map(ind => `<option value="${ind}">${ind}</option>`).join('')}
+        </select>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Description (Optional)</div>
+        <textarea id="newVdrDesc" class="field-input" rows="2" placeholder="Brief internal description for this data room..."></textarea>
+      </div>
+
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-primary" onclick="createVDR()">Create Data Room</button>
+      </div>
+    `);
+    // Auto-focus name field
+    setTimeout(() => document.getElementById('newVdrName')?.focus(), 80);
+  }
+
+  function createVDR() {
+    const name = document.getElementById('newVdrName')?.value?.trim();
+    if (!name) {
+      if (window.showToast) window.showToast('Please enter a room name.', 'alert-circle');
+      document.getElementById('newVdrName')?.focus();
+      return;
+    }
+    const industry = document.getElementById('newVdrIndustry')?.value || 'General DD';
+    const desc = document.getElementById('newVdrDesc')?.value?.trim() || '';
+    const today = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+
+    VDRs.unshift({
+      id: 'vdr' + Date.now(),
+      name,
+      industry,
+      desc,
+      docs: 0,
+      sharedStartups: 0,
+      sharedNames: [],
+      createdDate: today,
+      lastUpdated: 'Just now',
+    });
+    hideVDRModal();
+    filterVDR();
+    if (window.showToast) window.showToast(`Data room "${name}" created successfully`);
+  }
+</script>
+</body>
+</html>

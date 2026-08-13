@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Founder Intake Form Builder — Seedicon Investor Platform</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Surface Table & Builder Custom UI Styles */
+    .builder-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 12.5px;
+    }
+    .builder-table th {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border-main);
+      background: var(--bg-sidebar);
+      text-align: left;
+    }
+    .builder-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border-faint);
+      vertical-align: middle;
+      background: #FFFFFF;
+    }
+    .builder-table tr:hover td {
+      background: #FAFAFA;
+    }
+    .builder-input {
+      width: 100%;
+      padding: 6px 10px;
+      border: 1px solid var(--border-strong);
+      border-radius: 5px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--text-dark);
+      background: #FFFFFF;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .builder-input:focus {
+      border-color: var(--accent-graphite);
+      box-shadow: 0 0 0 2px rgba(58, 58, 56, 0.08);
+    }
+    .sec-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      font-size: 12.5px;
+    }
+    .sec-item:hover {
+      background: var(--bg-muted);
+    }
+    .sec-item.active {
+      background: #FFFFFF;
+      font-weight: 700;
+      color: var(--text-dark);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border-left: 3px solid var(--accent-graphite);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- App Header Navbar Slot -->
+    <div id="appHeaderSlot"></div>
+
+    <div class="main-workspace" style="display:flex; flex-direction:row;">
+      <!-- Tiny Icon Sidebar Slot -->
+      <div id="tinySidebarSlot"></div>
+
+      <!-- Main Navigation Sidebar Slot -->
+      <div id="mainSidebarSlot"></div>
+
+      <!-- Main Page Canvas Content (FULL NATURAL SCROLL FOR MAXIMUM PREVIEW VIEWABILITY) -->
+      <main class="content-scrollable" style="padding:0; display:flex; flex-direction:column; background:#F8F8F6; overflow-y:auto;">
+        
+        <!-- PAGE TOP EXECUTIVE ACTION BAR (COMPACT HEIGHT) -->
+        <header style="padding:10px 24px; background:#FFFFFF; border-bottom:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; position:sticky; top:0; z-index:10;">
+          <div>
+            <h1 style="font-size:17px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em;">Founder Intake Link &amp; Submission Builder</h1>
+          </div>
+
+          <!-- Top Mode Switcher & Actions -->
+          <div style="display:flex; align-items:center; gap:10px;">
+            <!-- Segmented View Mode Switcher -->
+            <div style="display:flex; background:var(--bg-muted); padding:3px; border-radius:7px; border:1px solid var(--border-main);">
+              <button class="btn btn-sm" id="btnModeBuilder" onclick="setBuilderMode('builder')" style="background:#FFFFFF; border:1px solid var(--border-strong); font-weight:700; color:var(--text-dark);">
+                <i data-lucide="sliders" class="lucide-sm"></i>
+                <span>Builder</span>
+              </button>
+              <button class="btn btn-sm" id="btnModePreview" onclick="setBuilderMode('preview')" style="background:transparent; border:none; color:var(--text-muted); font-weight:500;">
+                <i data-lucide="eye" class="lucide-sm"></i>
+                <span>Founder Preview</span>
+              </button>
+            </div>
+
+            <button class="btn btn-outline" onclick="resetToDefaultTemplate()" style="font-size:12px;" title="Reset back to default template">
+              <i data-lucide="rotate-ccw" class="lucide-sm"></i>
+              <span>Reset</span>
+            </button>
+
+            <button class="btn btn-outline" onclick="saveTemplate()">
+              <i data-lucide="save" class="lucide-sm"></i>
+              <span>Save Template</span>
+            </button>
+
+            <button class="btn btn-primary" onclick="openShareModal()">
+              <i data-lucide="share-2" class="lucide-sm"></i>
+              <span>Share Intake Link</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- SUB-HEADER SUMMARY STRIP -->
+        <div style="padding:6px 24px; background:var(--bg-sidebar); border-bottom:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between; font-size:11.5px; color:var(--text-muted); flex-shrink:0;">
+          <div style="display:flex; align-items:center; gap:16px;">
+            <span style="font-weight:700; color:var(--text-dark);" id="summaryCounts">13 Sections · 68 Fields · 34 Required</span>
+            <span>•</span>
+            <span style="display:flex; align-items:center; gap:5px;">
+              <i data-lucide="shield-check" class="lucide-sm" style="color:#2D5A2D;"></i>
+              <span>System-Generated Metadata (Submission Date, Uploaded On, ID, Status) Auto-Tracked</span>
+            </span>
+          </div>
+
+          <div style="font-size:11px; color:var(--text-light);">
+            Inbound applications automatically stream into <strong>Startups Pool</strong>
+          </div>
+        </div>
+
+        <!-- MAIN BUILDER / PREVIEW CANVAS WORKSPACE (FULL HEIGHT NATURAL FLOW) -->
+        <div id="intakeCanvas" style="padding:20px 24px;">
+          <!-- Dynamic Content Rendered Here -->
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Global Modal Slot -->
+  <div id="modalSlot"></div>
+
+  <!-- SCRIPTS -->
+  <script src="./js/components.js"></script>
+  <script src="./js/app.js"></script>
+  <script>
+    // PREDEFINED COMPREHENSIVE STARTUP DUE DILIGENCE TEMPLATE DATA
+    const INITIAL_TEMPLATE = [
+      {
+        id: 'sec_overview',
+        title: 'Company Overview',
+        enabled: true,
+        desc: 'Basic company information, sector, location, and social links.',
+        fields: [
+          { name: 'Overview', type: 'longtext', req: true, placeholder: 'Short pitch summary of company mission...' },
+          { name: 'Industry/Sector', type: 'select', req: true, options: ['Healthcare', 'FinTech', 'SaaS', 'AI / ML', 'CleanTech', 'Consumer Tech'] },
+          { name: 'Company Website', type: 'text', req: true, placeholder: 'https://www.company.io' },
+          { name: 'Company LinkedIn', type: 'text', req: true, placeholder: 'https://linkedin.com/company/...' },
+          { name: 'Social Links', type: 'text', req: false, placeholder: 'Twitter/X, Instagram links...' },
+          { name: 'Incorporation Date', type: 'date', req: true, placeholder: 'YYYY-MM-DD' },
+          { name: 'Stage', type: 'select', req: true, options: ['Idea', 'Pre-Seed', 'Seed', 'Series A', 'Series B+'] },
+          { name: 'Company Email', type: 'email', req: true, placeholder: 'contact@company.com' },
+          { name: 'Location', type: 'text', req: true, placeholder: 'San Francisco, CA / Bengaluru, India' },
+          { name: 'Organization Size', type: 'select', req: true, options: ['1-10 employees', '11-50 employees', '51-200 employees', '200+ employees'] }
+        ]
+      },
+      {
+        id: 'sec_metrics',
+        title: 'Key Metrics & Fundraising',
+        enabled: true,
+        desc: 'Current fundraising ask, amount raised so far, and dilution terms.',
+        fields: [
+          { name: 'Funding Target', type: 'number', req: true, placeholder: 'e.g. 5.00 (Crore / $M)' },
+          { name: 'Raised So Far', type: 'number', req: true, placeholder: 'e.g. 2.00 (Crore / $M)' },
+          { name: 'Ask Amount', type: 'number', req: true, placeholder: 'e.g. 3.00 (Crore / $M)' },
+          { name: 'Equity Dilution', type: 'text', req: true, placeholder: 'e.g. 15%' },
+          { name: 'Debt Ask', type: 'number', req: false, placeholder: 'Optional debt component' },
+          { name: 'Debt Tenure', type: 'text', req: false, placeholder: 'e.g. 36 Months' }
+        ]
+      },
+      {
+        id: 'sec_pitch',
+        title: 'Pitch & Product',
+        enabled: true,
+        desc: 'Pitch deck presentation and video product demo link.',
+        fields: [
+          { name: 'Pitch Deck', type: 'file', req: true, placeholder: 'Upload PDF Pitch Deck (Max 25MB)' },
+          { name: 'Product Demo', type: 'text', req: false, placeholder: 'Loom video or demo URL' }
+        ]
+      },
+      {
+        id: 'sec_journey',
+        title: 'Funding Journey',
+        enabled: true,
+        desc: 'Historical funding rounds, valuation caps, and key investors.',
+        fields: [
+          { name: 'Round Name', type: 'text', req: true, placeholder: 'Pre-Seed / Seed' },
+          { name: 'Date', type: 'date', req: true, placeholder: '' },
+          { name: 'Amount Raised', type: 'number', req: true, placeholder: 'Amount' },
+          { name: 'Valuation', type: 'number', req: true, placeholder: 'Post-money valuation' },
+          { name: 'Investors', type: 'text', req: true, placeholder: 'Lead investors / Angels' },
+          { name: 'Use of Funds', type: 'longtext', req: false, placeholder: 'Key allocation breakdown' }
+        ]
+      },
+      {
+        id: 'sec_docs',
+        title: 'Documents',
+        enabled: true,
+        desc: 'Legal incorporation documents, compliance certificates, and financial audits.',
+        fields: [
+          { name: 'Certificate of Incorporation', type: 'file', req: true, placeholder: 'Upload PDF' },
+          { name: 'Memorandum of Association', type: 'file', req: true, placeholder: 'Upload PDF' },
+          { name: 'Audited Financials', type: 'file', req: true, placeholder: 'Upload PDF' },
+          { name: 'Shareholder Agreement', type: 'file', req: false, placeholder: 'Upload PDF' },
+          { name: 'DPIIT Certificate', type: 'file', req: false, placeholder: 'Upload Startup India PDF' },
+          { name: 'Additional Documents', type: 'file', req: false, placeholder: 'Any extra DD files' }
+        ]
+      },
+      {
+        id: 'sec_employees',
+        title: 'Employees & Organization',
+        enabled: true,
+        desc: 'Headcount distribution, tenure, and full-time team structure.',
+        fields: [
+          { name: 'Total Employees', type: 'number', req: true, placeholder: '15' },
+          { name: 'Full-Time', type: 'number', req: true, placeholder: '12' },
+          { name: 'Part-Time / Contract', type: 'number', req: false, placeholder: '3' },
+          { name: 'Average Tenure', type: 'text', req: false, placeholder: '2.5 Years' },
+          { name: 'Department-wise Headcount', type: 'longtext', req: false, placeholder: 'Engineering: 8, Sales: 4, Operations: 3' }
+        ]
+      },
+      {
+        id: 'sec_board',
+        title: 'Board Members & Signatories',
+        enabled: true,
+        desc: 'Board of directors and authorized company signatories.',
+        fields: [
+          { name: 'Name', type: 'text', req: true, placeholder: 'Director Name' },
+          { name: 'Designation', type: 'text', req: true, placeholder: 'Founder & CEO / Director' },
+          { name: 'DIN', type: 'text', req: true, placeholder: 'Director Identification Number' },
+          { name: 'Authorised Signatory', type: 'select', req: true, options: ['Yes', 'No'] }
+        ]
+      },
+      {
+        id: 'sec_financials',
+        title: 'Financials',
+        enabled: true,
+        desc: 'Key revenue figures, EBITDA, gross margin, and monthly burn rate.',
+        fields: [
+          { name: 'Revenue', type: 'number', req: true, placeholder: 'ARR / Annual Revenue' },
+          { name: 'Gross Profit', type: 'number', req: true, placeholder: 'Gross profit' },
+          { name: 'EBITDA', type: 'number', req: true, placeholder: 'EBITDA' },
+          { name: 'Net Profit/Loss', type: 'number', req: true, placeholder: 'Net P&L' },
+          { name: 'Monthly Burn Rate', type: 'number', req: true, placeholder: 'Monthly burn' },
+          { name: 'Financial Year', type: 'select', req: true, options: ['FY 2025-26', 'FY 2024-25', 'FY 2023-24'] }
+        ]
+      },
+      {
+        id: 'sec_loans',
+        title: 'Loans & Charges',
+        enabled: true,
+        desc: 'Outstanding bank loans, venture debt, or MCA registered charges.',
+        fields: [
+          { name: 'Existing Debt / Loans', type: 'text', req: false, placeholder: 'Bank loan / Venture Debt' },
+          { name: 'Charge Holder', type: 'text', req: false, placeholder: 'Lender / Institution' },
+          { name: 'Outstanding Amount', type: 'number', req: false, placeholder: 'Outstanding' },
+          { name: 'Maturity Date', type: 'date', req: false, placeholder: '' }
+        ]
+      },
+      {
+        id: 'sec_legal',
+        title: 'Legal & Compliance',
+        enabled: true,
+        desc: 'GSTIN, PAN, statutory filings, and legal litigation status.',
+        fields: [
+          { name: 'Legal Cases', type: 'text', req: true, placeholder: 'None / Details of pending litigation' },
+          { name: 'GSTIN', type: 'text', req: true, placeholder: 'GST Identification Number' },
+          { name: 'PAN', type: 'text', req: true, placeholder: 'Permanent Account Number' },
+          { name: 'Registration Date', type: 'date', req: true, placeholder: '' },
+          { name: 'Jurisdiction', type: 'text', req: true, placeholder: 'State / Authority' },
+          { name: 'Filing Status', type: 'select', req: true, options: ['Up-to-Date', 'Pending Filing'] },
+          { name: 'Last Filed Return', type: 'text', req: true, placeholder: 'Month / FY' }
+        ]
+      },
+      {
+        id: 'sec_captable',
+        title: 'Cap Table',
+        enabled: true,
+        desc: 'Equity distribution and shareholder ownership percentage.',
+        fields: [
+          { name: 'Shareholder', type: 'text', req: true, placeholder: 'Shareholder / Founder Name' },
+          { name: 'Type', type: 'select', req: true, options: ['Founder', 'Investor', 'ESOP Pool', 'Advisor'] },
+          { name: 'Shares', type: 'number', req: true, placeholder: 'Number of shares' },
+          { name: 'Ownership %', type: 'text', req: true, placeholder: 'e.g. 45.5%' }
+        ]
+      },
+      {
+        id: 'sec_ip',
+        title: 'Intellectual Property',
+        enabled: true,
+        desc: 'Trademarks, patents, and proprietary technology assets.',
+        fields: [
+          { name: 'Trademarks', type: 'text', req: false, placeholder: 'Registered brand trademarks' },
+          { name: 'Patents', type: 'text', req: false, placeholder: 'Filed or granted patents' }
+        ]
+      },
+      {
+        id: 'sec_competitors',
+        title: 'Competitors',
+        enabled: true,
+        desc: 'Key market competitors, websites, and comparative positioning.',
+        fields: [
+          { name: 'Company', type: 'text', req: false, placeholder: 'Competitor Name' },
+          { name: 'Website', type: 'text', req: false, placeholder: 'https://...' },
+          { name: 'Location', type: 'text', req: false, placeholder: 'Headquarters' },
+          { name: 'Founded Year', type: 'number', req: false, placeholder: 'YYYY' },
+          { name: 'Stage', type: 'text', req: false, placeholder: 'e.g. Series C' },
+          { name: 'Revenue', type: 'text', req: false, placeholder: 'Estimated ARR' }
+        ]
+      }
+    ];
+
+    let TEMPLATE = JSON.parse(JSON.stringify(INITIAL_TEMPLATE));
+    let activeMode = 'builder'; // 'builder' | 'preview'
+    let activeSecIdx = 0;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderWorkspace();
+    });
+
+    function setBuilderMode(mode) {
+      activeMode = mode;
+      const bBtn = document.getElementById('btnModeBuilder');
+      const pBtn = document.getElementById('btnModePreview');
+
+      if (mode === 'builder') {
+        bBtn.style.background = '#FFFFFF';
+        bBtn.style.border = '1px solid var(--border-strong)';
+        bBtn.style.color = 'var(--text-dark)';
+        bBtn.style.fontWeight = '700';
+
+        pBtn.style.background = 'transparent';
+        pBtn.style.border = 'none';
+        pBtn.style.color = 'var(--text-muted)';
+        pBtn.style.fontWeight = '500';
+      } else {
+        pBtn.style.background = '#FFFFFF';
+        pBtn.style.border = '1px solid var(--border-strong)';
+        pBtn.style.color = 'var(--text-dark)';
+        pBtn.style.fontWeight = '700';
+
+        bBtn.style.background = 'transparent';
+        bBtn.style.border = 'none';
+        bBtn.style.color = 'var(--text-muted)';
+        bBtn.style.fontWeight = '500';
+      }
+
+      renderWorkspace();
+    }
+
+    function updateCounts() {
+      const enabledSecs = TEMPLATE.filter(s => s.enabled);
+      let totalFields = 0;
+      let reqFields = 0;
+
+      enabledSecs.forEach(s => {
+        totalFields += s.fields.length;
+        reqFields += s.fields.filter(f => f.req).length;
+      });
+
+      const counts = document.getElementById('summaryCounts');
+      if (counts) {
+        counts.textContent = `${enabledSecs.length} Sections · ${totalFields} Fields · ${reqFields} Required`;
+      }
+    }
+
+    function renderWorkspace() {
+      updateCounts();
+      const canvas = document.getElementById('intakeCanvas');
+      if (!canvas) return;
+
+      if (activeMode === 'builder') {
+        renderBuilderWorkspace(canvas);
+      } else {
+        renderPreviewWorkspace(canvas);
+      }
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // ------------------------------------------------------------------------
+    // BUILDER MODE WORKSPACE (SURFACE TABLE HIGH-DENSITY STICKY RAIL)
+    // ------------------------------------------------------------------------
+    function renderBuilderWorkspace(container) {
+      const sec = TEMPLATE[activeSecIdx] || TEMPLATE[0];
+
+      container.innerHTML = `
+        <div style="display:grid; grid-template-columns:260px 1fr; gap:16px; align-items:start;">
+          
+          <!-- LEFT SIDEBAR: SECTION LIST (STICKY PINNED RAIL) -->
+          <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:8px; padding:12px; display:flex; flex-direction:column; gap:8px; position:sticky; top:16px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:8px; border-bottom:1px solid var(--border-main);">
+              <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted);">SECTIONS (${TEMPLATE.length})</span>
+              <button class="btn btn-outline btn-sm" onclick="addCustomSection()" title="Add custom section" style="padding:2px 8px; font-size:11px;">
+                <i data-lucide="plus" class="lucide-sm"></i>
+                <span>+ Section</span>
+              </button>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:2px; max-height:calc(100vh - 180px); overflow-y:auto;">
+              ${TEMPLATE.map((s, idx) => `
+                <div onclick="selectSection(${idx})" class="sec-item ${idx === activeSecIdx ? 'active' : ''}">
+                  <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1;">
+                    <input type="checkbox" ${s.enabled ? 'checked' : ''} onclick="event.stopPropagation(); toggleSection(${idx})" title="Enable/Disable Section" style="accent-color:var(--accent-graphite); cursor:pointer;" />
+                    <span style="color:${s.enabled ? 'var(--text-dark)' : 'var(--text-light)'}; text-decoration:${s.enabled ? 'none' : 'line-through'}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                      ${s.title}
+                    </span>
+                  </div>
+                  <span class="badge-pill neutral-soft" style="font-size:10px; padding:1px 6px;">${s.fields.length}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- RIGHT CANVAS: ACTIVE SECTION SURFACE FIELD TABLE -->
+          <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:8px; padding:18px; display:flex; flex-direction:column; gap:16px;">
+            
+            <!-- SECTION HEADER CONTROLS -->
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; border-bottom:1px solid var(--border-main); padding-bottom:12px;">
+              <div style="flex:1; margin-right:16px;">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
+                  <input type="text" value="${sec.title}" onchange="renameSection(${activeSecIdx}, this.value)" style="font-size:16px; font-weight:800; color:var(--text-dark); border:none; background:transparent; outline:none; border-bottom:1px solid transparent; transition:border-color 0.15s; width:280px;" onfocus="this.style.borderColor='var(--accent-graphite)'" onblur="this.style.borderColor='transparent'" title="Click to edit section title" />
+                  <span class="badge-pill ${sec.enabled ? 'neutral-dark' : 'neutral-soft'}" style="font-size:10.5px;">${sec.enabled ? 'Section Enabled' : 'Section Disabled'}</span>
+                </div>
+                <input type="text" value="${sec.desc}" onchange="updateSectionDesc(${activeSecIdx}, this.value)" style="font-size:12px; color:var(--text-muted); border:none; background:transparent; outline:none; width:100%;" placeholder="Section instructions for founder..." />
+              </div>
+
+              <div style="display:flex; align-items:center; gap:8px;">
+                <button class="btn btn-outline btn-sm" onclick="moveSection(${activeSecIdx}, -1)" ${activeSecIdx === 0 ? 'disabled' : ''} title="Move Section Up" style="padding:4px 8px;">
+                  <i data-lucide="arrow-up" class="lucide-sm"></i>
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="moveSection(${activeSecIdx}, 1)" ${activeSecIdx === TEMPLATE.length - 1 ? 'disabled' : ''} title="Move Section Down" style="padding:4px 8px;">
+                  <i data-lucide="arrow-down" class="lucide-sm"></i>
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="addFieldToSection(${activeSecIdx})">
+                  <i data-lucide="plus" class="lucide-sm"></i>
+                  <span>Add Field</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- SURFACE TABLE GRID FOR SECTION FIELDS -->
+            <div>
+              <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin-bottom:8px;">
+                SECTION FIELDS (${sec.fields.length})
+              </div>
+
+              <table class="builder-table">
+                <thead>
+                  <tr>
+                    <th style="width:30px; text-align:center;">#</th>
+                    <th style="width:200px;">Field Label</th>
+                    <th style="width:140px;">Input Type</th>
+                    <th>Placeholder / Hint for Founder</th>
+                    <th style="width:90px; text-align:center;">Required</th>
+                    <th style="width:90px; text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${sec.fields.map((f, fIdx) => `
+                    <tr>
+                      <td style="text-align:center; color:var(--text-light);">
+                        <i data-lucide="grip-vertical" class="lucide-sm" style="cursor:grab;"></i>
+                      </td>
+                      
+                      <td>
+                        <input type="text" value="${f.name}" onchange="updateFieldName(${activeSecIdx}, ${fIdx}, this.value)" class="builder-input" style="font-weight:600;" placeholder="Field Label" />
+                      </td>
+
+                      <td>
+                        <select onchange="updateFieldType(${activeSecIdx}, ${fIdx}, this.value)" class="builder-input">
+                          <option value="text" ${f.type === 'text' ? 'selected' : ''}>Short Text</option>
+                          <option value="longtext" ${f.type === 'longtext' ? 'selected' : ''}>Long Text</option>
+                          <option value="number" ${f.type === 'number' ? 'selected' : ''}>Number / Currency</option>
+                          <option value="date" ${f.type === 'date' ? 'selected' : ''}>Date</option>
+                          <option value="file" ${f.type === 'file' ? 'selected' : ''}>File Upload (PDF)</option>
+                          <option value="select" ${f.type === 'select' ? 'selected' : ''}>Dropdown Select</option>
+                          <option value="email" ${f.type === 'email' ? 'selected' : ''}>Email Address</option>
+                        </select>
+                      </td>
+
+                      <td>
+                        <input type="text" value="${f.placeholder || ''}" onchange="updateFieldPlaceholder(${activeSecIdx}, ${fIdx}, this.value)" class="builder-input" style="color:var(--text-muted);" placeholder="Placeholder hint..." />
+                      </td>
+
+                      <td style="text-align:center;">
+                        <label style="display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; color:var(--text-dark); cursor:pointer;">
+                          <input type="checkbox" ${f.req ? 'checked' : ''} onchange="toggleFieldRequired(${activeSecIdx}, ${fIdx})" style="accent-color:var(--accent-graphite);" />
+                          <span>Yes</span>
+                        </label>
+                      </td>
+
+                      <td style="text-align:right;">
+                        <div style="display:inline-flex; gap:3px;">
+                          <button class="btn btn-outline btn-sm" onclick="moveField(${activeSecIdx}, ${fIdx}, -1)" ${fIdx === 0 ? 'disabled' : ''} style="padding:2px 5px;"><i data-lucide="chevron-up" class="lucide-sm"></i></button>
+                          <button class="btn btn-outline btn-sm" onclick="moveField(${activeSecIdx}, ${fIdx}, 1)" ${fIdx === sec.fields.length - 1 ? 'disabled' : ''} style="padding:2px 5px;"><i data-lucide="chevron-down" class="lucide-sm"></i></button>
+                          <button class="btn btn-outline btn-sm" onclick="deleteField(${activeSecIdx}, ${fIdx})" style="padding:2px 5px; color:#8C2D2D;" title="Delete Field">
+                            <i data-lucide="trash-2" class="lucide-sm"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+
+            <!-- SYSTEM-GENERATED METADATA BANNER -->
+            <div style="background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:10px 14px; margin-top:4px; display:flex; align-items:center; justify-space-between; font-size:11.5px; color:var(--text-muted);">
+              <div>
+                <strong style="color:var(--text-dark);">⚡ System-Generated Metadata:</strong> 
+                These tracking fields are automatically appended upon founder submission: 
+                <em>Submission Date · Uploaded On · Submission ID (#SUB-2026) · Intake Source · Status (Inbound) · Last Updated</em>.
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      `;
+    }
+
+    // ------------------------------------------------------------------------
+    // FOUNDER LIVE PREVIEW WORKSPACE (FULL NATURAL SCROLL WITH STICKY NAV RAIL)
+    // ------------------------------------------------------------------------
+    function renderPreviewWorkspace(container) {
+      const enabledSecs = TEMPLATE.filter(s => s.enabled);
+
+      container.innerHTML = `
+        <div style="max-width:1100px; margin:0 auto; background:#FFFFFF; border:1px solid var(--border-main); border-radius:10px; box-shadow:0 4px 20px rgba(0,0,0,0.04); overflow:hidden;">
+          
+          <!-- FOUNDER FORM HEADER -->
+          <div style="padding:20px 28px; background:var(--bg-sidebar); border-bottom:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <div style="width:30px; height:30px; background:var(--accent-graphite); color:#FFFFFF; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px;">SV</div>
+                <h2 style="font-size:17px; font-weight:800; color:var(--text-dark);">Seedicon Venture Fund I — Founder Application</h2>
+              </div>
+              <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">
+                Please complete your company due-diligence profile to submit for investment evaluation.
+              </p>
+            </div>
+            <span class="badge-pill neutral-dark" style="font-size:11px; padding:3px 10px;">Founder Live Preview Mode</span>
+          </div>
+
+          <!-- FORM BODY GRID (LEFT STICKY SECTION RAIL + FULL UNCLIPPED RIGHT FORM CONTENT) -->
+          <div style="display:grid; grid-template-columns:240px 1fr; align-items:start;">
+            
+            <!-- LEFT SECTION NAVIGATION RAIL (STICKY PINNED) -->
+            <div style="border-right:1px solid var(--border-main); padding:18px; background:#FAFAFA; position:sticky; top:60px; max-height:calc(100vh - 120px); overflow-y:auto;">
+              <div style="font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin-bottom:10px;">
+                FORM SECTIONS
+              </div>
+
+              <div style="display:flex; flex-direction:column; gap:4px;">
+                ${enabledSecs.map((s, idx) => `
+                  <a href="#preview_sec_${s.id}" class="preview-rail-item ${idx === 0 ? 'active' : ''}" onclick="selectPreviewRail(this)" style="display:flex; align-items:center; gap:8px; padding:7px 10px; border-radius:6px; font-size:12px; font-weight:${idx === 0 ? '700' : '500'}; color:${idx === 0 ? 'var(--text-dark)' : 'var(--text-muted)'}; text-decoration:none; background:${idx === 0 ? 'var(--bg-muted)' : 'transparent'}; transition:all 0.12s ease;">
+                    <span style="width:6px; height:6px; border-radius:50%; background:${idx === 0 ? 'var(--accent-graphite)' : 'var(--border-strong)'};"></span>
+                    <span>${s.title}</span>
+                  </a>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- RIGHT FORM FIELDS CONTENT (UNLIMITED NATURAL FULL SCROLL) -->
+            <div style="padding:24px 32px; display:flex; flex-direction:column; gap:32px;">
+              ${enabledSecs.map((s) => `
+                <div id="preview_sec_${s.id}" style="display:flex; flex-direction:column; gap:14px; border-bottom:1px solid var(--border-faint); padding-bottom:24px;">
+                  <div>
+                    <h3 style="font-size:15px; font-weight:800; color:var(--text-dark);">${s.title}</h3>
+                    <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">${s.desc}</p>
+                  </div>
+
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+                    ${s.fields.map(f => `
+                      <div style="${f.type === 'longtext' || f.type === 'file' ? 'grid-column:1 / -1;' : ''}">
+                        <label class="form-label" style="display:flex; align-items:center; justify-content:space-between; font-size:11px; margin-bottom:4px;">
+                          <span>${f.name.toUpperCase()} ${f.req ? '<span style="color:#8C2D2D;">*</span>' : ''}</span>
+                        </label>
+                        ${renderFieldInputHtml(f)}
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              `).join('')}
+
+              <!-- SUBMIT BUTTON -->
+              <div style="display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px solid var(--border-main); margin-bottom:20px;">
+                <span style="font-size:12px; color:var(--text-muted);">
+                  All submitted data streams directly into the Seedicon Investment Committee deal room.
+                </span>
+                <button class="btn btn-primary" onclick="simulateFounderSubmission()" style="padding:9px 22px; font-weight:700; font-size:13px;">
+                  <i data-lucide="send" class="lucide-sm"></i>
+                  <span>Submit Startup Application</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      `;
+    }
+
+    function renderFieldInputHtml(f) {
+      if (f.type === 'longtext') {
+        return `<textarea class="form-input" style="min-height:64px;" placeholder="${f.placeholder || ''}"></textarea>`;
+      } else if (f.type === 'file') {
+        return `
+          <div style="border:1.5px dashed var(--border-strong); border-radius:6px; padding:14px; text-align:center; background:var(--bg-sidebar); cursor:pointer;">
+            <i data-lucide="upload-cloud" style="color:var(--text-muted); margin-bottom:4px;" class="lucide-sm"></i>
+            <div style="font-size:12px; font-weight:600; color:var(--text-dark);">${f.placeholder || 'Click or drag PDF document to upload'}</div>
+            <div style="font-size:10.5px; color:var(--text-light); margin-top:2px;">PDF, DOCX, XLSX up to 25MB</div>
+          </div>`;
+      } else if (f.type === 'select') {
+        return `
+          <select class="form-input">
+            <option value="">Select option...</option>
+            ${(f.options || ['Option 1', 'Option 2']).map(o => `<option value="${o}">${o}</option>`).join('')}
+          </select>`;
+      } else {
+        return `<input type="${f.type === 'number' ? 'number' : (f.type === 'date' ? 'date' : 'text')}" class="form-input" placeholder="${f.placeholder || ''}" />`;
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // BUILDER STATE MUTATIONS
+    // ------------------------------------------------------------------------
+    function selectSection(idx) {
+      activeSecIdx = idx;
+      renderWorkspace();
+    }
+
+    function toggleSection(idx) {
+      TEMPLATE[idx].enabled = !TEMPLATE[idx].enabled;
+      renderWorkspace();
+    }
+
+    function renameSection(idx, val) {
+      if (val.trim()) TEMPLATE[idx].title = val.trim();
+      updateCounts();
+    }
+
+    function updateSectionDesc(idx, val) {
+      TEMPLATE[idx].desc = val;
+    }
+
+    function moveSection(idx, dir) {
+      const target = idx + dir;
+      if (target < 0 || target >= TEMPLATE.length) return;
+      const temp = TEMPLATE[idx];
+      TEMPLATE[idx] = TEMPLATE[target];
+      TEMPLATE[target] = temp;
+      activeSecIdx = target;
+      renderWorkspace();
+    }
+
+    function addCustomSection() {
+      const name = prompt('Enter New Section Title:', 'Custom Due Diligence Section');
+      if (name && name.trim()) {
+        TEMPLATE.push({
+          id: 'sec_custom_' + Date.now(),
+          title: name.trim(),
+          enabled: true,
+          desc: 'Custom section fields for founder response.',
+          fields: [
+            { name: 'Custom Question 1', type: 'text', req: true, placeholder: 'Enter answer...' }
+          ]
+        });
+        activeSecIdx = TEMPLATE.length - 1;
+        renderWorkspace();
+      }
+    }
+
+    function addFieldToSection(secIdx) {
+      TEMPLATE[secIdx].fields.push({
+        name: 'New Question',
+        type: 'text',
+        req: false,
+        placeholder: 'Enter details...'
+      });
+      renderWorkspace();
+    }
+
+    function updateFieldName(secIdx, fIdx, val) {
+      if (val.trim()) TEMPLATE[secIdx].fields[fIdx].name = val.trim();
+      updateCounts();
+    }
+
+    function updateFieldType(secIdx, fIdx, val) {
+      TEMPLATE[secIdx].fields[fIdx].type = val;
+      renderWorkspace();
+    }
+
+    function updateFieldPlaceholder(secIdx, fIdx, val) {
+      TEMPLATE[secIdx].fields[fIdx].placeholder = val;
+    }
+
+    function toggleFieldRequired(secIdx, fIdx) {
+      TEMPLATE[secIdx].fields[fIdx].req = !TEMPLATE[secIdx].fields[fIdx].req;
+      updateCounts();
+    }
+
+    function moveField(secIdx, fIdx, dir) {
+      const fields = TEMPLATE[secIdx].fields;
+      const target = fIdx + dir;
+      if (target < 0 || target >= fields.length) return;
+      const temp = fields[fIdx];
+      fields[fIdx] = fields[target];
+      fields[target] = temp;
+      renderWorkspace();
+    }
+
+    function deleteField(secIdx, fIdx) {
+      TEMPLATE[secIdx].fields.splice(fIdx, 1);
+      renderWorkspace();
+    }
+
+    function resetToDefaultTemplate() {
+      if (confirm('Reset template back to default 13 due-diligence sections?')) {
+        TEMPLATE = JSON.parse(JSON.stringify(INITIAL_TEMPLATE));
+        activeSecIdx = 0;
+        renderWorkspace();
+      }
+    }
+
+    function saveTemplate() {
+      alert('Template saved successfully!\n\nAll 13 intake sections and field rules updated for Seedicon Venture Fund I.');
+    }
+
+    function openShareModal() {
+      openModal('Share Founder Intake Link', `
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <p style="font-size:12.5px; color:var(--text-muted);">
+            Share this public link with founders to collect structured applications directly into your <strong>Startups Pool</strong>.
+          </p>
+
+          <div>
+            <label class="form-label">PUBLIC INTAKE URL</label>
+            <div class="input-with-suffix">
+              <input type="text" class="form-input" value="https://seedicon.app/intake/q3-2026-founder-form" id="intakeUrlInput" readonly />
+              <button class="btn btn-outline" onclick="copyIntakeUrl()" style="border-radius:0;">
+                <i data-lucide="copy" class="lucide-sm"></i>
+                <span>Copy</span>
+              </button>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div style="background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:12px; text-align:center;">
+              <i data-lucide="qr-code" style="width:36px; height:36px; color:var(--text-dark); margin-bottom:4px;"></i>
+              <div style="font-size:11px; font-weight:600; color:var(--text-dark);">Intake QR Code</div>
+            </div>
+
+            <div style="background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:12px; display:flex; flex-direction:column; justify-content:center; gap:4px;">
+              <div style="font-size:11.5px; font-weight:700; color:var(--text-dark);">Auto-Integration</div>
+              <div style="font-size:10.5px; color:var(--text-muted);">Submissions stream automatically into Startups Pool &amp; Deal CRM.</div>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:6px;">
+            <button onclick="document.getElementById('modalOverlay').style.display='none'" class="btn">Close</button>
+            <button onclick="window.location.href='./startups-pool.html'" class="btn btn-primary">Go to Startups Pool</button>
+          </div>
+        </div>
+      `);
+    }
+
+    function copyIntakeUrl() {
+      const inp = document.getElementById('intakeUrlInput');
+      if (inp) {
+        inp.select();
+        document.execCommand('copy');
+        alert('Public Intake Link copied to clipboard!');
+      }
+    }
+
+    function selectPreviewRail(el) {
+      const items = document.querySelectorAll('.preview-rail-item');
+      items.forEach(i => {
+        i.style.background = 'transparent';
+        i.style.fontWeight = '500';
+        i.style.color = 'var(--text-muted)';
+        const dot = i.querySelector('span');
+        if (dot) dot.style.background = 'var(--border-strong)';
+      });
+
+      el.style.background = 'var(--bg-muted)';
+      el.style.fontWeight = '700';
+      el.style.color = 'var(--text-dark)';
+      const dot = el.querySelector('span');
+      if (dot) dot.style.background = 'var(--accent-graphite)';
+    }
+
+    function simulateFounderSubmission() {
+      alert('🚀 Startup Application Submitted Successfully!\n\nSubmission ID: #SUB-2026-8891\nStartup: Alpha Health\n\nAll structured responses and documents have entered the Startups Pool!');
+      window.location.href = './startups-pool.html';
+    }
+  </script>
+</body>
+</html>

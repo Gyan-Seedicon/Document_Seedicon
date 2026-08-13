@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deal CRM — Seedicon Investor Platform</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ─── Kanban Board Layout ─── */
+    .kanban-wrapper {
+      display: flex;
+      gap: 0;
+      height: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 16px 20px 20px;
+      align-items: flex-start;
+    }
+    .kanban-col {
+      display: flex;
+      flex-direction: column;
+      min-width: 240px;
+      max-width: 240px;
+      background: #F4F4F2;
+      border-radius: 8px;
+      border: 1px solid var(--border-main);
+      flex-shrink: 0;
+      margin-right: 10px;
+      overflow: hidden;
+      max-height: calc(100vh - 110px);
+    }
+    .kanban-col-header {
+      padding: 10px 12px 9px;
+      border-bottom: 1px solid var(--border-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FFFFFF;
+      flex-shrink: 0;
+    }
+    .col-title-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+    }
+    .col-stage-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .col-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-dark);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: -0.01em;
+    }
+    .col-count {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: var(--bg-muted);
+      border: 1px solid var(--border-main);
+      border-radius: 10px;
+      padding: 1px 6px;
+      flex-shrink: 0;
+    }
+    .col-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .col-icon-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 3px;
+      border-radius: 4px;
+      color: var(--text-muted);
+      transition: background 0.1s, color 0.1s;
+      display: flex;
+      align-items: center;
+    }
+    .col-icon-btn:hover {
+      background: var(--bg-muted);
+      color: var(--text-dark);
+    }
+    .col-sub {
+      font-size: 10px;
+      color: var(--text-muted);
+      padding: 5px 12px 6px;
+      border-bottom: 1px solid var(--border-faint);
+      background: #FAFAFA;
+      line-height: 1.35;
+      flex-shrink: 0;
+    }
+    .kanban-cards {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .kanban-add-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #9A9A96;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      border-top: 1px solid #F0F0EE;
+      width: 100%;
+      text-align: left;
+      transition: background 0.1s, color 0.1s;
+      flex-shrink: 0;
+      font-family: Inter, sans-serif;
+    }
+    .kanban-add-btn:hover {
+      background: #EFEFED;
+      color: #1A1A18;
+    }
+
+    /* ─── Deal Cards ─── */
+    .deal-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: box-shadow 0.12s, border-color 0.12s, transform 0.1s;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .deal-card:hover {
+      border-color: #B0B0AE;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+      transform: translateY(-1px);
+    }
+    .deal-card-inner {
+      padding: 9px 10px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .deal-card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+    }
+    .deal-card-logo {
+      width: 26px;
+      height: 26px;
+      border-radius: 5px;
+      background: #F0F0EE;
+      color: #3A3A38;
+      border: 1px solid #E0E0DE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 9.5px;
+      flex-shrink: 0;
+      letter-spacing: -0.02em;
+    }
+    .deal-card-name {
+      font-size: 12px;
+      font-weight: 800;
+      color: #1A1A18;
+      letter-spacing: -0.01em;
+      flex: 1;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
+    }
+    .deal-card-badges {
+      display: flex;
+      gap: 3px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+    .deal-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    .deal-badge-stage {
+      background: #EAEAE8;
+      color: #2A2A28;
+      border: 1px solid #D0D0CE;
+    }
+    .deal-badge-sector {
+      background: #F4F4F2;
+      color: #5A5A58;
+      border: 1px solid #E4E4E2;
+    }
+    .deal-card-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid #EBEBEA;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .deal-metric-item {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      padding: 5px 8px;
+      background: #FAFAFA;
+      border-right: 1px solid #EBEBEA;
+    }
+    .deal-metric-item:last-child { border-right: none; }
+    .deal-metric-lbl {
+      font-size: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #ABABAB;
+    }
+    .deal-metric-val {
+      font-size: 11px;
+      font-weight: 800;
+      color: #1A1A18;
+      letter-spacing: -0.01em;
+    }
+    .deal-card-footer {
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #F7F7F5;
+      border-top: 1px solid #EBEBEA;
+      font-size: 9.5px;
+      color: #9A9A96;
+    }
+    .deal-assignee {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .deal-avatar-sm {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #3A3A38;
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7px;
+      font-weight: 800;
+    }
+
+    /* ─── Add Stage Column Button ─── */
+    .add-stage-col {
+      min-width: 200px;
+      max-width: 200px;
+      background: transparent;
+      border: 1.5px dashed #CACAC8;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.12s, border-color 0.12s;
+      margin-right: 10px;
+    }
+    .add-stage-col:hover {
+      background: #F5F5F3;
+      border-color: #1A1A18;
+    }
+    .add-stage-col span {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #9A9A96;
+    }
+
+    /* ─── Edit Column Modal ─── */
+    .edit-col-modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 300;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .edit-col-modal {
+      background: #FFFFFF; border-radius: 8px; border: 1px solid #E0E0DE;
+      width: 380px; padding: 20px; box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div id="appHeaderSlot"></div>
+    <div class="main-workspace" style="display:flex; flex-direction:row;">
+      <div id="tinySidebarSlot"></div>
+      <div id="mainSidebarSlot"></div>
+
+      <main class="content-scrollable" style="padding:0; display:flex; flex-direction:column; background:#F8F8F6; overflow:hidden;">
+
+        <!-- PAGE TOP HEADER BAR -->
+        <header style="padding:10px 20px; background:#FFFFFF; border-bottom:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between; flex-shrink:0;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <h1 style="font-size:17px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em;">Deal CRM</h1>
+              <span class="badge-pill neutral-dark" id="totalDealsBadge">14 Active Deals</span>
+            </div>
+            <p style="font-size:11.5px; color:var(--text-muted); margin-top:1px;">
+              Track startup deals across your pipeline. Cards automatically move to <strong>Portfolio</strong> when Invested.
+            </p>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div style="display:flex; align-items:center; gap:6px; background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:5px 10px; font-size:12px; color:var(--text-muted);">
+              <i data-lucide="search" class="lucide-sm"></i>
+              <input type="text" id="searchDeals" onkeyup="filterDeals()" placeholder="Search deals..." style="border:none; background:transparent; outline:none; font-family:Inter; font-size:12px; width:160px; color:var(--text-dark);" />
+            </div>
+            <button class="btn btn-outline" style="font-size:12px;" onclick="openAddStageModal()">
+              <i data-lucide="columns" class="lucide-sm"></i>
+              <span>Manage Stages</span>
+            </button>
+            <button class="btn btn-primary" style="font-size:12px;" onclick="openAddDealModal()">
+              <i data-lucide="plus" class="lucide-sm"></i>
+              <span>Add Deal</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- KANBAN BOARD -->
+        <div class="kanban-wrapper" id="kanbanBoard">
+          <!-- Columns rendered by JS -->
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <div id="modalSlot"></div>
+
+  <script src="./js/components.js"></script>
+  <script src="./js/app.js"></script>
+  <script>
+    // ──────────────────────────────────────────────────────────────────────────
+    // DATA MODEL
+    // ──────────────────────────────────────────────────────────────────────────
+    const STAGE_DOTS = {
+      'potential':    '#9A9A96',
+      'evaluation':   '#6B6B68',
+      'due-diligence':'#4A4A48',
+      'ic-decision':  '#3A3A38',
+      'term-sheet':   '#2A2A28',
+      'closing':      '#1A1A18',
+      'invested':     '#000000'
+    };
+
+    let STAGES = [
+      { id: 'potential',    label: 'Potential',            sub: 'Shortlisted and worth pursuing.' },
+      { id: 'evaluation',   label: 'Evaluation',           sub: 'Founder meetings, business assessment, financial review.' },
+      { id: 'due-diligence',label: 'Due Diligence',        sub: 'Legal, financial, commercial, technical review.' },
+      { id: 'ic-decision',  label: 'IC / Investment Decision', sub: 'Internal IC review and decision.' },
+      { id: 'term-sheet',   label: 'Term Sheet / Negotiation', sub: 'Terms being discussed and finalized.' },
+      { id: 'closing',      label: 'Closing',              sub: 'Documentation, signatures, final process.' },
+      { id: 'invested',     label: 'Invested',             sub: 'Investment completed. Moves to Portfolio.' }
+    ];
+
+    let DEALS = [
+      {
+        id: 'd1', stage: 'potential', name: 'Alpha Health', avatar: 'AH',
+        sector: 'Healthcare', stageBadge: 'Pre-Seed', ask: '$3.00M', arr: '$850K',
+        assignee: 'SK', date: 'Mar 1', priority: 'high',
+        detailId: 'sup_1'
+      },
+      {
+        id: 'd2', stage: 'potential', name: 'NeuroPulse Health', avatar: 'NP',
+        sector: 'Healthcare', stageBadge: 'Pre-Seed', ask: '$1.80M', arr: '$300K',
+        assignee: 'AR', date: 'Mar 2', priority: 'medium',
+        detailId: 'sup_6'
+      },
+      {
+        id: 'd3', stage: 'potential', name: 'EcoPulse Energy', avatar: 'EP',
+        sector: 'CleanTech', stageBadge: 'Seed', ask: '$3.50M', arr: '$600K',
+        assignee: 'SK', date: 'Mar 3', priority: 'medium',
+        detailId: 'sup_5'
+      },
+      {
+        id: 'd4', stage: 'evaluation', name: 'Apex AI', avatar: 'AA',
+        sector: 'AI', stageBadge: 'Seed', ask: '₹5 Cr', arr: '₹1.5 Cr',
+        assignee: 'AR', date: 'Feb 25', priority: 'high',
+        detailId: 'sup_2'
+      },
+      {
+        id: 'd5', stage: 'evaluation', name: 'DataMesh Labs', avatar: 'DM',
+        sector: 'SaaS', stageBadge: 'Seed', ask: '$2.00M', arr: '$700K',
+        assignee: 'SK', date: 'Feb 22', priority: 'medium',
+        detailId: null
+      },
+      {
+        id: 'd6', stage: 'evaluation', name: 'CloudCraft', avatar: 'CC',
+        sector: 'SaaS', stageBadge: 'Pre-Seed', ask: '$1.20M', arr: '$200K',
+        assignee: 'VR', date: 'Feb 20', priority: 'low',
+        detailId: null
+      },
+      {
+        id: 'd7', stage: 'due-diligence', name: 'FinFlow Tech', avatar: 'FF',
+        sector: 'FinTech', stageBadge: 'Seed', ask: '$2.50M', arr: '$1.2M',
+        assignee: 'SK', date: 'Feb 18', priority: 'high',
+        detailId: 'sup_3'
+      },
+      {
+        id: 'd8', stage: 'due-diligence', name: 'LogiChain Labs', avatar: 'LC',
+        sector: 'Logistics', stageBadge: 'Series A', ask: '€4.00M', arr: '€2.8M',
+        assignee: 'AR', date: 'Feb 15', priority: 'high',
+        detailId: 'sup_4'
+      },
+      {
+        id: 'd9', stage: 'ic-decision', name: 'BioCore Diagnostics', avatar: 'BC',
+        sector: 'BioTech', stageBadge: 'Seed', ask: '$3.00M', arr: '$1.1M',
+        assignee: 'SK', date: 'Feb 10', priority: 'high',
+        detailId: null
+      },
+      {
+        id: 'd10', stage: 'ic-decision', name: 'RoboFarm AI', avatar: 'RF',
+        sector: 'AgriTech', stageBadge: 'Pre-Seed', ask: '$800K', arr: '$180K',
+        assignee: 'VR', date: 'Feb 8', priority: 'medium',
+        detailId: null
+      },
+      {
+        id: 'd11', stage: 'term-sheet', name: 'SkyTrack Mobility', avatar: 'ST',
+        sector: 'Mobility', stageBadge: 'Series A', ask: '$5.00M', arr: '$3.2M',
+        assignee: 'SK', date: 'Jan 28', priority: 'high',
+        detailId: null
+      },
+      {
+        id: 'd12', stage: 'closing', name: 'NovaPay', avatar: 'NV',
+        sector: 'FinTech', stageBadge: 'Seed', ask: '$2.00M', arr: '$900K',
+        assignee: 'AR', date: 'Jan 15', priority: 'high',
+        detailId: null
+      },
+      {
+        id: 'd13', stage: 'invested', name: 'GreenLeaf Foods', avatar: 'GL',
+        sector: 'FoodTech', stageBadge: 'Pre-Seed', ask: '$1.50M', arr: '$400K',
+        assignee: 'SK', date: 'Dec 2025', priority: 'high',
+        detailId: null
+      },
+      {
+        id: 'd14', stage: 'invested', name: 'AquaFlow Systems', avatar: 'AQ',
+        sector: 'CleanTech', stageBadge: 'Seed', ask: '$2.50M', arr: '$800K',
+        assignee: 'AR', date: 'Nov 2025', priority: 'high',
+        detailId: null
+      }
+    ];
+
+    const PRIORITY_DOT = { high: '#1A1A18', medium: '#7A7A78', low: '#C8C8C4' };
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // RENDER BOARD
+    // ──────────────────────────────────────────────────────────────────────────
+    function renderBoard(filterQuery = '') {
+      const board = document.getElementById('kanbanBoard');
+      if (!board) return;
+
+      const q = filterQuery.toLowerCase();
+      const visibleDeals = q
+        ? DEALS.filter(d => d.name.toLowerCase().includes(q) || d.sector.toLowerCase().includes(q))
+        : DEALS;
+
+      let html = STAGES.map(stage => {
+        const cards = visibleDeals.filter(d => d.stage === stage.id);
+        const dot = STAGE_DOTS[stage.id] || '#94A3B8';
+        const isLocked = stage.id === 'invested';
+
+        return `
+          <div class="kanban-col" id="col-${stage.id}">
+            <div class="kanban-col-header">
+              <div class="col-title-row">
+                <span class="col-title" title="${stage.label}">${stage.label}</span>
+                <span class="col-count">${cards.length}</span>
+              </div>
+              <div class="col-actions">
+                ${!isLocked ? `
+                  <button class="col-icon-btn" onclick="openEditStageModal('${stage.id}')" title="Edit stage">
+                    <i data-lucide="pencil" style="width:12px; height:12px;"></i>
+                  </button>
+                ` : ''}
+                <button class="col-icon-btn" onclick="openAddDealToStage('${stage.id}')" title="Add deal to this stage">
+                  <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                </button>
+              </div>
+            </div>
+            <div class="col-sub">${stage.sub}</div>
+            <div class="kanban-cards" id="cards-${stage.id}">
+              ${cards.map(d => renderDealCard(d, dot)).join('')}
+              ${cards.length === 0 ? `<div style="text-align:center; padding:20px 12px; color:#ABABAB; font-size:11px;">No deals in this stage</div>` : ''}
+            </div>
+            ${!isLocked ? `
+              <button class="kanban-add-btn" onclick="openAddDealToStage('${stage.id}')">
+                <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                <span>Add deal</span>
+              </button>
+            ` : `
+              <div style="padding:7px 12px; font-size:10px; color:#8C8C88; border-top:1px solid #EBEBEA; background:#F5F5F3;">
+                ✓ Moves automatically to Portfolio
+              </div>
+            `}
+          </div>
+        `;
+      }).join('');
+
+      // Add "Add Stage" column
+      html += `
+        <div class="add-stage-col" onclick="openAddStageModal()">
+          <i data-lucide="plus" style="width:20px; height:20px; color:var(--text-muted);"></i>
+          <span>Add Stage</span>
+        </div>
+      `;
+
+      board.innerHTML = html;
+
+      // Count total
+      const badge = document.getElementById('totalDealsBadge');
+      if (badge) {
+        const active = DEALS.filter(d => d.stage !== 'invested').length;
+        badge.textContent = `${active} Active Deals`;
+      }
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function renderDealCard(d, stageColor) {
+      return `
+        <div class="deal-card" onclick="navigateToDealDetail('${d.id}')" draggable="true"
+             ondragstart="onDragStart(event,'${d.id}')"
+             ondragover="onDragOver(event)"
+             ondrop="onDrop(event,'${d.stage}')">
+          <div class="deal-card-inner">
+            <!-- TOP ROW -->
+            <div class="deal-card-top">
+              <div class="deal-card-logo">${d.avatar}</div>
+              <div style="flex:1; min-width:0;">
+                <div class="deal-card-name">${d.name}</div>
+                <div class="deal-card-badges">
+                  <span class="deal-badge deal-badge-stage">${d.stageBadge}</span>
+                  <span class="deal-badge deal-badge-sector">${d.sector}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- METRICS -->
+            <div class="deal-card-metrics">
+              <div class="deal-metric-item">
+                <div class="deal-metric-lbl">Ask</div>
+                <div class="deal-metric-val">${d.ask}</div>
+              </div>
+              <div class="deal-metric-item">
+                <div class="deal-metric-lbl">ARR</div>
+                <div class="deal-metric-val">${d.arr}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FOOTER -->
+          <div class="deal-card-footer">
+            <div class="deal-assignee">
+              <div class="deal-avatar-sm">${d.assignee}</div>
+              <span>${d.date}</span>
+            </div>
+            <div style="display:flex; gap:2px;">
+              <button onclick="event.stopPropagation(); moveDealStage('${d.id}', -1)" title="Move left"
+                style="border:none; background:transparent; cursor:pointer; padding:2px; color:#ABABAB;">
+                <i data-lucide="chevron-left" style="width:11px; height:11px;"></i>
+              </button>
+              <button onclick="event.stopPropagation(); moveDealStage('${d.id}', 1)" title="Move right"
+                style="border:none; background:transparent; cursor:pointer; padding:2px; color:#ABABAB;">
+                <i data-lucide="chevron-right" style="width:11px; height:11px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // DRAG & DROP
+    // ──────────────────────────────────────────────────────────────────────────
+    let dragDealId = null;
+
+    function onDragStart(e, dealId) {
+      dragDealId = dealId;
+      e.dataTransfer.effectAllowed = 'move';
+    }
+    function onDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+    }
+    function onDrop(e, targetStage) {
+      e.preventDefault();
+      if (!dragDealId) return;
+      const deal = DEALS.find(d => d.id === dragDealId);
+      if (deal && deal.stage !== targetStage) {
+        deal.stage = targetStage;
+        renderBoard(document.getElementById('searchDeals')?.value || '');
+      }
+      dragDealId = null;
+    }
+
+    // Also attach drop listeners to columns after render
+    function attachDropToColumns() {
+      STAGES.forEach(s => {
+        const col = document.getElementById('cards-' + s.id);
+        if (col) {
+          col.addEventListener('dragover', onDragOver);
+          col.addEventListener('drop', (e) => onDrop(e, s.id));
+        }
+      });
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // MOVE DEAL LEFT / RIGHT
+    // ──────────────────────────────────────────────────────────────────────────
+    function moveDealStage(dealId, dir) {
+      const deal = DEALS.find(d => d.id === dealId);
+      if (!deal) return;
+      const idx = STAGES.findIndex(s => s.id === deal.stage);
+      const newIdx = idx + dir;
+      if (newIdx < 0 || newIdx >= STAGES.length) return;
+      deal.stage = STAGES[newIdx].id;
+      renderBoard(document.getElementById('searchDeals')?.value || '');
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // NAVIGATE TO DEAL DETAIL
+    // ──────────────────────────────────────────────────────────────────────────
+    function navigateToDealDetail(dealId) {
+      const deal = DEALS.find(d => d.id === dealId);
+      if (deal && deal.detailId) {
+        window.location.href = `./startup-detail.html?id=${deal.detailId}`;
+      } else if (deal) {
+        alert(`Deal: ${deal.name}\nStage: ${STAGES.find(s => s.id === deal.stage)?.label}\nAsk: ${deal.ask} · ARR: ${deal.arr}`);
+      }
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // FILTER DEALS
+    // ──────────────────────────────────────────────────────────────────────────
+    function filterDeals() {
+      const q = document.getElementById('searchDeals')?.value || '';
+      renderBoard(q);
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // EDIT STAGE MODAL
+    // ──────────────────────────────────────────────────────────────────────────
+    function openEditStageModal(stageId) {
+      const stage = STAGES.find(s => s.id === stageId);
+      if (!stage) return;
+      const slot = document.getElementById('modalSlot');
+      if (!slot) return;
+      slot.innerHTML = `
+        <div id="editStageBackdrop" class="edit-col-modal-backdrop" onclick="if(event.target===this) closeEditStageModal()">
+          <div class="edit-col-modal">
+            <h3 style="font-size:15px; font-weight:800; color:var(--text-dark); margin-bottom:14px;">Edit Stage</h3>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div>
+                <label class="form-label">Stage Name</label>
+                <input id="editStageName" class="form-input" value="${stage.label}" />
+              </div>
+              <div>
+                <label class="form-label">Description</label>
+                <textarea id="editStageSub" class="form-input" style="min-height:56px;">${stage.sub}</textarea>
+              </div>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-top:16px; gap:8px;">
+              <button class="btn btn-outline" style="color:#DC2626; border-color:#FECACA;" onclick="deleteStage('${stageId}')">
+                <i data-lucide="trash-2" class="lucide-sm"></i> Delete Stage
+              </button>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-outline" onclick="closeEditStageModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveStageEdit('${stageId}')">Save Changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function saveStageEdit(stageId) {
+      const stage = STAGES.find(s => s.id === stageId);
+      if (!stage) return;
+      stage.label = document.getElementById('editStageName')?.value || stage.label;
+      stage.sub   = document.getElementById('editStageSub')?.value || stage.sub;
+      closeEditStageModal();
+      renderBoard();
+    }
+
+    function deleteStage(stageId) {
+      const hasDeals = DEALS.some(d => d.stage === stageId);
+      if (hasDeals) {
+        alert('Cannot delete a stage that contains deals. Move or remove all deals first.');
+        return;
+      }
+      if (!confirm('Are you sure you want to delete this stage?')) return;
+      STAGES = STAGES.filter(s => s.id !== stageId);
+      closeEditStageModal();
+      renderBoard();
+    }
+
+    function closeEditStageModal() {
+      const slot = document.getElementById('modalSlot');
+      if (slot) slot.innerHTML = '';
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // ADD STAGE MODAL
+    // ──────────────────────────────────────────────────────────────────────────
+    function openAddStageModal() {
+      const slot = document.getElementById('modalSlot');
+      if (!slot) return;
+      slot.innerHTML = `
+        <div id="editStageBackdrop" class="edit-col-modal-backdrop" onclick="if(event.target===this) closeEditStageModal()">
+          <div class="edit-col-modal">
+            <h3 style="font-size:15px; font-weight:800; color:var(--text-dark); margin-bottom:4px;">Add New Stage</h3>
+            <p style="font-size:11.5px; color:var(--text-muted); margin-bottom:14px;">Create a custom pipeline stage for your deal flow.</p>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div>
+                <label class="form-label">Stage Name</label>
+                <input id="newStageName" class="form-input" placeholder="e.g. Partner Review" />
+              </div>
+              <div>
+                <label class="form-label">Description</label>
+                <textarea id="newStageSub" class="form-input" style="min-height:56px;" placeholder="Brief description of what happens in this stage..."></textarea>
+              </div>
+              <div>
+                <label class="form-label">Insert After Stage</label>
+                <select id="newStagePosition" class="form-input">
+                  ${STAGES.map((s, i) => `<option value="${i}">${s.label}</option>`).join('')}
+                </select>
+              </div>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+              <button class="btn btn-outline" onclick="closeEditStageModal()">Cancel</button>
+              <button class="btn btn-primary" onclick="addNewStage()">
+                <i data-lucide="plus" class="lucide-sm"></i> Add Stage
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function addNewStage() {
+      const name = document.getElementById('newStageName')?.value?.trim();
+      const sub  = document.getElementById('newStageSub')?.value?.trim() || '';
+      const pos  = parseInt(document.getElementById('newStagePosition')?.value || 0);
+      if (!name) { alert('Please enter a stage name.'); return; }
+      const id = 'custom-' + Date.now();
+      STAGE_DOTS[id] = '#CBD5E1';
+      STAGES.splice(pos + 1, 0, { id, label: name, sub });
+      closeEditStageModal();
+      renderBoard();
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // ADD DEAL MODAL
+    // ──────────────────────────────────────────────────────────────────────────
+    function openAddDealToStage(stageId) {
+      openAddDealModal(stageId);
+    }
+
+    function openAddDealModal(presetStageId = 'potential') {
+      const slot = document.getElementById('modalSlot');
+      if (!slot) return;
+      slot.innerHTML = `
+        <div class="edit-col-modal-backdrop" onclick="if(event.target===this) closeEditStageModal()">
+          <div class="edit-col-modal">
+            <h3 style="font-size:15px; font-weight:800; color:var(--text-dark); margin-bottom:14px;">Add New Deal</h3>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div>
+                <label class="form-label">Company Name</label>
+                <input id="newDealName" class="form-input" placeholder="e.g. StartupXYZ" />
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <div>
+                  <label class="form-label">Sector</label>
+                  <input id="newDealSector" class="form-input" placeholder="e.g. FinTech" />
+                </div>
+                <div>
+                  <label class="form-label">Stage</label>
+                  <select id="newDealStage" class="form-input">
+                    ${STAGES.map(s => `<option value="${s.id}" ${s.id === presetStageId ? 'selected' : ''}>${s.label}</option>`).join('')}
+                  </select>
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <div>
+                  <label class="form-label">Ask Amount</label>
+                  <input id="newDealAsk" class="form-input" placeholder="e.g. $2.00M" />
+                </div>
+                <div>
+                  <label class="form-label">ARR / Revenue</label>
+                  <input id="newDealArr" class="form-input" placeholder="e.g. $500K" />
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <div>
+                  <label class="form-label">Funding Stage</label>
+                  <select id="newDealFundingStage" class="form-input">
+                    <option>Pre-Seed</option><option>Seed</option><option>Series A</option><option>Series B</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">Assignee Initials</label>
+                  <input id="newDealAssignee" class="form-input" placeholder="e.g. SK" maxlength="2" />
+                </div>
+              </div>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+              <button class="btn btn-outline" onclick="closeEditStageModal()">Cancel</button>
+              <button class="btn btn-primary" onclick="addNewDeal()">
+                <i data-lucide="plus" class="lucide-sm"></i> Add Deal
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function addNewDeal() {
+      const name = document.getElementById('newDealName')?.value?.trim();
+      if (!name) { alert('Please enter a company name.'); return; }
+      const newDeal = {
+        id: 'deal-' + Date.now(),
+        stage: document.getElementById('newDealStage')?.value || 'potential',
+        name,
+        avatar: name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2),
+        sector: document.getElementById('newDealSector')?.value || 'N/A',
+        stageBadge: document.getElementById('newDealFundingStage')?.value || 'Seed',
+        ask: document.getElementById('newDealAsk')?.value || '—',
+        arr: document.getElementById('newDealArr')?.value || '—',
+        assignee: (document.getElementById('newDealAssignee')?.value || 'SK').toUpperCase().slice(0,2),
+        date: new Date().toLocaleDateString('en-US', { month:'short', day:'numeric' }),
+        priority: 'medium',
+        detailId: null
+      };
+      DEALS.push(newDeal);
+      closeEditStageModal();
+      renderBoard();
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // INIT
+    // ──────────────────────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      renderBoard();
+    });
+  </script>
+</body>
+</html>
