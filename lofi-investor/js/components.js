@@ -217,14 +217,14 @@ const LayoutComponents = {
               <i data-lucide="inbox"></i>
               <span>Startups Pools</span>
             </div>
-            <span class="nav-count">28</span>
+            <span class="nav-count">(28)</span>
           </a>
           <a href="./deal-crm.html" class="nav-item ${isActive('deal-crm')}">
             <div class="nav-item-left">
               <i data-lucide="kanban"></i>
               <span>Deal CRM</span>
             </div>
-            <span class="nav-count">14</span>
+            <span class="nav-count">(14)</span>
           </a>
           <a href="./pipeline-management.html" class="nav-item ${isActive('pipeline-management')}">
             <div class="nav-item-left">
@@ -242,14 +242,14 @@ const LayoutComponents = {
               <i data-lucide="folder-lock"></i>
               <span>VDR (Data Room)</span>
             </div>
-            <span class="nav-count">4</span>
+            <span class="nav-count">(4)</span>
           </a>
           <a href="./dd-partners.html" class="nav-item ${isActive('dd-partners')}">
             <div class="nav-item-left">
               <i data-lucide="file-search"></i>
               <span>DD Partners</span>
             </div>
-            <span class="nav-count">4</span>
+            <span class="nav-count">(4)</span>
           </a>
           <a href="./shared-with-me.html" class="nav-item ${isActive('shared-with-me')}">
             <div class="nav-item-left">
@@ -267,47 +267,47 @@ const LayoutComponents = {
               <i data-lucide="trending-up"></i>
               <span>Portfolio Management</span>
             </div>
-            <span class="nav-count">12</span>
+            <span class="nav-count">(12)</span>
           </a>
           <a href="./founder-reports.html" class="nav-item ${isActive('founder-reports')}">
             <div class="nav-item-left">
               <i data-lucide="clipboard-check"></i>
               <span>Founders Reporting</span>
             </div>
-            <span class="nav-count">8</span>
+            <span class="nav-count">(8)</span>
           </a>
         </div>
 
         <!-- Nav Section 5: LP CAPITAL & EXITS -->
         <div class="nav-section">
           <div class="nav-section-title">LP &amp; Capital</div>
-          <a href="./capital-calls.html" class="nav-item ${isActive('lps-management')}">
+          <a href="./lps-management.html" class="nav-item ${isActive('lps-management')}">
             <div class="nav-item-left">
               <i data-lucide="users"></i>
               <span>LPs Management</span>
             </div>
-            <span class="nav-count">18</span>
+            <span class="nav-count">(18)</span>
           </a>
           <a href="./lp-reporting.html" class="nav-item ${isActive('lp-reporting')}">
             <div class="nav-item-left">
               <i data-lucide="file-bar-chart"></i>
               <span>LP Reporting</span>
             </div>
-            <span class="nav-count">18</span>
+            <span class="nav-count">(18)</span>
           </a>
           <a href="./capital-calls.html" class="nav-item ${isActive('capital-calls')}">
             <div class="nav-item-left">
               <i data-lucide="coins"></i>
               <span>Capital Call</span>
             </div>
-            <span class="nav-count">₹5 Cr</span>
+            <span class="nav-count">(₹5 Cr)</span>
           </a>
           <a href="./distribution-calls.html" class="nav-item ${isActive('distribution-calls')}">
             <div class="nav-item-left">
               <i data-lucide="arrow-up-right"></i>
               <span>Distribution Calls</span>
             </div>
-            <span class="nav-count">Exits</span>
+            <span class="nav-count">(8)</span>
           </a>
         </div>
 
@@ -319,7 +319,7 @@ const LayoutComponents = {
               <i data-lucide="user-plus"></i>
               <span>My Teams</span>
             </div>
-            <span class="nav-count">6</span>
+            <span class="nav-count">(6)</span>
           </a>
           <a href="./history.html" class="nav-item ${isActive('history')}">
             <div class="nav-item-left">
@@ -365,5 +365,29 @@ const LayoutComponents = {
     if (tinySidebarSlot) tinySidebarSlot.innerHTML = this.renderTinySidebar(activeApp);
     if (mainSidebarSlot) mainSidebarSlot.innerHTML = this.renderMainSidebar(activeNav);
     if (modalSlot) modalSlot.innerHTML = this.renderModalContainer();
+  },
+
+  // 06. Render Modern SaaS Metric / Stat Cards (Strictly Monochrome)
+  renderStatCards(items = [], customClass = '') {
+    const colClass = items.length === 3 ? 'stats-grid-3' : (items.length === 6 ? 'stats-grid-6' : (items.length === 5 ? 'stats-grid-5' : ''));
+    return `
+      <div class="stats-grid ${colClass} ${customClass}">
+        ${items.map(item => `
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <span class="stat-card-label">${item.label}</span>
+              ${item.icon ? `<span class="stat-card-icon"><i data-lucide="${item.icon}" style="width:12px; height:12px;"></i></span>` : ''}
+            </div>
+            <div class="stat-card-value" id="${item.id || ''}">${item.value || '0'}</div>
+            <div class="stat-card-sub" id="${item.id ? item.id + 'Sub' : ''}">${item.sub || ''}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  },
+
+  // 07. Render Condensed KPI Summary Strip
+  renderKPIStrip(items = [], customClass = '') {
+    return this.renderStatCards(items, customClass);
   }
 };

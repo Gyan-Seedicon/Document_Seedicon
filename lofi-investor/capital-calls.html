@@ -39,6 +39,11 @@
             </div>
 
             <div class="header-action-group">
+              <a href="./lps-management.html" class="btn btn-outline" style="text-decoration:none;" title="View LP Register & Compliance">
+                <i data-lucide="users" class="lucide-sm"></i>
+                <span>LP Directory</span>
+              </a>
+
               <a href="./lp-reporting.html" class="btn btn-outline" style="text-decoration:none;" title="View LP Reporting Requests">
                 <i data-lucide="file-bar-chart" class="lucide-sm"></i>
                 <span>LP Reporting</span>
@@ -64,10 +69,10 @@
         <!-- CONTAINER FOR POPULATED STATE -->
         <div id="filledCCContainer">
 
-        <!-- 01. TOP METRIC CARDS ROW -->
-        <div class="metrics-grid">
+        <!-- 01. TOP METRIC CARDS ROW (6 CARDS) -->
+        <div class="metrics-grid" style="grid-template-columns: repeat(6, 1fr);">
 
-<div class="metric-card">
+          <div class="metric-card">
             <div class="metric-label">Committed Capital</div>
             <div class="metric-value" id="mCommit">₹20.00 Cr</div>
             <div class="metric-hint" id="mCommitHint">16 LPs · ₹200M</div>
@@ -118,12 +123,12 @@
               <button class="cc-tab active" id="tabCommitments" onclick="switchCC('commitments')">
                 <i data-lucide="clipboard-list" class="lucide-sm"></i>
                 <span>Commitments</span>
-                <span class="cc-tab-count" id="tabCommitCount">16</span>
+                <span class="cc-tab-count">(<span id="tabCommitCount">16</span>)</span>
               </button>
               <button class="cc-tab" id="tabCallsList" onclick="switchCC('calls')">
                 <i data-lucide="coins" class="lucide-sm"></i>
                 <span>Capital Calls</span>
-                <span class="cc-tab-count" id="tabCallsCount">2</span>
+                <span class="cc-tab-count">(<span id="tabCallsCount">2</span>)</span>
               </button>
             </div>
 

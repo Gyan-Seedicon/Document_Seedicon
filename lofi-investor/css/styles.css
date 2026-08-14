@@ -566,13 +566,17 @@ html, body {
 }
 
 .nav-count {
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-light);
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+
+.nav-item.active .nav-count {
   color: var(--text-muted);
-  background: #FFFFFF;
-  padding: 1px 6px;
-  border-radius: 10px;
-  border: 1px solid var(--border-main);
+  font-weight: 600;
 }
 
 /* Main Workspace Canvas Container */
@@ -588,8 +592,8 @@ html, body {
 .content-scrollable {
   flex: 1;
   overflow-y: auto;
-  padding: 20px 36px;
-  background: #FFFFFF;
+  padding: 16px 24px;
+  background: #F5F5F3;
 }
 
 /* CONDENSED & PROFESSIONAL PAGE HEADER BLOCK */
@@ -1017,12 +1021,101 @@ html, body {
    CAPITAL CALLS WIREFRAME STYLES (LO-FI: WHITE / GREY / BLACK ONLY)
    ========================================================================== */
 
-/* Top Metric Cards Row */
-.metrics-grid {
+/* ==========================================================================
+   MODERN SAAS STATS / KPI METRIC CARDS (CLEAN MONOCHROME)
+   ========================================================================== */
+
+.stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
+}
+
+.stats-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.stats-grid-5 { grid-template-columns: repeat(5, 1fr); }
+.stats-grid-6 { grid-template-columns: repeat(6, 1fr); }
+
+.stat-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 72px;
+  transition: border-color 0.12s ease;
+}
+
+.stat-card:hover {
+  border-color: #C8C8C4;
+}
+
+.stat-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.stat-card-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-light);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stat-card-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: #F0F0EE;
+  border: 1px solid #E0E0DE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5A5A58;
+  flex-shrink: 0;
+}
+
+.stat-card-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1A1A18;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+
+.stat-card-value small {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.stat-card-sub {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #8C8C88;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Also alias metrics-grid and metric-card to this exact SaaS look */
+.metrics-grid,
+.metrics-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
 .metric-card {
@@ -1030,31 +1123,65 @@ html, body {
   border: 1px solid var(--border-main);
   border-radius: 8px;
   padding: 12px 14px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  justify-content: space-between;
+  min-height: 72px;
+}
+
+.metric-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .metric-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--text-light);
-}
-
-.metric-value {
-  font-size: 17px;
-  font-weight: 800;
-  color: var(--text-dark);
-  letter-spacing: -0.01em;
-  font-variant-numeric: tabular-nums;
-}
-
-.metric-hint {
   font-size: 11px;
+  font-weight: 600;
   color: var(--text-light);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.metric-icon-wrap {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: #F0F0EE;
+  border: 1px solid #E0E0DE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5A5A58;
+  flex-shrink: 0;
+}
+
+.metric-val,
+.metric-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1A1A18;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+
+.metric-val small { font-size: 12px; font-weight: 600; color: var(--text-light); }
+
+.metric-sub,
+.metric-hint {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #8C8C88;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .metric-progress {
@@ -1063,7 +1190,7 @@ html, body {
   border: 1px solid var(--border-faint);
   border-radius: 4px;
   overflow: hidden;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .metric-progress > div {
@@ -1130,18 +1257,20 @@ html, body {
 }
 
 .cc-tab-count {
-  font-size: 10.5px;
-  font-weight: 600;
-  color: var(--text-muted);
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-faint);
-  padding: 0 6px;
-  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-light);
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin-left: 2px;
 }
 
 .cc-tab.active .cc-tab-count {
-  background: #FFFFFF;
-  border-color: var(--border-main);
+  color: var(--text-muted);
+  font-weight: 600;
+  background: transparent;
+  border: none;
 }
 
 /* Data Table (LP Call Summary) */

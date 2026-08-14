@@ -310,6 +310,11 @@
             </div>
 
             <div class="header-action-group">
+              <a href="./lps-management.html" class="btn btn-outline" style="text-decoration:none;" title="View LP Register & Compliance">
+                <i data-lucide="users" class="lucide-sm"></i>
+                <span>LP Directory</span>
+              </a>
+
               <a href="./lp-reporting.html" class="btn btn-outline" style="text-decoration:none;" title="View LP Reporting Requests">
                 <i data-lucide="file-bar-chart" class="lucide-sm"></i>
                 <span>LP Reporting</span>
@@ -331,70 +336,66 @@
         <!-- Header Bottom Divider Line -->
         <div class="page-header-divider"></div>
 
-        <!-- UNDERLINE STYLE PAGE TABS (MATCHING CAPITAL CALLS) -->
-        <div class="cc-tabs" role="tablist">
-          <button class="cc-tab active" id="tabNavExitRequests" onclick="switchPageTab('exits')">
-            <i data-lucide="log-out" class="lucide-sm"></i>
-            <span>Exit Requests</span>
-            <span class="cc-tab-count" id="tabCountExits">8</span>
-          </button>
-          <button class="cc-tab" id="tabNavDistributions" onclick="switchPageTab('distributions')">
-            <i data-lucide="arrow-up-right" class="lucide-sm"></i>
-            <span>Distribution Calls</span>
-            <span class="cc-tab-count" id="tabCountDistributions">6</span>
-          </button>
-        </div>
-
         <!-- CONTAINER FOR POPULATED STATE (FULL-WIDTH WORKSPACE) -->
         <div id="filledWorkspaceContainer">
+
+          <!-- 01. TOP SUMMARY METRIC CARDS (4 SAAS STAT CARDS ACROSS THE FUND) -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-label">Total Exit Requests</span>
+                <span class="stat-card-icon"><i data-lucide="clipboard-list" style="width:12px; height:12px;"></i></span>
+              </div>
+              <div class="stat-card-value" id="statTopExitTotal">8</div>
+              <div class="stat-card-sub" id="statTopExitTotalSub">Across 6 LPs</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-label">Pending Review</span>
+                <span class="stat-card-icon"><i data-lucide="clock" style="width:12px; height:12px;"></i></span>
+              </div>
+              <div class="stat-card-value" id="statTopPending">3</div>
+              <div class="stat-card-sub" id="statTopPendingSub">Needs GP decision</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-label">Approved – Awaiting Distribution</span>
+                <span class="stat-card-icon"><i data-lucide="check-circle-2" style="width:12px; height:12px;"></i></span>
+              </div>
+              <div class="stat-card-value" id="statTopApproved">3</div>
+              <div class="stat-card-sub" id="statTopApprovedSub">Ready for payout</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-label">Total Distributed</span>
+                <span class="stat-card-icon"><i data-lucide="wallet" style="width:12px; height:12px;"></i></span>
+              </div>
+              <div class="stat-card-value" id="statTopDistAmount">₹4.70 Cr</div>
+              <div class="stat-card-sub" id="statTopDistAmountSub">FY26 Cumulative</div>
+            </div>
+          </div>
+
+          <!-- 02. UNDERLINE STYLE PAGE TABS (BELOW THE STATS CARDS, MATCHING CAPITAL CALLS) -->
+          <div class="cc-tabs" role="tablist">
+            <button class="cc-tab active" id="tabNavExitRequests" onclick="switchPageTab('exits')">
+              <i data-lucide="log-out" class="lucide-sm"></i>
+              <span>Exit Requests</span>
+              <span class="cc-tab-count">(<span id="tabCountExits">8</span>)</span>
+            </button>
+            <button class="cc-tab" id="tabNavDistributions" onclick="switchPageTab('distributions')">
+              <i data-lucide="arrow-up-right" class="lucide-sm"></i>
+              <span>Distribution Calls</span>
+              <span class="cc-tab-count">(<span id="tabCountDistributions">6</span>)</span>
+            </button>
+          </div>
 
           <!-- ═════════════════════════════════════════════════════════════════ -->
           <!-- TAB 1 — EXIT REQUESTS WORKSPACE                                  -->
           <!-- ═════════════════════════════════════════════════════════════════ -->
           <div id="panelTabExits">
-
-            <!-- SUMMARY CARDS (4 CARDS EXACT MATCH TO SPEC) -->
-            <div class="metrics-grid-4">
-              <!-- 01. Total Exit Requests -->
-              <div class="metric-card">
-                <div class="metric-top">
-                  <span class="metric-label">Total Exit Requests</span>
-                  <div class="metric-icon-wrap"><i data-lucide="clipboard-list" style="width:13px; height:13px;"></i></div>
-                </div>
-                <div class="metric-val" id="statExitTotal">8</div>
-                <div class="metric-sub" id="statExitTotalSub">Across 6 Institutional &amp; Family Office LPs</div>
-              </div>
-
-              <!-- 02. Pending Review (Amber Accent, Needs GP Decision) -->
-              <div class="metric-card">
-                <div class="metric-top">
-                  <span class="metric-label">Pending Review</span>
-                  <div class="metric-icon-wrap" style="background:#FEF3C7; border-color:#FDE68A; color:#B45309;"><i data-lucide="clock" style="width:13px; height:13px;"></i></div>
-                </div>
-                <div class="metric-val" id="statExitPending" style="color:#B45309;">3</div>
-                <div class="metric-sub amber" id="statExitPendingSub">Needs GP approval or revision</div>
-              </div>
-
-              <!-- 03. Approved – Awaiting Distribution -->
-              <div class="metric-card">
-                <div class="metric-top">
-                  <span class="metric-label">Approved – Awaiting Distribution</span>
-                  <div class="metric-icon-wrap"><i data-lucide="check-circle-2" style="width:13px; height:13px;"></i></div>
-                </div>
-                <div class="metric-val" id="statExitApproved">3</div>
-                <div class="metric-sub green" id="statExitApprovedSub">Accepted · Ready for distribution call</div>
-              </div>
-
-              <!-- 04. Rejected / Withdrawn -->
-              <div class="metric-card">
-                <div class="metric-top">
-                  <span class="metric-label">Rejected / Withdrawn</span>
-                  <div class="metric-icon-wrap"><i data-lucide="x-circle" style="width:13px; height:13px;"></i></div>
-                </div>
-                <div class="metric-val" id="statExitRejected">2</div>
-                <div class="metric-sub" id="statExitRejectedSub">Ineligible under fund lock-in terms</div>
-              </div>
-            </div>
 
             <!-- SEARCH & CONTROLS STRIP (CLEAN 2-SIDED LAYOUT) -->
             <div style="padding:7px 14px; background:#FFFFFF; border:1px solid #DFDEDE; border-bottom:none; border-radius:8px 8px 0 0; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-shrink:0;">
@@ -433,49 +434,6 @@
           <!-- TAB 2 — DISTRIBUTION CALLS WORKSPACE                             -->
           <!-- ═════════════════════════════════════════════════════════════════ -->
           <div id="panelTabDistributions" style="display:none;">
-
-            <!-- SUMMARY CARDS (4 CARDS EXACT MATCH TO SPEC) -->
-            <div class="metrics-grid-4">
-              <!-- 01. Total Distributions Created -->
-              <div class="metric-card">
-                <div class="metric-top">
-                  <span class="metric-label">Total Distributions Created</span>
-                  <div class="metric-icon-wrap"><i data-lucide="arrow-up-right" style="width:13px; height:13px;"></i></div>
-                </div>
-                <div class="metric-val" id="statDistTotal">6</div>
-                <div class="metric-sub" id="statDistTotalSub">Across 5 Institutional &amp; Angel LPs</div>
-              </div>
-
-              <!-- 02. Pending Payout -->
-              <div class="metric-card">
-                <div class="metric-top">
-                  <span class="metric-label">Pending Payout</span>
-                  <div class="metric-icon-wrap" style="background:#FEF3C7; border-color:#FDE68A; color:#B45309;"><i data-lucide="clock" style="width:13px; height:13px;"></i></div>
-                </div>
-                <div class="metric-val" id="statDistPending" style="color:#B45309;">2</div>
-                <div class="metric-sub amber" id="statDistPendingSub">Awaiting bank wire settlement</div>
-              </div>
-
-              <!-- 03. Processed / Completed -->
-              <div class="metric-card">
-                <div class="metric-top">
-                  <span class="metric-label">Processed / Completed</span>
-                  <div class="metric-icon-wrap"><i data-lucide="check-circle-2" style="width:13px; height:13px;"></i></div>
-                </div>
-                <div class="metric-val" id="statDistCompleted">4</div>
-                <div class="metric-sub green" id="statDistCompletedSub">All wire remittances cleared</div>
-              </div>
-
-              <!-- 04. Total Amount Distributed (₹ Value, This Cycle) -->
-              <div class="metric-card">
-                <div class="metric-top">
-                  <span class="metric-label">Total Distributed</span>
-                  <div class="metric-icon-wrap"><i data-lucide="wallet" style="width:13px; height:13px;"></i></div>
-                </div>
-                <div class="metric-val" id="statDistAmount">₹4.70 Cr</div>
-                <div class="metric-sub" id="statDistAmountSub">FY26 Cumulative LP Realizations</div>
-              </div>
-            </div>
 
             <!-- SEARCH & CONTROLS STRIP (CLEAN 2-SIDED LAYOUT) -->
             <div style="padding:7px 14px; background:#FFFFFF; border:1px solid #DFDEDE; border-bottom:none; border-radius:8px 8px 0 0; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-shrink:0;">
@@ -883,11 +841,17 @@
     const approved = exitRequestsStore.filter(r => r.status === 'Approved').length;
     const rejected = exitRequestsStore.filter(r => r.status === 'Rejected').length;
 
-    document.getElementById('tabCountExits').textContent = total;
-    document.getElementById('statExitTotal').textContent = total;
-    document.getElementById('statExitPending').textContent = pending;
-    document.getElementById('statExitApproved').textContent = approved;
-    document.getElementById('statExitRejected').textContent = rejected;
+    const elTabCount = document.getElementById('tabCountExits');
+    if (elTabCount) elTabCount.textContent = total;
+
+    const elTopTotal = document.getElementById('statTopExitTotal');
+    if (elTopTotal) elTopTotal.textContent = total;
+
+    const elTopPending = document.getElementById('statTopPending');
+    if (elTopPending) elTopPending.textContent = pending;
+
+    const elTopApproved = document.getElementById('statTopApproved');
+    if (elTopApproved) elTopApproved.textContent = approved;
 
     if (!filtered.length) {
       container.innerHTML = `
@@ -1000,11 +964,11 @@
     const completed = distributionCallsStore.filter(d => d.paymentStatus === 'Completed' || d.paymentStatus === 'Processed').length;
     const sumAmt = distributionCallsStore.reduce((s, d) => s + d.rawAmount, 0);
 
-    document.getElementById('tabCountDistributions').textContent = total;
-    document.getElementById('statDistTotal').textContent = total;
-    document.getElementById('statDistPending').textContent = pending;
-    document.getElementById('statDistCompleted').textContent = completed;
-    document.getElementById('statDistAmount').textContent = `₹${sumAmt.toFixed(2)} Cr`;
+    const elTabDist = document.getElementById('tabCountDistributions');
+    if (elTabDist) elTabDist.textContent = total;
+
+    const elTopDistAmt = document.getElementById('statTopDistAmount');
+    if (elTopDistAmt) elTopDistAmt.textContent = `₹${sumAmt.toFixed(2)} Cr`;
 
     if (!filtered.length) {
       container.innerHTML = `

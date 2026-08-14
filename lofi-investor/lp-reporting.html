@@ -440,46 +440,42 @@
       <!-- MAIN CONTENT WORKSPACE -->
       <div style="padding:14px 22px; flex:1;">
 
-        <!-- TOP SUMMARY CARDS (EXACT SPECIFIED 4 CARDS) -->
-        <div class="metrics-grid">
-          <!-- 01. Total Requests -->
-          <div class="metric-card">
-            <div class="metric-top">
-              <span class="metric-label">Total Requests</span>
-              <div class="metric-icon-wrap"><i data-lucide="file-text" style="width:13px; height:13px;"></i></div>
+        <!-- MODERN SAAS STATS GRID (4 CARDS) -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <span class="stat-card-label">Total Requests</span>
+              <span class="stat-card-icon"><i data-lucide="file-text" style="width:12px; height:12px;"></i></span>
             </div>
-            <div class="metric-val" id="statTotalRequests">18</div>
-            <div class="metric-sub" id="statTotalRequestsSub">Across 12 Institutional &amp; Family Office LPs</div>
+            <div class="stat-card-value" id="statTotalRequests">18</div>
+            <div class="stat-card-sub" id="statTotalRequestsSub">Across 12 LPs</div>
           </div>
 
-          <!-- 02. Pending Submission (GP hasn't responded yet, needs action) -->
-          <div class="metric-card">
-            <div class="metric-top">
-              <span class="metric-label">Pending Submission</span>
-              <div class="metric-icon-wrap" style="background:#FEF3C7; border-color:#FDE68A; color:#B45309;"><i data-lucide="clock" style="width:13px; height:13px;"></i></div>
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <span class="stat-card-label">Pending Submission</span>
+              <span class="stat-card-icon"><i data-lucide="clock" style="width:12px; height:12px;"></i></span>
             </div>
-            <div class="metric-val" id="statPending" style="color:#B45309;">6</div>
-            <div class="metric-sub amber" id="statPendingSub">4 In Preparation · 2 Past Due Date</div>
+            <div class="stat-card-value" id="statPending">6</div>
+            <div class="stat-card-sub" id="statPendingSub">4 Preparing · 2 Due</div>
           </div>
 
-          <!-- 03. Submitted / Awaiting LP Review -->
-          <div class="metric-card">
-            <div class="metric-top">
-              <span class="metric-label">Submitted / Awaiting Review</span>
-              <div class="metric-icon-wrap"><i data-lucide="send" style="width:13px; height:13px;"></i></div>
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <span class="stat-card-label">Submitted / Awaiting Review</span>
+              <span class="stat-card-icon"><i data-lucide="send" style="width:12px; height:12px;"></i></span>
             </div>
-            <div class="metric-val" id="statSubmitted">7</div>
-            <div class="metric-sub" id="statSubmittedSub">Sent, waiting on LP sign-off</div>
+            <div class="stat-card-value" id="statSubmitted">7</div>
+            <div class="stat-card-sub" id="statSubmittedSub">Awaiting LP sign-off</div>
           </div>
 
-          <!-- 04. Approved & Closed -->
-          <div class="metric-card">
-            <div class="metric-top">
-              <span class="metric-label">Approved &amp; Closed</span>
-              <div class="metric-icon-wrap"><i data-lucide="check-circle-2" style="width:13px; height:13px;"></i></div>
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <span class="stat-card-label">Approved &amp; Closed</span>
+              <span class="stat-card-icon"><i data-lucide="check-circle-2" style="width:12px; height:12px;"></i></span>
             </div>
-            <div class="metric-val" id="statApproved">5</div>
-            <div class="metric-sub green" id="statApprovedSub">Verified &amp; published to LP Portal</div>
+            <div class="stat-card-value" id="statApproved">5</div>
+            <div class="stat-card-sub" id="statApprovedSub">Published to portal</div>
           </div>
         </div>
 

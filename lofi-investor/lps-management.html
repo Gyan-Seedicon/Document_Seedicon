@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LPs Management — Seedicon Investor Platform</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="./js/components.js"></script>
+  <style>
+    /* Monochrome Status Pill Badges */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .pill-verified {
+      background: #F0F0EE;
+      color: #1A1A18;
+      border: 1px solid #DCDCDA;
+    }
+    .pill-pending {
+      background: #F7F7F5;
+      color: #7A7A76;
+      border: 1px solid #E2E2DF;
+    }
+    .pill-active {
+      background: #EFEFEA;
+      color: #2A2A28;
+      border: 1px solid #D8D8D4;
+    }
+    .pill-exited {
+      background: #F9F9F8;
+      color: #9A9A96;
+      border: 1px solid #E8E8E6;
+    }
+    .pill-type {
+      background: #F4F4F2;
+      color: #4A4A48;
+      border: 1px solid #E0E0DC;
+      font-size: 10.5px;
+      font-weight: 600;
+      text-transform: none;
+    }
+
+    /* Modal Backdrop & Form Container */
+    .lp-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(18, 18, 18, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .lp-modal-box {
+      background: #FFFFFF;
+      border-radius: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+      width: 100%;
+      max-width: 780px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border-main);
+      overflow: hidden;
+      animation: modalFadeIn 0.15s ease-out;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .lp-modal-header {
+      padding: 14px 20px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .lp-modal-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.01em;
+    }
+    .lp-modal-body {
+      padding: 20px 24px;
+      overflow-y: auto;
+      flex: 1;
+      background: #FAFAFA;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .lp-modal-footer {
+      padding: 12px 20px;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    /* Form Section Cards */
+    .form-section-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
+      border-radius: 8px;
+      padding: 16px 18px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    .form-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-faint);
+    }
+    .form-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .form-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .form-label .req {
+      color: #9A9A96;
+      font-weight: 700;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 6px 10px;
+      border: 1px solid var(--border-main);
+      border-radius: 6px;
+      font-family: var(--font-inter);
+      font-size: 12px;
+      color: var(--text-dark);
+      background: #FFFFFF;
+      outline: none;
+      transition: border-color 0.12s ease;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--accent-graphite);
+    }
+
+    /* Slide-over Right Drawer */
+    .lp-drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(18, 18, 18, 0.4);
+      backdrop-filter: blur(2px);
+      z-index: 1000;
+      display: flex;
+      justify-content: flex-end;
+      animation: fadeInOverlay 0.15s ease-out;
+    }
+    .lp-drawer {
+      width: 100%;
+      max-width: 620px;
+      height: 100%;
+      background: #FFFFFF;
+      box-shadow: -6px 0 24px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      animation: slideInRight 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes fadeInOverlay {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideInRight {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+
+    .drawer-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-main);
+      background: #FAFAFA;
+      padding: 0 16px;
+      gap: 16px;
+    }
+    .drawer-tab {
+      padding: 10px 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .drawer-tab:hover {
+      color: var(--text-dark);
+    }
+    .drawer-tab.active {
+      color: var(--text-dark);
+      border-bottom-color: var(--accent-graphite);
+      font-weight: 700;
+    }
+
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 20px;
+      background: #F8F8F6;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .drawer-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
+      border-radius: 8px;
+      padding: 14px 16px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    .drawer-card-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-light);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .detail-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border-faint);
+      font-size: 12px;
+    }
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+    .detail-label {
+      color: var(--text-muted);
+      font-size: 11.5px;
+    }
+    .detail-value {
+      font-weight: 600;
+      color: var(--text-dark);
+      text-align: right;
+    }
+
+    /* Floating FAB Toggle Button */
+    .fab-toggle-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: #1A1A18;
+      color: #FFFFFF;
+      border: 1px solid #1A1A18;
+      border-radius: 30px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+      font-family: Inter, sans-serif;
+      transition: all 0.15s ease;
+    }
+    .fab-toggle-btn:hover {
+      background: #2A2A28;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <!-- Top App Header Slot -->
+  <div id="appHeaderSlot"></div>
+
+  <div class="main-workspace" style="display:flex; flex-direction:row;">
+    <!-- Tiny Icon Sidebar Slot -->
+    <div id="tinySidebarSlot"></div>
+
+    <!-- Main Navigation Sidebar Slot -->
+    <div id="mainSidebarSlot"></div>
+
+    <!-- Main Content Workspace Area -->
+    <main class="content-scrollable" style="padding:0; display:flex; flex-direction:column; background:#F5F5F3;">
+
+      <!-- PAGE HEADER BAR -->
+      <header style="padding:10px 24px; background:#FFFFFF; border-bottom:1px solid #E4E4E2; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; position:sticky; top:0; z-index:10;">
+        <div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <h1 style="font-size:16.5px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em;">LPs Management</h1>
+            <span id="lpCountHeaderBadge" style="font-size:11px; font-weight:600; color:#71716E;">(18 LPs)</span>
+          </div>
+          <p style="font-size:11px; color:#8C8C88; margin-top:1px;">
+            Manage accredited Limited Partners, KYC &amp; KRA compliance, tax declarations, Demat accounts, and capital commitments.
+          </p>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:8px;">
+          <!-- CSV Import Action -->
+          <button class="btn btn-outline" onclick="openImportLPsModal()" style="font-size:11.5px; padding:5px 12px; background:#FFFFFF;">
+            <i data-lucide="upload" class="lucide-sm"></i>
+            <span>Import LPs</span>
+          </button>
+
+          <!-- Export Register Action -->
+          <button class="btn btn-outline" onclick="exportLPsCSV()" style="font-size:11.5px; padding:5px 12px; background:#FFFFFF;">
+            <i data-lucide="download" class="lucide-sm"></i>
+            <span>Export Register</span>
+          </button>
+
+          <!-- Add LP Button (Links to Onboarding Builder & Intake) -->
+          <a href="./lp-onboard-builder.html" class="btn btn-primary" style="font-size:12px; text-decoration:none;">
+            <i data-lucide="plus" class="lucide-sm"></i>
+            <span>Add LP</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- SEARCH & CONTROLS STRIP -->
+      <div style="padding:7px 24px; background:#FFFFFF; border-bottom:1px solid #EBEBEA; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-shrink:0;">
+        <div style="display:flex; align-items:center; gap:6px; flex:1; max-width:380px; background:#F7F7F5; border:1px solid #E0E0DE; border-radius:6px; padding:5px 10px;">
+          <i data-lucide="search" style="width:13px; height:13px; color:#9A9A96; flex-shrink:0;"></i>
+          <input type="text" id="lpTableSearch" onkeyup="renderLPsTable()" placeholder="Search LP name, PAN, email, RM, or entity..." style="border:none; background:transparent; outline:none; font-family:Inter,sans-serif; font-size:11.5px; width:100%; color:#1A1A18;" />
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+            <span>Type:</span>
+            <select id="filterType" onchange="renderLPsTable()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none;">
+              <option value="all">All Investor Types</option>
+              <option value="Individual">Individual</option>
+              <option value="Family Office">Family Office</option>
+              <option value="Institutional">Institutional</option>
+              <option value="Corporate">Corporate</option>
+              <option value="Trust">Trust</option>
+              <option value="NRI">NRI / Overseas</option>
+              <option value="HUF">HUF</option>
+              <option value="FPI">FPI</option>
+            </select>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+            <span>KYC:</span>
+            <select id="filterKYC" onchange="renderLPsTable()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none;">
+              <option value="all">All KYC Statuses</option>
+              <option value="Verified">Verified</option>
+              <option value="Pending">Pending Verification</option>
+            </select>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+            <span>Status:</span>
+            <select id="filterStatus" onchange="renderLPsTable()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none;">
+              <option value="all">All Statuses</option>
+              <option value="Active">Active</option>
+              <option value="Exited">Exited</option>
+            </select>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+            <span>Fund:</span>
+            <select id="filterFund" onchange="renderLPsTable()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none;">
+              <option value="all" selected>Seedicon Venture Fund I</option>
+              <option value="Fund II">Seedicon Fund II (Pipeline)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT WORKSPACE -->
+      <div style="padding:14px 24px; flex:1;">
+
+        <!-- 01. TOP SUMMARY METRICS (4 SAAS MONOCHROME CARDS) -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <span class="stat-card-label">Total Limited Partners</span>
+              <span class="stat-card-icon"><i data-lucide="users" style="width:12px; height:12px;"></i></span>
+            </div>
+            <div class="stat-card-value" id="statTotalLPs">18</div>
+            <div class="stat-card-sub" id="statTotalLPsSub">16 Active · 2 Exited</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <span class="stat-card-label">Total Committed Capital</span>
+              <span class="stat-card-icon"><i data-lucide="coins" style="width:12px; height:12px;"></i></span>
+            </div>
+            <div class="stat-card-value" id="statTotalCommitted">₹20.00 Cr</div>
+            <div class="stat-card-sub">100% of Fund Target Deployed</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <span class="stat-card-label">KYC Verified LPs</span>
+              <span class="stat-card-icon"><i data-lucide="shield-check" style="width:12px; height:12px;"></i></span>
+            </div>
+            <div class="stat-card-value" id="statKYCVerified">16</div>
+            <div class="stat-card-sub" id="statKYCVerifiedSub">2 Pending KRA check</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <span class="stat-card-label">Accredited Investors</span>
+              <span class="stat-card-icon"><i data-lucide="award" style="width:12px; height:12px;"></i></span>
+            </div>
+            <div class="stat-card-value" id="statAccredited">14</div>
+            <div class="stat-card-sub">CA Net-worth verified</div>
+          </div>
+        </div>
+
+        <!-- 02. CONDENSED DATA TABLE CONTAINER -->
+        <div id="lpsTableContainer"></div>
+
+      </div>
+
+      <!-- 03. EMPTY STATE CONTAINER (TOGGLED VIA FAB) -->
+      <div id="emptyLPsContainer" style="display:none; padding:32px 24px;">
+        <div style="background:#FFFFFF; border:1px dashed #DCDCDA; border-radius:8px; padding:48px 24px; text-align:center;">
+          <div style="width:48px; height:48px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#6A6A68;">
+            <i data-lucide="users" style="width:22px; height:22px;"></i>
+          </div>
+          <h2 style="font-size:14px; font-weight:800; color:#1A1A18; margin-bottom:4px;">No Limited Partners Registered</h2>
+          <p style="font-size:11.5px; color:#8C8C88; max-width:440px; margin:0 auto 16px; line-height:1.5;">
+            Add accredited Limited Partners or import an existing register CSV to manage capital commitments, KYC compliance, and distributions.
+          </p>
+          <div style="display:flex; align-items:center; justify-content:center; gap:10px;">
+            <button class="btn btn-outline" onclick="openImportLPsModal()">
+              <i data-lucide="upload" class="lucide-sm"></i>
+              <span>Import CSV</span>
+            </button>
+            <a href="./lp-onboard-builder.html" class="btn btn-primary" style="text-decoration:none;">
+              <i data-lucide="plus" class="lucide-sm"></i>
+              <span>Add First LP</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- 04. ADD LP MODAL (STRUCTURED SECTIONS MATCHING DD PARTNER ONBOARDING)    -->
+<!-- ========================================================================= -->
+<div id="addLPModalBackdrop" style="display:none;" class="lp-modal-backdrop" onclick="closeAddLPModal(event)">
+  <div class="lp-modal-box" onclick="event.stopPropagation()">
+    <!-- Modal Header -->
+    <div class="lp-modal-header">
+      <div>
+        <div class="lp-modal-title">Add Limited Partner (LP)</div>
+        <p style="font-size:11px; color:#8C8C88; margin-top:2px;">
+          Register an accredited investor into Seedicon Venture Fund I with KYC, tax, and banking details.
+        </p>
+      </div>
+      <button onclick="closeAddLPModal()" style="border:none; background:transparent; cursor:pointer; color:#7A7A78; padding:4px;">
+        <i data-lucide="x" style="width:16px; height:16px;"></i>
+      </button>
+    </div>
+
+    <!-- Modal Form Body (Scrollable Multi-Section Form) -->
+    <div class="lp-modal-body">
+      
+      <!-- Section 1: Basic Details -->
+      <div class="form-section-card">
+        <div class="form-section-head">
+          <span class="form-section-title">
+            <i data-lucide="user" style="width:13px; height:13px; color:#6A6A68;"></i>
+            1. Basic &amp; Entity Details
+          </span>
+          <span style="font-size:10px; color:#8C8C88;">Core identification</span>
+        </div>
+
+        <div class="form-grid-2" style="margin-bottom:12px;">
+          <div class="form-field">
+            <label class="form-label">Full Name / Entity Name <span class="req">*</span></label>
+            <input type="text" id="formLpName" class="form-input" placeholder="e.g. Shikhar Kapoor or Horizon Capital" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Investor Type <span class="req">*</span></label>
+            <select id="formLpType" class="form-select" onchange="handleInvestorTypeChange()">
+              <option value="Individual" selected>Individual</option>
+              <option value="Family Office">Family Office</option>
+              <option value="Corporate">Corporate / Pvt Ltd</option>
+              <option value="Trust">Trust</option>
+              <option value="Partnership">LLP / Partnership</option>
+              <option value="NRI">NRI (Non-Resident Indian)</option>
+              <option value="HUF">HUF (Hindu Undivided Family)</option>
+              <option value="FPI">FPI / Foreign Portfolio Investor</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid-2" style="margin-bottom:12px;">
+          <div class="form-field">
+            <label class="form-label">Email Address <span class="req">*</span></label>
+            <input type="email" id="formLpEmail" class="form-input" placeholder="investor@domain.com" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Phone Number <span class="req">*</span></label>
+            <input type="text" id="formLpPhone" class="form-input" placeholder="+91 98765 43210" required />
+          </div>
+        </div>
+
+        <div class="form-grid-2" style="margin-bottom:12px;">
+          <div class="form-field">
+            <label class="form-label">PAN (Permanent Account Number) <span class="req">*</span></label>
+            <input type="text" id="formLpPAN" class="form-input" placeholder="e.g. AAACH1234K" maxlength="10" style="text-transform:uppercase; font-family:var(--font-mono);" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label" id="formDobLabel">Date of Birth (DOB) <span class="req">*</span></label>
+            <input type="date" id="formLpDOB" class="form-input" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label">Registered / Mailing Address</label>
+          <input type="text" id="formLpAddress" class="form-input" placeholder="Address line, City, State, PIN / Postal Code" />
+        </div>
+      </div>
+
+      <!-- Section 2: KYC & Compliance -->
+      <div class="form-section-card">
+        <div class="form-section-head">
+          <span class="form-section-title">
+            <i data-lucide="shield-check" style="width:13px; height:13px; color:#6A6A68;"></i>
+            2. KYC &amp; Compliance Verification
+          </span>
+          <span style="font-size:10px; color:#8C8C88;">SEBI / KRA requirements</span>
+        </div>
+
+        <div class="form-grid-2" style="margin-bottom:12px;">
+          <div class="form-field">
+            <label class="form-label">KYC Status</label>
+            <select id="formLpKYC" class="form-select">
+              <option value="Verified" selected>Verified (via KRA / CKYCR)</option>
+              <option value="Pending">Pending Verification</option>
+            </select>
+          </div>
+          <div class="form-field" id="formAadhaarField">
+            <label class="form-label">Aadhaar Number (Last 4 digits / Masked)</label>
+            <input type="text" id="formLpAadhaar" class="form-input" placeholder="XXXX-XXXX-4819" maxlength="14" />
+          </div>
+        </div>
+
+        <!-- Dynamic Entity Field: UBO Details (shown for Corporate, Trust, Partnership, FPI) -->
+        <div id="formUBOField" style="display:none; margin-bottom:12px; background:#F8F8F6; border:1px solid #E2E2DF; border-radius:6px; padding:10px;">
+          <label class="form-label">Ultimate Beneficial Owner (UBO) / Controlling Person</label>
+          <input type="text" id="formLpUBO" class="form-input" placeholder="Name, Nationality, Ownership % (e.g. Ramesh Chandra — 60%)" />
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:10px; background:#F8F8F6; border:1px solid #E2E2DF; border-radius:6px; padding:10px 12px; margin-bottom:8px;">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div style="font-size:11.5px; font-weight:700; color:#1A1A18;">Accredited Investor Status</div>
+              <p style="font-size:10.5px; color:#8C8C88; margin-top:1px;">Net-worth &gt; ₹5 Cr (Individual) or &gt; ₹50 Cr (Entity) with valid CA Certificate.</p>
+            </div>
+            <input type="checkbox" id="formLpAccredited" style="width:16px; height:16px; cursor:pointer;" checked />
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; border-top:1px solid #E8E8E6; padding-top:8px;">
+            <div>
+              <div style="font-size:11.5px; font-weight:700; color:#1A1A18;">FATCA / CRS Declaration</div>
+              <p style="font-size:10.5px; color:#8C8C88; margin-top:1px;">Tax residency declaration under Foreign Account Tax Compliance Act.</p>
+            </div>
+            <input type="checkbox" id="formLpFATCA" style="width:16px; height:16px; cursor:pointer;" checked />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Tax & Regulatory -->
+      <div class="form-section-card">
+        <div class="form-section-head">
+          <span class="form-section-title">
+            <i data-lucide="receipt" style="width:13px; height:13px; color:#6A6A68;"></i>
+            3. Tax &amp; Regulatory
+          </span>
+          <span style="font-size:10px; color:#8C8C88;">Residency &amp; withholding</span>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="form-field">
+            <label class="form-label">Tax Residency Country</label>
+            <input type="text" id="formLpTaxCountry" class="form-input" value="India" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Tax ID / TIN (if outside India)</label>
+            <input type="text" id="formLpTIN" class="form-input" placeholder="e.g. SSN / EIN" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">GSTIN (if applicable)</label>
+            <input type="text" id="formLpGSTIN" class="form-input" placeholder="27AAACH1234K1Z5" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Banking & Demat -->
+      <div class="form-section-card">
+        <div class="form-section-head">
+          <span class="form-section-title">
+            <i data-lucide="building" style="width:13px; height:13px; color:#6A6A68;"></i>
+            4. Banking &amp; Demat Accounts
+          </span>
+          <span style="font-size:10px; color:#8C8C88;">Distributions &amp; unit holding</span>
+        </div>
+
+        <div class="form-grid-3" style="margin-bottom:12px;">
+          <div class="form-field">
+            <label class="form-label">Bank Name</label>
+            <input type="text" id="formLpBankName" class="form-input" placeholder="e.g. HDFC Bank Ltd" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Bank Account Number</label>
+            <input type="text" id="formLpAccountNum" class="form-input" placeholder="50200012345678" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label">IFSC Code</label>
+            <input type="text" id="formLpIFSC" class="form-input" placeholder="HDFC0001234" style="text-transform:uppercase;" required />
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label class="form-label">Account Type</label>
+            <select id="formLpAccountType" class="form-select">
+              <option value="Savings" selected>Savings Account</option>
+              <option value="Current">Current Account</option>
+              <option value="NRE">NRE (Repatriable - NRIs)</option>
+              <option value="NRO">NRO (Non-Repatriable - NRIs)</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Demat BOID / Client ID (SEBI Mandatory)</label>
+            <input type="text" id="formLpDemat" class="form-input" placeholder="1208160012345678 (16 Digits)" maxlength="16" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5: Commitment Details -->
+      <div class="form-section-card">
+        <div class="form-section-head">
+          <span class="form-section-title">
+            <i data-lucide="coins" style="width:13px; height:13px; color:#6A6A68;"></i>
+            5. Fund Commitment Details
+          </span>
+          <span style="font-size:10px; color:#8C8C88;">Fund allocation</span>
+        </div>
+
+        <div class="form-grid-2" style="margin-bottom:12px;">
+          <div class="form-field">
+            <label class="form-label">Fund / Scheme <span class="req">*</span></label>
+            <select id="formLpFund" class="form-select">
+              <option value="Seedicon Venture Fund I" selected>Seedicon Venture Fund I (₹20 Cr)</option>
+              <option value="Seedicon Fund II">Seedicon Fund II (Pipeline)</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Commitment Amount (₹ Cr) <span class="req">*</span></label>
+            <input type="number" step="0.05" id="formLpCommAmt" class="form-input" placeholder="e.g. 2.50" required />
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label class="form-label">Onboarding Date</label>
+            <input type="date" id="formLpOnboardDate" class="form-input" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Relationship Manager (RM) / Signatory</label>
+            <input type="text" id="formLpRM" class="form-input" placeholder="e.g. Rahul Sharma (GP)" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 6: Document Checklist -->
+      <div class="form-section-card">
+        <div class="form-section-head">
+          <span class="form-section-title">
+            <i data-lucide="files" style="width:13px; height:13px; color:#6A6A68;"></i>
+            6. Onboarding Documents Checklist
+          </span>
+          <span style="font-size:10px; color:#8C8C88;">File attachments</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:11.5px; color:#4A4A48;">
+          <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+            <input type="checkbox" id="docPAN" checked />
+            <span>PAN Copy Attached</span>
+          </label>
+          <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+            <input type="checkbox" id="docAadhaar" checked />
+            <span>Aadhaar / Passport Copy</span>
+          </label>
+          <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+            <input type="checkbox" id="docKRA" checked />
+            <span>KRA / CKYC Acknowledgment</span>
+          </label>
+          <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+            <input type="checkbox" id="docFATCA" checked />
+            <span>Signed FATCA-CRS Form</span>
+          </label>
+          <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+            <input type="checkbox" id="docSubAgreement" checked />
+            <span>Subscription Agreement</span>
+          </label>
+          <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+            <input type="checkbox" id="docCheque" checked />
+            <span>Cancelled Cheque</span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="lp-modal-footer">
+      <button class="btn btn-outline" onclick="closeAddLPModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitAddLP()">
+        <i data-lucide="check" class="lucide-sm"></i>
+        <span>Save &amp; Register LP</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- 05. CSV IMPORT MODAL (WIZARD WITH PARSING, PREVIEW, AND VALIDATION)      -->
+<!-- ========================================================================= -->
+<div id="importLPsModalBackdrop" style="display:none;" class="lp-modal-backdrop" onclick="closeImportLPsModal(event)">
+  <div class="lp-modal-box" onclick="event.stopPropagation()" style="max-width:840px;">
+    <!-- Modal Header -->
+    <div class="lp-modal-header">
+      <div>
+        <div class="lp-modal-title">Bulk Import Limited Partners (CSV)</div>
+        <p style="font-size:11px; color:#8C8C88; margin-top:2px;">
+          Upload LP register CSV matching standard fields. Validates PAN format and KYC completeness before committing.
+        </p>
+      </div>
+      <button onclick="closeImportLPsModal()" style="border:none; background:transparent; cursor:pointer; color:#7A7A78; padding:4px;">
+        <i data-lucide="x" style="width:16px; height:16px;"></i>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="lp-modal-body" id="importModalBody">
+      
+      <!-- Step 1: Upload Box & Sample Template -->
+      <div style="background:#FFFFFF; border:1px dashed #C8C8C4; border-radius:8px; padding:24px; text-align:center;">
+        <i data-lucide="file-spreadsheet" style="width:32px; height:32px; color:#6A6A68; margin-bottom:8px;"></i>
+        <div style="font-size:13px; font-weight:700; color:#1A1A18; margin-bottom:4px;">Select LP Register CSV File</div>
+        <p style="font-size:11px; color:#8C8C88; max-width:400px; margin:0 auto 14px;">
+          Columns required: <code>Name, Type, Email, Phone, PAN, Commitment Amount, Bank Account, IFSC</code>
+        </p>
+        <div style="display:flex; align-items:center; justify-content:center; gap:10px;">
+          <input type="file" id="csvFileInput" accept=".csv" style="display:none;" onchange="handleCSVFileSelect(event)" />
+          <button class="btn btn-primary" onclick="document.getElementById('csvFileInput').click()">
+            <i data-lucide="upload" class="lucide-sm"></i>
+            <span>Browse CSV File</span>
+          </button>
+          <button class="btn btn-outline" onclick="downloadSampleCSV()">
+            <i data-lucide="download" class="lucide-sm"></i>
+            <span>Download Sample CSV</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Live Parse & Validation Preview -->
+      <div id="csvPreviewSection" style="display:none; display:flex; flex-direction:column; gap:10px;">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <div style="font-size:12px; font-weight:700; color:#1A1A18;" id="csvRowCountText">4 LPs parsed from file</div>
+          <div id="csvValidationBadge" class="pill pill-verified">Validation Passed · Ready</div>
+        </div>
+
+        <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; overflow:hidden; max-height:220px; overflow-y:auto;">
+          <table class="data-table" style="font-size:11px;">
+            <thead>
+              <tr>
+                <th>LP Name</th>
+                <th>Type</th>
+                <th>Email</th>
+                <th>PAN</th>
+                <th class="num">Commitment</th>
+                <th>Bank A/C &amp; IFSC</th>
+                <th>Status Check</th>
+              </tr>
+            </thead>
+            <tbody id="csvPreviewTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="lp-modal-footer">
+      <button class="btn btn-outline" onclick="closeImportLPsModal()">Cancel</button>
+      <button class="btn btn-primary" id="btnConfirmImport" onclick="confirmCSVImport()" disabled>
+        <i data-lucide="check" class="lucide-sm"></i>
+        <span>Confirm &amp; Ingest LPs</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- 06. LP DETAIL SLIDE-OVER DRAWER (TABS: PROFILE / KYC / COMMITMENT / CALLS) -->
+<!-- ========================================================================= -->
+<div id="lpDrawerOverlay" style="display:none;" class="lp-drawer-overlay" onclick="closeLPDrawer(event)">
+  <div class="lp-drawer" onclick="event.stopPropagation()">
+    <!-- Drawer Header -->
+    <div style="padding:16px 20px; border-bottom:1px solid var(--border-main); display:flex; align-items:flex-start; justify-content:space-between; background:#FFFFFF;">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <h2 style="font-size:16px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em;" id="drawerLpName">LP Name</h2>
+          <span class="pill pill-type" id="drawerLpType">Individual</span>
+          <span class="pill pill-verified" id="drawerLpKYCPill">VERIFIED</span>
+        </div>
+        <div style="font-size:11.5px; color:#8C8C88; display:flex; align-items:center; gap:12px;">
+          <span>PAN: <strong style="color:#2A2A28; font-family:var(--font-mono);" id="drawerLpPAN">AAACH1234K</strong></span>
+          <span>·</span>
+          <span>Commitment: <strong style="color:#2A2A28;" id="drawerLpComm">₹2.50 Cr</strong></span>
+        </div>
+      </div>
+      <button onclick="closeLPDrawer()" style="border:none; background:transparent; cursor:pointer; color:#7A7A78; padding:4px;">
+        <i data-lucide="x" style="width:16px; height:16px;"></i>
+      </button>
+    </div>
+
+    <!-- Drawer Navigation Tabs -->
+    <div class="drawer-tabs">
+      <button class="drawer-tab active" id="dtabBtnProfile" onclick="switchDrawerTab('profile')">
+        <i data-lucide="user" class="lucide-sm"></i>
+        <span>Profile &amp; Bank</span>
+      </button>
+      <button class="drawer-tab" id="dtabBtnKYC" onclick="switchDrawerTab('kyc')">
+        <i data-lucide="shield-check" class="lucide-sm"></i>
+        <span>KYC &amp; Documents</span>
+      </button>
+      <button class="drawer-tab" id="dtabBtnHistory" onclick="switchDrawerTab('history')">
+        <i data-lucide="pie-chart" class="lucide-sm"></i>
+        <span>Commitment</span>
+      </button>
+      <button class="drawer-tab" id="dtabBtnCalls" onclick="switchDrawerTab('calls')">
+        <i data-lucide="coins" class="lucide-sm"></i>
+        <span>Capital Calls</span>
+      </button>
+    </div>
+
+    <!-- Drawer Body -->
+    <div class="drawer-body" id="drawerContentSlot">
+      <!-- Injected dynamically via JS based on selected LP and active drawer tab -->
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- 07. FLOATING FAB TOGGLE (FOR PROVING POPULATED VS EMPTY STATE)            -->
+<!-- ========================================================================= -->
+<button class="fab-toggle-btn" id="fabToggleState" title="Toggle between Populated Data and Empty State" onclick="toggleState()">
+  <i data-lucide="eye" style="width:13px; height:13px;"></i>
+  <span id="fabToggleText">Toggle Empty State</span>
+</button>
+
+<!-- ========================================================================= -->
+<!-- JAVASCRIPT LOGIC & STATE STORE                                            -->
+<!-- ========================================================================= -->
+<script>
+  // ---------- COMPREHENSIVE INITIAL LP DATA STORE (18 ACCREDITED LPS) ----------
+  let lpsStore = [
+    {
+      id: 'LP-001',
+      name: 'Shikhar Kapoor',
+      type: 'Family Office',
+      comm: 2.50,
+      called: 0.94,
+      paid: 0.94,
+      kycStatus: 'Verified',
+      pan: 'AAACK4910P',
+      dob: '1978-04-12',
+      email: 'shikhar.k@kapoorholdings.com',
+      phone: '+91 98200 11223',
+      address: '42 Nariman Point, Marine Drive, Mumbai 400021',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '14 Jan 2024',
+      status: 'Active',
+      bankName: 'HDFC Bank Ltd',
+      accountNum: '50200084920194',
+      ifsc: 'HDFC0000060',
+      accountType: 'Current',
+      demat: '1208160049102847',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'Shikhar Kapoor (100%)',
+      rm: 'Rahul Sharma (GP)',
+      calls: [
+        { id: 'CC-001', callAmount: '₹0.55 Cr', paidDate: '01 Aug 2026', status: 'Paid', utr: 'HDFCR2608019401' },
+        { id: 'CC-002', callAmount: '₹0.39 Cr', paidDate: '25 Aug 2026', status: 'Paid', utr: 'HDFCR2608251029' }
+      ]
+    },
+    {
+      id: 'LP-002',
+      name: 'Horizon Capital Partners',
+      type: 'Institutional',
+      comm: 2.40,
+      called: 0.58,
+      paid: 0.58,
+      kycStatus: 'Verified',
+      pan: 'AAACH8192K',
+      dob: '2016-09-15',
+      email: 'd.sterling@horizoncap.com',
+      phone: '+91 80 4129 8800',
+      address: 'Prestige Trade Tower, Palace Road, Bengaluru 560001',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '02 Feb 2024',
+      status: 'Active',
+      bankName: 'Axis Bank Ltd',
+      accountNum: '918020019402941',
+      ifsc: 'UTIB0000123',
+      accountType: 'Current',
+      demat: '1204470094018274',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'Horizon Investment Group (85%), David Sterling (15%)',
+      rm: 'Rahul Sharma (GP)',
+      calls: [
+        { id: 'CC-001', callAmount: '₹0.34 Cr', paidDate: '01 Aug 2026', status: 'Paid', utr: 'AXISB2608018401' },
+        { id: 'CC-002', callAmount: '₹0.24 Cr', paidDate: '24 Aug 2026', status: 'Paid', utr: 'AXISB2608249018' }
+      ]
+    },
+    {
+      id: 'LP-003',
+      name: 'Ananya Raghunathan',
+      type: 'Trust',
+      comm: 2.00,
+      called: 0.48,
+      paid: 0.48,
+      kycStatus: 'Verified',
+      pan: 'AABTR9401R',
+      dob: '1982-11-20',
+      email: 'ananya@raghunathan.org',
+      phone: '+91 44 2811 0022',
+      address: '7 Kasturi Ranga Road, Alwarpet, Chennai 600018',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '28 Jan 2024',
+      status: 'Active',
+      bankName: 'ICICI Bank Ltd',
+      accountNum: '000405018492',
+      ifsc: 'ICIC0000004',
+      accountType: 'Current',
+      demat: 'IN30012610492019',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'Raghunathan Family Trust Beneficiaries',
+      rm: 'Priya Mehta (VP Investor Relations)',
+      calls: [
+        { id: 'CC-001', callAmount: '₹0.28 Cr', paidDate: '01 Aug 2026', status: 'Paid', utr: 'ICICR2608010294' },
+        { id: 'CC-002', callAmount: '₹0.20 Cr', paidDate: '25 Aug 2026', status: 'Paid', utr: 'ICICR2608259401' }
+      ]
+    },
+    {
+      id: 'LP-004',
+      name: 'Krish Kaul',
+      type: 'Individual',
+      comm: 1.80,
+      called: 0.43,
+      paid: 0.43,
+      kycStatus: 'Verified',
+      pan: 'ABCDE1234F',
+      dob: '1985-06-18',
+      email: 'krish.kaul@alumni.stanford.edu',
+      phone: '+91 99880 44332',
+      address: 'Flat 12B, Golf Links Apartment, New Delhi 110003',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '10 Feb 2024',
+      status: 'Active',
+      bankName: 'Kotak Mahindra Bank',
+      accountNum: '481920194820',
+      ifsc: 'KKBK0000182',
+      accountType: 'Savings',
+      demat: '1203320049102847',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'N/A (Individual)',
+      rm: 'Rahul Sharma (GP)',
+      calls: [
+        { id: 'CC-001', callAmount: '₹0.25 Cr', paidDate: '01 Aug 2026', status: 'Paid', utr: 'KKBKR2608018841' },
+        { id: 'CC-002', callAmount: '₹0.18 Cr', paidDate: '23 Aug 2026', status: 'Paid', utr: 'KKBKR2608239014' }
+      ]
+    },
+    {
+      id: 'LP-005',
+      name: 'Meridian Family Office',
+      type: 'Family Office',
+      comm: 1.60,
+      called: 0.00,
+      paid: 0.00,
+      kycStatus: 'Pending',
+      pan: 'AAECM4910M',
+      dob: '2019-03-10',
+      email: 'invest@meridianfo.com',
+      phone: '+91 22 6600 4400',
+      address: 'One BKC, G Block, Bandra Kurla Complex, Mumbai 400051',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '04 Mar 2024',
+      status: 'Active',
+      bankName: 'Standard Chartered Bank',
+      accountNum: '22005910294',
+      ifsc: 'SCBL0036001',
+      accountType: 'Current',
+      demat: '1208160094018294',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'Suresh Singhania (100%)',
+      rm: 'Priya Mehta (VP Investor Relations)',
+      calls: []
+    },
+    {
+      id: 'LP-006',
+      name: 'Aurum Global Trust',
+      type: 'Trust',
+      comm: 1.40,
+      called: 0.00,
+      paid: 0.00,
+      kycStatus: 'Pending',
+      pan: 'AABTA4910A',
+      dob: '2021-08-14',
+      email: 'compliance@aurumtrust.org',
+      phone: '+91 11 4988 2200',
+      address: 'Barakhamba Road, Connaught Place, New Delhi 110001',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '12 Mar 2024',
+      status: 'Active',
+      bankName: 'Citibank N.A.',
+      accountNum: '0549102948',
+      ifsc: 'CITI0000002',
+      accountType: 'Current',
+      demat: '1201090049102847',
+      isAccredited: true,
+      fatcaSigned: false,
+      ubo: 'Aurum Trustees Ltd',
+      rm: 'Rahul Sharma (GP)',
+      calls: []
+    },
+    {
+      id: 'LP-007',
+      name: 'Vidhi Sharma',
+      type: 'Individual',
+      comm: 1.20,
+      called: 0.29,
+      paid: 0.29,
+      kycStatus: 'Verified',
+      pan: 'AZMPS4910D',
+      dob: '1989-02-14',
+      email: 'vidhi@sharmaventures.com',
+      phone: '+91 98110 22334',
+      address: 'Vasant Vihar, Block C, New Delhi 110057',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '15 Jan 2024',
+      status: 'Active',
+      bankName: 'HDFC Bank Ltd',
+      accountNum: '50100294019482',
+      ifsc: 'HDFC0000120',
+      accountType: 'Savings',
+      demat: '1208160010492847',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'N/A (Individual)',
+      rm: 'Rahul Sharma (GP)',
+      calls: [
+        { id: 'CC-001', callAmount: '₹0.17 Cr', paidDate: '01 Aug 2026', status: 'Paid', utr: 'HDFCR2608014819' },
+        { id: 'CC-002', callAmount: '₹0.12 Cr', paidDate: '24 Aug 2026', status: 'Paid', utr: 'HDFCR2608249014' }
+      ]
+    },
+    {
+      id: 'LP-008',
+      name: 'Nishant Vohra',
+      type: 'Family Office',
+      comm: 1.10,
+      called: 0.26,
+      paid: 0.26,
+      kycStatus: 'Verified',
+      pan: 'AABNV4910N',
+      dob: '1976-10-05',
+      email: 'nishant@vohraholdings.com',
+      phone: '+91 98300 44920',
+      address: 'Ballygunge Circular Road, Kolkata 700019',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '20 Jan 2024',
+      status: 'Active',
+      bankName: 'Axis Bank Ltd',
+      accountNum: '919020049102847',
+      ifsc: 'UTIB0000005',
+      accountType: 'Current',
+      demat: 'IN30021410492019',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'Nishant Vohra & Family',
+      rm: 'Priya Mehta (VP Investor Relations)',
+      calls: [
+        { id: 'CC-001', callAmount: '₹0.15 Cr', paidDate: '01 Aug 2026', status: 'Paid', utr: 'AXISB2608019482' },
+        { id: 'CC-002', callAmount: '₹0.11 Cr', paidDate: '25 Aug 2026', status: 'Paid', utr: 'AXISB2608254819' }
+      ]
+    },
+    {
+      id: 'LP-009',
+      name: 'Tara Investment Office',
+      type: 'Corporate',
+      comm: 1.00,
+      called: 0.24,
+      paid: 0.24,
+      kycStatus: 'Verified',
+      pan: 'AAACT4910T',
+      dob: '2014-07-22',
+      email: 'allocations@taracorp.in',
+      phone: '+91 22 2490 8800',
+      address: 'Peninsula Business Park, Lower Parel, Mumbai 400013',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '25 Jan 2024',
+      status: 'Active',
+      bankName: 'ICICI Bank Ltd',
+      accountNum: '001105019482',
+      ifsc: 'ICIC0000011',
+      accountType: 'Current',
+      demat: '1208160049102847',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'Tara Enterprise Holdings (100%)',
+      rm: 'Rahul Sharma (GP)',
+      calls: [
+        { id: 'CC-001', callAmount: '₹0.14 Cr', paidDate: '01 Aug 2026', status: 'Paid', utr: 'ICICR2608019401' },
+        { id: 'CC-002', callAmount: '₹0.10 Cr', paidDate: '24 Aug 2026', status: 'Paid', utr: 'ICICR2608249018' }
+      ]
+    },
+    {
+      id: 'LP-010',
+      name: 'FinCity Entrepreneurs Fund',
+      type: 'Institutional',
+      comm: 1.00,
+      called: 0.24,
+      paid: 0.24,
+      kycStatus: 'Verified',
+      pan: 'AAACF4910F',
+      dob: '2018-05-11',
+      email: 'treasury@fincityventures.in',
+      phone: '+91 80 6700 1122',
+      address: 'Indiranagar 100ft Road, Bengaluru 560038',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '28 Jan 2024',
+      status: 'Active',
+      bankName: 'HDFC Bank Ltd',
+      accountNum: '50200094018274',
+      ifsc: 'HDFC0000140',
+      accountType: 'Current',
+      demat: '1203320094018294',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'FinCity GP LLP',
+      rm: 'Rahul Sharma (GP)',
+      calls: [
+        { id: 'CC-001', callAmount: '₹0.14 Cr', paidDate: '01 Aug 2026', status: 'Paid', utr: 'HDFCR2608014910' },
+        { id: 'CC-002', callAmount: '₹0.10 Cr', paidDate: '25 Aug 2026', status: 'Paid', utr: 'HDFCR2608251094' }
+      ]
+    },
+    {
+      id: 'LP-011',
+      name: 'Bhanu Chandrasekhar',
+      type: 'Individual',
+      comm: 0.90,
+      called: 0.22,
+      paid: 0.22,
+      kycStatus: 'Verified',
+      pan: 'ABCPC4910B',
+      dob: '1972-08-30',
+      email: 'bhanu.c@chandracapital.com',
+      phone: '+91 40 2355 9900',
+      address: 'Jubilee Hills, Road No. 36, Hyderabad 500033',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '01 Feb 2024',
+      status: 'Active',
+      bankName: 'Kotak Mahindra Bank',
+      accountNum: '491028471920',
+      ifsc: 'KKBK0000550',
+      accountType: 'Savings',
+      demat: '1204470049102847',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'N/A (Individual)',
+      rm: 'Priya Mehta (VP Investor Relations)',
+      calls: [
+        { id: 'CC-001', callAmount: '₹0.13 Cr', paidDate: '01 Aug 2026', status: 'Paid', utr: 'KKBKR2608019482' },
+        { id: 'CC-002', callAmount: '₹0.09 Cr', paidDate: '24 Aug 2026', status: 'Paid', utr: 'KKBKR2608249014' }
+      ]
+    },
+    {
+      id: 'LP-012',
+      name: 'Rohan Mehta',
+      type: 'Individual',
+      comm: 0.80,
+      called: 0.19,
+      paid: 0.19,
+      kycStatus: 'Verified',
+      pan: 'APMPM4910R',
+      dob: '1987-12-04',
+      email: 'rohan@mehtaventures.in',
+      phone: '+91 98211 44556',
+      address: 'Juhu Tara Road, Juhu, Mumbai 400049',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '05 Feb 2024',
+      status: 'Active',
+      bankName: 'Axis Bank Ltd',
+      accountNum: '918010049102847',
+      ifsc: 'UTIB0000040',
+      accountType: 'Savings',
+      demat: 'IN30012649102847',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'N/A (Individual)',
+      rm: 'Rahul Sharma (GP)',
+      calls: [
+        { id: 'CC-001', callAmount: '₹0.11 Cr', paidDate: '01 Aug 2026', status: 'Paid', utr: 'AXISB2608014819' },
+        { id: 'CC-002', callAmount: '₹0.08 Cr', paidDate: '25 Aug 2026', status: 'Paid', utr: 'AXISB2608259401' }
+      ]
+    },
+    {
+      id: 'LP-013',
+      name: 'Surya Nair',
+      type: 'Corporate',
+      comm: 0.70,
+      called: 0.17,
+      paid: 0.17,
+      kycStatus: 'Verified',
+      pan: 'AAACS4910N',
+      dob: '2017-01-19',
+      email: 'surya.nair@nairtech.com',
+      phone: '+91 484 2800 110',
+      address: 'Infopark Kakkanad, Kochi, Kerala 682042',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '08 Feb 2024',
+      status: 'Active',
+      bankName: 'Federal Bank Ltd',
+      accountNum: '10490200194827',
+      ifsc: 'FDRL0001049',
+      accountType: 'Current',
+      demat: '1208160094018274',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'Surya Nair (70%), K. Nair (30%)',
+      rm: 'Rahul Sharma (GP)',
+      calls: [
+        { id: 'CC-001', callAmount: '₹0.10 Cr', paidDate: '01 Aug 2026', status: 'Paid', utr: 'FDRLR2608019401' },
+        { id: 'CC-002', callAmount: '₹0.07 Cr', paidDate: '23 Aug 2026', status: 'Paid', utr: 'FDRLR2608239014' }
+      ]
+    },
+    {
+      id: 'LP-014',
+      name: 'Devanshi Patel',
+      type: 'Individual',
+      comm: 0.60,
+      called: 0.14,
+      paid: 0.14,
+      kycStatus: 'Verified',
+      pan: 'ABDPP4910D',
+      dob: '1991-09-27',
+      email: 'devanshi@patelcapital.in',
+      phone: '+91 79 2656 4400',
+      address: 'Sindhu Bhavan Road, Bodakdev, Ahmedabad 380054',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '12 Feb 2024',
+      status: 'Active',
+      bankName: 'HDFC Bank Ltd',
+      accountNum: '50100491028472',
+      ifsc: 'HDFC0000080',
+      accountType: 'Savings',
+      demat: '1203320049102847',
+      isAccredited: false,
+      fatcaSigned: true,
+      ubo: 'N/A (Individual)',
+      rm: 'Priya Mehta (VP Investor Relations)',
+      calls: [
+        { id: 'CC-001', callAmount: '₹0.08 Cr', paidDate: '01 Aug 2026', status: 'Paid', utr: 'HDFCR2608014819' },
+        { id: 'CC-002', callAmount: '₹0.06 Cr', paidDate: '25 Aug 2026', status: 'Paid', utr: 'HDFCR2608259401' }
+      ]
+    },
+    {
+      id: 'LP-015',
+      name: 'Arcus Capital',
+      type: 'Trust',
+      comm: 0.50,
+      called: 0.00,
+      paid: 0.00,
+      kycStatus: 'Verified',
+      pan: 'AABTA9401C',
+      dob: '2020-04-18',
+      email: 'ir@arcuscapital.in',
+      phone: '+91 22 4000 8899',
+      address: 'Bandra Reclamation, Mumbai 400050',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '18 Feb 2024',
+      status: 'Exited',
+      bankName: 'ICICI Bank Ltd',
+      accountNum: '000405094018',
+      ifsc: 'ICIC0000004',
+      accountType: 'Current',
+      demat: '1208160010492847',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'Arcus Trust Trustees',
+      rm: 'Rahul Sharma (GP)',
+      calls: []
+    },
+    {
+      id: 'LP-016',
+      name: 'Kenji Watanabe',
+      type: 'NRI',
+      comm: 0.50,
+      called: 0.12,
+      paid: 0.12,
+      kycStatus: 'Verified',
+      pan: 'AWPNW4910K',
+      dob: '1975-03-15',
+      email: 'kenji.w@tokyo-invest.jp',
+      phone: '+81 3 5555 0192',
+      address: 'Roppongi Hills Mori Tower, Minato-ku, Tokyo 106-6108',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '22 Feb 2024',
+      status: 'Active',
+      bankName: 'State Bank of India (NRI Branch)',
+      accountNum: '394018274910',
+      ifsc: 'SBIN0000691',
+      accountType: 'NRE',
+      demat: 'IN30012649102847',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'N/A (Individual NRI)',
+      rm: 'Rahul Sharma (GP)',
+      calls: [
+        { id: 'CC-001', callAmount: '₹0.07 Cr', paidDate: '01 Aug 2026', status: 'Paid', utr: 'SBINR2608014819' },
+        { id: 'CC-002', callAmount: '₹0.05 Cr', paidDate: '24 Aug 2026', status: 'Paid', utr: 'SBINR2608249014' }
+      ]
+    },
+    {
+      id: 'LP-017',
+      name: 'Rajesh Jhunjhunwala',
+      type: 'Individual',
+      comm: 0.50,
+      called: 0.12,
+      paid: 0.12,
+      kycStatus: 'Verified',
+      pan: 'AZMPJ4910R',
+      dob: '1968-11-12',
+      email: 'rajesh@rareventures.in',
+      phone: '+91 98201 55667',
+      address: 'Il Palazzo, Little Gibbs Road, Malabar Hill, Mumbai 400006',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '01 Mar 2024',
+      status: 'Active',
+      bankName: 'HDFC Bank Ltd',
+      accountNum: '50100491029481',
+      ifsc: 'HDFC0000060',
+      accountType: 'Savings',
+      demat: '1208160049102847',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'N/A (Individual)',
+      rm: 'Rahul Sharma (GP)',
+      calls: [
+        { id: 'CC-001', callAmount: '₹0.07 Cr', paidDate: '01 Aug 2026', status: 'Paid', utr: 'HDFCR2608010091' },
+        { id: 'CC-002', callAmount: '₹0.05 Cr', paidDate: '24 Aug 2026', status: 'Paid', utr: 'HDFCR2608241094' }
+      ]
+    },
+    {
+      id: 'LP-018',
+      name: 'Alpha Edge Partners',
+      type: 'FPI',
+      comm: 0.50,
+      called: 0.00,
+      paid: 0.00,
+      kycStatus: 'Verified',
+      pan: 'AAACA4910A',
+      dob: '2022-06-10',
+      email: 'compliance@alphaedge.sg',
+      phone: '+65 6800 4400',
+      address: 'Marina Bay Financial Centre Tower 1, Singapore 018981',
+      fund: 'Seedicon Venture Fund I',
+      onboardDate: '15 Mar 2024',
+      status: 'Exited',
+      bankName: 'DBS Bank Ltd',
+      accountNum: '003940182749',
+      ifsc: 'DBSS0IN0811',
+      accountType: 'NRO',
+      demat: '1208160094018294',
+      isAccredited: true,
+      fatcaSigned: true,
+      ubo: 'Alpha Edge Fund Managers Ltd (Singapore)',
+      rm: 'Rahul Sharma (GP)',
+      calls: []
+    }
+  ];
+
+  let currentSelectedLP = null;
+  let currentActiveDrawerTab = 'profile';
+  let isStateEmpty = false;
+  let parsedCSVRows = [];
+
+  // ---------- INITIALIZATION ----------
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof LayoutComponents !== 'undefined' && document.getElementById('appHeaderSlot')) {
+      LayoutComponents.init({ activeNav: 'lps-management', activeApp: 'investor' });
+    }
+    renderLPsTable();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
+
+  // ---------- TOAST NOTIFICATIONS ----------
+  function showToast(msg) {
+    const existing = document.getElementById('globalToastNotification');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.id = 'globalToastNotification';
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1A1A18;
+      color: #FFFFFF;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 600;
+      font-family: Inter, sans-serif;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: fadeInToast 0.15s ease-out;
+    `;
+    toast.innerHTML = `<i data-lucide="check-circle-2" style="width:14px; height:14px; color:#A3E635;"></i> <span>${msg}</span>`;
+    document.body.appendChild(toast);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    setTimeout(() => {
+      if (toast) toast.remove();
+    }, 2800);
+  }
+
+  // ---------- COPY EMAIL INLINE HELPER ----------
+  function copyEmailInline(e, email) {
+    if (e) e.stopPropagation();
+    if (navigator.clipboard) navigator.clipboard.writeText(email);
+    showToast(`LP Email copied: ${email}`);
+  }
+
+  // ---------- RENDER LPs TABLE & TOP METRICS ----------
+  function renderLPsTable() {
+    const container = document.getElementById('lpsTableContainer');
+    if (!container) return;
+
+    if (isStateEmpty) {
+      document.querySelector('.stats-grid').style.display = 'none';
+      container.style.display = 'none';
+      document.getElementById('emptyLPsContainer').style.display = 'block';
+      return;
+    }
+
+    document.querySelector('.stats-grid').style.display = 'grid';
+    container.style.display = 'block';
+    document.getElementById('emptyLPsContainer').style.display = 'none';
+
+    const q = (document.getElementById('lpTableSearch')?.value || '').toLowerCase().trim();
+    const typeFilter = document.getElementById('filterType')?.value || 'all';
+    const kycFilter = document.getElementById('filterKYC')?.value || 'all';
+    const statusFilter = document.getElementById('filterStatus')?.value || 'all';
+    const fundFilter = document.getElementById('filterFund')?.value || 'all';
+
+    const filtered = lpsStore.filter(lp => {
+      const mSearch = !q || lp.name.toLowerCase().includes(q) || lp.pan.toLowerCase().includes(q) || lp.email.toLowerCase().includes(q) || lp.type.toLowerCase().includes(q) || (lp.rm && lp.rm.toLowerCase().includes(q));
+      const mType = typeFilter === 'all' || lp.type === typeFilter;
+      const mKYC = kycFilter === 'all' || lp.kycStatus === kycFilter;
+      const mStatus = statusFilter === 'all' || lp.status === statusFilter;
+      const mFund = fundFilter === 'all' || lp.fund.includes(fundFilter);
+      return mSearch && mType && mKYC && mStatus && mFund;
+    });
+
+    // Update Top SaaS Metrics
+    const totalCount = lpsStore.length;
+    const activeCount = lpsStore.filter(l => l.status === 'Active').length;
+    const exitedCount = lpsStore.filter(l => l.status === 'Exited').length;
+    const totalComm = lpsStore.reduce((s, l) => s + l.comm, 0);
+    const kycVerifiedCount = lpsStore.filter(l => l.kycStatus === 'Verified').length;
+    const kycPendingCount = lpsStore.filter(l => l.kycStatus === 'Pending').length;
+    const accreditedCount = lpsStore.filter(l => l.isAccredited).length;
+
+    document.getElementById('lpCountHeaderBadge').textContent = `(${totalCount} LPs)`;
+    document.getElementById('statTotalLPs').textContent = totalCount;
+    document.getElementById('statTotalLPsSub').textContent = `${activeCount} Active · ${exitedCount} Exited`;
+    document.getElementById('statTotalCommitted').textContent = `₹${totalComm.toFixed(2)} Cr`;
+    document.getElementById('statKYCVerified').textContent = kycVerifiedCount;
+    document.getElementById('statKYCVerifiedSub').textContent = `${kycPendingCount} Pending KRA check`;
+    document.getElementById('statAccredited').textContent = accreditedCount;
+
+    if (!filtered.length) {
+      container.innerHTML = `
+        <div class="table-card" style="padding:36px; text-align:center; color:#8C8C88;">
+          <i data-lucide="search" style="width:22px; height:22px; color:#B0B0AE; margin-bottom:8px;"></i>
+          <div style="font-size:13px; font-weight:700; color:#1A1A18; margin-bottom:2px;">No Matching Limited Partners Found</div>
+          <p style="font-size:11px; color:#8C8C88;">Try changing your search query or filter options.</p>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    // EXACT REQUIRED COLUMNS:
+    // LP Name (+ mail icon) | Investor Type | Commitment Amount | KYC Status (badge) | PAN | Onboarding Date | Fund | Status (Active/Exited) | Action
+    container.innerHTML = `
+      <div class="table-card">
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">LP Name</th>
+                <th style="white-space:nowrap;">Investor Type</th>
+                <th class="num" style="white-space:nowrap;">Commitment Amount</th>
+                <th style="white-space:nowrap;">KYC Status</th>
+                <th style="white-space:nowrap;">PAN</th>
+                <th style="white-space:nowrap;">Onboarding Date</th>
+                <th style="white-space:nowrap;">Fund</th>
+                <th style="white-space:nowrap;">Status</th>
+                <th style="text-align:right; white-space:nowrap;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${filtered.map(lp => `
+                <tr onclick="openLPDrawer('${lp.id}')">
+                  <!-- 01. LP Name (+ inline mail icon) -->
+                  <td style="white-space:nowrap;">
+                    <div style="display:inline-flex; align-items:center; gap:6px;">
+                      <div style="width:24px; height:24px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:inline-flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#4A4A48; flex-shrink:0;">
+                        ${lp.name.split(' ').map(w => w[0]).slice(0,2).join('')}
+                      </div>
+                      <span style="font-weight:700; color:#1A1A18; font-size:12px;">${lp.name}</span>
+                      <button type="button" onclick="copyEmailInline(event, '${lp.email}')" title="Copy email: ${lp.email}" style="border:none; background:transparent; cursor:pointer; padding:2px; color:#8C8C88; display:inline-flex; align-items:center;">
+                        <i data-lucide="mail" style="width:12px; height:12px;"></i>
+                      </button>
+                    </div>
+                  </td>
+
+                  <!-- 02. Investor Type -->
+                  <td style="white-space:nowrap;">
+                    <span class="pill pill-type">${lp.type}</span>
+                  </td>
+
+                  <!-- 03. Commitment Amount -->
+                  <td class="num" style="white-space:nowrap; font-weight:700; color:#1A1A18;">
+                    ₹${lp.comm.toFixed(2)} Cr
+                  </td>
+
+                  <!-- 04. KYC Status Badge -->
+                  <td style="white-space:nowrap;">
+                    <span class="pill ${lp.kycStatus === 'Verified' ? 'pill-verified' : 'pill-pending'}">
+                      <i data-lucide="${lp.kycStatus === 'Verified' ? 'shield-check' : 'clock'}" style="width:10px; height:10px;"></i>
+                      ${lp.kycStatus === 'Verified' ? 'VERIFIED' : 'PENDING'}
+                    </span>
+                  </td>
+
+                  <!-- 05. PAN (Monospace) -->
+                  <td style="white-space:nowrap; font-family:var(--font-mono); font-weight:600; color:#4A4A48; font-size:11.5px;">
+                    ${lp.pan}
+                  </td>
+
+                  <!-- 06. Onboarding Date -->
+                  <td style="white-space:nowrap; color:#6A6A68; font-size:11.5px;">
+                    ${lp.onboardDate}
+                  </td>
+
+                  <!-- 07. Fund -->
+                  <td style="white-space:nowrap; color:#2A2A28; font-size:11.5px;">
+                    ${lp.fund}
+                  </td>
+
+                  <!-- 08. Status (Active / Exited) -->
+                  <td style="white-space:nowrap;">
+                    <span class="pill ${lp.status === 'Active' ? 'pill-active' : 'pill-exited'}">
+                      ${lp.status === 'Active' ? 'ACTIVE' : 'EXITED'}
+                    </span>
+                  </td>
+
+                  <!-- 09. Action (View Drawer) -->
+                  <td style="text-align:right; white-space:nowrap;">
+                    <button class="btn btn-outline" style="font-size:11px; padding:3px 9px;" onclick="event.stopPropagation(); openLPDrawer('${lp.id}')">
+                      <span>View</span>
+                      <i data-lucide="chevron-right" class="lucide-sm" style="width:11px; height:11px;"></i>
+                    </button>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // ---------- DYNAMIC INVESTOR TYPE BEHAVIOR ----------
+  function handleInvestorTypeChange() {
+    const type = document.getElementById('formLpType')?.value || 'Individual';
+    const dobLabel = document.getElementById('formDobLabel');
+    const aadhaarField = document.getElementById('formAadhaarField');
+    const uboField = document.getElementById('formUBOField');
+
+    if (type === 'Individual' || type === 'NRI' || type === 'HUF') {
+      if (dobLabel) dobLabel.innerHTML = 'Date of Birth (DOB) <span class="req">*</span>';
+      if (aadhaarField) aadhaarField.style.display = 'flex';
+      if (uboField) uboField.style.display = 'none';
+    } else {
+      // Entity types: Corporate, Trust, Partnership, Family Office, FPI
+      if (dobLabel) dobLabel.innerHTML = 'Date of Incorporation <span class="req">*</span>';
+      if (aadhaarField) aadhaarField.style.display = 'none';
+      if (uboField) uboField.style.display = 'block';
+    }
+  }
+
+  // ---------- ADD LP MODAL HANDLERS ----------
+  function openAddLPModal() {
+    const modal = document.getElementById('addLPModalBackdrop');
+    if (modal) {
+      modal.style.display = 'flex';
+      const today = new Date().toISOString().split('T')[0];
+      const onboardInput = document.getElementById('formLpOnboardDate');
+      if (onboardInput && !onboardInput.value) onboardInput.value = today;
+      handleInvestorTypeChange();
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  function closeAddLPModal(e) {
+    if (e && e.target !== document.getElementById('addLPModalBackdrop') && e.target.tagName !== 'BUTTON') return;
+    const modal = document.getElementById('addLPModalBackdrop');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function submitAddLP() {
+    const name = document.getElementById('formLpName')?.value.trim();
+    const type = document.getElementById('formLpType')?.value;
+    const email = document.getElementById('formLpEmail')?.value.trim();
+    const phone = document.getElementById('formLpPhone')?.value.trim();
+    const pan = document.getElementById('formLpPAN')?.value.trim().toUpperCase();
+    const commAmtRaw = parseFloat(document.getElementById('formLpCommAmt')?.value || '0');
+
+    if (!name) { alert('Please enter the LP Full Name or Entity Name.'); return; }
+    if (!email) { alert('Please enter a valid email address.'); return; }
+    if (!pan || pan.length !== 10) { alert('Please enter a valid 10-character PAN (mandatory for AIF investment in India).'); return; }
+    if (!commAmtRaw || commAmtRaw <= 0) { alert('Please enter a valid Commitment Amount.'); return; }
+
+    const newLP = {
+      id: `LP-${String(lpsStore.length + 1).padStart(3, '0')}`,
+      name: name,
+      type: type,
+      comm: commAmtRaw,
+      called: 0.00,
+      paid: 0.00,
+      kycStatus: document.getElementById('formLpKYC')?.value || 'Verified',
+      pan: pan,
+      dob: document.getElementById('formLpDOB')?.value || '1985-01-01',
+      email: email,
+      phone: phone,
+      address: document.getElementById('formLpAddress')?.value || 'Mumbai, Maharashtra, India',
+      fund: document.getElementById('formLpFund')?.value || 'Seedicon Venture Fund I',
+      onboardDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+      status: 'Active',
+      bankName: document.getElementById('formLpBankName')?.value || 'HDFC Bank Ltd',
+      accountNum: document.getElementById('formLpAccountNum')?.value || '50100294019482',
+      ifsc: document.getElementById('formLpIFSC')?.value.toUpperCase() || 'HDFC0000060',
+      accountType: document.getElementById('formLpAccountType')?.value || 'Savings',
+      demat: document.getElementById('formLpDemat')?.value || '1208160049102847',
+      isAccredited: document.getElementById('formLpAccredited')?.checked ?? true,
+      fatcaSigned: document.getElementById('formLpFATCA')?.checked ?? true,
+      ubo: document.getElementById('formLpUBO')?.value || 'N/A',
+      rm: document.getElementById('formLpRM')?.value || 'Rahul Sharma (GP)',
+      calls: []
+    };
+
+    lpsStore.unshift(newLP);
+    closeAddLPModal();
+    renderLPsTable();
+    showToast(`Limited Partner ${newLP.name} successfully registered!`);
+  }
+
+  // ---------- CSV IMPORT WORKFLOW ----------
+  function openImportLPsModal() {
+    const modal = document.getElementById('importLPsModalBackdrop');
+    if (modal) {
+      modal.style.display = 'flex';
+      parsedCSVRows = [];
+      document.getElementById('csvPreviewSection').style.display = 'none';
+      document.getElementById('btnConfirmImport').disabled = true;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  function closeImportLPsModal(e) {
+    if (e && e.target !== document.getElementById('importLPsModalBackdrop') && e.target.tagName !== 'BUTTON') return;
+    const modal = document.getElementById('importLPsModalBackdrop');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function downloadSampleCSV() {
+    const csvContent = "data:text/csv;charset=utf-8," 
+      + "Name,Type,Email,Phone,PAN,Commitment Amount,Bank Account,IFSC\n"
+      + "Aditya Birla Family Trust,Trust,contact@birlafamily.org,+91 22 2490 8800,AABTA4910K,3.00,000405018492,ICIC0000004\n"
+      + "Meera Singhal,Individual,meera.singhal@singhalcapital.com,+91 98200 44920,ABMPS4910D,1.50,50200084920194,HDFC0000060\n"
+      + "Kestrel Global Advisors,Institutional,treasury@kestreladvisors.sg,+65 6800 4400,AAACK4910P,2.00,918020019402941,UTIB0000123\n"
+      + "Gautam Adesh,NRI,gautam.adesh@dubaiholdings.ae,+971 4 390 1100,AWPMA4910G,1.00,394018274910,SBIN0000691";
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "LP_Register_Sample_Template.csv");
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    showToast('Sample LP Register CSV downloaded.');
+  }
+
+  function handleCSVFileSelect(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const text = e.target.result;
+      const lines = text.split('\n').filter(l => l.trim().length > 0);
+      if (lines.length <= 1) {
+        alert('CSV file is empty or does not contain data rows.');
+        return;
+      }
+
+      parsedCSVRows = [];
+      for (let i = 1; i < lines.length; i++) {
+        const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+        if (cols.length >= 5) {
+          const pan = (cols[4] || '').toUpperCase();
+          const validPan = pan.length === 10;
+          parsedCSVRows.push({
+            name: cols[0] || 'Unknown LP',
+            type: cols[1] || 'Individual',
+            email: cols[2] || 'lp@domain.com',
+            phone: cols[3] || '+91 98000 00000',
+            pan: pan,
+            comm: parseFloat(cols[5] || '1.00'),
+            accountNum: cols[6] || '502000194820',
+            ifsc: (cols[7] || 'HDFC0000060').toUpperCase(),
+            validPan: validPan
+          });
+        }
+      }
+
+      // Render Preview Section
+      const tbody = document.getElementById('csvPreviewTableBody');
+      tbody.innerHTML = parsedCSVRows.map(r => `
+        <tr>
+          <td><strong style="color:#1A1A18;">${r.name}</strong></td>
+          <td><span class="pill pill-type">${r.type}</span></td>
+          <td>${r.email}</td>
+          <td><span style="font-family:var(--font-mono); font-weight:600; color:${r.validPan ? '#1A1A18' : '#DC2626'};">${r.pan}</span></td>
+          <td class="num" style="font-weight:700;">₹${r.comm.toFixed(2)} Cr</td>
+          <td><span style="font-size:10.5px; color:#6A6A68;">${r.accountNum} · ${r.ifsc}</span></td>
+          <td>
+            <span class="pill ${r.validPan ? 'pill-verified' : 'pill-pending'}">
+              ${r.validPan ? 'PAN Valid' : 'PAN Invalid'}
+            </span>
+          </td>
+        </tr>
+      `).join('');
+
+      document.getElementById('csvRowCountText').textContent = `${parsedCSVRows.length} LPs parsed from ${file.name}`;
+      document.getElementById('csvPreviewSection').style.display = 'flex';
+      document.getElementById('btnConfirmImport').disabled = false;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    };
+    reader.readAsText(file);
+  }
+
+  function confirmCSVImport() {
+    if (!parsedCSVRows.length) return;
+
+    let addedCount = 0;
+    parsedCSVRows.forEach(r => {
+      lpsStore.unshift({
+        id: `LP-${String(lpsStore.length + 1).padStart(3, '0')}`,
+        name: r.name,
+        type: r.type,
+        comm: r.comm || 1.00,
+        called: 0.00,
+        paid: 0.00,
+        kycStatus: 'Verified',
+        pan: r.pan,
+        dob: '1985-05-15',
+        email: r.email,
+        phone: r.phone,
+        address: 'Registered Address, India',
+        fund: 'Seedicon Venture Fund I',
+        onboardDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+        status: 'Active',
+        bankName: 'HDFC Bank Ltd',
+        accountNum: r.accountNum,
+        ifsc: r.ifsc,
+        accountType: 'Savings',
+        demat: '1208160049102847',
+        isAccredited: true,
+        fatcaSigned: true,
+        ubo: 'N/A',
+        rm: 'Rahul Sharma (GP)',
+        calls: []
+      });
+      addedCount++;
+    });
+
+    closeImportLPsModal();
+    renderLPsTable();
+    showToast(`Successfully imported ${addedCount} Limited Partners into Fund Register!`);
+  }
+
+  // ---------- EXPORT REGISTER TO CSV ----------
+  function exportLPsCSV() {
+    let csv = "LP ID,LP Name,Investor Type,Commitment Amount (Cr),Capital Called (Cr),Capital Paid (Cr),KYC Status,PAN,Email,Phone,Bank Name,Account Number,IFSC,Fund,Status,Onboarding Date\n";
+    lpsStore.forEach(l => {
+      csv += `"${l.id}","${l.name}","${l.type}","${l.comm.toFixed(2)}","${l.called.toFixed(2)}","${l.paid.toFixed(2)}","${l.kycStatus}","${l.pan}","${l.email}","${l.phone}","${l.bankName}","${l.accountNum}","${l.ifsc}","${l.fund}","${l.status}","${l.onboardDate}"\n`;
+    });
+
+    const encodedUri = encodeURI("data:text/csv;charset=utf-8," + csv);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `LP_Register_SeediconFundI_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    showToast('LP Register CSV export complete.');
+  }
+
+  // ---------- SLIDE-OVER RIGHT-SIDE DRAWER WORKFLOW ----------
+  function openLPDrawer(lpId) {
+    const lp = lpsStore.find(l => l.id === lpId);
+    if (!lp) return;
+
+    currentSelectedLP = lp;
+    document.getElementById('drawerLpName').textContent = lp.name;
+    document.getElementById('drawerLpType').textContent = lp.type;
+    document.getElementById('drawerLpPAN').textContent = lp.pan;
+    document.getElementById('drawerLpComm').textContent = `₹${lp.comm.toFixed(2)} Cr`;
+
+    const kycPill = document.getElementById('drawerLpKYCPill');
+    if (kycPill) {
+      kycPill.className = `pill ${lp.kycStatus === 'Verified' ? 'pill-verified' : 'pill-pending'}`;
+      kycPill.innerHTML = `<i data-lucide="${lp.kycStatus === 'Verified' ? 'shield-check' : 'clock'}" style="width:10px; height:10px;"></i> ${lp.kycStatus === 'Verified' ? 'VERIFIED' : 'PENDING'}`;
+    }
+
+    switchDrawerTab(currentActiveDrawerTab || 'profile');
+    document.getElementById('lpDrawerOverlay').style.display = 'flex';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function closeLPDrawer(e) {
+    if (e && e.target !== document.getElementById('lpDrawerOverlay') && e.target.tagName !== 'BUTTON') return;
+    const overlay = document.getElementById('lpDrawerOverlay');
+    if (overlay) overlay.style.display = 'none';
+  }
+
+  function switchDrawerTab(tabKey) {
+    currentActiveDrawerTab = tabKey;
+    const lp = currentSelectedLP;
+    if (!lp) return;
+
+    document.querySelectorAll('.drawer-tab').forEach(b => b.classList.remove('active'));
+    const btn = document.getElementById(`dtabBtn${tabKey.charAt(0).toUpperCase() + tabKey.slice(1)}`);
+    if (btn) btn.classList.add('active');
+
+    const slot = document.getElementById('drawerContentSlot');
+    if (!slot) return;
+
+    if (tabKey === 'profile') {
+      // TAB 1: PROFILE & BANKING
+      slot.innerHTML = `
+        <!-- Section: Entity Details -->
+        <div class="drawer-card">
+          <div class="drawer-card-title"><i data-lucide="user" style="width:12px; height:12px;"></i> Personal &amp; Entity Identity</div>
+          <div class="detail-row"><span class="detail-label">Full Legal Name</span><span class="detail-value">${lp.name}</span></div>
+          <div class="detail-row"><span class="detail-label">Investor Classification</span><span class="detail-value">${lp.type}</span></div>
+          <div class="detail-row"><span class="detail-label">Email Contact</span><span class="detail-value"><a href="mailto:${lp.email}" style="color:#1A1A18; text-decoration:underline;">${lp.email}</a></span></div>
+          <div class="detail-row"><span class="detail-label">Phone</span><span class="detail-value">${lp.phone}</span></div>
+          <div class="detail-row"><span class="detail-label">DOB / Incorp Date</span><span class="detail-value">${lp.dob}</span></div>
+          <div class="detail-row"><span class="detail-label">Registered Address</span><span class="detail-value" style="max-width:320px; font-weight:400;">${lp.address}</span></div>
+          <div class="detail-row"><span class="detail-label">Relationship Manager (RM)</span><span class="detail-value">${lp.rm}</span></div>
+        </div>
+
+        <!-- Section: Tax & Regulatory -->
+        <div class="drawer-card">
+          <div class="drawer-card-title"><i data-lucide="receipt" style="width:12px; height:12px;"></i> Tax &amp; Regulatory Identifiers</div>
+          <div class="detail-row"><span class="detail-label">PAN (India)</span><span class="detail-value" style="font-family:var(--font-mono);">${lp.pan}</span></div>
+          <div class="detail-row"><span class="detail-label">Tax Residency</span><span class="detail-value">India</span></div>
+          <div class="detail-row"><span class="detail-label">UBO Details</span><span class="detail-value" style="font-weight:400;">${lp.ubo || 'N/A (Individual Investor)'}</span></div>
+          <div class="detail-row"><span class="detail-label">FATCA / CRS Compliance</span><span class="detail-value">${lp.fatcaSigned ? '<span class="pill pill-verified">FATCA-CRS FILED</span>' : '<span class="pill pill-pending">PENDING</span>'}</span></div>
+        </div>
+
+        <!-- Section: Banking & Demat -->
+        <div class="drawer-card">
+          <div class="drawer-card-title"><i data-lucide="building" style="width:12px; height:12px;"></i> Designated Payout Bank &amp; Demat</div>
+          <div class="detail-row"><span class="detail-label">Depository Bank</span><span class="detail-value">${lp.bankName}</span></div>
+          <div class="detail-row"><span class="detail-label">Bank Account Number</span><span class="detail-value" style="font-family:var(--font-mono);">${lp.accountNum}</span></div>
+          <div class="detail-row"><span class="detail-label">IFSC Code</span><span class="detail-value" style="font-family:var(--font-mono);">${lp.ifsc}</span></div>
+          <div class="detail-row"><span class="detail-label">Account Type</span><span class="detail-value">${lp.accountType}</span></div>
+          <div class="detail-row"><span class="detail-label">Demat BOID (SEBI Units)</span><span class="detail-value" style="font-family:var(--font-mono); font-weight:700;">${lp.demat}</span></div>
+        </div>
+      `;
+    } else if (tabKey === 'kyc') {
+      // TAB 2: KYC & DOCUMENTS
+      slot.innerHTML = `
+        <!-- KYC Status Card -->
+        <div class="drawer-card">
+          <div class="drawer-card-title"><i data-lucide="shield-check" style="width:12px; height:12px;"></i> Regulatory KYC &amp; Accreditation</div>
+          <div class="detail-row">
+            <span class="detail-label">KRA / CKYCR Status</span>
+            <span class="detail-value"><span class="pill pill-verified">CKYCR VERIFIED · REF #KRA-2024-9104</span></span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Accredited Investor Status</span>
+            <span class="detail-value">${lp.isAccredited ? '<span class="pill pill-verified">ACCREDITED (CA CERTIFIED)</span>' : '<span class="pill pill-pending">NOT ACCREDITED</span>'}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Accreditation Validity</span>
+            <span class="detail-value">Valid till 31 Mar 2027</span>
+          </div>
+        </div>
+
+        <!-- Verified Documents Checklist -->
+        <div class="drawer-card">
+          <div class="drawer-card-title"><i data-lucide="files" style="width:12px; height:12px;"></i> Executed Investor Package &amp; Files</div>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-top:4px;">
+            ${[
+              { name: `${lp.pan}_PAN_Copy.pdf`, label: 'PAN Card Copy', size: '420 KB', date: lp.onboardDate },
+              { name: `${lp.name.replace(/\s+/g,'_')}_Subscription_Agreement.pdf`, label: 'Executed Subscription Agreement', size: '2.4 MB', date: lp.onboardDate },
+              { name: `${lp.name.replace(/\s+/g,'_')}_KYC_KRA_Acknowledgment.pdf`, label: 'CKYCR / KRA Acknowledgment', size: '680 KB', date: lp.onboardDate },
+              { name: 'FATCA_CRS_Declaration_Signed.pdf', label: 'FATCA / CRS Self-Declaration', size: '310 KB', date: lp.onboardDate },
+              { name: 'CA_Networth_Accredited_Certificate.pdf', label: 'CA Net-worth Certification', size: '520 KB', date: lp.onboardDate },
+              { name: 'Cancelled_Cheque_Leaf.pdf', label: 'Verified Bank Proof', size: '380 KB', date: lp.onboardDate }
+            ].map(doc => `
+              <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 10px; background:#F8F8F6; border:1px solid #E2E2DF; border-radius:6px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <i data-lucide="file-text" style="width:14px; height:14px; color:#5A5A58;"></i>
+                  <div>
+                    <div style="font-size:11.5px; font-weight:700; color:#1A1A18;">${doc.label}</div>
+                    <div style="font-size:10px; color:#8C8C88;">${doc.name} · ${doc.size} · Uploaded ${doc.date}</div>
+                  </div>
+                </div>
+                <button class="btn btn-outline" style="padding:3px 8px; font-size:10.5px;" onclick="showToast('Downloading document: ${doc.name}')">
+                  <i data-lucide="download" style="width:11px; height:11px;"></i>
+                  <span>Download</span>
+                </button>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    } else if (tabKey === 'history') {
+      // TAB 3: COMMITMENT HISTORY
+      const uncalled = Math.max(0, lp.comm - lp.called);
+      const callPct = ((lp.called / lp.comm) * 100).toFixed(1);
+      const estNav = (lp.called * 1.28).toFixed(2); // Est 1.28x MOIC
+
+      slot.innerHTML = `
+        <!-- Commitment Overview Card -->
+        <div class="drawer-card">
+          <div class="drawer-card-title"><i data-lucide="coins" style="width:12px; height:12px;"></i> Commitment &amp; Deployment Position</div>
+          <div class="detail-row"><span class="detail-label">Scheme / Fund</span><span class="detail-value">${lp.fund}</span></div>
+          <div class="detail-row"><span class="detail-label">Total Committed</span><span class="detail-value" style="font-size:14px; font-weight:800;">₹${lp.comm.toFixed(2)} Cr</span></div>
+          <div class="detail-row"><span class="detail-label">Capital Called to Date</span><span class="detail-value">₹${lp.called.toFixed(2)} Cr (${callPct}%)</span></div>
+          <div class="detail-row"><span class="detail-label">Capital Paid</span><span class="detail-value" style="color:#1A1A18; font-weight:700;">₹${lp.paid.toFixed(2)} Cr</span></div>
+          <div class="detail-row"><span class="detail-label">Uncalled / Callable</span><span class="detail-value" style="color:#71716E;">₹${uncalled.toFixed(2)} Cr</span></div>
+          <div class="detail-row"><span class="detail-label">Current Est. NAV</span><span class="detail-value" style="font-weight:700;">₹${estNav} Cr (1.28x MOIC)</span></div>
+          <div class="detail-row"><span class="detail-label">Onboarding Date</span><span class="detail-value">${lp.onboardDate}</span></div>
+        </div>
+
+        <!-- Progress Visual Bar -->
+        <div class="drawer-card">
+          <div class="drawer-card-title"><i data-lucide="bar-chart-2" style="width:12px; height:12px;"></i> Drawdown Progress</div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
+            <span>Called: <strong>₹${lp.called.toFixed(2)} Cr</strong></span>
+            <span>Committed: <strong>₹${lp.comm.toFixed(2)} Cr</strong></span>
+          </div>
+          <div class="metric-progress" style="height:6px; margin-top:2px;">
+            <div style="width:${callPct}%;"></div>
+          </div>
+        </div>
+      `;
+    } else if (tabKey === 'calls') {
+      // TAB 4: CAPITAL CALLS HISTORY
+      slot.innerHTML = `
+        <div class="drawer-card">
+          <div class="drawer-card-title"><i data-lucide="calendar" style="width:12px; height:12px;"></i> Capital Call Notices Issued</div>
+          ${lp.calls && lp.calls.length ? `
+            <div style="display:flex; flex-direction:column; gap:8px; margin-top:6px;">
+              ${lp.calls.map(c => `
+                <div style="padding:10px 12px; background:#F8F8F6; border:1px solid #E2E2DF; border-radius:6px; display:flex; align-items:center; justify-content:space-between;">
+                  <div>
+                    <div style="display:flex; align-items:center; gap:6px;">
+                      <strong style="color:#1A1A18; font-size:12px;">${c.id}</strong>
+                      <span class="pill pill-verified">PAID &amp; SETTLED</span>
+                    </div>
+                    <div style="font-size:10.5px; color:#8C8C88; margin-top:2px;">
+                      Called: <strong>${c.callAmount}</strong> · Paid on ${c.paidDate} · Ref: <code>${c.utr}</code>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline" style="padding:3px 8px; font-size:10.5px;" onclick="showToast('Receipt statement for ${c.id} downloaded')">
+                    <i data-lucide="download" style="width:11px; height:11px;"></i>
+                    <span>Receipt</span>
+                  </button>
+                </div>
+              `).join('')}
+            </div>
+          ` : `
+            <div style="padding:24px; text-align:center; color:#8C8C88;">
+              <i data-lucide="coins" style="width:20px; height:20px; color:#B0B0AE; margin-bottom:4px;"></i>
+              <div style="font-size:12px; font-weight:700; color:#1A1A18;">No Capital Calls Issued Yet</div>
+              <p style="font-size:11px; color:#8C8C88; margin-top:2px;">This LP has not been drawn down in active call notices.</p>
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // ---------- TOGGLE EMPTY STATE (FAB) ----------
+  function toggleState() {
+    isStateEmpty = !isStateEmpty;
+    const fabText = document.getElementById('fabToggleText');
+    if (fabText) fabText.textContent = isStateEmpty ? 'Toggle Populated State' : 'Toggle Empty State';
+    renderLPsTable();
+    showToast(isStateEmpty ? 'Switched to Zero-Data Empty State' : 'Switched to Populated LP Register');
+  }
+</script>
+</body>
+</html>
