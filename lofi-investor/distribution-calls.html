@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LP Distributions &amp; Exit Returns — Seedicon Investor Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="./css/styles.css">
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  /* ── METRICS GRID (4 CARDS MATCHING LP & FOUNDER REPORTING) ── */
+  .metrics-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .metric-card {
+    background: #FFFFFF;
+    border: 1px solid #DFDEDE;
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  }
+  .metric-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .metric-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8C8C88;
+  }
+  .metric-icon-wrap {
+    width: 26px;
+    height: 26px;
+    border-radius: 5px;
+    background: #F0F0EE;
+    border: 1px solid #E0E0DE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3A3A38;
+  }
+  .metric-val {
+    font-size: 19px;
+    font-weight: 800;
+    color: #1A1A18;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .metric-val small { font-size: 11px; font-weight: 700; color: #8A8A88; }
+  .metric-sub {
+    font-size: 10.5px;
+    color: #8C8C88;
+    margin-top: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .metric-sub.amber { color: #B45309; font-weight: 700; }
+  .metric-sub.green { color: #047857; font-weight: 700; }
+
+  /* ── FULL-WIDTH TABLE CARD & TOOLBAR ── */
+  .table-card {
+    background: #FFFFFF;
+    border: 1px solid #DFDEDE;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  }
+  .table-toolbar {
+    padding: 9px 14px;
+    background: #FFFFFF;
+    border-bottom: 1px solid #EBEBEA;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .table-toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .table-scroll { overflow-x: auto; }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1180px;
+  }
+  .data-table th {
+    text-align: left;
+    font-size: 9.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #8C8C88;
+    padding: 8px 12px;
+    border-bottom: 1px solid #EBEBEA;
+    background: #FAFAFA;
+    white-space: nowrap;
+  }
+  .data-table th.num { text-align: right; }
+  .data-table td {
+    padding: 6px 12px;
+    font-size: 11.5px;
+    color: #3A3A38;
+    border-bottom: 1px solid #F1F1EF;
+    vertical-align: middle;
+    white-space: nowrap;
+    height: 38px;
+  }
+  .data-table td.num { text-align: right; }
+  .data-table tr { cursor: pointer; }
+  .data-table tr:hover td { background: #FAFAFA; }
+  .data-table tr:last-child td { border-bottom: none; }
+
+  .table-footer {
+    padding: 9px 14px;
+    background: #FAFAFA;
+    border-top: 1px solid #EBEBEA;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #8C8C88;
+  }
+
+  /* ── BADGES & PILLS (MONOCHROME GREY PALETTE) ── */
+  .pill {
+    font-size: 8.5px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    border: 1px solid #DCDCDA;
+    display: inline-block;
+  }
+  .pill-approved { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; font-weight: 800; }
+  .pill-pending { background: #FAFAFA; color: #7A7A78; border-color: #E0E0DE; }
+  .pill-rejected { background: #F5F5F3; color: #6A6A68; border-color: #DCDCDA; }
+  .pill-completed { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; font-weight: 800; }
+  .pill-processed { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; }
+  .pill-failed { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; font-weight: 800; }
+
+  .type-badge {
+    font-size: 8.5px;
+    font-weight: 700;
+    padding: 1.5px 6px;
+    border-radius: 3px;
+    background: #F0F0EE;
+    color: #4A4A48;
+    border: 1px solid #DCDCDA;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .ref-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #1A1A18;
+    background: #F0F0EE;
+    border: 1px solid #DCDCDA;
+    border-radius: 4px;
+    padding: 1.5px 5px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background 0.1s;
+  }
+  .ref-badge:hover { background: #E2E2E0; }
+
+  .template-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #3A3A38;
+    background: #F0F0EE;
+    border: 1px solid #DCDCDA;
+    border-radius: 4px;
+    padding: 2px 6px;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background 0.1s;
+  }
+  .template-badge:hover { background: #E5E5E3; color: #1A1A18; }
+
+  .doc-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #5A5A58;
+    background: #FFFFFF;
+    border: 1px solid #E0E0DE;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+    font-family: Inter, sans-serif;
+    white-space: nowrap;
+  }
+  .doc-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+
+  /* Form & Drawer Tokens */
+  .field-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  .field-label { font-size: 11px; font-weight: 700; color: #3A3A38; }
+  .field-input {
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    padding: 7px 10px;
+    border: 1px solid #DCDCDA;
+    border-radius: 6px;
+    outline: none;
+    color: #1A1A18;
+    background: #FFFFFF;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.15s;
+  }
+  .field-input:focus { border-color: #1A1A18; }
+
+  .stat-chip-box {
+    background: #FAFAFA;
+    border: 1px solid #EBEBEA;
+    border-radius: 6px;
+    padding: 8px 10px;
+  }
+  .stat-chip-label { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #8C8C88; }
+  .stat-chip-val { font-size: 13px; font-weight: 800; color: #1A1A18; margin-top: 2px; }
+
+  /* Floating FAB State Toggle Button */
+  .fab-toggle-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 999;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    font-size: 11.5px;
+    font-weight: 700;
+    background: #1A1A18;
+    color: #FFFFFF;
+    border: 1px solid #1A1A18;
+    border-radius: 30px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    cursor: pointer;
+    font-family: Inter, sans-serif;
+    transition: all 0.15s ease;
+  }
+  .fab-toggle-btn:hover {
+    background: #2A2A28;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+  }
+
+  .drawer-panel {
+    width: 660px !important;
+    max-width: 95vw !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Top Header Component Slot -->
+  <div id="appHeaderSlot"></div>
+
+  <!-- Body Shell -->
+  <div class="body-shell">
+    <!-- Tiny Sidebar Component Slot -->
+    <div id="tinySidebarSlot"></div>
+
+    <!-- Main Navigation Sidebar Component Slot -->
+    <div id="mainSidebarSlot"></div>
+
+    <!-- MAIN WORKSPACE CONTENT AREA (FULL-WIDTH, NO RIGHT RAIL) -->
+    <main class="main-workspace">
+      <div class="content-scrollable">
+
+        <!-- Page Header Container -->
+        <div class="page-header-container">
+          <div class="page-header-top-row">
+            <div class="header-titles">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <h1 class="page-title">LP Distributions &amp; Exits</h1>
+                <span class="badge-pill neutral-soft" id="viewModeBadge">LP &amp; Capital · Liquidity Management</span>
+              </div>
+              <p class="page-subtitle">Seedicon Venture Fund I (₹20 Cr) — Review LP-initiated exit requests, approve liquidity realisations, and dispatch distribution calls from secondary sales, dividends, and M&amp;A proceeds.</p>
+            </div>
+
+            <div class="header-action-group">
+              <a href="./lp-reporting.html" class="btn btn-outline" style="text-decoration:none;" title="View LP Reporting Requests">
+                <i data-lucide="file-bar-chart" class="lucide-sm"></i>
+                <span>LP Reporting</span>
+              </a>
+
+              <button class="btn btn-outline" title="Export register as CSV" onclick="exportActiveRegisterCSV()">
+                <i data-lucide="download" class="lucide-sm"></i>
+                <span>Export CSV</span>
+              </button>
+
+              <button class="btn btn-primary" onclick="openNewDistributionDrawer()" style="font-size:12px;">
+                <i data-lucide="plus" class="lucide-sm"></i>
+                <span>Create Distribution Call</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Header Bottom Divider Line -->
+        <div class="page-header-divider"></div>
+
+        <!-- UNDERLINE STYLE PAGE TABS (MATCHING CAPITAL CALLS) -->
+        <div class="cc-tabs" role="tablist">
+          <button class="cc-tab active" id="tabNavExitRequests" onclick="switchPageTab('exits')">
+            <i data-lucide="log-out" class="lucide-sm"></i>
+            <span>Exit Requests</span>
+            <span class="cc-tab-count" id="tabCountExits">8</span>
+          </button>
+          <button class="cc-tab" id="tabNavDistributions" onclick="switchPageTab('distributions')">
+            <i data-lucide="arrow-up-right" class="lucide-sm"></i>
+            <span>Distribution Calls</span>
+            <span class="cc-tab-count" id="tabCountDistributions">6</span>
+          </button>
+        </div>
+
+        <!-- CONTAINER FOR POPULATED STATE (FULL-WIDTH WORKSPACE) -->
+        <div id="filledWorkspaceContainer">
+
+          <!-- ═════════════════════════════════════════════════════════════════ -->
+          <!-- TAB 1 — EXIT REQUESTS WORKSPACE                                  -->
+          <!-- ═════════════════════════════════════════════════════════════════ -->
+          <div id="panelTabExits">
+
+            <!-- SUMMARY CARDS (4 CARDS EXACT MATCH TO SPEC) -->
+            <div class="metrics-grid-4">
+              <!-- 01. Total Exit Requests -->
+              <div class="metric-card">
+                <div class="metric-top">
+                  <span class="metric-label">Total Exit Requests</span>
+                  <div class="metric-icon-wrap"><i data-lucide="clipboard-list" style="width:13px; height:13px;"></i></div>
+                </div>
+                <div class="metric-val" id="statExitTotal">8</div>
+                <div class="metric-sub" id="statExitTotalSub">Across 6 Institutional &amp; Family Office LPs</div>
+              </div>
+
+              <!-- 02. Pending Review (Amber Accent, Needs GP Decision) -->
+              <div class="metric-card">
+                <div class="metric-top">
+                  <span class="metric-label">Pending Review</span>
+                  <div class="metric-icon-wrap" style="background:#FEF3C7; border-color:#FDE68A; color:#B45309;"><i data-lucide="clock" style="width:13px; height:13px;"></i></div>
+                </div>
+                <div class="metric-val" id="statExitPending" style="color:#B45309;">3</div>
+                <div class="metric-sub amber" id="statExitPendingSub">Needs GP approval or revision</div>
+              </div>
+
+              <!-- 03. Approved – Awaiting Distribution -->
+              <div class="metric-card">
+                <div class="metric-top">
+                  <span class="metric-label">Approved – Awaiting Distribution</span>
+                  <div class="metric-icon-wrap"><i data-lucide="check-circle-2" style="width:13px; height:13px;"></i></div>
+                </div>
+                <div class="metric-val" id="statExitApproved">3</div>
+                <div class="metric-sub green" id="statExitApprovedSub">Accepted · Ready for distribution call</div>
+              </div>
+
+              <!-- 04. Rejected / Withdrawn -->
+              <div class="metric-card">
+                <div class="metric-top">
+                  <span class="metric-label">Rejected / Withdrawn</span>
+                  <div class="metric-icon-wrap"><i data-lucide="x-circle" style="width:13px; height:13px;"></i></div>
+                </div>
+                <div class="metric-val" id="statExitRejected">2</div>
+                <div class="metric-sub" id="statExitRejectedSub">Ineligible under fund lock-in terms</div>
+              </div>
+            </div>
+
+            <!-- SEARCH & CONTROLS STRIP (CLEAN 2-SIDED LAYOUT) -->
+            <div style="padding:7px 14px; background:#FFFFFF; border:1px solid #DFDEDE; border-bottom:none; border-radius:8px 8px 0 0; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-shrink:0;">
+              <div style="display:flex; align-items:center; gap:6px; flex:1; max-width:380px; background:#F7F7F5; border:1px solid #E0E0DE; border-radius:6px; padding:5px 10px;">
+                <i data-lucide="search" style="width:13px; height:13px; color:#9A9A96; flex-shrink:0;"></i>
+                <input type="text" id="exitSearch" onkeyup="renderExitRequestsTable()" placeholder="Search LP name, exit reason, or status..." style="border:none; background:transparent; outline:none; font-family:Inter,sans-serif; font-size:11.5px; width:100%; color:#1A1A18;" />
+              </div>
+
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+                  <span>Status:</span>
+                  <select id="exitStatusFilter" onchange="renderExitRequestsTable()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none;">
+                    <option value="all">All Statuses</option>
+                    <option value="Pending">Pending Review</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                  </select>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+                  <span>Fund:</span>
+                  <select id="exitFundFilter" onchange="renderExitRequestsTable()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none;">
+                    <option value="all" selected>Seedicon Venture Fund I</option>
+                    <option value="Fund II">Seedicon Fund II (Pipeline)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- TABLE "EXIT REQUESTS" CONTAINER -->
+            <div id="exitRequestsTableContainer"></div>
+
+          </div>
+
+          <!-- ═════════════════════════════════════════════════════════════════ -->
+          <!-- TAB 2 — DISTRIBUTION CALLS WORKSPACE                             -->
+          <!-- ═════════════════════════════════════════════════════════════════ -->
+          <div id="panelTabDistributions" style="display:none;">
+
+            <!-- SUMMARY CARDS (4 CARDS EXACT MATCH TO SPEC) -->
+            <div class="metrics-grid-4">
+              <!-- 01. Total Distributions Created -->
+              <div class="metric-card">
+                <div class="metric-top">
+                  <span class="metric-label">Total Distributions Created</span>
+                  <div class="metric-icon-wrap"><i data-lucide="arrow-up-right" style="width:13px; height:13px;"></i></div>
+                </div>
+                <div class="metric-val" id="statDistTotal">6</div>
+                <div class="metric-sub" id="statDistTotalSub">Across 5 Institutional &amp; Angel LPs</div>
+              </div>
+
+              <!-- 02. Pending Payout -->
+              <div class="metric-card">
+                <div class="metric-top">
+                  <span class="metric-label">Pending Payout</span>
+                  <div class="metric-icon-wrap" style="background:#FEF3C7; border-color:#FDE68A; color:#B45309;"><i data-lucide="clock" style="width:13px; height:13px;"></i></div>
+                </div>
+                <div class="metric-val" id="statDistPending" style="color:#B45309;">2</div>
+                <div class="metric-sub amber" id="statDistPendingSub">Awaiting bank wire settlement</div>
+              </div>
+
+              <!-- 03. Processed / Completed -->
+              <div class="metric-card">
+                <div class="metric-top">
+                  <span class="metric-label">Processed / Completed</span>
+                  <div class="metric-icon-wrap"><i data-lucide="check-circle-2" style="width:13px; height:13px;"></i></div>
+                </div>
+                <div class="metric-val" id="statDistCompleted">4</div>
+                <div class="metric-sub green" id="statDistCompletedSub">All wire remittances cleared</div>
+              </div>
+
+              <!-- 04. Total Amount Distributed (₹ Value, This Cycle) -->
+              <div class="metric-card">
+                <div class="metric-top">
+                  <span class="metric-label">Total Distributed</span>
+                  <div class="metric-icon-wrap"><i data-lucide="wallet" style="width:13px; height:13px;"></i></div>
+                </div>
+                <div class="metric-val" id="statDistAmount">₹4.70 Cr</div>
+                <div class="metric-sub" id="statDistAmountSub">FY26 Cumulative LP Realizations</div>
+              </div>
+            </div>
+
+            <!-- SEARCH & CONTROLS STRIP (CLEAN 2-SIDED LAYOUT) -->
+            <div style="padding:7px 14px; background:#FFFFFF; border:1px solid #DFDEDE; border-bottom:none; border-radius:8px 8px 0 0; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-shrink:0;">
+              <div style="display:flex; align-items:center; gap:6px; flex:1; max-width:380px; background:#F7F7F5; border:1px solid #E0E0DE; border-radius:6px; padding:5px 10px;">
+                <i data-lucide="search" style="width:13px; height:13px; color:#9A9A96; flex-shrink:0;"></i>
+                <input type="text" id="distSearch" onkeyup="renderDistributionCallsTable()" placeholder="Search LP name, source, or distribution type..." style="border:none; background:transparent; outline:none; font-family:Inter,sans-serif; font-size:11.5px; width:100%; color:#1A1A18;" />
+              </div>
+
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+                  <span>Distribution Type:</span>
+                  <select id="distTypeFilter" onchange="renderDistributionCallsTable()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none;">
+                    <option value="all">All Types</option>
+                    <option value="Full Exit">Full Exit</option>
+                    <option value="Partial Exit">Partial Exit</option>
+                    <option value="Interim Distribution">Interim Distribution</option>
+                    <option value="Dividend">Dividend</option>
+                  </select>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+                  <span>Payment Status:</span>
+                  <select id="distStatusFilter" onchange="renderDistributionCallsTable()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none;">
+                    <option value="all">All Statuses</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Processed">Processed</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Failed">Failed</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- TABLE "DISTRIBUTION CALLS" CONTAINER -->
+            <div id="distributionCallsTableContainer"></div>
+
+          </div>
+
+        </div><!-- END filledWorkspaceContainer -->
+
+        <!-- 03. EMPTY / FIRST-RUN STATE (Toggled via Bottom Right FAB) -->
+        <div id="emptyWorkspaceView" style="display:none;">
+          <div style="background:#FFFFFF; border:1px dashed #DCDCDA; border-radius:8px; padding:48px 24px; text-align:center;">
+            <div style="width:48px; height:48px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#6A6A68;">
+              <i data-lucide="arrow-up-right" style="width:22px; height:22px;"></i>
+            </div>
+            <h2 style="font-size:14px; font-weight:800; color:#1A1A18; margin-bottom:4px;">No LP Exit Requests or Distributions Found</h2>
+            <p style="font-size:11.5px; color:#8C8C88; max-width:420px; margin:0 auto 16px; line-height:1.5;">
+              LP exit requests and liquidity distributions will appear here once secondary sales, dividend payouts, or M&amp;A realizations take place.
+            </p>
+            <button class="btn btn-primary" onclick="toggleWorkspaceEmpty(false)" style="font-size:12px;">
+              <i data-lucide="plus" class="lucide-sm"></i>
+              <span>View Sample Realization Records</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<!-- SUBTLE FLOATING FAB TOGGLE BUTTON (BOTTOM RIGHT CORNER) -->
+<button class="fab-toggle-btn" id="fabToggleState" title="Toggle between Populated Records and Empty State" onclick="toggleWorkspaceEmpty()">
+  <i data-lucide="eye" class="lucide-sm"></i>
+  <span id="fabToggleText">Toggle Empty State</span>
+</button>
+
+<!-- Scripts -->
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+<script>
+  // ========================================================================
+  // LP DISTRIBUTIONS & EXIT REALIZATIONS INTERACTIVE LOGIC
+  // ========================================================================
+
+  let activeTab = 'exits';
+  let isWorkspaceEmpty = false;
+
+  // ---------- TAB 1 DATA: EXIT REQUESTS (EXACT SPEC FIELDS) ----------
+  const INITIAL_EXIT_REQUESTS = [
+    {
+      id: 'EXT-001',
+      lpName: 'Shikhar Kapoor',
+      email: 'shikhar@kapoorfo.com',
+      lpType: 'Family Office',
+      commitment: '₹2.50 Cr',
+      invested: '₹1.88 Cr',
+      nav: '₹3.15 Cr',
+      ownership: '12.5%',
+      requestedOn: '02 Aug 2026',
+      preferredExitDate: '30 Aug 2026',
+      status: 'Approved', // Pending, Approved, Rejected
+      lpNote: 'Seeking partial liquidity ahead of FY27 family office allocation rebalancing. Requesting 50% exit of current Fund I units.',
+      exitTypeChoice: 'Partial Exit (50%)',
+      conditions: 'Approved for execution via FinFlow Tech secondary share buyback tranche.',
+      rejectionReason: null,
+      submittedOn: '02 Aug 2026 · 10:15 AM',
+      linkedDistId: 'DC-001'
+    },
+    {
+      id: 'EXT-002',
+      lpName: 'Meridian Family Office',
+      email: 'siddharth@meridianfo.com',
+      lpType: 'Family Office',
+      commitment: '₹1.60 Cr',
+      invested: '₹1.20 Cr',
+      nav: '₹1.98 Cr',
+      ownership: '8.0%',
+      requestedOn: '05 Aug 2026',
+      preferredExitDate: '15 Sep 2026',
+      status: 'Pending',
+      lpNote: 'Fund mandate cycle completed on our trust structure. Requesting redemption of full investment position.',
+      exitTypeChoice: 'Full Exit (100%)',
+      conditions: '',
+      rejectionReason: null,
+      submittedOn: '05 Aug 2026 · 02:40 PM',
+      linkedDistId: null
+    },
+    {
+      id: 'EXT-003',
+      lpName: 'Horizon Capital Partners',
+      email: 'd.sterling@horizoncap.com',
+      lpType: 'Institutional',
+      commitment: '₹2.40 Cr',
+      invested: '₹1.80 Cr',
+      nav: '₹2.95 Cr',
+      ownership: '12.0%',
+      requestedOn: '28 Jul 2026',
+      preferredExitDate: '25 Aug 2026',
+      status: 'Approved',
+      lpNote: 'Reallocating to direct late-stage SPVs. Pro-rata secondary sale of Fund I holdings.',
+      exitTypeChoice: 'Partial Exit (40%)',
+      conditions: 'Executed via LogiChain Labs institutional growth round secondary syndicate.',
+      rejectionReason: null,
+      submittedOn: '28 Jul 2026 · 11:00 AM',
+      linkedDistId: 'DC-002'
+    },
+    {
+      id: 'EXT-004',
+      lpName: 'Krish Kaul',
+      email: 'krish.kaul@kaulholdings.in',
+      lpType: 'HNI',
+      commitment: '₹1.80 Cr',
+      invested: '₹1.35 Cr',
+      nav: '₹2.20 Cr',
+      ownership: '9.0%',
+      requestedOn: '08 Aug 2026',
+      preferredExitDate: '20 Sep 2026',
+      status: 'Pending',
+      lpNote: 'Looking to liquidate 50% of holding for personal wealth and tax provisioning.',
+      exitTypeChoice: 'Partial Exit (50%)',
+      conditions: '',
+      rejectionReason: null,
+      submittedOn: '08 Aug 2026 · 04:15 PM',
+      linkedDistId: null
+    },
+    {
+      id: 'EXT-005',
+      lpName: 'Vidhi Sharma',
+      email: 'vidhi@sharmaventures.com',
+      lpType: 'Angel',
+      commitment: '₹1.20 Cr',
+      invested: '₹0.90 Cr',
+      nav: '₹1.45 Cr',
+      ownership: '6.0%',
+      requestedOn: '01 Aug 2026',
+      preferredExitDate: '10 Sep 2026',
+      status: 'Approved',
+      lpNote: 'Secondary buyer identified via institutional co-investment syndicate. Ready for payout.',
+      exitTypeChoice: 'Full Exit (100%)',
+      conditions: 'Secondary buyer term sheet countersigned.',
+      rejectionReason: null,
+      submittedOn: '01 Aug 2026 · 09:30 AM',
+      linkedDistId: null
+    },
+    {
+      id: 'EXT-006',
+      lpName: 'Arcus Capital',
+      email: 'invest@arcuscap.com',
+      lpType: 'Trust',
+      commitment: '₹0.50 Cr',
+      invested: '₹0.00 Cr',
+      nav: '₹0.00 Cr',
+      ownership: '0.0%',
+      requestedOn: '15 Jul 2026',
+      preferredExitDate: '01 Aug 2026',
+      status: 'Rejected',
+      lpNote: 'Redemption request submitted against uncalled commitment tranche.',
+      exitTypeChoice: 'Full Exit (100%)',
+      conditions: '',
+      rejectionReason: 'LP has zero paid-in capital and no active partnership units in Seedicon Venture Fund I.',
+      submittedOn: '15 Jul 2026 · 11:20 AM',
+      linkedDistId: null
+    },
+    {
+      id: 'EXT-007',
+      lpName: 'Kenji Watanabe',
+      email: 'kenji.w@tokyoangel.jp',
+      lpType: 'Global Angel',
+      commitment: '₹0.50 Cr',
+      invested: '₹0.38 Cr',
+      nav: '₹0.62 Cr',
+      ownership: '2.5%',
+      requestedOn: '10 Aug 2026',
+      preferredExitDate: '30 Sep 2026',
+      status: 'Pending',
+      lpNote: 'Cross-border tax restructuring necessitates early redemption of overseas fund holdings.',
+      exitTypeChoice: 'Full Exit (100%)',
+      conditions: '',
+      rejectionReason: null,
+      submittedOn: '10 Aug 2026 · 01:10 PM',
+      linkedDistId: null
+    },
+    {
+      id: 'EXT-008',
+      lpName: 'Rohan Mehta',
+      email: 'rohan@mehtavc.com',
+      lpType: 'Founder Angel',
+      commitment: '₹0.80 Cr',
+      invested: '₹0.60 Cr',
+      nav: '₹0.98 Cr',
+      ownership: '4.0%',
+      requestedOn: '20 Jun 2026',
+      preferredExitDate: '15 Jul 2026',
+      status: 'Rejected',
+      lpNote: 'Early redemption request submitted ahead of the 4-year fund lock-in period.',
+      exitTypeChoice: 'Full Exit (100%)',
+      conditions: '',
+      rejectionReason: 'Fund LPA Clause 8.2 restricts LP-initiated liquidity redemptions prior to the 4-year investment period lock-in expiration.',
+      submittedOn: '20 Jun 2026 · 03:00 PM',
+      linkedDistId: null
+    }
+  ];
+
+  // ---------- TAB 2 DATA: DISTRIBUTION CALLS (EXACT SPEC FIELDS) ----------
+  const INITIAL_DISTRIBUTION_CALLS = [
+    {
+      id: 'DC-001',
+      lpName: 'Shikhar Kapoor',
+      email: 'shikhar@kapoorfo.com',
+      commitment: '₹2.50 Cr',
+      linkedExitId: 'EXT-001',
+      distType: 'Partial Exit', // Full Exit, Partial Exit, Interim Distribution, Dividend
+      source: 'FinFlow Tech — Strategic Secondary Buyout',
+      amount: '₹1.50 Cr',
+      rawAmount: 1.50,
+      gainMoic: '+₹0.56 Cr (1.60x)',
+      scheduledDate: '25 Aug 2026',
+      paymentStatus: 'Pending', // Pending, Processed, Completed, Failed
+      attachment: 'DC001_Notice_ShikharKapoor.pdf',
+      noteToLP: 'Enclosed is your partial exit distribution statement reflecting the 50% redemption executed via the FinFlow Tech secondary transaction.'
+    },
+    {
+      id: 'DC-002',
+      lpName: 'Horizon Capital Partners',
+      email: 'd.sterling@horizoncap.com',
+      commitment: '₹2.40 Cr',
+      linkedExitId: 'EXT-003',
+      distType: 'Partial Exit',
+      source: 'LogiChain Labs — Series B Secondary',
+      amount: '₹1.18 Cr',
+      rawAmount: 1.18,
+      gainMoic: '+₹0.46 Cr (1.64x)',
+      scheduledDate: '20 Aug 2026',
+      paymentStatus: 'Processed',
+      attachment: 'DC002_Notice_HorizonCapital.pdf',
+      noteToLP: 'Partial secondary proceeds wired to your registered depository bank account. UTR: AXISB2608209841.'
+    },
+    {
+      id: 'DC-003',
+      lpName: 'Vidhi Sharma',
+      email: 'vidhi@sharmaventures.com',
+      commitment: '₹1.20 Cr',
+      linkedExitId: 'EXT-005',
+      distType: 'Full Exit',
+      source: 'Apex AI — Series A Secondary Stake Sale',
+      amount: '₹1.45 Cr',
+      rawAmount: 1.45,
+      gainMoic: '+₹0.55 Cr (1.61x)',
+      scheduledDate: '10 Sep 2026',
+      paymentStatus: 'Pending',
+      attachment: null,
+      noteToLP: 'Full exit payout scheduled for execution upon completion of secondary wire settlement.'
+    },
+    {
+      id: 'DC-004',
+      lpName: 'Ananya Raghunathan',
+      email: 'ananya@raghunathan.org',
+      commitment: '₹2.00 Cr',
+      linkedExitId: '— Fund-level',
+      distType: 'Dividend',
+      source: 'Fund-level Portfolio Dividends',
+      amount: '₹0.34 Cr',
+      rawAmount: 0.34,
+      gainMoic: '+₹0.34 Cr (Yield)',
+      scheduledDate: '15 Jul 2026',
+      paymentStatus: 'Completed',
+      attachment: 'DC004_Dividend_AnanyaR.pdf',
+      noteToLP: 'Annual interim dividend yield distributed pro-rata across all partnership units.'
+    },
+    {
+      id: 'DC-005',
+      lpName: 'Nishant Vohra',
+      email: 'nishant@vohrasfo.in',
+      commitment: '₹1.10 Cr',
+      linkedExitId: '— Fund-level',
+      distType: 'Interim Distribution',
+      source: 'FinFlow Tech Interim Liquidity',
+      amount: '₹0.28 Cr',
+      rawAmount: 0.28,
+      gainMoic: '+₹0.09 Cr (1.47x)',
+      scheduledDate: '02 Jun 2026',
+      paymentStatus: 'Completed',
+      attachment: 'DC005_Interim_NishantV.pdf',
+      noteToLP: 'Pro-rata interim capital return from FinFlow Series A recapitalization.'
+    },
+    {
+      id: 'DC-006',
+      lpName: 'FinCity Entrepreneurs Fund',
+      email: 'rsundaram@fincity.in',
+      commitment: '₹1.00 Cr',
+      linkedExitId: '— Fund-level',
+      distType: 'Interim Distribution',
+      source: 'LogiChain Labs Secondary Tranche',
+      amount: '₹0.25 Cr',
+      rawAmount: 0.25,
+      gainMoic: '+₹0.08 Cr (1.47x)',
+      scheduledDate: '02 Jun 2026',
+      paymentStatus: 'Completed',
+      attachment: 'DC006_Interim_FinCity.pdf',
+      noteToLP: 'LogiChain secondary tranche pro-rata realization.'
+    }
+  ];
+
+  let exitRequestsStore = JSON.parse(JSON.stringify(INITIAL_EXIT_REQUESTS));
+  let distributionCallsStore = JSON.parse(JSON.stringify(INITIAL_DISTRIBUTION_CALLS));
+  let _currentDrawerAttachedFile = null;
+
+  // ---------- INITIALIZE ON PAGE LOAD ----------
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof LayoutComponents !== 'undefined' && document.getElementById('appHeaderSlot')) {
+      LayoutComponents.init({ activeNav: 'distribution-calls', activeApp: 'investor' });
+    }
+    renderExitRequestsTable();
+    renderDistributionCallsTable();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
+
+  // ---------- TAB SWITCHING LOGIC ----------
+  function switchPageTab(tabKey) {
+    activeTab = tabKey;
+    document.getElementById('panelTabExits').style.display = tabKey === 'exits' ? 'block' : 'none';
+    document.getElementById('panelTabDistributions').style.display = tabKey === 'distributions' ? 'block' : 'none';
+
+    document.getElementById('tabNavExitRequests').classList.toggle('active', tabKey === 'exits');
+    document.getElementById('tabNavDistributions').classList.toggle('active', tabKey === 'distributions');
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // ---------- HELPER: STATUS PILL BADGES (MONOCHROME GREY PALETTE ONLY) ----------
+  function getExitStatusPill(status) {
+    const s = status || 'Pending';
+    if (s === 'Approved') return `<span class="pill pill-approved">APPROVED</span>`;
+    if (s === 'Rejected') return `<span class="pill pill-rejected">REJECTED</span>`;
+    return `<span class="pill pill-pending">PENDING REVIEW</span>`;
+  }
+
+  function getDistPaymentStatusPill(status) {
+    const s = status || 'Pending';
+    if (s === 'Completed') return `<span class="pill pill-completed">COMPLETED</span>`;
+    if (s === 'Processed') return `<span class="pill pill-processed">PROCESSED</span>`;
+    if (s === 'Failed') return `<span class="pill pill-failed">FAILED</span>`;
+    return `<span class="pill pill-pending">PENDING</span>`;
+  }
+
+  // ---------- COPY EMAIL INLINE HELPER ----------
+  function copyEmailInline(e, email) {
+    if (e) e.stopPropagation();
+    if (navigator.clipboard) navigator.clipboard.writeText(email);
+    if (window.showToast) window.showToast(`LP Email copied: ${email}`);
+  }
+
+  // ═════════════════════════════════════════════════════════════════════════
+  // TAB 1: RENDER EXIT REQUESTS TABLE & METRICS
+  // ═════════════════════════════════════════════════════════════════════════
+  function renderExitRequestsTable() {
+    const container = document.getElementById('exitRequestsTableContainer');
+    if (!container) return;
+
+    const q = (document.getElementById('exitSearch')?.value || '').toLowerCase().trim();
+    const statusFilter = document.getElementById('exitStatusFilter')?.value || 'all';
+
+    const filtered = exitRequestsStore.filter(r => {
+      const mSearch = !q || r.lpName.toLowerCase().includes(q) || r.lpNote.toLowerCase().includes(q) || r.id.toLowerCase().includes(q) || r.status.toLowerCase().includes(q);
+      const mStatus = statusFilter === 'all' || r.status === statusFilter;
+      return mSearch && mStatus;
+    });
+
+    // Update KPI counters
+    const total = exitRequestsStore.length;
+    const pending = exitRequestsStore.filter(r => r.status === 'Pending').length;
+    const approved = exitRequestsStore.filter(r => r.status === 'Approved').length;
+    const rejected = exitRequestsStore.filter(r => r.status === 'Rejected').length;
+
+    document.getElementById('tabCountExits').textContent = total;
+    document.getElementById('statExitTotal').textContent = total;
+    document.getElementById('statExitPending').textContent = pending;
+    document.getElementById('statExitApproved').textContent = approved;
+    document.getElementById('statExitRejected').textContent = rejected;
+
+    if (!filtered.length) {
+      container.innerHTML = `
+        <div class="table-card" style="border-top:none; border-radius:0 0 8px 8px; padding:36px; text-align:center; color:#8C8C88;">
+          <i data-lucide="search" style="width:22px; height:22px; color:#B0B0AE; margin-bottom:8px;"></i>
+          <div style="font-size:13px; font-weight:700; color:#1A1A18; margin-bottom:2px;">No Matching Exit Requests</div>
+          <p style="font-size:11px; color:#8C8C88;">Try changing your search query or status filter.</p>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    // EXACT REQUIRED COLUMNS:
+    // LP Name (inline name + mail icon) | Commitment Amount | Capital Invested to Date | Current NAV / Est. Value | Ownership % in Fund | Requested On | Preferred Exit Date | Status | Action
+    container.innerHTML = `
+      <div class="table-card" style="border-top:none; border-radius:0 0 8px 8px;">
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">LP Name</th>
+                <th class="num" style="white-space:nowrap;">Commitment Amount</th>
+                <th class="num" style="white-space:nowrap;">Capital Invested to Date</th>
+                <th class="num" style="white-space:nowrap;">Current NAV / Est. Value</th>
+                <th class="num" style="white-space:nowrap;">Ownership % in Fund</th>
+                <th style="white-space:nowrap;">Requested On</th>
+                <th style="white-space:nowrap;">Preferred Exit Date</th>
+                <th style="white-space:nowrap;">Status</th>
+                <th style="text-align:right; white-space:nowrap;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${filtered.map(r => `
+                <tr onclick="openExitRequestDrawer('${r.id}')">
+                  <!-- 01. LP Name (Inline Name + Mail Icon) -->
+                  <td style="white-space:nowrap;">
+                    <div style="display:inline-flex; align-items:center; gap:5px;">
+                      <span style="font-weight:700; color:#1A1A18; font-size:12px;">${r.lpName}</span>
+                      <button type="button" onclick="copyEmailInline(event, '${r.email}')" title="Copy email: ${r.email}" style="border:none; background:transparent; cursor:pointer; padding:2px; color:#7A7A78; display:inline-flex; align-items:center;">
+                        <i data-lucide="mail" style="width:11px; height:11px;"></i>
+                      </button>
+                    </div>
+                  </td>
+
+                  <!-- 02. Commitment Amount -->
+                  <td class="num" style="font-weight:600; color:#2A2A28;">${r.commitment}</td>
+
+                  <!-- 03. Capital Invested to Date -->
+                  <td class="num" style="font-weight:600; color:#2A2A28;">${r.invested}</td>
+
+                  <!-- 04. Current NAV / Est. Value -->
+                  <td class="num" style="font-weight:700; color:#1A1A18;">${r.nav}</td>
+
+                  <!-- 05. Ownership % in Fund -->
+                  <td class="num" style="font-weight:600; color:#4A4A48;">${r.ownership}</td>
+
+                  <!-- 06. Requested On -->
+                  <td style="font-size:11px; color:#6A6A68;">${r.requestedOn}</td>
+
+                  <!-- 07. Preferred Exit Date -->
+                  <td style="font-size:11px; font-weight:600; color:#1A1A18;">${r.preferredExitDate}</td>
+
+                  <!-- 08. Status -->
+                  <td>${getExitStatusPill(r.status)}</td>
+
+                  <!-- 09. Action -->
+                  <td style="text-align:right;" onclick="event.stopPropagation()">
+                    <button class="doc-btn" onclick="openExitRequestDrawer('${r.id}')">
+                      <i data-lucide="eye" style="width:11px; height:11px;"></i>
+                      <span>View</span>
+                    </button>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="table-footer">
+          <span>Showing <strong>${filtered.length}</strong> of <strong>${exitRequestsStore.length}</strong> LP exit requests</span>
+          <span>Click any row to review exit terms, approve redemption, or create distribution call</span>
+        </div>
+      </div>
+    `;
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // ═════════════════════════════════════════════════════════════════════════
+  // TAB 2: RENDER DISTRIBUTION CALLS TABLE & METRICS
+  // ═════════════════════════════════════════════════════════════════════════
+  function renderDistributionCallsTable() {
+    const container = document.getElementById('distributionCallsTableContainer');
+    if (!container) return;
+
+    const q = (document.getElementById('distSearch')?.value || '').toLowerCase().trim();
+    const typeFilter = document.getElementById('distTypeFilter')?.value || 'all';
+    const statusFilter = document.getElementById('distStatusFilter')?.value || 'all';
+
+    const filtered = distributionCallsStore.filter(d => {
+      const mSearch = !q || d.lpName.toLowerCase().includes(q) || d.source.toLowerCase().includes(q) || d.distType.toLowerCase().includes(q) || d.id.toLowerCase().includes(q);
+      const mType = typeFilter === 'all' || d.distType === typeFilter;
+      const mStatus = statusFilter === 'all' || d.paymentStatus === statusFilter;
+      return mSearch && mType && mStatus;
+    });
+
+    // Update KPI counters
+    const total = distributionCallsStore.length;
+    const pending = distributionCallsStore.filter(d => d.paymentStatus === 'Pending').length;
+    const completed = distributionCallsStore.filter(d => d.paymentStatus === 'Completed' || d.paymentStatus === 'Processed').length;
+    const sumAmt = distributionCallsStore.reduce((s, d) => s + d.rawAmount, 0);
+
+    document.getElementById('tabCountDistributions').textContent = total;
+    document.getElementById('statDistTotal').textContent = total;
+    document.getElementById('statDistPending').textContent = pending;
+    document.getElementById('statDistCompleted').textContent = completed;
+    document.getElementById('statDistAmount').textContent = `₹${sumAmt.toFixed(2)} Cr`;
+
+    if (!filtered.length) {
+      container.innerHTML = `
+        <div class="table-card" style="border-top:none; border-radius:0 0 8px 8px; padding:36px; text-align:center; color:#8C8C88;">
+          <i data-lucide="search" style="width:22px; height:22px; color:#B0B0AE; margin-bottom:8px;"></i>
+          <div style="font-size:13px; font-weight:700; color:#1A1A18; margin-bottom:2px;">No Matching Distribution Calls</div>
+          <p style="font-size:11px; color:#8C8C88;">Try adjusting your search query, type, or payment status filter.</p>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    // EXACT REQUIRED COLUMNS:
+    // LP Name (with mail icon) | Commitment Amount | Linked Exit Request | Distribution Type | Source / Realized From | Distribution Amount | Realized Gain / MOIC | Scheduled Date | Payment Status | Attachment | Action
+    container.innerHTML = `
+      <div class="table-card" style="border-top:none; border-radius:0 0 8px 8px;">
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">LP Name</th>
+                <th class="num" style="white-space:nowrap;">Commitment Amount</th>
+                <th style="white-space:nowrap;">Linked Exit Request</th>
+                <th style="white-space:nowrap;">Distribution Type</th>
+                <th style="white-space:nowrap;">Source / Realized From</th>
+                <th class="num" style="white-space:nowrap;">Distribution Amount</th>
+                <th class="num" style="white-space:nowrap;">Realized Gain / MOIC</th>
+                <th style="white-space:nowrap;">Scheduled Date</th>
+                <th style="white-space:nowrap;">Payment Status</th>
+                <th style="white-space:nowrap;">Attachment</th>
+                <th style="text-align:right; white-space:nowrap;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${filtered.map(d => {
+                const linkedDisplay = d.linkedExitId && d.linkedExitId.startsWith('EXT')
+                  ? `<span class="ref-badge" onclick="event.stopPropagation(); jumpToExitRequest('${d.linkedExitId}')" title="View linked exit request ${d.linkedExitId}">
+                      <i data-lucide="link" style="width:10px; height:10px;"></i>
+                      <span>${d.linkedExitId}</span>
+                    </span>`
+                  : `<span style="color:#8C8C88; font-size:10.5px;">${d.linkedExitId || '—'}</span>`;
+
+                const fileDisplay = d.attachment
+                  ? `<a href="#" onclick="event.stopPropagation(); downloadMockFile('${d.attachment}'); return false;" class="template-badge" title="Download statement: ${d.attachment}">
+                      <i data-lucide="paperclip" style="width:10px; height:10px;"></i>
+                      <span>${d.attachment}</span>
+                    </a>`
+                  : `<span style="color:#A8A8A4; font-size:10.5px;">— Pending</span>`;
+
+                return `
+                  <tr onclick="openDistributionCallDrawer('${d.id}')">
+                    <!-- 01. LP Name (Inline Name + Mail Icon) -->
+                    <td style="white-space:nowrap;">
+                      <div style="display:inline-flex; align-items:center; gap:5px;">
+                        <span style="font-weight:700; color:#1A1A18; font-size:12px;">${d.lpName}</span>
+                        <button type="button" onclick="copyEmailInline(event, '${d.email}')" title="Copy email: ${d.email}" style="border:none; background:transparent; cursor:pointer; padding:2px; color:#7A7A78; display:inline-flex; align-items:center;">
+                          <i data-lucide="mail" style="width:11px; height:11px;"></i>
+                        </button>
+                      </div>
+                    </td>
+
+                    <!-- 02. Commitment Amount -->
+                    <td class="num" style="font-weight:600; color:#2A2A28;">${d.commitment}</td>
+
+                    <!-- 03. Linked Exit Request -->
+                    <td>${linkedDisplay}</td>
+
+                    <!-- 04. Distribution Type -->
+                    <td><span class="type-badge">${d.distType}</span></td>
+
+                    <!-- 05. Source / Realized From -->
+                    <td style="font-weight:600; color:#1A1A18;">${d.source}</td>
+
+                    <!-- 06. Distribution Amount -->
+                    <td class="num" style="font-weight:700; color:#1A1A18;">${d.amount}</td>
+
+                    <!-- 07. Realized Gain / MOIC (muted text) -->
+                    <td class="num" style="color:#6A6A68; font-size:11px;">${d.gainMoic}</td>
+
+                    <!-- 08. Scheduled Date -->
+                    <td style="font-size:11px; color:#4A4A48;">${d.scheduledDate}</td>
+
+                    <!-- 09. Payment Status -->
+                    <td>${getDistPaymentStatusPill(d.paymentStatus)}</td>
+
+                    <!-- 10. Attachment -->
+                    <td>${fileDisplay}</td>
+
+                    <!-- 11. Action -->
+                    <td style="text-align:right;" onclick="event.stopPropagation()">
+                      <button class="doc-btn" onclick="openDistributionCallDrawer('${d.id}')">
+                        <i data-lucide="edit-3" style="width:11px; height:11px;"></i>
+                        <span>Edit / View</span>
+                      </button>
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="table-footer">
+          <span>Showing <strong>${filtered.length}</strong> of <strong>${distributionCallsStore.length}</strong> distribution calls</span>
+          <span>Bank wire transfers are reconciled against the fund depository account</span>
+        </div>
+      </div>
+    `;
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // ═════════════════════════════════════════════════════════════════════════
+  // RIGHT DRAWER 1: EXIT REQUEST DRAWER (ROW CLICK FROM TAB 1)
+  // ═════════════════════════════════════════════════════════════════
+  function openExitRequestDrawer(reqId) {
+    const r = exitRequestsStore.find(item => item.id === reqId);
+    if (!r) return;
+
+    const isPending = r.status === 'Pending';
+    const isApproved = r.status === 'Approved';
+    const isRejected = r.status === 'Rejected';
+
+    const bodyHtml = `
+      <div style="display:flex; flex-direction:column; gap:16px;">
+
+        <!-- 01. Read-only Request Block Header -->
+        <div style="background:#FAFAFA; border:1px solid #EBEBEA; border-radius:7px; padding:12px 14px; display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+            <div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <strong style="font-size:14px; color:#1A1A18;">${r.lpName}</strong>
+                ${getExitStatusPill(r.status)}
+              </div>
+              <div style="font-size:11px; color:#6A6A68; margin-top:2px;">
+                ${r.email} · <span class="type-badge" style="font-size:8px;">${r.lpType.toUpperCase()}</span> · Submitted: ${r.submittedOn}
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:9.5px; font-weight:700; color:#8C8C88; text-transform:uppercase;">Request ID</div>
+              <div style="font-size:12px; font-weight:800; color:#1A1A18;">${r.id}</div>
+            </div>
+          </div>
+
+          <!-- 4-Stat Key Financial Metrics Grid -->
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; border-top:1px solid #EAEAE8; padding-top:8px;">
+            <div class="stat-chip-box">
+              <div class="stat-chip-label">Commitment</div>
+              <div class="stat-chip-val">${r.commitment}</div>
+            </div>
+            <div class="stat-chip-box">
+              <div class="stat-chip-label">Capital Invested</div>
+              <div class="stat-chip-val">${r.invested}</div>
+            </div>
+            <div class="stat-chip-box">
+              <div class="stat-chip-label">Current NAV</div>
+              <div class="stat-chip-val">${r.nav}</div>
+            </div>
+            <div class="stat-chip-box">
+              <div class="stat-chip-label">Fund Ownership</div>
+              <div class="stat-chip-val">${r.ownership}</div>
+            </div>
+          </div>
+
+          <!-- Requested Exit Date & Note -->
+          <div style="display:flex; flex-direction:column; gap:6px; background:#FFFFFF; border:1px solid #E0E0DE; border-radius:5px; padding:8px 10px;">
+            <div style="display:flex; justify-content:space-between; font-size:11px;">
+              <span style="color:#8C8C88; font-weight:600;">Preferred Exit Date:</span>
+              <strong style="color:#1A1A18;">${r.preferredExitDate}</strong>
+            </div>
+            <div style="font-size:11px; color:#4A4A48; line-height:1.45;">
+              <strong style="color:#1A1A18;">LP's Reason &amp; Note:</strong>
+              <div style="margin-top:2px;">"${r.lpNote}"</div>
+            </div>
+          </div>
+
+          <!-- Linked Context Navigation Links -->
+          <div style="display:flex; align-items:center; justify-content:space-between; font-size:11px; border-top:1px solid #EAEAE8; padding-top:8px;">
+            <span style="color:#8C8C88;">Fund Context:</span>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <a href="./capital-calls.html" class="ref-badge" title="View LP's profile in LP Management">
+                <i data-lucide="user" style="width:10px; height:10px;"></i>
+                <span>View LP Profile</span>
+              </a>
+              <a href="./capital-calls.html" class="ref-badge" title="View Capital Call & Payment history">
+                <i data-lucide="coins" style="width:10px; height:10px;"></i>
+                <span>View Capital Call History</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 02. DECISION SECTION (CONDITIONALLY RENDERED BY STATUS) -->
+        ${isPending ? `
+          <div style="border:1px solid #E0E0DE; border-radius:7px; padding:12px 14px; background:#FFFFFF; display:flex; flex-direction:column; gap:12px;">
+            <div style="font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:#1A1A18;">
+              GP Decision &amp; Liquidity Execution Terms
+            </div>
+
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">Exit Liquidity Structure <span style="color:#DC2626;">*</span></div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <label style="display:flex; align-items:center; gap:8px; border:1px solid #DCDCDA; border-radius:6px; padding:8px 10px; cursor:pointer; font-size:11.5px;">
+                  <input type="radio" name="drawerExitChoice" value="Partial Exit" checked />
+                  <div>
+                    <strong>Partial Exit</strong>
+                    <div style="font-size:10px; color:#8C8C88;">Redeem a % of holdings</div>
+                  </div>
+                </label>
+                <label style="display:flex; align-items:center; gap:8px; border:1px solid #DCDCDA; border-radius:6px; padding:8px 10px; cursor:pointer; font-size:11.5px;">
+                  <input type="radio" name="drawerExitChoice" value="Full Exit" />
+                  <div>
+                    <strong>Full Exit (100%)</strong>
+                    <div style="font-size:10px; color:#8C8C88;">Complete liquidation</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">GP Conditions &amp; Approval Memo (Optional)</div>
+              <textarea id="drawerConditionsInput" class="field-input" rows="2" placeholder="e.g. Approved for execution via FinFlow Tech secondary share buyback tranche at 1.60x valuation."></textarea>
+            </div>
+
+            <div class="field-group" style="margin-bottom:0;" id="rejectReasonBox">
+              <div class="field-label">Rejection Reason (Required only if rejecting)</div>
+              <textarea id="drawerRejectionInput" class="field-input" rows="2" placeholder="Provide clear rationale under LPA guidelines if declining this exit request..."></textarea>
+            </div>
+          </div>
+        ` : ''}
+
+        ${isApproved ? `
+          <div style="background:#F7F7F5; border:1px solid #DCDCDA; border-radius:7px; padding:14px; display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="width:22px; height:22px; border-radius:50%; background:#1A1A18; color:#FFFFFF; display:flex; align-items:center; justify-content:center;">
+                <i data-lucide="check" style="width:12px; height:12px;"></i>
+              </div>
+              <div>
+                <strong style="font-size:12.5px; color:#1A1A18;">Exit Request Approved</strong>
+                <div style="font-size:11px; color:#6A6A68;">Approved on ${r.requestedOn} · Conditions: ${r.conditions || 'Approved under standard secondary terms.'}</div>
+              </div>
+            </div>
+
+            <div style="border-top:1px solid #E4E4E2; padding-top:10px; display:flex; align-items:center; justify-content:space-between;">
+              <span style="font-size:11.5px; color:#4A4A48;">Ready to declare LP capital return?</span>
+              <button class="btn btn-primary" onclick="proceedToCreateDistributionFromExit('${r.id}')" style="font-size:11.5px; padding:6px 14px;">
+                <i data-lucide="arrow-up-right" class="lucide-sm"></i>
+                <span>Create Distribution Call</span>
+              </button>
+            </div>
+          </div>
+        ` : ''}
+
+        ${isRejected ? `
+          <div style="background:#FAFAFA; border:1px solid #EBEBEA; border-radius:7px; padding:12px 14px;">
+            <div style="font-size:11.5px; font-weight:800; color:#1A1A18; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+              <i data-lucide="alert-circle" style="width:13px; height:13px; color:#DC2626;"></i>
+              Rejection Notice (Sent to LP)
+            </div>
+            <div style="font-size:11.5px; color:#4A4A48; line-height:1.45; background:#FFFFFF; border:1px solid #E0E0DE; border-radius:5px; padding:8px 10px;">
+              "${r.rejectionReason || 'Exit request declined under LPA governance guidelines.'}"
+            </div>
+          </div>
+        ` : ''}
+
+      </div>
+    `;
+
+    let footerHtml = '';
+    if (isPending) {
+      footerHtml = `
+        <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+          <button type="button" class="btn btn-outline" onclick="processRejectExit('${r.id}')" style="color:#DC2626; border-color:#FECACA; background:#FEF2F2;">
+            <i data-lucide="x" style="width:12px; height:12px;"></i>
+            <span>Reject Request</span>
+          </button>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button type="button" class="btn btn-outline" onclick="window.closeDrawer()">Close</button>
+            <button type="button" class="btn btn-primary" onclick="processApproveExit('${r.id}')" style="font-size:12px;">
+              <i data-lucide="check" class="lucide-sm"></i>
+              <span>Approve Exit</span>
+            </button>
+          </div>
+        </div>
+      `;
+    } else {
+      footerHtml = `
+        <div style="display:flex; justify-content:flex-end; width:100%;">
+          <button type="button" class="btn btn-outline" onclick="window.closeDrawer()">Close</button>
+        </div>
+      `;
+    }
+
+    if (window.openDrawer) {
+      window.openDrawer(`Exit Request: ${r.lpName}`, `Request Ref: ${r.id} · Preferred Date: ${r.preferredExitDate}`, bodyHtml, footerHtml);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  function processApproveExit(reqId) {
+    const r = exitRequestsStore.find(item => item.id === reqId);
+    if (!r) return;
+
+    const choice = document.querySelector('input[name="drawerExitChoice"]:checked')?.value || 'Partial Exit';
+    const conditions = document.getElementById('drawerConditionsInput')?.value?.trim() || 'Approved under standard secondary terms.';
+
+    r.status = 'Approved';
+    r.exitTypeChoice = choice;
+    r.conditions = conditions;
+
+    renderExitRequestsTable();
+    if (window.showToast) window.showToast(`Exit request ${r.id} approved for ${r.lpName}!`);
+    openExitRequestDrawer(reqId);
+  }
+
+  function processRejectExit(reqId) {
+    const r = exitRequestsStore.find(item => item.id === reqId);
+    if (!r) return;
+
+    const reason = document.getElementById('drawerRejectionInput')?.value?.trim();
+    if (!reason) {
+      alert('Please provide a rejection reason in the textbox before declining this request.');
+      document.getElementById('drawerRejectionInput')?.focus();
+      return;
+    }
+
+    r.status = 'Rejected';
+    r.rejectionReason = reason;
+
+    renderExitRequestsTable();
+    if (window.showToast) window.showToast(`Exit request ${r.id} rejected.`);
+    openExitRequestDrawer(reqId);
+  }
+
+  function proceedToCreateDistributionFromExit(reqId) {
+    const r = exitRequestsStore.find(item => item.id === reqId);
+    if (!r) return;
+
+    if (window.closeDrawer) window.closeDrawer();
+    switchPageTab('distributions');
+
+    // Open Distribution drawer pre-filled with this LP's context
+    openDistributionCallDrawer(null, {
+      lpName: r.lpName,
+      commitment: r.commitment,
+      linkedExitId: r.id,
+      distType: r.exitTypeChoice.includes('Full') ? 'Full Exit' : 'Partial Exit',
+      source: 'FinFlow Tech — Strategic Secondary Buyout',
+      amount: '₹1.50 Cr',
+      rawAmount: 1.50,
+      gainMoic: '+₹0.56 Cr (1.60x)',
+      scheduledDate: '2026-08-30',
+      noteToLP: `Liquidity execution statement prepared for approved exit request ${r.id}.`
+    });
+  }
+
+  function jumpToExitRequest(reqId) {
+    switchPageTab('exits');
+    const input = document.getElementById('exitSearch');
+    if (input) input.value = reqId;
+    renderExitRequestsTable();
+    openExitRequestDrawer(reqId);
+  }
+
+  // ═════════════════════════════════════════════════════════════════════════
+  // RIGHT DRAWER 2: DISTRIBUTION CALL DRAWER (CREATE / EDIT / VIEW)
+  // ═════════════════════════════════════════════════════════════════════════
+  function openNewDistributionDrawer() {
+    openDistributionCallDrawer(null);
+  }
+
+  function openDistributionCallDrawer(distId, prefillData = null) {
+    const isEdit = Boolean(distId);
+    const d = isEdit
+      ? distributionCallsStore.find(item => item.id === distId)
+      : prefillData || {
+          id: 'DC-00' + (distributionCallsStore.length + 1),
+          lpName: 'Shikhar Kapoor',
+          email: 'shikhar@kapoorfo.com',
+          commitment: '₹2.50 Cr',
+          linkedExitId: '— Fund-level',
+          distType: 'Partial Exit',
+          source: 'FinFlow Tech — Secondary Buyback',
+          amount: '₹1.50 Cr',
+          rawAmount: 1.50,
+          gainMoic: '+₹0.56 Cr (1.60x)',
+          scheduledDate: '2026-08-30',
+          paymentStatus: 'Pending',
+          attachment: null,
+          noteToLP: ''
+        };
+
+    _currentDrawerAttachedFile = d.attachment;
+
+    const bodyHtml = `
+      <div style="display:flex; flex-direction:column; gap:16px;">
+
+        <!-- 01. LP + Commitment Context (Read-only block) -->
+        <div style="background:#FAFAFA; border:1px solid #EBEBEA; border-radius:7px; padding:12px 14px; display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div style="font-size:13.5px; font-weight:800; color:#1A1A18;">${d.lpName}</div>
+              <div style="font-size:11px; color:#6A6A68; margin-top:2px;">
+                Commitment: <strong>${d.commitment}</strong> · Linked Exit: <strong>${d.linkedExitId || 'Fund-level'}</strong>
+              </div>
+            </div>
+            <span class="type-badge">${d.distType}</span>
+          </div>
+        </div>
+
+        <!-- 02. Distribution Form Inputs -->
+        <div style="display:flex; flex-direction:column; gap:12px;">
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">Distribution Type <span style="color:#DC2626;">*</span></div>
+              <select id="drawerDistTypeSelect" class="field-input">
+                <option value="Partial Exit" ${d.distType === 'Partial Exit' ? 'selected' : ''}>Partial Exit</option>
+                <option value="Full Exit" ${d.distType === 'Full Exit' ? 'selected' : ''}>Full Exit</option>
+                <option value="Interim Distribution" ${d.distType === 'Interim Distribution' ? 'selected' : ''}>Interim Distribution</option>
+                <option value="Dividend" ${d.distType === 'Dividend' ? 'selected' : ''}>Dividend Yield</option>
+              </select>
+            </div>
+
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">Scheduled Payout Date <span style="color:#DC2626;">*</span></div>
+              <input type="date" id="drawerDistDateInput" class="field-input" value="${d.scheduledDate ? (d.scheduledDate.includes('2026') && d.scheduledDate.length === 10 ? d.scheduledDate : '2026-08-30') : '2026-08-30'}" />
+            </div>
+          </div>
+
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-label">Source / Realized From <span style="color:#DC2626;">*</span></div>
+            <input type="text" id="drawerDistSourceInput" class="field-input" value="${d.source}" placeholder="e.g. FinFlow Tech Secondary Buyback or Fund-level Dividend" />
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">Distribution Amount <span style="color:#DC2626;">*</span></div>
+              <input type="text" id="drawerDistAmountInput" class="field-input" value="${d.amount}" placeholder="e.g. ₹1.50 Cr" />
+            </div>
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">Payment Status</div>
+              <select id="drawerDistStatusSelect" class="field-input">
+                <option value="Pending" ${d.paymentStatus === 'Pending' ? 'selected' : ''}>Pending</option>
+                <option value="Processed" ${d.paymentStatus === 'Processed' ? 'selected' : ''}>Processed</option>
+                <option value="Completed" ${d.paymentStatus === 'Completed' ? 'selected' : ''}>Completed</option>
+                <option value="Failed" ${d.paymentStatus === 'Failed' ? 'selected' : ''}>Failed</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 03. Attach Distribution Notice (File Upload Component) -->
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-label" style="display:flex; justify-content:space-between; align-items:center;">
+              <span>Attach Distribution Notice / Statement</span>
+              <span style="font-size:10px; font-weight:500; color:#8C8C88;">PDF / Excel Statement</span>
+            </div>
+
+            <div id="drawerDistDropzone" style="border:1.5px dashed #DCDCDA; border-radius:6px; background:#FAFAFA; padding:10px; text-align:center; cursor:pointer;" onclick="document.getElementById('drawerDistFileInput').click()">
+              <input type="file" id="drawerDistFileInput" accept=".pdf,.xlsx,.xls,.docx" style="display:none;" onchange="handleDistFileSelected(event)" />
+              
+              <div id="drawerDistUploadPrompt" style="${d.attachment ? 'display:none;' : 'display:flex;'} flex-direction:column; align-items:center; gap:3px;">
+                <i data-lucide="upload-cloud" style="width:18px; height:18px; color:#8C8C88;"></i>
+                <div style="font-size:11px; font-weight:700; color:#1A1A18;">Click to browse or drop distribution notice file</div>
+              </div>
+
+              <div id="drawerDistFileChip" style="${d.attachment ? 'display:flex;' : 'display:none;'} align-items:center; justify-content:space-between; background:#FFFFFF; border:1px solid #DCDCDA; border-radius:5px; padding:6px 10px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <i data-lucide="file-check-2" style="width:14px; height:14px; color:#047857;"></i>
+                  <span id="drawerDistFileNameText" style="font-size:11.5px; font-weight:700; color:#1A1A18;">${d.attachment || ''}</span>
+                </div>
+                <button type="button" onclick="event.stopPropagation(); clearDistFile();" style="background:transparent; border:none; color:#8C8C88; cursor:pointer; font-size:14px; font-weight:700;" title="Remove file">&times;</button>
+              </div>
+            </div>
+            <input type="hidden" id="drawerDistAttachmentVal" value="${d.attachment || ''}" />
+          </div>
+
+          <!-- 04. Note to LP (Optional) -->
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-label">Note to LP (Optional Custom Delivery Message)</div>
+            <textarea id="drawerDistNoteInput" class="field-input" rows="2" placeholder="e.g. Distribution advice wired to your Axis Bank depository account.">${d.noteToLP || ''}</textarea>
+          </div>
+
+        </div>
+
+      </div>
+    `;
+
+    const footerHtml = `
+      <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+        <button type="button" class="btn btn-outline" onclick="window.closeDrawer()">Cancel</button>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" class="btn btn-outline" onclick="saveDistributionDraft('${d.id}')" style="font-size:11.5px;">
+            <i data-lucide="save" style="width:12px; height:12px;"></i>
+            <span>Save Draft</span>
+          </button>
+          <button type="button" class="btn btn-primary" onclick="confirmSendDistributionToLP('${d.id}')" style="font-size:12px;">
+            <i data-lucide="send" class="lucide-sm"></i>
+            <span>Send to LP</span>
+          </button>
+        </div>
+      </div>
+    `;
+
+    const title = isEdit ? `Distribution Call: ${d.id}` : 'Create Distribution Call';
+    const subtitle = `LP: ${d.lpName} · Commitment: ${d.commitment}`;
+
+    if (window.openDrawer) {
+      window.openDrawer(title, subtitle, bodyHtml, footerHtml);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  function handleDistFileSelected(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const fileName = file.name;
+    _currentDrawerAttachedFile = fileName;
+    document.getElementById('drawerDistAttachmentVal').value = fileName;
+    document.getElementById('drawerDistUploadPrompt').style.display = 'none';
+    document.getElementById('drawerDistFileChip').style.display = 'flex';
+    document.getElementById('drawerDistFileNameText').textContent = fileName;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    if (window.showToast) window.showToast(`Attached notice: "${fileName}"`);
+  }
+
+  function clearDistFile() {
+    _currentDrawerAttachedFile = null;
+    document.getElementById('drawerDistAttachmentVal').value = '';
+    document.getElementById('drawerDistFileInput').value = '';
+    document.getElementById('drawerDistUploadPrompt').style.display = 'flex';
+    document.getElementById('drawerDistFileChip').style.display = 'none';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function saveDistributionDraft(distId) {
+    let d = distributionCallsStore.find(item => item.id === distId);
+    if (!d) {
+      d = {
+        id: distId || ('DC-00' + (distributionCallsStore.length + 1)),
+        lpName: 'Shikhar Kapoor',
+        email: 'shikhar@kapoorfo.com',
+        commitment: '₹2.50 Cr',
+        linkedExitId: '— Fund-level',
+        distType: 'Partial Exit',
+        source: 'FinFlow Tech Secondary Buyback',
+        amount: '₹1.50 Cr',
+        rawAmount: 1.50,
+        gainMoic: '+₹0.56 Cr (1.60x)',
+        scheduledDate: '2026-08-30',
+        paymentStatus: 'Pending',
+        attachment: null,
+        noteToLP: ''
+      };
+      distributionCallsStore.unshift(d);
+    }
+
+    d.distType = document.getElementById('drawerDistTypeSelect')?.value || d.distType;
+    d.scheduledDate = document.getElementById('drawerDistDateInput')?.value || d.scheduledDate;
+    d.source = document.getElementById('drawerDistSourceInput')?.value || d.source;
+    d.amount = document.getElementById('drawerDistAmountInput')?.value || d.amount;
+    d.paymentStatus = document.getElementById('drawerDistStatusSelect')?.value || d.paymentStatus;
+    d.attachment = document.getElementById('drawerDistAttachmentVal')?.value || d.attachment;
+    d.noteToLP = document.getElementById('drawerDistNoteInput')?.value || d.noteToLP;
+
+    if (window.closeDrawer) window.closeDrawer();
+    renderDistributionCallsTable();
+    if (window.showToast) window.showToast(`Draft saved for distribution call ${d.id}!`);
+  }
+
+  function confirmSendDistributionToLP(distId) {
+    let d = distributionCallsStore.find(item => item.id === distId);
+    if (!d) {
+      d = {
+        id: distId || ('DC-00' + (distributionCallsStore.length + 1)),
+        lpName: 'Shikhar Kapoor',
+        email: 'shikhar@kapoorfo.com',
+        commitment: '₹2.50 Cr',
+        linkedExitId: '— Fund-level',
+        distType: 'Partial Exit',
+        source: 'FinFlow Tech Secondary Buyback',
+        amount: '₹1.50 Cr',
+        rawAmount: 1.50,
+        gainMoic: '+₹0.56 Cr (1.60x)',
+        scheduledDate: '2026-08-30',
+        paymentStatus: 'Processed',
+        attachment: null,
+        noteToLP: ''
+      };
+      distributionCallsStore.unshift(d);
+    }
+
+    d.distType = document.getElementById('drawerDistTypeSelect')?.value || d.distType;
+    d.scheduledDate = document.getElementById('drawerDistDateInput')?.value || d.scheduledDate;
+    d.source = document.getElementById('drawerDistSourceInput')?.value || d.source;
+    d.amount = document.getElementById('drawerDistAmountInput')?.value || d.amount;
+    d.paymentStatus = 'Processed';
+    d.attachment = document.getElementById('drawerDistAttachmentVal')?.value || d.attachment || `Distribution_Notice_${d.id}.pdf`;
+    d.noteToLP = document.getElementById('drawerDistNoteInput')?.value || d.noteToLP;
+
+    if (window.closeDrawer) window.closeDrawer();
+    renderDistributionCallsTable();
+    if (window.showToast) window.showToast(`Distribution Call ${d.id} sent to ${d.lpName}!`);
+  }
+
+  function exportActiveRegisterCSV() {
+    if (window.showToast) window.showToast(`Exporting ${activeTab === 'exits' ? 'Exit Requests' : 'Distribution Calls'} Register CSV...`);
+  }
+
+  function downloadMockFile(filename) {
+    if (window.showToast) window.showToast(`Downloading file: "${filename}"`);
+  }
+
+  // ---------- EMPTY STATE TOGGLE (BOTTOM RIGHT FAB) ----------
+  function toggleWorkspaceEmpty(forced) {
+    if (typeof forced === 'boolean') isWorkspaceEmpty = forced;
+    else isWorkspaceEmpty = !isWorkspaceEmpty;
+
+    document.getElementById('filledWorkspaceContainer').style.display = isWorkspaceEmpty ? 'none' : 'block';
+    document.getElementById('emptyWorkspaceView').style.display = isWorkspaceEmpty ? 'block' : 'none';
+    document.getElementById('fabToggleText').textContent = isWorkspaceEmpty ? 'Toggle Populated State' : 'Toggle Empty State';
+
+    if (!isWorkspaceEmpty) {
+      renderExitRequestsTable();
+      renderDistributionCallsTable();
+    }
+    if (window.showToast) window.showToast(isWorkspaceEmpty ? 'Switched to Empty State' : 'Switched to Populated State');
+  }
+</script>
+</body>
+</html>

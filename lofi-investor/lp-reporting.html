@@ -388,34 +388,33 @@
             <i data-lucide="download" class="lucide-sm"></i>
             <span>Export Register</span>
           </button>
-          <button class="btn btn-primary" onclick="openCreateLPReportDrawer()" style="font-size:12px;">
-            <i data-lucide="plus" class="lucide-sm"></i>
-            <span>Initiate LP Report</span>
-          </button>
         </div>
       </header>
 
       <!-- SEARCH & CONTROLS STRIP -->
-      <div style="padding:7px 22px; background:#FFFFFF; border-bottom:1px solid #EBEBEA; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-shrink:0; flex-wrap:wrap;">
-        <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:280px;">
-          <div style="position:relative; display:flex; align-items:center; flex:1; max-width:340px;">
-            <i data-lucide="search" style="position:absolute; left:10px; width:13px; height:13px; color:#9A9A96; pointer-events:none;"></i>
-            <input type="text" id="lpSearch" onkeyup="renderLPReports()" placeholder="Search LP name, report type, cycle, status..." style="width:100%; box-sizing:border-box; height:32px; padding:5px 10px 5px 30px; background:#F7F7F5; border:1px solid #E0E0DE; border-radius:6px; font-family:Inter,sans-serif; font-size:11.5px; color:#1A1A18; outline:none;" />
-          </div>
-
-          <!-- Quick Filter Tabs -->
-          <div style="display:flex; align-items:center; gap:4px;">
-            <button class="filter-tab-btn active" id="tabFilterAll" onclick="setQuickFilter('all')">All (18)</button>
-            <button class="filter-tab-btn" id="tabFilterPending" onclick="setQuickFilter('Pending')">Pending Action (6)</button>
-            <button class="filter-tab-btn" id="tabFilterSubmitted" onclick="setQuickFilter('Submitted')">Submitted (7)</button>
-            <button class="filter-tab-btn" id="tabFilterApproved" onclick="setQuickFilter('Approved')">Approved &amp; Closed (5)</button>
-          </div>
+      <div style="padding:7px 22px; background:#FFFFFF; border-bottom:1px solid #EBEBEA; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-shrink:0;">
+        <div style="display:flex; align-items:center; gap:6px; flex:1; max-width:380px; background:#F7F7F5; border:1px solid #E0E0DE; border-radius:6px; padding:5px 10px;">
+          <i data-lucide="search" style="width:13px; height:13px; color:#9A9A96; flex-shrink:0;"></i>
+          <input type="text" id="lpSearch" onkeyup="renderLPReports()" placeholder="Search LP name, primary contact, report type or status..." style="border:none; background:transparent; outline:none; font-family:Inter,sans-serif; font-size:11.5px; width:100%; color:#1A1A18;" />
         </div>
 
-        <div style="display:flex; align-items:center; gap:10px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+            <span>Status:</span>
+            <select id="lpStatusFilter" onchange="renderLPReports()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none;">
+              <option value="all">All Statuses</option>
+              <option value="Requested">Requested (Pending)</option>
+              <option value="Preparing">Preparing</option>
+              <option value="Submitted">Submitted (Awaiting Review)</option>
+              <option value="Approved">Approved &amp; Closed</option>
+              <option value="Changes Requested">Changes Requested</option>
+              <option value="Overdue">Overdue</option>
+            </select>
+          </div>
+
           <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
             <span>Report Type:</span>
-            <select id="lpTypeFilter" onchange="renderLPReports()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 6px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18;">
+            <select id="lpTypeFilter" onchange="renderLPReports()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none;">
               <option value="all">All Report Types</option>
               <option value="Capital Account Statement (CAS)">Capital Account Statement (CAS)</option>
               <option value="Fund Performance & Returns">Fund Performance &amp; Returns</option>
@@ -427,11 +426,11 @@
 
           <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
             <span>Cycle:</span>
-            <select id="lpCycleFilter" onchange="renderLPReports()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 6px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18;">
+            <select id="lpCycleFilter" onchange="renderLPReports()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none;">
               <option value="all">All Cycles</option>
               <option value="Q2 2026" selected>Q2 2026 (Active)</option>
               <option value="Q1 2026">Q1 2026</option>
-              <option value="May 2026">May 2026 (Monthly)</option>
+              <option value="May 2026">May 2026</option>
               <option value="FY25 Annual">FY25 Annual</option>
             </select>
           </div>
@@ -1042,15 +1041,9 @@
             <i data-lucide="file-bar-chart" style="width:22px; height:22px;"></i>
           </div>
           <div style="font-size:14px; font-weight:800; color:#1A1A18; margin-bottom:4px;">No LP Reporting Requests</div>
-          <p style="font-size:11.5px; color:#8C8C88; max-width:400px; margin:0 auto 16px; line-height:1.5;">
-            No LP reporting requests currently in queue. You can prepare and publish periodic capital account statements or performance reports in bulk.
+          <p style="font-size:11.5px; color:#8C8C88; max-width:400px; margin:0 auto; line-height:1.5;">
+            No LP reporting requests currently in queue. All active quarterly statements, performance summaries, and investor packages will appear here when requested.
           </p>
-          <div style="display:flex; justify-content:center; gap:8px;">
-            <button class="btn btn-primary" onclick="openCreateLPReportDrawer()" style="font-size:12px;">
-              <i data-lucide="plus" class="lucide-sm"></i>
-              <span>Initiate First LP Report</span>
-            </button>
-          </div>
         </div>
       `;
       if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -1061,22 +1054,15 @@
     const q = (document.getElementById('lpSearch')?.value || '').toLowerCase().trim();
     const typeFilter = document.getElementById('lpTypeFilter')?.value || 'all';
     const cycleFilter = document.getElementById('lpCycleFilter')?.value || 'all';
+    const statusFilter = document.getElementById('lpStatusFilter')?.value || 'all';
 
     let filtered = lpReportsStore.filter(r => {
       const mSearch = !q || r.lpName.toLowerCase().includes(q) || r.contact.toLowerCase().includes(q) || r.reportType.toLowerCase().includes(q) || r.status.toLowerCase().includes(q);
       const mType = typeFilter === 'all' || r.reportType.includes(typeFilter);
       const mCycle = cycleFilter === 'all' || r.cycle.includes(cycleFilter);
-      
-      let mQuick = true;
-      if (currentQuickFilter === 'Pending') {
-        mQuick = r.status === 'Requested' || r.status === 'Preparing' || r.status === 'Overdue' || r.status === 'Changes Requested';
-      } else if (currentQuickFilter === 'Submitted') {
-        mQuick = r.status === 'Submitted';
-      } else if (currentQuickFilter === 'Approved') {
-        mQuick = r.status === 'Approved';
-      }
+      const mStatus = statusFilter === 'all' || r.status === statusFilter;
 
-      return mSearch && mType && mCycle && mQuick;
+      return mSearch && mType && mCycle && mStatus;
     });
 
     // Aggregate KPI metrics across active dataset
@@ -1101,7 +1087,7 @@
         <div style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:36px; text-align:center; color:#8C8C88;">
           <i data-lucide="search" style="width:24px; height:24px; color:#B0B0AE; margin-bottom:8px;"></i>
           <div style="font-size:13px; font-weight:700; color:#1A1A18; margin-bottom:2px;">No Matching LP Reports</div>
-          <p style="font-size:11px; color:#8C8C88;">No LP reports match your search, type, and cycle filter criteria.</p>
+          <p style="font-size:11px; color:#8C8C88;">No LP reports match your search, type, status, and cycle filter criteria.</p>
         </div>
       `;
       if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -1120,9 +1106,6 @@
           <div style="display:flex; align-items:center; gap:6px;">
             <button class="doc-btn" onclick="exportLPReportsCSV()">
               <i data-lucide="download" style="width:11px; height:11px;"></i> Export CSV
-            </button>
-            <button class="doc-btn" onclick="openCreateLPReportDrawer()">
-              <i data-lucide="plus" style="width:11px; height:11px;"></i> Initiate Report
             </button>
           </div>
         </div>
@@ -1533,113 +1516,6 @@
     r.status = 'Approved';
     renderLPReports();
     if (window.showToast) window.showToast(`Report for ${r.lpName} marked as Approved & Closed!`);
-  }
-
-  // ── CREATE / INITIATE NEW LP REPORT DRAWER ──
-  function openCreateLPReportDrawer() {
-    const bodyHtml = `
-      <div style="display:flex; flex-direction:column; gap:16px;">
-        <p style="font-size:11.5px; color:#6A6A68; line-height:1.5; margin:0;">
-          Initiate a new LP reporting cycle to prepare capital account statements, NAV performance, and quarterly updates for your fund's LPs.
-        </p>
-
-        <div class="field-group">
-          <div class="field-label">Target LP(s) <span style="color:#DC2626;">*</span></div>
-          <select id="newLPSelect" class="field-input">
-            <option value="All LPs" selected>All Fund LPs (12 Institutional &amp; Family Offices)</option>
-            <option value="Shikhar Kapoor">Shikhar Kapoor (Family Office · ₹2.50 Cr)</option>
-            <option value="Horizon Capital Partners">Horizon Capital Partners (Institutional · ₹2.40 Cr)</option>
-            <option value="Ananya Raghunathan">Ananya Raghunathan (Trust · ₹2.00 Cr)</option>
-            <option value="Krish Kaul">Krish Kaul (HNI · ₹1.80 Cr)</option>
-            <option value="Meridian Family Office">Meridian Family Office (Family Office · ₹1.60 Cr)</option>
-            <option value="Aurum Global Trust">Aurum Global Trust (Institutional · ₹1.40 Cr)</option>
-          </select>
-        </div>
-
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-          <div class="field-group">
-            <div class="field-label">Reporting Cycle <span style="color:#DC2626;">*</span></div>
-            <input type="text" id="newCycleInput" class="field-input" value="Q3 2026" placeholder="e.g. Q3 2026 or July 2026" />
-          </div>
-          <div class="field-group">
-            <div class="field-label">Report Type <span style="color:#DC2626;">*</span></div>
-            <select id="newTypeSelect" class="field-input">
-              <option value="Full Quarterly LP Report" selected>Full Quarterly LP Report</option>
-              <option value="Capital Account Statement (CAS)">Capital Account Statement (CAS)</option>
-              <option value="Fund Performance &amp; Returns">Fund Performance &amp; Returns</option>
-              <option value="Portfolio Holdings Update">Portfolio Holdings Update</option>
-              <option value="Tax Schedule / K-1">Tax Schedule / K-1</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="field-group">
-          <div class="field-label">Submission Due Date <span style="color:#DC2626;">*</span></div>
-          <input type="date" id="newDueDateInput" class="field-input" value="2026-08-15" />
-        </div>
-
-        <div class="field-group">
-          <div class="field-label">Initial Notes / Context for LP</div>
-          <textarea id="newNotesInput" class="field-input" rows="2" placeholder="e.g. Standard Q3 2026 quarterly capital account statement and valuation summary."></textarea>
-        </div>
-      </div>
-    `;
-
-    const footerHtml = `
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
-        <button type="button" class="btn btn-outline" onclick="window.closeDrawer()">Cancel</button>
-        <button type="button" class="btn btn-primary" onclick="confirmCreateLPReport()" style="font-size:12px;">
-          <i data-lucide="plus" class="lucide-sm"></i>
-          <span>Create &amp; Start Preparation</span>
-        </button>
-      </div>
-    `;
-
-    if (window.openDrawer) {
-      window.openDrawer('Initiate LP Report Batch', 'Generate reporting records for Limited Partners', bodyHtml, footerHtml);
-      if (typeof lucide !== 'undefined') lucide.createIcons();
-    }
-  }
-
-  function confirmCreateLPReport() {
-    const target = document.getElementById('newLPSelect')?.value || 'All LPs';
-    const cycle = document.getElementById('newCycleInput')?.value?.trim() || 'Q3 2026';
-    const type = document.getElementById('newTypeSelect')?.value || 'Full Quarterly LP Report';
-    const dueDate = document.getElementById('newDueDateInput')?.value || '15 Aug 2026';
-    const notes = document.getElementById('newNotesInput')?.value?.trim() || '';
-
-    const newName = target.includes('All') ? 'Shikhar Kapoor' : target;
-    const initials = newName.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
-
-    lpReportsStore.unshift({
-      id: 'lpr_' + Date.now(),
-      lpName: newName,
-      avatar: initials,
-      lpType: 'Family Office',
-      contact: newName,
-      email: `${newName.toLowerCase().replace(/\s+/g, '')}@investor.com`,
-      commitment: '₹2.50 Cr',
-      calledToDate: '₹0.94 Cr',
-      distributedToDate: '₹0.20 Cr',
-      nav: '₹1.48 Cr',
-      irr: '24.5%',
-      moic: '1.57x',
-      tvpi: '1.57x',
-      dpi: '0.21x',
-      cycle: cycle,
-      requestedOn: 'Today',
-      dueDate: dueDate,
-      reportType: type,
-      attachment: null,
-      attachmentSize: null,
-      status: 'Preparing',
-      lpNote: notes,
-      gpCommentary: ''
-    });
-
-    if (window.closeDrawer) window.closeDrawer();
-    renderLPReports();
-    if (window.showToast) window.showToast(`New reporting cycle "${cycle}" created for ${target}!`);
   }
 
   function exportLPReportsCSV() {

@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (pathName.includes('capital-calls')) {
     pageNav = 'capital-calls';
+  } else if (pathName.includes('distribution-calls')) {
+    pageNav = 'distribution-calls';
   } else if (pathName.includes('investment-thesis')) {
     pageNav = 'investment-thesis';
   } else if (pathName.includes('all-documents')) {
