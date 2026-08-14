@@ -1,0 +1,1966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Founders Reporting — Seedicon Investor Platform</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ── KPI METRICS CARDS GRID ── */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .metric-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .metric-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .metric-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #8C8C88;
+    }
+    .metric-icon-wrap {
+      width: 26px;
+      height: 26px;
+      border-radius: 5px;
+      background: #F0F0EE;
+      border: 1px solid #E0E0DE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #3A3A38;
+    }
+    .metric-val {
+      font-size: 19px;
+      font-weight: 800;
+      color: #1A1A18;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .metric-val small { font-size: 11px; font-weight: 700; color: #8A8A88; }
+    .metric-sub {
+      font-size: 10.5px;
+      color: #8C8C88;
+      margin-top: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .metric-sub.green { color: #047857; font-weight: 700; }
+    .metric-sub.red { color: #DC2626; font-weight: 700; }
+
+    /* ── CONDENSED DATA TABLE CARD (Strict Single-Line per item) ── */
+    .table-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .table-toolbar {
+      padding: 9px 14px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .table-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .table-scroll { overflow-x: auto; }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1180px;
+    }
+    .data-table th {
+      text-align: left;
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #8C8C88;
+      padding: 8px 12px;
+      border-bottom: 1px solid #EBEBEA;
+      background: #FAFAFA;
+      white-space: nowrap;
+    }
+    .data-table th.num { text-align: right; }
+    .data-table td {
+      padding: 6px 12px;
+      font-size: 11.5px;
+      color: #3A3A38;
+      border-bottom: 1px solid #F1F1EF;
+      vertical-align: middle;
+      white-space: nowrap;
+      height: 38px;
+    }
+    .data-table td.num { text-align: right; }
+    .data-table tr { cursor: pointer; }
+    .data-table tr:hover td { background: #FAFAFA; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .table-footer {
+      padding: 9px 14px;
+      background: #FAFAFA;
+      border-top: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #8C8C88;
+    }
+
+    .company-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .company-logo {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      background: #1A1A18;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 9.5px;
+      flex-shrink: 0;
+    }
+    .company-name {
+      font-weight: 700;
+      color: #1A1A18;
+      white-space: nowrap;
+    }
+
+    /* Template & Attachment file badges */
+    .template-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #3A3A38;
+      background: #F0F0EE;
+      border: 1px solid #DCDCDA;
+      border-radius: 4px;
+      padding: 2px 6px;
+      white-space: nowrap;
+      text-decoration: none;
+      transition: background 0.1s;
+    }
+    .template-badge:hover {
+      background: #E5E5E3;
+      color: #1A1A18;
+    }
+
+    /* Status pills (strictly in grey color tones) */
+    .pill {
+      font-size: 8.5px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      border: 1px solid #DCDCDA;
+      display: inline-block;
+    }
+    .pill-approved { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; }
+    .pill-received { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; font-weight: 800; }
+    .pill-rejected { background: #F5F5F3; color: #6A6A68; border-color: #DCDCDA; }
+    .pill-requested { background: #FAFAFA; color: #7A7A78; border-color: #E0E0DE; }
+    .pill-overdue { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; }
+
+    /* Frequency badge */
+    .freq-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1.5px 6px;
+      border-radius: 3px;
+      background: #F0F0EE;
+      color: #4A4A48;
+      border: 1px solid #DCDCDA;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    /* Action buttons */
+    .vdr-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      border: 1px solid #E0E0DE;
+      background: #FFFFFF;
+      cursor: pointer;
+      color: #7A7A78;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+    }
+    .vdr-action-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+
+    .doc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #5A5A58;
+      background: #FFFFFF;
+      border: 1px solid #E0E0DE;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+      font-family: Inter, sans-serif;
+      white-space: nowrap;
+    }
+    .doc-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+
+    /* Context Action Dropdown Menu */
+    .action-dropdown-wrap { position: relative; display: inline-block; }
+    .action-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 4px;
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      width: 190px;
+      z-index: 100;
+      padding: 4px 0;
+      display: none;
+    }
+    .action-dropdown-item {
+      padding: 6px 12px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #3A3A38;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.1s;
+      white-space: nowrap;
+    }
+    .action-dropdown-item:hover { background: #F5F5F3; color: #1A1A18; }
+    .action-dropdown-item.danger { color: #DC2626; }
+    .action-dropdown-item.danger:hover { background: #FEF2F2; }
+
+    /* Local modal styles */
+    .vdr-modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInBd 0.12s ease;
+    }
+    @keyframes fadeInBd { from { opacity:0; } to { opacity:1; } }
+    .vdr-modal-box {
+      background: #FFFFFF;
+      border-radius: 8px;
+      border: 1px solid #E0E0DE;
+      width: 640px;
+      max-width: 95vw;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.14);
+      overflow: hidden;
+    }
+    .vdr-modal-header {
+      padding: 13px 18px;
+      border-bottom: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FAFAFA;
+    }
+    .vdr-modal-title { font-size: 13.5px; font-weight: 800; color: #1A1A18; }
+    .vdr-modal-close {
+      border: none; background: transparent; cursor: pointer; color: #8A8A88;
+      font-size: 15px; font-weight: 700; padding: 2px 6px; border-radius: 4px;
+    }
+    .vdr-modal-close:hover { background: #EAEAE8; color: #1A1A18; }
+    .vdr-modal-body { padding: 18px; max-height: 78vh; overflow-y: auto; }
+    .vdr-modal-footer {
+      padding: 12px 18px;
+      border-top: 1px solid #EBEBEA;
+      background: #FAFAFA;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .field-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+    .field-label { font-size: 11px; font-weight: 700; color: #3A3A38; }
+    .field-input {
+      font-family: Inter, sans-serif;
+      font-size: 12px;
+      padding: 7px 10px;
+      border: 1px solid #DCDCDA;
+      border-radius: 6px;
+      outline: none;
+      color: #1A1A18;
+      background: #FFFFFF;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .field-input:focus { border-color: #1A1A18; }
+
+    .btn-modal-cancel {
+      font-size: 11.5px; font-weight: 700; border: 1px solid #DCDCDA; border-radius: 6px;
+      padding: 7px 14px; cursor: pointer; background: #F5F5F3; color: #3A3A38;
+      font-family: Inter, sans-serif; transition: background 0.1s;
+    }
+    .btn-modal-cancel:hover { background: #EBEBEA; }
+    .btn-modal-primary {
+      font-size: 11.5px; font-weight: 700; border: 1px solid #1A1A18; border-radius: 6px;
+      padding: 7px 14px; cursor: pointer; background: #1A1A18; color: #FFFFFF;
+      font-family: Inter, sans-serif; transition: background 0.1s;
+    }
+    .btn-modal-primary:hover { background: #2A2A28; }
+    .btn-modal-danger {
+      font-size: 11.5px; font-weight: 700; border: 1px solid #FECACA; border-radius: 6px;
+      padding: 7px 14px; cursor: pointer; background: #FEF2F2; color: #DC2626;
+      font-family: Inter, sans-serif; transition: background 0.1s;
+    }
+    .btn-modal-danger:hover { background: #FEE2E2; }
+
+    /* Review dialog stat cards */
+    .stat-chip-box {
+      background: #FAFAFA;
+      border: 1px solid #EBEBEA;
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+    .stat-chip-label { font-size: 9.5px; font-weight: 700; text-transform: uppercase; color: #8C8C88; }
+    .stat-chip-val { font-size: 13.5px; font-weight: 800; color: #1A1A18; margin-top: 2px; }
+
+    /* Quick Filter Tabs */
+    .filter-tab-btn {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6A6A68;
+      background: transparent;
+      border: 1px solid transparent;
+      padding: 3px 9px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: Inter, sans-serif;
+      transition: all 0.1s;
+    }
+    .filter-tab-btn:hover { color: #1A1A18; background: #F0F0EE; }
+    .filter-tab-btn.active {
+      color: #1A1A18;
+      background: #F0F0EE;
+      border-color: #DCDCDA;
+      font-weight: 700;
+    }
+
+    /* Startup Multi-Select Item in Drawer */
+    .startup-drawer-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #EBEBEA;
+      background: #FFFFFF;
+      cursor: pointer;
+      transition: all 0.1s ease;
+    }
+    .startup-drawer-item:hover {
+      background: #FAFAFA;
+      border-color: #DCDCDA;
+    }
+    .startup-drawer-item.selected {
+      background: #F0F0EE;
+      border-color: #1A1A18;
+    }
+
+    /* Frequency Selector Pills */
+    .freq-option-btn {
+      flex: 1;
+      padding: 7px 10px;
+      text-align: center;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #5A5A58;
+      background: #FAFAFA;
+      border: 1px solid #DCDCDA;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+    .freq-option-btn:hover { color: #1A1A18; background: #F0F0EE; }
+    .freq-option-btn.active {
+      background: #1A1A18;
+      color: #FFFFFF;
+      border-color: #1A1A18;
+      font-weight: 700;
+    }
+
+    /* Checklist Grid Item */
+    .checklist-card-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 8px 10px;
+      background: #FAFAFA;
+      border: 1px solid #EBEBEA;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.1s;
+    }
+    .checklist-card-item:hover { border-color: #DCDCDA; }
+
+    /* Floating FAB Toggle Button (Bottom Right) */
+    .fab-toggle-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: #1A1A18;
+      color: #FFFFFF;
+      border: 1px solid #1A1A18;
+      border-radius: 30px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+      font-family: Inter, sans-serif;
+      transition: all 0.15s ease;
+    }
+    .fab-toggle-btn:hover {
+      background: #2A2A28;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+    }
+
+    /* Expand Drawer Panel Width specifically for multi-select comfort */
+    .drawer-panel {
+      width: 620px !important;
+      max-width: 95vw !important;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div id="appHeaderSlot"></div>
+  <div class="main-workspace" style="display:flex; flex-direction:row;">
+    <div id="tinySidebarSlot"></div>
+    <div id="mainSidebarSlot"></div>
+
+    <main class="content-scrollable" style="padding:0; display:flex; flex-direction:column; background:#F5F5F3;">
+
+      <!-- PAGE HEADER BAR -->
+      <header style="padding:10px 22px; background:#FFFFFF; border-bottom:1px solid #E4E4E2; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; position:sticky; top:0; z-index:10;">
+        <div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <h1 style="font-size:16.5px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em;">Founders Reporting</h1>
+            <span id="reportsCountBadge" style="font-size:10.5px; font-weight:700; background:#F0F0EE; color:#4A4A48; border:1px solid #DCDCDA; border-radius:10px; padding:2px 8px;">14 Reports</span>
+          </div>
+          <p style="font-size:11px; color:#8C8C88; margin-top:1px;">
+            Collect, review, and approve periodic financial MIS, operating KPIs, and milestone updates from portfolio founders.
+          </p>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="btn btn-outline" onclick="exportReportsCSV()" style="font-size:11.5px; padding:5px 12px; background:#FFFFFF;">
+            <i data-lucide="download" class="lucide-sm"></i>
+            <span>Export Summary</span>
+          </button>
+          <button class="btn btn-primary" onclick="openRequestReportDrawer()" style="font-size:12px;">
+            <i data-lucide="plus" class="lucide-sm"></i>
+            <span>Request Founder Report</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- SEARCH & CONTROLS STRIP -->
+      <div style="padding:7px 22px; background:#FFFFFF; border-bottom:1px solid #EBEBEA; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-shrink:0; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:280px;">
+          <div style="display:flex; align-items:center; gap:6px; flex:1; max-width:360px; background:#F7F7F5; border:1px solid #E0E0DE; border-radius:6px; padding:5px 10px;">
+            <i data-lucide="search" style="width:13px; height:13px; color:#9A9A96; flex-shrink:0;"></i>
+            <input type="text" id="reportsSearch" onkeyup="renderReports()" placeholder="Search company, founder, cycle or status..." style="border:none; background:transparent; outline:none; font-family:Inter,sans-serif; font-size:11.5px; width:100%; color:#1A1A18;" />
+          </div>
+
+          <!-- Quick Filter Tabs -->
+          <div style="display:flex; align-items:center; gap:4px;">
+            <button class="filter-tab-btn active" id="tabFilterAll" onclick="setQuickFilter('all')">All</button>
+            <button class="filter-tab-btn" id="tabFilterReceived" onclick="setQuickFilter('Received')">Received</button>
+            <button class="filter-tab-btn" id="tabFilterApproved" onclick="setQuickFilter('Approved')">Approved</button>
+            <button class="filter-tab-btn" id="tabFilterRejected" onclick="setQuickFilter('Rejected')">Rejected</button>
+            <button class="filter-tab-btn" id="tabFilterRequested" onclick="setQuickFilter('Requested')">Requested</button>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+            <span>Frequency:</span>
+            <select id="reportsFreqFilter" onchange="renderReports()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 6px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18;">
+              <option value="all">All Frequencies</option>
+              <option value="Quarterly">Quarterly</option>
+              <option value="Monthly">Monthly</option>
+              <option value="One-time">One-time</option>
+            </select>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+            <span>Cycle:</span>
+            <select id="reportsCycleFilter" onchange="renderReports()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 6px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18;">
+              <option value="all">All Cycles</option>
+              <option value="Q2 2026" selected>Q2 2026 (Active)</option>
+              <option value="Q1 2026">Q1 2026</option>
+              <option value="May 2026">May 2026</option>
+              <option value="FY25 Annual">FY25 Annual</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT WORKSPACE -->
+      <div style="padding:14px 22px; flex:1;">
+
+        <!-- TOP KPI METRICS CARDS (EXPLICIT USER REQUIRED METRICS) -->
+        <div class="metrics-grid">
+          <!-- 01. Total Founder Reports Requested -->
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Total Reports Requested</span>
+              <div class="metric-icon-wrap"><i data-lucide="send" style="width:13px; height:13px;"></i></div>
+            </div>
+            <div class="metric-val" id="statRequested">14</div>
+            <div class="metric-sub" id="statRequestedSub">Across 12 portfolio startups</div>
+          </div>
+
+          <!-- 02. Total Founder Reports Received -->
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Total Reports Received</span>
+              <div class="metric-icon-wrap"><i data-lucide="inbox" style="width:13px; height:13px;"></i></div>
+            </div>
+            <div class="metric-val" id="statReceived">10</div>
+            <div class="metric-sub" id="statReceivedSub">71.4% submission rate (6 to review)</div>
+          </div>
+
+          <!-- 03. No. of Approved Reports -->
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Approved Reports</span>
+              <div class="metric-icon-wrap"><i data-lucide="check-circle-2" style="width:13px; height:13px;"></i></div>
+            </div>
+            <div class="metric-val" id="statApproved">4</div>
+            <div class="metric-sub green" id="statApprovedSub">Verified &amp; added to fund MIS</div>
+          </div>
+
+          <!-- 04. No. of Rejected Reports -->
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Rejected / Revision</span>
+              <div class="metric-icon-wrap"><i data-lucide="alert-circle" style="width:13px; height:13px;"></i></div>
+            </div>
+            <div class="metric-val" id="statRejected">2</div>
+            <div class="metric-sub red" id="statRejectedSub">Revision requested from founder</div>
+          </div>
+        </div>
+
+        <!-- CONDENSED SINGLE-LINE DATA TABLE CONTAINER -->
+        <div id="reportsContainer"></div>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- FLOATING FAB STATE TOGGLE BUTTON (BOTTOM RIGHT CORNER) -->
+<button class="fab-toggle-btn" id="fabToggleState" title="Toggle between Populated Data and Empty State" onclick="toggleReportsState()">
+  <i data-lucide="eye" style="width:13px; height:13px;"></i>
+  <span id="fabToggleText">Toggle Empty State</span>
+</button>
+
+<!-- Local Modal Backdrop for Review & Alerts -->
+<div id="vdrModalBackdrop" style="display:none;" class="vdr-modal-backdrop" onclick="handleBackdropClick(event)">
+  <div class="vdr-modal-box" onclick="event.stopPropagation()">
+    <div class="vdr-modal-header">
+      <span class="vdr-modal-title" id="vdrModalTitle">Modal</span>
+      <button class="vdr-modal-close" onclick="hideVDRModal()" title="Close">&#x2715;</button>
+    </div>
+    <div class="vdr-modal-body" id="vdrModalBody"></div>
+  </div>
+</div>
+
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+<script>
+  // ── PORTFOLIO COMPANIES DATA STORE (FOR DRAWER SELECTION) ──
+  const PORTFOLIO_COMPANIES = [
+    { id: 'pf_1',  name: 'FinFlow Tech',          avatar: 'FF', sector: 'FinTech',    founder: 'Alexandre Dubois', email: 'alex@finflow.io' },
+    { id: 'pf_2',  name: 'LogiChain Labs',        avatar: 'LC', sector: 'Logistics',  founder: 'Rajan Menon',      email: 'rajan@logichain.io' },
+    { id: 'pf_3',  name: 'Alpha Health',          avatar: 'AH', sector: 'Healthcare', founder: 'Dr. Sarah Chen',   email: 'sarah@alphahealth.com' },
+    { id: 'pf_4',  name: 'Apex AI',               avatar: 'AA', sector: 'AI / Software', founder: 'Vikram Mehta',  email: 'vikram@apexai.io' },
+    { id: 'pf_5',  name: 'EcoPulse Energy',       avatar: 'EP', sector: 'CleanTech',  founder: 'Marcus Vance',     email: 'marcus@ecopulse.energy' },
+    { id: 'pf_6',  name: 'NeuroPulse Health',     avatar: 'NP', sector: 'Healthcare', founder: 'Elena Rostova',    email: 'elena@neuropulse.io' },
+    { id: 'pf_7',  name: 'SkyTrack Mobility',     avatar: 'SM', sector: 'Logistics',  founder: 'Helen Cruz',       email: 'helen@skytrack.com' },
+    { id: 'pf_8',  name: 'BioCore Diagnostics',   avatar: 'BC', sector: 'BioTech',    founder: 'James Whitfield',  email: 'james@biocore.com' },
+    { id: 'pf_9',  name: 'Finnexia',              avatar: 'FN', sector: 'FinTech',    founder: 'Priya Sharma',     email: 'priya@finnexia.in' },
+    { id: 'pf_10', name: 'GreenVolt Energy',      avatar: 'GV', sector: 'CleanTech',  founder: 'David Tanaka',     email: 'david@greenvolt.io' },
+    { id: 'pf_11', name: 'Nova Mobility',         avatar: 'NM', sector: 'Logistics',  founder: 'Carlos Gomez',     email: 'carlos@novamobility.co' },
+    { id: 'pf_12', name: 'OrbitPay',              avatar: 'OP', sector: 'FinTech',    founder: 'Sofia Al-Mansoor', email: 'sofia@orbitpay.io' }
+  ];
+
+  // ── DATA STORE: FOUNDER REPORTING SUBMISSIONS (LIFECYCLE: REQUESTED -> RECEIVED -> APPROVED / REJECTED, PLUS OVERDUE) ──
+  let isStoreEmpty = false;
+  let currentQuickFilter = 'all';
+
+  const INITIAL_REPORTS = [
+    {
+      id: 'rep_1',
+      name: 'FinFlow Tech',
+      avatar: 'FF',
+      founder: 'Alexandre Dubois',
+      email: 'alex@finflow.io',
+      frequency: 'Quarterly',
+      cycle: 'Q2 2026',
+      dueDate: '30 Jun 2026',
+      submittedDate: '12 Jun 2026',
+      mrr: '$120K',
+      arr: '$1.45M',
+      growth: '+18% QoQ',
+      burn: '-$38K/mo',
+      runway: '18 Mos',
+      cash: '$680K',
+      headcount: 14,
+      file: 'FinFlow_Q2_2026_MIS.xlsx',
+      fileSize: '1.4 MB',
+      status: 'Received', // Requested, Received, Approved, Rejected, Overdue
+      highlights: 'Closed 2 enterprise tier contracts ($40K ACV). Launched automated bank feed integration.',
+      lowlights: 'Sales cycle elongated from 45 to 62 days in EMEA market.',
+      asks: 'Introductions to US-based banking compliance advisors.'
+    },
+    {
+      id: 'rep_2',
+      name: 'LogiChain Labs',
+      avatar: 'LC',
+      founder: 'Rajan Menon',
+      email: 'rajan@logichain.io',
+      frequency: 'Quarterly',
+      cycle: 'Q2 2026',
+      dueDate: '30 Jun 2026',
+      submittedDate: '10 Jun 2026',
+      mrr: '€210K',
+      arr: '€2.52M',
+      growth: '+24% QoQ',
+      burn: '-€65K/mo',
+      runway: '14 Mos',
+      cash: '€910K',
+      headcount: 22,
+      file: 'LogiChain_MIS_Q2_Final.pdf',
+      fileSize: '3.2 MB',
+      status: 'Approved',
+      highlights: 'Expanded logistics routing network to 4 EU hub ports. Gross margin expanded to 68%.',
+      lowlights: 'Supply chain delays on hardware tracking beacon inventory.',
+      asks: 'Looking for Head of Supply Chain hire in Frankfurt.'
+    },
+    {
+      id: 'rep_3',
+      name: 'Alpha Health',
+      avatar: 'AH',
+      founder: 'Dr. Sarah Chen',
+      email: 'sarah@alphahealth.com',
+      frequency: 'Quarterly',
+      cycle: 'Q2 2026',
+      dueDate: '30 Jun 2026',
+      submittedDate: '08 Jun 2026',
+      mrr: '$45K',
+      arr: '$540K',
+      growth: '+12% QoQ',
+      burn: '-$22K/mo',
+      runway: '21 Mos',
+      cash: '$460K',
+      headcount: 8,
+      file: 'AlphaHealth_Financial_Q2.xlsx',
+      fileSize: '950 KB',
+      status: 'Approved',
+      highlights: 'HIPAA and SOC2 Type II certifications successfully audited. Patient onboarding up 35%.',
+      lowlights: 'Provider integration API testing delayed by 2 weeks.',
+      asks: 'Warm intros to hospital network CTOs in California.'
+    },
+    {
+      id: 'rep_4',
+      name: 'Apex AI',
+      avatar: 'AA',
+      founder: 'Vikram Mehta',
+      email: 'vikram@apexai.io',
+      frequency: 'Quarterly',
+      cycle: 'Q2 2026',
+      dueDate: '30 Jun 2026',
+      submittedDate: '11 Jun 2026',
+      mrr: '₹1.10 Cr',
+      arr: '₹13.2 Cr',
+      growth: '+32% QoQ',
+      burn: '-₹28L/mo',
+      runway: '16 Mos',
+      cash: '₹4.5 Cr',
+      headcount: 31,
+      file: 'ApexAI_Q2_MIS_v1.xlsx',
+      fileSize: '2.1 MB',
+      status: 'Rejected',
+      rejectReason: 'P&L reconciliations for May expenses are missing receipts. Please re-upload with cost breakdown.',
+      highlights: 'Launched LLM workflow engine for enterprise legal teams.',
+      lowlights: 'Server inference compute cost grew faster than anticipated.',
+      asks: 'Assistance in negotiating GPU compute discounts with cloud partners.'
+    },
+    {
+      id: 'rep_5',
+      name: 'EcoPulse Energy',
+      avatar: 'EP',
+      founder: 'Marcus Vance',
+      email: 'marcus@ecopulse.energy',
+      frequency: 'Monthly',
+      cycle: 'May 2026',
+      dueDate: '15 Jun 2026',
+      submittedDate: '13 Jun 2026',
+      mrr: '$78K',
+      arr: '$936K',
+      growth: '+15% QoQ',
+      burn: '-$30K/mo',
+      runway: '19 Mos',
+      cash: '$570K',
+      headcount: 11,
+      file: 'EcoPulse_May_Report.pdf',
+      fileSize: '1.8 MB',
+      status: 'Received',
+      highlights: 'Installed 12 commercial battery storage units in pilot program.',
+      lowlights: 'Permit approval cycle times lengthened in Maharashtra.',
+      asks: 'Introductions to clean energy tax credit consultants.'
+    },
+    {
+      id: 'rep_6',
+      name: 'NeuroPulse Health',
+      avatar: 'NP',
+      founder: 'Elena Rostova',
+      email: 'elena@neuropulse.io',
+      frequency: 'Quarterly',
+      cycle: 'Q2 2026',
+      dueDate: '30 Jun 2026',
+      submittedDate: '09 Jun 2026',
+      mrr: '$32K',
+      arr: '$384K',
+      growth: '+8% QoQ',
+      burn: '-$18K/mo',
+      runway: '24 Mos',
+      cash: '$430K',
+      headcount: 6,
+      file: 'NeuroPulse_Q2_MIS.xlsx',
+      fileSize: '1.1 MB',
+      status: 'Approved',
+      highlights: 'Completed phase 1 clinical validation for neural diagnostic headset.',
+      lowlights: 'Component shortage for specialized EEG sensors.',
+      asks: 'Guidance on CE Mark certification timelines.'
+    },
+    {
+      id: 'rep_7',
+      name: 'SkyTrack Mobility',
+      avatar: 'SM',
+      founder: 'Helen Cruz',
+      email: 'helen@skytrack.com',
+      frequency: 'Monthly',
+      cycle: 'May 2026',
+      dueDate: '15 Jun 2026',
+      submittedDate: '14 Jun 2026',
+      mrr: '$95K',
+      arr: '$1.14M',
+      growth: '+14% QoQ',
+      burn: '-$42K/mo',
+      runway: '15 Mos',
+      cash: '$630K',
+      headcount: 16,
+      file: 'SkyTrack_May_MIS.xlsx',
+      fileSize: '1.6 MB',
+      status: 'Received',
+      highlights: 'Onboarded 3 freight operators onto real-time telemetry suite.',
+      lowlights: 'Driver app churn slightly elevated in southern routes.',
+      asks: 'Assistance with Series A lead investor introductions.'
+    },
+    {
+      id: 'rep_8',
+      name: 'BioCore Diagnostics',
+      avatar: 'BC',
+      founder: 'James Whitfield',
+      email: 'james@biocore.com',
+      frequency: 'Quarterly',
+      cycle: 'Q2 2026',
+      dueDate: '30 Jun 2026',
+      submittedDate: '05 Jun 2026',
+      mrr: '$110K',
+      arr: '$1.32M',
+      growth: '+20% QoQ',
+      burn: '-$50K/mo',
+      runway: '17 Mos',
+      cash: '$850K',
+      headcount: 19,
+      file: 'BioCore_MIS_Q2.pdf',
+      fileSize: '2.8 MB',
+      status: 'Approved',
+      highlights: 'Signed diagnostic kit supply agreement with national lab chain.',
+      lowlights: 'Cold-chain shipping costs increased by 8%.',
+      asks: 'Need introductions to diagnostics distributors in SEA.'
+    },
+    {
+      id: 'rep_9',
+      name: 'Finnexia',
+      avatar: 'FN',
+      founder: 'Priya Sharma',
+      email: 'priya@finnexia.in',
+      frequency: 'Quarterly',
+      cycle: 'Q2 2026',
+      dueDate: '30 Jun 2026',
+      submittedDate: '07 Jun 2026',
+      mrr: '₹1.40 Cr',
+      arr: '₹16.8 Cr',
+      growth: '+28% QoQ',
+      burn: '-₹35L/mo',
+      runway: '13 Mos',
+      cash: '₹4.8 Cr',
+      headcount: 38,
+      file: 'Finnexia_MIS_Q2_Reconciled.xlsx',
+      fileSize: '3.5 MB',
+      status: 'Rejected',
+      rejectReason: 'Cap table ownership percentages in schedule B do not match last round records. Please update.',
+      highlights: 'Crossed 150,000 active merchant checkout points.',
+      lowlights: 'MDR interchange fee compression in UPI QR transactions.',
+      asks: 'Support on NBFC co-lending partner agreements.'
+    },
+    {
+      id: 'rep_10',
+      name: 'GreenVolt Energy',
+      avatar: 'GV',
+      founder: 'David Tanaka',
+      email: 'david@greenvolt.io',
+      frequency: 'Monthly',
+      cycle: 'May 2026',
+      dueDate: '15 Jun 2026',
+      submittedDate: '12 Jun 2026',
+      mrr: '$62K',
+      arr: '$744K',
+      growth: '+11% QoQ',
+      burn: '-$26K/mo',
+      runway: '20 Mos',
+      cash: '$520K',
+      headcount: 9,
+      file: 'GreenVolt_May_Financials.xlsx',
+      fileSize: '1.2 MB',
+      status: 'Received',
+      highlights: 'Secured rooftop solar deployment RFP with state municipal agency.',
+      lowlights: 'Inverter supply delivery pushed back by 3 weeks.',
+      asks: 'Connecting with debt financing funds for asset-heavy rollout.'
+    },
+    {
+      id: 'rep_11',
+      name: 'Nova Mobility',
+      avatar: 'NM',
+      founder: 'Carlos Gomez',
+      email: 'carlos@novamobility.co',
+      frequency: 'Quarterly',
+      cycle: 'Q2 2026',
+      dueDate: '30 Jun 2026',
+      submittedDate: null,
+      mrr: '—',
+      arr: '—',
+      growth: '—',
+      burn: '—',
+      runway: '—',
+      cash: '—',
+      headcount: '—',
+      file: null,
+      fileSize: null,
+      status: 'Requested',
+      highlights: 'Awaiting founder submission.',
+      lowlights: '',
+      asks: ''
+    },
+    {
+      id: 'rep_12',
+      name: 'OrbitPay',
+      avatar: 'OP',
+      founder: 'Sofia Al-Mansoor',
+      email: 'sofia@orbitpay.io',
+      frequency: 'Quarterly',
+      cycle: 'Q2 2026',
+      dueDate: '10 Jun 2026',
+      submittedDate: null,
+      mrr: '—',
+      arr: '—',
+      growth: '—',
+      burn: '—',
+      runway: '—',
+      cash: '—',
+      headcount: '—',
+      file: null,
+      fileSize: null,
+      status: 'Overdue',
+      highlights: 'Submission overdue by 4 days.',
+      lowlights: '',
+      asks: ''
+    },
+    {
+      id: 'rep_13',
+      name: 'FinFlow Tech',
+      avatar: 'FF',
+      founder: 'Alexandre Dubois',
+      email: 'alex@finflow.io',
+      frequency: 'Quarterly',
+      cycle: 'Q1 2026',
+      dueDate: '31 Mar 2026',
+      submittedDate: '15 Mar 2026',
+      mrr: '$102K',
+      arr: '$1.22M',
+      growth: '+22% QoQ',
+      burn: '-$35K/mo',
+      runway: '21 Mos',
+      cash: '$750K',
+      headcount: 12,
+      file: 'FinFlow_Q1_2026_MIS.xlsx',
+      fileSize: '1.2 MB',
+      status: 'Approved',
+      highlights: 'Achieved first cash-flow positive month in international payments.',
+      lowlights: 'Engineering hiring in Lisbon delayed.',
+      asks: 'Talent recruitment pipeline for senior backend developers.'
+    },
+    {
+      id: 'rep_14',
+      name: 'LogiChain Labs',
+      avatar: 'LC',
+      founder: 'Rajan Menon',
+      email: 'rajan@logichain.io',
+      frequency: 'Quarterly',
+      cycle: 'Q1 2026',
+      dueDate: '31 Mar 2026',
+      submittedDate: '12 Mar 2026',
+      mrr: '€170K',
+      arr: '€2.04M',
+      growth: '+26% QoQ',
+      burn: '-€60K/mo',
+      runway: '17 Mos',
+      cash: '€1.02M',
+      headcount: 18,
+      file: 'LogiChain_Q1_MIS.pdf',
+      fileSize: '2.9 MB',
+      status: 'Approved',
+      highlights: 'Signed multi-year logistics agreement with DHL freight division.',
+      lowlights: 'Higher cloud infrastructure egress costs.',
+      asks: 'Advisor for enterprise ISO compliance certification.'
+    }
+  ];
+
+  let reportsStore = JSON.parse(JSON.stringify(INITIAL_REPORTS));
+  let _selectedDrawerCompanyIds = new Set(PORTFOLIO_COMPANIES.map(c => c.id));
+  let _selectedDrawerFrequency = 'Quarterly';
+  let _attachedDrawerTemplate = 'Seedicon_Standard_MIS_v2.xlsx';
+
+  // ── ACTION MENU DROPDOWN HELPERS ──
+  function toggleReportActionMenu(e, id) {
+    if (e) e.stopPropagation();
+    const menu = document.getElementById(`actionMenu_${id}`);
+    const isVisible = menu && menu.style.display === 'block';
+    hideActionMenus();
+    if (menu && !isVisible) menu.style.display = 'block';
+  }
+  function hideActionMenus() {
+    document.querySelectorAll('.action-dropdown-menu').forEach(m => m.style.display = 'none');
+  }
+  document.addEventListener('click', () => hideActionMenus());
+
+  // ── INITIALIZE LAYOUT ──
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof LayoutComponents !== 'undefined' && document.getElementById('appHeaderSlot')) {
+      LayoutComponents.init({ activeNav: 'founder-reports', activeApp: 'investor' });
+    }
+    if (typeof bindAppEvents === 'function') bindAppEvents();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    renderReports();
+  });
+
+  function handleBackdropClick(e) {
+    if (e.target === document.getElementById('vdrModalBackdrop')) hideVDRModal();
+  }
+  function showVDRModal(title, bodyHtml) {
+    document.getElementById('vdrModalTitle').textContent = title;
+    document.getElementById('vdrModalBody').innerHTML = bodyHtml;
+    document.getElementById('vdrModalBackdrop').style.display = 'flex';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+  function hideVDRModal() {
+    document.getElementById('vdrModalBackdrop').style.display = 'none';
+    document.getElementById('vdrModalBody').innerHTML = '';
+  }
+
+  // ── TOGGLE STATE (FULL VS EMPTY) ──
+  function toggleReportsState() {
+    isStoreEmpty = !isStoreEmpty;
+    const fabText = document.getElementById('fabToggleText');
+    if (fabText) fabText.textContent = isStoreEmpty ? 'Toggle Populated State' : 'Toggle Empty State';
+    renderReports();
+    if (window.showToast) window.showToast(isStoreEmpty ? 'Switched to Empty State' : 'Switched to Populated State');
+  }
+
+  function setQuickFilter(statusKey) {
+    currentQuickFilter = statusKey;
+    document.querySelectorAll('.filter-tab-btn').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.getElementById(`tabFilter${statusKey.charAt(0).toUpperCase() + statusKey.slice(1)}`);
+    if (activeBtn) activeBtn.classList.add('active');
+    renderReports();
+  }
+
+  // ── STATUS PILL BADGE HELPER (MONOCHROME GREY STYLES ONLY) ──
+  function getReportStatusPill(status) {
+    const s = status || 'Requested';
+    if (s === 'Approved') {
+      return `<span class="pill pill-approved">APPROVED</span>`;
+    } else if (s === 'Received') {
+      return `<span class="pill pill-received">RECEIVED</span>`;
+    } else if (s === 'Rejected') {
+      return `<span class="pill pill-rejected">REJECTED</span>`;
+    } else if (s === 'Overdue') {
+      return `<span class="pill pill-overdue">OVERDUE</span>`;
+    } else {
+      return `<span class="pill pill-requested">REQUESTED</span>`;
+    }
+  }
+
+  // ── RENDER REPORTS TABLE & METRICS ──
+  function renderReports() {
+    const container = document.getElementById('reportsContainer');
+    if (!container) return;
+
+    if (isStoreEmpty || !reportsStore.length) {
+      document.getElementById('reportsCountBadge').textContent = '0 Reports';
+      document.getElementById('statRequested').textContent = '0';
+      document.getElementById('statRequestedSub').textContent = '0 portfolio companies';
+      document.getElementById('statReceived').textContent = '0';
+      document.getElementById('statReceivedSub').textContent = '0.0% submission rate (0 pending)';
+      document.getElementById('statApproved').textContent = '0';
+      document.getElementById('statApprovedSub').textContent = '0 added to fund MIS';
+      document.getElementById('statRejected').textContent = '0';
+      document.getElementById('statRejectedSub').textContent = '0 revisions requested';
+
+      container.innerHTML = `
+        <div style="background:#FFFFFF; border:1px dashed #DCDCDA; border-radius:8px; padding:48px 24px; text-align:center;">
+          <div style="width:48px; height:48px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#6A6A68;">
+            <i data-lucide="clipboard-check" style="width:22px; height:22px;"></i>
+          </div>
+          <div style="font-size:14px; font-weight:800; color:#1A1A18; margin-bottom:4px;">No Founder Reports Found</div>
+          <p style="font-size:11.5px; color:#8C8C88; max-width:400px; margin:0 auto 16px; line-height:1.5;">
+            Dispatch your first periodic reporting request or financial MIS update to portfolio founders to start tracking metrics.
+          </p>
+          <div style="display:flex; justify-content:center; gap:8px;">
+            <button class="btn btn-primary" onclick="openRequestReportDrawer()" style="font-size:12px;">
+              <i data-lucide="plus" class="lucide-sm"></i>
+              <span>Request First Report</span>
+            </button>
+          </div>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    // Filter logic
+    const q = (document.getElementById('reportsSearch')?.value || '').toLowerCase().trim();
+    const freqFilter = document.getElementById('reportsFreqFilter')?.value || 'all';
+    const cycleFilter = document.getElementById('reportsCycleFilter')?.value || 'all';
+
+    let filtered = reportsStore.filter(r => {
+      const mSearch = !q || r.name.toLowerCase().includes(q) || r.founder.toLowerCase().includes(q) || r.cycle.toLowerCase().includes(q) || r.status.toLowerCase().includes(q);
+      const mFreq = freqFilter === 'all' || r.frequency === freqFilter;
+      const mCycle = cycleFilter === 'all' || r.cycle.includes(cycleFilter);
+      const mQuick = currentQuickFilter === 'all' || r.status === currentQuickFilter;
+      return mSearch && mFreq && mCycle && mQuick;
+    });
+
+    // Aggregate KPI metrics across active dataset
+    const totalRequested = reportsStore.length;
+    const totalReceived = reportsStore.filter(r => r.status === 'Received' || r.status === 'Approved' || r.status === 'Rejected').length;
+    const totalApproved = reportsStore.filter(r => r.status === 'Approved').length;
+    const totalRejected = reportsStore.filter(r => r.status === 'Rejected').length;
+    const pendingReview = reportsStore.filter(r => r.status === 'Received').length;
+    const submissionRate = totalRequested > 0 ? ((totalReceived / totalRequested) * 100).toFixed(1) : '0';
+
+    document.getElementById('reportsCountBadge').textContent = `${filtered.length} Report${filtered.length !== 1 ? 's' : ''}`;
+    document.getElementById('statRequested').textContent = totalRequested;
+    document.getElementById('statRequestedSub').textContent = `Across 12 portfolio startups`;
+    document.getElementById('statReceived').textContent = totalReceived;
+    document.getElementById('statReceivedSub').textContent = `${submissionRate}% submission rate (${pendingReview} to review)`;
+    document.getElementById('statApproved').textContent = totalApproved;
+    document.getElementById('statApprovedSub').textContent = `Verified & added to fund MIS`;
+    document.getElementById('statRejected').textContent = totalRejected;
+    document.getElementById('statRejectedSub').textContent = `Revision requested from founder`;
+
+    if (!filtered.length) {
+      container.innerHTML = `
+        <div style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:36px; text-align:center; color:#8C8C88;">
+          <i data-lucide="search" style="width:24px; height:24px; color:#B0B0AE; margin-bottom:8px;"></i>
+          <div style="font-size:13px; font-weight:700; color:#1A1A18; margin-bottom:2px;">No Matching Founder Reports</div>
+          <p style="font-size:11px; color:#8C8C88;">No reports match your current search and filter selections.</p>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    // EXACT REQUIRED CONDENSED TABLE SCHEMA (SINGLE-LINE EACH):
+    // Company | Founder (Name and mail in icon) | Frequency (badge) | Reporting Cycle | Due Date | Submission Date | Attachment | Status | Actions
+    container.innerHTML = `
+      <div class="table-card">
+        <div class="table-toolbar">
+          <div class="table-toolbar-left">
+            <strong style="font-size:12.5px; color:#1A1A18;">Founder MIS Submissions Register</strong>
+            <span class="badge-pill neutral-soft">${filtered.length} Report${filtered.length !== 1 ? 's' : ''}</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <button class="doc-btn" onclick="exportReportsCSV()">
+              <i data-lucide="download" style="width:11px; height:11px;"></i> Export CSV
+            </button>
+            <button class="doc-btn" onclick="openRequestReportDrawer()">
+              <i data-lucide="plus" style="width:11px; height:11px;"></i> Request Report
+            </button>
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">Company</th>
+                <th style="white-space:nowrap;">Founder</th>
+                <th style="white-space:nowrap;">Frequency</th>
+                <th style="white-space:nowrap;">Reporting Cycle</th>
+                <th style="white-space:nowrap;">Due Date</th>
+                <th style="white-space:nowrap;">Submission Date</th>
+                <th style="white-space:nowrap;">Attachment</th>
+                <th style="white-space:nowrap;">Status</th>
+                <th style="text-align:right; white-space:nowrap;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${filtered.map(r => {
+                const subDateDisplay = r.submittedDate
+                  ? `<span style="font-weight:700; color:#1A1A18;">${r.submittedDate}</span>`
+                  : `<span style="color:#8C8C88;">— Pending</span>`;
+
+                const fileDisplay = r.file
+                  ? `<a href="#" onclick="event.stopPropagation(); downloadMockFile('${r.file}'); return false;" class="template-badge" title="Download ${r.file}">
+                      <i data-lucide="paperclip" style="width:10px; height:10px; flex-shrink:0;"></i>
+                      <span>${r.file}</span>
+                    </a>`
+                  : `<span style="color:#A8A8A4; font-size:11px;">—</span>`;
+
+                return `
+                  <tr onclick="openReviewReportModal('${r.id}')">
+                    <!-- 01. Company -->
+                    <td style="white-space:nowrap;">
+                      <div class="company-cell">
+                        <div class="company-logo">${r.avatar}</div>
+                        <span class="company-name">${r.name}</span>
+                      </div>
+                    </td>
+
+                    <!-- 02. Founder (Name and mail in icon) -->
+                    <td style="white-space:nowrap;">
+                      <div style="display:flex; align-items:center; gap:5px;">
+                        <span style="font-weight:600; color:#2A2A28;">${r.founder}</span>
+                        <button type="button" onclick="copyEmail(event, '${r.email}')" title="Copy email: ${r.email}" style="border:none; background:transparent; cursor:pointer; padding:2px 3px; color:#7A7A78; display:inline-flex; align-items:center; justify-content:center; border-radius:3px;">
+                          <i data-lucide="mail" style="width:11px; height:11px;"></i>
+                        </button>
+                      </div>
+                    </td>
+
+                    <!-- 03. Frequency (badge) -->
+                    <td style="white-space:nowrap;">
+                      <span class="freq-badge">${r.frequency.toUpperCase()}</span>
+                    </td>
+
+                    <!-- 04. Reporting Cycle -->
+                    <td style="font-weight:700; color:#1A1A18; white-space:nowrap;">${r.cycle}</td>
+
+                    <!-- 05. Due Date -->
+                    <td style="white-space:nowrap; font-size:11px; color:#4A4A48;">${r.dueDate}</td>
+
+                    <!-- 06. Submission Date -->
+                    <td style="white-space:nowrap; font-size:11px;">${subDateDisplay}</td>
+
+                    <!-- 07. Attachment -->
+                    <td style="white-space:nowrap;">${fileDisplay}</td>
+
+                    <!-- 08. Status (Grey tone) -->
+                    <td style="white-space:nowrap;">${getReportStatusPill(r.status)}</td>
+
+                    <!-- 09. Actions -->
+                    <td style="text-align:right; white-space:nowrap;" onclick="event.stopPropagation()">
+                      <div style="display:flex; align-items:center; justify-content:flex-end; gap:5px;">
+                        <button class="doc-btn" onclick="openReviewReportModal('${r.id}')" title="Review Report Details">
+                          <i data-lucide="eye" style="width:11px; height:11px;"></i> Review
+                        </button>
+
+                        <div class="action-dropdown-wrap">
+                          <button class="vdr-action-btn" onclick="toggleReportActionMenu(event, '${r.id}')" title="More Actions">
+                            <i data-lucide="more-horizontal" style="width:12px; height:12px;"></i>
+                          </button>
+                          <div class="action-dropdown-menu" id="actionMenu_${r.id}">
+                            ${r.status !== 'Approved' ? `
+                              <div class="action-dropdown-item" onclick="approveReportDirect('${r.id}')">
+                                <i data-lucide="check-circle" style="width:12px; height:12px; color:#047857;"></i>
+                                <span>Approve Report</span>
+                              </div>
+                            ` : ''}
+                            ${r.status !== 'Rejected' ? `
+                              <div class="action-dropdown-item" onclick="promptRejectReport('${r.id}')">
+                                <i data-lucide="x-circle" style="width:12px; height:12px; color:#DC2626;"></i>
+                                <span>Request Revision</span>
+                              </div>
+                            ` : ''}
+                            <div class="action-dropdown-item" onclick="promptSendReminder('${r.id}')">
+                              <i data-lucide="send" style="width:12px; height:12px;"></i>
+                              <span>Send Founder Ping</span>
+                            </div>
+                            ${r.file ? `
+                              <div class="action-dropdown-item" onclick="downloadMockFile('${r.file}')">
+                                <i data-lucide="download" style="width:12px; height:12px;"></i>
+                                <span>Download MIS File</span>
+                              </div>
+                            ` : ''}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="table-footer">
+          <span>Showing <strong>${filtered.length}</strong> of <strong>${reportsStore.length}</strong> founder reports</span>
+          <span style="color:#8C8C88;">All submissions strictly logged on single-row audit records</span>
+        </div>
+      </div>
+    `;
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // ── COPY EMAIL HELPER ──
+  function copyEmail(e, email) {
+    if (e) e.stopPropagation();
+    if (navigator.clipboard) navigator.clipboard.writeText(email);
+    if (window.showToast) window.showToast(`Email copied: ${email}`);
+  }
+
+  // ── REQUEST FOUNDER REPORT (RIGHT DRAWER FORM UI WITH DEEP LEVEL STARTUP SELECTION) ──
+  let _drawerCurrentStep = 'form'; // 'form' or 'startups'
+
+  function openRequestReportDrawer() {
+    _selectedDrawerCompanyIds = new Set(PORTFOLIO_COMPANIES.map(c => c.id));
+    _selectedDrawerFrequency = 'Quarterly';
+    _drawerCurrentStep = 'form';
+    renderDrawerContent();
+  }
+
+  function goToDrawerStep(step) {
+    _drawerCurrentStep = step;
+    renderDrawerContent();
+  }
+
+  function renderDrawerContent() {
+    const isStepStartups = _drawerCurrentStep === 'startups';
+    const selectedCount = _selectedDrawerCompanyIds.size;
+
+    const title = isStepStartups
+      ? 'Select Target Portfolio Startups'
+      : 'Request Founder Report';
+    
+    const subtitle = isStepStartups
+      ? `Choose startups from your active portfolio (${selectedCount} of ${PORTFOLIO_COMPANIES.length} selected)`
+      : 'Bulk request periodic MIS & operating updates from portfolio startups';
+
+    let bodyHtml = '';
+    let footerHtml = '';
+
+    if (isStepStartups) {
+      // ── DEEP VIEW: FULL STARTUP SELECTION LIST (MODELED AFTER VDR SHARE STARTUP CARDS) ──
+      bodyHtml = `
+        <div style="display:flex; flex-direction:column; gap:12px;">
+
+          <!-- Top Back & Fast Action Controls -->
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; border-bottom:1px solid #EBEBEA; padding-bottom:10px;">
+            <button type="button" class="doc-btn" onclick="goToDrawerStep('form')" style="font-weight:700; color:#1A1A18;">
+              <i data-lucide="arrow-left" style="width:12px; height:12px;"></i> Back to Request Form
+            </button>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <button type="button" class="doc-btn" onclick="toggleSelectAllDrawerStartups(true)">Select All (${PORTFOLIO_COMPANIES.length})</button>
+              <button type="button" class="doc-btn" onclick="toggleSelectAllDrawerStartups(false)">Clear</button>
+            </div>
+          </div>
+
+          <!-- Search filter box (Clean, subtle border, proper padding, no clipping) -->
+          <div style="position:relative; display:flex; align-items:center; width:100%; box-sizing:border-box;">
+            <i data-lucide="search" style="position:absolute; left:11px; width:13px; height:13px; color:#8C8C88; pointer-events:none;"></i>
+            <input type="text" id="drawerDeepStartupSearch" onkeyup="filterDeepStartupsList()" placeholder="Search startup name, founder, email, or sector..." style="width:100%; box-sizing:border-box; height:34px; padding:6px 12px 6px 32px; background:#FFFFFF; border:1px solid #E0E0DE; border-radius:6px; font-family:Inter,sans-serif; font-size:12px; color:#1A1A18; outline:none; transition:border-color 0.15s, box-shadow 0.15s;" onfocus="this.style.borderColor='#1A1A18';" onblur="this.style.borderColor='#E0E0DE';" />
+          </div>
+
+          <!-- Startup Cards Container (vdr-detail.html card pattern with subtle borders) -->
+          <div id="deepStartupsListContainer" style="display:flex; flex-direction:column; gap:8px; max-height:calc(100vh - 280px); overflow-y:auto; padding-right:2px;">
+            ${renderDeepStartupsCardsHtml()}
+          </div>
+
+        </div>
+      `;
+
+      footerHtml = `
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+          <button type="button" class="btn btn-outline" onclick="goToDrawerStep('form')">
+            <i data-lucide="arrow-left" class="lucide-sm"></i>
+            <span>Back to Form</span>
+          </button>
+          <button type="button" class="btn btn-primary" onclick="goToDrawerStep('form')" style="font-size:12px;">
+            <i data-lucide="check" class="lucide-sm"></i>
+            <span>Done (${selectedCount} Selected)</span>
+          </button>
+        </div>
+      `;
+    } else {
+      // ── MAIN VIEW: REQUEST FOUNDER REPORT FORM ──
+      const selectedNames = PORTFOLIO_COMPANIES.filter(c => _selectedDrawerCompanyIds.has(c.id)).map(c => c.name);
+      const summaryLabel = selectedCount === PORTFOLIO_COMPANIES.length
+        ? 'All Portfolio Startups'
+        : selectedCount === 0
+          ? 'No startups selected'
+          : `${selectedCount} Startups Selected`;
+
+      bodyHtml = `
+        <div style="display:flex; flex-direction:column; gap:16px;">
+
+          <!-- 01. Startup(s) Deep Drill-down Trigger Card (Accordion / Deep Link) -->
+          <div class="field-group" style="margin-bottom:0;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+              <div class="field-label" style="margin:0;">Target Portfolio Startups <span style="color:#DC2626;">*</span></div>
+              <span id="drawerSelectedCountBadge" style="font-size:10px; font-weight:700; background:#F0F0EE; color:#1A1A18; padding:2px 7px; border-radius:4px; border:1px solid #DCDCDA;">
+                ${selectedCount} of ${PORTFOLIO_COMPANIES.length} Selected
+              </span>
+            </div>
+
+            <!-- Clickable Accordion / Deep Navigation Card -->
+            <div onclick="goToDrawerStep('startups')" style="background:#FFFFFF; border:1px solid ${selectedCount > 0 ? '#E0E0DE' : '#FECACA'}; border-radius:7px; padding:12px 14px; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:12px; transition:border-color 0.12s, box-shadow 0.12s;" title="Click to view full list of portfolio startups">
+              <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+                <div style="width:34px; height:34px; border-radius:6px; background:#1A1A18; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; flex-shrink:0;">
+                  <i data-lucide="layers" style="width:16px; height:16px;"></i>
+                </div>
+                <div style="min-width:0;">
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <span style="font-size:12.5px; font-weight:800; color:#1A1A18;">${summaryLabel}</span>
+                    <span class="freq-badge" style="font-size:8.5px;">${selectedCount} / ${PORTFOLIO_COMPANIES.length}</span>
+                  </div>
+                  <div style="font-size:11px; color:#6A6A68; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                    ${selectedCount > 0 ? selectedNames.slice(0, 4).join(', ') + (selectedCount > 4 ? ` +${selectedCount - 4} more` : '') : 'Click to select startups for this reporting cycle'}
+                  </div>
+                </div>
+              </div>
+
+              <div style="display:flex; align-items:center; gap:5px; color:#1A1A18; font-size:11.5px; font-weight:700; flex-shrink:0;">
+                <span>Change</span>
+                <i data-lucide="chevron-right" style="width:13px; height:13px;"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- 02. Frequency Selector -->
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-label">Reporting Frequency <span style="color:#DC2626;">*</span></div>
+            <div style="display:flex; gap:6px;">
+              <button type="button" class="freq-option-btn ${_selectedDrawerFrequency === 'Monthly' ? 'active' : ''}" onclick="setDrawerFrequency('Monthly')">Monthly</button>
+              <button type="button" class="freq-option-btn ${_selectedDrawerFrequency === 'Quarterly' ? 'active' : ''}" onclick="setDrawerFrequency('Quarterly')">Quarterly</button>
+              <button type="button" class="freq-option-btn ${_selectedDrawerFrequency === 'One-time' ? 'active' : ''}" onclick="setDrawerFrequency('One-time')">One-time</button>
+              <button type="button" class="freq-option-btn ${_selectedDrawerFrequency.includes('Weekly') ? 'active' : ''}" onclick="setDrawerFrequency('Weekly (custom)')">Weekly (Custom)</button>
+            </div>
+          </div>
+
+          <!-- 03. Reporting Period & Due Date Grid -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">Reporting Period <span style="color:#DC2626;">*</span></div>
+              <input type="text" id="drawerPeriodInput" class="field-input" value="Q3 2026" placeholder="e.g. Q3 2026 or July 2026" />
+            </div>
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">Submission Due Date <span style="color:#DC2626;">*</span></div>
+              <input type="date" id="drawerDueDateInput" class="field-input" value="2026-07-15" />
+            </div>
+          </div>
+
+          <!-- 04. What to Report (Structured Checklist - Not Freeform) -->
+          <div class="field-group" style="margin-bottom:0;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+              <div class="field-label" style="margin:0;">What to Report (Structured Checklist) <span style="color:#DC2626;">*</span></div>
+              <span style="font-size:10px; color:#8C8C88;">Select required schedules</span>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+              <label class="checklist-card-item">
+                <input type="checkbox" id="chkRev" checked style="margin-top:2px;" />
+                <div>
+                  <div style="font-size:11.5px; font-weight:700; color:#1A1A18;">Revenue / ARR</div>
+                  <div style="font-size:10px; color:#8C8C88;">MRR, ARR, and QoQ growth %</div>
+                </div>
+              </label>
+
+              <label class="checklist-card-item">
+                <input type="checkbox" id="chkBurn" checked style="margin-top:2px;" />
+                <div>
+                  <div style="font-size:11.5px; font-weight:700; color:#1A1A18;">Net Burn &amp; Runway</div>
+                  <div style="font-size:10px; color:#8C8C88;">Monthly cash burn &amp; runway (months)</div>
+                </div>
+              </label>
+
+              <label class="checklist-card-item">
+                <input type="checkbox" id="chkCash" checked style="margin-top:2px;" />
+                <div>
+                  <div style="font-size:11.5px; font-weight:700; color:#1A1A18;">Cash Balance</div>
+                  <div style="font-size:10px; color:#8C8C88;">Total cash &amp; short-term deposits</div>
+                </div>
+              </label>
+
+              <label class="checklist-card-item">
+                <input type="checkbox" id="chkHeadcount" checked style="margin-top:2px;" />
+                <div>
+                  <div style="font-size:11.5px; font-weight:700; color:#1A1A18;">Headcount</div>
+                  <div style="font-size:10px; color:#8C8C88;">Team size, open key positions</div>
+                </div>
+              </label>
+
+              <label class="checklist-card-item">
+                <input type="checkbox" id="chkKPI" checked style="margin-top:2px;" />
+                <div>
+                  <div style="font-size:11.5px; font-weight:700; color:#1A1A18;">Key Operating KPIs</div>
+                  <div style="font-size:10px; color:#8C8C88;">Usage, active merchants, retention</div>
+                </div>
+              </label>
+
+              <label class="checklist-card-item">
+                <input type="checkbox" id="chkPL" checked style="margin-top:2px;" />
+                <div>
+                  <div style="font-size:11.5px; font-weight:700; color:#1A1A18;">P&amp;L / Balance Sheet</div>
+                  <div style="font-size:10px; color:#8C8C88;">Gross margins, opex breakdowns</div>
+                </div>
+              </label>
+
+              <label class="checklist-card-item" style="grid-column: span 2;">
+                <input type="checkbox" id="chkCapTable" checked style="margin-top:2px;" />
+                <div>
+                  <div style="font-size:11.5px; font-weight:700; color:#1A1A18;">Cap Table Updates <small style="color:#8C8C88; font-weight:600;">(Quarterly only)</small></div>
+                  <div style="font-size:10px; color:#8C8C88;">Updated shareholding ledger, convertible debt, and ESOP pool changes</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 05. Attach Reference Template (Interactive File Upload) -->
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-label" style="display:flex; justify-content:space-between; align-items:center;">
+              <span>Attach Reporting Template (Optional)</span>
+              <span style="font-size:10px; font-weight:500; color:#8C8C88;">MIS Excel / PDF Template</span>
+            </div>
+
+            <div id="drawerTemplateDropzone" style="border:1.5px dashed #DCDCDA; border-radius:6px; background:#FAFAFA; padding:10px; text-align:center; cursor:pointer;" onclick="document.getElementById('drawerTemplateFileInput').click()">
+              <input type="file" id="drawerTemplateFileInput" accept=".xlsx,.xls,.pdf,.docx" style="display:none;" onchange="handleDrawerTemplateFileSelected(event)" />
+              
+              <div id="drawerTemplateUploadPrompt" style="${_attachedDrawerTemplate ? 'display:none;' : 'display:flex;'} flex-direction:column; align-items:center; gap:3px;">
+                <i data-lucide="upload-cloud" style="width:18px; height:18px; color:#8C8C88;"></i>
+                <div style="font-size:11px; font-weight:700; color:#1A1A18;">Click to attach sample MIS template file</div>
+              </div>
+
+              <div id="drawerTemplateFileChip" style="${_attachedDrawerTemplate ? 'display:flex;' : 'display:none;'} align-items:center; justify-content:space-between; background:#FFFFFF; border:1px solid #DCDCDA; border-radius:5px; padding:5px 8px;">
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <i data-lucide="paperclip" style="width:12px; height:12px; color:#047857;"></i>
+                  <span id="drawerTemplateFileNameText" style="font-size:11px; font-weight:700; color:#1A1A18;">${_attachedDrawerTemplate || ''}</span>
+                </div>
+                <button type="button" onclick="event.stopPropagation(); clearDrawerTemplateFile();" style="background:transparent; border:none; color:#8C8C88; cursor:pointer; font-size:13px; font-weight:700;" title="Remove template">&times;</button>
+              </div>
+            </div>
+            <input type="hidden" id="drawerTemplateVal" value="${_attachedDrawerTemplate || ''}" />
+          </div>
+
+          <!-- 06. Make Recurring (Auto-repeats + Auto-reminders) -->
+          <div style="background:#FAFAFA; border:1px solid #EBEBEA; border-radius:6px; padding:10px 12px; display:flex; align-items:flex-start; gap:10px;">
+            <input type="checkbox" id="drawerRecurringToggle" checked style="margin-top:3px; cursor:pointer;" />
+            <div>
+              <label for="drawerRecurringToggle" style="font-size:12px; font-weight:700; color:#1A1A18; cursor:pointer;">
+                Make Recurring &amp; Enforce Automated Reminders
+              </label>
+              <div style="font-size:10.5px; color:#6A6A68; line-height:1.4; margin-top:2px;">
+                Auto-repeats every cycle. System automatically sends founder reminder pings 3 days before and on the submission due date.
+              </div>
+            </div>
+          </div>
+
+          <!-- 07. Note to Founder (Optional Message) -->
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-label">Note to Founders (Optional Custom Message)</div>
+            <textarea id="drawerFounderNote" class="field-input" rows="2" placeholder="e.g. Please share updated metrics and runway calculations ahead of our quarterly LP review."></textarea>
+          </div>
+
+        </div>
+      `;
+
+      footerHtml = `
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+          <button type="button" class="btn btn-outline" onclick="window.closeDrawer()">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="confirmDispatchDrawerRequests()" style="font-size:12px;">
+            <i data-lucide="send" class="lucide-sm"></i>
+            <span id="drawerSubmitBtnText">Dispatch Request (${selectedCount} Startup${selectedCount !== 1 ? 's' : ''})</span>
+          </button>
+        </div>
+      `;
+    }
+
+    if (window.openDrawer) {
+      window.openDrawer(title, subtitle, bodyHtml, footerHtml);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  // ── RENDER STARTUP CARDS (MATCHING VDR-DETAIL.HTML SHARE STARTUP CARDS WITH SUBTLE BORDERS) ──
+  function renderDeepStartupsCardsHtml(filterQuery = '') {
+    const q = (filterQuery || '').toLowerCase().trim();
+    const list = PORTFOLIO_COMPANIES.filter(c => !q || c.name.toLowerCase().includes(q) || c.founder.toLowerCase().includes(q) || c.sector.toLowerCase().includes(q) || c.email.toLowerCase().includes(q));
+
+    if (!list.length) {
+      return `<div style="background:#FFFFFF; border:1px solid #EBEBEA; border-radius:7px; text-align:center; padding:24px; font-size:11.5px; color:#8C8C88;">No portfolio startups match "${filterQuery}"</div>`;
+    }
+
+    return list.map(s => {
+      const isSelected = _selectedDrawerCompanyIds.has(s.id);
+      return `
+        <div onclick="toggleDrawerCompanySelect('${s.id}')" style="background:#FFFFFF; border:1px solid ${isSelected ? '#1A1A18' : '#E8E8E6'}; border-radius:7px; padding:11px 14px; display:flex; align-items:center; justify-content:space-between; gap:12px; cursor:pointer; transition:border-color 0.12s, box-shadow 0.12s, background 0.12s; ${isSelected ? 'background:#FBFBFA;' : ''}">
+          <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+            <div style="width:34px; height:34px; border-radius:6px; background:#1A1A18; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; color:#FFFFFF; flex-shrink:0;">
+              ${s.avatar}
+            </div>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-size:12.5px; font-weight:800; color:#1A1A18; line-height:1.2;">${s.name}</span>
+                <span class="freq-badge" style="font-size:8px; padding:1px 5px;">${s.sector.toUpperCase()}</span>
+              </div>
+              <div style="font-size:11px; color:#6A6A68; margin-top:2px;">
+                ${s.founder} · <span style="color:#8A8A88;">${s.email}</span>
+              </div>
+            </div>
+          </div>
+
+          ${isSelected ? `
+            <button type="button" class="btn btn-primary" style="font-size:11px; padding:5px 12px; flex-shrink:0; pointer-events:none; background:#1A1A18; border-color:#1A1A18;">
+              <i data-lucide="check" style="width:11px; height:11px;"></i> Selected
+            </button>
+          ` : `
+            <button type="button" class="btn btn-outline" style="font-size:11px; padding:5px 12px; flex-shrink:0; pointer-events:none; border-color:#DCDCDA; color:#4A4A48; background:#FFFFFF;">
+              <i data-lucide="plus" style="width:11px; height:11px;"></i> Select
+            </button>
+          `}
+        </div>
+      `;
+    }).join('');
+  }
+
+  function filterDeepStartupsList() {
+    const q = document.getElementById('drawerDeepStartupSearch')?.value || '';
+    const container = document.getElementById('deepStartupsListContainer');
+    if (container) {
+      container.innerHTML = renderDeepStartupsCardsHtml(q);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  function toggleDrawerCompanySelect(id) {
+    if (_selectedDrawerCompanyIds.has(id)) {
+      _selectedDrawerCompanyIds.delete(id);
+    } else {
+      _selectedDrawerCompanyIds.add(id);
+    }
+
+    if (_drawerCurrentStep === 'startups') {
+      filterDeepStartupsList();
+      const subTitleEl = document.getElementById('drawerSub');
+      if (subTitleEl) subTitleEl.textContent = `Choose startups from your active portfolio (${_selectedDrawerCompanyIds.size} of ${PORTFOLIO_COMPANIES.length} selected)`;
+      const footerDoneBtn = document.querySelector('#drawerFooter .btn-primary span');
+      if (footerDoneBtn) footerDoneBtn.textContent = `Done (${_selectedDrawerCompanyIds.size} Selected)`;
+    } else {
+      renderDrawerContent();
+    }
+  }
+
+  function toggleSelectAllDrawerStartups(selectAll = true) {
+    if (selectAll) {
+      _selectedDrawerCompanyIds = new Set(PORTFOLIO_COMPANIES.map(c => c.id));
+    } else {
+      _selectedDrawerCompanyIds.clear();
+    }
+    
+    if (_drawerCurrentStep === 'startups') {
+      filterDeepStartupsList();
+      const subTitleEl = document.getElementById('drawerSub');
+      if (subTitleEl) subTitleEl.textContent = `Choose startups from your active portfolio (${_selectedDrawerCompanyIds.size} of ${PORTFOLIO_COMPANIES.length} selected)`;
+      const footerDoneBtn = document.querySelector('#drawerFooter .btn-primary span');
+      if (footerDoneBtn) footerDoneBtn.textContent = `Done (${_selectedDrawerCompanyIds.size} Selected)`;
+    } else {
+      renderDrawerContent();
+    }
+  }
+
+  function setDrawerFrequency(freq) {
+    _selectedDrawerFrequency = freq;
+    document.querySelectorAll('.freq-option-btn').forEach(btn => btn.classList.remove('active'));
+    renderDrawerContent();
+  }
+  function handleDrawerTemplateFileSelected(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const fileName = file.name;
+    _attachedDrawerTemplate = fileName;
+    document.getElementById('drawerTemplateVal').value = fileName;
+    document.getElementById('drawerTemplateUploadPrompt').style.display = 'none';
+    document.getElementById('drawerTemplateFileChip').style.display = 'flex';
+    document.getElementById('drawerTemplateFileNameText').textContent = fileName;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    if (window.showToast) window.showToast(`Template attached: "${fileName}"`);
+  }
+
+  function clearDrawerTemplateFile() {
+    _attachedDrawerTemplate = null;
+    document.getElementById('drawerTemplateVal').value = '';
+    document.getElementById('drawerTemplateFileInput').value = '';
+    document.getElementById('drawerTemplateUploadPrompt').style.display = 'flex';
+    document.getElementById('drawerTemplateFileChip').style.display = 'none';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function confirmDispatchDrawerRequests() {
+    if (!_selectedDrawerCompanyIds.size) {
+      alert('Please select at least one portfolio startup to send the reporting request.');
+      return;
+    }
+    const period = document.getElementById('drawerPeriodInput')?.value?.trim() || 'Q3 2026';
+    const dueDate = document.getElementById('drawerDueDateInput')?.value || '2026-07-15';
+    const template = document.getElementById('drawerTemplateVal')?.value?.trim() || null;
+
+    // Add entries to reportsStore for each selected startup
+    PORTFOLIO_COMPANIES.filter(c => _selectedDrawerCompanyIds.has(c.id)).forEach(c => {
+      reportsStore.unshift({
+        id: 'rep_' + Date.now() + '_' + c.id,
+        name: c.name,
+        avatar: c.avatar,
+        founder: c.founder,
+        email: c.email,
+        frequency: _selectedDrawerFrequency,
+        cycle: period,
+        dueDate: dueDate,
+        submittedDate: null,
+        mrr: '—',
+        arr: '—',
+        growth: '—',
+        burn: '—',
+        runway: '—',
+        cash: '—',
+        headcount: '—',
+        file: null,
+        fileSize: null,
+        status: 'Requested',
+        highlights: 'Report requested from founder.',
+        lowlights: '',
+        asks: ''
+      });
+    });
+
+    if (window.closeDrawer) window.closeDrawer();
+    renderReports();
+    if (window.showToast) window.showToast(`Reporting request for "${period}" successfully dispatched to ${_selectedDrawerCompanyIds.size} startups!`);
+  }
+
+  // ── REVIEW FOUNDER REPORT MODAL ──
+  function openReviewReportModal(reportId) {
+    const r = reportsStore.find(item => item.id === reportId);
+    if (!r) return;
+
+    showVDRModal(`Founder Report Review: ${r.name} (${r.cycle})`, `
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <!-- Header Info Strip -->
+        <div style="background:#FAFAFA; border:1px solid #EBEBEA; border-radius:7px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:36px; height:36px; border-radius:6px; background:#1A1A18; color:#FFFFFF; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center;">
+              ${r.avatar}
+            </div>
+            <div>
+              <div style="font-size:14px; font-weight:800; color:#1A1A18; display:flex; align-items:center; gap:6px;">
+                ${r.name}
+                ${getReportStatusPill(r.status)}
+              </div>
+              <div style="font-size:11px; color:#6A6A68; margin-top:2px;">
+                ${r.founder} (${r.email}) · Cadence: <strong>${r.frequency}</strong> · Cycle: <strong>${r.cycle}</strong>
+              </div>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:10px; font-weight:700; color:#8C8C88; text-transform:uppercase;">Submission Date</div>
+            <div style="font-size:12px; font-weight:700; color:#1A1A18; margin-top:1px;">${r.submittedDate || 'Pending Submission'}</div>
+          </div>
+        </div>
+
+        ${r.status === 'Rejected' && r.rejectReason ? `
+          <div style="background:#FEF2F2; border:1px solid #FECACA; border-radius:6px; padding:10px 12px; font-size:11.5px; color:#991B1B;">
+            <strong style="display:flex; align-items:center; gap:4px; margin-bottom:2px;">
+              <i data-lucide="alert-circle" style="width:12px; height:12px;"></i> Revision Feedback Sent to Founder:
+            </strong>
+            ${r.rejectReason}
+          </div>
+        ` : ''}
+
+        <!-- Key Financials Snapshot (Grid) -->
+        <div>
+          <div style="font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:#8C8C88; margin-bottom:8px;">
+            Reported Financials &amp; Unit Economics
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px;">
+            <div class="stat-chip-box">
+              <div class="stat-chip-label">ARR / Revenue</div>
+              <div class="stat-chip-val">${r.arr || '—'}</div>
+            </div>
+            <div class="stat-chip-box">
+              <div class="stat-chip-label">Monthly MRR</div>
+              <div class="stat-chip-val">${r.mrr || '—'}</div>
+            </div>
+            <div class="stat-chip-box">
+              <div class="stat-chip-label">QoQ Growth</div>
+              <div class="stat-chip-val" style="color:#047857;">${r.growth || '—'}</div>
+            </div>
+            <div class="stat-chip-box">
+              <div class="stat-chip-label">Net Monthly Burn</div>
+              <div class="stat-chip-val">${r.burn || '—'}</div>
+            </div>
+            <div class="stat-chip-box">
+              <div class="stat-chip-label">Cash in Bank</div>
+              <div class="stat-chip-val">${r.cash || '—'}</div>
+            </div>
+            <div class="stat-chip-box">
+              <div class="stat-chip-label">Runway</div>
+              <div class="stat-chip-val" style="color:#047857;">${r.runway || '—'}</div>
+            </div>
+            <div class="stat-chip-box">
+              <div class="stat-chip-label">Team Headcount</div>
+              <div class="stat-chip-val">${r.headcount || '—'}</div>
+            </div>
+            <div class="stat-chip-box">
+              <div class="stat-chip-label">Due Date</div>
+              <div class="stat-chip-val">${r.dueDate}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Founder Narrative: Highlights, Lowlights & Asks -->
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:#8C8C88;">
+            Founder Operating Updates &amp; Asks
+          </div>
+
+          <div style="background:#FAFAFA; border:1px solid #EBEBEA; border-radius:6px; padding:10px 12px;">
+            <div style="font-size:11px; font-weight:700; color:#047857; display:flex; align-items:center; gap:4px; margin-bottom:3px;">
+              <i data-lucide="trending-up" style="width:12px; height:12px;"></i> Key Highlights &amp; Milestones
+            </div>
+            <p style="font-size:11.5px; color:#3A3A38; line-height:1.45; margin:0;">
+              ${r.highlights || 'No highlights provided.'}
+            </p>
+          </div>
+
+          <div style="background:#FAFAFA; border:1px solid #EBEBEA; border-radius:6px; padding:10px 12px;">
+            <div style="font-size:11px; font-weight:700; color:#B45309; display:flex; align-items:center; gap:4px; margin-bottom:3px;">
+              <i data-lucide="alert-triangle" style="width:12px; height:12px;"></i> Key Challenges &amp; Bottlenecks
+            </div>
+            <p style="font-size:11.5px; color:#3A3A38; line-height:1.45; margin:0;">
+              ${r.lowlights || 'None reported.'}
+            </p>
+          </div>
+
+          <div style="background:#FAFAFA; border:1px solid #EBEBEA; border-radius:6px; padding:10px 12px;">
+            <div style="font-size:11px; font-weight:700; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:3px;">
+              <i data-lucide="help-circle" style="width:12px; height:12px;"></i> Asks from Investor / Fund Team
+            </div>
+            <p style="font-size:11.5px; color:#3A3A38; line-height:1.45; margin:0;">
+              ${r.asks || 'No specific requests for this cycle.'}
+            </p>
+          </div>
+        </div>
+
+        <!-- Attached Report File -->
+        ${r.file ? `
+          <div>
+            <div style="font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:#8C8C88; margin-bottom:6px;">
+              Attached Reporting Document
+            </div>
+            <div style="background:#FFFFFF; border:1px solid #DCDCDA; border-radius:6px; padding:10px 12px; display:flex; align-items:center; justify-content:space-between;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <i data-lucide="file-spreadsheet" style="width:18px; height:18px; color:#047857;"></i>
+                <div>
+                  <div style="font-size:12px; font-weight:700; color:#1A1A18;">${r.file}</div>
+                  <div style="font-size:10.5px; color:#8C8C88;">File Size: ${r.fileSize} · Certified by Founder</div>
+                </div>
+              </div>
+              <button class="btn btn-outline" onclick="downloadMockFile('${r.file}')" style="font-size:11px; padding:4px 10px;">
+                <i data-lucide="download" style="width:11px; height:11px;"></i> Download
+              </button>
+            </div>
+          </div>
+        ` : ''}
+      </div>
+
+      <div class="vdr-modal-footer" style="display:flex; justify-content:space-between; align-items:center;">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Close</button>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-modal-danger" onclick="promptRejectReport('${r.id}')">
+            <i data-lucide="x" style="width:12px; height:12px;"></i> Request Revision
+          </button>
+          <button class="btn-modal-primary" onclick="approveReportModal('${r.id}')" style="background:#1A1A18; color:#FFFFFF;">
+            <i data-lucide="check" style="width:12px; height:12px;"></i> Approve Report
+          </button>
+        </div>
+      </div>
+    `);
+  }
+
+  // ── APPROVE REPORT ──
+  function approveReportModal(reportId) {
+    approveReportDirect(reportId);
+    hideVDRModal();
+  }
+
+  function approveReportDirect(reportId) {
+    const r = reportsStore.find(item => item.id === reportId);
+    if (!r) return;
+    r.status = 'Approved';
+    renderReports();
+    if (window.showToast) window.showToast(`Report for "${r.name}" (${r.cycle}) has been approved and logged into Fund MIS!`);
+  }
+
+  // ── PROMPT REJECT / REVISION ──
+  function promptRejectReport(reportId) {
+    const r = reportsStore.find(item => item.id === reportId);
+    if (!r) return;
+
+    showVDRModal(`Request Revision: ${r.name}`, `
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <p style="font-size:11.5px; color:#6A6A68; line-height:1.5; margin:0;">
+          Specify the corrections or missing schedules needed from <strong>${r.founder}</strong> for the <strong>${r.cycle}</strong> report.
+        </p>
+
+        <div class="field-group">
+          <div class="field-label">Revision Reason / Specific Feedback <span style="color:#DC2626;">*</span></div>
+          <textarea id="rejectReasonInput" class="field-input" rows="3" placeholder="e.g. Schedule B cap table figures differ from latest round records. Please reconcile and re-upload."></textarea>
+        </div>
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-danger" onclick="confirmRejectReport('${reportId}')">Send Revision Request</button>
+      </div>
+    `);
+    setTimeout(() => document.getElementById('rejectReasonInput')?.focus(), 80);
+  }
+
+  function confirmRejectReport(reportId) {
+    const reason = document.getElementById('rejectReasonInput')?.value?.trim();
+    if (!reason) {
+      if (window.showToast) window.showToast('Please enter a feedback reason.', 'alert-circle');
+      return;
+    }
+    const r = reportsStore.find(item => item.id === reportId);
+    if (!r) return;
+    r.status = 'Rejected';
+    r.rejectReason = reason;
+    hideVDRModal();
+    renderReports();
+    if (window.showToast) window.showToast(`Revision request dispatched to ${r.founder} (${r.name})`);
+  }
+
+  // ── PROMPT SEND REMINDER ──
+  function promptSendReminder(reportId) {
+    const r = reportsStore.find(item => item.id === reportId);
+    if (!r) return;
+
+    showVDRModal(`Send Reporting Ping: ${r.name}`, `
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <p style="font-size:11.5px; color:#6A6A68; line-height:1.5; margin:0;">
+          Send an automated email reminder to <strong>${r.founder}</strong> (${r.email}) regarding the <strong>${r.cycle}</strong> MIS due on <strong>${r.dueDate}</strong>.
+        </p>
+        <div class="field-group">
+          <div class="field-label">Custom Message Note (Optional)</div>
+          <input type="text" id="reminderCustomNote" class="field-input" placeholder="e.g. Please share ahead of our LP quarterly review this Friday." />
+        </div>
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-primary" onclick="confirmSendReminder('${reportId}')">Send Ping</button>
+      </div>
+    `);
+  }
+
+  function confirmSendReminder(reportId) {
+    const r = reportsStore.find(item => item.id === reportId);
+    if (!r) return;
+    hideVDRModal();
+    if (window.showToast) window.showToast(`Reminder ping sent to ${r.founder} (${r.name})`);
+  }
+
+  // ── EXPORT CSV ──
+  function exportReportsCSV() {
+    if (window.showToast) window.showToast('Exporting Founders Reporting Summary CSV...');
+  }
+
+  function downloadMockFile(filename) {
+    if (window.showToast) window.showToast(`Downloading file: "${filename}"`);
+  }
+</script>
+</body>
+</html>

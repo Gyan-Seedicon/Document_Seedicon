@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LP Reporting — Seedicon Investor Platform</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ── KPI METRICS CARDS GRID ── */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .metric-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .metric-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .metric-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #8C8C88;
+    }
+    .metric-icon-wrap {
+      width: 26px;
+      height: 26px;
+      border-radius: 5px;
+      background: #F0F0EE;
+      border: 1px solid #E0E0DE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #3A3A38;
+    }
+    .metric-val {
+      font-size: 19px;
+      font-weight: 800;
+      color: #1A1A18;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .metric-val small { font-size: 11px; font-weight: 700; color: #8A8A88; }
+    .metric-sub {
+      font-size: 10.5px;
+      color: #8C8C88;
+      margin-top: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .metric-sub.green { color: #047857; font-weight: 700; }
+    .metric-sub.amber { color: #B45309; font-weight: 700; }
+    .metric-sub.red { color: #DC2626; font-weight: 700; }
+
+    /* ── CONDENSED DATA TABLE CARD (Strict Single-Line per item) ── */
+    .table-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .table-toolbar {
+      padding: 9px 14px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .table-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .table-scroll { overflow-x: auto; }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1220px;
+    }
+    .data-table th {
+      text-align: left;
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #8C8C88;
+      padding: 8px 12px;
+      border-bottom: 1px solid #EBEBEA;
+      background: #FAFAFA;
+      white-space: nowrap;
+    }
+    .data-table th.num { text-align: right; }
+    .data-table td {
+      padding: 6px 12px;
+      font-size: 11.5px;
+      color: #3A3A38;
+      border-bottom: 1px solid #F1F1EF;
+      vertical-align: middle;
+      white-space: nowrap;
+      height: 38px;
+    }
+    .data-table td.num { text-align: right; }
+    .data-table tr { cursor: pointer; }
+    .data-table tr:hover td { background: #FAFAFA; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .table-footer {
+      padding: 9px 14px;
+      background: #FAFAFA;
+      border-top: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #8C8C88;
+    }
+
+    .lp-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .lp-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      background: #1A1A18;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 9.5px;
+      flex-shrink: 0;
+    }
+    .lp-name {
+      font-weight: 700;
+      color: #1A1A18;
+      white-space: nowrap;
+    }
+
+    /* Template & Attachment file badges */
+    .template-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #3A3A38;
+      background: #F0F0EE;
+      border: 1px solid #DCDCDA;
+      border-radius: 4px;
+      padding: 2px 6px;
+      white-space: nowrap;
+      text-decoration: none;
+      transition: background 0.1s;
+    }
+    .template-badge:hover {
+      background: #E5E5E3;
+      color: #1A1A18;
+    }
+
+    /* Status pills (monochrome subtle grey palette) */
+    .pill {
+      font-size: 8.5px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      border: 1px solid #DCDCDA;
+      display: inline-block;
+    }
+    .pill-approved { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; }
+    .pill-submitted { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; font-weight: 800; }
+    .pill-preparing { background: #F5F5F3; color: #4A4A48; border-color: #DCDCDA; }
+    .pill-requested { background: #FAFAFA; color: #7A7A78; border-color: #E0E0DE; }
+    .pill-changes { background: #F5F5F3; color: #6A6A68; border-color: #DCDCDA; }
+    .pill-overdue { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; font-weight: 800; }
+
+    /* Type and Cadence badges */
+    .type-badge {
+      font-size: 8.5px;
+      font-weight: 700;
+      padding: 1.5px 6px;
+      border-radius: 3px;
+      background: #F0F0EE;
+      color: #4A4A48;
+      border: 1px solid #DCDCDA;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    /* Action buttons */
+    .vdr-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      border: 1px solid #E0E0DE;
+      background: #FFFFFF;
+      cursor: pointer;
+      color: #7A7A78;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+    }
+    .vdr-action-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+
+    .doc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #5A5A58;
+      background: #FFFFFF;
+      border: 1px solid #E0E0DE;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+      font-family: Inter, sans-serif;
+      white-space: nowrap;
+    }
+    .doc-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+
+    /* Context Action Dropdown Menu */
+    .action-dropdown-wrap { position: relative; display: inline-block; }
+    .action-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 4px;
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      width: 200px;
+      z-index: 100;
+      padding: 4px 0;
+      display: none;
+    }
+    .action-dropdown-item {
+      padding: 6px 12px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #3A3A38;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.1s;
+      white-space: nowrap;
+    }
+    .action-dropdown-item:hover { background: #F5F5F3; color: #1A1A18; }
+    .action-dropdown-item.danger { color: #DC2626; }
+    .action-dropdown-item.danger:hover { background: #FEF2F2; }
+
+    /* Form Fields & Drawer UI */
+    .field-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+    .field-label { font-size: 11px; font-weight: 700; color: #3A3A38; }
+    .field-input {
+      font-family: Inter, sans-serif;
+      font-size: 12px;
+      padding: 7px 10px;
+      border: 1px solid #DCDCDA;
+      border-radius: 6px;
+      outline: none;
+      color: #1A1A18;
+      background: #FFFFFF;
+      width: 100%;
+      box-sizing: border-box;
+      transition: border-color 0.15s;
+    }
+    .field-input:focus { border-color: #1A1A18; }
+
+    /* Readonly Drawer Stat Chip */
+    .stat-chip-box {
+      background: #FAFAFA;
+      border: 1px solid #EBEBEA;
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+    .stat-chip-label { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #8C8C88; }
+    .stat-chip-val { font-size: 13px; font-weight: 800; color: #1A1A18; margin-top: 2px; }
+
+    /* Quick Filter Tabs */
+    .filter-tab-btn {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6A6A68;
+      background: transparent;
+      border: 1px solid transparent;
+      padding: 3px 9px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: Inter, sans-serif;
+      transition: all 0.1s;
+    }
+    .filter-tab-btn:hover { color: #1A1A18; background: #F0F0EE; }
+    .filter-tab-btn.active {
+      color: #1A1A18;
+      background: #F0F0EE;
+      border-color: #DCDCDA;
+      font-weight: 700;
+    }
+
+    /* Floating FAB Toggle Button (Bottom Right) */
+    .fab-toggle-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: #1A1A18;
+      color: #FFFFFF;
+      border: 1px solid #1A1A18;
+      border-radius: 30px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+      font-family: Inter, sans-serif;
+      transition: all 0.15s ease;
+    }
+    .fab-toggle-btn:hover {
+      background: #2A2A28;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+    }
+
+    /* Expand Drawer Panel Width specifically for multi-column financial fields */
+    .drawer-panel {
+      width: 660px !important;
+      max-width: 95vw !important;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div id="appHeaderSlot"></div>
+  <div class="main-workspace" style="display:flex; flex-direction:row;">
+    <div id="tinySidebarSlot"></div>
+    <div id="mainSidebarSlot"></div>
+
+    <main class="content-scrollable" style="padding:0; display:flex; flex-direction:column; background:#F5F5F3;">
+
+      <!-- PAGE HEADER BAR -->
+      <header style="padding:10px 22px; background:#FFFFFF; border-bottom:1px solid #E4E4E2; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; position:sticky; top:0; z-index:10;">
+        <div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <h1 style="font-size:16.5px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em;">LP Reporting</h1>
+            <span id="reportsCountBadge" style="font-size:10.5px; font-weight:700; background:#F0F0EE; color:#4A4A48; border:1px solid #DCDCDA; border-radius:10px; padding:2px 8px;">18 Requests</span>
+          </div>
+          <p style="font-size:11px; color:#8C8C88; margin-top:1px;">
+            Manage LP periodic reporting requests, capital account statements, NAV performance metrics, and investor package submissions.
+          </p>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="btn btn-outline" onclick="exportLPReportsCSV()" style="font-size:11.5px; padding:5px 12px; background:#FFFFFF;">
+            <i data-lucide="download" class="lucide-sm"></i>
+            <span>Export Register</span>
+          </button>
+          <button class="btn btn-primary" onclick="openCreateLPReportDrawer()" style="font-size:12px;">
+            <i data-lucide="plus" class="lucide-sm"></i>
+            <span>Initiate LP Report</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- SEARCH & CONTROLS STRIP -->
+      <div style="padding:7px 22px; background:#FFFFFF; border-bottom:1px solid #EBEBEA; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-shrink:0; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:280px;">
+          <div style="position:relative; display:flex; align-items:center; flex:1; max-width:340px;">
+            <i data-lucide="search" style="position:absolute; left:10px; width:13px; height:13px; color:#9A9A96; pointer-events:none;"></i>
+            <input type="text" id="lpSearch" onkeyup="renderLPReports()" placeholder="Search LP name, report type, cycle, status..." style="width:100%; box-sizing:border-box; height:32px; padding:5px 10px 5px 30px; background:#F7F7F5; border:1px solid #E0E0DE; border-radius:6px; font-family:Inter,sans-serif; font-size:11.5px; color:#1A1A18; outline:none;" />
+          </div>
+
+          <!-- Quick Filter Tabs -->
+          <div style="display:flex; align-items:center; gap:4px;">
+            <button class="filter-tab-btn active" id="tabFilterAll" onclick="setQuickFilter('all')">All (18)</button>
+            <button class="filter-tab-btn" id="tabFilterPending" onclick="setQuickFilter('Pending')">Pending Action (6)</button>
+            <button class="filter-tab-btn" id="tabFilterSubmitted" onclick="setQuickFilter('Submitted')">Submitted (7)</button>
+            <button class="filter-tab-btn" id="tabFilterApproved" onclick="setQuickFilter('Approved')">Approved &amp; Closed (5)</button>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+            <span>Report Type:</span>
+            <select id="lpTypeFilter" onchange="renderLPReports()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 6px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18;">
+              <option value="all">All Report Types</option>
+              <option value="Capital Account Statement (CAS)">Capital Account Statement (CAS)</option>
+              <option value="Fund Performance & Returns">Fund Performance &amp; Returns</option>
+              <option value="Portfolio Holdings Update">Portfolio Holdings Update</option>
+              <option value="Full Quarterly LP Report">Full Quarterly LP Report</option>
+              <option value="Tax Schedule / K-1">Tax Schedule / K-1</option>
+            </select>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+            <span>Cycle:</span>
+            <select id="lpCycleFilter" onchange="renderLPReports()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 6px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18;">
+              <option value="all">All Cycles</option>
+              <option value="Q2 2026" selected>Q2 2026 (Active)</option>
+              <option value="Q1 2026">Q1 2026</option>
+              <option value="May 2026">May 2026 (Monthly)</option>
+              <option value="FY25 Annual">FY25 Annual</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT WORKSPACE -->
+      <div style="padding:14px 22px; flex:1;">
+
+        <!-- TOP SUMMARY CARDS (EXACT SPECIFIED 4 CARDS) -->
+        <div class="metrics-grid">
+          <!-- 01. Total Requests -->
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Total Requests</span>
+              <div class="metric-icon-wrap"><i data-lucide="file-text" style="width:13px; height:13px;"></i></div>
+            </div>
+            <div class="metric-val" id="statTotalRequests">18</div>
+            <div class="metric-sub" id="statTotalRequestsSub">Across 12 Institutional &amp; Family Office LPs</div>
+          </div>
+
+          <!-- 02. Pending Submission (GP hasn't responded yet, needs action) -->
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Pending Submission</span>
+              <div class="metric-icon-wrap" style="background:#FEF3C7; border-color:#FDE68A; color:#B45309;"><i data-lucide="clock" style="width:13px; height:13px;"></i></div>
+            </div>
+            <div class="metric-val" id="statPending" style="color:#B45309;">6</div>
+            <div class="metric-sub amber" id="statPendingSub">4 In Preparation · 2 Past Due Date</div>
+          </div>
+
+          <!-- 03. Submitted / Awaiting LP Review -->
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Submitted / Awaiting Review</span>
+              <div class="metric-icon-wrap"><i data-lucide="send" style="width:13px; height:13px;"></i></div>
+            </div>
+            <div class="metric-val" id="statSubmitted">7</div>
+            <div class="metric-sub" id="statSubmittedSub">Sent, waiting on LP sign-off</div>
+          </div>
+
+          <!-- 04. Approved & Closed -->
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Approved &amp; Closed</span>
+              <div class="metric-icon-wrap"><i data-lucide="check-circle-2" style="width:13px; height:13px;"></i></div>
+            </div>
+            <div class="metric-val" id="statApproved">5</div>
+            <div class="metric-sub green" id="statApprovedSub">Verified &amp; published to LP Portal</div>
+          </div>
+        </div>
+
+        <!-- CONDENSED SINGLE-LINE DATA TABLE CONTAINER -->
+        <div id="lpReportsContainer"></div>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- FLOATING FAB STATE TOGGLE BUTTON (BOTTOM RIGHT CORNER) -->
+<button class="fab-toggle-btn" id="fabToggleState" title="Toggle between Populated Data and Empty State" onclick="toggleLPReportsState()">
+  <i data-lucide="eye" style="width:13px; height:13px;"></i>
+  <span id="fabToggleText">Toggle Empty State</span>
+</button>
+
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+<script>
+  // ── DATA STORE: LP REPORTING REQUESTS & SUBMISSIONS ──
+  let isStoreEmpty = false;
+  let currentQuickFilter = 'all';
+
+  const INITIAL_LP_REPORTS = [
+    {
+      id: 'lpr_1',
+      lpName: 'Shikhar Kapoor',
+      avatar: 'SK',
+      lpType: 'Family Office',
+      contact: 'Shikhar Kapoor',
+      email: 'shikhar@kapoorfo.com',
+      commitment: '₹2.50 Cr',
+      calledToDate: '₹0.94 Cr',
+      distributedToDate: '₹0.20 Cr',
+      nav: '₹1.48 Cr',
+      irr: '24.5%',
+      moic: '1.57x',
+      tvpi: '1.57x',
+      dpi: '0.21x',
+      cycle: 'Q2 2026',
+      requestedOn: '02 Jun 2026',
+      dueDate: '25 Jun 2026',
+      reportType: 'Capital Account Statement (CAS)',
+      attachment: 'Seedicon_FundI_Q2_CAS_ShikharKapoor.pdf',
+      attachmentSize: '1.8 MB',
+      status: 'Submitted', // Requested, Preparing, Submitted, Approved, Changes Requested, Overdue
+      lpNote: 'Please ensure carry calculation breakdown and paid-in capital reconciliation for June call are included.',
+      gpCommentary: 'Portfolio company FinFlow Tech completed SOC2 certification and crossed $1.45M ARR (+18% QoQ). LogiChain Labs expanded into 4 EU hub ports.'
+    },
+    {
+      id: 'lpr_2',
+      lpName: 'Horizon Capital Partners',
+      avatar: 'HC',
+      lpType: 'Institutional',
+      contact: 'David Sterling',
+      email: 'd.sterling@horizoncap.com',
+      commitment: '₹2.40 Cr',
+      calledToDate: '₹0.58 Cr',
+      distributedToDate: '₹0.00 Cr',
+      nav: '₹0.92 Cr',
+      irr: '28.2%',
+      moic: '1.59x',
+      tvpi: '1.59x',
+      dpi: '0.00x',
+      cycle: 'Q2 2026',
+      requestedOn: '01 Jun 2026',
+      dueDate: '20 Jun 2026',
+      reportType: 'Full Quarterly LP Report',
+      attachment: 'Horizon_Capital_Q2_Comprehensive_Report.pdf',
+      attachmentSize: '4.2 MB',
+      status: 'Approved',
+      lpNote: 'Quarterly review needed ahead of our Investment Committee meeting on 28th June.',
+      gpCommentary: 'Gross portfolio TVPI grew to 1.59x on deployment of ₹5.8M. Active positions in AI software and Logistics outperforming base model.'
+    },
+    {
+      id: 'lpr_3',
+      lpName: 'Ananya Raghunathan',
+      avatar: 'AR',
+      lpType: 'Trust',
+      contact: 'Ananya Raghunathan',
+      email: 'ananya@raghunathan.org',
+      commitment: '₹2.00 Cr',
+      calledToDate: '₹0.48 Cr',
+      distributedToDate: '₹0.10 Cr',
+      nav: '₹0.74 Cr',
+      irr: '21.0%',
+      moic: '1.54x',
+      tvpi: '1.54x',
+      dpi: '0.21x',
+      cycle: 'Q2 2026',
+      requestedOn: '04 Jun 2026',
+      dueDate: '28 Jun 2026',
+      reportType: 'Fund Performance & Returns',
+      attachment: null,
+      attachmentSize: null,
+      status: 'Preparing',
+      lpNote: 'Require updated MOIC and unrealized returns schedule for trust audit.',
+      gpCommentary: 'Drafting performance attribution model and sector weighting charts.'
+    },
+    {
+      id: 'lpr_4',
+      lpName: 'Krish Kaul',
+      avatar: 'KK',
+      lpType: 'HNI',
+      contact: 'Krish Kaul',
+      email: 'krish.kaul@kaulholdings.in',
+      commitment: '₹1.80 Cr',
+      calledToDate: '₹0.43 Cr',
+      distributedToDate: '₹0.00 Cr',
+      nav: '₹0.66 Cr',
+      irr: '22.8%',
+      moic: '1.53x',
+      tvpi: '1.53x',
+      dpi: '0.00x',
+      cycle: 'Q2 2026',
+      requestedOn: '05 Jun 2026',
+      dueDate: '30 Jun 2026',
+      reportType: 'Portfolio Holdings Update',
+      attachment: null,
+      attachmentSize: null,
+      status: 'Requested',
+      lpNote: 'Interested in seeing breakdown of latest healthcare and biotech valuations.',
+      gpCommentary: ''
+    },
+    {
+      id: 'lpr_5',
+      lpName: 'Meridian Family Office',
+      avatar: 'MF',
+      lpType: 'Family Office',
+      contact: 'Siddharth Roy',
+      email: 'siddharth@meridianfo.com',
+      commitment: '₹1.60 Cr',
+      calledToDate: '₹0.38 Cr',
+      distributedToDate: '₹0.00 Cr',
+      nav: '₹0.58 Cr',
+      irr: '19.5%',
+      moic: '1.52x',
+      tvpi: '1.52x',
+      dpi: '0.00x',
+      cycle: 'Q2 2026',
+      requestedOn: '02 Jun 2026',
+      dueDate: '10 Jun 2026',
+      reportType: 'Full Quarterly LP Report',
+      attachment: null,
+      attachmentSize: null,
+      status: 'Overdue',
+      lpNote: 'Submission was requested before June 10th for annual tax compliance review.',
+      gpCommentary: 'Preparing final statement and NAV sign-off with fund auditor.'
+    },
+    {
+      id: 'lpr_6',
+      lpName: 'Aurum Global Trust',
+      avatar: 'AG',
+      lpType: 'Institutional',
+      contact: 'Evelyn Taylor',
+      email: 'etaylor@aurumtrust.ch',
+      commitment: '₹1.40 Cr',
+      calledToDate: '₹0.34 Cr',
+      distributedToDate: '₹0.08 Cr',
+      nav: '₹0.51 Cr',
+      irr: '26.4%',
+      moic: '1.50x',
+      tvpi: '1.50x',
+      dpi: '0.24x',
+      cycle: 'Q2 2026',
+      requestedOn: '03 Jun 2026',
+      dueDate: '22 Jun 2026',
+      reportType: 'Capital Account Statement (CAS)',
+      attachment: 'Aurum_Global_CAS_Q2_Draft.xlsx',
+      attachmentSize: '1.2 MB',
+      status: 'Submitted',
+      lpNote: 'Please verify withholding tax deductions on European distribution tranches.',
+      gpCommentary: 'Confirmed zero withholding tax under Indo-Swiss DTAA protocol.'
+    },
+    {
+      id: 'lpr_7',
+      lpName: 'Vidhi Sharma',
+      avatar: 'VS',
+      lpType: 'Angel',
+      contact: 'Vidhi Sharma',
+      email: 'vidhi@sharmaventures.com',
+      commitment: '₹1.20 Cr',
+      calledToDate: '₹0.29 Cr',
+      distributedToDate: '₹0.00 Cr',
+      nav: '₹0.44 Cr',
+      irr: '20.1%',
+      moic: '1.51x',
+      tvpi: '1.51x',
+      dpi: '0.00x',
+      cycle: 'Q2 2026',
+      requestedOn: '06 Jun 2026',
+      dueDate: '29 Jun 2026',
+      reportType: 'Portfolio Holdings Update',
+      attachment: 'Seedicon_Portfolio_Brief_VidhiSharma.pdf',
+      attachmentSize: '2.1 MB',
+      status: 'Submitted',
+      lpNote: 'Would like a 1-pager summary of AI software co-investment opportunities.',
+      gpCommentary: 'Apex AI Series A co-investment allocation deck attached.'
+    },
+    {
+      id: 'lpr_8',
+      lpName: 'Nishant Vohra',
+      avatar: 'NV',
+      lpType: 'SFO',
+      contact: 'Nishant Vohra',
+      email: 'nishant@vohrasfo.in',
+      commitment: '₹1.10 Cr',
+      calledToDate: '₹0.26 Cr',
+      distributedToDate: '₹0.05 Cr',
+      nav: '₹0.39 Cr',
+      irr: '23.0%',
+      moic: '1.50x',
+      tvpi: '1.50x',
+      dpi: '0.19x',
+      cycle: 'Q2 2026',
+      requestedOn: '01 Jun 2026',
+      dueDate: '18 Jun 2026',
+      reportType: 'Capital Account Statement (CAS)',
+      attachment: 'NishantVohra_Q2_CAS_Reconciled.pdf',
+      attachmentSize: '1.5 MB',
+      status: 'Approved',
+      lpNote: 'Standard quarterly CAS required for family trust filings.',
+      gpCommentary: 'Reconciliation verified with depository receipts.'
+    },
+    {
+      id: 'lpr_9',
+      lpName: 'Tara Investment Office',
+      avatar: 'TI',
+      lpType: 'Asset Office',
+      contact: 'Tara Singhania',
+      email: 'tara@singhaniainvest.com',
+      commitment: '₹1.00 Cr',
+      calledToDate: '₹0.24 Cr',
+      distributedToDate: '₹0.00 Cr',
+      nav: '₹0.36 Cr',
+      irr: '18.5%',
+      moic: '1.50x',
+      tvpi: '1.50x',
+      dpi: '0.00x',
+      cycle: 'Q2 2026',
+      requestedOn: '04 Jun 2026',
+      dueDate: '24 Jun 2026',
+      reportType: 'Fund Performance & Returns',
+      attachment: 'Tara_Singhania_Q2_Performance.pdf',
+      attachmentSize: '2.4 MB',
+      status: 'Changes Requested',
+      lpNote: 'The MOIC on slide 4 shows 1.48x while footnote says 1.50x. Please align.',
+      gpCommentary: 'Adjusted rounding to uniform 2 decimal places.'
+    },
+    {
+      id: 'lpr_10',
+      lpName: 'FinCity Entrepreneurs Fund',
+      avatar: 'FC',
+      lpType: 'Institutional',
+      contact: 'Ramesh Sundaram',
+      email: 'rsundaram@fincity.in',
+      commitment: '₹1.00 Cr',
+      calledToDate: '₹0.24 Cr',
+      distributedToDate: '₹0.00 Cr',
+      nav: '₹0.37 Cr',
+      irr: '25.0%',
+      moic: '1.54x',
+      tvpi: '1.54x',
+      dpi: '0.00x',
+      cycle: 'Q2 2026',
+      requestedOn: '03 Jun 2026',
+      dueDate: '20 Jun 2026',
+      reportType: 'Full Quarterly LP Report',
+      attachment: 'FinCity_FundI_Q2_Pack.pdf',
+      attachmentSize: '3.8 MB',
+      status: 'Approved',
+      lpNote: 'All governance and valuation metrics in order.',
+      gpCommentary: 'Clean audit certificate appended.'
+    },
+    {
+      id: 'lpr_11',
+      lpName: 'Bhanu Chandrasekhar',
+      avatar: 'BC',
+      lpType: 'HNI',
+      contact: 'Bhanu Chandrasekhar',
+      email: 'bhanu.c@chandrasekhar.me',
+      commitment: '₹0.90 Cr',
+      calledToDate: '₹0.22 Cr',
+      distributedToDate: '₹0.00 Cr',
+      nav: '₹0.33 Cr',
+      irr: '21.4%',
+      moic: '1.50x',
+      tvpi: '1.50x',
+      dpi: '0.00x',
+      cycle: 'Q2 2026',
+      requestedOn: '05 Jun 2026',
+      dueDate: '26 Jun 2026',
+      reportType: 'Capital Account Statement (CAS)',
+      attachment: null,
+      attachmentSize: null,
+      status: 'Preparing',
+      lpNote: 'Please reflect the late wire received on 3rd May in opening capital balance.',
+      gpCommentary: 'Wire confirmed and credited to ledger.'
+    },
+    {
+      id: 'lpr_12',
+      lpName: 'Rohan Mehta',
+      avatar: 'RM',
+      lpType: 'Founder Angel',
+      contact: 'Rohan Mehta',
+      email: 'rohan@mehtavc.com',
+      commitment: '₹0.80 Cr',
+      calledToDate: '₹0.19 Cr',
+      distributedToDate: '₹0.00 Cr',
+      nav: '₹0.29 Cr',
+      irr: '22.0%',
+      moic: '1.52x',
+      tvpi: '1.52x',
+      dpi: '0.00x',
+      cycle: 'Q2 2026',
+      requestedOn: '02 Jun 2026',
+      dueDate: '25 Jun 2026',
+      reportType: 'Portfolio Holdings Update',
+      attachment: 'RohanMehta_Portfolio_Overview_Q2.pdf',
+      attachmentSize: '1.9 MB',
+      status: 'Submitted',
+      lpNote: 'Interested in FinFlow tech product roadmap milestones.',
+      gpCommentary: 'Product releases and ARR growth curve summarized.'
+    },
+    {
+      id: 'lpr_13',
+      lpName: 'Surya Nair',
+      avatar: 'SN',
+      lpType: 'Corporate',
+      contact: 'Surya Nair',
+      email: 'surya.nair@naircorp.com',
+      commitment: '₹0.70 Cr',
+      calledToDate: '₹0.17 Cr',
+      distributedToDate: '₹0.00 Cr',
+      nav: '₹0.26 Cr',
+      irr: '20.5%',
+      moic: '1.53x',
+      tvpi: '1.53x',
+      dpi: '0.00x',
+      cycle: 'Q2 2026',
+      requestedOn: '04 Jun 2026',
+      dueDate: '27 Jun 2026',
+      reportType: 'Tax Schedule / K-1',
+      attachment: null,
+      attachmentSize: null,
+      status: 'Requested',
+      lpNote: 'Requires Form 64D schedule for corporate advance tax estimation.',
+      gpCommentary: ''
+    },
+    {
+      id: 'lpr_14',
+      lpName: 'Devanshi Patel',
+      avatar: 'DP',
+      lpType: 'HNI',
+      contact: 'Devanshi Patel',
+      email: 'devanshi@patelholdings.com',
+      commitment: '₹0.60 Cr',
+      calledToDate: '₹0.14 Cr',
+      distributedToDate: '₹0.00 Cr',
+      nav: '₹0.21 Cr',
+      irr: '19.8%',
+      moic: '1.50x',
+      tvpi: '1.50x',
+      dpi: '0.00x',
+      cycle: 'Q2 2026',
+      requestedOn: '01 Jun 2026',
+      dueDate: '08 Jun 2026',
+      reportType: 'Capital Account Statement (CAS)',
+      attachment: null,
+      attachmentSize: null,
+      status: 'Overdue',
+      lpNote: 'Need statement for bank credit line verification.',
+      gpCommentary: 'Expedited with fund administrator.'
+    },
+    {
+      id: 'lpr_15',
+      lpName: 'Shikhar Kapoor',
+      avatar: 'SK',
+      lpType: 'Family Office',
+      contact: 'Shikhar Kapoor',
+      email: 'shikhar@kapoorfo.com',
+      commitment: '₹2.50 Cr',
+      calledToDate: '₹0.75 Cr',
+      distributedToDate: '₹0.15 Cr',
+      nav: '₹1.20 Cr',
+      irr: '23.0%',
+      moic: '1.50x',
+      tvpi: '1.50x',
+      dpi: '0.20x',
+      cycle: 'Q1 2026',
+      requestedOn: '02 Mar 2026',
+      dueDate: '25 Mar 2026',
+      reportType: 'Full Quarterly LP Report',
+      attachment: 'Shikhar_Kapoor_Q1_Final.pdf',
+      attachmentSize: '3.6 MB',
+      status: 'Approved',
+      lpNote: 'Q1 fund package sign-off.',
+      gpCommentary: 'Settled and verified.'
+    },
+    {
+      id: 'lpr_16',
+      lpName: 'Horizon Capital Partners',
+      avatar: 'HC',
+      lpType: 'Institutional',
+      contact: 'David Sterling',
+      email: 'd.sterling@horizoncap.com',
+      commitment: '₹2.40 Cr',
+      calledToDate: '₹0.48 Cr',
+      distributedToDate: '₹0.00 Cr',
+      nav: '₹0.76 Cr',
+      irr: '26.5%',
+      moic: '1.58x',
+      tvpi: '1.58x',
+      dpi: '0.00x',
+      cycle: 'Q1 2026',
+      requestedOn: '01 Mar 2026',
+      dueDate: '20 Mar 2026',
+      reportType: 'Full Quarterly LP Report',
+      attachment: 'Horizon_Capital_Q1_Signed.pdf',
+      attachmentSize: '4.0 MB',
+      status: 'Approved',
+      lpNote: 'Approved without remarks.',
+      gpCommentary: 'Completed.'
+    },
+    {
+      id: 'lpr_17',
+      lpName: 'Ananya Raghunathan',
+      avatar: 'AR',
+      lpType: 'Trust',
+      contact: 'Ananya Raghunathan',
+      email: 'ananya@raghunathan.org',
+      commitment: '₹2.00 Cr',
+      calledToDate: '₹0.40 Cr',
+      distributedToDate: '₹0.08 Cr',
+      nav: '₹0.62 Cr',
+      irr: '20.4%',
+      moic: '1.55x',
+      tvpi: '1.55x',
+      dpi: '0.20x',
+      cycle: 'Q1 2026',
+      requestedOn: '04 Mar 2026',
+      dueDate: '28 Mar 2026',
+      reportType: 'Capital Account Statement (CAS)',
+      attachment: 'Ananya_Raghunathan_Q1_CAS.pdf',
+      attachmentSize: '1.6 MB',
+      status: 'Approved',
+      lpNote: 'Q1 CAS accepted.',
+      gpCommentary: 'Filed.'
+    },
+    {
+      id: 'lpr_18',
+      lpName: 'Aurum Global Trust',
+      avatar: 'AG',
+      lpType: 'Institutional',
+      contact: 'Evelyn Taylor',
+      email: 'etaylor@aurumtrust.ch',
+      commitment: '₹1.40 Cr',
+      calledToDate: '₹0.28 Cr',
+      distributedToDate: '₹0.05 Cr',
+      nav: '₹0.42 Cr',
+      irr: '25.2%',
+      moic: '1.50x',
+      tvpi: '1.50x',
+      dpi: '0.18x',
+      cycle: 'May 2026',
+      requestedOn: '01 Jun 2026',
+      dueDate: '15 Jun 2026',
+      reportType: 'Portfolio Holdings Update',
+      attachment: 'Aurum_Trust_May2026_Holdings.pdf',
+      attachmentSize: '1.4 MB',
+      status: 'Submitted',
+      lpNote: 'Monthly interim holdings summary.',
+      gpCommentary: 'Monthly update provided.'
+    }
+  ];
+
+  let lpReportsStore = JSON.parse(JSON.stringify(INITIAL_LP_REPORTS));
+  let _selectedReportAttachment = null;
+
+  // ── ACTION MENU DROPDOWN HELPERS ──
+  function toggleLPReportActionMenu(e, id) {
+    if (e) e.stopPropagation();
+    const menu = document.getElementById(`actionMenu_${id}`);
+    const isVisible = menu && menu.style.display === 'block';
+    hideActionMenus();
+    if (menu && !isVisible) menu.style.display = 'block';
+  }
+  function hideActionMenus() {
+    document.querySelectorAll('.action-dropdown-menu').forEach(m => m.style.display = 'none');
+  }
+  document.addEventListener('click', () => hideActionMenus());
+
+  // ── INITIALIZE LAYOUT ──
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof LayoutComponents !== 'undefined' && document.getElementById('appHeaderSlot')) {
+      LayoutComponents.init({ activeNav: 'lp-reporting', activeApp: 'investor' });
+    }
+    if (typeof bindAppEvents === 'function') bindAppEvents();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    renderLPReports();
+  });
+
+  // ── TOGGLE STATE (FULL VS EMPTY) ──
+  function toggleLPReportsState() {
+    isStoreEmpty = !isStoreEmpty;
+    const fabText = document.getElementById('fabToggleText');
+    if (fabText) fabText.textContent = isStoreEmpty ? 'Toggle Populated State' : 'Toggle Empty State';
+    renderLPReports();
+    if (window.showToast) window.showToast(isStoreEmpty ? 'Switched to Empty State' : 'Switched to Populated State');
+  }
+
+  function setQuickFilter(statusKey) {
+    currentQuickFilter = statusKey;
+    document.querySelectorAll('.filter-tab-btn').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.getElementById(`tabFilter${statusKey.charAt(0).toUpperCase() + statusKey.slice(1)}`);
+    if (activeBtn) activeBtn.classList.add('active');
+    renderLPReports();
+  }
+
+  // ── STATUS PILL BADGE HELPER (MONOCHROME GREY PALETTE ONLY) ──
+  function getLPStatusPill(status) {
+    const s = status || 'Requested';
+    if (s === 'Approved') {
+      return `<span class="pill pill-approved">APPROVED &amp; CLOSED</span>`;
+    } else if (s === 'Submitted') {
+      return `<span class="pill pill-submitted">SUBMITTED</span>`;
+    } else if (s === 'Preparing') {
+      return `<span class="pill pill-preparing">PREPARING</span>`;
+    } else if (s === 'Changes Requested') {
+      return `<span class="pill pill-changes">CHANGES REQUESTED</span>`;
+    } else if (s === 'Overdue') {
+      return `<span class="pill pill-overdue">OVERDUE</span>`;
+    } else {
+      return `<span class="pill pill-requested">REQUESTED</span>`;
+    }
+  }
+
+  // ── RENDER LP REPORTS TABLE & METRICS ──
+  function renderLPReports() {
+    const container = document.getElementById('lpReportsContainer');
+    if (!container) return;
+
+    if (isStoreEmpty || !lpReportsStore.length) {
+      document.getElementById('reportsCountBadge').textContent = '0 Requests';
+      document.getElementById('statTotalRequests').textContent = '0';
+      document.getElementById('statTotalRequestsSub').textContent = '0 institutional LPs';
+      document.getElementById('statPending').textContent = '0';
+      document.getElementById('statPendingSub').textContent = '0 pending action';
+      document.getElementById('statSubmitted').textContent = '0';
+      document.getElementById('statSubmittedSub').textContent = '0 awaiting review';
+      document.getElementById('statApproved').textContent = '0';
+      document.getElementById('statApprovedSub').textContent = '0 published to portal';
+
+      container.innerHTML = `
+        <div style="background:#FFFFFF; border:1px dashed #DCDCDA; border-radius:8px; padding:48px 24px; text-align:center;">
+          <div style="width:48px; height:48px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#6A6A68;">
+            <i data-lucide="file-bar-chart" style="width:22px; height:22px;"></i>
+          </div>
+          <div style="font-size:14px; font-weight:800; color:#1A1A18; margin-bottom:4px;">No LP Reporting Requests</div>
+          <p style="font-size:11.5px; color:#8C8C88; max-width:400px; margin:0 auto 16px; line-height:1.5;">
+            No LP reporting requests currently in queue. You can prepare and publish periodic capital account statements or performance reports in bulk.
+          </p>
+          <div style="display:flex; justify-content:center; gap:8px;">
+            <button class="btn btn-primary" onclick="openCreateLPReportDrawer()" style="font-size:12px;">
+              <i data-lucide="plus" class="lucide-sm"></i>
+              <span>Initiate First LP Report</span>
+            </button>
+          </div>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    // Filter logic
+    const q = (document.getElementById('lpSearch')?.value || '').toLowerCase().trim();
+    const typeFilter = document.getElementById('lpTypeFilter')?.value || 'all';
+    const cycleFilter = document.getElementById('lpCycleFilter')?.value || 'all';
+
+    let filtered = lpReportsStore.filter(r => {
+      const mSearch = !q || r.lpName.toLowerCase().includes(q) || r.contact.toLowerCase().includes(q) || r.reportType.toLowerCase().includes(q) || r.status.toLowerCase().includes(q);
+      const mType = typeFilter === 'all' || r.reportType.includes(typeFilter);
+      const mCycle = cycleFilter === 'all' || r.cycle.includes(cycleFilter);
+      
+      let mQuick = true;
+      if (currentQuickFilter === 'Pending') {
+        mQuick = r.status === 'Requested' || r.status === 'Preparing' || r.status === 'Overdue' || r.status === 'Changes Requested';
+      } else if (currentQuickFilter === 'Submitted') {
+        mQuick = r.status === 'Submitted';
+      } else if (currentQuickFilter === 'Approved') {
+        mQuick = r.status === 'Approved';
+      }
+
+      return mSearch && mType && mCycle && mQuick;
+    });
+
+    // Aggregate KPI metrics across active dataset
+    const totalRequests = lpReportsStore.length;
+    const pendingCount = lpReportsStore.filter(r => r.status === 'Requested' || r.status === 'Preparing' || r.status === 'Overdue' || r.status === 'Changes Requested').length;
+    const submittedCount = lpReportsStore.filter(r => r.status === 'Submitted').length;
+    const approvedCount = lpReportsStore.filter(r => r.status === 'Approved').length;
+    const overdueCount = lpReportsStore.filter(r => r.status === 'Overdue').length;
+
+    document.getElementById('reportsCountBadge').textContent = `${filtered.length} Request${filtered.length !== 1 ? 's' : ''}`;
+    document.getElementById('statTotalRequests').textContent = totalRequests;
+    document.getElementById('statTotalRequestsSub').textContent = `Across 12 Institutional & Family Office LPs`;
+    document.getElementById('statPending').textContent = pendingCount;
+    document.getElementById('statPendingSub').textContent = `${pendingCount - overdueCount} In Preparation · ${overdueCount} Past Due Date`;
+    document.getElementById('statSubmitted').textContent = submittedCount;
+    document.getElementById('statSubmittedSub').textContent = `Sent, waiting on LP sign-off`;
+    document.getElementById('statApproved').textContent = approvedCount;
+    document.getElementById('statApprovedSub').textContent = `Verified & published to LP Portal`;
+
+    if (!filtered.length) {
+      container.innerHTML = `
+        <div style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:36px; text-align:center; color:#8C8C88;">
+          <i data-lucide="search" style="width:24px; height:24px; color:#B0B0AE; margin-bottom:8px;"></i>
+          <div style="font-size:13px; font-weight:700; color:#1A1A18; margin-bottom:2px;">No Matching LP Reports</div>
+          <p style="font-size:11px; color:#8C8C88;">No LP reports match your search, type, and cycle filter criteria.</p>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    // EXACT REQUIRED CONDENSED TABLE SCHEMA (SINGLE-LINE EACH):
+    // LP Name with mail id icon | Commitment Amount | Reporting Cycle | Requested On | Due Date | Report Type Requested | Attachment | Status | Action
+    container.innerHTML = `
+      <div class="table-card">
+        <div class="table-toolbar">
+          <div class="table-toolbar-left">
+            <strong style="font-size:12.5px; color:#1A1A18;">LP Reporting Requests &amp; Submissions</strong>
+            <span class="badge-pill neutral-soft">${filtered.length} Record${filtered.length !== 1 ? 's' : ''}</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <button class="doc-btn" onclick="exportLPReportsCSV()">
+              <i data-lucide="download" style="width:11px; height:11px;"></i> Export CSV
+            </button>
+            <button class="doc-btn" onclick="openCreateLPReportDrawer()">
+              <i data-lucide="plus" style="width:11px; height:11px;"></i> Initiate Report
+            </button>
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">LP Name</th>
+                <th style="white-space:nowrap;">Commitment Amount</th>
+                <th style="white-space:nowrap;">Reporting Cycle</th>
+                <th style="white-space:nowrap;">Requested On</th>
+                <th style="white-space:nowrap;">Due Date</th>
+                <th style="white-space:nowrap;">Report Type Requested</th>
+                <th style="white-space:nowrap;">Attachment</th>
+                <th style="white-space:nowrap;">Status</th>
+                <th style="text-align:right; white-space:nowrap;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${filtered.map(r => {
+                const isOverdue = r.status === 'Overdue';
+                const dueDateDisplay = isOverdue
+                  ? `<span style="color:#DC2626; font-weight:700;">${r.dueDate}</span> <span class="type-badge" style="font-size:7.5px; color:#DC2626; border-color:#FECACA; background:#FEF2F2;">LATE</span>`
+                  : `<span style="color:#4A4A48; font-weight:600;">${r.dueDate}</span>`;
+
+                const fileDisplay = r.attachment
+                  ? `<a href="#" onclick="event.stopPropagation(); downloadMockFile('${r.attachment}'); return false;" class="template-badge" title="Download ${r.attachment}">
+                      <i data-lucide="paperclip" style="width:10px; height:10px; flex-shrink:0;"></i>
+                      <span>${r.attachment}</span>
+                    </a>`
+                  : `<span style="color:#A8A8A4; font-size:11px;">— Pending</span>`;
+
+                return `
+                  <tr onclick="openLPSubmissionDrawer('${r.id}')">
+                    <!-- 01. LP Name with mail id icon -->
+                    <td style="white-space:nowrap;">
+                      <div class="lp-cell">
+                        <div class="lp-avatar">${r.avatar}</div>
+                        <div>
+                          <div style="display:flex; align-items:center; gap:5px;">
+                            <span class="lp-name">${r.lpName}</span>
+                            <button type="button" onclick="copyEmail(event, '${r.email}')" title="Copy email: ${r.email}" style="border:none; background:transparent; cursor:pointer; padding:2px 3px; color:#7A7A78; display:inline-flex; align-items:center; justify-content:center; border-radius:3px;">
+                              <i data-lucide="mail" style="width:11px; height:11px;"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+
+                    <!-- 02. Commitment Amount -->
+                    <td style="white-space:nowrap; font-weight:700; color:#1A1A18;">${r.commitment}</td>
+
+                    <!-- 03. Reporting Cycle -->
+                    <td style="white-space:nowrap; font-weight:600; color:#2A2A28;">${r.cycle}</td>
+
+                    <!-- 04. Requested On -->
+                    <td style="white-space:nowrap; font-size:11px; color:#6A6A68;">${r.requestedOn}</td>
+
+                    <!-- 05. Due Date -->
+                    <td style="white-space:nowrap; font-size:11px;">${dueDateDisplay}</td>
+
+                    <!-- 06. Report Type Requested -->
+                    <td style="white-space:nowrap;">
+                      <span class="type-badge">${r.reportType}</span>
+                    </td>
+
+                    <!-- 07. Attachment -->
+                    <td style="white-space:nowrap;">${fileDisplay}</td>
+
+                    <!-- 08. Status -->
+                    <td style="white-space:nowrap;">${getLPStatusPill(r.status)}</td>
+
+                    <!-- 09. Action -->
+                    <td style="text-align:right; white-space:nowrap;" onclick="event.stopPropagation()">
+                      <div style="display:flex; align-items:center; justify-content:flex-end; gap:5px;">
+                        <button class="doc-btn" onclick="openLPSubmissionDrawer('${r.id}')" title="Prepare & Submit LP Report">
+                          <i data-lucide="${r.status === 'Approved' ? 'eye' : 'edit-3'}" style="width:11px; height:11px;"></i>
+                          <span>${r.status === 'Approved' ? 'View' : 'Prepare'}</span>
+                        </button>
+
+                        <div class="action-dropdown-wrap">
+                          <button class="vdr-action-btn" onclick="toggleLPReportActionMenu(event, '${r.id}')" title="More Actions">
+                            <i data-lucide="more-horizontal" style="width:12px; height:12px;"></i>
+                          </button>
+                          <div class="action-dropdown-menu" id="actionMenu_${r.id}">
+                            <div class="action-dropdown-item" onclick="openLPSubmissionDrawer('${r.id}')">
+                              <i data-lucide="edit-3" style="width:12px; height:12px;"></i>
+                              <span>Prepare &amp; Edit Report</span>
+                            </div>
+                            ${r.status !== 'Submitted' && r.status !== 'Approved' ? `
+                              <div class="action-dropdown-item" onclick="quickSubmitReport('${r.id}')">
+                                <i data-lucide="send" style="width:12px; height:12px; color:#047857;"></i>
+                                <span>Quick Submit to LP</span>
+                              </div>
+                            ` : ''}
+                            ${r.status === 'Submitted' ? `
+                              <div class="action-dropdown-item" onclick="markLPReportApproved('${r.id}')">
+                                <i data-lucide="check-circle-2" style="width:12px; height:12px; color:#047857;"></i>
+                                <span>Mark LP Approved</span>
+                              </div>
+                            ` : ''}
+                            ${r.attachment ? `
+                              <div class="action-dropdown-item" onclick="downloadMockFile('${r.attachment}')">
+                                <i data-lucide="download" style="width:12px; height:12px;"></i>
+                                <span>Download PDF Statement</span>
+                              </div>
+                            ` : ''}
+                            <div class="action-dropdown-item" onclick="copyEmail(event, '${r.email}')">
+                              <i data-lucide="copy" style="width:12px; height:12px;"></i>
+                              <span>Copy LP Contact Email</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="table-footer">
+          <span>Showing <strong>${filtered.length}</strong> of <strong>${lpReportsStore.length}</strong> LP reporting records</span>
+          <span style="color:#8C8C88;">All LP reports are signed, tracked, and synchronized with the LP Portal</span>
+        </div>
+      </div>
+    `;
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // ── COPY EMAIL HELPER ──
+  function copyEmail(e, email) {
+    if (e) e.stopPropagation();
+    if (navigator.clipboard) navigator.clipboard.writeText(email);
+    if (window.showToast) window.showToast(`LP Email copied: ${email}`);
+  }
+
+  // ── RIGHT-SIDE DRAWER: PREPARE & SUBMIT LP REPORT (TOP TO BOTTOM WORKFLOW) ──
+  function openLPSubmissionDrawer(reportId) {
+    const r = lpReportsStore.find(item => item.id === reportId);
+    if (!r) return;
+
+    _selectedReportAttachment = r.attachment;
+
+    const bodyHtml = `
+      <div style="display:flex; flex-direction:column; gap:16px;">
+
+        <!-- 01. Request Details (Read-only section) -->
+        <div style="background:#FAFAFA; border:1px solid #EBEBEA; border-radius:7px; padding:12px 14px; display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="width:36px; height:36px; border-radius:6px; background:#1A1A18; color:#FFFFFF; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center;">
+                ${r.avatar}
+              </div>
+              <div>
+                <div style="font-size:13.5px; font-weight:800; color:#1A1A18; display:flex; align-items:center; gap:6px;">
+                  ${r.lpName}
+                  ${getLPStatusPill(r.status)}
+                </div>
+                <div style="font-size:11px; color:#6A6A68; margin-top:2px;">
+                  ${r.contact} · <span style="color:#8A8A88;">${r.email}</span> · <span class="type-badge" style="font-size:8px;">${r.lpType.toUpperCase()}</span>
+                </div>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:9.5px; font-weight:700; color:#8C8C88; text-transform:uppercase;">Commitment</div>
+              <div style="font-size:13px; font-weight:800; color:#1A1A18; margin-top:1px;">${r.commitment}</div>
+            </div>
+          </div>
+
+          <!-- Request Summary Strip -->
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; border-top:1px solid #EAEAE8; padding-top:8px;">
+            <div>
+              <div style="font-size:9.5px; font-weight:700; color:#8C8C88; text-transform:uppercase;">Requested Report</div>
+              <div style="font-size:11.5px; font-weight:700; color:#1A1A18; margin-top:2px;">${r.reportType}</div>
+            </div>
+            <div>
+              <div style="font-size:9.5px; font-weight:700; color:#8C8C88; text-transform:uppercase;">Reporting Period</div>
+              <div style="font-size:11.5px; font-weight:700; color:#1A1A18; margin-top:2px;">${r.cycle}</div>
+            </div>
+            <div>
+              <div style="font-size:9.5px; font-weight:700; color:#8C8C88; text-transform:uppercase;">Submission Due Date</div>
+              <div style="font-size:11.5px; font-weight:700; color:#1A1A18; margin-top:2px;">${r.dueDate}</div>
+            </div>
+          </div>
+
+          <!-- LP's Note / Special instructions -->
+          ${r.lpNote ? `
+            <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:5px; padding:8px 10px; font-size:11px; color:#4A4A48; line-height:1.45;">
+              <strong style="color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:2px;">
+                <i data-lucide="message-square" style="width:11px; height:11px;"></i> LP's Note / Special Request:
+              </strong>
+              ${r.lpNote}
+            </div>
+          ` : ''}
+        </div>
+
+        <!-- 02. Report Data Fields Investor/GP Fills -->
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div style="font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:#8C8C88;">
+              Report Financial Metrics &amp; Performance
+            </div>
+            <span style="font-size:10px; color:#047857; font-weight:600;">Fund I Positions</span>
+          </div>
+
+          <!-- 4-col Grid: Capital & Returns Fields -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">Capital Called to Date <span style="color:#DC2626;">*</span></div>
+              <input type="text" id="drawerCalledInput" class="field-input" value="${r.calledToDate}" placeholder="e.g. ₹0.94 Cr" />
+            </div>
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">Capital Distributed to Date <span style="color:#DC2626;">*</span></div>
+              <input type="text" id="drawerDistInput" class="field-input" value="${r.distributedToDate}" placeholder="e.g. ₹0.20 Cr" />
+            </div>
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">Current Net Asset Value (NAV) <span style="color:#DC2626;">*</span></div>
+              <input type="text" id="drawerNavInput" class="field-input" value="${r.nav}" placeholder="e.g. ₹1.48 Cr" />
+            </div>
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">Net IRR (%) <span style="color:#DC2626;">*</span></div>
+              <input type="text" id="drawerIrrInput" class="field-input" value="${r.irr}" placeholder="e.g. 24.5%" />
+            </div>
+          </div>
+
+          <!-- Returns Multiples Row: TVPI, DPI, MOIC -->
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;">
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">TVPI (Multiple)</div>
+              <input type="text" id="drawerTvpiInput" class="field-input" value="${r.tvpi || '1.57x'}" />
+            </div>
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">DPI (Distributed)</div>
+              <input type="text" id="drawerDpiInput" class="field-input" value="${r.dpi || '0.21x'}" />
+            </div>
+            <div class="field-group" style="margin-bottom:0;">
+              <div class="field-label">MOIC</div>
+              <input type="text" id="drawerMoicInput" class="field-input" value="${r.moic || '1.57x'}" />
+            </div>
+          </div>
+
+          <!-- Portfolio Highlights & Operational Commentary -->
+          <div class="field-group" style="margin-bottom:0;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+              <div class="field-label" style="margin:0;">Portfolio Highlights &amp; Commentary</div>
+              <button type="button" class="doc-btn" onclick="autoPullPortfolioCommentary()" style="font-size:10px; padding:2px 7px;">
+                <i data-lucide="zap" style="width:10px; height:10px; color:#B45309;"></i> Auto-pull from Portfolio
+              </button>
+            </div>
+            <textarea id="drawerCommentaryInput" class="field-input" rows="3" placeholder="Summary of portfolio milestone progress, revenue traction, and key exits for this quarter...">${r.gpCommentary || ''}</textarea>
+          </div>
+        </div>
+
+        <!-- 03. Attach Formatted Report Document (PDF/XLSX) -->
+        <div class="field-group" style="margin-bottom:0;">
+          <div class="field-label" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>Attach Formatted Report Document <span style="color:#DC2626;">*</span></span>
+            <span style="font-size:10px; font-weight:500; color:#8C8C88;">PDF / Excel Statement</span>
+          </div>
+
+          <div id="drawerReportDropzone" style="border:1.5px dashed #DCDCDA; border-radius:6px; background:#FAFAFA; padding:10px; text-align:center; cursor:pointer;" onclick="document.getElementById('drawerReportFileInput').click()">
+            <input type="file" id="drawerReportFileInput" accept=".pdf,.xlsx,.xls,.docx" style="display:none;" onchange="handleLPReportFileSelected(event)" />
+            
+            <div id="drawerReportUploadPrompt" style="${r.attachment ? 'display:none;' : 'display:flex;'} flex-direction:column; align-items:center; gap:3px;">
+              <i data-lucide="upload-cloud" style="width:18px; height:18px; color:#8C8C88;"></i>
+              <div style="font-size:11px; font-weight:700; color:#1A1A18;">Click to browse or drop formatted LP Statement (PDF/XLSX)</div>
+            </div>
+
+            <div id="drawerReportFileChip" style="${r.attachment ? 'display:flex;' : 'display:none;'} align-items:center; justify-content:space-between; background:#FFFFFF; border:1px solid #DCDCDA; border-radius:5px; padding:6px 10px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <i data-lucide="file-check-2" style="width:14px; height:14px; color:#047857;"></i>
+                <div>
+                  <span id="drawerReportFileNameText" style="font-size:11.5px; font-weight:700; color:#1A1A18;">${r.attachment || ''}</span>
+                  <div style="font-size:10px; color:#8C8C88;">Ready for LP Portal publication</div>
+                </div>
+              </div>
+              <button type="button" onclick="event.stopPropagation(); clearLPReportFile();" style="background:transparent; border:none; color:#8C8C88; cursor:pointer; font-size:14px; font-weight:700;" title="Remove attachment">&times;</button>
+            </div>
+          </div>
+          <input type="hidden" id="drawerReportAttachmentVal" value="${r.attachment || ''}" />
+        </div>
+
+        <!-- 04. Note to LP (Optional Custom Delivery Message) -->
+        <div class="field-group" style="margin-bottom:0;">
+          <div class="field-label">Note to LP (Optional Email Delivery Message)</div>
+          <textarea id="drawerLPNoteInput" class="field-input" rows="2" placeholder="e.g. Enclosed is your Q2 2026 Capital Account Statement and NAV performance summary. Please reach out with any questions."></textarea>
+        </div>
+
+      </div>
+    `;
+
+    const footerHtml = `
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <button type="button" class="btn btn-outline" onclick="window.closeDrawer()">Cancel</button>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" class="btn btn-outline" onclick="saveLPReportDraft('${r.id}')" style="font-size:11.5px;">
+            <i data-lucide="save" style="width:12px; height:12px;"></i>
+            <span>Save Draft</span>
+          </button>
+          <button type="button" class="btn btn-primary" onclick="submitReportToLP('${r.id}')" style="font-size:12px;">
+            <i data-lucide="send" class="lucide-sm"></i>
+            <span>Submit to LP</span>
+          </button>
+        </div>
+      </div>
+    `;
+
+    if (window.openDrawer) {
+      window.openDrawer(`LP Report: ${r.lpName}`, `Reporting Cycle: ${r.cycle} · ${r.reportType}`, bodyHtml, footerHtml);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  function autoPullPortfolioCommentary() {
+    const textarea = document.getElementById('drawerCommentaryInput');
+    if (textarea) {
+      textarea.value = `• FinFlow Tech (FinTech): Crossed $1.45M ARR (+18% QoQ), completed SOC2 Type II certification, expanding to US banking partners.\n• LogiChain Labs (Logistics): Operating in 4 EU hub ports with €2.52M ARR and 68% gross margin.\n• Alpha Health (Healthcare): Completed clinical audits with hospital networks in California.\n• Fund Level: Net TVPI stands at 1.57x on deployed capital with 24.5% net IRR.`;
+      if (window.showToast) window.showToast('Auto-pulled latest portfolio commentary from Portfolio Management!');
+    }
+  }
+
+  function handleLPReportFileSelected(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const fileName = file.name;
+    _selectedReportAttachment = fileName;
+    document.getElementById('drawerReportAttachmentVal').value = fileName;
+    document.getElementById('drawerReportUploadPrompt').style.display = 'none';
+    document.getElementById('drawerReportFileChip').style.display = 'flex';
+    document.getElementById('drawerReportFileNameText').textContent = fileName;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    if (window.showToast) window.showToast(`Attached report document: "${fileName}"`);
+  }
+
+  function clearLPReportFile() {
+    _selectedReportAttachment = null;
+    document.getElementById('drawerReportAttachmentVal').value = '';
+    document.getElementById('drawerReportFileInput').value = '';
+    document.getElementById('drawerReportUploadPrompt').style.display = 'flex';
+    document.getElementById('drawerReportFileChip').style.display = 'none';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // ── SAVE DRAFT ──
+  function saveLPReportDraft(reportId) {
+    const r = lpReportsStore.find(item => item.id === reportId);
+    if (!r) return;
+
+    r.calledToDate = document.getElementById('drawerCalledInput')?.value?.trim() || r.calledToDate;
+    r.distributedToDate = document.getElementById('drawerDistInput')?.value?.trim() || r.distributedToDate;
+    r.nav = document.getElementById('drawerNavInput')?.value?.trim() || r.nav;
+    r.irr = document.getElementById('drawerIrrInput')?.value?.trim() || r.irr;
+    r.tvpi = document.getElementById('drawerTvpiInput')?.value?.trim() || r.tvpi;
+    r.dpi = document.getElementById('drawerDpiInput')?.value?.trim() || r.dpi;
+    r.moic = document.getElementById('drawerMoicInput')?.value?.trim() || r.moic;
+    r.gpCommentary = document.getElementById('drawerCommentaryInput')?.value?.trim() || r.gpCommentary;
+    r.attachment = document.getElementById('drawerReportAttachmentVal')?.value?.trim() || r.attachment;
+
+    if (r.status === 'Requested') r.status = 'Preparing';
+
+    if (window.closeDrawer) window.closeDrawer();
+    renderLPReports();
+    if (window.showToast) window.showToast(`Draft report saved for "${r.lpName}"!`);
+  }
+
+  // ── SUBMIT REPORT TO LP ──
+  function submitReportToLP(reportId) {
+    const r = lpReportsStore.find(item => item.id === reportId);
+    if (!r) return;
+
+    const attachment = document.getElementById('drawerReportAttachmentVal')?.value?.trim();
+    if (!attachment) {
+      alert('Please attach the formatted report document (PDF/XLSX) before submitting to the LP.');
+      return;
+    }
+
+    r.calledToDate = document.getElementById('drawerCalledInput')?.value?.trim() || r.calledToDate;
+    r.distributedToDate = document.getElementById('drawerDistInput')?.value?.trim() || r.distributedToDate;
+    r.nav = document.getElementById('drawerNavInput')?.value?.trim() || r.nav;
+    r.irr = document.getElementById('drawerIrrInput')?.value?.trim() || r.irr;
+    r.tvpi = document.getElementById('drawerTvpiInput')?.value?.trim() || r.tvpi;
+    r.dpi = document.getElementById('drawerDpiInput')?.value?.trim() || r.dpi;
+    r.moic = document.getElementById('drawerMoicInput')?.value?.trim() || r.moic;
+    r.gpCommentary = document.getElementById('drawerCommentaryInput')?.value?.trim() || r.gpCommentary;
+    r.attachment = attachment;
+    r.status = 'Submitted';
+
+    if (window.closeDrawer) window.closeDrawer();
+    renderLPReports();
+    if (window.showToast) window.showToast(`Report successfully submitted to ${r.lpName} (${r.email})!`);
+  }
+
+  function quickSubmitReport(reportId) {
+    const r = lpReportsStore.find(item => item.id === reportId);
+    if (!r) return;
+    if (!r.attachment) r.attachment = `Seedicon_${r.cycle}_Report_${r.lpName.replace(/\s+/g, '')}.pdf`;
+    r.status = 'Submitted';
+    renderLPReports();
+    if (window.showToast) window.showToast(`Report submitted to ${r.lpName}!`);
+  }
+
+  function markLPReportApproved(reportId) {
+    const r = lpReportsStore.find(item => item.id === reportId);
+    if (!r) return;
+    r.status = 'Approved';
+    renderLPReports();
+    if (window.showToast) window.showToast(`Report for ${r.lpName} marked as Approved & Closed!`);
+  }
+
+  // ── CREATE / INITIATE NEW LP REPORT DRAWER ──
+  function openCreateLPReportDrawer() {
+    const bodyHtml = `
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <p style="font-size:11.5px; color:#6A6A68; line-height:1.5; margin:0;">
+          Initiate a new LP reporting cycle to prepare capital account statements, NAV performance, and quarterly updates for your fund's LPs.
+        </p>
+
+        <div class="field-group">
+          <div class="field-label">Target LP(s) <span style="color:#DC2626;">*</span></div>
+          <select id="newLPSelect" class="field-input">
+            <option value="All LPs" selected>All Fund LPs (12 Institutional &amp; Family Offices)</option>
+            <option value="Shikhar Kapoor">Shikhar Kapoor (Family Office · ₹2.50 Cr)</option>
+            <option value="Horizon Capital Partners">Horizon Capital Partners (Institutional · ₹2.40 Cr)</option>
+            <option value="Ananya Raghunathan">Ananya Raghunathan (Trust · ₹2.00 Cr)</option>
+            <option value="Krish Kaul">Krish Kaul (HNI · ₹1.80 Cr)</option>
+            <option value="Meridian Family Office">Meridian Family Office (Family Office · ₹1.60 Cr)</option>
+            <option value="Aurum Global Trust">Aurum Global Trust (Institutional · ₹1.40 Cr)</option>
+          </select>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div class="field-group">
+            <div class="field-label">Reporting Cycle <span style="color:#DC2626;">*</span></div>
+            <input type="text" id="newCycleInput" class="field-input" value="Q3 2026" placeholder="e.g. Q3 2026 or July 2026" />
+          </div>
+          <div class="field-group">
+            <div class="field-label">Report Type <span style="color:#DC2626;">*</span></div>
+            <select id="newTypeSelect" class="field-input">
+              <option value="Full Quarterly LP Report" selected>Full Quarterly LP Report</option>
+              <option value="Capital Account Statement (CAS)">Capital Account Statement (CAS)</option>
+              <option value="Fund Performance &amp; Returns">Fund Performance &amp; Returns</option>
+              <option value="Portfolio Holdings Update">Portfolio Holdings Update</option>
+              <option value="Tax Schedule / K-1">Tax Schedule / K-1</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Submission Due Date <span style="color:#DC2626;">*</span></div>
+          <input type="date" id="newDueDateInput" class="field-input" value="2026-08-15" />
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Initial Notes / Context for LP</div>
+          <textarea id="newNotesInput" class="field-input" rows="2" placeholder="e.g. Standard Q3 2026 quarterly capital account statement and valuation summary."></textarea>
+        </div>
+      </div>
+    `;
+
+    const footerHtml = `
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <button type="button" class="btn btn-outline" onclick="window.closeDrawer()">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="confirmCreateLPReport()" style="font-size:12px;">
+          <i data-lucide="plus" class="lucide-sm"></i>
+          <span>Create &amp; Start Preparation</span>
+        </button>
+      </div>
+    `;
+
+    if (window.openDrawer) {
+      window.openDrawer('Initiate LP Report Batch', 'Generate reporting records for Limited Partners', bodyHtml, footerHtml);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  function confirmCreateLPReport() {
+    const target = document.getElementById('newLPSelect')?.value || 'All LPs';
+    const cycle = document.getElementById('newCycleInput')?.value?.trim() || 'Q3 2026';
+    const type = document.getElementById('newTypeSelect')?.value || 'Full Quarterly LP Report';
+    const dueDate = document.getElementById('newDueDateInput')?.value || '15 Aug 2026';
+    const notes = document.getElementById('newNotesInput')?.value?.trim() || '';
+
+    const newName = target.includes('All') ? 'Shikhar Kapoor' : target;
+    const initials = newName.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+
+    lpReportsStore.unshift({
+      id: 'lpr_' + Date.now(),
+      lpName: newName,
+      avatar: initials,
+      lpType: 'Family Office',
+      contact: newName,
+      email: `${newName.toLowerCase().replace(/\s+/g, '')}@investor.com`,
+      commitment: '₹2.50 Cr',
+      calledToDate: '₹0.94 Cr',
+      distributedToDate: '₹0.20 Cr',
+      nav: '₹1.48 Cr',
+      irr: '24.5%',
+      moic: '1.57x',
+      tvpi: '1.57x',
+      dpi: '0.21x',
+      cycle: cycle,
+      requestedOn: 'Today',
+      dueDate: dueDate,
+      reportType: type,
+      attachment: null,
+      attachmentSize: null,
+      status: 'Preparing',
+      lpNote: notes,
+      gpCommentary: ''
+    });
+
+    if (window.closeDrawer) window.closeDrawer();
+    renderLPReports();
+    if (window.showToast) window.showToast(`New reporting cycle "${cycle}" created for ${target}!`);
+  }
+
+  function exportLPReportsCSV() {
+    if (window.showToast) window.showToast('Exporting LP Reporting Register CSV...');
+  }
+
+  function downloadMockFile(filename) {
+    if (window.showToast) window.showToast(`Downloading file: "${filename}"`);
+  }
+</script>
+</body>
+</html>

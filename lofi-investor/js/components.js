@@ -269,15 +269,29 @@ const LayoutComponents = {
             </div>
             <span class="nav-count">12</span>
           </a>
+          <a href="./founder-reports.html" class="nav-item ${isActive('founder-reports')}">
+            <div class="nav-item-left">
+              <i data-lucide="clipboard-check"></i>
+              <span>Founders Reporting</span>
+            </div>
+            <span class="nav-count">8</span>
+          </a>
         </div>
 
         <!-- Nav Section 5: LP CAPITAL & EXITS -->
         <div class="nav-section">
           <div class="nav-section-title">LP &amp; Capital</div>
-          <a href="./lps-management.html" class="nav-item ${isActive('lps-management')}">
+          <a href="./capital-calls.html" class="nav-item ${isActive('lps-management')}">
             <div class="nav-item-left">
               <i data-lucide="users"></i>
               <span>LPs Management</span>
+            </div>
+            <span class="nav-count">18</span>
+          </a>
+          <a href="./lp-reporting.html" class="nav-item ${isActive('lp-reporting')}">
+            <div class="nav-item-left">
+              <i data-lucide="file-bar-chart"></i>
+              <span>LP Reporting</span>
             </div>
             <span class="nav-count">18</span>
           </a>

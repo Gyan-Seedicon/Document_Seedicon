@@ -21,6 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
     pageNav = 'deal-crm';
   } else if (pathName.includes('dd-partners') || pathName.includes('dd-onboard-builder') || pathName.includes('dd-partner-detail')) {
     pageNav = 'dd-partners';
+  } else if (pathName.includes('founder-reports')) {
+    pageNav = 'founder-reports';
+  } else if (pathName.includes('lp-reporting') || pathName.includes('lp-reports')) {
+    pageNav = 'lp-reporting';
   } else if (pathName.includes('portfolio-management')) {
     pageNav = 'portfolio-management';
   } else if (pathName.includes('vdr')) {
