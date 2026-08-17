@@ -8,6 +8,319 @@
 <link rel="stylesheet" href="./css/styles.css">
 <!-- Lucide Icons CDN -->
 <script src="https://unpkg.com/lucide@latest"></script>
+<style>
+    /* ---- Live Collaboration Presence (minimal avatar stack) ---- */
+    .collab-avatars { display: flex; align-items: center; }
+    .collab-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-left: -7px;
+      flex-shrink: 0;
+      cursor: default;
+    }
+    .collab-avatar:first-child { margin-left: 0; }
+    .collab-avatar.more { background: #F0F0EE; color: #6A6A68; border-color: #E6E6E2; }
+
+    /* ---- Count Badge (Comments button) ---- */
+    .count-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 17px;
+      height: 17px;
+      padding: 0 5px;
+      border-radius: 20px;
+      background: #1A1A18;
+      color: #FFFFFF;
+      font-size: 10px;
+      font-weight: 700;
+      margin-left: 2px;
+    }
+
+    /* ---- Generic Right-Slide Drawer Surface ---- */
+    .th-drawer-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(18, 18, 18, 0.4);
+      backdrop-filter: blur(2px);
+      z-index: 1000;
+      display: flex;
+      justify-content: flex-end;
+      animation: fadeInOverlay 0.15s ease-out;
+    }
+    .th-drawer {
+      width: 100%;
+      max-width: 620px;
+      height: 100%;
+      background: #FFFFFF;
+      box-shadow: -6px 0 24px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      animation: slideInRight 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+    .th-drawer-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-main);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      background: #FFFFFF;
+      flex-shrink: 0;
+    }
+    .th-drawer-title { font-size: 16px; font-weight: 800; color: #1A1A18; letter-spacing: -0.02em; }
+    .th-drawer-sub { font-size: 11.5px; color: #8C8C88; margin-top: 2px; }
+    .th-drawer-close {
+      border: none; background: transparent; cursor: pointer; color: #7A7A78; padding: 4px;
+    }
+    .th-drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 20px;
+      background: #F8F8F6;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .th-drawer-footer {
+      padding: 12px 20px;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-shrink: 0;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
+    }
+
+    /* ---- Drawer Tabs ---- */
+    .th-drawer-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-main);
+      background: #FAFAFA;
+      padding: 0 16px;
+      gap: 18px;
+      flex-shrink: 0;
+    }
+    .th-drawer-tab {
+      padding: 10px 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .th-drawer-tab:hover { color: var(--text-dark); }
+    .th-drawer-tab.active { color: var(--text-dark); border-bottom-color: var(--accent-graphite); font-weight: 700; }
+    .th-drawer-tab .tab-count {
+      font-size: 11px;
+      font-weight: 600;
+      color: #8C8C88;
+    }
+    .th-drawer-tab.active .tab-count { color: #1A1A18; font-weight: 700; }
+
+    /* ---- Share-with-LPs: Search & Filter Row ---- */
+    .lp-filter-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
+      border-radius: 8px;
+    }
+    .lp-filter-row input[type="search"] {
+      flex: 1;
+      padding: 7px 10px 7px 30px;
+      border: 1px solid var(--border-main);
+      border-radius: 6px;
+      font-family: var(--font-inter);
+      font-size: 12px;
+      color: var(--text-dark);
+      background: #FFFFFF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") no-repeat 9px center;
+      outline: none;
+    }
+    .lp-filter-row select {
+      padding: 7px 10px;
+      border: 1px solid var(--border-main);
+      border-radius: 6px;
+      font-family: var(--font-inter);
+      font-size: 12px;
+      color: var(--text-dark);
+      background: #FFFFFF;
+      outline: none;
+    }
+    .lp-select-all {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #2A2A28;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 6px;
+    }
+    .lp-select-all:hover { background: #F0F0EE; }
+
+    /* ---- Condensed LP Card Row (multi-select) ---- */
+    .lp-share-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+    .lp-share-card:hover { border-color: #C8C8C0; background: #FCFCFB; }
+    .lp-share-card.selected { border-color: #1A1A18; box-shadow: 0 0 0 1px #1A1A18 inset; background: #FCFCFB; }
+    .lp-share-check {
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid #B4B4B0;
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: transparent;
+      flex-shrink: 0;
+      transition: all 0.12s ease;
+    }
+    .lp-share-card.selected .lp-share-check { background: #1A1A18; border-color: #1A1A18; color: #FFFFFF; }
+    .lp-share-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #F0F0EE;
+      border: 1px solid #E0E0DE;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #4A4A48;
+      flex-shrink: 0;
+    }
+    .lp-share-meta { flex: 1; min-width: 0; }
+    .lp-share-name { font-size: 12.5px; font-weight: 700; color: #1A1A18; }
+    .lp-share-sub { font-size: 11px; color: #8C8C88; margin-top: 2px; }
+    .lp-share-sub strong { color: #2A2A28; font-weight: 600; }
+
+    /* ---- Pill reuse (monochrome) ---- */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .pill-verified { background: #F0F0EE; color: #1A1A18; border: 1px solid #DCDCDA; }
+    .pill-pending { background: #F7F7F5; color: #7A7A76; border: 1px solid #E2E2DF; }
+    .pill-active { background: #EFEFEA; color: #2A2A28; border: 1px solid #D8D8D4; }
+    .pill-exited { background: #F9F9F8; color: #9A9A96; border: 1px solid #E8E8E6; }
+    .pill-type { background: #F4F4F2; color: #4A4A48; border: 1px solid #E0E0DC; font-size: 10.5px; font-weight: 600; text-transform: none; }
+
+    /* ---- Collaboration: Comment Thread (flat surface, divider-separated) ---- */
+    .comment-list { display: flex; flex-direction: column; }
+    .comment-item { display: flex; gap: 10px; padding: 12px 0; }
+    .comment-item + .comment-item { border-top: 1px solid var(--border-faint); }
+    .comment-item:last-child { border-bottom: none; }
+    .comment-avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: #1A1A18;
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .comment-avatar.light { background: #F0F0EE; color: #2A2A28; border: 1px solid #E0E0DE; }
+    .comment-body { flex: 1; min-width: 0; }
+    .comment-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .comment-author { font-size: 12px; font-weight: 700; color: #1A1A18; }
+    .comment-role { font-size: 9.5px; font-weight: 600; color: #8C8C88; background: #F4F4F2; border: 1px solid #E4E4E0; padding: 1px 6px; border-radius: 3px; }
+    .comment-time { font-size: 10.5px; color: #9A9A96; }
+    .comment-text { font-size: 12px; color: #3A3A38; line-height: 1.55; margin-top: 4px; }
+    .comment-actions { display: flex; align-items: center; gap: 12px; margin-top: 6px; }
+    .comment-action {
+      font-size: 11px; font-weight: 700; color: #4A4A48;
+      background: none; border: none; cursor: pointer; padding: 2px 0;
+      display: inline-flex; align-items: center; gap: 3px;
+    }
+    .comment-action:hover { color: #1A1A18; text-decoration: underline; }
+    .comment-action.resolved { color: #9A9A96; }
+    .comment-thread { margin-top: 10px; margin-left: 38px; border-left: 2px solid #E4E4E0; padding-left: 12px; display: flex; flex-direction: column; gap: 10px; }
+    .comment-composer {
+      display: flex; gap: 10px; align-items: flex-start;
+      padding: 12px; background: #FFFFFF; border: 1px solid var(--border-main); border-radius: 8px;
+      margin-top: auto;
+    }
+    .comment-composer textarea {
+      flex: 1; border: 1px solid var(--border-main); border-radius: 6px;
+      padding: 8px 10px; font-family: var(--font-inter); font-size: 12px; color: var(--text-dark);
+      resize: vertical; min-height: 56px; outline: none;
+    }
+    .comment-composer textarea:focus { border-color: var(--accent-graphite); }
+
+    /* ---- Collaboration: Version History ---- */
+    .version-row { display: flex; gap: 12px; padding: 12px 0; }
+    .version-row + .version-row { border-top: 1px solid var(--border-faint); }
+    .version-node { display: flex; flex-direction: column; align-items: center; width: 16px; flex-shrink: 0; }
+    .version-dot { width: 10px; height: 10px; border-radius: 50%; background: #1A1A18; margin-top: 4px; }
+    .version-dot.draft { background: #B4B4B0; }
+    .version-line { flex: 1; width: 1px; background: #E2E2DF; margin-top: 3px; }
+    .version-meta { flex: 1; min-width: 0; }
+    .version-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .version-label { font-size: 13px; font-weight: 800; color: #1A1A18; }
+    .version-stamp {
+      font-size: 9.5px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase;
+      padding: 1px 7px; border-radius: 3px;
+    }
+    .version-stamp.current { background: #1A1A18; color: #FFFFFF; }
+    .version-stamp.historical { background: #F4F4F2; color: #5A5A58; border: 1px solid #E4E4E0; }
+    .version-stamp.draft { background: #FFFFFF; color: #7A7A76; border: 1px dashed #C8C8C0; }
+    .version-sub { font-size: 11px; color: #8C8C88; margin-top: 3px; }
+    .version-sub strong { color: #2A2A28; font-weight: 600; }
+    .version-desc { font-size: 11.5px; color: #5A5A58; line-height: 1.5; margin-top: 5px; }
+    .version-changes {
+      margin-top: 7px; display: flex; flex-wrap: wrap; gap: 5px;
+    }
+    .version-change {
+      font-size: 10px; color: #4A4A48; background: #F5F5F3; border: 1px solid #E6E6E2;
+      padding: 2px 7px; border-radius: 4px;
+    }
+    .version-actions { display: flex; gap: 8px; margin-top: 9px; }
+    .version-empty { text-align: center; padding: 40px 20px; color: #8C8C88; }
+  </style>
 </head>
 <body>
 
@@ -39,6 +352,14 @@
             </div>
             
             <div class="header-action-group">
+              <!-- Live Collaboration Presence (minimal avatar stack only) -->
+              <div class="collab-avatars" title="Rahul Sharma, Priya Mehta, Arjun Nair + 2 more are viewing this thesis">
+                <span class="collab-avatar" style="background:#1A1A18; color:#FFFFFF;">RS</span>
+                <span class="collab-avatar" style="background:#EFEFEA; color:#2A2A28;">PM</span>
+                <span class="collab-avatar" style="background:#E6E6E2; color:#4A4A48;">AN</span>
+                <span class="collab-avatar more">+2</span>
+              </div>
+
               <!-- Import Thesis Button -->
               <button class="btn btn-outline" title="Import PDF or deck for thesis auto-parsing">
                 <i data-lucide="upload-cloud" class="lucide-sm"></i>
@@ -51,8 +372,15 @@
                 <span id="btnToggleModeText">Edit Thesis</span>
               </button>
 
-              <!-- Share with LPs Button -->
-              <button class="btn btn-primary" onclick="document.getElementById('menuInvestmentThesis').click()">
+              <!-- Comments / Collaboration Button (opens Comments + Version History drawer) -->
+              <button class="btn btn-outline" onclick="openCollabDrawer('comments')">
+                <i data-lucide="message-square" class="lucide-sm"></i>
+                <span>Comments</span>
+                <span class="count-badge">3</span>
+              </button>
+
+              <!-- Share with LPs Button (opens multi-select right drawer) -->
+              <button class="btn btn-primary" onclick="openShareLPsDrawer()">
                 <i data-lucide="share-2"></i>
                 <span>Share with LPs</span>
               </button>
@@ -325,7 +653,7 @@
                     </div>
                   </div>
 
-                  <!-- Version History -->
+                  <!-- Version History (links into the Collaboration drawer's History tab) -->
                   <div class="thesis-card">
                     <div class="thesis-card-head">
                       <div class="thesis-card-title">
@@ -336,7 +664,11 @@
                     </div>
                     <div class="thesis-card-body" style="font-size:11.5px; color:var(--text-muted); display:flex; justify-content:space-between;">
                       <span>v3 · Edited 2 days ago</span>
-                      <a href="#" style="color:var(--text-dark); font-weight:600; text-decoration:none;">Compare</a>
+                      <a href="#" onclick="openCollabDrawer('history'); return false;" style="color:var(--text-dark); font-weight:600; text-decoration:none;">View history</a>
+                    </div>
+                    <div class="thesis-card-body" style="padding-top:0; font-size:11.5px; color:var(--text-muted); display:flex; justify-content:space-between;">
+                      <span style="display:inline-flex; align-items:center; gap:4px;"><i data-lucide="message-square" class="lucide-sm"></i> 3 comments · 1 reply thread</span>
+                      <a href="#" onclick="openCollabDrawer('comments'); return false;" style="color:var(--text-dark); font-weight:600; text-decoration:none;">Discuss</a>
                     </div>
                   </div>
                 </div>
@@ -722,6 +1054,95 @@
 <!-- Modal Dialog Container Slot -->
 <div id="modalSlot"></div>
 
+<!-- ===================================================================== -->
+<!-- RIGHT DRAWER: SHARE WITH LPs (multi-select condensed LP registry)      -->
+<!-- ===================================================================== -->
+<div id="shareLPsOverlay" class="th-drawer-overlay" style="display:none;" onclick="closeShareLPsDrawer(event)">
+  <div class="th-drawer" onclick="event.stopPropagation()">
+    <!-- Drawer Header -->
+    <div class="th-drawer-header">
+      <div>
+        <div class="th-drawer-title">Share Investment Thesis</div>
+        <div class="th-drawer-sub" id="shareLPsSub">Select limited partners to send Seedicon Fund I thesis for LP approval.</div>
+      </div>
+      <button class="th-drawer-close" onclick="closeShareLPsDrawer()">
+        <i data-lucide="x" style="width:16px; height:16px;"></i>
+      </button>
+    </div>
+
+    <!-- Search / Filter + Select All -->
+    <div class="lp-filter-row">
+      <input type="search" id="shareLPsSearch" placeholder="Search name, type or PAN…" oninput="renderShareLPsList()" />
+      <select id="shareLPsTypeFilter" onchange="renderShareLPsList()">
+        <option value="all">All Types</option>
+        <option value="Family Office">Family Office</option>
+        <option value="Institutional">Institutional</option>
+        <option value="Trust">Trust</option>
+        <option value="Individual">Individual</option>
+        <option value="Corporate">Corporate</option>
+        <option value="NRI">NRI</option>
+        <option value="FPI">FPI</option>
+      </select>
+      <button class="lp-select-all" onclick="toggleSelectAllLPs()">
+        <i data-lucide="check-check" style="width:13px; height:13px;"></i>
+        <span id="shareSelectAllText">Select all</span>
+      </button>
+    </div>
+
+    <!-- Condensed LP Cards -->
+    <div class="th-drawer-body" id="shareLPsList" style="gap:8px; background:#F5F5F3;"></div>
+
+    <!-- Drawer Footer -->
+    <div class="th-drawer-footer">
+      <div style="font-size:11.5px; color:#8C8C88;">
+        <strong style="color:#1A1A18; font-size:13px;" id="shareLPsCountLabel">0</strong> of <span id="shareLPsTotalLabel">18</span> LPs selected
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-outline" onclick="closeShareLPsDrawer()">Cancel</button>
+        <button class="btn btn-primary" id="btnConfirmShare" onclick="confirmShareLPs()">
+          <i data-lucide="share-2" class="lucide-sm"></i>
+          <span id="btnConfirmShareText">Share with LPs</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- RIGHT DRAWER: COLLABORATION (Comments + Version History tabs)          -->
+<!-- ===================================================================== -->
+<div id="collabDrawerOverlay" class="th-drawer-overlay" style="display:none;" onclick="closeCollabDrawer(event)">
+  <div class="th-drawer" onclick="event.stopPropagation()">
+    <!-- Drawer Header -->
+    <div class="th-drawer-header">
+      <div>
+        <div class="th-drawer-title">Collaboration</div>
+        <div class="th-drawer-sub">Comments and revision history for this thesis. Team edits are tracked in place.</div>
+      </div>
+      <button class="th-drawer-close" onclick="closeCollabDrawer()">
+        <i data-lucide="x" style="width:16px; height:16px;"></i>
+      </button>
+    </div>
+
+    <!-- Drawer Tabs -->
+    <div class="th-drawer-tabs">
+      <button class="th-drawer-tab active" id="collabTabBtnComments" onclick="switchCollabTab('comments')">
+        <i data-lucide="message-square" style="width:13px; height:13px;"></i>
+        <span>Comments</span>
+        <span class="tab-count" id="collabCommentsCount">(3)</span>
+      </button>
+      <button class="th-drawer-tab" id="collabTabBtnHistory" onclick="switchCollabTab('history')">
+        <i data-lucide="history" style="width:13px; height:13px;"></i>
+        <span>Version History</span>
+        <span class="tab-count">(4)</span>
+      </button>
+    </div>
+
+    <!-- Drawer Body (dynamic) -->
+    <div class="th-drawer-body" id="collabDrawerBody"></div>
+  </div>
+</div>
+
 <!-- Scripts -->
 <script src="./js/components.js"></script>
 <script src="./js/app.js"></script>
@@ -812,6 +1233,396 @@
       const chipHtml = `<span class="tag-chip active" onclick="this.classList.toggle('active')">${inputTag.trim()}</span>`;
       btnEl.parentElement.insertAdjacentHTML('afterbegin', chipHtml);
     }
+  }
+
+  // ---------------------------------------------------------------------
+  // SHARE WITH LPs — CONDENSED LP REGISTRY (mirrors lps-management store)
+  // ---------------------------------------------------------------------
+  const thesisLPs = [
+    { id: 'LP-001', name: 'Shikhar Kapoor', type: 'Family Office', comm: 2.50, kyc: 'Verified', status: 'Active', email: 'shikhar.k@kapoorholdings.com', pan: 'AAACK4910P' },
+    { id: 'LP-002', name: 'Horizon Capital Partners', type: 'Institutional', comm: 2.40, kyc: 'Verified', status: 'Active', email: 'd.sterling@horizoncap.com', pan: 'AAACH8192K' },
+    { id: 'LP-003', name: 'Ananya Raghunathan', type: 'Trust', comm: 2.00, kyc: 'Verified', status: 'Active', email: 'ananya@raghunathan.org', pan: 'AABTR9401R' },
+    { id: 'LP-004', name: 'Krish Kaul', type: 'Individual', comm: 1.80, kyc: 'Verified', status: 'Active', email: 'krish.kaul@alumni.stanford.edu', pan: 'ABCDE1234F' },
+    { id: 'LP-005', name: 'Meridian Family Office', type: 'Family Office', comm: 1.60, kyc: 'Pending', status: 'Active', email: 'invest@meridianfo.com', pan: 'AAECM4910M' },
+    { id: 'LP-006', name: 'Aurum Global Trust', type: 'Trust', comm: 1.40, kyc: 'Pending', status: 'Active', email: 'compliance@aurumtrust.org', pan: 'AABTA4910A' },
+    { id: 'LP-007', name: 'Vidhi Sharma', type: 'Individual', comm: 1.20, kyc: 'Verified', status: 'Active', email: 'vidhi@sharmaventures.com', pan: 'AZMPS4910D' },
+    { id: 'LP-008', name: 'Nishant Vohra', type: 'Family Office', comm: 1.10, kyc: 'Verified', status: 'Active', email: 'nishant@vohraholdings.com', pan: 'AABNV4910N' },
+    { id: 'LP-009', name: 'Tara Investment Office', type: 'Corporate', comm: 1.00, kyc: 'Verified', status: 'Active', email: 'allocations@taracorp.in', pan: 'AAACT4910T' },
+    { id: 'LP-010', name: 'FinCity Entrepreneurs Fund', type: 'Institutional', comm: 1.00, kyc: 'Verified', status: 'Active', email: 'treasury@fincityventures.in', pan: 'AAACF4910F' },
+    { id: 'LP-011', name: 'Bhanu Chandrasekhar', type: 'Individual', comm: 0.90, kyc: 'Verified', status: 'Active', email: 'bhanu.c@chandracapital.com', pan: 'ABCPC4910B' },
+    { id: 'LP-012', name: 'Rohan Mehta', type: 'Individual', comm: 0.80, kyc: 'Verified', status: 'Active', email: 'rohan@mehtaventures.in', pan: 'APMPM4910R' },
+    { id: 'LP-013', name: 'Surya Nair', type: 'Corporate', comm: 0.70, kyc: 'Verified', status: 'Active', email: 'surya.nair@nairtech.com', pan: 'AAACS4910N' },
+    { id: 'LP-014', name: 'Devanshi Patel', type: 'Individual', comm: 0.60, kyc: 'Verified', status: 'Active', email: 'devanshi@patelcapital.in', pan: 'ABDPP4910D' },
+    { id: 'LP-015', name: 'Arcus Capital', type: 'Trust', comm: 0.50, kyc: 'Verified', status: 'Exited', email: 'ir@arcuscapital.in', pan: 'AABTA9401C' },
+    { id: 'LP-016', name: 'Kenji Watanabe', type: 'NRI', comm: 0.50, kyc: 'Verified', status: 'Active', email: 'kenji.w@tokyo-invest.jp', pan: 'AWPNW4910K' },
+    { id: 'LP-017', name: 'Rajesh Jhunjhunwala', type: 'Individual', comm: 0.50, kyc: 'Verified', status: 'Active', email: 'rajesh@rareventures.in', pan: 'AZMPJ4910R' },
+    { id: 'LP-018', name: 'Alpha Edge Partners', type: 'FPI', comm: 0.50, kyc: 'Verified', status: 'Exited', email: 'compliance@alphaedge.sg', pan: 'AAACA4910A' }
+  ];
+
+  let selectedLPs = new Set();
+  let allSelected = false;
+
+  function openShareLPsDrawer() {
+    selectedLPs.clear();
+    allSelected = false;
+    document.getElementById('shareLPsOverlay').style.display = 'flex';
+    const searchEl = document.getElementById('shareLPsSearch');
+    if (searchEl) searchEl.value = '';
+    document.getElementById('shareLPsTypeFilter').value = 'all';
+    renderShareLPsList();
+    updateShareFooter();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function closeShareLPsDrawer(e) {
+    if (e && e.target !== document.getElementById('shareLPsOverlay') && e.target.tagName !== 'BUTTON') return;
+    document.getElementById('shareLPsOverlay').style.display = 'none';
+  }
+
+  function initialsOf(name) {
+    return name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  }
+
+  function renderShareLPsList() {
+    const listEl = document.getElementById('shareLPsList');
+    const q = (document.getElementById('shareLPsSearch')?.value || '').toLowerCase().trim();
+    const typeF = document.getElementById('shareLPsTypeFilter')?.value || 'all';
+
+    const filtered = thesisLPs.filter(lp => {
+      const mSearch = !q || lp.name.toLowerCase().includes(q) || lp.type.toLowerCase().includes(q) || lp.pan.toLowerCase().includes(q);
+      const mType = typeF === 'all' || lp.type === typeF;
+      return mSearch && mType;
+    });
+
+    document.getElementById('shareLPsTotalLabel').textContent = thesisLPs.length;
+
+    if (!filtered.length) {
+      listEl.innerHTML = `
+        <div style="padding:40px 16px; text-align:center; color:#8C8C88;">
+          <i data-lucide="search" style="width:20px; height:20px; color:#B0B0AE; margin-bottom:6px;"></i>
+          <div style="font-size:12.5px; font-weight:700; color:#1A1A18;">No matching LPs</div>
+          <p style="font-size:11px; margin-top:2px;">Try a different search term or investor type.</p>
+        </div>
+      `;
+    } else {
+      listEl.innerHTML = filtered.map(lp => `
+        <div class="lp-share-card ${selectedLPs.has(lp.id) ? 'selected' : ''}" onclick="toggleShareLP('${lp.id}')">
+          <span class="lp-share-check"><i data-lucide="check" style="width:12px; height:12px;"></i></span>
+          <span class="lp-share-avatar">${initialsOf(lp.name)}</span>
+          <div class="lp-share-meta">
+            <div class="lp-share-name">${lp.name}</div>
+            <div class="lp-share-sub">${lp.type} · Commitment <strong>₹${lp.comm.toFixed(2)} Cr</strong> · <span style="font-family:var(--font-mono); font-size:10.5px;">${lp.pan}</span></div>
+          </div>
+          <span class="pill ${lp.kyc === 'Verified' ? 'pill-verified' : 'pill-pending'}">${lp.kyc.toUpperCase()}</span>
+        </div>
+      `).join('');
+    }
+
+    // Reflect select-all state against the current filtered set
+    const allShownSelected = filtered.length > 0 && filtered.every(lp => selectedLPs.has(lp.id));
+    allSelected = allShownSelected;
+    document.getElementById('shareSelectAllText').textContent = allSelected ? 'Clear all' : 'Select all';
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function toggleShareLP(lpId) {
+    if (selectedLPs.has(lpId)) selectedLPs.delete(lpId); else selectedLPs.add(lpId);
+    renderShareLPsList();
+    updateShareFooter();
+  }
+
+  function toggleSelectAllLPs() {
+    const q = (document.getElementById('shareLPsSearch')?.value || '').toLowerCase().trim();
+    const typeF = document.getElementById('shareLPsTypeFilter')?.value || 'all';
+    const filtered = thesisLPs.filter(lp => {
+      const mSearch = !q || lp.name.toLowerCase().includes(q) || lp.type.toLowerCase().includes(q) || lp.pan.toLowerCase().includes(q);
+      return mSearch && (typeF === 'all' || lp.type === typeF);
+    });
+
+    if (allSelected) {
+      filtered.forEach(lp => selectedLPs.delete(lp.id));
+    } else {
+      filtered.forEach(lp => selectedLPs.add(lp.id));
+    }
+    renderShareLPsList();
+    updateShareFooter();
+  }
+
+  function updateShareFooter() {
+    const n = selectedLPs.size;
+    document.getElementById('shareLPsCountLabel').textContent = n;
+    const btn = document.getElementById('btnConfirmShare');
+    btn.disabled = n === 0;
+    document.getElementById('btnConfirmShareText').textContent = n ? `Share with ${n} LP${n > 1 ? 's' : ''}` : 'Share with LPs';
+  }
+
+  function confirmShareLPs() {
+    if (!selectedLPs.size) {
+      showToast('Select at least one LP to share the thesis.', 'alert-circle');
+      return;
+    }
+    const names = thesisLPs.filter(lp => selectedLPs.has(lp.id)).map(lp => lp.name);
+    const shareBtn = document.getElementById('btnConfirmShare');
+    shareBtn.innerHTML = `<i data-lucide="check" class="lucide-sm"></i> Shared`;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    setTimeout(() => {
+      closeShareLPsDrawer();
+      showToast(`Investment Thesis shared with ${names.length} LP${names.length > 1 ? 's' : ''}.`);
+    }, 450);
+  }
+
+  // ---------------------------------------------------------------------
+  // COLLABORATION — COMMENTS + VERSION HISTORY (in-place, tabbed drawer)
+  // ---------------------------------------------------------------------
+  let activeCollabTab = 'comments';
+
+  const thesisComments = [
+    {
+      id: 'c1', author: 'Rahul Sharma', role: 'General Partner', initials: 'RS', time: '2h ago',
+      text: 'LPs on the committee have asked for a cleaner justification of the 65/35 reserve split. Can we add a worked example for a 15-company portfolio?',
+      section: 'Portfolio Construction', resolved: false
+    },
+    {
+      id: 'c2', author: 'Priya Mehta', role: 'VP Investor Relations', initials: 'PM', time: '5h ago',
+      text: '@Rahul — check size range of ₹1 Cr–₹2.5 Cr still fits within the ₹13 Cr initial deployment? 15 companies at avg ₹1.6 Cr = ₹24 Cr, that over-runs.',
+      section: 'Fund Parameters', resolved: false,
+      replies: [
+        { author: 'Rahul Sharma', role: 'General Partner', initials: 'RS', time: '4h ago', text: 'Good catch — avg cheque should be ~₹1.1 Cr at 65% deployment (₹13 Cr / 12 companies). I\'ll fix the range in the next edit.' }
+      ]
+    },
+    {
+      id: 'c3', author: 'Arjun Nair', role: 'Investment Analyst', initials: 'AN', time: '1d ago',
+      text: 'Thesis statement reads well. One tweak — "specialist network of 20+ enterprise tech operators" should stay, it\'s a real differentiator per the Stress Test.',
+      section: 'Thesis Statement', resolved: true
+    }
+  ];
+
+  const thesisVersions = [
+    {
+      v: 'v3', label: 'v3', current: true, draft: false,
+      date: '15 Aug 2026 · 2 days ago', author: 'Rahul Sharma', role: 'General Partner',
+      desc: 'Narrowed cheque size range, added worked example for reserve split, tightened thesis to 37 words.',
+      changes: ['Cheque size updated', 'Reserve worked example added', 'Pitch tightened']
+    },
+    {
+      v: 'v2', label: 'v2', current: false, draft: false,
+      date: '06 Aug 2026', author: 'Priya Mehta', role: 'VP Investor Relations',
+      desc: 'Added fund overview parameters, investment horizon and portfolio count after LP committee feedback.',
+      changes: ['Fund overview added', 'Portfolio count set to 15']
+    },
+    {
+      v: 'v1', label: 'v1', current: false, draft: false,
+      date: '28 Jul 2026', author: 'Arjun Nair', role: 'Investment Analyst',
+      desc: 'Initial thesis draft from Formula Thesis Statement Builder. Core sectors B2B SaaS & Vertical AI.',
+      changes: ['Initial draft created']
+    },
+    {
+      v: 'draft', label: 'Unpublished draft', current: false, draft: true,
+      date: 'Editing now', author: 'Rahul Sharma', role: 'General Partner',
+      desc: 'Changes made while in Edit Mode. Publish to save as a new version.',
+      changes: ['2 unsaved edits']
+    }
+  ];
+
+  function openCollabDrawer(tab) {
+    activeCollabTab = tab || 'comments';
+    document.getElementById('collabDrawerOverlay').style.display = 'flex';
+    switchCollabTab(activeCollabTab);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function closeCollabDrawer(e) {
+    if (e && e.target !== document.getElementById('collabDrawerOverlay') && e.target.tagName !== 'BUTTON') return;
+    document.getElementById('collabDrawerOverlay').style.display = 'none';
+  }
+
+  function switchCollabTab(tab) {
+    activeCollabTab = tab;
+    document.querySelectorAll('#collabDrawerOverlay .th-drawer-tab').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('collabTabBtn' + (tab === 'comments' ? 'Comments' : 'History')).classList.add('active');
+    const body = document.getElementById('collabDrawerBody');
+    if (tab === 'comments') {
+      renderCommentsTab(body);
+    } else {
+      renderHistoryTab(body);
+    }
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function renderCommentsTab(body) {
+    document.getElementById('collabCommentsCount').textContent = `(${thesisComments.length})`;
+
+    body.innerHTML = `
+      <div style="font-size:10.5px; color:#8C8C88; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;">
+        All comments · ${thesisComments.length}
+      </div>
+      <div class="comment-list">
+        ${thesisComments.map(commentCardHTML).join('') || emptyComments('No comments yet — start the conversation.')}
+      </div>
+      <div class="comment-composer">
+        <span class="comment-avatar">RS</span>
+        <textarea id="newCommentInput" placeholder="Add a comment… type @ to mention a teammate."></textarea>
+        <button class="btn btn-primary" onclick="postNewComment()" style="align-self:flex-end; white-space:nowrap;">
+          <i data-lucide="send" class="lucide-sm"></i>
+          <span>Post</span>
+        </button>
+      </div>
+    `;
+  }
+
+  function commentCardHTML(c) {
+    const replies = (c.replies || []).map(r => `
+      <div class="comment-item">
+        <span class="comment-avatar light">${r.initials}</span>
+        <div class="comment-body">
+          <div class="comment-head">
+            <span class="comment-author">${r.author}</span>
+            <span class="comment-role">${r.role}</span>
+            <span class="comment-time">${r.time}</span>
+          </div>
+          <div class="comment-text">${r.text}</div>
+        </div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="comment-item">
+        <span class="comment-avatar">${c.initials}</span>
+        <div class="comment-body">
+          <div class="comment-head">
+            <span class="comment-author">${c.author}</span>
+            <span class="comment-role">${c.role}</span>
+            <span class="comment-time">${c.time}</span>
+            ${c.resolved ? '<span class="comment-action resolved" style="cursor:default;"><i data-lucide="check-circle-2" style="width:12px; height:12px;"></i> Resolved</span>' : ''}
+          </div>
+          <div class="comment-text">${c.text}</div>
+          <div class="comment-actions">
+            <span class="pill pill-type" style="font-size:9.5px; text-transform:none;"># ${c.section}</span>
+            ${c.resolved
+              ? `<span class="comment-action resolved" style="cursor:default; margin-left:auto;">Resolved by ${c.resolvedBy || 'GP'}</span>`
+              : `<button class="comment-action" style="margin-left:auto;" onclick="resolveComment('${c.id}')"><i data-lucide="check-circle-2" style="width:12px; height:12px;"></i> Resolve</button>
+                 <button class="comment-action" onclick="openReplyBox('${c.id}')"><i data-lucide="corner-up-left" style="width:12px; height:12px;"></i> Reply</button>`}
+          </div>
+          ${(c.replies || []).length ? `
+            <div style="margin-top:8px;">
+              <button class="comment-action" onclick="toggleReplies('${c.id}')" style="font-size:10.5px; color:#6A6A68;">
+                <i data-lucide="${c.repliesShown ? 'chevron-up' : 'chevron-down'}" style="width:11px; height:11px;"></i>
+                <span>${c.replies.length} ${c.replies.length === 1 ? 'reply' : 'replies'}</span>
+              </button>
+            </div>
+            <div class="comment-thread" id="thread_${c.id}" style="${c.repliesShown ? '' : 'display:none;'}">${replies}</div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  function toggleReplies(id) {
+    const c = thesisComments.find(x => x.id === id);
+    if (!c) return;
+    c.repliesShown = !c.repliesShown;
+    renderCommentsTab(document.getElementById('collabDrawerBody'));
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function emptyComments(msg) {
+    return `
+      <div class="version-empty" style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:8px; padding:26px 16px;">
+        <i data-lucide="message-circle" style="width:18px; height:18px; color:#B0B0AE; margin-bottom:4px;"></i>
+        <div style="font-size:11.5px; color:#8C8C88;">${msg}</div>
+      </div>
+    `;
+  }
+
+  function resolveComment(id) {
+    const c = thesisComments.find(x => x.id === id);
+    if (c) { c.resolved = true; c.resolvedBy = 'Rahul Sharma'; }
+    renderCommentsTab(document.getElementById('collabDrawerBody'));
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    showToast('Comment marked as resolved.');
+  }
+
+  function openReplyBox(id) {
+    const c = thesisComments.find(x => x.id === id);
+    if (!c) return;
+    if (!c.replies) c.replies = [];
+    c.repliesShown = true;
+    const replyText = prompt(`Reply to ${c.author}:`);
+    if (replyText && replyText.trim()) {
+      c.replies.push({ author: 'Rahul Sharma', role: 'General Partner', initials: 'RS', time: 'Just now', text: replyText.trim() });
+      renderCommentsTab(document.getElementById('collabDrawerBody'));
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      showToast('Reply posted.');
+    }
+  }
+
+  function postNewComment() {
+    const input = document.getElementById('newCommentInput');
+    const text = input && input.value.trim();
+    if (!text) {
+      showToast('Write a comment before posting.', 'alert-circle');
+      return;
+    }
+    thesisComments.unshift({
+      id: 'c' + Date.now(), author: 'Rahul Sharma', role: 'General Partner', initials: 'RS',
+      time: 'Just now', text: text, section: 'General', resolved: false, replies: []
+    });
+    renderCommentsTab(document.getElementById('collabDrawerBody'));
+    document.getElementById('collabCommentsCount').textContent = `(${thesisComments.length})`;
+    document.getElementById('btnToggleMode')?.setAttribute('data-new-comment', '1');
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    showToast('Comment posted.');
+  }
+
+  function renderHistoryTab(body) {
+    const currentV = thesisVersions.find(v => v.current);
+    body.innerHTML = `
+      <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:8px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between;">
+        <div>
+          <div style="font-size:10.5px; color:#8C8C88; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;">Currently Published</div>
+          <div style="font-size:13px; font-weight:800; color:#1A1A18; margin-top:2px;">${currentV.label} <span style="font-weight:600; color:#8C8C88; font-size:11px;">· ${currentV.date}</span></div>
+        </div>
+        <span class="badge-pill neutral-dark">Approved by LPs</span>
+      </div>
+
+      <div style="font-size:10.5px; color:#8C8C88; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; margin-top:2px;">All revisions</div>
+
+      ${thesisVersions.map((v, idx) => `
+        <div class="version-row">
+          <div class="version-node">
+            <span class="version-dot ${v.draft ? 'draft' : ''}"></span>
+            ${idx < thesisVersions.length - 1 ? '<span class="version-line"></span>' : ''}
+          </div>
+          <div class="version-meta">
+            <div class="version-top">
+              <span class="version-label">${v.label}</span>
+              ${v.current ? '<span class="version-stamp current">Current</span>' : (v.draft ? '<span class="version-stamp draft">Draft</span>' : '<span class="version-stamp historical">Historical</span>')}
+            </div>
+            <div class="version-sub"><strong>${v.author}</strong> · ${v.role} · ${v.date}</div>
+            <div class="version-desc">${v.desc}</div>
+            <div class="version-changes">${v.changes.map(ch => `<span class="version-change">${ch}</span>`).join('')}</div>
+            <div class="version-actions">
+              ${v.current
+                ? `<button class="btn btn-outline btn-sm" onclick="viewVersion('${v.v}')"><i data-lucide="eye" class="lucide-sm"></i> View</button>`
+                : `<button class="btn btn-outline btn-sm" onclick="viewVersion('${v.v}')"><i data-lucide="eye" class="lucide-sm"></i> View</button>
+                   <button class="btn btn-outline btn-sm" onclick="showToast('Comparing ${v.v} against ${currentV.v}…')"><i data-lucide="git-compare" class="lucide-sm"></i> Compare</button>
+                   <button class="btn btn-outline btn-sm" onclick="showToast('${v.v} set as working copy.')"><i data-lucide="rotate-ccw" class="lucide-sm"></i> Restore</button>`}
+            </div>
+          </div>
+        </div>
+      `).join('')}
+
+      <div style="font-size:10.5px; color:#8C8C88; background:#FFFFFF; border:1px dashed var(--border-strong); border-radius:8px; padding:10px 12px; display:flex; align-items:center; gap:6px;">
+        <i data-lucide="info" style="width:12px; height:12px; color:#6A6A68; flex-shrink:0;"></i>
+        Every saved change is versioned. Compare shows a side-by-side diff against the current published version.
+      </div>
+    `;
+  }
+
+  function viewVersion(v) {
+    switchCollabTab('comments');
+    showToast(`Viewing ${v} content snapshot.`);
   }
 </script>
 </body>

@@ -116,6 +116,153 @@
     .rail-item.active .rail-dot-indicator {
       background: var(--accent-graphite);
     }
+
+    /* ─── Tab Table Views ─── */
+    .table-scroll { overflow-x: auto; }
+
+    /* ─── Shared Component Tables (matching founder-reports / portfolio-management) ─── */
+    .table-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .table-toolbar {
+      padding: 9px 14px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .table-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1180px;
+    }
+    .data-table th {
+      text-align: left;
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #8C8C88;
+      padding: 8px 12px;
+      border-bottom: 1px solid #EBEBEA;
+      background: #FAFAFA;
+      white-space: nowrap;
+    }
+    .data-table th.num { text-align: right; }
+    .data-table td {
+      padding: 6px 12px;
+      font-size: 11.5px;
+      color: #3A3A38;
+      border-bottom: 1px solid #F1F1EF;
+      vertical-align: middle;
+      white-space: nowrap;
+      height: 38px;
+    }
+    .data-table td.num { text-align: right; }
+    .data-table tr { cursor: pointer; }
+    .data-table tr:hover td { background: #FAFAFA; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .table-footer {
+      padding: 9px 14px;
+      background: #FAFAFA;
+      border-top: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #8C8C88;
+    }
+    .company-cell { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+    .company-logo {
+      width: 24px; height: 24px; border-radius: 5px;
+      background: #1A1A18; color: #FFFFFF;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 9.5px; flex-shrink: 0;
+    }
+    .company-name { font-weight: 700; color: #1A1A18; white-space: nowrap; }
+    .template-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 10px; font-weight: 600; color: #3A3A38;
+      background: #F0F0EE; border: 1px solid #DCDCDA; border-radius: 4px;
+      padding: 2px 6px; white-space: nowrap; text-decoration: none;
+      transition: background 0.1s;
+    }
+    .template-badge:hover { background: #E5E5E3; color: #1A1A18; }
+    .pill {
+      font-size: 8.5px; font-weight: 800; padding: 2px 7px;
+      border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em;
+      white-space: nowrap; border: 1px solid #DCDCDA; display: inline-block;
+    }
+    .pill-approved { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; }
+    .pill-received { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; font-weight: 800; }
+    .pill-rejected { background: #F5F5F3; color: #6A6A68; border-color: #DCDCDA; }
+    .pill-requested { background: #FAFAFA; color: #7A7A78; border-color: #E0E0DE; }
+    .pill-overdue { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; }
+    .pill-active { background: #F0F0EE; color: #1A1A18; }
+    .pill-exited { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+    .pill-distributed { background: #F5F5F3; color: #7A7A78; border-color: #E0E0DE; }
+    .freq-badge {
+      font-size: 9px; font-weight: 700; padding: 1.5px 6px;
+      border-radius: 3px; background: #F0F0EE; color: #4A4A48;
+      border: 1px solid #DCDCDA; text-transform: uppercase;
+      letter-spacing: 0.04em; white-space: nowrap;
+    }
+    .vdr-action-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px; border-radius: 5px;
+      border: 1px solid #E0E0DE; background: #FFFFFF;
+      cursor: pointer; color: #7A7A78;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+    }
+    .vdr-action-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+    .vdr-action-btn.danger { color: #DC2626; border-color: #FECACA; }
+    .vdr-action-btn.danger:hover { background: #DC2626; border-color: #DC2626; color: #FFFFFF; }
+    .doc-btn {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 8px; font-size: 11px; font-weight: 600;
+      color: #5A5A58; background: #FFFFFF; border: 1px solid #E0E0DE;
+      border-radius: 5px; cursor: pointer;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+      font-family: Inter, sans-serif; white-space: nowrap;
+    }
+    .doc-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+    .action-dropdown-wrap { position: relative; display: inline-block; }
+    .action-dropdown-menu {
+      position: absolute; top: 100%; right: 0; margin-top: 4px;
+      background: #FFFFFF; border: 1px solid #DFDEDE; border-radius: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1); width: 190px; z-index: 100;
+      padding: 4px 0; display: none;
+    }
+    .action-dropdown-item {
+      padding: 6px 12px; font-size: 11.5px; font-weight: 600;
+      color: #3A3A38; cursor: pointer; display: flex; align-items: center;
+      gap: 8px; transition: background 0.1s; white-space: nowrap;
+    }
+    .action-dropdown-item:hover { background: #F5F5F3; color: #1A1A18; }
+    .action-dropdown-item.danger { color: #DC2626; }
+    .action-dropdown-item.danger:hover { background: #FEF2F2; }
+    .sector-pill {
+      font-size: 8.5px; font-weight: 700; padding: 1.5px 6px;
+      border-radius: 3px; border: 1px solid #DCDCDA; text-transform: uppercase;
+      letter-spacing: 0.04em; color: #5A5A58; background: #F0F0EE; white-space: nowrap;
+    }
+    .stage-tag {
+      font-size: 9px; font-weight: 700; padding: 2px 7px;
+      border-radius: 12px; background: #F0F0EE; border: 1px solid #DCDCDA;
+      color: #2A2A28; white-space: nowrap;
+    }
   </style>
 </head>
 <body>
@@ -194,8 +341,23 @@
 
         </div>
 
+        <!-- RECORD TABS (UNDERLINE, NO ICONS, COUNTS IN BRACKETS) -->
+        <div class="cc-tabs" style="margin-bottom:6px;">
+          <button class="cc-tab active" id="tabNavDetails" onclick="switchRecordTab('details')">
+            <span>Details</span>
+          </button>
+          <button class="cc-tab" id="tabNavReports" onclick="switchRecordTab('reports')">
+            <span>Founders Reporting</span>
+            <span class="cc-tab-count" id="tabReportsCount">(3)</span>
+          </button>
+          <button class="cc-tab" id="tabNavHoldings" onclick="switchRecordTab('holdings')">
+            <span>Portfolio Management</span>
+            <span class="cc-tab-count">(1)</span>
+          </button>
+        </div>
+
         <!-- MAIN CONTENT WORKSPACE GRID (LEFT RAIL + RIGHT SECTIONS - CONDENSED GAP) -->
-        <div style="display:grid; grid-template-columns:220px 1fr; gap:14px; align-items:start;">
+        <div id="tabPaneDetails" style="display:grid; grid-template-columns:220px 1fr; gap:14px; align-items:start;">
           
           <!-- LEFT CONNECTED NAVIGATION RAIL -->
           <div class="nav-rail-wrapper">
@@ -608,6 +770,16 @@
 
         </div>
 
+        <!-- TAB PANE: FOUNDERS REPORTING (EXACT founder-reports.html COMPONENT TABLE) -->
+        <div id="tabPaneReports" style="display:none;">
+          <div id="founderReportsComponent"></div>
+        </div>
+
+        <!-- TAB PANE: PORTFOLIO MANAGEMENT (EXACT portfolio-management.html COMPONENT TABLE) -->
+        <div id="tabPaneHoldings" style="display:none;">
+          <div id="portfolioHoldingsComponent"></div>
+        </div>
+
       </main>
     </div>
   </div>
@@ -893,6 +1065,399 @@
     function downloadPackage() {
       alert(`Downloading complete due-diligence package for ${currentStartup.name} (ZIP)...`);
     }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // RECORD TABS (Details / Founders Reporting / Portfolio Management)
+    // ──────────────────────────────────────────────────────────────────────────
+    // EXACT founder-reports.html component schema for this startup
+    const COMPANY_REPORTS = [
+      {
+        id: 'rep_startup_1',
+        name: 'Alpha Health',
+        avatar: 'AH',
+        founder: 'Dr. Sarah Chen',
+        email: 'sarah@alphahealth.com',
+        frequency: 'Quarterly',
+        cycle: 'Q2 2026',
+        dueDate: '30 Jun 2026',
+        submittedDate: '08 Jun 2026',
+        file: 'AlphaHealth_Financial_Q2.xlsx',
+        status: 'Approved'
+      },
+      {
+        id: 'rep_startup_2',
+        name: 'Alpha Health',
+        avatar: 'AH',
+        founder: 'Dr. Sarah Chen',
+        email: 'sarah@alphahealth.com',
+        frequency: 'Quarterly',
+        cycle: 'Q1 2026',
+        dueDate: '31 Mar 2026',
+        submittedDate: '14 Mar 2026',
+        file: 'AlphaHealth_Q1_MIS.xlsx',
+        status: 'Received'
+      },
+      {
+        id: 'rep_startup_3',
+        name: 'Alpha Health',
+        avatar: 'AH',
+        founder: 'Dr. Sarah Chen',
+        email: 'sarah@alphahealth.com',
+        frequency: 'Monthly',
+        cycle: 'May 2026',
+        dueDate: '15 Jun 2026',
+        submittedDate: null,
+        file: null,
+        status: 'Requested'
+      }
+    ];
+
+    function getReportStatusPill(status) {
+      const s = status || 'Requested';
+      if (s === 'Approved') return `<span class="pill pill-approved">APPROVED</span>`;
+      if (s === 'Received') return `<span class="pill pill-received">RECEIVED</span>`;
+      if (s === 'Rejected') return `<span class="pill pill-rejected">REJECTED</span>`;
+      if (s === 'Overdue') return `<span class="pill pill-overdue">OVERDUE</span>`;
+      return `<span class="pill pill-requested">REQUESTED</span>`;
+    }
+
+    function renderFounderReportsComponent() {
+      const mount = document.getElementById('founderReportsComponent');
+      if (!mount) return;
+      const filtered = COMPANY_REPORTS.filter(r => r.name === currentStartup.name || r.avatar === currentStartup.avatar);
+      const rows = filtered.length ? filtered : COMPANY_REPORTS.slice(0, 1).map(r => ({ ...r, name: currentStartup.name, avatar: currentStartup.avatar }));
+
+      mount.innerHTML = `
+        <div class="table-card">
+          <div class="table-toolbar">
+            <div class="table-toolbar-left">
+              <strong style="font-size:12.5px; color:#1A1A18;">Founder MIS Submissions — ${currentStartup.name}</strong>
+              <span class="badge-pill neutral-soft">${rows.length} Report${rows.length !== 1 ? 's' : ''}</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <button class="doc-btn" onclick="downloadReportExport()">
+                <i data-lucide="download" style="width:11px; height:11px;"></i> Export CSV
+              </button>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="white-space:nowrap;">Company</th>
+                  <th style="white-space:nowrap;">Founder</th>
+                  <th style="white-space:nowrap;">Frequency</th>
+                  <th style="white-space:nowrap;">Reporting Cycle</th>
+                  <th style="white-space:nowrap;">Due Date</th>
+                  <th style="white-space:nowrap;">Submission Date</th>
+                  <th style="white-space:nowrap;">Attachment</th>
+                  <th style="white-space:nowrap;">Status</th>
+                  <th style="text-align:right; white-space:nowrap;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows.map(r => {
+                  const subDateDisplay = r.submittedDate
+                    ? `<span style="font-weight:700; color:#1A1A18;">${r.submittedDate}</span>`
+                    : `<span style="color:#8C8C88;">— Pending</span>`;
+                  const fileDisplay = r.file
+                    ? `<a href="#" onclick="event.stopPropagation(); downloadReportFile('${r.file}'); return false;" class="template-badge" title="Download ${r.file}">
+                        <i data-lucide="paperclip" style="width:10px; height:10px; flex-shrink:0;"></i>
+                        <span>${r.file}</span>
+                      </a>`
+                    : `<span style="color:#A8A8A4; font-size:11px;">—</span>`;
+                  return `
+                    <tr onclick="openReportPreview('${r.id}')">
+                      <td style="white-space:nowrap;">
+                        <div class="company-cell">
+                          <div class="company-logo">${r.avatar}</div>
+                          <span class="company-name">${r.name}</span>
+                        </div>
+                      </td>
+                      <td style="white-space:nowrap;">
+                        <div style="display:flex; align-items:center; gap:5px;">
+                          <span style="font-weight:600; color:#2A2A28;">${r.founder}</span>
+                          <button type="button" onclick="copyReportEmail(event, '${r.email}')" title="Copy email: ${r.email}" style="border:none; background:transparent; cursor:pointer; padding:2px 3px; color:#7A7A78; display:inline-flex; align-items:center; justify-content:center; border-radius:3px;">
+                            <i data-lucide="mail" style="width:11px; height:11px;"></i>
+                          </button>
+                        </div>
+                      </td>
+                      <td style="white-space:nowrap;">
+                        <span class="freq-badge">${r.frequency.toUpperCase()}</span>
+                      </td>
+                      <td style="font-weight:700; color:#1A1A18; white-space:nowrap;">${r.cycle}</td>
+                      <td style="white-space:nowrap; font-size:11px; color:#4A4A48;">${r.dueDate}</td>
+                      <td style="white-space:nowrap; font-size:11px;">${subDateDisplay}</td>
+                      <td style="white-space:nowrap;">${fileDisplay}</td>
+                      <td style="white-space:nowrap;">${getReportStatusPill(r.status)}</td>
+                      <td style="text-align:right; white-space:nowrap;" onclick="event.stopPropagation()">
+                        <div style="display:flex; align-items:center; justify-content:flex-end; gap:5px;">
+                          <button class="doc-btn" onclick="openReportPreview('${r.id}')" title="Review Report Details">
+                            <i data-lucide="eye" style="width:11px; height:11px;"></i> Review
+                          </button>
+                          <div class="action-dropdown-wrap">
+                            <button class="vdr-action-btn" onclick="toggleReportActionMenu(event, '${r.id}')" title="More Actions">
+                              <i data-lucide="more-horizontal" style="width:12px; height:12px;"></i>
+                            </button>
+                            <div class="action-dropdown-menu" id="actionMenu_${r.id}">
+                              ${r.status !== 'Approved' ? `
+                                <div class="action-dropdown-item" onclick="approveReportDirect('${r.id}')">
+                                  <i data-lucide="check-circle" style="width:12px; height:12px; color:#047857;"></i>
+                                  <span>Approve Report</span>
+                                </div>
+                              ` : ''}
+                              <div class="action-dropdown-item" onclick="sendFounderPing('${r.id}')">
+                                <i data-lucide="send" style="width:12px; height:12px;"></i>
+                                <span>Send Founder Ping</span>
+                              </div>
+                              ${r.file ? `
+                                <div class="action-dropdown-item" onclick="downloadReportFile('${r.file}')">
+                                  <i data-lucide="download" style="width:12px; height:12px;"></i>
+                                  <span>Download MIS File</span>
+                                </div>
+                              ` : ''}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <span>Showing <strong>${rows.length}</strong> founder reports for ${currentStartup.name}</span>
+            <span style="color:#8C8C88;">All submissions strictly logged on single-row audit records</span>
+          </div>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function toggleReportActionMenu(e, id) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById(`actionMenu_${id}`);
+      const isVisible = menu && menu.style.display === 'block';
+      hideReportMenus();
+      if (menu && !isVisible) menu.style.display = 'block';
+    }
+    function hideReportMenus() {
+      document.querySelectorAll('.action-dropdown-menu').forEach(m => m.style.display = 'none');
+    }
+    document.addEventListener('click', () => hideReportMenus());
+
+    function copyReportEmail(e, email) {
+      if (e) e.stopPropagation();
+      if (navigator.clipboard) navigator.clipboard.writeText(email);
+      if (window.showToast) window.showToast(`Email copied: ${email}`);
+    }
+
+    function approveReportDirect(id) {
+      const r = COMPANY_REPORTS.find(x => x.id === id);
+      if (r) r.status = 'Approved';
+      hideReportMenus();
+      renderFounderReportsComponent();
+      if (window.showToast) window.showToast(`Report approved${r ? ' for ' + r.cycle : ''}`);
+    }
+
+    function sendFounderPing(id) {
+      const r = COMPANY_REPORTS.find(x => x.id === id);
+      hideReportMenus();
+      if (window.showToast) window.showToast(`Reminder sent to ${r ? r.founder : 'founder'}`);
+    }
+
+    function downloadReportFile(file) {
+      if (window.showToast) window.showToast(`Downloading ${file}`);
+    }
+
+    function downloadReportExport() {
+      if (window.showToast) window.showToast('Exporting report summary CSV...');
+    }
+
+    // EXACT portfolio-management.html component schema for this startup
+    const COMPANY_HOLDINGS = [
+      {
+        id: 'pf_startup_1',
+        name: 'Alpha Health',
+        avatar: 'AH',
+        sector: 'Healthcare',
+        stage: 'Pre-Seed',
+        ccy: '$',
+        invested: 0.45,
+        valuation: 3.50,
+        currentVal: 4.20,
+        ownership: '12.9%',
+        investedOn: '02 Feb 2026',
+        status: 'Active'
+      }
+    ];
+
+    function fmtMoney(ccy, num) {
+      return ccy + (num >= 1 ? num.toFixed(1) : (num * 1000).toFixed(0)) + (num >= 1 ? 'M' : 'K');
+    }
+
+    function portfolioStatusPill(status) {
+      const map = {
+        'Active': '<span class="pill pill-active">Active</span>',
+        'Exited': '<span class="pill pill-exited">Exited</span>',
+        'Distributed': '<span class="pill pill-distributed">Distributed</span>'
+      };
+      return map[status] || map['Active'];
+    }
+
+    function renderPortfolioHoldingsComponent() {
+      const mount = document.getElementById('portfolioHoldingsComponent');
+      if (!mount) return;
+      const rows = COMPANY_HOLDINGS.map(h => ({ ...h, name: currentStartup.name, avatar: currentStartup.avatar }));
+
+      mount.innerHTML = `
+        <div class="table-card">
+          <div class="table-toolbar">
+            <div class="table-toolbar-left">
+              <strong style="font-size:12.5px; color:#1A1A18;">Portfolio Holdings — ${currentStartup.name}</strong>
+              <span class="badge-pill neutral-soft">${rows.length} Compan${rows.length !== 1 ? 'ies' : 'y'}</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <button class="doc-btn" onclick="openImportCSVHere()">
+                <i data-lucide="upload" style="width:11px; height:11px;"></i> Import CSV
+              </button>
+              <button class="doc-btn" onclick="openAddHoldingHere()">
+                <i data-lucide="plus" style="width:11px; height:11px;"></i> Add to Portfolio
+              </button>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table class="data-table" style="min-width:1080px;">
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Sector</th>
+                  <th>Stage</th>
+                  <th class="num">Invested</th>
+                  <th class="num">Valuation</th>
+                  <th class="num">Ownership</th>
+                  <th>Invested On</th>
+                  <th class="num">Current Value</th>
+                  <th>Status</th>
+                  <th style="text-align:right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows.map(h => `
+                  <tr onclick="openHoldingProfile('${h.id}')">
+                    <td style="max-width:200px;">
+                      <div class="company-cell">
+                        <div class="company-logo">${h.avatar}</div>
+                        <span class="company-name" title="${h.name}">${h.name}</span>
+                      </div>
+                    </td>
+                    <td><span class="sector-pill">${h.sector}</span></td>
+                    <td><span class="stage-tag">${h.stage}</span></td>
+                    <td class="num" style="font-weight:700; color:#1A1A18;">${fmtMoney(h.ccy, h.invested)}</td>
+                    <td class="num" style="color:#5A5A58;">${fmtMoney(h.ccy, h.valuation)}</td>
+                    <td class="num" style="color:#5A5A58;">${h.ownership}</td>
+                    <td style="color:#6A6A68;">${h.investedOn}</td>
+                    <td class="num" style="color:#5A5A58;">${fmtMoney(h.ccy, h.currentVal)}</td>
+                    <td>${portfolioStatusPill(h.status)}</td>
+                    <td style="text-align:right; position:relative;" onclick="event.stopPropagation()">
+                      <div style="display:inline-block; text-align:left;">
+                        <button class="vdr-action-btn" onclick="toggleHoldingMenu(event, '${h.id}')" title="More Actions" style="padding:4px 7px;">
+                          <i data-lucide="more-horizontal" style="width:14px; height:14px;"></i>
+                        </button>
+                        <div id="holdingMenu_${h.id}" class="action-dropdown-menu" style="display:none;">
+                          <div class="action-dropdown-item" onclick="openHoldingProfile('${h.id}'); hideHoldingMenus();">
+                            <i data-lucide="eye" style="width:12px; height:12px;"></i> View Profile
+                          </div>
+                          <div class="action-dropdown-item" onclick="openEditHoldingHere('${h.id}'); hideHoldingMenus();">
+                            <i data-lucide="edit-3" style="width:12px; height:12px;"></i> Edit Holding
+                          </div>
+                          <div style="height:1px; background:#EBEBEA; margin:4px 0;"></div>
+                          <div class="action-dropdown-item danger" onclick="promptRemoveHolding('${h.id}'); hideHoldingMenus();">
+                            <i data-lucide="trash-2" style="width:12px; height:12px;"></i> Remove from Portfolio
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <span>Showing ${rows.length} of ${rows.length} portfolio companies</span>
+            <span style="display:flex; align-items:center; gap:5px;"><i data-lucide="info" style="width:11px; height:11px;"></i> Click a row to view company profile</span>
+          </div>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function toggleHoldingMenu(e, id) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById(`holdingMenu_${id}`);
+      const isVisible = menu && menu.style.display === 'block';
+      hideHoldingMenus();
+      if (menu && !isVisible) menu.style.display = 'block';
+    }
+    function hideHoldingMenus() {
+      document.querySelectorAll('.action-dropdown-menu').forEach(m => m.style.display = 'none');
+    }
+
+    function openHoldingProfile(id) {
+      const h = COMPANY_HOLDINGS.find(x => x.id === id);
+      if (window.showToast) window.showToast(`Opening profile for ${h ? h.name : currentStartup.name}`);
+    }
+
+    function openEditHoldingHere(id) {
+      const h = COMPANY_HOLDINGS.find(x => x.id === id);
+      if (window.showToast) window.showToast(`Edit holding: ${h ? h.name : currentStartup.name}`);
+    }
+
+    function promptRemoveHolding(id) {
+      if (window.showToast) window.showToast('Remove holding confirmation (demo)');
+    }
+
+    function openImportCSVHere() {
+      if (window.showToast) window.showToast('Import portfolio from CSV (demo)');
+    }
+
+    function openAddHoldingHere() {
+      if (window.showToast) window.showToast('Add to portfolio (demo)');
+    }
+
+    function renderRecordTables() {
+      renderFounderReportsComponent();
+      renderPortfolioHoldingsComponent();
+      const repCount = document.getElementById('tabReportsCount');
+      if (repCount) {
+        const n = COMPANY_REPORTS.filter(r => r.name === currentStartup.name || r.avatar === currentStartup.avatar).length || 1;
+        repCount.textContent = `(${n})`;
+      }
+    }
+
+    function switchRecordTab(tab) {
+      const tabIds = { details: 'tabNavDetails', reports: 'tabNavReports', holdings: 'tabNavHoldings' };
+      const paneIds = { details: 'tabPaneDetails', reports: 'tabPaneReports', holdings: 'tabPaneHoldings' };
+
+      Object.keys(tabIds).forEach(k => {
+        document.getElementById(tabIds[k])?.classList.toggle('active', k === tab);
+        const pane = document.getElementById(paneIds[k]);
+        if (pane) pane.style.display = k === tab ? (k === 'details' ? 'grid' : 'block') : 'none';
+      });
+    }
+
+    function openReportPreview(id) {
+      const r = COMPANY_REPORTS.find(x => x.id === id);
+      const label = r ? `${r.cycle} (${r.frequency})` : id;
+      alert(`Opening report preview for "${label}" (${currentStartup.name})...`);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderRecordTables();
+    });
   </script>
 </body>
 </html>

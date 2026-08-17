@@ -70,6 +70,35 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.06);
       border-left: 3px solid var(--accent-graphite);
     }
+
+    /* Drag & Drop Feedback Styling */
+    .builder-field-row {
+      transition: background-color 0.12s ease;
+    }
+    .dragging-row {
+      opacity: 0.35;
+      background: #F0F0EE !important;
+    }
+    .drag-over-row {
+      border-top: 2px solid var(--accent-graphite) !important;
+      background: #F8F8F6 !important;
+    }
+    .dragging-sec {
+      opacity: 0.35;
+      background: #F0F0EE !important;
+    }
+    .drag-over-sec {
+      border-top: 2px solid var(--accent-graphite) !important;
+      background: #F4F4F2 !important;
+    }
+    .drag-grip-icon {
+      cursor: grab;
+      color: #A0A09C;
+      transition: color 0.1s ease;
+    }
+    .drag-grip-icon:hover {
+      color: var(--text-dark);
+    }
   </style>
 </head>
 <body>
@@ -162,9 +191,11 @@
         id: 'sec_overview',
         title: 'Company Overview',
         enabled: true,
-        desc: 'Basic company information, sector, location, and social links.',
+        desc: 'Basic company information, brand logo, sector, location, and social links.',
         fields: [
-          { name: 'Overview', type: 'longtext', req: true, placeholder: 'Short pitch summary of company mission...' },
+          { name: 'Company Logo', type: 'file', req: true, placeholder: 'Upload brand logo (PNG, SVG, JPG)' },
+          { name: 'Company Name', type: 'text', req: true, placeholder: 'Legal or operating entity name' },
+          { name: 'Overview / Tagline', type: 'longtext', req: true, placeholder: 'Short pitch summary of company mission...' },
           { name: 'Industry/Sector', type: 'select', req: true, options: ['Healthcare', 'FinTech', 'SaaS', 'AI / ML', 'CleanTech', 'Consumer Tech'] },
           { name: 'Company Website', type: 'text', req: true, placeholder: 'https://www.company.io' },
           { name: 'Company LinkedIn', type: 'text', req: true, placeholder: 'https://linkedin.com/company/...' },
@@ -180,8 +211,10 @@
         id: 'sec_metrics',
         title: 'Key Metrics & Fundraising',
         enabled: true,
-        desc: 'Current fundraising ask, amount raised so far, and dilution terms.',
+        desc: 'Current ARR revenue traction, fundraising ask, and dilution terms.',
         fields: [
+          { name: 'Current ARR (Annual Recurring Revenue)', type: 'text', req: true, placeholder: 'e.g. $1.5M ARR / ₹12 Cr ARR' },
+          { name: 'Current MRR (Monthly Recurring Revenue)', type: 'text', req: false, placeholder: 'e.g. $125K MRR / ₹1 Cr MRR' },
           { name: 'Funding Target', type: 'number', req: true, placeholder: 'e.g. 5.00 (Crore / $M)' },
           { name: 'Raised So Far', type: 'number', req: true, placeholder: 'e.g. 2.00 (Crore / $M)' },
           { name: 'Ask Amount', type: 'number', req: true, placeholder: 'e.g. 3.00 (Crore / $M)' },
@@ -257,9 +290,10 @@
         id: 'sec_financials',
         title: 'Financials',
         enabled: true,
-        desc: 'Key revenue figures, EBITDA, gross margin, and monthly burn rate.',
+        desc: 'Key ARR, gross revenue, EBITDA, gross margin, and monthly burn rate.',
         fields: [
-          { name: 'Revenue', type: 'number', req: true, placeholder: 'ARR / Annual Revenue' },
+          { name: 'Annual Recurring Revenue (ARR)', type: 'text', req: true, placeholder: 'e.g. $1.5M ARR / ₹12 Cr ARR' },
+          { name: 'Annual Gross Revenue', type: 'number', req: true, placeholder: 'Total billed revenue' },
           { name: 'Gross Profit', type: 'number', req: true, placeholder: 'Gross profit' },
           { name: 'EBITDA', type: 'number', req: true, placeholder: 'EBITDA' },
           { name: 'Net Profit/Loss', type: 'number', req: true, placeholder: 'Net P&L' },
@@ -409,26 +443,27 @@
       container.innerHTML = `
         <div style="display:grid; grid-template-columns:260px 1fr; gap:16px; align-items:start;">
           
-          <!-- LEFT SIDEBAR: SECTION LIST (STICKY PINNED RAIL) -->
+          <!-- LEFT SIDEBAR: SECTION LIST (STICKY PINNED RAIL WITH DRAG & DROP REORDERING) -->
           <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:8px; padding:12px; display:flex; flex-direction:column; gap:8px; position:sticky; top:16px;">
             <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:8px; border-bottom:1px solid var(--border-main);">
               <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted);">SECTIONS (${TEMPLATE.length})</span>
               <button class="btn btn-outline btn-sm" onclick="addCustomSection()" title="Add custom section" style="padding:2px 8px; font-size:11px;">
                 <i data-lucide="plus" class="lucide-sm"></i>
-                <span>+ Section</span>
+                <span>Section</span>
               </button>
             </div>
 
             <div style="display:flex; flex-direction:column; gap:2px; max-height:calc(100vh - 180px); overflow-y:auto;">
               ${TEMPLATE.map((s, idx) => `
-                <div onclick="selectSection(${idx})" class="sec-item ${idx === activeSecIdx ? 'active' : ''}">
-                  <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1;">
-                    <input type="checkbox" ${s.enabled ? 'checked' : ''} onclick="event.stopPropagation(); toggleSection(${idx})" title="Enable/Disable Section" style="accent-color:var(--accent-graphite); cursor:pointer;" />
+                <div onclick="selectSection(${idx})" class="sec-item ${idx === activeSecIdx ? 'active' : ''}" draggable="true" ondragstart="onSectionDragStart(event, ${idx})" ondragover="onSectionDragOver(event, ${idx})" ondragleave="onSectionDragLeave(event)" ondrop="onSectionDrop(event, ${idx})" ondragend="onSectionDragEnd(event)" title="Drag to reorder section">
+                  <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1;">
+                    <i data-lucide="grip-vertical" class="drag-grip-icon" style="width:12px; height:12px; flex-shrink:0;"></i>
+                    <input type="checkbox" ${s.enabled ? 'checked' : ''} onclick="event.stopPropagation(); toggleSection(${idx})" title="Enable/Disable Section" style="accent-color:var(--accent-graphite); cursor:pointer; flex-shrink:0;" />
                     <span style="color:${s.enabled ? 'var(--text-dark)' : 'var(--text-light)'}; text-decoration:${s.enabled ? 'none' : 'line-through'}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
                       ${s.title}
                     </span>
                   </div>
-                  <span class="badge-pill neutral-soft" style="font-size:10px; padding:1px 6px;">${s.fields.length}</span>
+                  <span style="font-size:11px; font-weight:500; color:var(--text-muted); flex-shrink:0;">(${s.fields.length})</span>
                 </div>
               `).join('')}
             </div>
@@ -442,18 +477,11 @@
               <div style="flex:1; margin-right:16px;">
                 <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
                   <input type="text" value="${sec.title}" onchange="renameSection(${activeSecIdx}, this.value)" style="font-size:16px; font-weight:800; color:var(--text-dark); border:none; background:transparent; outline:none; border-bottom:1px solid transparent; transition:border-color 0.15s; width:280px;" onfocus="this.style.borderColor='var(--accent-graphite)'" onblur="this.style.borderColor='transparent'" title="Click to edit section title" />
-                  <span class="badge-pill ${sec.enabled ? 'neutral-dark' : 'neutral-soft'}" style="font-size:10.5px;">${sec.enabled ? 'Section Enabled' : 'Section Disabled'}</span>
                 </div>
                 <input type="text" value="${sec.desc}" onchange="updateSectionDesc(${activeSecIdx}, this.value)" style="font-size:12px; color:var(--text-muted); border:none; background:transparent; outline:none; width:100%;" placeholder="Section instructions for founder..." />
               </div>
 
               <div style="display:flex; align-items:center; gap:8px;">
-                <button class="btn btn-outline btn-sm" onclick="moveSection(${activeSecIdx}, -1)" ${activeSecIdx === 0 ? 'disabled' : ''} title="Move Section Up" style="padding:4px 8px;">
-                  <i data-lucide="arrow-up" class="lucide-sm"></i>
-                </button>
-                <button class="btn btn-outline btn-sm" onclick="moveSection(${activeSecIdx}, 1)" ${activeSecIdx === TEMPLATE.length - 1 ? 'disabled' : ''} title="Move Section Down" style="padding:4px 8px;">
-                  <i data-lucide="arrow-down" class="lucide-sm"></i>
-                </button>
                 <button class="btn btn-primary btn-sm" onclick="addFieldToSection(${activeSecIdx})">
                   <i data-lucide="plus" class="lucide-sm"></i>
                   <span>Add Field</span>
@@ -471,18 +499,18 @@
                 <thead>
                   <tr>
                     <th style="width:30px; text-align:center;">#</th>
-                    <th style="width:200px;">Field Label</th>
-                    <th style="width:140px;">Input Type</th>
+                    <th style="width:230px;">Field Label</th>
+                    <th style="width:150px;">Input Type</th>
                     <th>Placeholder / Hint for Founder</th>
                     <th style="width:90px; text-align:center;">Required</th>
-                    <th style="width:90px; text-align:right;">Actions</th>
+                    <th style="width:60px; text-align:right;">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   ${sec.fields.map((f, fIdx) => `
-                    <tr>
-                      <td style="text-align:center; color:var(--text-light);">
-                        <i data-lucide="grip-vertical" class="lucide-sm" style="cursor:grab;"></i>
+                    <tr class="builder-field-row" draggable="true" ondragstart="onFieldDragStart(event, ${fIdx})" ondragover="onFieldDragOver(event, ${fIdx})" ondragleave="onFieldDragLeave(event)" ondrop="onFieldDrop(event, ${fIdx})" ondragend="onFieldDragEnd(event)" title="Drag to reorder field">
+                      <td style="text-align:center; color:var(--text-light); width:30px;">
+                        <i data-lucide="grip-vertical" class="drag-grip-icon lucide-sm"></i>
                       </td>
                       
                       <td>
@@ -495,7 +523,7 @@
                           <option value="longtext" ${f.type === 'longtext' ? 'selected' : ''}>Long Text</option>
                           <option value="number" ${f.type === 'number' ? 'selected' : ''}>Number / Currency</option>
                           <option value="date" ${f.type === 'date' ? 'selected' : ''}>Date</option>
-                          <option value="file" ${f.type === 'file' ? 'selected' : ''}>File Upload (PDF)</option>
+                          <option value="file" ${f.type === 'file' ? 'selected' : ''}>File Upload (PDF/Image)</option>
                           <option value="select" ${f.type === 'select' ? 'selected' : ''}>Dropdown Select</option>
                           <option value="email" ${f.type === 'email' ? 'selected' : ''}>Email Address</option>
                         </select>
@@ -513,13 +541,9 @@
                       </td>
 
                       <td style="text-align:right;">
-                        <div style="display:inline-flex; gap:3px;">
-                          <button class="btn btn-outline btn-sm" onclick="moveField(${activeSecIdx}, ${fIdx}, -1)" ${fIdx === 0 ? 'disabled' : ''} style="padding:2px 5px;"><i data-lucide="chevron-up" class="lucide-sm"></i></button>
-                          <button class="btn btn-outline btn-sm" onclick="moveField(${activeSecIdx}, ${fIdx}, 1)" ${fIdx === sec.fields.length - 1 ? 'disabled' : ''} style="padding:2px 5px;"><i data-lucide="chevron-down" class="lucide-sm"></i></button>
-                          <button class="btn btn-outline btn-sm" onclick="deleteField(${activeSecIdx}, ${fIdx})" style="padding:2px 5px; color:#8C2D2D;" title="Delete Field">
-                            <i data-lucide="trash-2" class="lucide-sm"></i>
-                          </button>
-                        </div>
+                        <button class="btn btn-outline btn-sm" onclick="deleteField(${activeSecIdx}, ${fIdx})" style="padding:3px 7px; color:#8C2D2D;" title="Delete Field">
+                          <i data-lucide="trash-2" class="lucide-sm"></i>
+                        </button>
                       </td>
                     </tr>
                   `).join('')}
@@ -625,7 +649,20 @@
     }
 
     function renderFieldInputHtml(f) {
-      if (f.type === 'longtext') {
+      if (f.name.toLowerCase().includes('logo')) {
+        return `
+          <div style="display:flex; align-items:center; gap:14px; padding:12px 14px; background:var(--bg-sidebar); border:1.5px dashed var(--border-strong); border-radius:8px;">
+            <div style="width:44px; height:44px; border-radius:6px; background:#FFFFFF; border:1px solid var(--border-main); display:flex; align-items:center; justify-content:center; color:var(--text-muted); flex-shrink:0;">
+              <i data-lucide="image" style="width:20px; height:20px;"></i>
+            </div>
+            <div>
+              <div style="font-size:12px; font-weight:700; color:var(--text-dark);">${f.placeholder || 'Upload Brand Logo (PNG, SVG, JPG)'}</div>
+              <div style="font-size:10.5px; color:var(--text-muted); margin-top:2px;">PNG, SVG, JPG up to 10MB (recommended 512x512)</div>
+            </div>
+            <button type="button" class="btn btn-outline btn-sm" style="margin-left:auto; font-size:11px; padding:3px 9px;" onclick="alert('Company logo file selector opened.')">Browse File</button>
+          </div>
+        `;
+      } else if (f.type === 'longtext') {
         return `<textarea class="form-input" style="min-height:64px;" placeholder="${f.placeholder || ''}"></textarea>`;
       } else if (f.type === 'file') {
         return `
@@ -723,14 +760,82 @@
       updateCounts();
     }
 
-    function moveField(secIdx, fIdx, dir) {
-      const fields = TEMPLATE[secIdx].fields;
-      const target = fIdx + dir;
-      if (target < 0 || target >= fields.length) return;
-      const temp = fields[fIdx];
-      fields[fIdx] = fields[target];
-      fields[target] = temp;
+    // ------------------------------------------------------------------------
+    // DRAG & DROP REORDERING HANDLERS (FIELDS & SECTIONS)
+    // ------------------------------------------------------------------------
+    let draggedFieldIdx = null;
+
+    function onFieldDragStart(e, fIdx) {
+      draggedFieldIdx = fIdx;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', fIdx);
+      e.currentTarget.classList.add('dragging-row');
+    }
+
+    function onFieldDragOver(e, fIdx) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      e.currentTarget.classList.add('drag-over-row');
+    }
+
+    function onFieldDragLeave(e) {
+      e.currentTarget.classList.remove('drag-over-row');
+    }
+
+    function onFieldDrop(e, targetIdx) {
+      e.preventDefault();
+      e.currentTarget.classList.remove('drag-over-row');
+      if (draggedFieldIdx === null || draggedFieldIdx === targetIdx) return;
+      
+      const sec = TEMPLATE[activeSecIdx];
+      const movedField = sec.fields.splice(draggedFieldIdx, 1)[0];
+      sec.fields.splice(targetIdx, 0, movedField);
+      draggedFieldIdx = null;
       renderWorkspace();
+    }
+
+    function onFieldDragEnd(e) {
+      e.currentTarget.classList.remove('dragging-row');
+      document.querySelectorAll('.drag-over-row').forEach(el => el.classList.remove('drag-over-row'));
+      draggedFieldIdx = null;
+    }
+
+    let draggedSecIdx = null;
+
+    function onSectionDragStart(e, idx) {
+      draggedSecIdx = idx;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', idx);
+      e.currentTarget.classList.add('dragging-sec');
+    }
+
+    function onSectionDragOver(e, idx) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      e.currentTarget.classList.add('drag-over-sec');
+    }
+
+    function onSectionDragLeave(e) {
+      e.currentTarget.classList.remove('drag-over-sec');
+    }
+
+    function onSectionDrop(e, targetIdx) {
+      e.preventDefault();
+      e.currentTarget.classList.remove('drag-over-sec');
+      if (draggedSecIdx === null || draggedSecIdx === targetIdx) return;
+
+      const activeSecId = TEMPLATE[activeSecIdx].id;
+      const movedSec = TEMPLATE.splice(draggedSecIdx, 1)[0];
+      TEMPLATE.splice(targetIdx, 0, movedSec);
+      activeSecIdx = TEMPLATE.findIndex(s => s.id === activeSecId);
+      draggedSecIdx = null;
+      renderWorkspace();
+    }
+
+    function onSectionDragEnd(e) {
+      e.currentTarget.classList.remove('dragging-sec');
+      document.querySelectorAll('.drag-over-sec').forEach(el => el.classList.remove('drag-over-sec'));
+      draggedSecIdx = null;
     }
 
     function deleteField(secIdx, fIdx) {

@@ -203,9 +203,9 @@ const LayoutComponents = {
           </a>
         </div>
 
-        <!-- Nav Section 2: DEAL SOURCING & PIPELINE -->
+        <!-- Nav Section 2: DEAL FLOW -->
         <div class="nav-section">
-          <div class="nav-section-title">Sourcing &amp; Pipeline</div>
+          <div class="nav-section-title">Deal Flow</div>
           <a href="./startups-pool.html" class="nav-item ${isActive('startups-pool')}">
             <div class="nav-item-left">
               <i data-lucide="inbox"></i>
@@ -220,17 +220,6 @@ const LayoutComponents = {
             </div>
             <span class="nav-count">(14)</span>
           </a>
-          <a href="./pipeline-management.html" class="nav-item ${isActive('pipeline-management')}">
-            <div class="nav-item-left">
-              <i data-lucide="git-pull-request"></i>
-              <span>Pipeline Management</span>
-            </div>
-          </a>
-        </div>
-
-        <!-- Nav Section 3: DUE DILIGENCE -->
-        <div class="nav-section">
-          <div class="nav-section-title">Due Diligence</div>
           <a href="./vdr.html" class="nav-item ${isActive('vdr')}">
             <div class="nav-item-left">
               <i data-lucide="folder-lock"></i>
@@ -245,49 +234,17 @@ const LayoutComponents = {
             </div>
             <span class="nav-count">(4)</span>
           </a>
-          <a href="./shared-with-me.html" class="nav-item ${isActive('shared-with-me')}">
-            <div class="nav-item-left">
-              <i data-lucide="share-2"></i>
-              <span>Shared with me</span>
-            </div>
-          </a>
         </div>
 
-        <!-- Nav Section 4: PORTFOLIO MANAGEMENT -->
+        <!-- Nav Section 3: PORTFOLIO & CAPITAL -->
         <div class="nav-section">
-          <div class="nav-section-title">Portfolio</div>
+          <div class="nav-section-title">Portfolio &amp; Capital</div>
           <a href="./portfolio-management.html" class="nav-item ${isActive('portfolio-management')}">
             <div class="nav-item-left">
               <i data-lucide="trending-up"></i>
               <span>Portfolio Management</span>
             </div>
             <span class="nav-count">(12)</span>
-          </a>
-          <a href="./founder-reports.html" class="nav-item ${isActive('founder-reports')}">
-            <div class="nav-item-left">
-              <i data-lucide="clipboard-check"></i>
-              <span>Founders Reporting</span>
-            </div>
-            <span class="nav-count">(8)</span>
-          </a>
-        </div>
-
-        <!-- Nav Section 5: LP CAPITAL & EXITS -->
-        <div class="nav-section">
-          <div class="nav-section-title">LP &amp; Capital</div>
-          <a href="./lps-management.html" class="nav-item ${isActive('lps-management')}">
-            <div class="nav-item-left">
-              <i data-lucide="users"></i>
-              <span>LPs Management</span>
-            </div>
-            <span class="nav-count">(18)</span>
-          </a>
-          <a href="./lp-reporting.html" class="nav-item ${isActive('lp-reporting')}">
-            <div class="nav-item-left">
-              <i data-lucide="file-bar-chart"></i>
-              <span>LP Reporting</span>
-            </div>
-            <span class="nav-count">(18)</span>
           </a>
           <a href="./capital-calls.html" class="nav-item ${isActive('capital-calls')}">
             <div class="nav-item-left">
@@ -303,9 +260,35 @@ const LayoutComponents = {
             </div>
             <span class="nav-count">(8)</span>
           </a>
+          <a href="./lps-management.html" class="nav-item ${isActive('lps-management')}">
+            <div class="nav-item-left">
+              <i data-lucide="users"></i>
+              <span>LPs Management</span>
+            </div>
+            <span class="nav-count">(18)</span>
+          </a>
         </div>
 
-        <!-- Nav Section 6: COLLABORATION & HISTORY -->
+        <!-- Nav Section 4: REPORTING -->
+        <div class="nav-section">
+          <div class="nav-section-title">Reporting</div>
+          <a href="./founder-reports.html" class="nav-item ${isActive('founder-reports')}">
+            <div class="nav-item-left">
+              <i data-lucide="clipboard-check"></i>
+              <span>Founders Reporting</span>
+            </div>
+            <span class="nav-count">(8)</span>
+          </a>
+          <a href="./lp-reporting.html" class="nav-item ${isActive('lp-reporting')}">
+            <div class="nav-item-left">
+              <i data-lucide="file-bar-chart"></i>
+              <span>LP Reporting</span>
+            </div>
+            <span class="nav-count">(18)</span>
+          </a>
+        </div>
+
+        <!-- Nav Section 5: WORKSPACE -->
         <div class="nav-section">
           <div class="nav-section-title">Workspace</div>
           <a href="./my-team.html" class="nav-item ${isActive('my-team')}">
@@ -314,12 +297,6 @@ const LayoutComponents = {
               <span>My Teams</span>
             </div>
             <span class="nav-count">(6)</span>
-          </a>
-          <a href="./history.html" class="nav-item ${isActive('history')}">
-            <div class="nav-item-left">
-              <i data-lucide="clock"></i>
-              <span>History</span>
-            </div>
           </a>
         </div>
       </aside>

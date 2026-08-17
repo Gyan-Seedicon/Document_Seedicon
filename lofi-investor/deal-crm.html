@@ -300,6 +300,315 @@
       background: #FFFFFF; border-radius: 8px; border: 1px solid #E0E0DE;
       width: 380px; padding: 20px; box-shadow: 0 12px 30px rgba(0,0,0,0.1);
     }
+
+    /* ─── Groups & Categories ─── */
+    .groups-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .group-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
+      border-radius: 8px;
+      padding: 14px 14px 10px;
+      cursor: pointer;
+      transition: border-color 0.12s, box-shadow 0.12s, transform 0.1s;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .group-card:hover {
+      border-color: #B0B0AE;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+      transform: translateY(-1px);
+    }
+    .group-card-top { display: flex; align-items: flex-start; gap: 10px; }
+    .group-card-icon {
+      width: 34px; height: 34px; border-radius: 6px;
+      background: #F0F0EE; border: 1px solid #E0E0DE;
+      display: flex; align-items: center; justify-content: center;
+      color: #3A3A38; flex-shrink: 0;
+    }
+    .group-card-name { font-size: 13px; font-weight: 800; color: #1A1A18; letter-spacing: -0.01em; }
+    .group-card-count { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+    .group-card-desc { font-size: 11px; color: #7A7A78; line-height: 1.45; margin-top: 3px; }
+    .group-card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid #F0F0EE; padding-top: 8px;
+    }
+    .group-card-updated { font-size: 10px; color: #9A9A96; display: flex; align-items: center; gap: 4px; }
+    .group-menu-wrap { position: relative; }
+    .group-menu-btn {
+      width: 24px; height: 24px; border-radius: 5px;
+      border: 1px solid #E0E0DE; background: #FFFFFF;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: #7A7A78;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+    }
+    .group-menu-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+    .group-menu {
+      position: absolute; right: 0; top: 28px; z-index: 120;
+      background: #FFFFFF; border: 1px solid #E0E0DE; border-radius: 6px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+      min-width: 150px; padding: 4px 0; display: none;
+    }
+    .group-menu.open { display: block; }
+    .group-menu-item {
+      width: 100%; text-align: left; padding: 6px 12px;
+      font-size: 11.5px; font-family: Inter, sans-serif; color: #1A1A18;
+      background: transparent; border: none; cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .group-menu-item:hover { background: #F5F5F3; }
+    .group-menu-item.danger { color: #DC2626; }
+    .group-menu-item.danger:hover { background: #FEF2F2; }
+    .group-menu-divider { height: 1px; background: #EBEBEA; margin: 4px 0; }
+    .add-group-card {
+      border-style: dashed; align-items: center; justify-content: center;
+      color: var(--text-muted); font-size: 12px; font-weight: 700;
+      min-height: 120px;
+    }
+    .add-group-card:hover { border-color: #1A1A18; color: #1A1A18; }
+    .view-toggle {
+      display: flex; background: #F0F0EE; padding: 2px; border-radius: 6px;
+      border: 1px solid #E0E0DE; gap: 1px;
+    }
+    .view-toggle button {
+      display: flex; align-items: center; gap: 4px; padding: 3px 9px;
+      border-radius: 4px; border: none; background: transparent;
+      font-size: 11px; font-weight: 500; color: #7A7A78; cursor: pointer;
+      font-family: Inter, sans-serif;
+    }
+    .view-toggle button.active {
+      border: 1px solid #C8C8C6; background: #FFFFFF; font-weight: 700; color: #1A1A18;
+    }
+    .group-count-pill {
+      font-size: 12px; font-weight: 700; color: var(--text-muted);
+      background: var(--bg-muted); border: 1px solid var(--border-main);
+      border-radius: 10px; padding: 1px 8px;
+    }
+    .group-empty {
+      background: #FFFFFF; border: 1px dashed #DCDCDA; border-radius: 8px;
+      padding: 44px 24px; text-align: center; color: var(--text-muted);
+    }
+    .group-empty div { font-size: 13px; font-weight: 800; color: #2A2A28; margin-top: 8px; }
+    .group-empty p { font-size: 11.5px; color: #8C8C88; margin-top: 4px; }
+
+    /* ─── List View Table ─── */
+    .table-scroll { overflow-x: auto; }
+    .company-cell { display: flex; align-items: center; gap: 9px; min-width: 0; }
+    .company-logo {
+      width: 26px; height: 26px; border-radius: 5px;
+      background: #1A1A18; color: #FFFFFF;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 10px; flex-shrink: 0;
+    }
+    .company-name {
+      font-weight: 700; color: #1A1A18;
+      max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .sector-pill {
+      font-size: 8.5px; font-weight: 700; padding: 1.5px 6px; border-radius: 3px;
+      border: 1px solid #DCDCDA; text-transform: uppercase; letter-spacing: 0.04em;
+      color: #5A5A58; background: #F0F0EE; white-space: nowrap;
+    }
+    .stage-tag {
+      font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 12px;
+      background: #F0F0EE; border: 1px solid #DCDCDA; color: #2A2A28; white-space: nowrap;
+    }
+    .data-table.list-table {
+      width: 100%; border-collapse: collapse; min-width: 720px;
+    }
+    .data-table.list-table thead th {
+      text-align: left; font-size: 9.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: #8C8C88; padding: 7px 12px;
+      border-bottom: 1px solid #EBEBEA; background: #FAFAFA; white-space: nowrap;
+    }
+    .data-table.list-table thead th.num { text-align: right; }
+    .data-table.list-table tbody td {
+      padding: 6px 12px; font-size: 11.5px; color: #3A3A38;
+      border-bottom: 1px solid #F1F1EF; vertical-align: middle; white-space: nowrap; height: 40px;
+    }
+    .data-table.list-table tbody td.num { text-align: right; }
+    .data-table.list-table tbody tr { cursor: pointer; }
+    .data-table.list-table tbody tr:hover td { background: #FAFAFA; }
+    .data-table.list-table tbody tr:last-child td { border-bottom: none; }
+
+    /* ─── Startup-Style Card View (matches startups-pool.html) ─── */
+    .startup-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.13s, box-shadow 0.13s, transform 0.1s;
+      overflow: hidden;
+    }
+    .startup-card:hover {
+      border-color: #B0B0AE;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      transform: translateY(-1px);
+    }
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px 11px;
+      border-bottom: 1px solid #F0F0EE;
+    }
+    .card-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 7px;
+      background: #F0F0EE;
+      color: #3A3A38;
+      border: 1px solid #E0E0DE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12.5px;
+      flex-shrink: 0;
+      letter-spacing: -0.02em;
+    }
+    .card-title-block { flex: 1; min-width: 0; }
+    .card-company-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: #1A1A18;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+    .card-badge {
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+    }
+    .badge-stage {
+      background: #EAEAE8;
+      color: #2A2A28;
+      border: 1px solid #D0D0CE;
+    }
+    .badge-sector {
+      background: #F4F4F2;
+      color: #5A5A58;
+      border: 1px solid #E4E4E2;
+    }
+    .status-pill {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .status-New        { background: #F0F0EE; color: #3A3A38; border: 1px solid #DCDCDA; }
+    .status-Reviewed   { background: #EAEAE8; color: #2A2A28; border: 1px solid #D0D0CE; }
+    .status-Shortlisted{ background: #1A1A18; color: #FFFFFF; border: 1px solid #1A1A18; }
+    .status-In-Pipeline{ background: #2E2E2C; color: #FFFFFF; border: 1px solid #2E2E2C; }
+    .status-Passed     { background: #F5F5F3; color: #8C8C88; border: 1px solid #E0E0DE; }
+    .card-pitch {
+      padding: 10px 16px;
+      font-size: 12px;
+      color: #5A5A58;
+      line-height: 1.5;
+      border-bottom: 1px solid #F0F0EE;
+    }
+    .card-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 1px solid #F0F0EE;
+    }
+    .metric-cell {
+      padding: 9px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      border-right: 1px solid #F0F0EE;
+    }
+    .metric-cell:last-child { border-right: none; }
+    .metric-lbl {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #A8A8A4;
+    }
+    .metric-val {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #1A1A18;
+      letter-spacing: -0.01em;
+    }
+    .card-footer {
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FAFAFA;
+    }
+    .card-footer-date {
+      font-size: 10.5px;
+      color: #9A9A96;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-view-detail {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1A1A18;
+      background: #F0F0EE;
+      border: 1px solid #D4D4D2;
+      border-radius: 5px;
+      padding: 4px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.12s, border-color 0.12s;
+    }
+    .btn-view-detail:hover {
+      background: #1A1A18;
+      color: #FFFFFF;
+      border-color: #1A1A18;
+    }
+    .pool-table { width: 100%; border-collapse: collapse; min-width: 720px; }
+    .pool-table th {
+      text-align: left;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #8C8C88;
+      padding: 9px 14px;
+      border-bottom: 1px solid #EBEBEA;
+      background: #FAFAFA;
+    }
+    .pool-table th.num { text-align: right; }
+    .pool-table td {
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #3A3A38;
+      border-bottom: 1px solid #F3F3F1;
+      vertical-align: middle;
+    }
+    .pool-table td.num { text-align: right; font-weight: 700; }
+    .pool-table tr:hover td { background: #FAFAFA; }
+    .pool-table tr:last-child td { border-bottom: none; }
   </style>
 </head>
 <body>
@@ -328,20 +637,16 @@
               <i data-lucide="search" class="lucide-sm"></i>
               <input type="text" id="searchDeals" onkeyup="filterDeals()" placeholder="Search deals..." style="border:none; background:transparent; outline:none; font-family:Inter; font-size:12px; width:160px; color:var(--text-dark);" />
             </div>
-            <button class="btn btn-outline" style="font-size:12px;" onclick="openAddStageModal()">
-              <i data-lucide="columns" class="lucide-sm"></i>
-              <span>Manage Stages</span>
-            </button>
-            <button class="btn btn-primary" style="font-size:12px;" onclick="openAddDealModal()">
-              <i data-lucide="plus" class="lucide-sm"></i>
-              <span>Add Deal</span>
+            <button class="btn btn-outline" style="font-size:12px;" onclick="openCreateGroupModal()">
+              <i data-lucide="folder-plus" class="lucide-sm"></i>
+              <span>New Group</span>
             </button>
           </div>
         </header>
 
-        <!-- KANBAN BOARD -->
-        <div class="kanban-wrapper" id="kanbanBoard">
-          <!-- Columns rendered by JS -->
+        <!-- CRM ROOT (Groups / Group Detail) -->
+        <div id="dealCrmRoot" style="flex:1; overflow-y:auto; padding:16px 20px 20px;">
+          <!-- Rendered by JS -->
         </div>
 
       </main>
@@ -466,19 +771,158 @@
     const PRIORITY_DOT = { high: '#1A1A18', medium: '#7A7A78', low: '#C8C8C4' };
 
     // ──────────────────────────────────────────────────────────────────────────
-    // RENDER BOARD
+    // GROUPS & CATEGORIES
     // ──────────────────────────────────────────────────────────────────────────
-    function renderBoard(filterQuery = '') {
-      const board = document.getElementById('kanbanBoard');
-      if (!board) return;
+    let GROUPS = [
+      { id: 'g1', name: 'B2B SaaS & AI', desc: 'Shortlisted enterprise software and AI-native companies for deeper review.', updated: 'Updated 2 days ago', dealIds: ['d4','d5','d6'] },
+      { id: 'g2', name: 'Healthcare & Bio', desc: 'Healthtech, diagnostics and biotech opportunities in active evaluation.', updated: 'Updated yesterday', dealIds: ['d1','d2','d9'] },
+      { id: 'g3', name: 'FinTech & Payments', desc: 'Payments, treasury and capital-market fintech pipeline.', updated: 'Updated 4 days ago', dealIds: ['d7','d12'] },
+      { id: 'g4', name: 'Climate & Agri', desc: 'CleanTech, agritech and sustainable infrastructure plays.', updated: 'Updated today', dealIds: ['d3','d10'] },
+      { id: 'g5', name: 'Mobility & Logistics', desc: 'Logistics optimization and mobility startups shortlisted.', updated: 'Updated 5 days ago', dealIds: ['d8','d11'] }
+    ];
 
-      const q = filterQuery.toLowerCase();
-      const visibleDeals = q
-        ? DEALS.filter(d => d.name.toLowerCase().includes(q) || d.sector.toLowerCase().includes(q))
-        : DEALS;
+    let currentGroup = null;
+    let groupViewMode = 'board';
 
-      let html = STAGES.map(stage => {
-        const cards = visibleDeals.filter(d => d.stage === stage.id);
+    function groupDeals(group) {
+      return DEALS.filter(d => (group.dealIds || []).includes(d.id));
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // RENDER CRM ROOT (Groups List / Group Detail)
+    // ──────────────────────────────────────────────────────────────────────────
+    function renderCRM() {
+      const root = document.getElementById('dealCrmRoot');
+      if (!root) return;
+
+      if (currentGroup) renderGroupDetail();
+      else renderGroups();
+
+      updateBadge();
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+
+      if (currentGroup && groupViewMode === 'board') attachDropToColumns();
+    }
+
+    function updateBadge() {
+      const badge = document.getElementById('totalDealsBadge');
+      if (badge) {
+        const active = DEALS.filter(d => d.stage !== 'invested').length;
+        badge.textContent = `${active} Active Deals`;
+      }
+    }
+
+    function renderGroups() {
+      const root = document.getElementById('dealCrmRoot');
+      root.innerHTML = `
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+          <div>
+            <div style="font-size:13px; font-weight:800; color:var(--text-dark);">Deal Groups &amp; Categories</div>
+            <div style="font-size:11px; color:var(--text-muted);">Organize shortlisted startups into focused pipelines.</div>
+          </div>
+        </div>
+        <div class="groups-grid">
+          ${GROUPS.map(g => {
+            const deals = groupDeals(g);
+            return `
+              <div class="group-card" onclick="openGroup('${g.id}')">
+                <div class="group-card-top">
+                  <div class="group-card-icon"><i data-lucide="folder"></i></div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="display:flex; align-items:center; gap:6px;">
+                      <span class="group-card-name">${g.name}</span>
+                      <span class="group-card-count">(${deals.length})</span>
+                    </div>
+                    <div class="group-card-desc">${g.desc}</div>
+                  </div>
+                </div>
+                <div class="group-card-footer">
+                  <span class="group-card-updated"><i data-lucide="clock" style="width:10px; height:10px;"></i> ${g.updated}</span>
+                  <div class="group-menu-wrap" onclick="event.stopPropagation()">
+                    <button class="group-menu-btn" onclick="toggleGroupMenu(event,'${g.id}')" title="Group actions">
+                      <i data-lucide="more-horizontal" style="width:14px; height:14px;"></i>
+                    </button>
+                    <div class="group-menu" id="groupMenu_${g.id}">
+                      <button class="group-menu-item" onclick="openEditGroupModal('${g.id}')">
+                        <i data-lucide="pencil" style="width:12px; height:12px;"></i> Edit Group
+                      </button>
+                      <div class="group-menu-divider"></div>
+                      <button class="group-menu-item danger" onclick="promptDeleteGroup('${g.id}')">
+                        <i data-lucide="trash-2" style="width:12px; height:12px;"></i> Delete Group
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+          <div class="group-card add-group-card" onclick="openCreateGroupModal()">
+            <i data-lucide="plus" style="width:18px; height:18px; color:var(--text-muted);"></i>
+            <span>Create Group</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function openGroup(id) {
+      currentGroup = GROUPS.find(g => g.id === id);
+      groupViewMode = 'board';
+      renderCRM();
+    }
+
+    function goBackToGroups() {
+      currentGroup = null;
+      renderCRM();
+    }
+
+    function renderGroupDetail() {
+      const root = document.getElementById('dealCrmRoot');
+      const g = currentGroup;
+      if (!g) return;
+      const deals = groupDeals(g);
+
+      root.innerHTML = `
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+          <div>
+            <a onclick="goBackToGroups()" style="display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em; cursor:pointer; text-decoration:none;">
+              <i data-lucide="arrow-left" style="width:11px; height:11px;"></i> All Groups
+            </a>
+            <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
+              <h2 style="font-size:17px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em;">${g.name}</h2>
+              <span class="group-count-pill">(${deals.length})</span>
+            </div>
+            <p style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">${g.desc} · ${g.updated}</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="view-toggle">
+              <button id="btnGroupViewBoard" onclick="setGroupViewMode('board')" class="${groupViewMode === 'board' ? 'active' : ''}">
+                <i data-lucide="kanban" style="width:12px; height:12px;"></i> Board
+              </button>
+              <button id="btnGroupViewCards" onclick="setGroupViewMode('cards')" class="${groupViewMode === 'cards' ? 'active' : ''}">
+                <i data-lucide="layout-grid" style="width:12px; height:12px;"></i> Cards
+              </button>
+              <button id="btnGroupViewList" onclick="setGroupViewMode('list')" class="${groupViewMode === 'list' ? 'active' : ''}">
+                <i data-lucide="list" style="width:12px; height:12px;"></i> Table
+              </button>
+            </div>
+          </div>
+        </div>
+        ${groupViewMode === 'board' ? renderGroupBoard(g) : groupViewMode === 'cards' ? renderGroupCards(g) : renderGroupList(g)}
+      `;
+    }
+
+    function setGroupViewMode(mode) {
+      groupViewMode = mode;
+      renderCRM();
+    }
+
+    function renderGroupBoard(g) {
+      const deals = groupDeals(g);
+      const q = (document.getElementById('searchDeals')?.value || '').toLowerCase();
+      const visible = q ? deals.filter(d => d.name.toLowerCase().includes(q) || d.sector.toLowerCase().includes(q)) : deals;
+
+      const html = STAGES.map(stage => {
+        const cards = visible.filter(d => d.stage === stage.id);
         const dot = STAGE_DOTS[stage.id] || '#94A3B8';
         const isLocked = stage.id === 'invested';
 
@@ -489,54 +933,300 @@
                 <span class="col-title" title="${stage.label}">${stage.label}</span>
                 <span class="col-count">${cards.length}</span>
               </div>
-              <div class="col-actions">
-                ${!isLocked ? `
-                  <button class="col-icon-btn" onclick="openEditStageModal('${stage.id}')" title="Edit stage">
-                    <i data-lucide="pencil" style="width:12px; height:12px;"></i>
-                  </button>
-                ` : ''}
-                <button class="col-icon-btn" onclick="openAddDealToStage('${stage.id}')" title="Add deal to this stage">
-                  <i data-lucide="plus" style="width:12px; height:12px;"></i>
-                </button>
-              </div>
             </div>
             <div class="col-sub">${stage.sub}</div>
             <div class="kanban-cards" id="cards-${stage.id}">
               ${cards.map(d => renderDealCard(d, dot)).join('')}
               ${cards.length === 0 ? `<div style="text-align:center; padding:20px 12px; color:#ABABAB; font-size:11px;">No deals in this stage</div>` : ''}
             </div>
-            ${!isLocked ? `
-              <button class="kanban-add-btn" onclick="openAddDealToStage('${stage.id}')">
-                <i data-lucide="plus" style="width:12px; height:12px;"></i>
-                <span>Add deal</span>
-              </button>
-            ` : `
+            ${isLocked ? `
               <div style="padding:7px 12px; font-size:10px; color:#8C8C88; border-top:1px solid #EBEBEA; background:#F5F5F3;">
                 ✓ Moves automatically to Portfolio
               </div>
-            `}
+            ` : ``}
           </div>
         `;
       }).join('');
 
-      // Add "Add Stage" column
-      html += `
-        <div class="add-stage-col" onclick="openAddStageModal()">
-          <i data-lucide="plus" style="width:20px; height:20px; color:var(--text-muted);"></i>
-          <span>Add Stage</span>
-        </div>
-      `;
+      return `<div class="kanban-wrapper" id="kanbanBoard" style="padding:0; overflow-x:auto;">${html}</div>`;
+    }
 
-      board.innerHTML = html;
+    function renderGroupCards(g) {
+      const deals = groupDeals(g);
+      const q = (document.getElementById('searchDeals')?.value || '').toLowerCase();
+      const visible = q ? deals.filter(d => d.name.toLowerCase().includes(q) || d.sector.toLowerCase().includes(q)) : deals;
 
-      // Count total
-      const badge = document.getElementById('totalDealsBadge');
-      if (badge) {
-        const active = DEALS.filter(d => d.stage !== 'invested').length;
-        badge.textContent = `${active} Active Deals`;
+      if (!visible.length) {
+        return `
+          <div class="group-empty">
+            <i data-lucide="inbox" style="width:26px; height:26px; color:#B0B0AE;"></i>
+            <div>No startups in this group yet</div>
+            <p>Add a deal or drag cards across the board to build this pipeline.</p>
+          </div>
+        `;
       }
 
+      return `
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          ${visible.map(d => {
+            const stage = STAGES.find(s => s.id === d.stage);
+            const stageLabel = stage ? stage.label : '—';
+            const stagePill = stage ? statusClassForStage(stage.id) : 'status-New';
+            return `
+              <div class="startup-card" onclick="navigateToDealDetail('${d.id}')">
+                <div class="card-header">
+                  <div style="display:flex; align-items:flex-start; gap:11px; flex:1; min-width:0;">
+                    <div class="card-logo">${d.avatar}</div>
+                    <div class="card-title-block">
+                      <div class="card-company-name">${d.name}</div>
+                      <div class="card-meta-row">
+                        <span class="card-badge badge-stage">${d.stageBadge}</span>
+                        <span class="card-badge badge-sector">${d.sector}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="status-pill ${stagePill}">${stageLabel}</span>
+                </div>
+
+                <div class="card-pitch">${stageLabel} stage deal — ${d.sector} opportunity tracked under <strong>${g.name}</strong> with ${d.ask} ask and ${d.arr} ARR.</div>
+
+                <div class="card-metrics">
+                  <div class="metric-cell">
+                    <span class="metric-lbl">Ask Amount</span>
+                    <span class="metric-val">${d.ask}</span>
+                  </div>
+                  <div class="metric-cell">
+                    <span class="metric-lbl">ARR / Revenue</span>
+                    <span class="metric-val">${d.arr}</span>
+                  </div>
+                  <div class="metric-cell">
+                    <span class="metric-lbl">Added</span>
+                    <span class="metric-val" style="font-size:11px;">${d.date}</span>
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <div class="card-footer-date">
+                    <i data-lucide="calendar" style="width:11px; height:11px;"></i>
+                    ${d.date}
+                  </div>
+                  <button class="btn-view-detail" onclick="event.stopPropagation(); navigateToDealDetail('${d.id}')">
+                    View Details
+                    <i data-lucide="arrow-right" style="width:11px; height:11px;"></i>
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function statusClassForStage(stageId) {
+      const map = {
+        'potential':     'status-New',
+        'evaluation':    'status-Reviewed',
+        'due-diligence': 'status-Shortlisted',
+        'ic-decision':   'status-In-Pipeline',
+        'term-sheet':    'status-In-Pipeline',
+        'closing':       'status-In-Pipeline',
+        'invested':      'status-Passed'
+      };
+      return map[stageId] || 'status-New';
+    }
+
+    function renderGroupList(g) {
+      const deals = groupDeals(g);
+      const q = (document.getElementById('searchDeals')?.value || '').toLowerCase();
+      const visible = q ? deals.filter(d => d.name.toLowerCase().includes(q) || d.sector.toLowerCase().includes(q)) : deals;
+
+      if (!visible.length) {
+        return `
+          <div class="group-empty">
+            <i data-lucide="inbox" style="width:26px; height:26px; color:#B0B0AE;"></i>
+            <div>No startups in this group yet</div>
+            <p>Add a deal or drag cards across the board to build this pipeline.</p>
+          </div>
+        `;
+      }
+
+      return `
+        <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:8px; overflow:hidden;">
+          <div style="overflow-x:auto;">
+            <table class="pool-table">
+              <thead>
+                <tr>
+                  <th>Startup</th>
+                  <th>Stage / Sector</th>
+                  <th class="num">Ask</th>
+                  <th class="num">ARR</th>
+                  <th>Pipeline Stage</th>
+                  <th style="text-align:right;">Added</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${visible.map(d => {
+                  const stage = STAGES.find(s => s.id === d.stage);
+                  const stageLabel = stage ? stage.label : '—';
+                  return `
+                    <tr style="cursor:pointer;" onclick="navigateToDealDetail('${d.id}')">
+                      <td>
+                        <div style="display:flex; align-items:center; gap:9px;">
+                          <div style="width:28px; height:28px; background:#1A1A18; color:#FFFFFF; border-radius:5px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; flex-shrink:0;">${d.avatar}</div>
+                          <span style="font-weight:700; color:#1A1A18;">${d.name}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div style="display:flex; gap:4px;">
+                          <span class="card-badge badge-stage">${d.stageBadge}</span>
+                          <span class="card-badge badge-sector">${d.sector}</span>
+                        </div>
+                      </td>
+                      <td class="num">${d.ask}</td>
+                      <td class="num" style="color:#5A5A58;">${d.arr}</td>
+                      <td><span class="status-pill ${statusClassForStage(d.stage)}">${stageLabel}</span></td>
+                      <td style="text-align:right; color:#8C8C88; font-size:11px;">${d.date}</td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <span>Showing <strong>${visible.length}</strong> of <strong>${deals.length}</strong> startups in ${g.name}</span>
+            <span style="color:#8C8C88;">Click a row to open the startup record</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleGroupMenu(e, id) {
+      e.stopPropagation();
+      closeGroupMenus();
+      const menu = document.getElementById('groupMenu_' + id);
+      if (menu) menu.classList.add('open');
+    }
+
+    function closeGroupMenus() {
+      document.querySelectorAll('.group-menu.open').forEach(m => m.classList.remove('open'));
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // GROUP MODALS (Create / Edit / Delete)
+    // ──────────────────────────────────────────────────────────────────────────
+    function openCreateGroupModal() {
+      const slot = document.getElementById('modalSlot');
+      if (!slot) return;
+      slot.innerHTML = `
+        <div class="edit-col-modal-backdrop" onclick="if(event.target===this) closeEditStageModal()">
+          <div class="edit-col-modal">
+            <h3 style="font-size:15px; font-weight:800; color:var(--text-dark); margin-bottom:14px;">Create Group</h3>
+            <p style="font-size:11.5px; color:var(--text-muted); margin-bottom:14px;">Name your group and describe what this pipeline focuses on.</p>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div>
+                <label class="form-label">Group Name</label>
+                <input id="newGroupName" class="form-input" placeholder="e.g. Enterprise SaaS" />
+              </div>
+              <div>
+                <label class="form-label">Description</label>
+                <textarea id="newGroupDesc" class="form-input" style="min-height:56px;" placeholder="What does this group focus on?"></textarea>
+              </div>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+              <button class="btn btn-outline" onclick="closeEditStageModal()">Cancel</button>
+              <button class="btn btn-primary" onclick="createGroup()">
+                <i data-lucide="folder-plus" class="lucide-sm"></i> Create Group
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
       if (typeof lucide !== 'undefined') lucide.createIcons();
+      setTimeout(() => document.getElementById('newGroupName')?.focus(), 60);
+    }
+
+    function createGroup() {
+      const name = document.getElementById('newGroupName')?.value?.trim();
+      if (!name) { alert('Please enter a group name.'); return; }
+      const desc = document.getElementById('newGroupDesc')?.value?.trim() || 'No description provided.';
+      GROUPS.push({ id: 'g' + Date.now(), name, desc, updated: 'Updated just now', dealIds: [] });
+      closeEditStageModal();
+      renderCRM();
+    }
+
+    function openEditGroupModal(id) {
+      const g = GROUPS.find(x => x.id === id);
+      if (!g) return;
+      const slot = document.getElementById('modalSlot');
+      if (!slot) return;
+      slot.innerHTML = `
+        <div class="edit-col-modal-backdrop" onclick="if(event.target===this) closeEditStageModal()">
+          <div class="edit-col-modal">
+            <h3 style="font-size:15px; font-weight:800; color:var(--text-dark); margin-bottom:14px;">Edit Group</h3>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div>
+                <label class="form-label">Group Name</label>
+                <input id="editGroupName" class="form-input" value="${g.name}" />
+              </div>
+              <div>
+                <label class="form-label">Description</label>
+                <textarea id="editGroupDesc" class="form-input" style="min-height:56px;">${g.desc}</textarea>
+              </div>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-top:16px; gap:8px;">
+              <button class="btn btn-outline" style="color:#DC2626; border-color:#FECACA;" onclick="promptDeleteGroup('${g.id}')">
+                <i data-lucide="trash-2" class="lucide-sm"></i> Delete Group
+              </button>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-outline" onclick="closeEditStageModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveGroupEdit('${g.id}')">Save Changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function saveGroupEdit(id) {
+      const g = GROUPS.find(x => x.id === id);
+      if (!g) return;
+      const name = document.getElementById('editGroupName')?.value?.trim();
+      if (!name) { alert('Please enter a group name.'); return; }
+      g.name = name;
+      g.desc = document.getElementById('editGroupDesc')?.value?.trim() || g.desc;
+      g.updated = 'Updated just now';
+      closeEditStageModal();
+      renderCRM();
+    }
+
+    function promptDeleteGroup(id) {
+      const g = GROUPS.find(x => x.id === id);
+      if (!g) return;
+      const slot = document.getElementById('modalSlot');
+      if (!slot) return;
+      slot.innerHTML = `
+        <div class="edit-col-modal-backdrop" onclick="if(event.target===this) closeEditStageModal()">
+          <div class="edit-col-modal">
+            <h3 style="font-size:15px; font-weight:800; color:var(--text-dark); margin-bottom:8px;">Delete Group</h3>
+            <p style="font-size:11.5px; color:var(--text-muted); line-height:1.5;">
+              Permanently delete <strong>${g.name}</strong>? Deals inside this group will not be deleted — they simply leave the group.
+            </p>
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+              <button class="btn btn-outline" onclick="closeEditStageModal()">Cancel</button>
+              <button class="btn btn-outline" style="color:#DC2626; border-color:#FECACA;" onclick="confirmDeleteGroup('${g.id}')">Yes, Delete</button>
+            </div>
+          </div>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function confirmDeleteGroup(id) {
+      GROUPS = GROUPS.filter(x => x.id !== id);
+      if (currentGroup && currentGroup.id === id) currentGroup = null;
+      closeEditStageModal();
+      renderCRM();
     }
 
     function renderDealCard(d, stageColor) {
@@ -611,7 +1301,7 @@
       const deal = DEALS.find(d => d.id === dragDealId);
       if (deal && deal.stage !== targetStage) {
         deal.stage = targetStage;
-        renderBoard(document.getElementById('searchDeals')?.value || '');
+        renderCRM();
       }
       dragDealId = null;
     }
@@ -637,7 +1327,7 @@
       const newIdx = idx + dir;
       if (newIdx < 0 || newIdx >= STAGES.length) return;
       deal.stage = STAGES[newIdx].id;
-      renderBoard(document.getElementById('searchDeals')?.value || '');
+      renderCRM();
     }
 
     // ──────────────────────────────────────────────────────────────────────────
@@ -656,217 +1346,25 @@
     // FILTER DEALS
     // ──────────────────────────────────────────────────────────────────────────
     function filterDeals() {
-      const q = document.getElementById('searchDeals')?.value || '';
-      renderBoard(q);
+      if (currentGroup) renderCRM();
     }
 
     // ──────────────────────────────────────────────────────────────────────────
-    // EDIT STAGE MODAL
+    // CLOSE LOCAL MODAL
     // ──────────────────────────────────────────────────────────────────────────
-    function openEditStageModal(stageId) {
-      const stage = STAGES.find(s => s.id === stageId);
-      if (!stage) return;
-      const slot = document.getElementById('modalSlot');
-      if (!slot) return;
-      slot.innerHTML = `
-        <div id="editStageBackdrop" class="edit-col-modal-backdrop" onclick="if(event.target===this) closeEditStageModal()">
-          <div class="edit-col-modal">
-            <h3 style="font-size:15px; font-weight:800; color:var(--text-dark); margin-bottom:14px;">Edit Stage</h3>
-            <div style="display:flex; flex-direction:column; gap:10px;">
-              <div>
-                <label class="form-label">Stage Name</label>
-                <input id="editStageName" class="form-input" value="${stage.label}" />
-              </div>
-              <div>
-                <label class="form-label">Description</label>
-                <textarea id="editStageSub" class="form-input" style="min-height:56px;">${stage.sub}</textarea>
-              </div>
-            </div>
-            <div style="display:flex; justify-content:space-between; margin-top:16px; gap:8px;">
-              <button class="btn btn-outline" style="color:#DC2626; border-color:#FECACA;" onclick="deleteStage('${stageId}')">
-                <i data-lucide="trash-2" class="lucide-sm"></i> Delete Stage
-              </button>
-              <div style="display:flex; gap:8px;">
-                <button class="btn btn-outline" onclick="closeEditStageModal()">Cancel</button>
-                <button class="btn btn-primary" onclick="saveStageEdit('${stageId}')">Save Changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-      if (typeof lucide !== 'undefined') lucide.createIcons();
-    }
-
-    function saveStageEdit(stageId) {
-      const stage = STAGES.find(s => s.id === stageId);
-      if (!stage) return;
-      stage.label = document.getElementById('editStageName')?.value || stage.label;
-      stage.sub   = document.getElementById('editStageSub')?.value || stage.sub;
-      closeEditStageModal();
-      renderBoard();
-    }
-
-    function deleteStage(stageId) {
-      const hasDeals = DEALS.some(d => d.stage === stageId);
-      if (hasDeals) {
-        alert('Cannot delete a stage that contains deals. Move or remove all deals first.');
-        return;
-      }
-      if (!confirm('Are you sure you want to delete this stage?')) return;
-      STAGES = STAGES.filter(s => s.id !== stageId);
-      closeEditStageModal();
-      renderBoard();
-    }
-
     function closeEditStageModal() {
       const slot = document.getElementById('modalSlot');
       if (slot) slot.innerHTML = '';
     }
 
     // ──────────────────────────────────────────────────────────────────────────
-    // ADD STAGE MODAL
-    // ──────────────────────────────────────────────────────────────────────────
-    function openAddStageModal() {
-      const slot = document.getElementById('modalSlot');
-      if (!slot) return;
-      slot.innerHTML = `
-        <div id="editStageBackdrop" class="edit-col-modal-backdrop" onclick="if(event.target===this) closeEditStageModal()">
-          <div class="edit-col-modal">
-            <h3 style="font-size:15px; font-weight:800; color:var(--text-dark); margin-bottom:4px;">Add New Stage</h3>
-            <p style="font-size:11.5px; color:var(--text-muted); margin-bottom:14px;">Create a custom pipeline stage for your deal flow.</p>
-            <div style="display:flex; flex-direction:column; gap:10px;">
-              <div>
-                <label class="form-label">Stage Name</label>
-                <input id="newStageName" class="form-input" placeholder="e.g. Partner Review" />
-              </div>
-              <div>
-                <label class="form-label">Description</label>
-                <textarea id="newStageSub" class="form-input" style="min-height:56px;" placeholder="Brief description of what happens in this stage..."></textarea>
-              </div>
-              <div>
-                <label class="form-label">Insert After Stage</label>
-                <select id="newStagePosition" class="form-input">
-                  ${STAGES.map((s, i) => `<option value="${i}">${s.label}</option>`).join('')}
-                </select>
-              </div>
-            </div>
-            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
-              <button class="btn btn-outline" onclick="closeEditStageModal()">Cancel</button>
-              <button class="btn btn-primary" onclick="addNewStage()">
-                <i data-lucide="plus" class="lucide-sm"></i> Add Stage
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-      if (typeof lucide !== 'undefined') lucide.createIcons();
-    }
-
-    function addNewStage() {
-      const name = document.getElementById('newStageName')?.value?.trim();
-      const sub  = document.getElementById('newStageSub')?.value?.trim() || '';
-      const pos  = parseInt(document.getElementById('newStagePosition')?.value || 0);
-      if (!name) { alert('Please enter a stage name.'); return; }
-      const id = 'custom-' + Date.now();
-      STAGE_DOTS[id] = '#CBD5E1';
-      STAGES.splice(pos + 1, 0, { id, label: name, sub });
-      closeEditStageModal();
-      renderBoard();
-    }
-
-    // ──────────────────────────────────────────────────────────────────────────
-    // ADD DEAL MODAL
-    // ──────────────────────────────────────────────────────────────────────────
-    function openAddDealToStage(stageId) {
-      openAddDealModal(stageId);
-    }
-
-    function openAddDealModal(presetStageId = 'potential') {
-      const slot = document.getElementById('modalSlot');
-      if (!slot) return;
-      slot.innerHTML = `
-        <div class="edit-col-modal-backdrop" onclick="if(event.target===this) closeEditStageModal()">
-          <div class="edit-col-modal">
-            <h3 style="font-size:15px; font-weight:800; color:var(--text-dark); margin-bottom:14px;">Add New Deal</h3>
-            <div style="display:flex; flex-direction:column; gap:10px;">
-              <div>
-                <label class="form-label">Company Name</label>
-                <input id="newDealName" class="form-input" placeholder="e.g. StartupXYZ" />
-              </div>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                <div>
-                  <label class="form-label">Sector</label>
-                  <input id="newDealSector" class="form-input" placeholder="e.g. FinTech" />
-                </div>
-                <div>
-                  <label class="form-label">Stage</label>
-                  <select id="newDealStage" class="form-input">
-                    ${STAGES.map(s => `<option value="${s.id}" ${s.id === presetStageId ? 'selected' : ''}>${s.label}</option>`).join('')}
-                  </select>
-                </div>
-              </div>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                <div>
-                  <label class="form-label">Ask Amount</label>
-                  <input id="newDealAsk" class="form-input" placeholder="e.g. $2.00M" />
-                </div>
-                <div>
-                  <label class="form-label">ARR / Revenue</label>
-                  <input id="newDealArr" class="form-input" placeholder="e.g. $500K" />
-                </div>
-              </div>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                <div>
-                  <label class="form-label">Funding Stage</label>
-                  <select id="newDealFundingStage" class="form-input">
-                    <option>Pre-Seed</option><option>Seed</option><option>Series A</option><option>Series B</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="form-label">Assignee Initials</label>
-                  <input id="newDealAssignee" class="form-input" placeholder="e.g. SK" maxlength="2" />
-                </div>
-              </div>
-            </div>
-            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
-              <button class="btn btn-outline" onclick="closeEditStageModal()">Cancel</button>
-              <button class="btn btn-primary" onclick="addNewDeal()">
-                <i data-lucide="plus" class="lucide-sm"></i> Add Deal
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-      if (typeof lucide !== 'undefined') lucide.createIcons();
-    }
-
-    function addNewDeal() {
-      const name = document.getElementById('newDealName')?.value?.trim();
-      if (!name) { alert('Please enter a company name.'); return; }
-      const newDeal = {
-        id: 'deal-' + Date.now(),
-        stage: document.getElementById('newDealStage')?.value || 'potential',
-        name,
-        avatar: name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2),
-        sector: document.getElementById('newDealSector')?.value || 'N/A',
-        stageBadge: document.getElementById('newDealFundingStage')?.value || 'Seed',
-        ask: document.getElementById('newDealAsk')?.value || '—',
-        arr: document.getElementById('newDealArr')?.value || '—',
-        assignee: (document.getElementById('newDealAssignee')?.value || 'SK').toUpperCase().slice(0,2),
-        date: new Date().toLocaleDateString('en-US', { month:'short', day:'numeric' }),
-        priority: 'medium',
-        detailId: null
-      };
-      DEALS.push(newDeal);
-      closeEditStageModal();
-      renderBoard();
-    }
-
-    // ──────────────────────────────────────────────────────────────────────────
     // INIT
     // ──────────────────────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', () => {
-      renderBoard();
+      renderCRM();
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.group-menu-wrap')) closeGroupMenus();
+      });
     });
   </script>
 </body>

@@ -35,20 +35,9 @@
                 <h1 class="page-title">LP Commitments &amp; Capital Calls</h1>
                 <span class="badge-pill neutral-soft" id="viewModeBadge">LP &amp; Capital · Preview Mode</span>
               </div>
-              <p class="page-subtitle">Seedicon Venture Fund I (₹20 Cr) — Commitments come in from LPs. Issue a capital call only when the fund needs capital, and track payments as they are received.</p>
             </div>
 
             <div class="header-action-group">
-              <a href="./lps-management.html" class="btn btn-outline" style="text-decoration:none;" title="View LP Register & Compliance">
-                <i data-lucide="users" class="lucide-sm"></i>
-                <span>LP Directory</span>
-              </a>
-
-              <a href="./lp-reporting.html" class="btn btn-outline" style="text-decoration:none;" title="View LP Reporting Requests">
-                <i data-lucide="file-bar-chart" class="lucide-sm"></i>
-                <span>LP Reporting</span>
-              </a>
-
               <button class="btn btn-outline" title="Export register as CSV" onclick="alert('Commitment & Call Register (CSV) exported!')">
                 <i data-lucide="download" class="lucide-sm"></i>
                 <span>Export</span>
@@ -112,219 +101,107 @@
 
         </div>
 
-        <!-- 02. WORKSPACE (TABS + TABLES + RAIL) -->
-        <div class="cc-grid">
+        <!-- 02. FULL-WIDTH WORKSPACE (TABS + TABLES) -->
+        <div style="display:flex; flex-direction:column; gap:16px; width:100%;">
 
-          <!-- MAIN COLUMN -->
-          <div class="cc-main-col">
-
-            <!-- Tabs (Underline Style) -->
-            <div class="cc-tabs" role="tablist">
-              <button class="cc-tab active" id="tabCommitments" onclick="switchCC('commitments')">
-                <i data-lucide="clipboard-list" class="lucide-sm"></i>
-                <span>Commitments</span>
-                <span class="cc-tab-count">(<span id="tabCommitCount">16</span>)</span>
-              </button>
-              <button class="cc-tab" id="tabCallsList" onclick="switchCC('calls')">
-                <i data-lucide="coins" class="lucide-sm"></i>
-                <span>Capital Calls</span>
-                <span class="cc-tab-count">(<span id="tabCallsCount">2</span>)</span>
-              </button>
-            </div>
-
-            <!-- TAB 01: COMMITMENTS TABLE -->
-            <div id="panelCommitments">
-              <div class="table-card">
-                <div class="table-toolbar">
-                  <div class="table-toolbar-left">
-                    <strong style="font-size:12.5px; color:var(--text-dark);">LP Commitment Register</strong>
-                    <span class="badge-pill neutral-soft" id="commitAcceptedBadge">16 LPs</span>
-                  </div>
-                  <div style="display:flex; align-items:center; gap:8px;">
-                    <div class="inpage-search-box">
-                      <i data-lucide="search" class="search-icon"></i>
-                      <input type="text" class="inpage-search-input" placeholder="Search LP…" oninput="filterCommitments(this.value)" />
-                    </div>
-                  </div>
-                </div>
-
-                <table class="data-table">
-                  <thead>
-                    <tr>
-                      <th>LP Name</th>
-                      <th>LP Type</th>
-                      <th class="num">Commitment</th>
-                      <th class="num">Called</th>
-                      <th class="num">Paid</th>
-                      <th class="num">Uncalled</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody id="commitTableBody"><!-- Rendered by JS --></tbody>
-                </table>
-
-                <div class="table-footer">
-                  <span id="commitFooterNote">Commitments come in from LPs · Uncalled = Commitment − Called</span>
-                  <div style="display:flex; gap:6px;">
-                    <button class="pager-btn">← Prev</button>
-                    <button class="pager-btn">Next →</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- TAB 02: CAPITAL CALLS TABLE -->
-            <div id="panelCallsList" style="display:none;">
-              <div class="table-card">
-                <div class="table-toolbar">
-                  <div class="table-toolbar-left">
-                    <strong style="font-size:12.5px; color:var(--text-dark);">Capital Call Ledger</strong>
-                    <span class="badge-pill neutral-soft" id="callsOpenBadge">2 settled</span>
-                  </div>
-                  <div style="display:flex; align-items:center; gap:8px;">
-                    <button class="btn btn-outline btn-sm" onclick="openRecordPaymentModal()" style="gap:4px;">
-                      <i data-lucide="wallet" class="lucide-sm"></i>
-                      <span>Record payment</span>
-                    </button>
-                    <button class="btn btn-primary btn-sm" onclick="openCreateCallModal()" style="gap:4px;">
-                      <i data-lucide="plus"></i>
-                      <span>Create call</span>
-                    </button>
-                  </div>
-                </div>
-
-                <table class="data-table">
-                  <thead>
-                    <tr>
-                      <th>Call ID</th>
-                      <th>Fund</th>
-                      <th class="num">Call Amount</th>
-                      <th>Issue Date</th>
-                      <th>Due Date</th>
-                      <th class="num">Paid Amount</th>
-                      <th class="num">Outstanding</th>
-                      <th>Payment Status</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody id="callsTableBody"><!-- Rendered by JS --></tbody>
-                </table>
-
-                <div class="table-footer">
-                  <span>Read-only ledger — edit payments via <strong>Record payment</strong> on each call (audited). Outstanding = Call Amount − Paid</span>
-                  <div style="display:flex; gap:6px;">
-                    <button class="pager-btn">← Prev</button>
-                    <button class="pager-btn">Next →</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+          <!-- Tabs (Underline Style — No Icons) -->
+          <div class="cc-tabs" role="tablist">
+            <button class="cc-tab active" id="tabCommitments" onclick="switchCC('commitments')">
+              <span>Commitments</span>
+              <span class="cc-tab-count">(<span id="tabCommitCount">16</span>)</span>
+            </button>
+            <button class="cc-tab" id="tabCallsList" onclick="switchCC('calls')">
+              <span>Capital Calls</span>
+              <span class="cc-tab-count">(<span id="tabCallsCount">2</span>)</span>
+            </button>
           </div>
 
-          <!-- RIGHT RAIL COLUMN -->
-          <div class="cc-rail-col">
-
-            <!-- Fund Call Health Card -->
-            <div class="thesis-card">
-              <div class="thesis-card-head">
-                <div class="thesis-card-title">
-                  <i data-lucide="activity" class="lucide-sm"></i>
-                  <span>Fund Call Health</span>
+          <!-- TAB 01: COMMITMENTS TABLE -->
+          <div id="panelCommitments">
+            <div class="table-card">
+              <div class="table-toolbar">
+                <div class="table-toolbar-left">
+                  <strong style="font-size:12.5px; color:var(--text-dark);">LP Commitment Register</strong>
+                  <span class="badge-pill neutral-soft" id="commitAcceptedBadge">16 LPs</span>
                 </div>
-                <span class="badge-pill neutral-soft" id="healthCalledBadge">21.5% Called</span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <div class="inpage-search-box">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input type="text" class="inpage-search-input" placeholder="Search LP…" oninput="filterCommitments(this.value)" />
+                  </div>
+                </div>
               </div>
-              <div class="thesis-card-body" style="display:flex; flex-direction:column; gap:10px;">
-                <div>
-                  <div class="health-row">
-                    <span class="health-row-label">Called of Committed</span>
-                    <span class="health-row-value" id="healthCalled">₹4.30 Cr</span>
-                  </div>
-                  <div style="height:6px; background:var(--bg-muted); border-radius:4px; overflow:hidden; margin-top:5px;">
-                    <div style="width:21.5%; height:100%; background:var(--accent-graphite);" id="healthCalledBar"></div>
-                  </div>
-                </div>
-                <div>
-                  <div class="health-row">
-                    <span class="health-row-label">Collected of Called</span>
-                    <span class="health-row-value" id="healthCollected">₹4.30 Cr · 100%</span>
-                  </div>
-                  <div style="height:6px; background:var(--bg-muted); border-radius:4px; overflow:hidden; margin-top:5px;">
-                    <div style="width:100%; height:100%; background:var(--accent-graphite);" id="healthCollectedBar"></div>
-                  </div>
-                </div>
-                <div style="height:1px; background:var(--border-faint); margin:2px 0;"></div>
-                <div style="display:flex; flex-direction:column; gap:5px; font-size:11.5px; color:var(--text-muted);" id="healthChips">
-                  <div style="display:flex; justify-content:space-between;"><span>✓ CC-001 settled</span><span class="badge-pill neutral-dark">Paid</span></div>
-                  <div style="display:flex; justify-content:space-between;"><span>✓ CC-002 settled</span><span class="badge-pill neutral-dark">Paid</span></div>
-                  <div style="display:flex; justify-content:space-between;"><span>○ No outstanding calls</span><span class="badge-pill neutral-soft">—</span></div>
+
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>LP Name</th>
+                    <th>LP Type</th>
+                    <th class="num">Commitment</th>
+                    <th class="num">Called</th>
+                    <th class="num">Paid</th>
+                    <th class="num">Uncalled</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="commitTableBody"><!-- Rendered by JS --></tbody>
+              </table>
+
+              <div class="table-footer">
+                <span id="commitFooterNote">Commitments come in from LPs · Click any row to view details or accept pending LP</span>
+                <div style="display:flex; gap:6px;">
+                  <button class="pager-btn">← Prev</button>
+                  <button class="pager-btn">Next →</button>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Payment Ledger Card -->
-            <div class="thesis-card">
-              <div class="thesis-card-head">
-                <div class="thesis-card-title">
-                  <i data-lucide="wallet" class="lucide-sm"></i>
-                  <span>Payment Ledger</span>
+          <!-- TAB 02: CAPITAL CALLS TABLE -->
+          <div id="panelCallsList" style="display:none;">
+            <div class="table-card">
+              <div class="table-toolbar">
+                <div class="table-toolbar-left">
+                  <strong style="font-size:12.5px; color:var(--text-dark);">Capital Call Ledger</strong>
+                  <span class="badge-pill neutral-soft" id="callsOpenBadge">2 settled</span>
                 </div>
-                <a href="#" onclick="event.preventDefault(); switchCC('calls');" style="font-size:11px; font-weight:600; color:var(--text-dark); text-decoration:none;">View calls</a>
-              </div>
-              <div class="thesis-card-body" id="paymentLedger" style="padding-top:6px; padding-bottom:8px;"><!-- Rendered by JS --></div>
-            </div>
-
-            <!-- Payment Audit Trail Card -->
-            <div class="thesis-card">
-              <div class="thesis-card-head">
-                <div class="thesis-card-title">
-                  <i data-lucide="history" class="lucide-sm"></i>
-                  <span>Payment Audit Trail</span>
-                </div>
-                <a href="#" onclick="event.preventDefault(); openAuditTrail();" style="font-size:11px; font-weight:600; color:var(--text-dark); text-decoration:none;">View all</a>
-              </div>
-              <div class="thesis-card-body" id="paymentAuditBox" style="padding-top:6px; padding-bottom:8px;"><!-- Rendered by JS --></div>
-            </div>
-
-            <!-- Quick Actions Card -->
-            <div class="thesis-card">
-              <div class="thesis-card-head">
-                <div class="thesis-card-title">
-                  <i data-lucide="zap" class="lucide-sm"></i>
-                  <span>Quick Actions</span>
-                </div>
-              </div>
-              <div class="thesis-card-body" style="padding-top:12px; padding-bottom:14px;">
-                <div class="quick-actions-grid">
-
-                  <button class="qq-tile" onclick="openRecordPaymentModal()">
-                    <span class="qq-tile-icon"><i data-lucide="wallet" class="lucide-sm"></i></span>
-                    <span style="display:flex; flex-direction:column;">
-                      <span class="qq-tile-label">Record payment</span>
-                      <span class="qq-tile-sub" id="qqRecordSub">Manual receipt entry</span>
-                    </span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <button class="btn btn-outline btn-sm" onclick="openRecordPaymentModal()" style="gap:4px;">
+                    <i data-lucide="wallet" class="lucide-sm"></i>
+                    <span>Record payment</span>
                   </button>
-
-                  <button class="qq-tile" onclick="alert('Reminders sent to LPs with outstanding balances on open calls.')">
-                    <span class="qq-tile-icon"><i data-lucide="bell-ring" class="lucide-sm"></i></span>
-                    <span style="display:flex; flex-direction:column;">
-                      <span class="qq-tile-label">Send reminders</span>
-                      <span class="qq-tile-sub" id="qqRemindSub">Follow up on dues</span>
-                    </span>
+                  <button class="btn btn-primary btn-sm" onclick="openCreateCallModal()" style="gap:4px;">
+                    <i data-lucide="plus"></i>
+                    <span>Create call</span>
                   </button>
+                </div>
+              </div>
 
-                  <button class="qq-tile" onclick="openCreateCallModal()">
-                    <span class="qq-tile-icon"><i data-lucide="calendar-plus" class="lucide-sm"></i></span>
-                    <span style="display:flex; flex-direction:column;">
-                      <span class="qq-tile-label">Create call</span>
-                      <span class="qq-tile-sub">Draw when needed</span>
-                    </span>
-                  </button>
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Call ID</th>
+                    <th>Fund</th>
+                    <th class="num">Call Amount</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
+                    <th class="num">Paid Amount</th>
+                    <th class="num">Outstanding</th>
+                    <th>Payment Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="callsTableBody"><!-- Rendered by JS --></tbody>
+              </table>
 
+              <div class="table-footer">
+                <span>Read-only ledger — edit payments via <strong>Record payment</strong> on each call (audited). Outstanding = Call Amount − Paid</span>
+                <div style="display:flex; gap:6px;">
+                  <button class="pager-btn">← Prev</button>
+                  <button class="pager-btn">Next →</button>
                 </div>
               </div>
             </div>
-
           </div>
 
         </div>
@@ -494,11 +371,11 @@
     const filter = (window.__commitFilter || '').toLowerCase();
     const rows = LPs.map((lp, i) => {
       const uncalled = round2(lp.comm - lp.called);
-      return `<tr>
+      return `<tr onclick="openCommitmentDrawer('${lp.name.replace(/'/g, "\\'")}')" style="cursor:pointer;" title="Click to view commitment profile &amp; details">
         <td>
           <div class="lp-cell">
             <div class="lp-avatar">${initials(lp.name)}</div>
-            <span class="lp-name">${lp.name}</span>
+            <span class="lp-name" style="font-weight:700;">${lp.name}</span>
           </div>
         </td>
         <td><span class="lp-tag">${lp.type}</span></td>
@@ -519,6 +396,174 @@
   function filterCommitments(q) {
     window.__commitFilter = q;
     renderCommitmentsTable();
+  }
+
+  // ---------- CONDENSED LP COMMITMENT DRAWER & ACCEPT/REJECT ACTIONS ----------
+  function openCommitmentDrawer(lpName) {
+    const lp = LPs.find(x => x.name === lpName);
+    if (!lp) return;
+
+    const uncalled = round2(lp.comm - lp.called);
+    const allocPct = ((lp.comm / 20.00) * 100).toFixed(1);
+    const drawPct = lp.comm > 0 ? ((lp.called / lp.comm) * 100).toFixed(1) : '0.0';
+    const isPending = lp.status === 'Pending Acceptance';
+    const isAccepted = lp.status === 'Accepted';
+    const isDeclined = lp.status === 'Declined';
+
+    const statusBadgeClass = isAccepted ? 'accepted' : (isDeclined ? 'declined' : 'pending');
+
+    const bodyHtml = `
+      <div style="display:flex; flex-direction:column; gap:16px;">
+
+        <!-- LP Header Banner -->
+        <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:12px; border-bottom:1px solid var(--border-main);">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="lp-avatar" style="width:36px; height:36px; font-size:13px; border-radius:50%; background:#F0F0EE; display:flex; align-items:center; justify-content:center; font-weight:700; color:#2B2B28;">${initials(lp.name)}</div>
+            <div>
+              <div style="font-size:15px; font-weight:800; color:var(--text-dark);">${lp.name}</div>
+              <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
+                <span class="lp-tag" style="font-size:10px;">${lp.type}</span>
+                <span style="font-size:11px; color:var(--text-muted);">Seedicon Venture Fund I</span>
+              </div>
+            </div>
+          </div>
+          <span class="status-pill ${statusBadgeClass}">${lp.status}</span>
+        </div>
+
+        <!-- If Pending Acceptance: Decision Callout Box -->
+        ${isPending ? `
+          <div style="background:#FBFBFA; border:1px dashed #D4D4D0; border-radius:6px; padding:12px 14px; display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:#1A1A18;">
+              <i data-lucide="clock" style="width:14px; height:14px; color:#5A5A54;"></i>
+              <span>Pending GP Decision</span>
+            </div>
+            <p style="font-size:11.5px; color:#6A6A68; line-height:1.4; margin:0;">
+              This commitment proposal of <strong>${fmtCr(lp.comm)}</strong> was submitted by <strong>${lp.name}</strong> and requires GP confirmation before capital calls can be drawn.
+            </p>
+          </div>
+        ` : ''}
+
+        <!-- 4 Condensed Metric Cards Grid -->
+        <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px;">
+          <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; padding:10px 12px;">
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted);">Commitment</div>
+            <div style="font-size:14px; font-weight:800; color:var(--text-dark); margin-top:2px;">${fmtCr(lp.comm)}</div>
+            <div style="font-size:10px; color:var(--text-light); margin-top:1px;">${allocPct}% of fund</div>
+          </div>
+
+          <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; padding:10px 12px;">
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted);">Called</div>
+            <div style="font-size:14px; font-weight:800; color:var(--text-dark); margin-top:2px;">${fmtCr(lp.called)}</div>
+            <div style="font-size:10px; color:var(--text-light); margin-top:1px;">${drawPct}% drawn</div>
+          </div>
+
+          <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; padding:10px 12px;">
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted);">Paid</div>
+            <div style="font-size:14px; font-weight:800; color:var(--text-dark); margin-top:2px;">${fmtCr(lp.paid)}</div>
+            <div style="font-size:10px; color:var(--text-light); margin-top:1px;">100% settled</div>
+          </div>
+
+          <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; padding:10px 12px;">
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted);">Uncalled</div>
+            <div style="font-size:14px; font-weight:800; color:var(--text-dark); margin-top:2px;">${fmtCr(uncalled)}</div>
+            <div style="font-size:10px; color:var(--text-light); margin-top:1px;">Callable balance</div>
+          </div>
+        </div>
+
+        <!-- Condensed Key Details Table -->
+        <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; padding:10px 14px; display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px;">
+            <span style="color:var(--text-muted);">Investor Legal Entity</span>
+            <strong style="color:var(--text-dark);">${lp.name}</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11.5px;">
+            <span style="color:var(--text-muted);">Investor Classification</span>
+            <span style="color:var(--text-dark); font-weight:600;">${lp.type}</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11.5px;">
+            <span style="color:var(--text-muted);">Target Scheme</span>
+            <span style="color:var(--text-dark);">Seedicon Venture Fund I (₹20 Cr)</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11.5px;">
+            <span style="color:var(--text-muted);">Permanent Account Number (PAN)</span>
+            <span style="font-family:var(--font-mono); font-weight:600; color:var(--text-dark);">AAACK4910P</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11.5px;">
+            <span style="color:var(--text-muted);">Assigned GP Relationship Manager</span>
+            <span style="color:var(--text-dark);">Rahul Sharma (GP)</span>
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    let footerHtml = '';
+    if (isPending) {
+      footerHtml = `
+        <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+          <button class="btn btn-outline" style="color:#7A2E2E; border-color:#DFD8D8;" onclick="rejectCommitment('${lp.name.replace(/'/g, "\\'")}')">
+            <i data-lucide="x"></i>
+            <span>Decline Commitment</span>
+          </button>
+          <div style="display:flex; gap:8px;">
+            <button onclick="closeDrawer()" class="btn btn-outline">Cancel</button>
+            <button class="btn btn-primary" onclick="acceptCommitment('${lp.name.replace(/'/g, "\\'")}')">
+              <i data-lucide="check"></i>
+              <span>Accept Commitment</span>
+            </button>
+          </div>
+        </div>
+      `;
+    } else if (isAccepted) {
+      footerHtml = `
+        <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+          <span style="font-size:11px; color:var(--text-muted);">Active in Seedicon Venture Fund I</span>
+          <div style="display:flex; gap:8px;">
+            <button onclick="closeDrawer()" class="btn btn-outline">Close</button>
+            <button class="btn btn-primary" onclick="closeDrawer(); openCreateCallModal();">
+              <i data-lucide="coins"></i>
+              <span>Issue Capital Call</span>
+            </button>
+          </div>
+        </div>
+      `;
+    } else {
+      footerHtml = `
+        <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+          <span style="font-size:11px; color:var(--text-muted);">Commitment Declined</span>
+          <div style="display:flex; gap:8px;">
+            <button onclick="closeDrawer()" class="btn btn-outline">Close</button>
+            <button class="btn btn-primary" onclick="acceptCommitment('${lp.name.replace(/'/g, "\\'")}')">
+              <i data-lucide="rotate-ccw"></i>
+              <span>Re-evaluate &amp; Accept</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    openDrawer(lp.name, 'LP Commitment Profile', bodyHtml, footerHtml);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function acceptCommitment(lpName) {
+    const lp = LPs.find(x => x.name === lpName);
+    if (!lp) return;
+    lp.status = 'Accepted';
+    renderCommitmentsTable();
+    renderMetrics();
+    closeDrawer();
+    alert(`Commitment Accepted!\n\n${lp.name}'s commitment of ${fmtCr(lp.comm)} has been accepted into Seedicon Venture Fund I.`);
+  }
+
+  function rejectCommitment(lpName) {
+    const lp = LPs.find(x => x.name === lpName);
+    if (!lp) return;
+    lp.status = 'Declined';
+    renderCommitmentsTable();
+    renderMetrics();
+    closeDrawer();
+    alert(`Commitment Declined\n\n${lp.name}'s commitment has been declined.`);
   }
 
   // ---------- CAPITAL CALLS TABLE (READ-ONLY — edit via Record payment) ----------

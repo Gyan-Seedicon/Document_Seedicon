@@ -1238,25 +1238,19 @@ html, body {
   border-radius: 3px;
 }
 
-/* Two-Column Call Workspace */
+/* Full-Width Capital Call Workspace */
 .cc-grid {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 20px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
 }
 
 .cc-main-col {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  min-width: 0;
-}
-
-.cc-rail-col {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  width: 100%;
 }
 
 /* Tabs (Underline Style) */
@@ -1424,36 +1418,38 @@ html, body {
   white-space: nowrap;
 }
 
-/* Status Pills (Subtle Warm Light Grey Neutrals) */
+/* Status Pills (Squared Clean Monochrome Badges) */
 .status-pill {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 9px;
-  border-radius: 12px;
-  font-size: 10.5px;
-  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
 .status-pill.paid,
 .status-pill.accepted {
-  background: #E8E8E4;
-  color: #2B2B28;
-  border: 1px solid #C8C8BF;
+  background: #F0F0EE;
+  color: #1A1A18;
+  border: 1px solid #DCDCDA;
 }
 
 .status-pill.partial,
 .status-pill.declined {
-  background: #FFFFFF;
-  color: #4A4A46;
-  border: 1px solid #C8C8BF;
+  background: #FAFAFA;
+  color: #5A5A58;
+  border: 1px solid #DFDFDC;
 }
 
 .status-pill.pending {
-  background: #F4F4F0;
-  color: #5A5A54;
-  border: 1px dashed #C8C8BF;
+  background: #F7F7F5;
+  color: #7A7A76;
+  border: 1px solid #E2E2DF;
 }
 
 .row-action-btn {
