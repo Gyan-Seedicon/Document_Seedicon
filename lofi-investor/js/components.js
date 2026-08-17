@@ -216,7 +216,7 @@ const LayoutComponents = {
           <a href="./deal-crm.html" class="nav-item ${isActive('deal-crm')}">
             <div class="nav-item-left">
               <i data-lucide="kanban"></i>
-              <span>Deal CRM</span>
+              <span>Potential Startups</span>
             </div>
             <span class="nav-count">(14)</span>
           </a>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deal CRM — Seedicon Investor Platform</title>
+  <title>Potential Startups — Seedicon Investor Platform</title>
   <link rel="stylesheet" href="./css/styles.css">
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
@@ -620,32 +620,8 @@
 
       <main class="content-scrollable" style="padding:0; display:flex; flex-direction:column; background:#F8F8F6; overflow:hidden;">
 
-        <!-- PAGE TOP HEADER BAR -->
-        <header style="padding:10px 20px; background:#FFFFFF; border-bottom:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between; flex-shrink:0;">
-          <div>
-            <div style="display:flex; align-items:center; gap:8px;">
-              <h1 style="font-size:17px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em;">Deal CRM</h1>
-              <span class="badge-pill neutral-dark" id="totalDealsBadge">14 Active Deals</span>
-            </div>
-            <p style="font-size:11.5px; color:var(--text-muted); margin-top:1px;">
-              Track startup deals across your pipeline. Cards automatically move to <strong>Portfolio</strong> when Invested.
-            </p>
-          </div>
-
-          <div style="display:flex; align-items:center; gap:8px;">
-            <div style="display:flex; align-items:center; gap:6px; background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:5px 10px; font-size:12px; color:var(--text-muted);">
-              <i data-lucide="search" class="lucide-sm"></i>
-              <input type="text" id="searchDeals" onkeyup="filterDeals()" placeholder="Search deals..." style="border:none; background:transparent; outline:none; font-family:Inter; font-size:12px; width:160px; color:var(--text-dark);" />
-            </div>
-            <button class="btn btn-outline" style="font-size:12px;" onclick="openCreateGroupModal()">
-              <i data-lucide="folder-plus" class="lucide-sm"></i>
-              <span>New Group</span>
-            </button>
-          </div>
-        </header>
-
-        <!-- CRM ROOT (Groups / Group Detail) -->
-        <div id="dealCrmRoot" style="flex:1; overflow-y:auto; padding:16px 20px 20px;">
+        <!-- CRM ROOT (Groups Overview / Group Detail Workspace) -->
+        <div id="dealCrmRoot" style="flex:1; overflow-y:auto;">
           <!-- Rendered by JS -->
         </div>
 
@@ -808,57 +784,85 @@
       const badge = document.getElementById('totalDealsBadge');
       if (badge) {
         const active = DEALS.filter(d => d.stage !== 'invested').length;
-        badge.textContent = `${active} Active Deals`;
+        badge.textContent = `(${active} Active Deals)`;
       }
     }
 
     function renderGroups() {
       const root = document.getElementById('dealCrmRoot');
+      const activeDeals = DEALS.filter(d => d.stage !== 'invested').length;
+
       root.innerHTML = `
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+        <!-- Groups Overview Top Bar -->
+        <div style="padding:12px 20px; background:#FFFFFF; border-bottom:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; position:sticky; top:0; z-index:10;">
           <div>
-            <div style="font-size:13px; font-weight:800; color:var(--text-dark);">Deal Groups &amp; Categories</div>
-            <div style="font-size:11px; color:var(--text-muted);">Organize shortlisted startups into focused pipelines.</div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <h1 style="font-size:17px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em; margin:0;">Potential Startups</h1>
+              <span id="totalDealsBadge" style="font-size:12px; font-weight:600; color:var(--text-muted);">(${activeDeals} Active Deals)</span>
+            </div>
+            <p style="font-size:11.5px; color:var(--text-muted); margin-top:2px; margin-bottom:0;">
+              Track potential startups across your pipeline. Cards automatically move to <strong>Portfolio</strong> when Invested.
+            </p>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div style="display:flex; align-items:center; gap:6px; background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:5px 10px; font-size:12px; color:var(--text-muted);">
+              <i data-lucide="search" class="lucide-sm"></i>
+              <input type="text" id="searchDeals" onkeyup="filterDeals()" placeholder="Search deals..." style="border:none; background:transparent; outline:none; font-family:Inter; font-size:12px; width:160px; color:var(--text-dark);" />
+            </div>
+            <button class="btn btn-primary" style="font-size:12px;" onclick="openCreateGroupModal()">
+              <i data-lucide="folder-plus" class="lucide-sm"></i>
+              <span>New Group</span>
+            </button>
           </div>
         </div>
-        <div class="groups-grid">
-          ${GROUPS.map(g => {
-            const deals = groupDeals(g);
-            return `
-              <div class="group-card" onclick="openGroup('${g.id}')">
-                <div class="group-card-top">
-                  <div class="group-card-icon"><i data-lucide="folder"></i></div>
-                  <div style="flex:1; min-width:0;">
-                    <div style="display:flex; align-items:center; gap:6px;">
-                      <span class="group-card-name">${g.name}</span>
-                      <span class="group-card-count">(${deals.length})</span>
-                    </div>
-                    <div class="group-card-desc">${g.desc}</div>
-                  </div>
-                </div>
-                <div class="group-card-footer">
-                  <span class="group-card-updated"><i data-lucide="clock" style="width:10px; height:10px;"></i> ${g.updated}</span>
-                  <div class="group-menu-wrap" onclick="event.stopPropagation()">
-                    <button class="group-menu-btn" onclick="toggleGroupMenu(event,'${g.id}')" title="Group actions">
-                      <i data-lucide="more-horizontal" style="width:14px; height:14px;"></i>
-                    </button>
-                    <div class="group-menu" id="groupMenu_${g.id}">
-                      <button class="group-menu-item" onclick="openEditGroupModal('${g.id}')">
-                        <i data-lucide="pencil" style="width:12px; height:12px;"></i> Edit Group
-                      </button>
-                      <div class="group-menu-divider"></div>
-                      <button class="group-menu-item danger" onclick="promptDeleteGroup('${g.id}')">
-                        <i data-lucide="trash-2" style="width:12px; height:12px;"></i> Delete Group
-                      </button>
+
+        <div style="padding:16px 20px 20px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+            <div>
+              <div style="font-size:13px; font-weight:800; color:var(--text-dark);">Pipeline Groups &amp; Categories</div>
+              <div style="font-size:11px; color:var(--text-muted);">Organize shortlisted startups into focused pipelines.</div>
+            </div>
+          </div>
+          <div class="groups-grid">
+            ${GROUPS.map(g => {
+              const deals = groupDeals(g);
+              return `
+                <div class="group-card" onclick="openGroup('${g.id}')">
+                  <div class="group-card-top">
+                    <div class="group-card-icon"><i data-lucide="folder"></i></div>
+                    <div style="flex:1; min-width:0;">
+                      <div style="display:flex; align-items:center; gap:6px;">
+                        <span class="group-card-name">${g.name}</span>
+                        <span class="group-card-count">(${deals.length})</span>
+                      </div>
+                      <div class="group-card-desc">${g.desc}</div>
                     </div>
                   </div>
+                  <div class="group-card-footer">
+                    <span class="group-card-updated"><i data-lucide="clock" style="width:10px; height:10px;"></i> ${g.updated}</span>
+                    <div class="group-menu-wrap" onclick="event.stopPropagation()">
+                      <button class="group-menu-btn" onclick="toggleGroupMenu(event,'${g.id}')" title="Group actions">
+                        <i data-lucide="more-horizontal" style="width:14px; height:14px;"></i>
+                      </button>
+                      <div class="group-menu" id="groupMenu_${g.id}">
+                        <button class="group-menu-item" onclick="openEditGroupModal('${g.id}')">
+                          <i data-lucide="pencil" style="width:12px; height:12px;"></i> Edit Group
+                        </button>
+                        <div class="group-menu-divider"></div>
+                        <button class="group-menu-item danger" onclick="promptDeleteGroup('${g.id}')">
+                          <i data-lucide="trash-2" style="width:12px; height:12px;"></i> Delete Group
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            `;
-          }).join('')}
-          <div class="group-card add-group-card" onclick="openCreateGroupModal()">
-            <i data-lucide="plus" style="width:18px; height:18px; color:var(--text-muted);"></i>
-            <span>Create Group</span>
+              `;
+            }).join('')}
+            <div class="group-card add-group-card" onclick="openCreateGroupModal()">
+              <i data-lucide="plus" style="width:18px; height:18px; color:var(--text-muted);"></i>
+              <span>Create Group</span>
+            </div>
           </div>
         </div>
       `;
@@ -882,18 +886,31 @@
       const deals = groupDeals(g);
 
       root.innerHTML = `
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+        <!-- Top Sticky Header with Proper Breadcrumbs and Group Controls -->
+        <div style="padding:12px 20px; background:#FFFFFF; border-bottom:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; position:sticky; top:0; z-index:10;">
           <div>
-            <a onclick="goBackToGroups()" style="display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em; cursor:pointer; text-decoration:none;">
-              <i data-lucide="arrow-left" style="width:11px; height:11px;"></i> All Groups
-            </a>
-            <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
-              <h2 style="font-size:17px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em;">${g.name}</h2>
-              <span class="group-count-pill">(${deals.length})</span>
+            <!-- Breadcrumbs -->
+            <nav style="display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--text-muted); margin-bottom:4px;" aria-label="Breadcrumb">
+              <a onclick="goBackToGroups()" style="cursor:pointer; color:var(--text-muted); text-decoration:none; font-weight:600; transition:color 0.12s;" onmouseover="this.style.color='var(--text-dark)'" onmouseout="this.style.color='var(--text-muted)'">
+                Potential Startups
+              </a>
+              <i data-lucide="chevron-right" style="width:11px; height:11px; color:#A8A8A4;"></i>
+              <span style="color:var(--text-dark); font-weight:700;">${g.name}</span>
+            </nav>
+
+            <div style="display:flex; align-items:center; gap:8px;">
+              <h1 style="font-size:17px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em; margin:0;">${g.name}</h1>
+              <span style="font-size:12px; font-weight:600; color:var(--text-muted);">(${deals.length})</span>
             </div>
-            <p style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">${g.desc} · ${g.updated}</p>
+            <p style="font-size:11.5px; color:var(--text-muted); margin-top:2px; margin-bottom:0;">${g.desc} · ${g.updated}</p>
           </div>
-          <div style="display:flex; align-items:center; gap:8px;">
+
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <div style="display:flex; align-items:center; gap:6px; background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:5px 10px; font-size:12px; color:var(--text-muted);">
+              <i data-lucide="search" class="lucide-sm"></i>
+              <input type="text" id="searchDeals" onkeyup="filterDeals()" placeholder="Search in ${g.name}..." style="border:none; background:transparent; outline:none; font-family:Inter; font-size:12px; width:160px; color:var(--text-dark);" />
+            </div>
+
             <div class="view-toggle">
               <button id="btnGroupViewBoard" onclick="setGroupViewMode('board')" class="${groupViewMode === 'board' ? 'active' : ''}">
                 <i data-lucide="kanban" style="width:12px; height:12px;"></i> Board
@@ -907,7 +924,10 @@
             </div>
           </div>
         </div>
-        ${groupViewMode === 'board' ? renderGroupBoard(g) : groupViewMode === 'cards' ? renderGroupCards(g) : renderGroupList(g)}
+
+        <div style="padding:16px 20px 20px;">
+          ${groupViewMode === 'board' ? renderGroupBoard(g) : groupViewMode === 'cards' ? renderGroupCards(g) : renderGroupList(g)}
+        </div>
       `;
     }
 

@@ -263,6 +263,141 @@
       border-radius: 12px; background: #F0F0EE; border: 1px solid #DCDCDA;
       color: #2A2A28; white-space: nowrap;
     }
+
+    /* ════════════════════════════════════════════════════════════════
+       VDR MODALS & DROPDOWNS
+       ════════════════════════════════════════════════════════════════ */
+
+    /* Preset + popover dropdowns (unique names, unscoped ok) */
+    .preset-dropdown-menu {
+      position: absolute; top: calc(100% + 6px); right: 0;
+      background: #FFFFFF; border: 1px solid #E0E0DE; border-radius: 8px;
+      box-shadow: 0 16px 38px rgba(0,0,0,0.18); width: 240px; z-index: 999;
+      display: none; padding: 6px;
+    }
+    .preset-dropdown-menu.show { display: block; }
+    .preset-item {
+      padding: 7px 10px; font-size: 11.5px; font-weight: 600; color: #3A3A38;
+      border-radius: 4px; cursor: pointer; display: flex; align-items: center;
+      justify-content: space-between; transition: background 0.1s;
+    }
+    .preset-item:hover { background: #F5F5F3; color: #1A1A18; }
+    .doc-popover-menu {
+      position: fixed; width: 190px; background: #FFFFFF; border: 1px solid #E0E0DE;
+      border-radius: 7px; box-shadow: 0 10px 24px rgba(0,0,0,0.12); z-index: 9999;
+      padding: 4px; animation: fadeInPop 0.1s ease;
+    }
+    @keyframes fadeInPop { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
+    .popover-item {
+      padding: 7px 10px; font-size: 11.5px; font-weight: 600; color: #3A3A38;
+      border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 7px;
+      transition: background 0.1s, color 0.1s;
+    }
+    .popover-item:hover { background: #F5F5F3; color: #1A1A18; }
+    .popover-item.danger { color: #DC2626; }
+    .popover-item.danger:hover { background: #FEF2F2; color: #DC2626; }
+
+    /* Local VDR modal */
+    .vdr-modal-backdrop {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.35); z-index: 99999;
+      display: flex; align-items: center; justify-content: center; animation: fadeInBd 0.12s ease;
+    }
+    @keyframes fadeInBd { from { opacity:0; } to { opacity:1; } }
+    .vdr-modal-box {
+      background: #FFFFFF; border-radius: 8px; border: 1px solid #E0E0DE;
+      width: 440px; max-width: 94vw; padding: 0; box-shadow: 0 16px 40px rgba(0,0,0,0.14);
+      animation: slideUpMd 0.14s ease;
+    }
+    @keyframes slideUpMd { from { transform: translateY(12px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+    .vdr-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid #EBEBEA; padding: 14px 18px;
+    }
+    .vdr-modal-title { font-size: 14px; font-weight: 800; color: #1A1A18; }
+    .vdr-modal-close {
+      background: transparent; border: none; cursor: pointer; color: #7A7A78;
+      display: flex; align-items: center; justify-content: center; width: 28px; height: 28px;
+      border-radius: 5px; transition: background 0.1s; font-size: 18px; line-height: 1;
+    }
+    .vdr-modal-close:hover { background: #F0F0EE; color: #1A1A18; }
+    .vdr-modal-body { padding: 18px; }
+    .vdr-modal-footer { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 18px; border-top: 1px solid #EBEBEA; }
+
+    .field-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .field-group:last-child { margin-bottom: 0; }
+    .field-label { font-size: 10.5px; font-weight: 700; color: #4A4A48; text-transform: uppercase; letter-spacing: 0.05em; }
+    .field-input {
+      border: 1px solid #E0E0DE; border-radius: 6px; padding: 8px 10px;
+      font-size: 12px; font-family: Inter, sans-serif; color: #1A1A18;
+      background: #FAFAFA; outline: none; transition: border-color 0.12s;
+      width: 100%; box-sizing: border-box;
+    }
+    .field-input:focus { border-color: #1A1A18; background: #FFFFFF; }
+    .field-select { cursor: pointer; }
+
+    .btn-modal-cancel {
+      font-size: 11.5px; font-weight: 700; border: 1px solid #DCDCDA; border-radius: 6px;
+      padding: 7px 14px; cursor: pointer; background: #F5F5F3; color: #3A3A38;
+      font-family: Inter, sans-serif; transition: background 0.1s;
+    }
+    .btn-modal-cancel:hover { background: #EBEBEA; }
+    .btn-modal-primary {
+      font-size: 11.5px; font-weight: 700; border: 1px solid #1A1A18; border-radius: 6px;
+      padding: 7px 14px; cursor: pointer; background: #1A1A18; color: #FFFFFF;
+      font-family: Inter, sans-serif; transition: background 0.1s;
+    }
+    .btn-modal-primary:hover { background: #2A2A28; }
+    .btn-modal-danger {
+      font-size: 11.5px; font-weight: 700; border: 1px solid #FECACA; border-radius: 6px;
+      padding: 7px 14px; cursor: pointer; background: #FEF2F2; color: #DC2626;
+      font-family: Inter, sans-serif; transition: background 0.1s;
+    }
+    .btn-modal-danger:hover { background: #FEE2E2; }
+
+    /* VDR scoped shared table */
+    #vdrReplicaMount .table-card {
+      background: #FFFFFF; border: 1px solid #DFDEDE; border-radius: 8px;
+      overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    #vdrReplicaMount .table-toolbar {
+      padding: 10px 16px; background: #FFFFFF; border-bottom: 1px solid #EBEBEA;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    #vdrReplicaMount .table-toolbar-left { display: flex; align-items: center; gap: 8px; }
+    #vdrReplicaMount .data-table { width: 100%; border-collapse: collapse; min-width: 0; }
+    #vdrReplicaMount .data-table th {
+      text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: #8C8C88; padding: 9px 14px;
+      border-bottom: 1px solid #EBEBEA; background: #FAFAFA;
+    }
+    #vdrReplicaMount .data-table td {
+      padding: 10px 14px; font-size: 12px; color: #3A3A38;
+      border-bottom: 1px solid #F3F3F1; vertical-align: middle;
+    }
+    #vdrReplicaMount .data-table tr:last-child td { border-bottom: none; }
+    #vdrReplicaMount .data-table tr:hover td { background: #FAFAFA; }
+    #vdrReplicaMount .table-footer {
+      padding: 10px 16px; background: #FAFAFA; border-top: 1px solid #EBEBEA;
+      font-size: 11px; color: #8C8C88;
+    }
+    #vdrReplicaMount .vdr-action-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; border-radius: 5px;
+      border: 1px solid #E0E0DE; background: #FFFFFF; cursor: pointer; color: #7A7A78;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+    }
+    #vdrReplicaMount .vdr-action-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+    #vdrReplicaMount .vdr-action-btn.danger { color: #DC2626; border-color: #FECACA; }
+    #vdrReplicaMount .vdr-action-btn.danger:hover { background: #DC2626; border-color: #DC2626; color: #FFFFFF; }
+    #vdrReplicaMount .doc-btn {
+      display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px;
+      font-size: 11px; font-weight: 600; color: #5A5A58; background: #FFFFFF;
+      border: 1px solid #E0E0DE; border-radius: 5px; cursor: pointer;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+      font-family: Inter, sans-serif; white-space: nowrap;
+    }
+    #vdrReplicaMount .doc-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
   </style>
 </head>
 <body>
@@ -329,10 +464,35 @@
               <i data-lucide="history" class="lucide-sm"></i>
               <span>History</span>
             </button>
-            <button class="btn" id="btnAddPotential" style="font-size:12px; font-weight:700; background:#FFFBEB; border:1px solid #FCD34D; color:#92400E; display:flex; align-items:center; gap:6px;" onclick="confirmAddPotential()">
-              <i data-lucide="star" class="lucide-sm" style="fill:#F59E0B; color:#F59E0B;"></i>
-              <span>Add as Potential</span>
-            </button>
+            <div style="position:relative;">
+              <button class="btn" id="btnAddPotential" style="font-size:12px; font-weight:700; background:#FFFBEB; border:1px solid #FCD34D; color:#92400E; display:flex; align-items:center; gap:6px;" onclick="toggleAddPotentialMenu(event)">
+                <i data-lucide="star" class="lucide-sm" style="fill:#F59E0B; color:#F59E0B;"></i>
+                <span>Add as Potential</span>
+              </button>
+              <div id="addPotentialMenu" class="action-dropdown-menu" style="display:none; width:230px;">
+                <div style="font-size:9.5px; font-weight:800; color:#9A9A96; text-transform:uppercase; padding:7px 12px 4px; letter-spacing:0.05em;">Add to Potential Startups Group</div>
+                <div class="action-dropdown-item" onclick="addPotentialToGroup('B2B SaaS &amp; AI')">
+                  <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                  <span>B2B SaaS &amp; AI</span>
+                </div>
+                <div class="action-dropdown-item" onclick="addPotentialToGroup('Healthcare &amp; Bio')">
+                  <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                  <span>Healthcare &amp; Bio</span>
+                </div>
+                <div class="action-dropdown-item" onclick="addPotentialToGroup('FinTech &amp; Payments')">
+                  <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                  <span>FinTech &amp; Payments</span>
+                </div>
+                <div class="action-dropdown-item" onclick="addPotentialToGroup('Climate &amp; Agri')">
+                  <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                  <span>Climate &amp; Agri</span>
+                </div>
+                <div class="action-dropdown-item" onclick="addPotentialToGroup('Mobility &amp; Logistics')">
+                  <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                  <span>Mobility &amp; Logistics</span>
+                </div>
+              </div>
+            </div>
             <button class="btn btn-outline" style="font-size:12px; color:var(--text-muted); border-color:var(--border-main); opacity:0.85;" onclick="downloadPackage()" title="Download Due Diligence Package">
               <i data-lucide="download" class="lucide-sm"></i>
               <span>Download</span>
@@ -343,8 +503,15 @@
 
         <!-- RECORD TABS (UNDERLINE, NO ICONS, COUNTS IN BRACKETS) -->
         <div class="cc-tabs" style="margin-bottom:6px;">
-          <button class="cc-tab active" id="tabNavDetails" onclick="switchRecordTab('details')">
-            <span>Details</span>
+          <button class="cc-tab active" id="tabNavCompany" onclick="switchRecordTab('company')">
+            <span>Company</span>
+          </button>
+          <button class="cc-tab" id="tabNavVdr" onclick="switchRecordTab('vdr')">
+            <span>VDR</span>
+            <span class="cc-tab-count">(10)</span>
+          </button>
+          <button class="cc-tab" id="tabNavTermsheet" onclick="switchRecordTab('termsheet')">
+            <span>Term Sheet</span>
           </button>
           <button class="cc-tab" id="tabNavReports" onclick="switchRecordTab('reports')">
             <span>Founders Reporting</span>
@@ -354,10 +521,13 @@
             <span>Portfolio Management</span>
             <span class="cc-tab-count">(1)</span>
           </button>
+          <button class="cc-tab" id="tabNavHistory" onclick="switchRecordTab('history')">
+            <span>History</span>
+          </button>
         </div>
 
         <!-- MAIN CONTENT WORKSPACE GRID (LEFT RAIL + RIGHT SECTIONS - CONDENSED GAP) -->
-        <div id="tabPaneDetails" style="display:grid; grid-template-columns:220px 1fr; gap:14px; align-items:start;">
+        <div id="tabPaneCompany" style="display:grid; grid-template-columns:220px 1fr; gap:14px; align-items:start;">
           
           <!-- LEFT CONNECTED NAVIGATION RAIL -->
           <div class="nav-rail-wrapper">
@@ -780,12 +950,191 @@
           <div id="portfolioHoldingsComponent"></div>
         </div>
 
+        <!-- TAB PANE: VDR (STARTUP SUBMITTED DOCUMENTS & DUE DILIGENCE REVIEW) -->
+        <div id="tabPaneVdr" style="display:none;">
+          <div class="table-card" style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+            <!-- TOOLBAR -->
+            <div class="table-toolbar" style="padding:12px 18px; background:#FFFFFF; border-bottom:1px solid #EBEBEA; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+              <div class="table-toolbar-left" style="display:flex; align-items:center; gap:10px;">
+                <strong style="font-size:13px; font-weight:800; color:#1A1A18; letter-spacing:-0.01em;">Submitted Documents &amp; Due Diligence Review</strong>
+                <span class="badge-pill neutral-soft" id="vdrStartupBadge" style="font-size:10.5px; font-weight:600; padding:2px 8px; background:#F0F0EE; color:#5A5A58; border-radius:4px;">Alpha Health Submissions</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <button class="btn btn-primary" onclick="openShareWithDDTeam()" style="font-size:11.5px; padding:6px 12px; display:inline-flex; align-items:center; gap:6px; background:#1A1A18; color:#FFFFFF; border-radius:5px; font-weight:700;">
+                  <i data-lucide="users" style="width:13px; height:13px;"></i>
+                  <span>Share with DD Team</span>
+                </button>
+                <button class="btn btn-outline" onclick="resendAccessLink()" style="font-size:11.5px; padding:6px 12px; display:inline-flex; align-items:center; gap:6px; background:#FFFFFF; border:1px solid #E0E0DE; border-radius:5px; color:#3A3A38; font-weight:600;">
+                  <i data-lucide="send" style="width:13px; height:13px;"></i>
+                  <span>Resend Access Link</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- TABLE -->
+            <div class="table-scroll">
+              <table class="data-table" style="width:100%; border-collapse:collapse; min-width:980px;">
+                <thead>
+                  <tr style="background:#FAFAFA; border-bottom:1px solid #EBEBEA;">
+                    <th style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">DOCUMENT NAME</th>
+                    <th style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">TYPE</th>
+                    <th style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">LAST UPDATED ON</th>
+                    <th style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">SUBMITTED DOCUMENT FILE</th>
+                    <th style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">TEMPLATE</th>
+                    <th style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">STATUS</th>
+                    <th style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:right;">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="vdrStartupSubmissionsTableBody">
+                  <!-- Dynamically rendered via renderVdrSubmittedDocsTable() -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="table-footer" style="padding:10px 18px; background:#FAFAFA; border-top:1px solid #EBEBEA; font-size:11.5px; color:#8C8C88;">
+              Review submitted files and approve or reject with comments for founder re-uploading
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB PANE: TERM SHEET -->
+        <div id="tabPaneTermsheet" style="display:none;">
+          <div id="termSheetComponent" style="display:flex; flex-direction:column; gap:14px;">
+            <!-- TERM SHEET HEADER CARD -->
+            <div style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:14px 18px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <div style="width:38px; height:38px; border-radius:7px; background:#1A1A18; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px;" id="tsAvatar">AH</div>
+                  <div>
+                    <div style="font-size:9px; font-weight:800; color:#8A8A88; text-transform:uppercase; letter-spacing:0.06em;">Term Sheet — Proposed Terms</div>
+                    <div style="font-size:15px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em;" id="tsTitle">Alpha Health 1 · Pre-Seed Round</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="font-size:9.5px; font-weight:800; padding:3px 8px; background:#F0F0EE; color:#1A1A18; border:1px solid #DCDCDA; border-radius:4px; text-transform:uppercase; letter-spacing:0.04em;">Draft</span>
+                  <button class="doc-btn" onclick="termSheetAction('Export Term Sheet')">
+                    <i data-lucide="download" style="width:11px; height:11px;"></i> Export PDF
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ECONOMIC TERMS -->
+            <div class="detail-card">
+              <div class="detail-sec-header">Key Economic Terms</div>
+              <div class="kv-rows-container">
+                <div class="kv-row"><div class="kv-label">Security Type</div><div class="kv-value">Series Seed Preferred Stock</div></div>
+                <div class="kv-row"><div class="kv-label">Total Investment</div><div class="kv-value" style="font-weight:700;" id="tsAsk">$3.00M</div></div>
+                <div class="kv-row"><div class="kv-label">Pre-Money Valuation</div><div class="kv-value">$12.00M</div></div>
+                <div class="kv-row"><div class="kv-label">Post-Money Valuation</div><div class="kv-value">$15.00M</div></div>
+                <div class="kv-row"><div class="kv-label">Liquidation Preference</div><div class="kv-value">1x Non-Participating</div></div>
+                <div class="kv-row"><div class="kv-label">Dividends</div><div class="kv-value">None — Non-Cumulative</div></div>
+                <div class="kv-row"><div class="kv-label">Anti-Dilution</div><div class="kv-value">Weighted Average (Broad-Based)</div></div>
+                <div class="kv-row"><div class="kv-label">Conversion</div><div class="kv-value">1:1 Preferred → Common, at Qualified Financing or IPO</div></div>
+              </div>
+            </div>
+
+            <!-- GOVERNANCE TERMS -->
+            <div class="detail-card">
+              <div class="detail-sec-header">Governance &amp; Control</div>
+              <div class="kv-rows-container">
+                <div class="kv-row"><div class="kv-label">Board Composition</div><div class="kv-value">3 Seats — 1 Founder, 1 Investor, 1 Independent</div></div>
+                <div class="kv-row"><div class="kv-label">Protective Provisions</div><div class="kv-value">Standard — Sale, Liquidation, Dilution, Indebtedness</div></div>
+                <div class="kv-row"><div class="kv-label">Information Rights</div><div class="kv-value">Quarterly financials &amp; annual budget</div></div>
+                <div class="kv-row"><div class="kv-label">Observer Rights</div><div class="kv-value">None</div></div>
+              </div>
+            </div>
+
+            <!-- FOUNDER & VESTING TERMS -->
+            <div class="detail-card">
+              <div class="detail-sec-header">Founder &amp; Vesting Terms</div>
+              <div class="kv-rows-container">
+                <div class="kv-row"><div class="kv-label">Founder Vesting</div><div class="kv-value">4-Year Monthly Vest, 1-Year Cliff</div></div>
+                <div class="kv-row"><div class="kv-label">Reverse Vesting</div><div class="kv-value">Standard</div></div>
+                <div class="kv-row"><div class="kv-label">IP Assignment</div><div class="kv-value">Full assignment on closing</div></div>
+                <div class="kv-row"><div class="kv-label">Employee Option Pool</div><div class="kv-value">10% post-money reserve</div></div>
+              </div>
+            </div>
+
+            <!-- CONDITIONS & EXCLUSIVITY -->
+            <div class="detail-card">
+              <div class="detail-sec-header">Conditions &amp; Exclusivity</div>
+              <div class="kv-rows-container">
+                <div class="kv-row"><div class="kv-label">Exclusivity / No-Shop</div><div class="kv-value">45 Days</div></div>
+                <div class="kv-row"><div class="kv-label">Due Diligence Period</div><div class="kv-value">30 Days</div></div>
+                <div class="kv-row"><div class="kv-label">Governing Law</div><div class="kv-value" id="tsJurisdiction">Delaware, USA</div></div>
+                <div class="kv-row"><div class="kv-label">Expiry Date</div><div class="kv-value">30 days from date of issuance</div></div>
+              </div>
+            </div>
+
+            <!-- FOOTER NOTE -->
+            <div style="background:#FFFFFF; border:1px dashed #DCDCDA; border-radius:8px; padding:12px 16px; display:flex; align-items:center; gap:10px; font-size:11.5px; color:#6A6A68;">
+              <i data-lucide="info" style="width:14px; height:14px; color:#8A8A88; flex-shrink:0;"></i>
+              <span>Term sheet is non-binding except for the exclusivity and confidentiality provisions. Subject to final legal review and customary closing conditions.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB PANE: HISTORY (SAME CONTENT AS HEADER HISTORY DRAWER) -->
+        <div id="tabPaneHistory" style="display:none;">
+          <div id="historyTabComponent" style="display:flex; flex-direction:column; gap:14px;">
+            <div style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:14px 18px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+                <div>
+                  <div style="font-size:9px; font-weight:800; color:#8A8A88; text-transform:uppercase; letter-spacing:0.06em;">Submission History &amp; Audit Trail</div>
+                  <div style="font-size:15px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em;" id="histTitle">Alpha Health 1 · Record Activity</div>
+                </div>
+                <span class="badge-pill neutral-soft">4 Events</span>
+              </div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:16px; position:relative; padding-left:18px; background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:16px 18px 16px 34px;">
+              <div style="position:absolute; left:10px; top:18px; bottom:18px; width:1.5px; background:var(--border-main);"></div>
+
+              <div style="position:relative; font-size:12px;">
+                <div style="position:absolute; left:-27px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--accent-graphite);"></div>
+                <div style="font-weight:700; color:var(--text-dark);">Submitted Inbound Application</div>
+                <div style="font-size:11px; color:var(--text-muted);">Feb 28, 2026 10:14 AM via Public Intake Link</div>
+              </div>
+
+              <div style="position:relative; font-size:12px;">
+                <div style="position:absolute; left:-27px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--border-strong);"></div>
+                <div style="font-weight:700; color:var(--text-dark);">Automated Compliance Verification</div>
+                <div style="font-size:11px; color:var(--text-muted);">Feb 28, 2026 10:15 AM · 13 sections verified</div>
+              </div>
+
+              <div style="position:relative; font-size:12px;">
+                <div style="position:absolute; left:-27px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--border-strong);"></div>
+                <div style="font-weight:700; color:var(--text-dark);">Assigned to Investment Team</div>
+                <div style="font-size:11px; color:var(--text-muted);">Mar 01, 2026 09:30 AM · Lead: Ananya Roy</div>
+              </div>
+
+              <div style="position:relative; font-size:12px;">
+                <div style="position:absolute; left:-27px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--border-strong);"></div>
+                <div style="font-weight:700; color:var(--text-dark);">Pitch Deck Downloaded</div>
+                <div style="font-size:11px; color:var(--text-muted);">Mar 02, 2026 02:15 PM by Shikhar Kapoor</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   </div>
 
   <!-- Global Modal & Drawer Slots -->
   <div id="modalSlot"></div>
+
+  <!-- Local VDR Modal (scoped replica of vdr-detail.html) -->
+  <div id="vdrModalBackdrop" style="display:none;" class="vdr-modal-backdrop" onclick="handleVDRBackdropClick(event)">
+    <div class="vdr-modal-box" onclick="event.stopPropagation()">
+      <div class="vdr-modal-header">
+        <span class="vdr-modal-title" id="vdrModalTitle">Modal</span>
+        <button class="vdr-modal-close" onclick="hideVDRModal()" title="Close">&#x2715;</button>
+      </div>
+      <div class="vdr-modal-body" id="vdrModalBody"></div>
+    </div>
+  </div>
 
   <script src="./js/components.js"></script>
   <script src="./js/app.js"></script>
@@ -882,6 +1231,17 @@
       document.getElementById('valJurisdiction').textContent = s.jurisdiction;
       document.getElementById('valComp').textContent = s.comp;
       document.getElementById('valCompWeb').textContent = s.compWeb;
+
+      const tsAvatar = document.getElementById('tsAvatar');
+      const tsTitle = document.getElementById('tsTitle');
+      const tsAsk = document.getElementById('tsAsk');
+      const tsJurisdiction = document.getElementById('tsJurisdiction');
+      const histTitle = document.getElementById('histTitle');
+      if (tsAvatar) tsAvatar.textContent = s.avatar;
+      if (tsTitle) tsTitle.textContent = `${s.name} · ${s.stage} Round`;
+      if (tsAsk) tsAsk.textContent = s.ask;
+      if (tsJurisdiction) tsJurisdiction.textContent = s.jurisdiction;
+      if (histTitle) histTitle.textContent = `${s.name} · Record Activity`;
 
       if (typeof lucide !== 'undefined') lucide.createIcons();
     });
@@ -995,71 +1355,20 @@
     }
 
     // ──────────────────────────────────────────────────────────────────────────
-    // CONFIRM ADD TO POTENTIAL (ROBUST CONFIRMATION MODAL POPUP)
+    // ADD AS POTENTIAL (CONTEXT MENU WITH DEAL CRM GROUPS — TOAST ONLY)
     // ──────────────────────────────────────────────────────────────────────────
-    function confirmAddPotential() {
-      const modalBody = `
-        <div style="display:flex; flex-direction:column; gap:14px;">
-          <p style="font-size:13px; color:var(--text-dark); line-height:1.5; font-weight:500;">
-            Are you sure you want to add <strong>${currentStartup.name}</strong> as a <strong>Potential Deal</strong>?
-          </p>
-
-          <div style="background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:12px; display:flex; align-items:center; gap:10px; font-size:12px; color:var(--text-dark);">
-            <i data-lucide="sparkles" class="lucide-sm" style="color:#D97706; flex-shrink:0;"></i>
-            <span>Your startup will be visible in the <strong>Deal CRM</strong> now.</span>
-          </div>
-
-          <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
-            <button class="btn btn-outline" onclick="closeModalDirect()">Cancel</button>
-            <button class="btn btn-primary" onclick="executeAddPotential()">Confirm &amp; Add to Deal CRM</button>
-          </div>
-        </div>
-      `;
-
-      if (typeof openModal === 'function') {
-        openModal('Confirm Action', modalBody);
-      } else {
-        const slot = document.getElementById('modalSlot');
-        if (slot) {
-          slot.innerHTML = `
-            <div id="modalOverlay" style="position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:999; display:flex; align-items:center; justify-content:center;">
-              <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:8px; padding:20px; width:420px; box-shadow:0 10px 25px rgba(0,0,0,0.15);">
-                <div style="font-size:16px; font-weight:800; color:var(--text-dark); margin-bottom:12px;">Confirm Action</div>
-                ${modalBody}
-              </div>
-            </div>
-          `;
-        }
-      }
-
+    function toggleAddPotentialMenu(e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('addPotentialMenu');
+      const isVisible = menu && menu.style.display === 'block';
+      hideReportMenus();
+      if (menu && !isVisible) menu.style.display = 'block';
       if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 
-    function closeModalDirect() {
-      const overlay = document.getElementById('modalOverlay');
-      if (overlay) overlay.style.display = 'none';
-    }
-
-    function executeAddPotential() {
-      closeModalDirect();
-      
-      const badge = document.getElementById('headerStatus');
-      if (badge) {
-        badge.textContent = 'Status: Potential (In Deal CRM)';
-        badge.style.background = '#ECFDF5';
-        badge.style.color = '#065F46';
-      }
-
-      const btn = document.getElementById('btnAddPotential');
-      if (btn) {
-        btn.style.background = '#ECFDF5';
-        btn.style.borderColor = '#A7F3D0';
-        btn.style.color = '#065F46';
-        btn.innerHTML = `<i data-lucide="check-circle" class="lucide-sm" style="color:#059669;"></i> <span>Added to Deal CRM</span>`;
-      }
-
-      alert(`✨ ${currentStartup.name} has been added as a Potential Deal!\n\nYour startup will be visible in the Deal CRM now.`);
-      if (typeof lucide !== 'undefined') lucide.createIcons();
+    function addPotentialToGroup(groupName) {
+      hideReportMenus();
+      if (window.showToast) window.showToast(`${currentStartup.name} added to "${groupName}" group in Potential Startups`);
     }
 
     function downloadPackage() {
@@ -1431,6 +1740,7 @@
     function renderRecordTables() {
       renderFounderReportsComponent();
       renderPortfolioHoldingsComponent();
+      renderVdrSubmittedDocsTable();
       const repCount = document.getElementById('tabReportsCount');
       if (repCount) {
         const n = COMPANY_REPORTS.filter(r => r.name === currentStartup.name || r.avatar === currentStartup.avatar).length || 1;
@@ -1439,14 +1749,18 @@
     }
 
     function switchRecordTab(tab) {
-      const tabIds = { details: 'tabNavDetails', reports: 'tabNavReports', holdings: 'tabNavHoldings' };
-      const paneIds = { details: 'tabPaneDetails', reports: 'tabPaneReports', holdings: 'tabPaneHoldings' };
+      const tabIds = { company: 'tabNavCompany', vdr: 'tabNavVdr', termsheet: 'tabNavTermsheet', reports: 'tabNavReports', holdings: 'tabNavHoldings', history: 'tabNavHistory' };
+      const paneIds = { company: 'tabPaneCompany', vdr: 'tabPaneVdr', termsheet: 'tabPaneTermsheet', reports: 'tabPaneReports', holdings: 'tabPaneHoldings', history: 'tabPaneHistory' };
 
       Object.keys(tabIds).forEach(k => {
         document.getElementById(tabIds[k])?.classList.toggle('active', k === tab);
         const pane = document.getElementById(paneIds[k]);
-        if (pane) pane.style.display = k === tab ? (k === 'details' ? 'grid' : 'block') : 'none';
+        if (pane) pane.style.display = k === tab ? (k === 'company' ? 'grid' : 'block') : 'none';
       });
+
+      if (tab === 'vdr') {
+        renderVdrSubmittedDocsTable();
+      }
     }
 
     function openReportPreview(id) {
@@ -1458,6 +1772,1380 @@
     document.addEventListener('DOMContentLoaded', () => {
       renderRecordTables();
     });
+  </script>
+
+  <script>
+    // ══════════════════════════════════════════════════════════════════════════
+    // VDR SUBMITTED DOCUMENTS & DUE DILIGENCE REVIEW COMPONENT
+    // ══════════════════════════════════════════════════════════════════════════
+    const VDR_DD_PARTNERS = [
+      { id: 'ddp_1', name: 'PwC Advisory Legal', avatar: 'PW', specialty: 'Legal Audit', lead: 'Marcus Vance', email: 'marcus.vance@pwc.com', slaDays: '3 Days', status: 'Active' },
+      { id: 'ddp_2', name: 'Deloitte Financial Audit', avatar: 'DL', specialty: 'Financial Audit', lead: 'Elena Rostova', email: 'elena.rostova@deloitte.com', slaDays: '4 Days', status: 'Active' },
+      { id: 'ddp_3', name: 'KPMG Code & Tech Reviewers', avatar: 'KP', specialty: 'Tech Audit', lead: 'David Tanaka', email: 'd.tanaka@kpmg.io', slaDays: '2 Days', status: 'Inactive' },
+      { id: 'ddp_4', name: 'EY Risk & ESG Compliance', avatar: 'EY', specialty: 'ESG & Risk', lead: 'Sophia Martinez', email: 'sophia.m@ey.com', slaDays: '5 Days', status: 'Pending' }
+    ];
+
+    let vdrSubmittedDocsStore = [
+      { reqId: 'd1', title: 'Certificate of Incorporation & Bylaws', type: 'PDF', fileIcon: 'file-text', required: true, defaultFile: 'AlphaHealth_Certificate_Incorporation.pdf', date: 'Feb 10, 2026', template: 'Ref', status: 'Approved' },
+      { reqId: 'd2', title: 'Cap Table & Convertible Notes Summary', type: 'XLSX', fileIcon: 'file-spreadsheet', required: true, defaultFile: 'AlphaHealth_CapTable_v3.xlsx', date: 'Feb 12, 2026', template: 'Ref', status: 'Pending Review' },
+      { reqId: 'd3', title: 'Board & Shareholder Meeting Minutes', type: 'PDF', fileIcon: 'file-text', required: false, defaultFile: null, date: '—', template: null, status: 'Not Submitted' },
+      { reqId: 'd4', title: 'Audited Financial Statements (2024–2025)', type: 'PDF', fileIcon: 'file-text', required: true, defaultFile: 'AlphaHealth_Audited_Financials_2025.pdf', date: 'Feb 12, 2026', template: null, status: 'Pending Review' },
+      { reqId: 'd5', title: 'Monthly P&L & Cash Flow Forecast', type: 'PDF', fileIcon: 'file-text', required: true, defaultFile: null, date: '—', template: 'Ref', status: 'Not Submitted' },
+      { reqId: 'd6', title: 'Tax Returns & Regulatory Filings', type: 'PDF', fileIcon: 'file-text', required: true, defaultFile: null, date: '—', template: null, status: 'Not Submitted' },
+      { reqId: 'd7', title: 'IP Assignment & Patent Documentation', type: 'PDF', fileIcon: 'file-text', required: true, defaultFile: null, date: '—', template: null, status: 'Not Submitted' },
+      { reqId: 'd8', title: 'System Architecture & Security Compliance', type: 'PDF', fileIcon: 'file-text', required: false, defaultFile: null, date: '—', template: 'Ref', status: 'Not Submitted' },
+      { reqId: 'd9', title: 'Key Executive Employment Agreements & Founder Vesting', type: 'PDF', fileIcon: 'file-text', required: true, defaultFile: null, date: '—', template: null, status: 'Not Submitted' },
+      { reqId: 'd10', title: 'Top 5 Customer & Supplier Contracts', type: 'PDF', fileIcon: 'file-text', required: true, defaultFile: null, date: '—', template: null, status: 'Not Submitted' }
+    ];
+
+    function renderVdrSubmittedDocsTable() {
+      const tbody = document.getElementById('vdrStartupSubmissionsTableBody');
+      if (!tbody) return;
+
+      const badge = document.getElementById('vdrStartupBadge');
+      if (badge && typeof currentStartup !== 'undefined' && currentStartup) {
+        badge.textContent = `${currentStartup.name} Submissions`;
+      }
+
+      tbody.innerHTML = vdrSubmittedDocsStore.map(item => {
+        const hasFile = Boolean(item.defaultFile);
+        const fileName = item.defaultFile;
+
+        let statusTagHtml = '';
+        if (!hasFile || item.status === 'Not Submitted') {
+          statusTagHtml = `<span style="font-size:10.5px; color:#9A9A96; font-style:italic; white-space:nowrap;">Not Submitted</span>`;
+        } else if (item.status === 'Approved') {
+          statusTagHtml = `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#ECFDF5; color:#047857; border:1px solid #A7F3D0; border-radius:3px; display:inline-flex; align-items:center; gap:4px; white-space:nowrap;"><i data-lucide="check-circle" style="width:10px; height:10px;"></i> APPROVED</span>`;
+        } else if (item.status === 'Rejected') {
+          statusTagHtml = `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#FEF2F2; color:#DC2626; border:1px solid #FECACA; border-radius:3px; display:inline-flex; align-items:center; gap:4px; white-space:nowrap;"><i data-lucide="alert-circle" style="width:10px; height:10px;"></i> REJECTED</span>`;
+        } else {
+          statusTagHtml = `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#F0F0EE; color:#5A5A58; border:1px solid #DCDCDA; border-radius:3px; display:inline-flex; align-items:center; gap:4px; white-space:nowrap;"><i data-lucide="clock" style="width:10px; height:10px;"></i> PENDING REVIEW</span>`;
+        }
+
+        return `
+          <tr style="border-bottom:1px solid #F1F1EF;">
+            <td style="padding:8px 14px; white-space:nowrap;">
+              <span style="font-weight:700; color:#1A1A18; font-size:12px;">${item.title}</span>
+              ${item.required ? '<span style="color:#DC2626; font-weight:800; margin-left:3px;" title="Required document">*</span>' : ''}
+            </td>
+            <td style="padding:8px 14px; white-space:nowrap;">
+              <div style="display:flex; align-items:center; gap:5px; font-size:11.5px; color:#4A4A48; font-weight:600;">
+                <i data-lucide="${item.fileIcon}" style="width:13px; height:13px; color:#6A6A68;"></i>
+                <span>${item.type}</span>
+              </div>
+            </td>
+            <td style="padding:8px 14px; font-size:11.5px; color:#6A6A68; white-space:nowrap;">${item.date}</td>
+            <td style="padding:8px 14px; white-space:nowrap;">
+              ${hasFile ? `<button class="doc-btn" onclick="previewVdrDocDirect('${item.reqId}', '${item.title.replace(/'/g, "\\'")}', '${fileName.replace(/'/g, "\\'")}', '${item.status}')" style="font-weight:700; font-size:11px; padding:3px 8px;"><i data-lucide="file-text" style="width:11px; height:11px;"></i> ${fileName}</button>` : '<span style="font-size:11px; color:#A8A8A4;">Waiting for upload</span>'}
+            </td>
+            <td style="padding:8px 14px; white-space:nowrap;">
+              ${item.template ? `<span style="font-size:11.5px; color:#2A2A28; font-weight:700; display:inline-flex; align-items:center; gap:4px; cursor:pointer;" title="Reference template available" onclick="if (window.showToast) window.showToast('Reference Template: Standard Model');"><i data-lucide="paperclip" style="width:12px; height:12px; color:#6A6A68;"></i> Ref</span>` : '<span style="font-size:11px; color:#A8A8A4;">None</span>'}
+            </td>
+            <td style="padding:8px 14px; white-space:nowrap;">${statusTagHtml}</td>
+            <td style="padding:8px 14px; text-align:right; white-space:nowrap;">
+              ${hasFile ? `<button class="btn btn-outline" onclick="previewVdrDocDirect('${item.reqId}', '${item.title.replace(/'/g, "\\'")}', '${fileName.replace(/'/g, "\\'")}', '${item.status}')" style="font-size:11px; padding:4px 10px; font-weight:700; background:#FFFFFF; border:1px solid #DFDEDE; border-radius:5px;"><i data-lucide="eye" style="width:12px; height:12px;"></i> View Document</button>` : `<button class="doc-btn" disabled style="opacity:0.5; cursor:not-allowed; font-size:10.5px;"><i data-lucide="clock" style="width:11px; height:11px;"></i> Pending Upload</button>`}
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function previewVdrDocDirect(reqId, title, fileName, status) {
+      const sName = (typeof currentStartup !== 'undefined' && currentStartup) ? currentStartup.name : 'Alpha Health';
+      showVDRModal('Document Viewer & Audit Review', `
+        <div style="background:#FAFAFA; border:1px solid #E0E0DE; border-radius:6px; padding:14px; text-align:center; margin-bottom:14px;">
+          <i data-lucide="file-text" style="width:34px; height:34px; color:#3A3A38; margin-bottom:6px;"></i>
+          <div style="font-size:13px; font-weight:800; color:#1A1A18;">${fileName}</div>
+          <div style="font-size:11px; color:#6A6A68; margin-top:3px;">
+            Requirement: <strong>${title}</strong> · Submitted by ${sName} · Current Status: <strong>${status}</strong>
+          </div>
+        </div>
+        <div style="background:#F0F0EE; border:1px solid #E0E0DE; border-radius:6px; height:180px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#8A8A88; font-size:12px; margin-bottom:14px; padding:20px; text-align:center;">
+          <i data-lucide="shield-check" style="width:28px; height:28px; color:#A8A8A4; margin-bottom:8px;"></i>
+          <span style="font-weight:700; color:#4A4A48; margin-bottom:2px;">[ Document Preview Renderer ]</span>
+          <span style="font-size:11px; color:#8A8A88;">Watermarked preview enabled. Inspect pages before approving for diligence report.</span>
+        </div>
+        <div class="vdr-modal-footer" style="display:flex; justify-content:space-between; align-items:center;">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Close Viewer</button>
+          <div style="display:flex; gap:8px;">
+            <button class="btn-modal-danger" onclick="promptRejectDocDirect('${reqId}')">
+              <i data-lucide="x" style="width:12px; height:12px;"></i> Reject Submission
+            </button>
+            <button class="btn-modal-primary" onclick="approveDocDirect('${reqId}')" style="background:#047857; border-color:#047857;">
+              <i data-lucide="check" style="width:12px; height:12px;"></i> Approve Document
+            </button>
+          </div>
+        </div>
+      `);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function approveDocDirect(reqId) {
+      const doc = vdrSubmittedDocsStore.find(d => d.reqId === reqId);
+      if (doc) {
+        doc.status = 'Approved';
+        renderVdrSubmittedDocsTable();
+      }
+      hideVDRModal();
+      if (window.showToast) window.showToast('Document submission marked as Approved!');
+    }
+
+    function promptRejectDocDirect(reqId) {
+      const doc = vdrSubmittedDocsStore.find(d => d.reqId === reqId);
+      const sName = (typeof currentStartup !== 'undefined' && currentStartup) ? currentStartup.name : 'Alpha Health';
+      showVDRModal('Reject Document Submission', `
+        <p style="font-size:11.5px; color:#6A6A68; margin-bottom:14px;">
+          Provide rejection feedback to <strong>${sName}</strong> explaining why <strong>${doc ? doc.title : 'this document'}</strong> requires re-uploading.
+        </p>
+        <div class="field-group">
+          <div class="field-label">Rejection Reason / Comment <span style="color:#DC2626;">*</span></div>
+          <textarea id="rejectionCommentInput" class="field-input" rows="3" placeholder="e.g. Missing founder signature on page 3. Please re-upload signed copy."></textarea>
+        </div>
+        <div class="vdr-modal-footer">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+          <button class="btn-modal-danger" onclick="confirmRejectDocDirect('${reqId}')">Reject Submission</button>
+        </div>
+      `);
+      setTimeout(() => document.getElementById('rejectionCommentInput')?.focus(), 80);
+    }
+
+    function confirmRejectDocDirect(reqId) {
+      const comment = document.getElementById('rejectionCommentInput')?.value?.trim();
+      if (!comment) {
+        if (window.showToast) window.showToast('Please enter a rejection reason.', 'alert-circle');
+        return;
+      }
+      const doc = vdrSubmittedDocsStore.find(d => d.reqId === reqId);
+      if (doc) {
+        doc.status = 'Rejected';
+        renderVdrSubmittedDocsTable();
+      }
+      hideVDRModal();
+      if (window.showToast) window.showToast('Submission marked as Rejected with feedback');
+    }
+
+    function resendAccessLink() {
+      const founderName = (typeof currentStartup !== 'undefined' && currentStartup?.founder) ? currentStartup.founder : 'Dr. Sarah Chen';
+      const founderEmail = (typeof currentStartup !== 'undefined' && currentStartup?.email) ? currentStartup.email : 'sarah@alphahealth.com';
+      alert(`Access Link Sent!\n\nDue diligence document submission link successfully resent to ${founderName} (${founderEmail}).`);
+      if (window.showToast) window.showToast(`Access link resent to ${founderEmail}`);
+    }
+
+    function openShareWithDDTeam() {
+      const sName = (typeof currentStartup !== 'undefined' && currentStartup?.name) ? currentStartup.name : 'Alpha Health';
+      const bodyHtml = `
+        <p style="font-size:11.5px; color:#6A6A68; margin-bottom:14px; line-height:1.5;">
+          Select a <strong>DD Partner</strong> to give review access to <strong>${sName}</strong>'s submitted due diligence documents.
+        </p>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          ${VDR_DD_PARTNERS.map(p => `
+            <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:7px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+              <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+                <div style="width:34px; height:34px; border-radius:6px; background:#1A1A18; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; color:#FFFFFF; flex-shrink:0;">${p.avatar}</div>
+                <div style="flex:1; min-width:0;">
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <span style="font-size:12.5px; font-weight:800; color:#1A1A18; line-height:1.2;">${p.name}</span>
+                    <span class="vdr-type-tag" style="font-size:8.5px;">${p.specialty.toUpperCase()}</span>
+                  </div>
+                  <div style="font-size:11px; color:#6A6A68; margin-top:2px;">${p.lead} · <span style="color:#8A8A88;">${p.email}</span></div>
+                  <div style="font-size:10px; color:#9A9A96; margin-top:2px;">Review SLA: <strong style="color:#5A5A58;">${p.slaDays}</strong></div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary" onclick="confirmShareWithDDPartner('${p.id}')" style="font-size:11px; padding:5px 11px; flex-shrink:0;"><i data-lucide="send" style="width:11px; height:11px;"></i> Share VDR</button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      const footerHtml = `<button type="button" class="btn-modal-cancel" onclick="window.closeDrawer()">Close</button>`;
+      if (window.openDrawer) {
+        window.openDrawer('Share with DD Team', `Due Diligence Partners`, bodyHtml, footerHtml);
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+    }
+
+    function confirmShareWithDDPartner(partnerId) {
+      const partner = VDR_DD_PARTNERS.find(p => p.id === partnerId);
+      if (!partner) return;
+      const sName = (typeof currentStartup !== 'undefined' && currentStartup?.name) ? currentStartup.name : 'Alpha Health';
+      showVDRModal('Confirm Share Data Room', `
+        <div style="text-align:center; padding:8px 0 4px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+            <i data-lucide="users" style="width:20px; height:20px; color:#1A1A18;"></i>
+          </div>
+          <div style="font-size:13.5px; font-weight:800; color:#1A1A18; margin-bottom:6px;">Share ${sName}'s VDR with ${partner.name}?</div>
+          <p style="font-size:11.5px; color:#6A6A68; line-height:1.5;">
+            Review access will be granted to <strong>${partner.lead}</strong> (${partner.email}). They will be able to review submitted documents.
+          </p>
+        </div>
+        <div class="vdr-modal-footer">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+          <button class="btn-modal-primary" onclick="executeShareWithDDPartner('${partner.name}')">Confirm &amp; Grant Access</button>
+        </div>
+      `);
+    }
+
+    function executeShareWithDDPartner(partnerName) {
+      hideVDRModal();
+      if (window.closeDrawer) window.closeDrawer();
+      if (window.showToast) window.showToast(`Review access granted to ${partnerName}!`);
+    }
+
+    // ── VDR LOCAL MODAL SYSTEM ──
+    function showVDRModal(title, bodyHtml) {
+      document.getElementById('vdrModalTitle').textContent = title;
+      document.getElementById('vdrModalBody').innerHTML = bodyHtml;
+      document.getElementById('vdrModalBackdrop').style.display = 'flex';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+    function hideVDRModal() {
+      document.getElementById('vdrModalBackdrop').style.display = 'none';
+      document.getElementById('vdrModalBody').innerHTML = '';
+    }
+    function handleVDRBackdropClick(e) {
+      if (e.target === document.getElementById('vdrModalBackdrop')) hideVDRModal();
+    }
+
+    document.addEventListener('click', () => {
+      vdrCloseAllPopovers();
+      document.getElementById('presetMenu')?.classList.remove('show');
+    });
+
+    function vdrCloseAllPopovers() {
+      if (vdrActivePopoverMenu) {
+        vdrActivePopoverMenu.remove();
+        vdrActivePopoverMenu = null;
+      }
+    }
+
+    // ── PRESET HANDLERS ──
+    function togglePresetDropdown(e) {
+      e.stopPropagation();
+      document.getElementById('presetMenu')?.classList.toggle('show');
+    }
+    function applyPreset(key) {
+      const preset = VDR_PRESET_TEMPLATES[key];
+      if (!preset) return;
+      document.getElementById('presetMenu')?.classList.remove('show');
+      vdrRoomData.folders = JSON.parse(JSON.stringify(preset.folders));
+      vdrRoomData.history.unshift({ icon: 'bookmark', text: `Loaded preset template "${preset.label}"`, time: 'Just now' });
+      vdrRenderHeader();
+      vdrRenderFolders();
+      vdrRenderHistory();
+      if (window.showToast) window.showToast(`Applied preset: "${preset.label}"`);
+    }
+    function saveAsPreset() {
+      document.getElementById('presetMenu')?.classList.remove('show');
+      if (window.showToast) window.showToast('Saved current folder structure as custom preset template!');
+    }
+
+    // ── VDR LOCAL MODAL SYSTEM ──
+    function showVDRModal(title, bodyHtml) {
+      vdrCloseAllPopovers();
+      document.getElementById('vdrModalTitle').textContent = title;
+      document.getElementById('vdrModalBody').innerHTML = bodyHtml;
+      document.getElementById('vdrModalBackdrop').style.display = 'flex';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+    function hideVDRModal() {
+      document.getElementById('vdrModalBackdrop').style.display = 'none';
+      document.getElementById('vdrModalBody').innerHTML = '';
+      vdrPendingDeleteFolderId = null;
+      vdrPendingDeleteStartupId = null;
+    }
+    function handleVDRBackdropClick(e) {
+      if (e.target === document.getElementById('vdrModalBackdrop')) hideVDRModal();
+    }
+
+    // ── FOLDER MODAL ACTIONS ──
+    function openAddFolderModal() {
+      showVDRModal('Add New Folder', `
+        <div class="field-group">
+          <div class="field-label">Folder Name <span style="color:#DC2626;">*</span></div>
+          <input type="text" id="newFolderNameInput" class="field-input" placeholder="e.g. 04. IP &amp; Technology Ownership" />
+        </div>
+        <div class="vdr-modal-footer">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+          <button class="btn-modal-primary" onclick="confirmAddFolder()">Create Folder</button>
+        </div>
+      `);
+      setTimeout(() => document.getElementById('newFolderNameInput')?.focus(), 80);
+    }
+    function confirmAddFolder() {
+      const title = document.getElementById('newFolderNameInput')?.value?.trim();
+      if (!title) {
+        if (window.showToast) window.showToast('Folder name cannot be empty', 'alert-circle');
+        return;
+      }
+      vdrRoomData.folders.push({ id: 'f_' + Date.now(), title, docs: [] });
+      vdrRoomData.history.unshift({ icon: 'folder-plus', text: `Added new folder "${title}"`, time: 'Just now' });
+      hideVDRModal();
+      vdrRenderHeader();
+      vdrRenderFolders();
+      vdrRenderHistory();
+      if (window.showToast) window.showToast(`Folder "${title}" created successfully`);
+    }
+    function editFolder(folderId) {
+      const folder = vdrRoomData.folders.find(f => f.id === folderId);
+      if (!folder) return;
+      showVDRModal('Rename Folder', `
+        <div class="field-group">
+          <div class="field-label">Folder Name <span style="color:#DC2626;">*</span></div>
+          <input type="text" id="editFolderNameInput" class="field-input" value="${folder.title.replace(/"/g, '&quot;')}" placeholder="e.g. 01. Corporate &amp; Legal" />
+        </div>
+        <div class="vdr-modal-footer">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+          <button class="btn-modal-primary" onclick="confirmEditFolder('${folderId}')">Save Changes</button>
+        </div>
+      `);
+      setTimeout(() => document.getElementById('editFolderNameInput')?.focus(), 80);
+    }
+    function confirmEditFolder(folderId) {
+      const title = document.getElementById('editFolderNameInput')?.value?.trim();
+      if (!title) {
+        if (window.showToast) window.showToast('Folder name cannot be empty', 'alert-circle');
+        return;
+      }
+      const folder = vdrRoomData.folders.find(f => f.id === folderId);
+      if (!folder) return;
+      folder.title = title;
+      vdrRoomData.history.unshift({ icon: 'pencil', text: `Renamed folder to "${title}"`, time: 'Just now' });
+      hideVDRModal();
+      vdrRenderFolders();
+      vdrRenderHistory();
+      if (window.showToast) window.showToast(`Folder renamed to "${title}"`);
+    }
+    function promptDeleteFolder(folderId) {
+      const folder = vdrRoomData.folders.find(f => f.id === folderId);
+      if (!folder) return;
+      vdrPendingDeleteFolderId = folderId;
+      showVDRModal('Delete Folder', `
+        <div style="text-align:center; padding:8px 0 4px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:#FEF2F2; border:1px solid #FECACA; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+            <i data-lucide="trash-2" style="width:20px; height:20px; color:#DC2626;"></i>
+          </div>
+          <div style="font-size:13.5px; font-weight:800; color:#1A1A18; margin-bottom:6px;">Delete "${folder.title}"?</div>
+          <p style="font-size:11.5px; color:#6A6A68; line-height:1.5;">
+            This will permanently delete this folder and all ${folder.docs.length} document requirement(s) inside it.
+          </p>
+        </div>
+        <div class="vdr-modal-footer">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+          <button class="btn-modal-danger" onclick="confirmDeleteFolder()">Delete Folder</button>
+        </div>
+      `);
+    }
+    function confirmDeleteFolder() {
+      const folderId = vdrPendingDeleteFolderId;
+      const folder = vdrRoomData.folders.find(f => f.id === folderId);
+      const title = folder?.title || 'Folder';
+      vdrRoomData.folders = vdrRoomData.folders.filter(f => f.id !== folderId);
+      vdrRoomData.history.unshift({ icon: 'trash-2', text: `Deleted folder "${title}"`, time: 'Just now' });
+      hideVDRModal();
+      vdrRenderHeader();
+      vdrRenderFolders();
+      vdrRenderHistory();
+      if (window.showToast) window.showToast(`Deleted folder "${title}"`);
+    }
+
+    // ── TEMPLATE FILE UPLOAD HELPERS ──
+    function handleTemplateFileSelected(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const fileName = file.name;
+      const valInput = document.getElementById('docTemplateVal');
+      if (valInput) valInput.value = fileName;
+      const prompt = document.getElementById('templateUploadPrompt');
+      const chip = document.getElementById('templateFileSelectedChip');
+      const nameText = document.getElementById('templateFileNameText');
+      if (prompt) prompt.style.display = 'none';
+      if (chip) chip.style.display = 'flex';
+      if (nameText) nameText.textContent = fileName;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      if (window.showToast) window.showToast(`Reference template attached: "${fileName}"`);
+    }
+    function clearSelectedTemplateFile() {
+      const valInput = document.getElementById('docTemplateVal');
+      if (valInput) valInput.value = '';
+      const fileInput = document.getElementById('templateFileInput');
+      if (fileInput) fileInput.value = '';
+      const prompt = document.getElementById('templateUploadPrompt');
+      const chip = document.getElementById('templateFileSelectedChip');
+      if (prompt) prompt.style.display = 'flex';
+      if (chip) chip.style.display = 'none';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // ── DOCUMENT REQUIREMENT MODAL ACTIONS ──
+    function openAddDocModal(folderId) {
+      const folder = vdrRoomData.folders.find(f => f.id === folderId);
+      if (!folder) return;
+      showVDRModal(`Add Requirement to "${folder.title}"`, `
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div class="field-group">
+            <div class="field-label">Requirement Title <span style="color:#DC2626;">*</span></div>
+            <input type="text" id="newDocTitleInput" class="field-input" placeholder="e.g. Cap Table &amp; Convertible Notes Summary" />
+          </div>
+          <div class="field-group">
+            <div class="field-label" style="display:flex; justify-content:space-between; align-items:center;">
+              <span>Reference Template File (Optional)</span>
+              <span style="font-size:10px; font-weight:500; color:#8C8C88;">PDF, XLSX, DOCX (Max 15MB)</span>
+            </div>
+            <div id="templateFileDropzone" style="border:1.5px dashed #DCDCDA; border-radius:6px; background:#FAFAFA; padding:12px; text-align:center; cursor:pointer; transition:background 0.12s;" onclick="document.getElementById('templateFileInput').click()">
+              <input type="file" id="templateFileInput" accept=".pdf,.xlsx,.xls,.docx,.doc,.zip" style="display:none;" onchange="handleTemplateFileSelected(event)" />
+              <div id="templateUploadPrompt" style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+                <i data-lucide="upload-cloud" style="width:20px; height:20px; color:#8C8C88;"></i>
+                <div style="font-size:11.5px; font-weight:700; color:#1A1A18;">Click to upload reference template file</div>
+                <div style="font-size:10.5px; color:#8C8C88;">or drag and drop sample template file here</div>
+              </div>
+              <div id="templateFileSelectedChip" style="display:none; align-items:center; justify-content:space-between; background:#FFFFFF; border:1px solid #DCDCDA; border-radius:5px; padding:6px 10px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <i data-lucide="paperclip" style="width:13px; height:13px; color:#047857;"></i>
+                  <span id="templateFileNameText" style="font-size:11.5px; font-weight:700; color:#1A1A18;"></span>
+                </div>
+                <button type="button" onclick="event.stopPropagation(); clearSelectedTemplateFile();" style="background:transparent; border:none; color:#8C8C88; cursor:pointer; font-size:14px; font-weight:700; padding:0 4px;" title="Remove template file">&times;</button>
+              </div>
+            </div>
+            <input type="hidden" id="docTemplateVal" value="" />
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input type="checkbox" id="newDocRequiredCheckbox" checked style="width:14px; height:14px; cursor:pointer;" />
+            <label for="newDocRequiredCheckbox" style="font-size:12px; font-weight:600; color:#1A1A18; cursor:pointer;">Mandatory Requirement (Mark with red asterisk *)</label>
+          </div>
+        </div>
+        <div class="vdr-modal-footer">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+          <button class="btn-modal-primary" onclick="confirmAddDoc('${folderId}')">Add Requirement</button>
+        </div>
+      `);
+      setTimeout(() => document.getElementById('newDocTitleInput')?.focus(), 80);
+    }
+    function confirmAddDoc(folderId) {
+      const title = document.getElementById('newDocTitleInput')?.value?.trim();
+      if (!title) {
+        if (window.showToast) window.showToast('Requirement title cannot be empty', 'alert-circle');
+        return;
+      }
+      const template = document.getElementById('docTemplateVal')?.value?.trim() || null;
+      const required = document.getElementById('newDocRequiredCheckbox')?.checked ?? true;
+      const folder = vdrRoomData.folders.find(f => f.id === folderId);
+      if (!folder) return;
+      folder.docs.push({ id: 'd_' + Date.now(), title, template, required });
+      vdrRoomData.history.unshift({ icon: 'plus', text: `Added requirement "${title}" to folder "${folder.title}"`, time: 'Just now' });
+      hideVDRModal();
+      vdrRenderHeader();
+      vdrRenderFolders();
+      vdrRenderHistory();
+      if (window.showToast) window.showToast(`Requirement "${title}" added successfully`);
+    }
+    function openEditDocModal(folderId, docId) {
+      const folder = vdrRoomData.folders.find(f => f.id === folderId);
+      const doc = folder?.docs.find(d => d.id === docId);
+      if (!doc) return;
+      const hasTemplate = Boolean(doc.template);
+      showVDRModal('Edit Requirement', `
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div class="field-group">
+            <div class="field-label">Requirement Title <span style="color:#DC2626;">*</span></div>
+            <input type="text" id="editDocTitleInput" class="field-input" value="${doc.title.replace(/"/g, '&quot;')}" placeholder="e.g. Cap Table Summary" />
+          </div>
+          <div class="field-group">
+            <div class="field-label" style="display:flex; justify-content:space-between; align-items:center;">
+              <span>Reference Template File (Optional)</span>
+              <span style="font-size:10px; font-weight:500; color:#8C8C88;">PDF, XLSX, DOCX (Max 15MB)</span>
+            </div>
+            <div id="templateFileDropzone" style="border:1.5px dashed #DCDCDA; border-radius:6px; background:#FAFAFA; padding:12px; text-align:center; cursor:pointer; transition:background 0.12s;" onclick="document.getElementById('templateFileInput').click()">
+              <input type="file" id="templateFileInput" accept=".pdf,.xlsx,.xls,.docx,.doc,.zip" style="display:none;" onchange="handleTemplateFileSelected(event)" />
+              <div id="templateUploadPrompt" style="display:${hasTemplate ? 'none' : 'flex'}; flex-direction:column; align-items:center; gap:4px;">
+                <i data-lucide="upload-cloud" style="width:20px; height:20px; color:#8C8C88;"></i>
+                <div style="font-size:11.5px; font-weight:700; color:#1A1A18;">Click to upload reference template file</div>
+                <div style="font-size:10.5px; color:#8C8C88;">or drag and drop sample template file here</div>
+              </div>
+              <div id="templateFileSelectedChip" style="display:${hasTemplate ? 'flex' : 'none'}; align-items:center; justify-content:space-between; background:#FFFFFF; border:1px solid #DCDCDA; border-radius:5px; padding:6px 10px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <i data-lucide="paperclip" style="width:13px; height:13px; color:#047857;"></i>
+                  <span id="templateFileNameText" style="font-size:11.5px; font-weight:700; color:#1A1A18;">${(doc.template || '').replace(/"/g, '&quot;')}</span>
+                </div>
+                <button type="button" onclick="event.stopPropagation(); clearSelectedTemplateFile();" style="background:transparent; border:none; color:#8C8C88; cursor:pointer; font-size:14px; font-weight:700; padding:0 4px;" title="Remove template file">&times;</button>
+              </div>
+            </div>
+            <input type="hidden" id="docTemplateVal" value="${(doc.template || '').replace(/"/g, '&quot;')}" />
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input type="checkbox" id="editDocRequiredCheckbox" ${doc.required ? 'checked' : ''} style="width:14px; height:14px; cursor:pointer;" />
+            <label for="editDocRequiredCheckbox" style="font-size:12px; font-weight:600; color:#1A1A18; cursor:pointer;">Mandatory Requirement (Mark with red asterisk *)</label>
+          </div>
+        </div>
+        <div class="vdr-modal-footer">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+          <button class="btn-modal-primary" onclick="saveEditDoc('${folderId}', '${docId}')">Save Changes</button>
+        </div>
+      `);
+      setTimeout(() => document.getElementById('editDocTitleInput')?.focus(), 80);
+    }
+    function saveEditDoc(folderId, docId) {
+      const title = document.getElementById('editDocTitleInput')?.value?.trim();
+      if (!title) {
+        if (window.showToast) window.showToast('Title cannot be empty', 'alert-circle');
+        return;
+      }
+      const template = document.getElementById('docTemplateVal')?.value?.trim() || null;
+      const required = document.getElementById('editDocRequiredCheckbox')?.checked ?? true;
+      const folder = vdrRoomData.folders.find(f => f.id === folderId);
+      const doc = folder?.docs.find(d => d.id === docId);
+      if (!doc) return;
+      doc.title = title;
+      doc.template = template;
+      doc.required = required;
+      vdrRoomData.history.unshift({ icon: 'pencil', text: `Updated requirement "${title}"`, time: 'Just now' });
+      hideVDRModal();
+      vdrRenderFolders();
+      vdrRenderHistory();
+      if (window.showToast) window.showToast(`Requirement "${title}" updated successfully`);
+    }
+    function deleteDoc(folderId, docId) {
+      const folder = vdrRoomData.folders.find(f => f.id === folderId);
+      if (!folder) return;
+      const doc = folder.docs.find(d => d.id === docId);
+      const title = doc?.title || 'Requirement';
+      folder.docs = folder.docs.filter(d => d.id !== docId);
+      vdrRoomData.history.unshift({ icon: 'trash-2', text: `Deleted requirement "${title}"`, time: 'Just now' });
+      vdrRenderHeader();
+      vdrRenderFolders();
+      vdrRenderHistory();
+      if (window.showToast) window.showToast(`Requirement "${title}" deleted`);
+    }
+    function copyDocLink(docTitle) {
+      const link = `https://seedicon.app/vdr/upload?req=${encodeURIComponent(docTitle)}`;
+      if (navigator.clipboard) navigator.clipboard.writeText(link);
+      if (window.showToast) window.showToast(`Upload link copied for "${docTitle}"`);
+    }
+    function attachTemplate(folderId, docId) {
+      openEditDocModal(folderId, docId);
+    }
+
+    // ── VDR RENDER HEADER ──
+    function vdrRenderHeader() {
+      document.getElementById('headerName').textContent = vdrRoomData.name;
+      document.getElementById('headerDesc').textContent = vdrRoomData.desc || 'No description added.';
+      document.getElementById('headerTag').textContent = (vdrRoomData.industry || 'GENERAL DD').toUpperCase();
+
+      const totalDocs = vdrRoomData.folders.reduce((acc, f) => acc + f.docs.length, 0);
+      const totalFolders = vdrRoomData.folders.length;
+      const shared = vdrRoomData.sharedStartups || [];
+
+      document.getElementById('badgeDocsCount').textContent = totalDocs;
+      document.getElementById('badgeSharedCount').textContent = shared.length;
+      document.getElementById('statDocs').innerHTML = `<strong>${totalDocs}</strong> <small>docs</small>`;
+      document.getElementById('statShared').innerHTML = `<strong>${shared.length}</strong> <small>startups</small>`;
+      document.getElementById('statFolders').innerHTML = `<strong>${totalFolders}</strong> <small>folders</small>`;
+
+      const progressValues = shared.map(s => parseInt(s.progress || 0)).filter(v => !isNaN(v));
+      const avgProgress = progressValues.length ? Math.round(progressValues.reduce((a, b) => a + b, 0) / progressValues.length) : null;
+      document.getElementById('statProgress').innerHTML = avgProgress === null
+        ? '<strong>—</strong>'
+        : `<strong>${avgProgress}%</strong> <small>avg</small>`;
+
+      const iconName = VDR_INDUSTRY_TYPES[vdrRoomData.industry]?.icon || 'folder-lock';
+      document.getElementById('vdrIconBox').innerHTML = `<span class="vdr-icon-ring"></span><i data-lucide="${iconName}" style="width:21px; height:21px;"></i>`;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function filterVdrDocsAndFolders() {
+      const q = (document.getElementById('docSearch')?.value || '').toLowerCase().trim();
+      vdrRenderFolders(q);
+    }
+
+    // ── VDR RENDER FOLDERS (TAB 1 - Surface Layout) ──
+    function vdrRenderFolders(searchQuery = '') {
+      const container = document.getElementById('foldersContainer');
+      if (!container) return;
+
+      if (!vdrRoomData.folders.length) {
+        container.innerHTML = `
+          <div style="background:#FFFFFF; border:1px dashed #DCDCDA; border-radius:8px; padding:44px; text-align:center;">
+            <i data-lucide="folder-plus" style="width:32px; height:32px; color:#B0B0AE; margin-bottom:10px;"></i>
+            <div style="font-size:13.5px; font-weight:800; color:#1A1A18; margin-bottom:4px;">No Folders Added Yet</div>
+            <p style="font-size:11.5px; color:#8C8C88; margin-bottom:14px;">Create your first document folder or load a preset template.</p>
+            <button class="btn btn-primary" onclick="openAddFolderModal()">+ Add First Folder</button>
+          </div>`;
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        return;
+      }
+
+      let foldersToRender = vdrRoomData.folders;
+      if (searchQuery) {
+        foldersToRender = vdrRoomData.folders.map(f => {
+          const titleMatch = f.title.toLowerCase().includes(searchQuery);
+          const matchingDocs = f.docs.filter(d => d.title.toLowerCase().includes(searchQuery) || (d.template || '').toLowerCase().includes(searchQuery));
+          if (titleMatch) return f;
+          if (matchingDocs.length) return { ...f, docs: matchingDocs };
+          return null;
+        }).filter(Boolean);
+      }
+
+      if (!foldersToRender.length) {
+        container.innerHTML = `
+          <div style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:32px; text-align:center; color:#8C8C88;">
+            <i data-lucide="search" style="width:24px; height:24px; color:#B0B0AE; margin-bottom:8px;"></i>
+            <div style="font-size:13px; font-weight:700; color:#1A1A18; margin-bottom:2px;">No Matching Folders or Documents</div>
+            <p style="font-size:11px; color:#8C8C88;">No folders or document requirements match "${searchQuery}".</p>
+          </div>`;
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = foldersToRender.map(f => `
+        <div class="folder-card">
+          <div class="folder-card-header">
+            <div class="folder-title-left">
+              <i data-lucide="folder" style="width:15px; height:15px; color:#3A3A38;"></i>
+              <span class="folder-name">${f.title}</span>
+              <span class="folder-count-chip">${f.docs.length} Req${f.docs.length !== 1 ? 's' : ''}</span>
+            </div>
+            <div class="folder-actions">
+              <button class="doc-btn" onclick="openAddDocModal('${f.id}')">
+                <i data-lucide="plus" style="width:11px; height:11px;"></i> Add Requirement
+              </button>
+              <button class="vdr-action-btn" onclick="editFolder('${f.id}')" title="Rename folder">
+                <i data-lucide="pencil" style="width:12px; height:12px;"></i>
+              </button>
+              <button class="vdr-action-btn" onclick="openFolderMenu(event, '${f.id}')" title="Folder actions">
+                <i data-lucide="more-horizontal" style="width:12px; height:12px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="doc-list">
+            ${f.docs.map(d => `
+              <div class="doc-item-row">
+                <div class="doc-left">
+                  <div class="doc-icon">
+                    <i data-lucide="file-text" style="width:13px; height:13px;"></i>
+                  </div>
+                  <div style="flex:1; min-width:0;">
+                    <div class="doc-title">
+                      ${d.title}${d.required ? '<span style="color:#DC2626; font-weight:800; font-size:13.5px; margin-left:3px; line-height:1;" title="Required document">*</span>' : ''}
+                    </div>
+                    <div class="doc-subtitle">
+                      ${d.template ? `<span class="template-badge"><i data-lucide="paperclip" style="width:9px; height:9px;"></i> Ref: ${d.template}</span>` : '<span style="font-size:10px; color:#A8A8A4;">No template attached</span>'}
+                    </div>
+                  </div>
+                </div>
+                <div class="doc-actions">
+                  <button class="vdr-action-btn" onclick="openEditDocModal('${f.id}', '${d.id}')" title="Edit requirement (name, template, type)">
+                    <i data-lucide="pencil" style="width:12px; height:12px;"></i>
+                  </button>
+                  <button class="vdr-action-btn" onclick="openDocPopover(event, '${f.id}', '${d.id}')" title="More options">
+                    <i data-lucide="more-horizontal" style="width:12px; height:12px;"></i>
+                  </button>
+                </div>
+              </div>
+            `).join('')}
+            ${!f.docs.length ? `<div style="padding:14px 16px; font-size:11px; color:#8A8A88; text-align:center; background:#FAFAFA;">No document requirements in this folder yet. <a href="#" onclick="openAddDocModal('${f.id}'); return false;" style="color:#1A1A18; font-weight:700;">+ Add requirement</a></div>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // ── THREE DOTS POPOVER MENU FOR DOCUMENT ITEM ──
+    function openDocPopover(e, folderId, docId) {
+      e.stopPropagation();
+      vdrCloseAllPopovers();
+      const folder = vdrRoomData.folders.find(f => f.id === folderId);
+      const doc = folder?.docs.find(d => d.id === docId);
+      if (!doc) return;
+      const btn = e.currentTarget;
+      const rect = btn.getBoundingClientRect();
+      const popover = document.createElement('div');
+      popover.className = 'doc-popover-menu';
+      popover.style.top = `${rect.bottom + 4}px`;
+      popover.style.left = `${Math.min(rect.right - 190, window.innerWidth - 200)}px`;
+      popover.innerHTML = `
+        <div class="popover-item" onclick="copyDocLink('${doc.title.replace(/'/g, "\\'")}'); vdrCloseAllPopovers();">
+          <i data-lucide="link" style="width:12px; height:12px;"></i> Copy Upload Link
+        </div>
+        <div class="popover-item" onclick="attachTemplate('${folderId}', '${docId}'); vdrCloseAllPopovers();">
+          <i data-lucide="paperclip" style="width:12px; height:12px;"></i> ${doc.template ? 'Change Reference Template' : 'Attach Reference Template'}
+        </div>
+        <div style="height:1px; background:#EBEBEA; margin:3px 0;"></div>
+        <div class="popover-item danger" onclick="deleteDoc('${folderId}', '${docId}'); vdrCloseAllPopovers();">
+          <i data-lucide="trash-2" style="width:12px; height:12px;"></i> Delete Requirement
+        </div>
+      `;
+      document.body.appendChild(popover);
+      vdrActivePopoverMenu = popover;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // ── THREE DOTS POPOVER MENU FOR FOLDER ──
+    function openFolderMenu(e, folderId) {
+      e.stopPropagation();
+      vdrCloseAllPopovers();
+      const folder = vdrRoomData.folders.find(f => f.id === folderId);
+      if (!folder) return;
+      const btn = e.currentTarget;
+      const rect = btn.getBoundingClientRect();
+      const popover = document.createElement('div');
+      popover.className = 'doc-popover-menu';
+      popover.style.top = `${rect.bottom + 4}px`;
+      popover.style.left = `${Math.min(rect.right - 190, window.innerWidth - 200)}px`;
+      popover.innerHTML = `
+        <div class="popover-item" onclick="openAddDocModal('${folderId}'); vdrCloseAllPopovers();">
+          <i data-lucide="plus" style="width:12px; height:12px;"></i> Add Requirement
+        </div>
+        <div class="popover-item" onclick="editFolder('${folderId}'); vdrCloseAllPopovers();">
+          <i data-lucide="pencil" style="width:12px; height:12px;"></i> Rename Folder
+        </div>
+        <div style="height:1px; background:#EBEBEA; margin:3px 0;"></div>
+        <div class="popover-item danger" onclick="promptDeleteFolder('${folderId}'); vdrCloseAllPopovers();">
+          <i data-lucide="trash-2" style="width:12px; height:12px;"></i> Delete Folder
+        </div>
+      `;
+      document.body.appendChild(popover);
+      vdrActivePopoverMenu = popover;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // ── VDR UNIFIED STATUS TAG PILL HELPER ──
+    function vdrGetStatusTagHtml(status) {
+      const s = status || 'Shared to Founder';
+      if (s === 'DD Completed') {
+        return `<span style="font-size:9.5px; font-weight:800; padding:3px 8px; background:#F0F0EE; color:#1A1A18; border:1px solid #DCDCDA; border-radius:4px; text-transform:uppercase; letter-spacing:0.04em; white-space:nowrap;">DD COMPLETED</span>`;
+      } else if (s === 'Shared to DD Team') {
+        return `<span style="font-size:9.5px; font-weight:800; padding:3px 8px; background:#F0F0EE; color:#1A1A18; border:1px solid #DCDCDA; border-radius:4px; text-transform:uppercase; letter-spacing:0.04em; white-space:nowrap;">SHARED TO DD TEAM</span>`;
+      } else if (s === 'Received from Founder' || s === 'Received from Them') {
+        return `<span style="font-size:9.5px; font-weight:800; padding:3px 8px; background:#F0F0EE; color:#1A1A18; border:1px solid #DCDCDA; border-radius:4px; text-transform:uppercase; letter-spacing:0.04em; white-space:nowrap;">RECEIVED FROM FOUNDER</span>`;
+      } else {
+        return `<span style="font-size:9.5px; font-weight:800; padding:3px 8px; background:#F0F0EE; color:#5A5A58; border:1px solid #DCDCDA; border-radius:4px; text-transform:uppercase; letter-spacing:0.04em; white-space:nowrap;">SHARED TO FOUNDER</span>`;
+      }
+    }
+
+    // ── CUSTOMIZE ROOM & EDIT DETAILS MODAL ──
+    function openCustomizeModal() {
+      const industryOptions = Object.keys(VDR_INDUSTRY_TYPES).map(key =>
+        `<option value="${key}" ${vdrRoomData.industry === key ? 'selected' : ''}>${VDR_INDUSTRY_TYPES[key].label}</option>`
+      ).join('');
+      showVDRModal('Customize Room & Edit Details', `
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div class="field-group">
+            <div class="field-label">Room Name <span style="color:#DC2626;">*</span></div>
+            <input type="text" id="editRoomName" class="field-input" value="${vdrRoomData.name.replace(/"/g, '&quot;')}" placeholder="e.g. Seed Round Due Diligence" />
+          </div>
+          <div class="field-group">
+            <div class="field-label">Industry / Focus Area</div>
+            <select id="editRoomIndustry" class="field-input field-select">${industryOptions}</select>
+          </div>
+          <div class="field-group">
+            <div class="field-label">Description / Scope</div>
+            <textarea id="editRoomDesc" class="field-input" rows="3" placeholder="Describe the purpose of this VDR checklist...">${vdrRoomData.desc || ''}</textarea>
+          </div>
+        </div>
+        <div class="vdr-modal-footer">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+          <button class="btn-modal-primary" onclick="saveCustomizeRoom()">Save Details</button>
+        </div>
+      `);
+      setTimeout(() => document.getElementById('editRoomName')?.focus(), 80);
+    }
+    function saveCustomizeRoom() {
+      const name = document.getElementById('editRoomName')?.value?.trim();
+      if (!name) {
+        if (window.showToast) window.showToast('Room name cannot be empty', 'alert-circle');
+        return;
+      }
+      const industry = document.getElementById('editRoomIndustry')?.value;
+      const desc = document.getElementById('editRoomDesc')?.value?.trim();
+      vdrRoomData.name = name;
+      if (industry) vdrRoomData.industry = industry;
+      vdrRoomData.desc = desc || '';
+      vdrRoomData.updated = 'Just now';
+      vdrRoomData.history.unshift({ icon: 'pencil', text: `Updated room details for "${name}"`, time: 'Just now' });
+      vdrRenderHeader();
+      vdrRenderHistory();
+      hideVDRModal();
+      if (window.showToast) window.showToast('Room details updated successfully');
+    }
+
+    // ── VDR RENDER SHARED TABLE (TAB 2) ──
+    function vdrRenderSharedTable() {
+      const tbody = document.getElementById('sharedTableBody');
+      const badge = document.getElementById('sharedTableBadge');
+      if (badge) badge.textContent = `${vdrRoomData.sharedStartups.length} Startup${vdrRoomData.sharedStartups.length !== 1 ? 's' : ''}`;
+      if (!tbody) return;
+
+      if (!vdrRoomData.sharedStartups.length) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:32px; color:#8C8C88; font-size:12px;">No startups have been shared access to this data room yet. Click <strong>Share with Startup</strong> to invite startups from Due Diligence.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = vdrRoomData.sharedStartups.map(s => {
+        const avatar = s.avatar || s.name.substring(0,2).toUpperCase();
+        const progressVal = parseInt(s.progress || 0);
+        const statusTagHtml = vdrGetStatusTagHtml(s.status);
+        const emailStr = s.email || 'founder@startup.com';
+
+        return `
+          <tr style="cursor:pointer;" onclick="openStartupSubmissionView('${s.id}')">
+            <td style="white-space:nowrap;">
+              <div style="display:flex; align-items:center; gap:9px;">
+                <div style="width:24px; height:24px; border-radius:5px; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:10px; color:#1A1A18; flex-shrink:0;">${avatar}</div>
+                <span style="font-weight:700; color:#1A1A18;">${s.name}</span>
+              </div>
+            </td>
+            <td style="white-space:nowrap;">
+              <div style="display:flex; align-items:center; gap:5px;">
+                <span style="font-weight:600; color:#2A2A28;">${s.contact || s.founder || 'Founder'}</span>
+                <button type="button" onclick="copyEmail(event, '${emailStr}')" title="Copy email: ${emailStr}" style="border:none; background:transparent; cursor:pointer; padding:2px 4px; color:#7A7A78; display:inline-flex; align-items:center; justify-content:center; border-radius:3px;">
+                  <i data-lucide="mail" style="width:12px; height:12px;"></i>
+                </button>
+              </div>
+            </td>
+            <td style="font-size:11.5px; color:#6A6A68; white-space:nowrap;">${s.date}</td>
+            <td style="font-size:11.5px; color:#6A6A68; white-space:nowrap;">${s.receivedOn || 'Pending'}</td>
+            <td style="white-space:nowrap;">${statusTagHtml}</td>
+            <td style="width:130px; white-space:nowrap;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <div style="flex:1; height:6px; background:#EAEAE8; border-radius:3px; overflow:hidden;">
+                  <div style="width:${progressVal}%; height:100%; background:#1A1A18; border-radius:3px;"></div>
+                </div>
+                <span style="font-size:11px; font-weight:700; color:#1A1A18; min-width:30px; text-align:right;">${progressVal}%</span>
+              </div>
+            </td>
+            <td style="text-align:right; white-space:nowrap;" onclick="event.stopPropagation()">
+              <div style="display:flex; justify-content:flex-end; gap:5px;">
+                <button class="doc-btn" onclick="openStartupSubmissionView('${s.id}')">
+                  <i data-lucide="eye" style="width:11px; height:11px;"></i> Review
+                </button>
+                <button class="vdr-action-btn danger" onclick="promptRevokeAccess('${s.id}')" title="Revoke access">
+                  <i data-lucide="user-x" style="width:12px; height:12px;"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // ── VDR RENDER HISTORY (TAB 3 - Single Liner Rows) ──
+    function vdrRenderHistory() {
+      const container = document.getElementById('vdrHistoryTimeline');
+      if (!container) return;
+
+      if (!vdrRoomData.history.length) {
+        container.innerHTML = `<div style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; text-align:center; padding:32px; font-size:12px; color:#8C8C88;">No activity recorded yet.</div>`;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="timeline-card">
+          ${vdrRoomData.history.map(h => `
+            <div class="timeline-row">
+              <div class="timeline-row-left">
+                <div class="timeline-row-icon">
+                  <i data-lucide="${h.icon}" style="width:12px; height:12px;"></i>
+                </div>
+                <span class="timeline-row-text">${h.text}</span>
+              </div>
+              <span class="timeline-row-time">${h.time}</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // ── VDR TABS SWITCHER ──
+    function switchVdrTab(tab) {
+      const tabs = { docs: 'Docs', shared: 'Shared', history: 'History' };
+      Object.entries(tabs).forEach(([key, label]) => {
+        document.getElementById('tabBtn' + label)?.classList.remove('active');
+        const panel = document.getElementById('vdrTabPanel' + label);
+        if (panel) panel.style.display = 'none';
+      });
+
+      const detailPanel = document.getElementById('vdrTabPanelStartupDetail');
+      if (detailPanel) detailPanel.style.display = 'none';
+
+      const banner = document.getElementById('vdrBannerBg');
+      if (banner) banner.style.display = 'block';
+      const headerCard = document.querySelector('#vdrReplicaMount .vdr-header-card');
+      if (headerCard) headerCard.style.display = 'block';
+      const tabsBar = document.querySelector('#vdrReplicaMount .vdr-tabs');
+      if (tabsBar) tabsBar.style.display = 'flex';
+
+      const label = tabs[tab];
+      if (label) {
+        document.getElementById('tabBtn' + label)?.classList.add('active');
+        const panel = document.getElementById('vdrTabPanel' + label);
+        if (panel) panel.style.display = 'flex';
+      }
+    }
+
+    // ── SUB-PAGE: STARTUP SUBMISSION DEEP VIEW ──
+    function openStartupSubmissionView(startupId) {
+      const startup = vdrRoomData.sharedStartups.find(s => s.id === startupId);
+      if (!startup) return;
+      vdrActiveStartupId = startupId;
+
+      const banner = document.getElementById('vdrBannerBg');
+      if (banner) banner.style.display = 'none';
+      const headerCard = document.querySelector('#vdrReplicaMount .vdr-header-card');
+      if (headerCard) headerCard.style.display = 'none';
+      const tabsBar = document.querySelector('#vdrReplicaMount .vdr-tabs');
+      if (tabsBar) tabsBar.style.display = 'none';
+
+      ['Docs', 'Shared', 'History'].forEach(t => {
+        const panel = document.getElementById('vdrTabPanel' + t);
+        if (panel) panel.style.display = 'none';
+        document.getElementById('tabBtn' + t)?.classList.remove('active');
+      });
+
+      const detailPanel = document.getElementById('vdrTabPanelStartupDetail');
+      if (detailPanel) detailPanel.style.display = 'flex';
+
+      vdrRenderStartupSubmissionDetail(startup);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function backToVDRDetail() {
+      const detailPanel = document.getElementById('vdrTabPanelStartupDetail');
+      if (detailPanel) detailPanel.style.display = 'none';
+
+      const banner = document.getElementById('vdrBannerBg');
+      if (banner) banner.style.display = 'block';
+      const headerCard = document.querySelector('#vdrReplicaMount .vdr-header-card');
+      if (headerCard) headerCard.style.display = 'block';
+      const tabsBar = document.querySelector('#vdrReplicaMount .vdr-tabs');
+      if (tabsBar) tabsBar.style.display = 'flex';
+
+      switchVdrTab('shared');
+    }
+
+    function vdrRenderStartupSubmissionDetail(startup) {
+      const container = document.getElementById('startupSubmissionDetailContent');
+      if (!container) return;
+
+      const allDocRequirements = [];
+      vdrRoomData.folders.forEach(f => {
+        f.docs.forEach(d => {
+          const sub = (startup.submittedDocs || []).find(sd => sd.reqId === d.id) || null;
+          allDocRequirements.push({ reqId: d.id, title: d.title, required: d.required, folderTitle: f.title, template: d.template, submitted: sub });
+        });
+      });
+
+      const avatar = startup.avatar || startup.name.substring(0,2).toUpperCase();
+      const emailStr = startup.email || 'founder@startup.com';
+
+      container.innerHTML = `
+        <div style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:14px 16px; box-shadow:0 1px 3px rgba(0,0,0,0.03);">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:36px; height:36px; border-radius:7px; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px; color:#1A1A18;">${avatar}</div>
+              <div>
+                <div style="font-size:15px; font-weight:800; color:#1A1A18; display:flex; align-items:center; gap:8px;">
+                  ${startup.name} ${vdrGetStatusTagHtml(startup.status)}
+                </div>
+                <div style="font-size:11px; color:#6A6A68; margin-top:2px; display:flex; align-items:center; gap:6px;">
+                  <span>Founder: <strong>${startup.contact || startup.founder || 'Founder'}</strong></span>
+                  <button type="button" onclick="copyEmail(event, '${emailStr}')" title="Copy email: ${emailStr}" style="border:none; background:transparent; cursor:pointer; padding:2px; color:#7A7A78; display:inline-flex; align-items:center;">
+                    <i data-lucide="mail" style="width:12px; height:12px;"></i>
+                  </button>
+                  <span style="color:#D8D8D6;">·</span>
+                  <span>Shared: ${startup.date}</span>
+                  <span style="color:#D8D8D6;">·</span>
+                  <span>Received: ${startup.receivedOn || 'Pending'}</span>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <button class="doc-btn" onclick="backToVDRDetail()">
+                <i data-lucide="arrow-left" style="width:11px; height:11px;"></i> Back to VDR
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-toolbar">
+            <div class="table-toolbar-left">
+              <strong style="font-size:12.5px; color:#1A1A18;">Submitted Documents &amp; Due Diligence Review</strong>
+              <span class="badge-pill neutral-soft">${startup.name} Submissions</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <button class="btn btn-primary" onclick="openShareWithDDTeam('${startup.id}')" style="font-size:11px; padding:6px 12px; display:inline-flex; align-items:center; gap:6px;">
+                <i data-lucide="users" style="width:12px; height:12px;"></i> Share with DD Team
+              </button>
+              <button class="doc-btn" onclick="resendInvite('${startup.name}')">
+                <i data-lucide="send" style="width:11px; height:11px;"></i> Resend Access Link
+              </button>
+            </div>
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Document Name</th>
+                <th>Type</th>
+                <th>Last Updated On</th>
+                <th>Submitted Document File</th>
+                <th>Template</th>
+                <th>Status</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${allDocRequirements.map(item => {
+                const sub = item.submitted;
+                const hasFile = sub && sub.file;
+                let fileIcon = 'file-text';
+                if (hasFile) {
+                  if (sub.file.endsWith('.xlsx') || sub.file.endsWith('.csv')) fileIcon = 'file-spreadsheet';
+                  else if (sub.file.endsWith('.pdf')) fileIcon = 'file-text';
+                  else if (sub.file.endsWith('.docx')) fileIcon = 'file';
+                }
+                let statusTagHtml = '';
+                if (!hasFile) {
+                  statusTagHtml = `<span style="font-size:10.5px; color:#9A9A96; font-style:italic; white-space:nowrap;">Not Submitted</span>`;
+                } else if (sub.status === 'Approved') {
+                  statusTagHtml = `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#ECFDF5; color:#047857; border:1px solid #A7F3D0; border-radius:3px; display:inline-flex; align-items:center; gap:3px; white-space:nowrap;"><i data-lucide="check-circle" style="width:10px; height:10px;"></i> APPROVED</span>`;
+                } else if (sub.status === 'Rejected') {
+                  statusTagHtml = `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#FEF2F2; color:#DC2626; border:1px solid #FECACA; border-radius:3px; display:inline-flex; align-items:center; gap:3px; white-space:nowrap;" title="${sub.comment || 'Rejected'}"><i data-lucide="alert-circle" style="width:10px; height:10px;"></i> REJECTED</span>`;
+                } else {
+                  statusTagHtml = `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#F0F0EE; color:#5A5A58; border:1px solid #DCDCDA; border-radius:3px; display:inline-flex; align-items:center; gap:3px; white-space:nowrap;"><i data-lucide="clock" style="width:10px; height:10px;"></i> PENDING REVIEW</span>`;
+                }
+                return `
+                  <tr>
+                    <td style="white-space:nowrap;">
+                      <div style="font-weight:700; color:#1A1A18; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:240px; display:inline-block; vertical-align:middle;" title="${item.title}">${item.title}</div>
+                      ${item.required ? '<span style="color:#DC2626; font-weight:800; margin-left:3px; vertical-align:middle;" title="Required document">*</span>' : ''}
+                    </td>
+                    <td style="white-space:nowrap;">
+                      <div style="display:flex; align-items:center; gap:5px; font-size:11.5px; color:#4A4A48; font-weight:600;">
+                        <i data-lucide="${fileIcon}" style="width:13px; height:13px; color:#6A6A68;"></i>
+                        <span>${hasFile ? sub.file.split('.').pop().toUpperCase() : 'PDF'}</span>
+                      </div>
+                    </td>
+                    <td style="font-size:11.5px; color:#6A6A68; white-space:nowrap;">${hasFile ? sub.date : '—'}</td>
+                    <td style="white-space:nowrap;">
+                      ${hasFile ? `<button class="doc-btn" onclick="previewSubmittedDoc('${startup.id}', '${item.reqId}')" style="font-weight:700;"><i data-lucide="file-text" style="width:11px; height:11px;"></i> ${sub.file}</button>` : '<span style="font-size:11px; color:#A8A8A4;">Waiting for upload</span>'}
+                    </td>
+                    <td style="white-space:nowrap;">
+                      ${item.template ? `<span style="font-size:11.5px; color:#2A2A28; font-weight:700; display:inline-flex; align-items:center; gap:4px; cursor:pointer;" title="Reference template: ${item.template}" onclick="if (window.showToast) window.showToast('Reference Template: ${item.template}');"><i data-lucide="paperclip" style="width:12px; height:12px; color:#6A6A68;"></i> Ref</span>` : '<span style="font-size:11px; color:#A8A8A4;">None</span>'}
+                    </td>
+                    <td style="white-space:nowrap;">${statusTagHtml}</td>
+                    <td style="text-align:right; white-space:nowrap;">
+                      ${hasFile ? `<button class="btn btn-outline" onclick="previewSubmittedDoc('${startup.id}', '${item.reqId}')" style="font-size:11px; padding:4px 10px; font-weight:700; background:#FFFFFF;"><i data-lucide="eye" style="width:12px; height:12px;"></i> View Document</button>` : `<button class="doc-btn" disabled style="opacity:0.5; cursor:not-allowed; font-size:10.5px;"><i data-lucide="clock" style="width:11px; height:11px;"></i> Pending Upload</button>`}
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+          <div class="table-footer">Review submitted files and approve or reject with comments for founder re-uploading</div>
+        </div>
+      `;
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function updateStartupStatus(startupId, newStatus) {
+      const startup = vdrRoomData.sharedStartups.find(s => s.id === startupId);
+      if (!startup) return;
+      startup.status = newStatus;
+      vdrRoomData.history.unshift({ icon: 'activity', text: `Updated status for ${startup.name} to "${newStatus}"`, time: 'Just now' });
+      vdrRenderHeader();
+      vdrRenderSharedTable();
+      if (window.showToast) window.showToast(`Status updated to "${newStatus}"`);
+    }
+
+    function approveDocSubmission(startupId, reqId) {
+      const startup = vdrRoomData.sharedStartups.find(s => s.id === startupId);
+      if (!startup) return;
+      let sub = (startup.submittedDocs || []).find(sd => sd.reqId === reqId);
+      if (!sub) {
+        sub = { reqId, file: `${startup.name.replace(/\s+/g, '_')}_Document.pdf`, date: 'Just now', status: 'Approved' };
+        if (!startup.submittedDocs) startup.submittedDocs = [];
+        startup.submittedDocs.push(sub);
+      } else {
+        sub.status = 'Approved';
+      }
+      vdrRoomData.history.unshift({ icon: 'check-circle', text: `Approved submission for ${startup.name}`, time: 'Just now' });
+      hideVDRModal();
+      openStartupSubmissionView(startupId);
+      if (window.showToast) window.showToast('Document submission approved');
+    }
+
+    function promptRejectDocSubmission(startupId, reqId) {
+      const startup = vdrRoomData.sharedStartups.find(s => s.id === startupId);
+      if (!startup) return;
+      showVDRModal('Reject Document Submission', `
+        <p style="font-size:11.5px; color:#6A6A68; margin-bottom:14px;">
+          Provide rejection feedback to <strong>${startup.name}</strong> explaining why this document requires re-uploading.
+        </p>
+        <div class="field-group">
+          <div class="field-label">Rejection Reason / Comment <span style="color:#DC2626;">*</span></div>
+          <textarea id="rejectionCommentInput" class="field-input" rows="3" placeholder="e.g. Missing founder signature on page 3. Please re-upload signed copy."></textarea>
+        </div>
+        <div class="vdr-modal-footer">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+          <button class="btn-modal-danger" onclick="confirmRejectDocSubmission('${startupId}', '${reqId}')">Reject Submission</button>
+        </div>
+      `);
+      setTimeout(() => document.getElementById('rejectionCommentInput')?.focus(), 80);
+    }
+    function confirmRejectDocSubmission(startupId, reqId) {
+      const comment = document.getElementById('rejectionCommentInput')?.value?.trim();
+      if (!comment) {
+        if (window.showToast) window.showToast('Please enter a rejection reason.', 'alert-circle');
+        return;
+      }
+      const startup = vdrRoomData.sharedStartups.find(s => s.id === startupId);
+      if (!startup) return;
+      let sub = (startup.submittedDocs || []).find(sd => sd.reqId === reqId);
+      if (!sub) {
+        sub = { reqId, file: `${startup.name.replace(/\s+/g, '_')}_Document.pdf`, date: 'Just now', status: 'Rejected', comment };
+        if (!startup.submittedDocs) startup.submittedDocs = [];
+        startup.submittedDocs.push(sub);
+      } else {
+        sub.status = 'Rejected';
+        sub.comment = comment;
+      }
+      vdrRoomData.history.unshift({ icon: 'alert-circle', text: `Rejected document submission for ${startup.name} ("${comment}")`, time: 'Just now' });
+      hideVDRModal();
+      openStartupSubmissionView(startupId);
+      if (window.showToast) window.showToast('Submission marked as Rejected with feedback');
+    }
+
+    function previewSubmittedDoc(startupId, reqId) {
+      const startup = vdrRoomData.sharedStartups.find(s => s.id === startupId);
+      const sub = (startup?.submittedDocs || []).find(sd => sd.reqId === reqId);
+      if (!sub) return;
+      const reqItem = vdrRoomData.folders.flatMap(f => f.docs).find(d => d.id === reqId);
+      showVDRModal('Document Viewer & Audit Review', `
+        <div style="background:#FAFAFA; border:1px solid #E0E0DE; border-radius:6px; padding:14px; text-align:center; margin-bottom:14px;">
+          <i data-lucide="file-text" style="width:34px; height:34px; color:#3A3A38; margin-bottom:6px;"></i>
+          <div style="font-size:13px; font-weight:800; color:#1A1A18;">${sub.file}</div>
+          <div style="font-size:11px; color:#6A6A68; margin-top:3px;">
+            Requirement: <strong>${reqItem?.title || 'Document Requirement'}</strong> · Submitted by ${startup.name} on ${sub.date}
+          </div>
+        </div>
+        <div style="background:#F0F0EE; border:1px solid #E0E0DE; border-radius:6px; height:180px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#8A8A88; font-size:12px; margin-bottom:14px; padding:20px; text-align:center;">
+          <i data-lucide="shield-check" style="width:28px; height:28px; color:#A8A8A4; margin-bottom:8px;"></i>
+          <span style="font-weight:700; color:#4A4A48; margin-bottom:2px;">[ Document Preview Renderer ]</span>
+          <span style="font-size:11px; color:#8A8A88;">Watermarked preview enabled. Inspect pages before approving for diligence report.</span>
+        </div>
+        <div class="vdr-modal-footer" style="display:flex; justify-content:space-between; align-items:center;">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Close Viewer</button>
+          <div style="display:flex; gap:8px;">
+            <button class="btn-modal-danger" onclick="promptRejectDocSubmission('${startupId}', '${reqId}')">
+              <i data-lucide="x" style="width:12px; height:12px;"></i> Reject Submission
+            </button>
+            <button class="btn-modal-primary" onclick="approveDocSubmission('${startupId}', '${reqId}')" style="background:#047857; border-color:#047857;">
+              <i data-lucide="check" style="width:12px; height:12px;"></i> Approve Document
+            </button>
+          </div>
+        </div>
+      `);
+    }
+
+    // ── OPEN SHARE VDR DRAWER ──
+    function openShareVDR() {
+      const bodyHtml = `
+        <p style="font-size:11.5px; color:#6A6A68; margin-bottom:14px; line-height:1.5;">
+          Select a startup currently under <strong>Due Diligence</strong> in your pipeline to grant access to <strong>${vdrRoomData.name}</strong>.
+        </p>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          ${VDR_DUE_DILIGENCE_STARTUPS.map(s => {
+            const alreadyShared = vdrRoomData.sharedStartups.some(ss => ss.name === s.name);
+            return `
+              <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:7px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:12px; transition:border-color 0.12s, box-shadow 0.12s;">
+                <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+                  <div style="width:34px; height:34px; border-radius:6px; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; color:#1A1A18; flex-shrink:0;">${s.avatar}</div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="display:flex; align-items:center; gap:6px;">
+                      <span style="font-size:12.5px; font-weight:800; color:#1A1A18; line-height:1.2;">${s.name}</span>
+                      <span class="vdr-type-tag" style="font-size:8.5px;">${s.sector.toUpperCase()}</span>
+                    </div>
+                    <div style="font-size:11px; color:#6A6A68; margin-top:2px;">${s.founder} · <span style="color:#8A8A88;">${s.email}</span></div>
+                  </div>
+                </div>
+                ${alreadyShared ? `<span style="font-size:10px; font-weight:700; color:#047857; background:#ECFDF5; padding:4px 8px; border-radius:4px; border:1px solid #A7F3D0;">Already Shared</span>` : `<button type="button" class="btn btn-primary" onclick="confirmShareVDRWithStartup('${s.id}')" style="font-size:11px; padding:5px 11px; flex-shrink:0;"><i data-lucide="send" style="width:11px; height:11px;"></i> Share VDR</button>`}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+      const footerHtml = `<button type="button" class="btn-modal-cancel" onclick="window.closeDrawer()">Close</button>`;
+      if (window.openDrawer) {
+        window.openDrawer('Share Data Room with Startup', `Due Diligence Pipeline Startups`, bodyHtml, footerHtml);
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+    }
+
+    function confirmShareVDRWithStartup(dealId) {
+      const startup = VDR_DUE_DILIGENCE_STARTUPS.find(s => s.id === dealId);
+      if (!startup) return;
+      showVDRModal('Confirm Share Data Room', `
+        <div style="text-align:center; padding:8px 0 4px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+            <i data-lucide="send" style="width:20px; height:20px; color:#1A1A18;"></i>
+          </div>
+          <div style="font-size:13.5px; font-weight:800; color:#1A1A18; margin-bottom:6px;">Share "${vdrRoomData.name}" with ${startup.name}?</div>
+          <p style="font-size:11.5px; color:#6A6A68; line-height:1.5;">
+            An automated invite link will be sent to <strong>${startup.founder}</strong> (${startup.email}). They will gain secure document upload access.
+          </p>
+        </div>
+        <div class="vdr-modal-footer">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+          <button class="btn-modal-primary" onclick="executeShareVDRWithStartup('${dealId}')">Confirm &amp; Send Invite</button>
+        </div>
+      `);
+    }
+    function executeShareVDRWithStartup(dealId) {
+      const startup = VDR_DUE_DILIGENCE_STARTUPS.find(s => s.id === dealId);
+      if (!startup) return;
+      const today = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+      vdrRoomData.sharedStartups.unshift({
+        id: 's_' + Date.now(), name: startup.name, avatar: startup.avatar, contact: startup.founder,
+        email: startup.email, date: today, receivedOn: 'Pending', status: 'Share to Startup', progress: 0, submittedDocs: []
+      });
+      vdrRoomData.history.unshift({ icon: 'send', text: `Data room shared with ${startup.name} (${startup.email})`, time: 'Just now' });
+      vdrRoomData.updated = 'Just now';
+      hideVDRModal();
+      if (window.closeDrawer) window.closeDrawer();
+      vdrRenderHeader();
+      vdrRenderSharedTable();
+      vdrRenderHistory();
+      switchVdrTab('shared');
+      if (window.showToast) window.showToast(`VDR successfully shared with ${startup.name}!`);
+    }
+
+    // ── OPEN SHARE WITH DD TEAM DRAWER ──
+    function openShareWithDDTeam(startupId) {
+      const startup = vdrRoomData.sharedStartups.find(s => s.id === startupId);
+      const startupLabel = startup ? startup.name : 'this startup';
+      const bodyHtml = `
+        <p style="font-size:11.5px; color:#6A6A68; margin-bottom:14px; line-height:1.5;">
+          Select a <strong>DD Partner</strong> to give review access to <strong>${startupLabel}</strong>'s submitted documents in <strong>${vdrRoomData.name}</strong>.
+        </p>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          ${VDR_DD_PARTNERS.map(p => {
+            const alreadyShared = (vdrRoomData.sharedPartners || []).some(sp => sp.name === p.name);
+            return `
+              <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:7px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+                <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+                  <div style="width:34px; height:34px; border-radius:6px; background:#1A1A18; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; color:#FFFFFF; flex-shrink:0;">${p.avatar}</div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="display:flex; align-items:center; gap:6px;">
+                      <span style="font-size:12.5px; font-weight:800; color:#1A1A18; line-height:1.2;">${p.name}</span>
+                      <span class="vdr-type-tag" style="font-size:8.5px;">${p.specialty.toUpperCase()}</span>
+                    </div>
+                    <div style="font-size:11px; color:#6A6A68; margin-top:2px;">${p.lead} · <span style="color:#8A8A88;">${p.email}</span></div>
+                    <div style="font-size:10px; color:#9A9A96; margin-top:2px;">Review SLA: <strong style="color:#5A5A58;">${p.slaDays}</strong></div>
+                  </div>
+                </div>
+                ${alreadyShared ? `<span style="font-size:10px; font-weight:700; color:#047857; background:#ECFDF5; padding:4px 8px; border-radius:4px; border:1px solid #A7F3D0; flex-shrink:0;">Already Shared</span>` : `<button type="button" class="btn btn-primary" onclick="confirmShareWithDDTeam('${p.id}')" style="font-size:11px; padding:5px 11px; flex-shrink:0;"><i data-lucide="send" style="width:11px; height:11px;"></i> Share VDR</button>`}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+      const footerHtml = `<button type="button" class="btn-modal-cancel" onclick="window.closeDrawer()">Close</button>`;
+      if (window.openDrawer) {
+        window.openDrawer('Share with DD Team', `Due Diligence Partners`, bodyHtml, footerHtml);
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+    }
+    function confirmShareWithDDTeam(partnerId) {
+      const partner = VDR_DD_PARTNERS.find(p => p.id === partnerId);
+      if (!partner) return;
+      showVDRModal('Confirm Share Data Room', `
+        <div style="text-align:center; padding:8px 0 4px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+            <i data-lucide="users" style="width:20px; height:20px; color:#1A1A18;"></i>
+          </div>
+          <div style="font-size:13.5px; font-weight:800; color:#1A1A18; margin-bottom:6px;">Share with ${partner.name}?</div>
+          <p style="font-size:11.5px; color:#6A6A68; line-height:1.5;">
+            Review access will be granted to <strong>${partner.lead}</strong> (${partner.email}). They will be able to review submitted documents for this data room.
+          </p>
+        </div>
+        <div class="vdr-modal-footer">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+          <button class="btn-modal-primary" onclick="executeShareWithDDTeam('${partnerId}')">Confirm &amp; Grant Access</button>
+        </div>
+      `);
+    }
+    function executeShareWithDDTeam(partnerId) {
+      const partner = VDR_DD_PARTNERS.find(p => p.id === partnerId);
+      if (!partner) return;
+      if (!vdrRoomData.sharedPartners) vdrRoomData.sharedPartners = [];
+      vdrRoomData.sharedPartners.unshift({
+        id: 'sp_' + Date.now(), name: partner.name, avatar: partner.avatar, specialty: partner.specialty,
+        lead: partner.lead, email: partner.email, slaDays: partner.slaDays, date: 'Just now'
+      });
+      vdrRoomData.history.unshift({ icon: 'users', text: `Data room shared with DD team: ${partner.name} (${partner.lead})`, time: 'Just now' });
+      vdrRoomData.updated = 'Just now';
+      hideVDRModal();
+      if (window.closeDrawer) window.closeDrawer();
+      vdrRenderHeader();
+      vdrRenderHistory();
+      if (window.showToast) window.showToast(`VDR shared with ${partner.name} (${partner.lead})!`);
+    }
+
+    // ── RESEND INVITE / REVOKE ACCESS ──
+    function resendInvite(name) {
+      if (window.showToast) window.showToast(`Invite link resent to ${name}`);
+    }
+    function promptRevokeAccess(startupId) {
+      const startup = vdrRoomData.sharedStartups.find(s => s.id === startupId);
+      if (!startup) return;
+      vdrPendingDeleteStartupId = startupId;
+      showVDRModal('Revoke Access', `
+        <div style="text-align:center; padding:8px 0 4px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:#FEF2F2; border:1px solid #FECACA; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+            <i data-lucide="user-x" style="width:20px; height:20px; color:#DC2626;"></i>
+          </div>
+          <div style="font-size:13px; font-weight:800; color:#1A1A18; margin-bottom:6px;">Revoke access for ${startup.name}?</div>
+          <p style="font-size:11.5px; color:#6A6A68; line-height:1.5;">
+            This will immediately remove their access to this data room. They will no longer be able to view or upload documents.
+          </p>
+        </div>
+        <div class="vdr-modal-footer">
+          <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+          <button class="btn-modal-danger" onclick="confirmRevokeAccess()">Revoke Access</button>
+        </div>
+      `);
+    }
+    function confirmRevokeAccess() {
+      const startupId = vdrPendingDeleteStartupId;
+      const startup = vdrRoomData.sharedStartups.find(s => s.id === startupId);
+      const name = startup?.name || 'Startup';
+      vdrRoomData.sharedStartups = vdrRoomData.sharedStartups.filter(s => s.id !== startupId);
+      vdrRoomData.history.unshift({ icon: 'user-x', text: `Access revoked for ${name}`, time: 'Just now' });
+      vdrRoomData.updated = 'Just now';
+      hideVDRModal();
+      vdrRenderHeader();
+      vdrRenderSharedTable();
+      vdrRenderHistory();
+      if (window.showToast) window.showToast(`Access revoked for ${name}`);
+    }
+
+    function copyEmail(e, email) {
+      if (e) e.stopPropagation();
+      if (navigator.clipboard) navigator.clipboard.writeText(email);
+      if (window.showToast) window.showToast(`Email copied: ${email}`);
+    }
+
+    function termSheetAction(action) {
+      if (window.showToast) window.showToast(`${action}: preparing document...`);
+    }
   </script>
 </body>
 </html>
