@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="./css/styles.css">
 <!-- Lucide Icons CDN -->
 <script src="https://unpkg.com/lucide@latest"></script>
+<!-- ApexCharts CDN (monochrome neutral charts) -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.54.1/dist/apexcharts.min.js"></script>
 </head>
 <body>
 
@@ -26,7 +28,7 @@
     <!-- MAIN WORKSPACE CONTENT AREA (DASHBOARD PAGE) -->
     <main class="main-workspace">
       <div class="content-scrollable">
-        
+
         <!-- Section Title Indicator Bar -->
         <div class="section-indicator-bar">
           <span class="section-indicator-icon">
@@ -36,20 +38,24 @@
           <span class="section-indicator-title" id="currentWorkspaceTitle">Dashboard</span>
         </div>
 
-        <!-- Page Header Container (Matching Screenshot UI) -->
+        <!-- Page Header Container -->
         <div class="page-header-container">
           <div class="page-header-top-row">
             <div class="header-titles">
               <h1 class="page-title" id="pageHeaderTitle">Investor Command Center</h1>
-              <p class="page-subtitle" id="pageHeaderSub">Seedicon Venture Fund I (₹20 Cr Target) — Ecosystem Active</p>
+              <p class="page-subtitle" id="pageHeaderSub">Seedicon Venture Fund I (₹20 Cr Target) — Ecosystem Active · Vintage 2026 · Fully Subscribed</p>
             </div>
-            
+
             <div class="header-action-group">
+              <button class="btn btn-outline" onclick="exportDashboardSnapshot()" title="Download dashboard snapshot">
+                <i data-lucide="download" class="lucide-sm"></i>
+                <span>Export</span>
+              </button>
               <button class="btn btn-primary" onclick="document.getElementById('createActionsMenu').classList.toggle('show')">
                 <i data-lucide="plus"></i>
                 <span>+ Create action</span>
               </button>
-              
+
               <div class="dropdown-wrap">
                 <button class="btn btn-outline">
                   <span>More</span>
@@ -59,13 +65,24 @@
             </div>
           </div>
 
-          <!-- Controls Row: Search & Filter Controls -->
+          <!-- Controls Row: Search & Period Filters -->
           <div class="page-header-controls-row">
             <div class="inpage-search-box">
               <i data-lucide="search" class="search-icon"></i>
-              <input type="text" class="inpage-search-input" placeholder="Search..."/>
+              <input type="text" class="inpage-search-input" placeholder="Search dashboard..."/>
             </div>
-            <button class="btn-icon" title="Filter &amp; Sort">
+
+            <div style="flex:1;"></div>
+
+            <span style="font-size:10.5px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:var(--text-light);">Period</span>
+            <div class="seg-filter" id="periodFilter">
+              <button data-period="qt" onclick="setDashboardPeriod('qt', this)">This Quarter</button>
+              <button data-period="ytd" onclick="setDashboardPeriod('ytd', this)">YTD</button>
+              <button data-period="12m" onclick="setDashboardPeriod('12m', this)">12 Months</button>
+              <button data-period="all" class="active" onclick="setDashboardPeriod('all', this)">All Time</button>
+            </div>
+
+            <button class="btn-icon" title="Filter & Sort">
               <i data-lucide="sliders-horizontal"></i>
             </button>
           </div>
@@ -74,18 +91,379 @@
         <!-- Header Bottom Divider Line -->
         <div class="page-header-divider"></div>
 
-        <!-- CLEAN EMPTY CANVAS STATE (Matching Screenshot UI) -->
-        <div class="empty-canvas-box" id="mainCanvasBox">
-          <div class="empty-canvas-icon">
-            <i data-lucide="layout-template" class="lucide-lg"></i>
-          </div>
-          <h2 class="empty-canvas-title">Investor Dashboard Workspace</h2>
-          <p class="empty-canvas-sub">Center workspace canvas is clear. Switch funds using the Fund Dropdown in the top navbar or click + Create action to begin!</p>
-        </div>
+        <!-- ============================================================
+             DASHBOARD CONTENT
+             ============================================================ -->
+        <div class="dash-stack">
 
+          <!-- ── SECTION 01 : FUND CAPITAL & PERFORMANCE KPI ── -->
+          <section>
+            <div class="dash-section-title">
+              <span>Fund Capital &amp; Performance</span>
+              <span class="dash-section-extra">
+                <i data-lucide="calendar" style="width:11px; height:11px;"></i>
+                <span id="kpiPeriodLabel">Since Inception (Jan 2026)</span>
+              </span>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card progress-card">
+                <div class="stat-card-header">
+                  <span class="stat-card-label">Committed Capital</span>
+                  <span class="stat-card-icon"><i data-lucide="wallet" style="width:12px; height:12px;"></i></span>
+                </div>
+                <div class="stat-card-value">₹20.00 <small>Cr</small></div>
+                <div class="stat-card-progress"><div style="width:100%;"></div></div>
+                <div class="stat-card-sub row">
+                  <span>100% of ₹20 Cr target</span>
+                  <span class="kpi-tag dark">Subscribed</span>
+                </div>
+              </div>
+
+              <div class="stat-card progress-card">
+                <div class="stat-card-header">
+                  <span class="stat-card-label">Capital Deployed</span>
+                  <span class="stat-card-icon"><i data-lucide="banknote" style="width:12px; height:12px;"></i></span>
+                </div>
+                <div class="stat-card-value">₹6.80 <small>Cr</small></div>
+                <div class="stat-card-progress"><div style="width:34%;"></div></div>
+                <div class="stat-card-sub row">
+                  <span>34% of committed</span>
+                  <span class="kpi-tag">12 companies</span>
+                </div>
+              </div>
+
+              <div class="stat-card progress-card">
+                <div class="stat-card-header">
+                  <span class="stat-card-label">Capital Called</span>
+                  <span class="stat-card-icon"><i data-lucide="coins" style="width:12px; height:12px;"></i></span>
+                </div>
+                <div class="stat-card-value">₹7.20 <small>Cr</small></div>
+                <div class="stat-card-progress"><div style="width:36%;"></div></div>
+                <div class="stat-card-sub row">
+                  <span>36% of committed</span>
+                  <span class="kpi-tag">3 calls issued</span>
+                </div>
+              </div>
+
+              <div class="stat-card progress-card">
+                <div class="stat-card-header">
+                  <span class="stat-card-label">Distributions Paid</span>
+                  <span class="stat-card-icon"><i data-lucide="arrow-up-right" style="width:12px; height:12px;"></i></span>
+                </div>
+                <div class="stat-card-value">₹4.70 <small>Cr</small></div>
+                <div class="stat-card-progress"><div style="width:65%;"></div></div>
+                <div class="stat-card-sub row">
+                  <span>DPI 0.65x on called</span>
+                  <span class="kpi-tag">8 events</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ── SECTION 02 : PORTFOLIO VALUE & RETURNS KPI ── -->
+          <section>
+            <div class="dash-section-title">
+              <span>Portfolio Value &amp; Returns</span>
+              <span class="dash-section-extra">
+                <i data-lucide="trending-up" style="width:11px; height:11px;"></i>
+                <span>Mark-to-market as of 16 Aug 2026</span>
+              </span>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-card-header">
+                  <span class="stat-card-label">Current Portfolio Value (NAV)</span>
+                  <span class="stat-card-icon"><i data-lucide="briefcase" style="width:12px; height:12px;"></i></span>
+                </div>
+                <div class="stat-card-value">₹8.80 <small>Cr</small></div>
+                <div class="stat-card-sub">Across 12 portfolio holdings</div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-card-header">
+                  <span class="stat-card-label">Unrealized Gain</span>
+                  <span class="stat-card-icon"><i data-lucide="trending-up" style="width:12px; height:12px;"></i></span>
+                </div>
+                <div class="stat-card-value">₹2.00 <small>Cr</small></div>
+                <div class="stat-card-sub">RVPI 1.29x on deployed capital</div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-card-header">
+                  <span class="stat-card-label">Fund TVPI / MOIC</span>
+                  <span class="stat-card-icon"><i data-lucide="target" style="width:12px; height:12px;"></i></span>
+                </div>
+                <div class="stat-card-value">1.99x</div>
+                <div class="stat-card-sub">RVPI 1.29x · DPI 0.65x</div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-card-header">
+                  <span class="stat-card-label">Dry Powder</span>
+                  <span class="stat-card-icon"><i data-lucide="fuel" style="width:12px; height:12px;"></i></span>
+                </div>
+                <div class="stat-card-value">₹13.20 <small>Cr</small></div>
+                <div class="stat-card-sub">Uncalled · callable for future deals</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ── SECTION 03 : CHART ROW 1 — CAPITAL ACTIVITY + SECTOR ALLOCATION ── -->
+          <section>
+            <div class="dash-section-title">
+              <span>Capital Activity &amp; Allocation</span>
+              <span class="dash-section-extra">
+                <span id="activityChartHint" class="chart-hint">
+                  <span class="dot" style="background:#1A1A18;"></span> Called
+                  <span class="dot" style="background:#9A9A96;"></span> Deployed
+                  <span class="dot" style="background:#4A4A46;"></span> Distributions
+                </span>
+              </span>
+            </div>
+
+            <div class="dash-grid-2">
+              <div class="panel-card">
+                <div class="panel-head">
+                  <div class="panel-title">
+                    Fund Capital Movement
+                    <span class="panel-sub" id="capitalChartSub">₹ Cr per period</span>
+                  </div>
+                  <a href="./capital-calls.html" class="panel-link">
+                    <i data-lucide="coins" style="width:11px; height:11px;"></i>
+                    Capital Call Ledger
+                  </a>
+                </div>
+                <div class="chart-box">
+                  <div id="capitalActivityChart"></div>
+                </div>
+              </div>
+
+              <div class="panel-card">
+                <div class="panel-head">
+                  <div class="panel-title">
+                    Sector Allocation
+                    <span class="panel-sub">by company count</span>
+                  </div>
+                  <a href="./portfolio-management.html" class="panel-link">
+                    <i data-lucide="briefcase" style="width:11px; height:11px;"></i>
+                    Portfolio
+                  </a>
+                </div>
+                <div class="chart-box">
+                  <div id="sectorChart"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ── SECTION 04 : CHART ROW 2 — PIPELINE + LP COMPOSITION ── -->
+          <section>
+            <div class="dash-section-title">
+              <span>Deal Pipeline &amp; LP Base</span>
+              <span class="dash-section-extra">
+                <span>14 active deals · 18 LPs · 28 pool startups</span>
+              </span>
+            </div>
+
+            <div class="dash-grid-2">
+              <div class="panel-card">
+                <div class="panel-head">
+                  <div class="panel-title">
+                    Deal Pipeline by Stage
+                    <span class="panel-sub">deals currently in each CRM stage</span>
+                  </div>
+                  <a href="./deal-crm.html" class="panel-link">
+                    <i data-lucide="kanban" style="width:11px; height:11px;"></i>
+                    Deal CRM
+                  </a>
+                </div>
+                <div class="chart-box">
+                  <div id="pipelineChart"></div>
+                </div>
+              </div>
+
+              <div class="panel-card">
+                <div class="panel-head">
+                  <div class="panel-title">
+                    LP Composition
+                    <span class="panel-sub">by investor type</span>
+                  </div>
+                  <a href="./lps-management.html" class="panel-link">
+                    <i data-lucide="users" style="width:11px; height:11px;"></i>
+                    LPs
+                  </a>
+                </div>
+                <div class="chart-box">
+                  <div id="lpChart"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ── SECTION 05 : ACTIVITY + PENDING ACTIONS ── -->
+          <section>
+            <div class="dash-section-title">
+              <span>Recent Activity &amp; Action Items</span>
+              <span class="dash-section-extra">
+                <a href="./history.html" class="panel-link">
+                  <i data-lucide="clock" style="width:11px; height:11px;"></i>
+                  View full history
+                </a>
+              </span>
+            </div>
+
+            <div class="dash-grid-2">
+              <div class="panel-card">
+                <div class="panel-head">
+                  <div class="panel-title">
+                    Recent Activity
+                    <span class="panel-sub">across the fund ecosystem</span>
+                  </div>
+                </div>
+                <div class="activity-list" id="activityFeed">
+                  <div class="activity-item">
+                    <div class="activity-icon dark"><i data-lucide="coins" style="width:13px; height:13px;"></i></div>
+                    <div class="activity-body">
+                      <div class="activity-text"><b>Capital Call CC-003</b> issued to <b>16 LPs</b> — <b>₹1.20 Cr</b> called</div>
+                      <div class="activity-meta">Capital Calls · Payment window open until 30 Aug 2026</div>
+                    </div>
+                    <div class="activity-date">Aug 16</div>
+                  </div>
+                  <div class="activity-item">
+                    <div class="activity-icon"><i data-lucide="arrow-up-right" style="width:13px; height:13px;"></i></div>
+                    <div class="activity-body">
+                      <div class="activity-text"><b>Distribution paid</b> — OrbitPay partial exit · <b>₹0.50 Cr</b> (1.47x)</div>
+                      <div class="activity-meta">Distribution Calls · Wired to registered depository accounts</div>
+                    </div>
+                    <div class="activity-date">Aug 14</div>
+                  </div>
+                  <div class="activity-item">
+                    <div class="activity-icon"><i data-lucide="clipboard-check" style="width:13px; height:13px;"></i></div>
+                    <div class="activity-body">
+                      <div class="activity-text"><b>Founder report received</b> — FinFlow Tech · <b>Q2 FY27 MIS</b></div>
+                      <div class="activity-meta">Founders Reporting · Auto-reviewed against budget baseline</div>
+                    </div>
+                    <div class="activity-date">Aug 12</div>
+                  </div>
+                  <div class="activity-item">
+                    <div class="activity-icon"><i data-lucide="inbox" style="width:13px; height:13px;"></i></div>
+                    <div class="activity-body">
+                      <div class="activity-text"><b>New inbound</b> — <b>Quantica AI</b> submitted intake application (AI / Software)</div>
+                      <div class="activity-meta">Startups Pool · 28 total submissions</div>
+                    </div>
+                    <div class="activity-date">Aug 11</div>
+                  </div>
+                  <div class="activity-item">
+                    <div class="activity-icon"><i data-lucide="folder-lock" style="width:13px; height:13px;"></i></div>
+                    <div class="activity-body">
+                      <div class="activity-text"><b>VDR access granted</b> — LogiChain Labs · DD dataroom vault</div>
+                      <div class="activity-meta">VDR · 4 active data rooms</div>
+                    </div>
+                    <div class="activity-date">Aug 09</div>
+                  </div>
+                  <div class="activity-item">
+                    <div class="activity-icon"><i data-lucide="file-text" style="width:13px; height:13px;"></i></div>
+                    <div class="activity-body">
+                      <div class="activity-text"><b>Investment thesis updated</b> &amp; published to co-investors &amp; LPs</div>
+                      <div class="activity-meta">Investment Thesis · B2B SaaS &amp; Vertical AI focus</div>
+                    </div>
+                    <div class="activity-date">Aug 06</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-card">
+                <div class="panel-head">
+                  <div class="panel-title">
+                    Pending Actions
+                    <span class="panel-sub">needs your attention</span>
+                  </div>
+                </div>
+                <div class="pending-list">
+                  <a href="./distribution-calls.html" class="pending-item">
+                    <div class="pending-icon"><i data-lucide="arrow-up-right" style="width:12px; height:12px;"></i></div>
+                    <div class="pending-body">
+                      <div class="pending-title">Review exit requests</div>
+                      <div class="pending-meta">Distribution Calls · awaiting LP approval</div>
+                    </div>
+                    <span class="pending-count">3</span>
+                  </a>
+                  <a href="./founder-reports.html" class="pending-item">
+                    <div class="pending-icon"><i data-lucide="clipboard-check" style="width:12px; height:12px;"></i></div>
+                    <div class="pending-body">
+                      <div class="pending-title">Founder reports pending submission</div>
+                      <div class="pending-meta">Founders Reporting · 10 of 14 received</div>
+                    </div>
+                    <span class="pending-count">4</span>
+                  </a>
+                  <a href="./dd-partners.html" class="pending-item">
+                    <div class="pending-icon"><i data-lucide="file-search" style="width:12px; height:12px;"></i></div>
+                    <div class="pending-body">
+                      <div class="pending-title">DD reports pending from partners</div>
+                      <div class="pending-meta">DD Partners · legal &amp; financial review in progress</div>
+                    </div>
+                    <span class="pending-count">2</span>
+                  </a>
+                  <a href="./deal-crm.html" class="pending-item">
+                    <div class="pending-icon"><i data-lucide="file-signature" style="width:12px; height:12px;"></i></div>
+                    <div class="pending-body">
+                      <div class="pending-title">Term sheet to finalize</div>
+                      <div class="pending-meta">Deal CRM · SkyTrack Mobility · Series A</div>
+                    </div>
+                    <span class="pending-count">1</span>
+                  </a>
+                  <a href="./deal-crm.html" class="pending-item">
+                    <div class="pending-icon"><i data-lucide="git-pull-request" style="width:12px; height:12px;"></i></div>
+                    <div class="pending-body">
+                      <div class="pending-title">IC decisions due this week</div>
+                      <div class="pending-meta">Deal CRM · BioCore Diagnostics · RoboFarm AI</div>
+                    </div>
+                    <span class="pending-count">2</span>
+                  </a>
+                </div>
+
+                <div style="padding:12px 14px; border-top:1px solid var(--border-main);">
+                  <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-light); margin-bottom:8px;">Quick Actions</div>
+                  <div class="quick-actions-grid">
+                    <button class="qq-tile" onclick="location.href='./intake-builder.html'">
+                      <span class="qq-tile-icon"><i data-lucide="link-2" style="width:13px; height:13px;"></i></span>
+                      <span>
+                        <span class="qq-tile-label">New Intake Link</span>
+                        <span class="qq-tile-sub" style="display:block;">Shareable inbound form</span>
+                      </span>
+                    </button>
+                    <button class="qq-tile" onclick="location.href='./capital-calls.html'">
+                      <span class="qq-tile-icon"><i data-lucide="coins" style="width:13px; height:13px;"></i></span>
+                      <span>
+                        <span class="qq-tile-label">New Capital Call</span>
+                        <span class="qq-tile-sub" style="display:block;">Call committed LPs</span>
+                      </span>
+                    </button>
+                    <button class="qq-tile" onclick="location.href='./portfolio-management.html'">
+                      <span class="qq-tile-icon"><i data-lucide="briefcase" style="width:13px; height:13px;"></i></span>
+                      <span>
+                        <span class="qq-tile-label">Add to Portfolio</span>
+                        <span class="qq-tile-sub" style="display:block;">Convert a closed deal</span>
+                      </span>
+                    </button>
+                    <button class="qq-tile" onclick="location.href='./distribution-calls.html'">
+                      <span class="qq-tile-icon"><i data-lucide="arrow-up-right" style="width:13px; height:13px;"></i></span>
+                      <span>
+                        <span class="qq-tile-label">New Distribution</span>
+                        <span class="qq-tile-sub" style="display:block;">Return capital to LPs</span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
       </div>
     </main>
-
   </div>
 </div>
 
@@ -98,6 +476,231 @@
 <script>
   // Initialize Modular Component Layout for Dashboard
   LayoutComponents.init({ activeNav: 'dashboard', activeApp: 'investor' });
+
+  /* ==========================================================================
+     INVESTOR COMMAND CENTER — DASHBOARD CHARTS (APEXCHARTS, MONOCHROME)
+     ========================================================================== */
+  const NEUTRAL = {
+    ink:  '#1A1A18',
+    dark: '#4A4A46',
+    mid:  '#7A7A74',
+    soft: '#A6A6A0',
+    light:'#C8C8BF',
+    faint:'#E3E3DC',
+    grid: '#ECECE6',
+    axis: '#9A9A96',
+    text: '#7A7A74'
+  };
+
+  // Period-filterable activity data (₹ Cr, non-cumulative)
+  const ACTIVITY_DATA = {
+    qt: {
+      label: 'This Quarter (Jun – Aug 2026)',
+      categories: ['Jun 26', 'Jul 26', 'Aug 26'],
+      called: [1.2, 1.1, 0.5],
+      deployed: [1.2, 1.2, 0.6],
+      distributed: [1.1, 1.2, 0.5]
+    },
+    ytd: {
+      label: 'Year to Date (Jan – Aug 2026)',
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+      called: [0.6, 0.8, 0.9, 1.0, 1.1, 1.2, 1.1, 0.5],
+      deployed: [0.4, 0.7, 0.8, 0.9, 1.0, 1.2, 1.2, 0.6],
+      distributed: [0, 0, 0, 0.5, 1.4, 1.1, 1.2, 0.5]
+    },
+    '12m': {
+      label: 'Trailing 12 Months (Sep 2025 – Aug 2026)',
+      categories: ['Sep 25', 'Oct', 'Nov', 'Dec', 'Jan 26', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+      called: [0, 0, 0, 0, 0.6, 0.8, 0.9, 1.0, 1.1, 1.2, 1.1, 0.5],
+      deployed: [0, 0, 0, 0, 0.4, 0.7, 0.8, 0.9, 1.0, 1.2, 1.2, 0.6],
+      distributed: [0, 0, 0, 0, 0, 0, 0, 0.5, 1.4, 1.1, 1.2, 0.5]
+    },
+    all: {
+      label: 'Since Inception (Jan 2026)',
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+      called: [0.6, 0.8, 0.9, 1.0, 1.1, 1.2, 1.1, 0.5],
+      deployed: [0.4, 0.7, 0.8, 0.9, 1.0, 1.2, 1.2, 0.6],
+      distributed: [0, 0, 0, 0.5, 1.4, 1.1, 1.2, 0.5]
+    }
+  };
+
+  const baseChartTheme = {
+    chart: {
+      fontFamily: 'Inter, sans-serif',
+      foreColor: NEUTRAL.text,
+      toolbar: { show: false },
+      background: '#FFFFFF'
+    },
+    dataLabels: { enabled: false },
+    grid: { borderColor: NEUTRAL.grid, strokeDashArray: 3 },
+    tooltip: { theme: 'light' },
+    states: { hover: { filter: { type: 'none' } } }
+  };
+
+  let capitalChart = null;
+  let sectorChart = null;
+  let pipelineChart = null;
+  let lpChart = null;
+
+  function renderCapitalChart(period) {
+    const d = ACTIVITY_DATA[period] || ACTIVITY_DATA.all;
+    const opt = Object.assign({}, baseChartTheme, {
+      chart: Object.assign({}, baseChartTheme.chart, { type: 'bar', height: 300 }),
+      series: [
+        { name: 'Capital Called', type: 'bar', data: d.called },
+        { name: 'Capital Deployed', type: 'bar', data: d.deployed },
+        { name: 'Distributions', type: 'line', data: d.distributed }
+      ],
+      colors: [NEUTRAL.ink, NEUTRAL.soft, NEUTRAL.dark],
+      plotOptions: {
+        bar: {
+          columnWidth: '42%',
+          borderRadius: 2,
+          borderRadiusApplication: 'end'
+        }
+      },
+      stroke: { curve: 'smooth', width: [0, 0, 2] },
+      xaxis: {
+        categories: d.categories,
+        axisBorder: { show: true, color: NEUTRAL.grid },
+        axisTicks: { show: false },
+        labels: { style: { colors: NEUTRAL.text, fontSize: '10.5px' } }
+      },
+      yaxis: {
+        labels: {
+          formatter: (v) => v.toFixed(1),
+          style: { colors: NEUTRAL.axis, fontSize: '10.5px' }
+        },
+        title: { text: '₹ Cr', style: { color: NEUTRAL.axis, fontSize: '10px', fontWeight: 600 } }
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'right',
+        fontSize: '11px',
+        fontWeight: 600,
+        labels: { colors: '#5A5A54' },
+        markers: { size: 4 }
+      }
+    });
+    const el = document.getElementById('capitalActivityChart');
+    if (capitalChart) { capitalChart.destroy(); }
+    capitalChart = new ApexCharts(el, opt);
+    capitalChart.render();
+    const sub = document.getElementById('capitalChartSub');
+    if (sub) sub.textContent = d.label + ' · ₹ Cr per period';
+  }
+
+  function renderSectorChart() {
+    const opt = Object.assign({}, baseChartTheme, {
+      chart: Object.assign({}, baseChartTheme.chart, { type: 'donut', height: 300 }),
+      series: [3, 3, 2, 2, 1, 1],
+      labels: ['FinTech', 'Logistics', 'Healthcare', 'CleanTech', 'AI / Software', 'BioTech'],
+      colors: [NEUTRAL.ink, NEUTRAL.dark, NEUTRAL.mid, NEUTRAL.soft, NEUTRAL.light, NEUTRAL.faint],
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '68%',
+            labels: {
+              show: true,
+              name: { fontSize: '11px', fontWeight: 600, color: NEUTRAL.text },
+              value: { fontSize: '19px', fontWeight: 800, color: '#1A1A18' },
+              total: { show: true, label: 'Companies', fontSize: '10px', fontWeight: 600, color: NEUTRAL.text }
+            }
+          }
+        }
+      },
+      legend: { position: 'bottom', fontSize: '11px', fontWeight: 600, labels: { colors: '#5A5A54' }, markers: { size: 5 } },
+      stroke: { width: 0 }
+    });
+    const el = document.getElementById('sectorChart');
+    sectorChart = new ApexCharts(el, opt);
+    sectorChart.render();
+  }
+
+  function renderPipelineChart() {
+    const opt = Object.assign({}, baseChartTheme, {
+      chart: Object.assign({}, baseChartTheme.chart, { type: 'bar', height: 300 }),
+      series: [{ name: 'Deals', data: [3, 3, 2, 2, 1, 1, 2] }],
+      colors: [NEUTRAL.ink],
+      plotOptions: {
+        bar: {
+          horizontal: true,
+          distributed: true,
+          barHeight: '58%',
+          borderRadius: 2
+        }
+      },
+      fill: { colors: [NEUTRAL.faint, NEUTRAL.light, NEUTRAL.soft, NEUTRAL.mid, '#5A5A54', NEUTRAL.dark, NEUTRAL.ink] },
+      dataLabels: {
+        enabled: true,
+        formatter: (v) => v + (v === 1 ? ' deal' : ' deals'),
+        offsetX: 8,
+        style: { fontSize: '10.5px', fontWeight: 700, colors: ['#1A1A18'] }
+      },
+      xaxis: {
+        categories: ['Potential', 'Evaluation', 'Due Diligence', 'IC Decision', 'Term Sheet', 'Closing', 'Invested'],
+        labels: { style: { colors: NEUTRAL.text, fontSize: '10.5px' } },
+        axisBorder: { show: true, color: NEUTRAL.grid },
+        axisTicks: { show: false }
+      },
+      yaxis: { labels: { style: { colors: '#5A5A54', fontSize: '11px', fontWeight: 600 } } },
+      legend: { show: false }
+    });
+    const el = document.getElementById('pipelineChart');
+    pipelineChart = new ApexCharts(el, opt);
+    pipelineChart.render();
+  }
+
+  function renderLpChart() {
+    const opt = Object.assign({}, baseChartTheme, {
+      chart: Object.assign({}, baseChartTheme.chart, { type: 'donut', height: 300 }),
+      series: [4, 4, 3, 2, 5],
+      labels: ['Family Office', 'Institutional', 'HNI', 'Trust', 'Others'],
+      colors: [NEUTRAL.ink, NEUTRAL.dark, NEUTRAL.mid, NEUTRAL.soft, NEUTRAL.light],
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '68%',
+            labels: {
+              show: true,
+              name: { fontSize: '11px', fontWeight: 600, color: NEUTRAL.text },
+              value: { fontSize: '19px', fontWeight: 800, color: '#1A1A18' },
+              total: { show: true, label: 'LPs', fontSize: '10px', fontWeight: 600, color: NEUTRAL.text }
+            }
+          }
+        }
+      },
+      legend: { position: 'bottom', fontSize: '11px', fontWeight: 600, labels: { colors: '#5A5A54' }, markers: { size: 5 } },
+      stroke: { width: 0 }
+    });
+    const el = document.getElementById('lpChart');
+    lpChart = new ApexCharts(el, opt);
+    lpChart.render();
+  }
+
+  function setDashboardPeriod(period, btn) {
+    document.querySelectorAll('#periodFilter button').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const label = document.getElementById('kpiPeriodLabel');
+    if (label) label.textContent = ACTIVITY_DATA[period] ? ACTIVITY_DATA[period].label : '';
+    renderCapitalChart(period);
+  }
+
+  function exportDashboardSnapshot() {
+    if (window.showToast) window.showToast('Dashboard snapshot exported (PNG)');
+    else alert('Dashboard snapshot exported (PNG)');
+  }
+
+  // Render all charts on load
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof ApexCharts !== 'undefined') {
+      renderCapitalChart('all');
+      renderSectorChart();
+      renderPipelineChart();
+      renderLpChart();
+    }
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
 </script>
 </body>
 </html>

@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Teams — Seedicon Investor Platform</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+<div class="app-container">
+  <div id="appHeaderSlot"></div>
+
+  <div class="body-shell">
+    <div id="tinySidebarSlot"></div>
+    <div id="mainSidebarSlot"></div>
+
+    <!-- MAIN WORKSPACE CONTENT AREA -->
+    <main class="main-workspace">
+      <div class="content-scrollable">
+
+        <!-- Page Header Container -->
+        <div class="page-header-container">
+          <div class="page-header-top-row">
+            <div class="header-titles">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <h1 class="page-title">My Teams</h1>
+                <span class="badge-pill neutral-soft" id="teamCountHeaderBadge">(8 Members)</span>
+              </div>
+              <p class="page-subtitle">Seedicon Venture Fund I (₹20 Cr) — Manage workspace members, roles &amp; permissions, invite collaborators, and track team activity across the fund ecosystem.</p>
+            </div>
+
+            <div class="header-action-group">
+              <button class="btn btn-outline" onclick="openRolesModal()" title="View role & permission matrix">
+                <i data-lucide="shield-check" class="lucide-sm"></i>
+                <span>Manage Roles</span>
+              </button>
+              <button class="btn btn-primary" onclick="openInviteModal()" style="font-size:12px;">
+                <i data-lucide="user-plus" class="lucide-sm"></i>
+                <span>Invite Member</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Header Bottom Divider Line -->
+        <div class="page-header-divider"></div>
+
+        <!-- POPULATED WORKSPACE CONTAINER -->
+        <div id="filledWorkspaceContainer">
+
+          <!-- 01. TOP SUMMARY METRIC CARDS -->
+          <div class="stats-grid" id="teamStatsGrid">
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-label">Total Members</span>
+                <span class="stat-card-icon"><i data-lucide="users" style="width:12px; height:12px;"></i></span>
+              </div>
+              <div class="stat-card-value" id="statMembers">8</div>
+              <div class="stat-card-sub" id="statMembersSub">5 Active · 2 Pending · 1 Revoked</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-label">Pending Invites</span>
+                <span class="stat-card-icon"><i data-lucide="mail" style="width:12px; height:12px;"></i></span>
+              </div>
+              <div class="stat-card-value" id="statPending">2</div>
+              <div class="stat-card-sub">Awaiting acceptance</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-label">Roles Defined</span>
+                <span class="stat-card-icon"><i data-lucide="shield-check" style="width:12px; height:12px;"></i></span>
+              </div>
+              <div class="stat-card-value" id="statRoles">6</div>
+              <div class="stat-card-sub">Admin · Partner · Analyst · Finance · Investor · Viewer</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-label">Last Activity</span>
+                <span class="stat-card-icon"><i data-lucide="activity" style="width:12px; height:12px;"></i></span>
+              </div>
+              <div class="stat-card-value" id="statLastActivity">Aug 16</div>
+              <div class="stat-card-sub" id="statLastActivitySub">Invite sent to Marcus Reed</div>
+            </div>
+          </div>
+
+          <!-- 02. UNDERLINE STYLE PAGE TABS -->
+          <div class="cc-tabs" role="tablist">
+            <button class="cc-tab active" id="tabNavTeam" onclick="switchPageTab('team')">
+              <i data-lucide="users" class="lucide-sm"></i>
+              <span>Team</span>
+              <span class="cc-tab-count">(<span id="tabCountTeam">8</span>)</span>
+            </button>
+            <button class="cc-tab" id="tabNavUpdates" onclick="switchPageTab('updates')">
+              <i data-lucide="activity" class="lucide-sm"></i>
+              <span>Updates</span>
+              <span class="cc-tab-count">(<span id="tabCountUpdates">12</span>)</span>
+            </button>
+          </div>
+
+          <!-- ── TEAM TAB ── -->
+          <div id="teamTab" style="display:block;">
+
+            <!-- Search & Controls Strip -->
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:12px;">
+              <div style="display:flex; align-items:center; gap:6px; flex:1; max-width:360px; background:#F7F7F5; border:1px solid #E0E0DE; border-radius:6px; padding:5px 10px;">
+                <i data-lucide="search" style="width:13px; height:13px; color:#9A9A96; flex-shrink:0;"></i>
+                <input type="text" id="memberSearch" onkeyup="renderTeam()" placeholder="Search member, email or role..." style="border:none; background:transparent; outline:none; font-family:Inter,sans-serif; font-size:11.5px; width:100%; color:#1A1A18;" />
+              </div>
+
+              <div style="display:flex; align-items:center; gap:10px;">
+                <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+                  <span>Role:</span>
+                  <select id="filterRole" onchange="renderTeam()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none;">
+                    <option value="all">All Roles</option>
+                    <option value="admin">Admin</option>
+                    <option value="partner">Partner</option>
+                    <option value="analyst">Analyst</option>
+                    <option value="finance">Finance</option>
+                    <option value="investor">Investor</option>
+                    <option value="viewer">Viewer</option>
+                  </select>
+                </div>
+                <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
+                  <span>Status:</span>
+                  <select id="filterStatus" onchange="renderTeam()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none;">
+                    <option value="all">All Statuses</option>
+                    <option value="Active">Active</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Revoked">Revoked</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Members Table Container -->
+            <div id="membersTableContainer"></div>
+          </div>
+
+          <!-- ── UPDATES TAB ── -->
+          <div id="updatesTab" style="display:none;">
+            <div class="table-card">
+              <div class="table-toolbar">
+                <div class="table-toolbar-left">
+                  <strong style="font-size:12.5px; color:#1A1A18;">Team Activity Feed</strong>
+                  <span class="badge-pill neutral-soft" id="updatesEventsBadge">12 events</span>
+                </div>
+                <div style="font-size:10.5px; color:#8C8C88;">Audit trail of member, permission &amp; workspace actions</div>
+              </div>
+
+              <div class="updates-filter-row" id="updatesFilterRow">
+                <span class="tag-chip active" data-ufilter="all" onclick="filterUpdates('all', this)">All <span class="cnt" id="uCntAll">12</span></span>
+                <span class="tag-chip" data-ufilter="member" onclick="filterUpdates('member', this)">Members <span class="cnt" id="uCntMember">0</span></span>
+                <span class="tag-chip" data-ufilter="permission" onclick="filterUpdates('permission', this)">Permissions <span class="cnt" id="uCntPermission">0</span></span>
+                <span class="tag-chip" data-ufilter="deal" onclick="filterUpdates('deal', this)">Deals <span class="cnt" id="uCntDeal">0</span></span>
+                <span class="tag-chip" data-ufilter="capital" onclick="filterUpdates('capital', this)">Capital <span class="cnt" id="uCntCapital">0</span></span>
+                <span class="tag-chip" data-ufilter="report" onclick="filterUpdates('report', this)">Reports <span class="cnt" id="uCntReport">0</span></span>
+              </div>
+
+              <div class="activity-list" id="updatesFeed" style="padding:4px 0;"></div>
+
+              <div class="table-footer">
+                <span>Showing all team activity across Seedicon Fund I</span>
+                <span style="display:flex; align-items:center; gap:5px;"><i data-lucide="info" style="width:11px; height:11px;"></i> Role changes &amp; access events are audited</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- EMPTY WORKSPACE STATE -->
+        <div id="emptyWorkspace" style="display:none;">
+          <div class="table-card" style="padding:52px 24px; text-align:center;">
+            <div style="width:50px; height:50px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; color:#6A6A68;">
+              <i data-lucide="users" style="width:22px; height:22px;"></i>
+            </div>
+            <div style="font-size:14.5px; font-weight:800; color:#1A1A18; margin-bottom:4px;">No Team Members Yet</div>
+            <p style="font-size:11.5px; color:#8C8C88; max-width:380px; margin:0 auto 18px; line-height:1.55;">
+              Invite partners, analysts, fund admins and investors to collaborate. You can assign granular role-based permissions to each member.
+            </p>
+            <div style="display:flex; justify-content:center; gap:8px;">
+              <button class="btn btn-outline" onclick="openRolesModal()">
+                <i data-lucide="shield-check" class="lucide-sm"></i>
+                <span>View Roles</span>
+              </button>
+              <button class="btn btn-primary" onclick="openInviteModal()" style="font-size:12px;">
+                <i data-lucide="user-plus" class="lucide-sm"></i>
+                <span>Invite First Member</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Modal Dialog Container Slot -->
+<div id="modalSlot"></div>
+
+<!-- FLOATING FAB STATE TOGGLE BUTTON -->
+<button class="fab-toggle-btn" id="fabToggleState" title="Toggle between Populated Data and Empty State" onclick="toggleTeamState()">
+  <i data-lucide="eye" style="width:13px; height:13px;"></i>
+  <span id="fabToggleText">Toggle Empty State</span>
+</button>
+
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+<script>
+  /* ==========================================================================
+     MY TEAMS — MEMBER, ROLES & PERMISSIONS WIREFRAME LOGIC
+     ========================================================================== */
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof LayoutComponents !== 'undefined' && document.getElementById('appHeaderSlot')) {
+      LayoutComponents.init({ activeNav: 'my-team', activeApp: 'investor' });
+    }
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    renderTeam();
+    renderUpdates('all');
+  });
+
+  let isStateEmpty = false;
+
+  const ROLE_DEFS = {
+    admin:    { label: 'Admin',    cls: 'admin',    scope: 'Full workspace, funds & settings access', perms: ['Workspace settings', 'Fund management', 'Manage members & roles', 'Approve capital calls & exits', 'Full deal & portfolio access', 'Full LP & reporting access'] },
+    partner:  { label: 'Partner',  cls: 'partner',  scope: 'Deal sourcing, IC decisions & thesis',    perms: ['Deal sourcing & CRM', 'Approve IC decisions', 'Edit investment thesis', 'VDR & DD review', 'Founder reporting', 'Invite members'] },
+    analyst:  { label: 'Analyst',  cls: 'analyst',  scope: 'Sourcing, pipeline, VDR & reports',       perms: ['Deal sourcing & CRM', 'Pipeline management', 'VDR & DD review', 'Startup pool management', 'Founder reports'] },
+    finance:  { label: 'Finance',  cls: 'finance',  scope: 'Capital calls, distributions & LP ledger', perms: ['Capital calls', 'Distributions', 'LP commitments & ledger', 'KYC & compliance', 'Export registers'] },
+    investor: { label: 'Investor', cls: 'investor', scope: 'Portfolio & LP reporting (read access)',   perms: ['Portfolio read-only', 'LP reporting', 'Distribution statements', 'NAV & valuation views'] },
+    viewer:   { label: 'Viewer',   cls: 'viewer',   scope: 'Read-only across all modules',            perms: ['Read-only all modules', 'View reports & documents', 'Download documents'] }
+  };
+
+  const INITIAL_MEMBERS = [
+    { id: 'm1', name: 'Aarav Mehta',      email: 'aarav.mehta@seedicon.app',      role: 'admin',    title: 'General Partner',          status: 'Active',  joined: 'Jan 2026' },
+    { id: 'm2', name: 'Priya Nair',       email: 'priya.nair@seedicon.app',       role: 'partner',  title: 'Investment Director',     status: 'Active',  joined: 'Jan 2026' },
+    { id: 'm3', name: 'Rohan Kapoor',     email: 'rohan.kapoor@seedicon.app',     role: 'analyst',  title: 'Deal Sourcing Lead',       status: 'Active',  joined: 'Feb 2026' },
+    { id: 'm4', name: 'Sneha Iyer',       email: 'sneha.iyer@seedicon.app',       role: 'finance',  title: 'Fund Administrator',      status: 'Active',  joined: 'Mar 2026' },
+    { id: 'm5', name: 'Daniel Chen',      email: 'daniel.chen@seedicon.app',      role: 'investor', title: 'LP Relations',            status: 'Active',  joined: 'Apr 2026' },
+    { id: 'm6', name: 'Ishita Verma',     email: 'ishita.verma@seedicon.app',     role: 'analyst',  title: 'Associate',               status: 'Pending', inviteSent: 'Aug 14, 2026' },
+    { id: 'm7', name: 'Marcus Reed',      email: 'marcus.reed@seedicon.app',      role: 'viewer',   title: 'External Observer',        status: 'Pending', inviteSent: 'Aug 16, 2026' },
+    { id: 'm8', name: 'Vikram Rao',       email: 'vikram.rao@seedicon.app',       role: 'analyst',  title: 'Contractor (Offboarded)', status: 'Revoked', revokedOn: 'Jul 28, 2026', reason: 'End of contract — access no longer required.' }
+  ];
+
+  let membersStore = JSON.parse(JSON.stringify(INITIAL_MEMBERS));
+
+  const INITIAL_UPDATES = [
+    { id: 'u1',  date: 'Aug 16', type: 'member',     actor: 'Aarav Mehta', icon: 'user-plus',     text: 'Invited <b>Marcus Reed</b> as <b>Viewer</b> — email invitation sent' },
+    { id: 'u2',  date: 'Aug 15', type: 'permission', actor: 'Priya Nair',  icon: 'shield-check',  text: 'Changed <b>Rohan Kapoor</b> role to <b>Analyst</b>' },
+    { id: 'u3',  date: 'Aug 14', type: 'capital',    actor: 'Sneha Iyer',  icon: 'coins',         text: 'Created <b>Capital Call CC-003</b> for <b>₹1.20 Cr</b>' },
+    { id: 'u4',  date: 'Aug 13', type: 'member',     actor: 'Ishita Verma', icon: 'user-check',    text: 'Accepted invite and <b>joined the workspace</b>' },
+    { id: 'u5',  date: 'Aug 12', type: 'deal',       actor: 'Rohan Kapoor', icon: 'kanban',        text: 'Moved <b>FinFlow Tech</b> to <b>Due Diligence</b> stage' },
+    { id: 'u6',  date: 'Aug 10', type: 'permission', actor: 'Aarav Mehta', icon: 'shield-check',  text: 'Granted <b>Priya Nair</b> access to <b>Growth Fund III</b>' },
+    { id: 'u7',  date: 'Aug 09', type: 'deal',       actor: 'Rohan Kapoor', icon: 'folder-lock',   text: 'Uploaded <b>14 documents</b> to <b>LogiChain Labs</b> VDR' },
+    { id: 'u8',  date: 'Aug 08', type: 'permission', actor: 'Aarav Mehta', icon: 'user-x',         text: 'Removed access for <b>Vikram Rao</b> — <i>End of contract</i>' },
+    { id: 'u9',  date: 'Aug 06', type: 'capital',    actor: 'Sneha Iyer',  icon: 'arrow-up-right', text: 'Processed distribution <b>₹0.50 Cr</b> (OrbitPay)' },
+    { id: 'u10', date: 'Aug 05', type: 'deal',       actor: 'Priya Nair',  icon: 'file-signature', text: 'Created term sheet for <b>SkyTrack Mobility</b>' },
+    { id: 'u11', date: 'Aug 03', type: 'report',     actor: 'Daniel Chen', icon: 'file-bar-chart', text: 'Exported <b>LP register CSV</b> (18 LPs)' },
+    { id: 'u12', date: 'Aug 01', type: 'permission', actor: 'Aarav Mehta', icon: 'settings',       text: 'Updated fund parameters — <b>Seedicon Fund I</b>' }
+  ];
+
+  let updatesStore = JSON.parse(JSON.stringify(INITIAL_UPDATES));
+  let activeUpdateFilter = 'all';
+
+  /* ── HELPERS ── */
+  function initials(name) {
+    return name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  }
+
+  function rolePill(role) {
+    const def = ROLE_DEFS[role] || ROLE_DEFS.viewer;
+    return `<span class="role-pill ${def.cls}">${def.label}</span>`;
+  }
+
+  function statusPill(member) {
+    if (member.status === 'Active')  return `<span class="status-pill accepted">Active</span>`;
+    if (member.status === 'Pending') return `<span class="status-pill pending">Invite Pending</span>`;
+    const reason = (member.reason || '').replace(/"/g, '&quot;');
+    return `<span class="status-pill revoked" title="${reason}">Access Revoked</span>`;
+  }
+
+  function actionMenuHtml(member) {
+    if (member.status === 'Pending') {
+      return `
+        <button class="member-menu-item" onclick="resendInvite('${member.id}')">
+          <i data-lucide="mail" style="width:12px; height:12px;"></i> Resend Invite
+        </button>
+        <div class="member-menu-divider"></div>
+        <button class="member-menu-item danger" onclick="promptCancelInvite('${member.id}')">
+          <i data-lucide="user-x" style="width:12px; height:12px;"></i> Cancel Invite
+        </button>
+      `;
+    }
+    if (member.status === 'Revoked') {
+      return `
+        <button class="member-menu-item" onclick="restoreAccess('${member.id}')">
+          <i data-lucide="rotate-ccw" style="width:12px; height:12px;"></i> Restore Access
+        </button>
+      `;
+    }
+    return `
+      <button class="member-menu-item" onclick="openEditMemberModal('${member.id}')">
+        <i data-lucide="edit-3" style="width:12px; height:12px;"></i> Edit
+      </button>
+      <div class="member-menu-divider"></div>
+      <button class="member-menu-item danger" onclick="promptRemoveAccess('${member.id}')">
+        <i data-lucide="shield-off" style="width:12px; height:12px;"></i> Remove Access
+      </button>
+    `;
+  }
+
+  function toggleMemberMenu(e, id) {
+    e.stopPropagation();
+    closeMemberMenus();
+    const menu = document.getElementById('menu_' + id);
+    if (menu) menu.classList.toggle('show');
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function closeMemberMenus() {
+    document.querySelectorAll('.member-menu.show').forEach(m => m.classList.remove('show'));
+  }
+
+  document.addEventListener('click', closeMemberMenus);
+
+  /* ── RENDER TEAM TABLE ── */
+  function renderTeam() {
+    const container = document.getElementById('membersTableContainer');
+    if (!container) return;
+
+    if (isStateEmpty || !membersStore.length) return;
+
+    const q = (document.getElementById('memberSearch')?.value || '').toLowerCase().trim();
+    const roleFilter = document.getElementById('filterRole')?.value || 'all';
+    const statusFilter = document.getElementById('filterStatus')?.value || 'all';
+
+    const filtered = membersStore.filter(m => {
+      const mSearch = !q || m.name.toLowerCase().includes(q) || m.email.toLowerCase().includes(q) || ROLE_DEFS[m.role].label.toLowerCase().includes(q);
+      const mRole = roleFilter === 'all' || m.role === roleFilter;
+      const mStatus = statusFilter === 'all' || m.status === statusFilter;
+      return mSearch && mRole && mStatus;
+    });
+
+    // Update stats
+    const active = membersStore.filter(m => m.status === 'Active').length;
+    const pending = membersStore.filter(m => m.status === 'Pending').length;
+    const revoked = membersStore.filter(m => m.status === 'Revoked').length;
+    document.getElementById('teamCountHeaderBadge').textContent = `(${membersStore.length} Members)`;
+    document.getElementById('statMembers').textContent = membersStore.length;
+    document.getElementById('statMembersSub').textContent = `${active} Active · ${pending} Pending · ${revoked} Revoked`;
+    document.getElementById('statPending').textContent = pending;
+    document.getElementById('tabCountTeam').textContent = membersStore.length;
+    document.getElementById('tabCountUpdates').textContent = updatesStore.length;
+
+    if (!filtered.length) {
+      container.innerHTML = `
+        <div class="table-card" style="padding:38px; text-align:center; color:#8C8C88;">
+          <i data-lucide="search" style="width:22px; height:22px; color:#B0B0AE; margin-bottom:8px;"></i>
+          <div style="font-size:13px; font-weight:700; color:#1A1A18; margin-bottom:2px;">No Matching Members Found</div>
+          <p style="font-size:11px; color:#8C8C88;">Try changing your search query or filter options.</p>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="table-card">
+        <div class="table-scroll">
+          <table class="data-table tight" style="min-width:720px;">
+            <thead>
+              <tr>
+                <th style="white-space:nowrap;">Member</th>
+                <th style="white-space:nowrap;">Email</th>
+                <th style="white-space:nowrap;">Role</th>
+                <th style="white-space:nowrap;">Status</th>
+                <th style="text-align:right; white-space:nowrap;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${filtered.map(m => `
+                <tr>
+                  <td style="white-space:nowrap;">
+                    <div class="member-cell">
+                      <div class="member-avatar ${m.status === 'Revoked' ? 'light' : ''}">${initials(m.name)}</div>
+                      <span class="member-name">${m.name}</span>
+                    </div>
+                  </td>
+                  <td style="white-space:nowrap;">
+                    <span class="member-email">
+                      <i data-lucide="mail" style="width:11px; height:11px;"></i>
+                      ${m.email}
+                    </span>
+                  </td>
+                  <td style="white-space:nowrap;">${rolePill(m.role)}</td>
+                  <td style="white-space:nowrap;">${statusPill(m)}</td>
+                  <td style="text-align:right; white-space:nowrap; position:relative;">
+                    <div class="member-menu-wrap">
+                      <button class="member-menu-btn" onclick="toggleMemberMenu(event, '${m.id}')" title="More actions">
+                        <i data-lucide="more-horizontal" style="width:14px; height:14px;"></i>
+                      </button>
+                      <div class="member-menu" id="menu_${m.id}">
+                        ${actionMenuHtml(m)}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="table-footer">
+          <span>Showing ${filtered.length} of ${membersStore.length} members</span>
+          <span style="display:flex; align-items:center; gap:5px;">
+            <i data-lucide="shield-check" style="width:11px; height:11px;"></i>
+            Permission changes are logged in Updates
+          </span>
+        </div>
+      </div>
+    `;
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  /* ── TAB SWITCHING ── */
+  function switchPageTab(tabKey) {
+    document.getElementById('tabNavTeam').classList.toggle('active', tabKey === 'team');
+    document.getElementById('tabNavUpdates').classList.toggle('active', tabKey === 'updates');
+    document.getElementById('teamTab').style.display = tabKey === 'team' ? 'block' : 'none';
+    document.getElementById('updatesTab').style.display = tabKey === 'updates' ? 'block' : 'none';
+  }
+
+  /* ── UPDATES RENDER + FILTER ── */
+  function renderUpdates(filterKey) {
+    const feed = document.getElementById('updatesFeed');
+    if (!feed) return;
+
+    const counts = { all: updatesStore.length, member: 0, permission: 0, deal: 0, capital: 0, report: 0 };
+    updatesStore.forEach(u => { counts[u.type] = (counts[u.type] || 0) + 1; });
+
+    const eventsBadge = document.getElementById('updatesEventsBadge');
+    if (eventsBadge) eventsBadge.textContent = updatesStore.length + (updatesStore.length === 1 ? ' event' : ' events');
+
+    document.getElementById('uCntAll').textContent = counts.all;
+    document.getElementById('uCntMember').textContent = counts.member;
+    document.getElementById('uCntPermission').textContent = counts.permission;
+    document.getElementById('uCntDeal').textContent = counts.deal;
+    document.getElementById('uCntCapital').textContent = counts.capital;
+    document.getElementById('uCntReport').textContent = counts.report;
+
+    const filtered = filterKey === 'all' ? updatesStore : updatesStore.filter(u => u.type === filterKey);
+
+    if (!filtered.length) {
+      feed.innerHTML = `
+        <div style="padding:34px; text-align:center; color:#8C8C88;">
+          <i data-lucide="activity" style="width:20px; height:20px; color:#B0B0AE; margin-bottom:8px;"></i>
+          <div style="font-size:12.5px; font-weight:700; color:#1A1A18; margin-bottom:2px;">No Updates in This Category</div>
+          <p style="font-size:11px; color:#8C8C88;">Team activity for this filter will appear here.</p>
+        </div>
+      `;
+    } else {
+      feed.innerHTML = `
+        <div class="team-feed">
+          ${filtered.map(u => `
+            <div class="team-feed-item">
+              <div class="team-feed-icon"><i data-lucide="${u.icon}" style="width:11px; height:11px;"></i></div>
+              <div class="team-feed-text"><b>${u.actor}</b> ${u.text}</div>
+              <div class="team-feed-date">${u.date}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function filterUpdates(key, chip) {
+    activeUpdateFilter = key;
+    document.querySelectorAll('#updatesFilterRow .tag-chip').forEach(c => c.classList.remove('active'));
+    if (chip) chip.classList.add('active');
+    renderUpdates(key);
+  }
+
+  /* ── INVITE MEMBER MODAL ── */
+  function openInviteModal() {
+    const roleOptions = Object.keys(ROLE_DEFS).map(r => `<option value="${r}" ${r === 'analyst' ? 'selected' : ''}>${ROLE_DEFS[r].label} — ${ROLE_DEFS[r].scope}</option>`).join('');
+
+    openModal('Invite Team Member', `
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div style="display:flex; align-items:center; gap:8px; background:var(--bg-muted); padding:8px 12px; border-radius:6px; border:1px solid var(--border-main);">
+          <i data-lucide="mail" class="lucide-sm" style="color:var(--text-muted);"></i>
+          <span style="font-size:11.5px; color:var(--text-muted);">An email invitation will be sent. The member activates their account via a secure invite link.</span>
+        </div>
+
+        <div>
+          <label class="form-label" style="display:flex; align-items:center; gap:4px;">EMAIL ADDRESS <span style="color:var(--text-dark);">*</span></label>
+          <input type="email" id="inviteEmail" class="form-input" placeholder="colleague@partnerfirm.com" style="padding:9px 11px;" />
+          <div class="form-hint">Use the official work email of the person being onboarded.</div>
+        </div>
+
+        <div>
+          <label class="form-label">ROLE / PERMISSION</label>
+          <select id="inviteRole" class="form-input" onchange="updateRolePreview()" style="padding:9px 11px;">
+            ${roleOptions}
+          </select>
+          <div class="form-hint">Defines what this member can view and do across the workspace.</div>
+        </div>
+
+        <div>
+          <label class="form-label">FUND ACCESS</label>
+          <select id="inviteFund" class="form-input" style="padding:9px 11px;">
+            <option>All Funds (Current &amp; Future)</option>
+            <option selected>Seedicon Fund I (₹20 Cr) only</option>
+            <option>No fund data — workspace only</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="form-label">INVITATION MESSAGE <span style="font-weight:500; color:var(--text-light);">(optional)</span></label>
+          <textarea id="inviteMessage" class="form-input" rows="2" placeholder="e.g. Hi Priya, welcome to the Seedicon team — please review the DD pipeline…" style="resize:vertical;"></textarea>
+        </div>
+
+        <div>
+          <label class="form-label">PERMISSIONS PREVIEW</label>
+          <div id="invitePermsPreview" style="background:var(--bg-subtle); border:1px solid var(--border-faint); border-radius:6px; padding:8px 10px;"></div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:6px;">
+          <button onclick="closeModal()" class="btn">Cancel</button>
+          <button onclick="submitInvite()" class="btn btn-primary">
+            <i data-lucide="send" class="lucide-sm"></i>
+            Send Invitation
+          </button>
+        </div>
+      </div>
+    `);
+    updateRolePreview();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function updateRolePreview() {
+    const el = document.getElementById('invitePermsPreview');
+    const previewEl = document.getElementById('invitePermsPreview');
+    if (!el) return;
+    const role = document.getElementById('inviteRole')?.value || 'analyst';
+    const perms = ROLE_DEFS[role].perms;
+    el.innerHTML = `
+      <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
+        <span class="role-pill ${ROLE_DEFS[role].cls}" style="pointer-events:none;">${ROLE_DEFS[role].label}</span>
+        <span style="font-size:10.5px; color:var(--text-light);">${ROLE_DEFS[role].scope}</span>
+      </div>
+      <div class="perm-list">
+        ${perms.map(p => `<span class="perm-chip"><span class="dot"></span>${p}</span>`).join('')}
+      </div>
+    `;
+    if (previewEl && typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function submitInvite() {
+    const email = (document.getElementById('inviteEmail')?.value || '').trim();
+    if (!email) {
+      if (window.showToast) window.showToast('Please enter a valid email address', 'alert-circle');
+      else alert('Please enter a valid email address');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if (window.showToast) window.showToast('Please enter a valid email address', 'alert-circle');
+      else alert('Please enter a valid email address');
+      return;
+    }
+    const role = document.getElementById('inviteRole')?.value || 'analyst';
+    const fund = document.getElementById('inviteFund')?.value || 'Seedicon Fund I only';
+    const message = document.getElementById('inviteMessage')?.value.trim() || 'Welcome to the Seedicon workspace.';
+
+    const namePart = email.split('@')[0].split(/[._-]+/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    const newMember = {
+      id: 'mn_' + Date.now(),
+      name: namePart,
+      email,
+      role,
+      title: 'Pending member',
+      status: 'Pending',
+      inviteSent: 'Just now'
+    };
+    membersStore.unshift(newMember);
+    updatesStore.unshift({
+      id: 'un_' + Date.now(),
+      date: 'Just now',
+      type: 'member',
+      actor: 'You',
+      icon: 'user-plus',
+      text: `Invited <b>${newMember.name}</b> as <b>${ROLE_DEFS[role].label}</b> — email invitation sent`
+    });
+
+    closeModal();
+    renderTeam();
+    renderUpdates(activeUpdateFilter);
+    if (window.showToast) window.showToast(`Invitation sent to ${email}`);
+  }
+
+  /* ── EDIT MEMBER MODAL ── */
+  function openEditMemberModal(id) {
+    const m = membersStore.find(x => x.id === id);
+    if (!m) return;
+    const roleOptions = Object.keys(ROLE_DEFS).map(r => `<option value="${r}" ${r === m.role ? 'selected' : ''}>${ROLE_DEFS[r].label} — ${ROLE_DEFS[r].scope}</option>`).join('');
+
+    openModal('Edit Member — ' + m.name, `
+      <div style="display:flex; align-items:center; gap:12px; padding-bottom:12px; border-bottom:1px solid var(--border-main); margin-bottom:14px;">
+        <div class="member-avatar ${m.status === 'Revoked' ? 'light' : ''}" style="width:38px; height:38px; font-size:12px;">${initials(m.name)}</div>
+        <div>
+          <div style="font-size:13.5px; font-weight:800; color:var(--text-dark);">${m.name}</div>
+          <div class="member-email"><i data-lucide="mail" style="width:11px; height:11px;"></i>${m.email}</div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div>
+          <label class="form-label">ROLE / PERMISSION</label>
+          <select id="editRole" class="form-input" onchange="updateEditRolePreview()" style="padding:9px 11px;">
+            ${roleOptions}
+          </select>
+        </div>
+
+        <div>
+          <label class="form-label">FUND ACCESS</label>
+          <select id="editFund" class="form-input" style="padding:9px 11px;">
+            <option ${m.role === 'admin' || m.role === 'investor' ? 'selected' : ''}>All Funds (Current &amp; Future)</option>
+            <option ${m.role === 'analyst' || m.role === 'partner' ? 'selected' : ''}>Seedicon Fund I (₹20 Cr) only</option>
+            <option>No fund data — workspace only</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="form-label">PERMISSIONS PREVIEW</label>
+          <div id="editPermsPreview" style="background:var(--bg-subtle); border:1px solid var(--border-faint); border-radius:6px; padding:8px 10px;"></div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:6px; background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:7px 11px; font-size:11px; color:var(--text-muted);">
+          <i data-lucide="info" class="lucide-sm"></i>
+          Changing this member's role will update their access across all modules immediately.
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:6px;">
+          <button onclick="closeModal()" class="btn">Cancel</button>
+          <button onclick="saveEditMember('${m.id}')" class="btn btn-primary">
+            <i data-lucide="check" class="lucide-sm"></i>
+            Save Changes
+          </button>
+        </div>
+      </div>
+    `);
+    updateEditRolePreview();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function updateEditRolePreview() {
+    const el = document.getElementById('editPermsPreview');
+    if (!el) return;
+    const role = document.getElementById('editRole')?.value || 'viewer';
+    el.innerHTML = `
+      <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
+        <span class="role-pill ${ROLE_DEFS[role].cls}" style="pointer-events:none;">${ROLE_DEFS[role].label}</span>
+        <span style="font-size:10.5px; color:var(--text-light);">${ROLE_DEFS[role].scope}</span>
+      </div>
+      <div class="perm-list">
+        ${ROLE_DEFS[role].perms.map(p => `<span class="perm-chip"><span class="dot"></span>${p}</span>`).join('')}
+      </div>
+    `;
+  }
+
+  function saveEditMember(id) {
+    const m = membersStore.find(x => x.id === id);
+    if (!m) return;
+    const oldRole = m.role;
+    const newRole = document.getElementById('editRole')?.value || m.role;
+    m.role = newRole;
+
+    updatesStore.unshift({
+      id: 'ue_' + Date.now(),
+      date: 'Just now',
+      type: 'permission',
+      actor: 'You',
+      icon: 'shield-check',
+      text: oldRole === newRole
+        ? `Updated fund access for <b>${m.name}</b>`
+        : `Changed <b>${m.name}</b> role from <b>${ROLE_DEFS[oldRole].label}</b> to <b>${ROLE_DEFS[newRole].label}</b>`
+    });
+
+    closeModal();
+    renderTeam();
+    renderUpdates(activeUpdateFilter);
+    if (window.showToast) window.showToast(`${m.name}'s permissions updated`);
+  }
+
+  /* ── REMOVE ACCESS FLOW (comment required) ── */
+  function promptRemoveAccess(id) {
+    const m = membersStore.find(x => x.id === id);
+    if (!m) return;
+
+    openModal('Remove Access — ' + m.name, `
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div style="display:flex; align-items:center; gap:12px; padding-bottom:12px; border-bottom:1px solid var(--border-main);">
+          <div style="width:40px; height:40px; border-radius:8px; background:#FFFFFF; border:1px solid var(--border-dark); border-style:dashed; color:#1A1A18; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <i data-lucide="shield-off" style="width:18px; height:18px;"></i>
+          </div>
+          <div>
+            <div style="font-size:13.5px; font-weight:800; color:var(--text-dark);">Revoke workspace access?</div>
+            <div class="member-email"><i data-lucide="mail" style="width:11px; height:11px;"></i>${m.email}</div>
+          </div>
+        </div>
+
+        <div style="background:var(--bg-subtle); border:1px solid var(--border-faint); border-radius:6px; padding:9px 11px; font-size:11px; color:var(--text-muted); line-height:1.5;">
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:5px;">
+            <span class="role-pill ${ROLE_DEFS[m.role].cls}" style="pointer-events:none;">${ROLE_DEFS[m.role].label}</span>
+            <span style="font-weight:600; color:var(--text-main);">loses access to:</span>
+          </div>
+          <span style="color:var(--text-light);">${ROLE_DEFS[m.role].perms.slice(0, 3).join(' · ')}${ROLE_DEFS[m.role].perms.length > 3 ? ' · and ' + (ROLE_DEFS[m.role].perms.length - 3) + ' more' : ''}</span>
+        </div>
+
+        <div>
+          <label class="form-label" style="display:flex; align-items:center; gap:4px;">COMMENT / REASON <span style="color:var(--text-dark);">*</span></label>
+          <textarea id="removeComment" class="form-input" rows="3" placeholder="e.g. Offboarding — no longer involved in Fund I deal flow. Access to be handed over to new Analyst." style="resize:vertical;"></textarea>
+          <div class="form-hint">This reason is recorded in the audit trail and shown to other Admins.</div>
+          <div id="removeError" style="display:none; margin-top:6px; font-size:11px; font-weight:600; color:#1A1A18; background:#FFFFFF; border:1px dashed #4A4A46; border-radius:5px; padding:6px 10px;">
+            Please add a comment explaining why this access is being removed.
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:6px;">
+          <button onclick="closeModal()" class="btn">Cancel</button>
+          <button onclick="confirmRemoveAccess('${m.id}')" class="btn btn-primary" style="background:#FFFFFF; color:#1A1A18; border:1px solid var(--border-dark);">
+            <i data-lucide="shield-off" class="lucide-sm"></i>
+            Remove Access
+          </button>
+        </div>
+      </div>
+    `);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function confirmRemoveAccess(id) {
+    const m = membersStore.find(x => x.id === id);
+    if (!m) return;
+    const comment = (document.getElementById('removeComment')?.value || '').trim();
+    const errEl = document.getElementById('removeError');
+
+    if (!comment) {
+      if (errEl) errEl.style.display = 'block';
+      return;
+    }
+
+    m.status = 'Revoked';
+    m.reason = comment;
+    m.revokedOn = 'Just now';
+
+    updatesStore.unshift({
+      id: 'ur_' + Date.now(),
+      date: 'Just now',
+      type: 'permission',
+      actor: 'You',
+      icon: 'user-x',
+      text: `Removed access for <b>${m.name}</b> — <i>${comment}</i>`
+    });
+
+    closeModal();
+    renderTeam();
+    renderUpdates(activeUpdateFilter);
+    if (window.showToast) window.showToast(`Access removed for ${m.name}`);
+  }
+
+  /* ── CANCEL INVITE (pending member) ── */
+  function promptCancelInvite(id) {
+    const m = membersStore.find(x => x.id === id);
+    if (!m) return;
+
+    openModal('Cancel Invitation', `
+      <div style="text-align:center; padding:6px 0 2px;">
+        <div style="width:44px; height:44px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#1A1A18;">
+          <i data-lucide="mail-x" style="width:20px; height:20px;"></i>
+        </div>
+        <div style="font-size:13.5px; font-weight:800; color:#1A1A18; margin-bottom:6px;">Cancel invite for ${m.name}?</div>
+        <p style="font-size:11.5px; color:#6A6A68; line-height:1.5; max-width:330px; margin:0 auto;">
+          The invitation link will be invalidated immediately. You can re-invite ${m.name} anytime from the Invite Member flow.
+        </p>
+        <div style="display:flex; justify-content:center; gap:8px; margin-top:18px;">
+          <button onclick="closeModal()" class="btn">Keep Invite</button>
+          <button onclick="cancelInvite('${m.id}')" class="btn btn-primary" style="background:#FFFFFF; color:#1A1A18; border:1px solid var(--border-dark);">
+            Cancel Invitation
+          </button>
+        </div>
+      </div>
+    `);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function cancelInvite(id) {
+    const m = membersStore.find(x => x.id === id);
+    if (!m) return;
+    const name = m.name;
+    membersStore = membersStore.filter(x => x.id !== id);
+    updatesStore.unshift({
+      id: 'uc_' + Date.now(),
+      date: 'Just now',
+      type: 'member',
+      actor: 'You',
+      icon: 'mail-x',
+      text: `Cancelled invite for <b>${name}</b>`
+    });
+    closeModal();
+    renderTeam();
+    renderUpdates(activeUpdateFilter);
+    if (window.showToast) window.showToast(`Invitation cancelled for ${name}`);
+  }
+
+  /* ── RESEND INVITE ── */
+  function resendInvite(id) {
+    const m = membersStore.find(x => x.id === id);
+    if (!m) return;
+    m.inviteSent = 'Just now';
+    renderTeam();
+    if (window.showToast) window.showToast(`Invitation re-sent to ${m.email}`);
+  }
+
+  /* ── RESTORE ACCESS (revoked member) ── */
+  function restoreAccess(id) {
+    const m = membersStore.find(x => x.id === id);
+    if (!m) return;
+    m.status = 'Active';
+    m.joined = m.revokedOn;
+    delete m.revokedOn;
+    delete m.reason;
+    updatesStore.unshift({
+      id: 'ur_' + Date.now(),
+      date: 'Just now',
+      type: 'permission',
+      actor: 'You',
+      icon: 'user-check',
+      text: `Restored access for <b>${m.name}</b> as <b>${ROLE_DEFS[m.role].label}</b>`
+    });
+    renderTeam();
+    renderUpdates(activeUpdateFilter);
+    if (window.showToast) window.showToast(`${m.name}'s access restored`);
+  }
+
+  /* ── MANAGE ROLES MODAL (role matrix) ── */
+  function openRolesModal() {
+    const rows = Object.values(ROLE_DEFS).map(r => `
+      <tr>
+        <td style="white-space:nowrap;"><span class="role-pill ${r.cls}">${r.label}</span></td>
+        <td style="white-space:nowrap; font-weight:600; color:#3A3A38;">${r.scope}</td>
+        <td>
+          <div class="perm-list">
+            ${r.perms.map(p => `<span class="perm-chip"><span class="dot"></span>${p}</span>`).join('')}
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+    openModal('Roles &amp; Permission Matrix', `
+      <p style="font-size:11.5px; color:var(--text-muted); line-height:1.5; margin-bottom:10px;">
+        Assign a role to each member to control what they can view and do. All roles are scoped to the active fund unless expanded in member settings.
+      </p>
+      <div style="max-height:340px; overflow-y:auto; border:1px solid var(--border-main); border-radius:7px;">
+        <table class="role-matrix-table">
+          <thead>
+            <tr>
+              <th style="position:sticky; top:0; z-index:1;">Role</th>
+              <th style="position:sticky; top:0; z-index:1;">Scope</th>
+              <th style="position:sticky; top:0; z-index:1;">Permissions</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <div style="display:flex; justify-content:flex-end; margin-top:16px;">
+        <button onclick="closeModal()" class="btn btn-primary">Done</button>
+      </div>
+    `);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  /* ── EMPTY STATE TOGGLE ── */
+  function toggleTeamState() {
+    isStateEmpty = !isStateEmpty;
+    const fabText = document.getElementById('fabToggleText');
+    if (fabText) fabText.textContent = isStateEmpty ? 'Toggle Populated State' : 'Toggle Empty State';
+
+    document.getElementById('filledWorkspaceContainer').style.display = isStateEmpty ? 'none' : 'block';
+    document.getElementById('emptyWorkspace').style.display = isStateEmpty ? 'block' : 'none';
+
+    if (window.showToast) window.showToast(isStateEmpty ? 'Switched to Empty State' : 'Switched to Populated State');
+  }
+</script>
+</body>
+</html>

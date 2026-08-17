@@ -31,6 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     pageNav = 'portfolio-management';
   } else if (pathName.includes('vdr')) {
     pageNav = 'vdr';
+  } else if (pathName.includes('my-team')) {
+    pageNav = 'my-team';
   } else {
     pageNav = 'dashboard';
   }

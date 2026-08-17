@@ -201,12 +201,6 @@ const LayoutComponents = {
               <span>Investment Thesis</span>
             </div>
           </a>
-          <a href="./all-documents.html" class="nav-item ${isActive('all-documents')}">
-            <div class="nav-item-left">
-              <i data-lucide="files"></i>
-              <span>All Documents</span>
-            </div>
-          </a>
         </div>
 
         <!-- Nav Section 2: DEAL SOURCING & PIPELINE -->
