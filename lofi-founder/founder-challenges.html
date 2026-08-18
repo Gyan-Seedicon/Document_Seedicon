@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — Founder Challenges &amp; Peer Advisory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="./css/styles.css">
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<!-- Outer Ambient Viewport Frame -->
+<div class="app-viewport">
+  <!-- Inner Floating Application Card -->
+  <div class="app-frame">
+
+    <!-- 01. Integrated Modern Sidebar Slot (Rendered via components.js) -->
+    <div id="sidebarSlot"></div>
+
+    <!-- 02. Main Workspace Canvas (Center-Focused Founder Challenges) -->
+    <main class="founder-workspace-canvas">
+      
+      <!-- Top Navigation Header Bar -->
+      <header class="workspace-top-nav">
+        <!-- Left Area: Page Icon + Name -->
+        <div class="workspace-top-nav-left">
+          <div class="topnav-page-title">
+            <span class="topnav-page-icon"><i data-lucide="help-circle" style="width:15px; height:15px;"></i></span>
+            <span class="topnav-page-name">Founder challenges</span>
+          </div>
+        </div>
+
+        <!-- Center Pill Search Bar -->
+        <div class="workspace-search-pill-wrap">
+          <i data-lucide="search" class="workspace-search-icon"></i>
+          <input type="text" class="workspace-search-input" placeholder="Search challenges, advice, tags, or founders..." oninput="handleChallengeSearch(this)" />
+          <span class="workspace-search-kbd">⌘K</span>
+        </div>
+
+        <!-- Right Header Action Group -->
+        <div class="workspace-top-nav-right">
+          <button class="nav-ghost-icon-btn" title="Messages" onclick="openMessagesNavDrawer()">
+            <i data-lucide="message-square" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-ghost-icon-btn" title="Notifications" onclick="showNotifications()">
+            <i data-lucide="bell" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-ghost-icon-btn" title="Documentation &amp; Notes" onclick="showHelp()">
+            <i data-lucide="file-text" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-invite-btn" title="Invite Team Members" onclick="openInviteModal()">
+            <i data-lucide="user-plus" style="width:14px; height:14px;"></i>
+            <span>Invite</span>
+          </button>
+
+          <div class="avatar-gradient-circle" title="Dr. Sarah Chen (Founder)">SC</div>
+        </div>
+      </header>
+
+      <!-- Scrollable Workspace Body: Center-Focused Notion Style -->
+      <div class="workspace-scroll-body">
+        
+        <div class="center-focused-container">
+
+          <!-- 01. Directory Hero Header Row -->
+          <div class="directory-hero-row" style="align-items:center;">
+            <div class="directory-hero-titles">
+              <h1 class="directory-main-title">
+                <span>Founder challenges</span>
+                <span class="badge-pill neutral-soft" id="challengesCountBadge">6 active challenges</span>
+              </h1>
+              <p class="directory-main-subtitle">
+                Community-driven peer advisory where founders share real hurdles, seek solutions, and exchange tactical lessons openly or anonymously.
+              </p>
+            </div>
+
+            <!-- Share Problem CTA Button -->
+            <button class="btn btn-primary" onclick="openPostChallengeModal()" style="font-size:12.5px; padding:9px 16px; gap:6px; white-space:nowrap;">
+              <i data-lucide="plus" style="width:14px; height:14px;"></i>
+              <span>Share your challenge</span>
+            </button>
+          </div>
+
+          <!-- 02. Filter, Search & Category Controls Bar -->
+          <div class="directory-controls-bar">
+            <div class="directory-search-sort-row">
+              <div class="directory-search-box">
+                <i data-lucide="search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); width:14px; height:14px; color:var(--text-light);"></i>
+                <input type="text" class="directory-search-input" placeholder="Filter challenges by keyword, tag, or topic..." oninput="handleChallengeSearch(this)" />
+              </div>
+
+              <!-- Filter Selects -->
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <!-- Category Filter -->
+                <select class="btn btn-outline directory-stage-select" style="font-size:11.5px; padding:6px 10px;" onchange="handleChallengeCategoryFilter(this.value)">
+                  <option value="all">All categories</option>
+                  <option value="Co-founder & Team">Co-founder &amp; Team</option>
+                  <option value="Fundraising & Pitching">Fundraising &amp; Pitching</option>
+                  <option value="Sales & GTM">Sales &amp; GTM</option>
+                  <option value="Legal & Equity">Legal &amp; Equity</option>
+                  <option value="Product & Tech">Product &amp; Tech</option>
+                  <option value="Hiring & Culture">Hiring &amp; Culture</option>
+                </select>
+
+                <!-- Post Type Filter -->
+                <select class="btn btn-outline directory-stage-select" style="font-size:11.5px; padding:6px 10px;" onchange="handleChallengeTypeFilter(this.value)">
+                  <option value="all">All posts</option>
+                  <option value="anonymous">Anonymous only</option>
+                  <option value="identified">Identified founders</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 03. Challenges Feed Stream (Rendered dynamically via app.js) -->
+          <div id="founderChallengesList">
+            <!-- Dynamic Founder Challenge Cards -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+</div>
+
+<!-- Modal & Toast Dynamic Slot -->
+<div id="modalSlot"></div>
+
+<!-- Scripts -->
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>

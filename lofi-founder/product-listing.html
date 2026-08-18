@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — Product Listing & Startup Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="./css/styles.css">
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<!-- Outer Ambient Viewport Frame -->
+<div class="app-viewport">
+  <!-- Inner Floating Application Card -->
+  <div class="app-frame">
+
+    <!-- 01. Integrated Modern Sidebar Slot (Rendered via components.js) -->
+    <div id="sidebarSlot"></div>
+
+    <!-- 02. Main Workspace Canvas (Center-Focused Product Directory) -->
+    <main class="founder-workspace-canvas">
+      
+      <!-- Top Navigation Header Bar (Matches attached UI reference) -->
+      <header class="workspace-top-nav">
+        <!-- Left Area: Page Icon + Name -->
+        <div class="workspace-top-nav-left">
+          <div class="topnav-page-title">
+            <span class="topnav-page-icon"><i data-lucide="store" style="width:15px; height:15px;"></i></span>
+            <span class="topnav-page-name">Product Listing</span>
+          </div>
+        </div>
+
+        <!-- Center Pill Search Bar -->
+        <div class="workspace-search-pill-wrap">
+          <i data-lucide="search" class="workspace-search-icon"></i>
+          <input type="text" class="workspace-search-input" placeholder="Search startups, founders, or tags..." oninput="handleDirectorySearch(this)" />
+          <span class="workspace-search-kbd">⌘K</span>
+        </div>
+
+        <!-- Right Header Action Group -->
+        <div class="workspace-top-nav-right">
+          <button class="nav-ghost-icon-btn" title="Notifications" onclick="showNotifications()">
+            <i data-lucide="bell" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-ghost-icon-btn" title="Documentation &amp; Notes" onclick="showHelp()">
+            <i data-lucide="file-text" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-invite-btn" title="Invite Team Members" onclick="openInviteModal()">
+            <i data-lucide="user-plus" style="width:14px; height:14px;"></i>
+            <span>Invite</span>
+          </button>
+
+          <div class="avatar-gradient-circle" title="Dr. Sarah Chen (Founder)">SC</div>
+        </div>
+      </header>
+
+      <!-- Scrollable Workspace Body: Center-Focused Notion Style -->
+      <div class="workspace-scroll-body">
+        
+        <div class="center-focused-container">
+
+          <!-- 01. Directory Hero Header Row -->
+          <div class="directory-hero-row">
+            <div class="directory-hero-titles">
+              <h1 class="directory-main-title">
+                <span>Discover &amp; Upvote Startups</span>
+                <span class="badge-pill neutral-soft" id="totalStartupsCountBadge">9 Startups</span>
+              </h1>
+              <p class="directory-main-subtitle">
+                Explore and upvote emerging ventures across B2B SaaS, AI, and DevTools.
+              </p>
+            </div>
+          </div>
+
+          <!-- 02. Filter, Search & Category Controls Bar -->
+          <div class="directory-controls-bar">
+            <!-- Search & Sort Row -->
+            <div class="directory-search-sort-row">
+              <div class="directory-search-box">
+                <i data-lucide="search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); width:14px; height:14px; color:var(--text-light);"></i>
+                <input type="text" class="directory-search-input" placeholder="Filter by product name, description, founder..." oninput="handleDirectorySearch(this)" />
+              </div>
+
+              <!-- Stage & Sort Controls -->
+              <div style="display:flex; align-items:center; gap:8px;">
+                <select class="btn btn-outline directory-stage-select" style="font-size:11.5px; padding:6px 10px;" onchange="currentCategoryFilter=this.value; renderProductDirectoryStream(window.PRODUCT_DIRECTORY_DATA);">
+                  <option value="all">All Stages</option>
+                  <option value="seed">Seed Stage</option>
+                  <option value="series a">Series A</option>
+                  <option value="series b">Series B</option>
+                  <option value="pre-seed">Pre-Seed</option>
+                </select>
+
+                <!-- Custom Sort Dropdown (Icon-Based, no emojis) -->
+                <div class="sort-dropdown">
+                  <button class="sort-dropdown-trigger" onclick="toggleSortDropdown(event)" title="Sort results">
+                    <i data-lucide="trending-up" style="width:13px; height:13px;" id="sortTriggerIcon"></i>
+                    <span id="sortTriggerLabel">Most Upvoted</span>
+                    <i data-lucide="chevron-down" style="width:12px; height:12px;"></i>
+                  </button>
+                  <div class="sort-dropdown-menu" id="sortDropdownMenu">
+                    <button class="sort-dropdown-item active" data-sort="upvotes" onclick="applySort('upvotes')">
+                      <i data-lucide="trending-up" class="lucide-sm"></i>
+                      <span>Most Upvoted</span>
+                    </button>
+                    <button class="sort-dropdown-item" data-sort="trending" onclick="applySort('trending')">
+                      <i data-lucide="flame" class="lucide-sm"></i>
+                      <span>Trending Today</span>
+                    </button>
+                    <button class="sort-dropdown-item" data-sort="name" onclick="applySort('name')">
+                      <i data-lucide="text-cursor-input" class="lucide-sm"></i>
+                      <span>Alphabetical (A-Z)</span>
+                    </button>
+                    <button class="sort-dropdown-item" data-sort="newest" onclick="applySort('newest')">
+                      <i data-lucide="clock" class="lucide-sm"></i>
+                      <span>Newest Listed</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 03. Product Hunt Style Startup Stream List -->
+          <div class="startup-listing-stream" id="startupDirectoryList">
+            <!-- Rendered Dynamically via app.js with SVG brand logos & data -->
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<!-- Modal & Toast Dynamic Slot -->
+<div id="modalSlot"></div>
+
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — Real Market Problems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="./css/styles.css">
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<!-- Outer Ambient Viewport Frame -->
+<div class="app-viewport">
+  <!-- Inner Floating Application Card -->
+  <div class="app-frame">
+
+    <!-- 01. Integrated Modern Sidebar Slot (Rendered via components.js) -->
+    <div id="sidebarSlot"></div>
+
+    <!-- 02. Main Workspace Canvas (Center-Focused Problems Directory) -->
+    <main class="founder-workspace-canvas">
+      
+      <!-- Top Navigation Header Bar -->
+      <header class="workspace-top-nav">
+        <!-- Left Area: Page Icon + Name -->
+        <div class="workspace-top-nav-left">
+          <div class="topnav-page-title">
+            <span class="topnav-page-icon"><i data-lucide="target" style="width:15px; height:15px;"></i></span>
+            <span class="topnav-page-name">Real market problems</span>
+          </div>
+        </div>
+
+        <!-- Center Pill Search Bar -->
+        <div class="workspace-search-pill-wrap">
+          <i data-lucide="search" class="workspace-search-icon"></i>
+          <input type="text" class="workspace-search-input" placeholder="Search problems, industries, demand signals..." oninput="handleProblemSearch(this)" />
+          <span class="workspace-search-kbd">⌘K</span>
+        </div>
+
+        <!-- Right Header Action Group -->
+        <div class="workspace-top-nav-right">
+          <button class="nav-ghost-icon-btn" title="Messages" onclick="openMessagesNavDrawer()">
+            <i data-lucide="message-square" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-ghost-icon-btn" title="Notifications" onclick="showNotifications()">
+            <i data-lucide="bell" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-ghost-icon-btn" title="Documentation &amp; Notes" onclick="showHelp()">
+            <i data-lucide="file-text" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-invite-btn" title="Invite Team Members" onclick="openInviteModal()">
+            <i data-lucide="user-plus" style="width:14px; height:14px;"></i>
+            <span>Invite</span>
+          </button>
+
+          <div class="avatar-gradient-circle" title="Dr. Sarah Chen (Founder)">SC</div>
+        </div>
+      </header>
+
+      <!-- Scrollable Workspace Body: Center-Focused Notion Style -->
+      <div class="workspace-scroll-body">
+        
+        <div class="center-focused-container">
+
+          <!-- 01. Directory Hero Header Row -->
+          <div class="directory-hero-row">
+            <div class="directory-hero-titles">
+              <h1 class="directory-main-title">
+                <span>Real market problems</span>
+                <span class="badge-pill neutral-soft" id="problemsCountBadge">8 verified problems</span>
+              </h1>
+              <p class="directory-main-subtitle">
+                A research database of real-world market problems, helping founders validate ideas or discover new opportunity areas grounded in real demand signals.
+              </p>
+            </div>
+          </div>
+
+          <!-- 02. Filter, Search & Category Controls Bar -->
+          <div class="directory-controls-bar">
+            <div class="directory-search-sort-row">
+              <div class="directory-search-box">
+                <i data-lucide="search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); width:14px; height:14px; color:var(--text-light);"></i>
+                <input type="text" class="directory-search-input" placeholder="Filter by problem, domain, or keyword..." oninput="handleProblemSearch(this)" />
+              </div>
+
+              <!-- Filter Selects -->
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <!-- Industry / Category Filter -->
+                <select class="btn btn-outline directory-stage-select" style="font-size:11.5px; padding:6px 10px;" onchange="handleProblemCategoryFilter(this.value)">
+                  <option value="all">All industries</option>
+                  <option value="DeepTech & AI">DeepTech &amp; AI</option>
+                  <option value="FinTech & Payments">FinTech &amp; Payments</option>
+                  <option value="DevTools & Infra">DevTools &amp; Infra</option>
+                  <option value="Supply Chain & Logistics">Supply Chain &amp; Logistics</option>
+                  <option value="Healthcare & MedTech">Healthcare &amp; MedTech</option>
+                  <option value="B2B SaaS">B2B SaaS</option>
+                </select>
+
+                <!-- Demand Signal Filter -->
+                <select class="btn btn-outline directory-stage-select" style="font-size:11.5px; padding:6px 10px;" onchange="handleProblemSignalFilter(this.value)">
+                  <option value="all">All demand signals</option>
+                  <option value="High demand">High demand</option>
+                  <option value="Exploding search">Exploding search</option>
+                  <option value="Critical regulation">Critical regulation</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 03. Problems Stream (Rendered dynamically via app.js) -->
+          <div id="marketProblemsList">
+            <!-- Dynamic Problem Cards -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+</div>
+
+<!-- 03. Slide-Over Problem Detail Right Drawer -->
+<div class="drawer-backdrop" id="problemDrawerBackdrop" onclick="closeProblemDrawer()"></div>
+<div class="drawer-panel" id="problemDrawerPanel" style="width: 600px;">
+  <div class="drawer-header">
+    <div style="display:flex; align-items:center; gap:8px;" id="problemDrawerHeaderMeta">
+      <span class="category-tag-pill" id="problemDrawerCategory">Category</span>
+      <span class="problem-demand-pill urgent" id="problemDrawerSignal">Signal</span>
+    </div>
+    <button class="btn btn-icon" onclick="closeProblemDrawer()" title="Close details (Esc)" style="border:none; background:transparent;">
+      <i data-lucide="x" style="width:16px; height:16px;"></i>
+    </button>
+  </div>
+  
+  <div class="drawer-body" id="problemDrawerContent">
+    <!-- Rendered Dynamically when user clicks a problem card -->
+  </div>
+
+  <div class="drawer-footer" id="problemDrawerFooter">
+    <button class="btn btn-outline" onclick="closeProblemDrawer()">Close</button>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button class="btn btn-outline" id="problemDrawerShareBtn" onclick="copyCurrentProblemLink()">
+        <i data-lucide="share-2" style="width:13px; height:13px;"></i>
+        <span>Share</span>
+      </button>
+      <button class="btn btn-primary" id="problemDrawerValidateBtn" onclick="startValidationWorkflow()">
+        <i data-lucide="sparkles" style="width:13px; height:13px;"></i>
+        <span>Validate this problem</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Dynamic Modal & Toast Slot -->
+<div id="modalSlot"></div>
+
+<!-- Scripts -->
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — Government Grants Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="./css/styles.css">
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<!-- Outer Ambient Viewport Frame -->
+<div class="app-viewport">
+  <!-- Inner Floating Application Card -->
+  <div class="app-frame">
+
+    <!-- 01. Integrated Modern Sidebar Slot (Rendered via components.js) -->
+    <div id="sidebarSlot"></div>
+
+    <!-- 02. Main Workspace Canvas (Center-Focused Grants Directory) -->
+    <main class="founder-workspace-canvas">
+      
+      <!-- Top Navigation Header Bar -->
+      <header class="workspace-top-nav">
+        <!-- Left Area: Page Icon + Name -->
+        <div class="workspace-top-nav-left">
+          <div class="topnav-page-title">
+            <span class="topnav-page-icon"><i data-lucide="landmark" style="width:15px; height:15px;"></i></span>
+            <span class="topnav-page-name">Government grants</span>
+          </div>
+        </div>
+
+        <!-- Center Pill Search Bar -->
+        <div class="workspace-search-pill-wrap">
+          <i data-lucide="search" class="workspace-search-icon"></i>
+          <input type="text" class="workspace-search-input" placeholder="Search grants, schemes, organizations..." oninput="handleGrantSearch(this)" />
+          <span class="workspace-search-kbd">⌘K</span>
+        </div>
+
+        <!-- Right Header Action Group -->
+        <div class="workspace-top-nav-right">
+          <button class="nav-ghost-icon-btn" title="Messages" onclick="openMessagesNavDrawer()">
+            <i data-lucide="message-square" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-ghost-icon-btn" title="Notifications" onclick="showNotifications()">
+            <i data-lucide="bell" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-ghost-icon-btn" title="Documentation &amp; Notes" onclick="showHelp()">
+            <i data-lucide="file-text" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-invite-btn" title="Invite Team Members" onclick="openInviteModal()">
+            <i data-lucide="user-plus" style="width:14px; height:14px;"></i>
+            <span>Invite</span>
+          </button>
+
+          <div class="avatar-gradient-circle" title="Dr. Sarah Chen (Founder)">SC</div>
+        </div>
+      </header>
+
+      <!-- Scrollable Workspace Body: Center-Focused Notion Style -->
+      <div class="workspace-scroll-body">
+        
+        <div class="center-focused-container">
+
+          <!-- 01. Directory Hero Header Row -->
+          <div class="directory-hero-row">
+            <div class="directory-hero-titles">
+              <h1 class="directory-main-title">
+                <span>Government grants</span>
+                <span class="badge-pill neutral-soft" id="grantsCountBadge">6 active grants</span>
+              </h1>
+              <p class="directory-main-subtitle">
+                Directory of government grants with filters and direct links to official application portals.
+              </p>
+            </div>
+          </div>
+
+          <!-- 02. Filter, Search & Sector Controls Bar -->
+          <div class="directory-controls-bar">
+            <!-- Search & Filters Row -->
+            <div class="directory-search-sort-row">
+              <div class="directory-search-box">
+                <i data-lucide="search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); width:14px; height:14px; color:var(--text-light);"></i>
+                <input type="text" class="directory-search-input" placeholder="Filter by grant name, scheme, or keywords..." oninput="handleGrantSearch(this)" />
+              </div>
+
+              <!-- Filter Selects -->
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <!-- Sector Filter -->
+                <select class="btn btn-outline directory-stage-select" style="font-size:11.5px; padding:6px 10px;" onchange="handleGrantSectorFilter(this.value)">
+                  <option value="all">All sectors</option>
+                  <option value="Biotech & MedTech">Biotech &amp; MedTech</option>
+                  <option value="DeepTech & AI">DeepTech &amp; AI</option>
+                  <option value="Defense & Aerospace">Defense &amp; Aerospace</option>
+                </select>
+
+                <!-- Grant Type Filter -->
+                <select class="btn btn-outline directory-stage-select" style="font-size:11.5px; padding:6px 10px;" onchange="handleGrantTypeFilter(this.value)">
+                  <option value="all">All funding types</option>
+                  <option value="Equity">Equity funding</option>
+                  <option value="Non-Dilutive">Non-dilutive grant</option>
+                  <option value="Grant & Debt">Grant &amp; debt</option>
+                  <option value="Prototyping">Prototyping grant</option>
+                </select>
+
+                <!-- Status Filter -->
+                <select class="btn btn-outline directory-stage-select" style="font-size:11.5px; padding:6px 10px;" onchange="handleGrantStatusFilter(this.value)">
+                  <option value="all">All status</option>
+                  <option value="urgent">Closing soon</option>
+                  <option value="active">Active</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 03. Government Grants Stream (Rendered dynamically via app.js) -->
+          <div id="governmentGrantsList">
+            <!-- Dynamic Grants Stream -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+</div>
+
+<!-- Reusable Layout Components & Interaction Handlers -->
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>
