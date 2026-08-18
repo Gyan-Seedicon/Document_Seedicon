@@ -112,7 +112,7 @@ const FounderLayoutComponents = {
           </a>
 
           <!-- 5. Due-Diligence Checklist -->
-          <a href="#dd-checklist" class="sidebar-nav-item ${isActive('diligence')}" onclick="handleNavClick('diligence')" data-tooltip="Due-Diligence Checklist">
+          <a href="./due-diligence.html" class="sidebar-nav-item ${isActive('diligence')}" data-tooltip="Due-Diligence Checklist">
             <div class="sidebar-nav-item-left">
               <i data-lucide="shield-check"></i>
               <span>Due-Diligence Checklist</span>

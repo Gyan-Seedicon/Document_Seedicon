@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — SaaS &amp; Software Due Diligence Readiness Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="./css/styles.css">
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<!-- Outer Ambient Viewport Frame -->
+<div class="app-viewport">
+  <!-- Inner Floating Application Card -->
+  <div class="app-frame">
+
+    <!-- 01. Integrated Modern Sidebar Slot (Rendered via components.js) -->
+    <div id="sidebarSlot"></div>
+
+    <!-- 02. Main Workspace Canvas (Center-Focused Notion Style) -->
+    <main class="founder-workspace-canvas">
+      
+      <!-- Top Navigation Header Bar -->
+      <header class="workspace-top-nav">
+        <!-- Left Area: Functional Breadcrumb Trail -->
+        <div class="workspace-top-nav-left">
+          <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+            <span class="topnav-page-icon"><i data-lucide="shield-check" style="width:15px; height:15px;"></i></span>
+            <a href="./due-diligence.html" class="breadcrumb-link">Due diligence</a>
+            <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
+            <span class="breadcrumb-current" id="ddNavBreadcrumb">Investor readiness guide</span>
+          </nav>
+        </div>
+
+        <!-- Center Pill Search Bar -->
+        <div class="workspace-search-pill-wrap">
+          <i data-lucide="search" class="workspace-search-icon"></i>
+          <input type="text" class="workspace-search-input" placeholder="Search checklist items, metrics, or requirements..." />
+          <span class="workspace-search-kbd">⌘K</span>
+        </div>
+
+        <!-- Right Header Action Group -->
+        <div class="workspace-top-nav-right">
+          <button class="nav-ghost-icon-btn" title="Messages" onclick="openMessagesNavDrawer()">
+            <i data-lucide="message-square" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-ghost-icon-btn" title="Notifications" onclick="showNotifications()">
+            <i data-lucide="bell" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-ghost-icon-btn" title="Documentation &amp; Notes" onclick="showHelp()">
+            <i data-lucide="file-text" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-invite-btn" title="Invite Team Members" onclick="openInviteModal()">
+            <i data-lucide="user-plus" style="width:14px; height:14px;"></i>
+            <span>Invite</span>
+          </button>
+
+          <div class="avatar-gradient-circle" title="Dr. Sarah Chen (Founder)">SC</div>
+        </div>
+      </header>
+
+      <!-- Scrollable Workspace Body: Centralized Arrangement -->
+      <div class="workspace-scroll-body">
+
+        <!-- Full-Width Neutral Hero Band (Rendered via app.js) -->
+        <div class="dd-hero-band" id="ddHeroBand"></div>
+
+        <div class="center-focused-container" id="dueDiligenceDetailRoot">
+          <!-- Dynamic Content Rendered via app.js -->
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+</div>
+
+<!-- Modal & Toast Dynamic Slot -->
+<div id="modalSlot"></div>
+
+<!-- Scripts -->
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>

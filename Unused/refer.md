@@ -1,47 +1,163 @@
-# FITT IIT Delhi – BIRAC LEAP Fund for Biotech & MedTech Startups
+SaaS & Software Startup Due Diligence: Complete Investor Readiness Guide
+A comprehensive due diligence guide for saas & software founders covering regulatory requirements, financial validation, market analysis, and investor expectations. Includes stage-wise checklist, process flow, and required documents.
 
-**Up to ₹70L equity funding for biotech & medtech startups**
+Due diligence at a glance
+Timeline
+3-6 months
+Average duration
+Deal Size
+$2M - $10M
+Typical range
+Focus Areas
+3
+Key categories
+What is SaaS & Software Due Diligence?
+Due diligence is not just a checklist — it's the moment where investors verify everything you've claimed about your startup before committing capital.
 
-**Status:** Closing Soon
+In saas & software, this process becomes even more critical. SaaS requires deep analysis of recurring revenue models, churn rates, and customer lifetime value.
 
-### Funding Overview
+A weak due diligence process doesn't just delay funding — it can completely kill the deal.
 
-| Field | Details |
-|---|---|
-| **Amount** | Up to ₹70 Lakhs |
-| **Deadline** | Closes today! |
-| **Type** | Funding |
-| **Organization** | FITT, IIT Delhi |
-| **Sector** | Biotech & MedTech |
-| **Funding Type** | Equity Funding |
+The 6 Pillars of Due Diligence
+Team
+Product
+Regulatory
+Financials
+Market
+Legal & IP
+Stage-wise Due Diligence
+Due diligence depth and focus evolves with your startup stage
 
-### About This Grant
+🚀
+Pre-Seed / Idea
+25% depth
+MVP validation, early customer feedback, product-market fit indicators
 
-This grant program is designed to support innovative startups and entrepreneurs in their growth journey. The initiative provides financial assistance along with mentorship and networking opportunities.
+🌱
+Seed Stage
+50% depth
+MRR growth trajectory, customer acquisition costs, initial retention metrics
 
-Applicants will be evaluated based on their business model, market potential, team strength, and alignment with the program's focus areas.
+📈
+Series A
+75% depth
+ARR benchmarks, unit economics, scalability proof, enterprise customer validation
 
-### Eligibility Criteria
+🏆
+Series B+
+100% depth
+Market leadership, profitability path, global expansion readiness
 
-- Company should be registered in India as Private Limited, LLP, or Partnership
-- Startup age should be less than 10 years from the date of incorporation
-- Annual turnover should not exceed ₹100 crore in any financial year
-- Working towards innovation, development or improvement of products, processes, or services
-- Must have DPIIT recognition, if applicable
+Complete Due Diligence Checklist
+1. SaaS Metrics & KPIs
+Revenue Metrics
+Key revenue and growth indicators
 
-### Required Documents
+Monthly Recurring Revenue (MRR) - Last 24 months
+Required
+Annual Recurring Revenue (ARR)
+Required
+Month-over-Month Growth Rate
+Required
+Revenue Mix by Plan/Tier
+Required
+Customer Health Metrics
+Customer acquisition and retention
 
-- Certificate of Incorporation
-- DPIIT Recognition Certificate
-- Business Plan / Pitch Deck
-- Financial Statements – Last 2 Years
-- Founder Identity Proofs
-- GST Registration Certificate
+Customer Acquisition Cost (CAC)
+Required
+Lifetime Value (LTV)
+Required
+LTV:CAC Ratio
+Required
+Monthly & Annual Churn Rate
+Required
+Net Revenue Retention (NRR)
+Required
+Daily/Monthly Active Users (DAU/MAU)
+Required
+2. Technology & Infrastructure
+Technology Stack
+Software architecture and dependencies
 
-### Application
+System Architecture Documentation
+Required
+Third-Party Dependencies & APIs
+Required
+Scalability Assessment
+Required
+Uptime Statistics & SLA Reports
+Required
+Security Audit Reports
+Required
+3. Customer Portfolio
+Customer Base Analysis
+Customer concentration and contracts
 
-**Primary CTA:** Apply Now  
-**Secondary CTA:** Contact Support
+Complete Customer List with Contract Values
+Required
+Top 10 Customer Revenue Breakdown
+Required
+Sample Customer Contracts
+Required
+Payment Terms & Collections
+Required
+Documents Required (Data Room)
+Investors expect a well-structured data room with these critical documents
 
-**Support Note:**  
-Need help with your application? Contact our support team for guidance.
+Customer contracts
+SaaS metrics (MRR, ARR)
+Technology stack documentation
+Due Diligence Process (Step-by-step)
+1
+Term Sheet Signed
+Initial agreement on key terms
+
+2
+Data Room Shared
+Structured document repository
+
+3
+Investor Analysis
+Deep dive into all materials
+
+4
+Expert Interviews
+Team and advisor validation
+
+5
+Risk Assessment
+Identification of red flags
+
+6
+Final Decision
+Invest / Reject / Renegotiate
+
+Top Deal Killers (Red Flags)
+These are the fastest ways to kill a deal
+
+High churn rate
+Customer concentration risk
+Weak product differentiation
+Unclear pricing strategy
+Poor technical documentation
+Critical Risk Factors
+Our analysis identifies these key risk areas specific to saas & software investments
+
+Churn rate
+Customer concentration
+Technology obsolescence
+Founder DD Readiness Checklist
+Start DD preparation 2-3 months before fundraising
+Organize a well-structured digital data room
+Fix all compliance gaps and regulatory issues
+Prepare clear, honest responses to tough questions
+Have your financials audit-ready
+Document all IP ownership and assignments
+Clean up your cap table and shareholder agreements
+Pro Tip
+
+Think like an investor: "What would make me NOT invest?" — Then fix those issues before anyone asks.
+
+Ready to Prepare for Due Diligence?
+SaaS & Software due diligence is not just about passing checks — it's about building trust, credibility, and investor confidence. The founders who win are not the ones with the best pitch — but the ones with the best preparation.

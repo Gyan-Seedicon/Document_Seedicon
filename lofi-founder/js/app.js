@@ -282,6 +282,16 @@ document.addEventListener('DOMContentLoaded', () => {
     renderFounderChallengesPage();
   }
 
+  // If on Due Diligence Directory Page
+  if (document.getElementById('dueDiligenceGrid')) {
+    renderDueDiligenceDirectory();
+  }
+
+  // If on Due Diligence Detail Page
+  if (document.getElementById('dueDiligenceDetailRoot')) {
+    renderDueDiligenceDetailPage();
+  }
+
   // Bind App Events
   bindFounderAppEvents();
 });
@@ -4071,5 +4081,1217 @@ window.copyChallengeLink = function(challengeId) {
   }
   if (window.showToast) {
     window.showToast('Discussion link copied to clipboard', 'success');
+  }
+};
+
+/* ==========================================================================
+   15. DUE-DILIGENCE DIRECTORY & INVESTOR READINESS FRAMEWORKS
+   ========================================================================== */
+window.DUE_DILIGENCE_DATA = [
+  {
+    id: 'saas',
+    name: 'SaaS & Software',
+    iconText: '</>',
+    checksCount: 19,
+    timeline: '3–6 months',
+    timelineKey: '3-6 months',
+    usersCount: 324,
+    viewsCount: '2.5k',
+    dealSize: '$2M – $10M',
+    focusAreasCount: 3,
+    tagline: 'Comprehensive evaluation of recurring revenue models, cohort retention, technical scalability, and unit economics.',
+    overview: 'Due diligence is not just a checklist — it is the moment where investors verify everything you have claimed about your startup before committing capital.\n\nIn SaaS & software, this process becomes even more critical. SaaS requires deep analysis of recurring revenue models, churn rates, customer health metrics, and customer lifetime value.\n\nA weak due diligence process does not just delay funding — it can completely kill the deal.',
+    pillars: [
+      { name: 'Team', desc: 'Founder dynamics, vesting & key hire retention' },
+      { name: 'Product', desc: 'Architecture, tech debt & scalability audits' },
+      { name: 'Regulatory', desc: 'Data privacy (GDPR, CCPA), SOC 2 & compliance' },
+      { name: 'Financials', desc: 'Audit-ready revenue recognition & unit economics' },
+      { name: 'Market', desc: 'TAM validation, competitive moat & pricing power' },
+      { name: 'Legal & IP', desc: 'Clean cap table, patents & contractor assignments' }
+    ],
+    stages: [
+      { stage: 'Pre-Seed / Idea', depth: '25% depth', desc: 'MVP validation, early customer feedback, product-market fit indicators' },
+      { stage: 'Seed Stage', depth: '50% depth', desc: 'MRR growth trajectory, customer acquisition costs, initial retention metrics' },
+      { stage: 'Series A', depth: '75% depth', desc: 'ARR benchmarks, unit economics, scalability proof, enterprise customer validation' },
+      { stage: 'Series B+', depth: '100% depth', desc: 'Market leadership, profitability path, global expansion readiness' }
+    ],
+    checklists: [
+      {
+        categoryTitle: '1. SaaS metrics & KPIs',
+        groups: [
+          {
+            title: 'Revenue metrics',
+            desc: 'Key revenue and growth indicators',
+            items: [
+              'Monthly recurring revenue (MRR) – Last 24 months',
+              'Annual recurring revenue (ARR)',
+              'Month-over-month growth rate',
+              'Revenue mix by plan / tier'
+            ]
+          },
+          {
+            title: 'Customer health metrics',
+            desc: 'Customer acquisition and retention',
+            items: [
+              'Customer acquisition cost (CAC)',
+              'Lifetime value (LTV)',
+              'LTV:CAC ratio (Target > 3:1)',
+              'Monthly & annual churn rate',
+              'Net revenue retention (NRR > 110%)',
+              'Daily / monthly active users (DAU/MAU)'
+            ]
+          }
+        ]
+      },
+      {
+        categoryTitle: '2. Technology & infrastructure',
+        groups: [
+          {
+            title: 'Technology stack',
+            desc: 'Software architecture and dependencies',
+            items: [
+              'System architecture documentation',
+              'Third-party dependencies & APIs',
+              'Scalability assessment & load test logs',
+              'Uptime statistics & SLA reports (>99.9%)',
+              'Security audit reports & pen tests'
+            ]
+          }
+        ]
+      },
+      {
+        categoryTitle: '3. Customer portfolio & contracts',
+        groups: [
+          {
+            title: 'Customer base analysis',
+            desc: 'Customer concentration and contracts',
+            items: [
+              'Complete customer list with contract values (ACVs)',
+              'Top 10 customer revenue breakdown (Concentration audit)',
+              'Sample master services agreements (MSAs) & DPAs',
+              'Payment terms, billing cycles & collections'
+            ]
+          }
+        ]
+      }
+    ],
+    dataRoomDocs: [
+      { name: 'Customer contracts', desc: 'Executed MSAs, enterprise orders & DPAs' },
+      { name: 'SaaS metrics model', desc: 'MRR/ARR cohorts, NRR, LTV:CAC waterfall' },
+      { name: 'Technology stack doc', desc: 'Architecture, cloud infra & security audits' },
+      { name: 'Cap table & corporate legal', desc: 'Articles, stock purchase agreements & 83(b)s' }
+    ],
+    processSteps: [
+      { step: 1, title: 'Term sheet signed', desc: 'Initial agreement on valuation & key terms' },
+      { step: 2, title: 'Data room shared', desc: 'Structured digital document repository access' },
+      { step: 3, title: 'Investor analysis', desc: 'Deep dive into cohorts, tech stack & unit economics' },
+      { step: 4, title: 'Expert interviews', desc: 'Customer reference calls & team background checks' },
+      { step: 5, title: 'Risk assessment', desc: 'Legal audit, cap table review & IP assignment verification' },
+      { step: 6, title: 'Final decision', desc: 'Investment committee approval & wire transfer' }
+    ],
+    dealKillers: [
+      'High churn rate (>2.5% monthly net churn)',
+      'Customer concentration risk (>25% ARR from single account)',
+      'Weak product differentiation or unsustainable pricing',
+      'Unclear IP ownership and missing founder/contractor IP assignments',
+      'Poor technical documentation & unverified tech debt'
+    ],
+    criticalRisks: ['Churn rate', 'Customer concentration', 'Technology obsolescence'],
+    readinessChecklist: [
+      'Start DD preparation 2–3 months before fundraising',
+      'Organize a well-structured digital data room',
+      'Fix all compliance gaps and regulatory issues',
+      'Prepare clear, honest responses to tough questions',
+      'Have your financials audit-ready with reconciled billing',
+      'Document all IP ownership and contractor assignments',
+      'Clean up your cap table and shareholder agreements'
+    ],
+    proTip: 'Think like an investor: "What would make me NOT invest?" — Then fix those issues before anyone asks.'
+  },
+  {
+    id: 'ecommerce',
+    name: 'E-Commerce & Retail',
+    iconText: '🛒',
+    checksCount: 8,
+    timeline: '2–4 months',
+    timelineKey: '2-4 months',
+    usersCount: 304,
+    viewsCount: '2.1k',
+    dealSize: '$1M – $5M',
+    focusAreasCount: 3,
+    tagline: 'Deep dive into unit economics, supply chain resilience, inventory turnover, and multi-channel attribution.',
+    overview: 'E-Commerce diligence focuses heavily on contribution margins (CM1/CM2/CM3), blended vs paid CAC, supplier dependency, and working capital cycles.',
+    pillars: [
+      { name: 'Unit Economics', desc: 'Blended CAC, repeat purchase rate & ROAS' },
+      { name: 'Supply Chain', desc: 'Lead times, factory audits & MOQ terms' },
+      { name: 'Inventory', desc: 'Turnover ratio, dead stock & warehouse SLAs' },
+      { name: 'Channel Health', desc: 'D2C vs Marketplace margin parity' },
+      { name: 'Fulfillment', desc: '3PL SLAs, shipping margin leakage & RTOs' },
+      { name: 'Brand & IP', desc: 'Trademark registrations & design patents' }
+    ],
+    stages: [
+      { stage: 'Pre-Seed', depth: '20%', desc: 'Initial SKU testing, supplier setup, early conversion data' },
+      { stage: 'Seed', depth: '45%', desc: 'Repeat cohort behavior, first warehouse economics, ROAS stability' },
+      { stage: 'Series A', depth: '80%', desc: 'Omnichannel expansion, working capital line readiness, contribution margin positive' },
+      { stage: 'Series B+', depth: '100%', desc: 'Private label margin dominance, supply chain vertical integration' }
+    ],
+    checklists: [
+      {
+        categoryTitle: '1. Unit economics & marketing attribution',
+        groups: [
+          {
+            title: 'Contribution margin audit',
+            desc: 'Real net profitability per order',
+            items: [
+              'Contribution Margin 1, 2, and 3 waterfall reconciliation',
+              'Blended vs Paid Customer Acquisition Cost (CAC)',
+              'Repeat purchase rate at 30, 60, 90, and 180 days',
+              'Return on Ad Spend (ROAS) across paid channels'
+            ]
+          }
+        ]
+      },
+      {
+        categoryTitle: '2. Supply chain & inventory',
+        groups: [
+          {
+            title: 'Operations & logistics',
+            desc: 'Working capital and partner stability',
+            items: [
+              'Supplier vendor contracts, payment credit terms & MOQs',
+              'Inventory turnover days and aging stock depreciation',
+              '3PL SLA reports and Return-to-Origin (RTO) rate tracking',
+              'Product quality defect logs & customer warranty claims'
+            ]
+          }
+        ]
+      }
+    ],
+    dataRoomDocs: [
+      { name: 'Unit economics model', desc: 'SKU-level margin breakdown and return rates' },
+      { name: 'Supplier master contracts', desc: 'Factory agreements, pricing schedules and lead times' },
+      { name: 'Inventory status report', desc: 'Warehouse inventory valuation and turnover velocity' }
+    ],
+    processSteps: [
+      { step: 1, title: 'Term sheet', desc: 'Valuation & inventory financing terms' },
+      { step: 2, title: 'Data room', desc: 'Unit economics model & supplier contracts' },
+      { step: 3, title: 'Audit', desc: 'COGS reconciliation & marketing attribution' },
+      { step: 4, title: 'Operations', desc: 'Warehouse & 3PL site inspection' },
+      { step: 5, title: 'Risk review', desc: 'Supplier single-point-of-failure analysis' },
+      { step: 6, title: 'Closing', desc: 'Working capital disbursement & wire transfer' }
+    ],
+    dealKillers: [
+      'Unprofitable unit economics after accounting for returns and shipping',
+      'Over-reliance on a single ad platform with deteriorating CAC',
+      'Excessive inventory holding with high obsolescence risk',
+      'Single-supplier dependency without backup manufacturing partners'
+    ],
+    criticalRisks: ['Ad platform algorithm shifts', 'Supply chain lead time shocks', 'Inventory write-offs'],
+    readinessChecklist: [
+      'Reconcile last 12 months of SKU-level contribution margins',
+      'Have audited warehouse inventory valuation reports ready',
+      'Document multi-channel attribution and organic traffic share',
+      'Ensure clear trademark registrations across all operational territories'
+    ],
+    proTip: 'Show investors your contribution margin AFTER marketing, returns, and payment gateway fees — that is where true e-commerce value lives.'
+  },
+  {
+    id: 'fintech',
+    name: 'FinTech',
+    iconText: '$',
+    checksCount: 10,
+    timeline: '6–12 months',
+    timelineKey: '6-12 months',
+    usersCount: 477,
+    viewsCount: '1.9k',
+    dealSize: '$3M – $15M',
+    focusAreasCount: 4,
+    tagline: 'Rigorous audit of regulatory compliance, banking partnership stability, fraud prevention, and capital adequacy.',
+    overview: 'FinTech due diligence is dominated by regulatory compliance, AML/KYC protocols, banking partner agreements, fraud loss rates, and capital reserves.',
+    pillars: [
+      { name: 'Regulatory', desc: 'RBI/SEC/FCA licenses, AML/KYC & escrow audits' },
+      { name: 'Bank Partners', desc: 'Sponsor bank agreements & BIN sponsorship terms' },
+      { name: 'Fraud & Risk', desc: 'Chargeback ratios, fraud loss provisioning & models' },
+      { name: 'Financials', desc: 'Take rates, net interest margin & credit default rates' },
+      { name: 'InfoSec', desc: 'PCI-DSS Level 1, ISO 27001 & data localization' },
+      { name: 'Governance', desc: 'Compliance officer certification & audit committees' }
+    ],
+    stages: [
+      { stage: 'Pre-Seed', depth: '30%', desc: 'Regulatory sandbox entry, initial sponsor bank LOI' },
+      { stage: 'Seed', depth: '60%', desc: 'Live transactional volume, initial fraud metrics, compliance audit' },
+      { stage: 'Series A', depth: '85%', desc: 'Direct banking integrations, loss provisioning validation, PCI-DSS compliance' },
+      { stage: 'Series B+', depth: '100%', desc: 'Full regulatory licensing, secondary banking rails, institutional debt facilities' }
+    ],
+    checklists: [
+      {
+        categoryTitle: '1. Regulatory & licensing compliance',
+        groups: [
+          {
+            title: 'Statutory authorizations',
+            desc: 'Central bank & securities regulations',
+            items: [
+              'Direct regulatory licenses or documented partner proxy arrangements',
+              'Anti-Money Laundering (AML) & KYC verification policies',
+              'User fund segregation audits and escrow accounts',
+              'Data localization & regulatory reporting compliance'
+            ]
+          }
+        ]
+      },
+      {
+        categoryTitle: '2. Risk, fraud & banking infrastructure',
+        groups: [
+          {
+            title: 'Operational risk',
+            desc: 'Fraud loss and partner redundancy',
+            items: [
+              'Historical chargeback and fraud loss rates (<0.5% TPV)',
+              'Sponsor bank master service agreements & SLA terms',
+              'PCI-DSS compliance certificates and tokenization flows',
+              'Credit underwriting model backtesting reports (if lending)'
+            ]
+          }
+        ]
+      }
+    ],
+    dataRoomDocs: [
+      { name: 'Regulatory compliance manual', desc: 'AML/KYC and risk management framework' },
+      { name: 'Sponsor bank contracts', desc: 'Banking partnership and API integration agreements' },
+      { name: 'PCI-DSS certification', desc: 'Independent InfoSec compliance audit reports' }
+    ],
+    processSteps: [
+      { step: 1, title: 'Term sheet', desc: 'Capital & equity structure agreement' },
+      { step: 2, title: 'Data room', desc: 'Regulatory filings, bank contracts & audit reports' },
+      { step: 3, title: 'Compliance audit', desc: 'External forensic legal review of licensing' },
+      { step: 4, title: 'Bank reference', desc: 'Sponsor bank partner relationship validation' },
+      { step: 5, title: 'Risk assessment', desc: 'Fraud loss provisioning and capital adequacy review' },
+      { step: 6, title: 'Closing', desc: 'Regulatory notifications & escrow funding' }
+    ],
+    dealKillers: [
+      'Operating without proper regulatory cover or compliant sponsor bank partnerships',
+      'Uncontrolled fraud losses or high chargeback rates (>1%)',
+      'Co-mingling of operational funds with client escrow balances',
+      'Regulatory enforcement notices or pending consumer protection litigation'
+    ],
+    criticalRisks: ['Regulatory policy shifts', 'Sponsor bank partner cancellation', 'Systemic credit defaults'],
+    readinessChecklist: [
+      'Ensure complete separation of client escrow and operational accounts',
+      'Have current PCI-DSS and SOC 2 Type II audit certificates ready',
+      'Document all sponsor bank partnerships and revenue share splits',
+      'Conduct an independent third-party regulatory compliance audit'
+    ],
+    proTip: 'FinTech investors do not compromise on compliance: prove your banking rails and regulatory posture are bulletproof.'
+  },
+  {
+    id: 'healthtech',
+    name: 'HealthTech',
+    iconText: '❤️',
+    checksCount: 14,
+    timeline: '6–9 months',
+    timelineKey: '6-9 months',
+    usersCount: 410,
+    viewsCount: '2.3k',
+    dealSize: '$2M – $8M',
+    focusAreasCount: 3,
+    tagline: 'Validation of clinical efficacy, healthcare data privacy (HIPAA/GDPR), reimbursement pathways, and trials.',
+    overview: 'HealthTech diligence evaluates clinical trial results, medical device approvals (FDA/CDSCO), hospital pilot conversions, and health data governance.',
+    pillars: [
+      { name: 'Clinical', desc: 'Trial efficacy, peer-reviewed publications & IRB approvals' },
+      { name: 'Regulatory', desc: 'FDA 510(k), CDSCO or CE Mark certifications' },
+      { name: 'Privacy', desc: 'HIPAA, GDPR & patient data security audits' },
+      { name: 'Commercial', desc: 'Hospital procurement cycles & physician adoption' },
+      { name: 'Reimbursement', desc: 'CPT coding & insurance payer reimbursement coverage' },
+      { name: 'IP', desc: 'Core biomedical and algorithmic patents' }
+    ],
+    stages: [
+      { stage: 'Pre-Seed', depth: '25%', desc: 'Proof of concept, IRB study protocol approval' },
+      { stage: 'Seed', depth: '55%', desc: 'Pilot clinical data, initial regulatory submission' },
+      { stage: 'Series A', depth: '80%', desc: 'Regulatory clearance, hospital commercial contracts' },
+      { stage: 'Series B+', depth: '100%', desc: 'Payer reimbursement codes, multi-hospital rollout' }
+    ],
+    checklists: [
+      {
+        categoryTitle: '1. Clinical evidence & regulatory status',
+        groups: [
+          {
+            title: 'Clinical validation',
+            desc: 'Peer-reviewed evidence and approvals',
+            items: [
+              'Clinical trial data and peer-reviewed journal publications',
+              'Institutional Review Board (IRB) study approvals',
+              'Medical device classification and regulatory clearance files',
+              'Physician advisory board credentials and engagement terms'
+            ]
+          }
+        ]
+      }
+    ],
+    dataRoomDocs: [
+      { name: 'Clinical study dossier', desc: 'Trial methodology, sample sizes and statistical efficacy' },
+      { name: 'Regulatory approval certificates', desc: 'FDA, CDSCO or CE mark documentation' },
+      { name: 'HIPAA/GDPR audit report', desc: 'Patient health data encryption and compliance logs' }
+    ],
+    processSteps: [
+      { step: 1, title: 'Term sheet', desc: 'Valuation & milestone-based funding tranches' },
+      { step: 2, title: 'Data room', desc: 'Clinical dossiers, patents & regulatory files' },
+      { step: 3, title: 'KOL review', desc: 'Key Opinion Leader & physician interviews' },
+      { step: 4, title: 'Regulatory check', desc: 'Independent medical regulatory audit' },
+      { step: 5, title: 'Hospital review', desc: 'Procurement stakeholder and pilot verification' },
+      { step: 6, title: 'Closing', desc: 'Closing & milestone governance schedule' }
+    ],
+    dealKillers: [
+      'Inconclusive clinical efficacy or flawed trial methodology',
+      'Unresolved medical device regulatory classification disputes',
+      'Health data privacy violations or unencrypted PHI storage',
+      'Missing clinical pathway to insurance reimbursement'
+    ],
+    criticalRisks: ['Regulatory trial delays', 'Hospital procurement friction', 'Reimbursement code denials'],
+    readinessChecklist: [
+      'Package all clinical trial statistical reports and raw datasets',
+      'Ensure all patient data handling complies with HIPAA and local medical privacy laws',
+      'Document the clear roadmap to insurance CPT coding and reimbursement',
+      'Secure exclusive IP assignment on all clinical and algorithmic innovations'
+    ],
+    proTip: 'Clinical efficacy and patient safety are paramount: present clear statistical significance and documented doctor endorsements.'
+  },
+  {
+    id: 'edtech',
+    name: 'EdTech',
+    iconText: '📖',
+    checksCount: 8,
+    timeline: '3–6 months',
+    timelineKey: '3-6 months',
+    usersCount: 361,
+    viewsCount: '1.8k',
+    dealSize: '$1M – $6M',
+    focusAreasCount: 3,
+    tagline: 'Assessment of learning outcomes, user engagement cycles, content intellectual property, and institutional sales.',
+    overview: 'EdTech diligence focuses on student engagement, course completion rates, pedagogical efficacy, teacher adoption, and B2B school/university sales cycles.',
+    pillars: [
+      { name: 'Pedagogy', desc: 'Learning efficacy, retention and outcome validation' },
+      { name: 'Engagement', desc: 'Course completion rates, DAU/MAU and session duration' },
+      { name: 'Content IP', desc: 'Exclusive curriculum rights and teacher contracts' },
+      { name: 'Monetization', desc: 'D2C subscription renewals vs institutional B2B ACV' },
+      { name: 'Child Privacy', desc: 'COPPA, FERPA and student data security' },
+      { name: 'Distribution', desc: 'School district procurement & organic parent acquisition' }
+    ],
+    stages: [
+      { stage: 'Pre-Seed', depth: '25%', desc: 'Curriculum MVP, student feedback, completion test' },
+      { stage: 'Seed', depth: '50%', desc: 'Paid cohort retention, tutor marketplace liquidity' },
+      { stage: 'Series A', depth: '75%', desc: 'School district contracts, high course completion rate' },
+      { stage: 'Series B+', depth: '100%', desc: 'National curriculum integration, international distribution' }
+    ],
+    checklists: [
+      {
+        categoryTitle: '1. Learning metrics & student engagement',
+        groups: [
+          {
+            title: 'Learning outcomes',
+            desc: 'Student progress and retention',
+            items: [
+              'Course completion rates and quiz pass distributions',
+              'Daily active learners and average weekly study duration',
+              'Student net promoter score (NPS) and parent satisfaction data',
+              'Educator retention and lesson creation velocity'
+            ]
+          }
+        ]
+      }
+    ],
+    dataRoomDocs: [
+      { name: 'Curriculum IP documentation', desc: 'Content ownership, licensing and author contracts' },
+      { name: 'Learner engagement report', desc: 'Course completion analytics and cohort retention' },
+      { name: 'Institutional sales pipeline', desc: 'School district and university contracts' }
+    ],
+    processSteps: [
+      { step: 1, title: 'Term sheet', desc: 'Valuation & expansion terms' },
+      { step: 2, title: 'Data room', desc: 'Engagement metrics & curriculum IP' },
+      { step: 3, title: 'Pedagogy audit', desc: 'Educator and parent interviews' },
+      { step: 4, title: 'Compliance', desc: 'COPPA & student data privacy review' },
+      { step: 5, title: 'Pipeline review', desc: 'Institutional contract verification' },
+      { step: 6, title: 'Closing', desc: 'Capital wire transfer' }
+    ],
+    dealKillers: [
+      'Low course completion rates (<15%) or poor student engagement',
+      'Unclear content IP ownership or teacher copyright disputes',
+      'High student drop-off after the first billing cycle',
+      'Violations of COPPA or student data privacy laws'
+    ],
+    criticalRisks: ['Parent churn cycles', 'Slow school procurement', 'Free content competition'],
+    readinessChecklist: [
+      'Document proven learning outcomes and standardized test score improvements',
+      'Verify 100% IP ownership of all videos, curriculum, and assessments',
+      'Ensure strict compliance with COPPA and FERPA student privacy regulations',
+      'Reconcile annual renewal rates for institutional and consumer subscriptions'
+    ],
+    proTip: 'Show genuine proof of student learning and skill improvement — vanity user signups without course completion will not convince top edtech funds.'
+  },
+  {
+    id: 'manufacturing',
+    name: 'Manufacturing',
+    iconText: '🏭',
+    checksCount: 7,
+    timeline: '6–12 months',
+    timelineKey: '6-12 months',
+    usersCount: 376,
+    viewsCount: '2.6k',
+    dealSize: '$3M – $12M',
+    focusAreasCount: 3,
+    tagline: 'Analysis of facility production capacity, equipment lifecycle, supply chain redundancy, and quality control.',
+    overview: 'Industrial & hardware manufacturing diligence demands in-depth inspection of factory capacity utilization, OEE, scrap rates, and environmental clearances.',
+    pillars: [
+      { name: 'Operations', desc: 'Overall equipment effectiveness (OEE) & factory utilization' },
+      { name: 'Quality', desc: 'ISO 9001, Six Sigma scrap rates & defect tracking' },
+      { name: 'Supply Chain', desc: 'Raw material procurement contracts & buffer stock' },
+      { name: 'Environment', desc: 'Pollution board clearances & hazardous waste audits' },
+      { name: 'Financials', desc: 'Gross manufacturing margin & CapEx depreciation cycles' },
+      { name: 'Safety', desc: 'OSHA compliance, workplace safety & labor agreements' }
+    ],
+    stages: [
+      { stage: 'Pre-Seed', depth: '20%', desc: 'Bench prototype, contract manufacturer engagement' },
+      { stage: 'Seed', depth: '45%', desc: 'Small batch production, initial factory yield verification' },
+      { stage: 'Series A', depth: '75%', desc: 'Dedicated line setup, ISO certification, steady supply chain' },
+      { stage: 'Series B+', depth: '100%', desc: 'Mega-facility scaling, automated quality control, global exports' }
+    ],
+    checklists: [
+      {
+        categoryTitle: '1. Production capacity & quality control',
+        groups: [
+          {
+            title: 'Factory metrics',
+            desc: 'Yields, downtime and certifications',
+            items: [
+              'Factory capacity utilization and Overall Equipment Effectiveness (OEE)',
+              'Scrap rate and quality defect tracking logs (<1%)',
+              'ISO 9001, ISO 14001, and industry-specific certifications',
+              'Equipment maintenance schedules and CapEx replacement models'
+            ]
+          }
+        ]
+      }
+    ],
+    dataRoomDocs: [
+      { name: 'Facility audit dossier', desc: 'Factory layout, equipment list and capacity reports' },
+      { name: 'Quality control logs', desc: 'Defect rates, customer returns and ISO certifications' },
+      { name: 'Environmental clearances', desc: 'Pollution board and safety compliance certificates' }
+    ],
+    processSteps: [
+      { step: 1, title: 'Term sheet', desc: 'CapEx and expansion valuation' },
+      { step: 2, title: 'Data room', desc: 'Production models, supplier contracts & audits' },
+      { step: 3, title: 'Site visit', desc: 'Physical factory and warehouse inspection' },
+      { step: 4, title: 'Vendor checks', desc: 'Raw material supplier interviews' },
+      { step: 5, title: 'Environmental review', desc: 'Pollution and labor safety review' },
+      { step: 6, title: 'Closing', desc: 'Tranche disbursement for CapEx' }
+    ],
+    dealKillers: [
+      'Excessive factory downtime or high scrap rates eating margins',
+      'Unresolved pollution board notices or environmental non-compliance',
+      'Single-source raw material vulnerabilities with pricing volatility',
+      'Labor disputes or lack of industrial safety compliance'
+    ],
+    criticalRisks: ['Raw material inflation', 'Equipment breakdown', 'Environmental regulation'],
+    readinessChecklist: [
+      'Prepare detailed plant floor diagrams and equipment maintenance schedules',
+      'Compile raw material supply contracts with guaranteed pricing terms',
+      'Verify all environmental and industrial labor safety permits are up to date',
+      'Provide historical scrap rate and factory throughput efficiency reports'
+    ],
+    proTip: 'Factory transparency wins manufacturing deals: be ready to host investors on-site with full production line visibility.'
+  },
+  {
+    id: 'realestate',
+    name: 'Real Estate & PropTech',
+    iconText: '🏢',
+    checksCount: 9,
+    timeline: '9–18 months',
+    timelineKey: '9-18 months',
+    usersCount: 471,
+    viewsCount: '2.3k',
+    dealSize: '$5M – $25M',
+    focusAreasCount: 3,
+    tagline: 'Evaluation of property title integrity, zoning regulation compliance, market valuation, and asset occupancy.',
+    overview: 'PropTech and real estate development diligence focuses on clear title deed verification, zoning laws, cap rates, rental yield consistency, and tenant leases.',
+    pillars: [
+      { name: 'Title', desc: '30-year title deed verification & encumbrance certificates' },
+      { name: 'Zoning', desc: 'Municipal development approvals & environmental clearances' },
+      { name: 'Yields', desc: 'Net operating income (NOI), cap rates & lease agreements' },
+      { name: 'Occupancy', desc: 'Historical vacancy rates, tenant credit quality & leases' },
+      { name: 'Construction', desc: 'Contractor liens, completion bonds & cost overrun models' },
+      { name: 'Legal', desc: 'RERA compliance, property tax records & litigation search' }
+    ],
+    stages: [
+      { stage: 'Pre-Seed', depth: '20%', desc: 'Platform prototype, early broker network' },
+      { stage: 'Seed', depth: '50%', desc: 'Initial asset tokenization/leasing, title audit framework' },
+      { stage: 'Series A', depth: '80%', desc: 'Institutional portfolio onboarded, audited yields' },
+      { stage: 'Series B+', depth: '100%', desc: 'REIT conversion readiness, cross-city asset scaling' }
+    ],
+    checklists: [
+      {
+        categoryTitle: '1. Title deeds & municipal approvals',
+        groups: [
+          {
+            title: 'Property title integrity',
+            desc: 'Legal title and zoning permissions',
+            items: [
+              '30-year title search report and non-encumbrance certificate',
+              'Municipal zoning approvals and building plan sanctions',
+              'RERA project registration and compliance filings',
+              'Property tax payment receipts and clearance certificates'
+            ]
+          }
+        ]
+      }
+    ],
+    dataRoomDocs: [
+      { name: 'Title search dossier', desc: 'Complete legal title chain and encumbrance reports' },
+      { name: 'Rent roll & lease agreements', desc: 'Active tenant leases, lock-in terms and security deposits' },
+      { name: 'Independent valuation report', desc: 'Certified real estate appraiser valuation models' }
+    ],
+    processSteps: [
+      { step: 1, title: 'Term sheet', desc: 'Portfolio valuation & cap rate agreement' },
+      { step: 2, title: 'Data room', desc: 'Title deeds, lease contracts & municipal files' },
+      { step: 3, title: 'Title diligence', desc: 'Legal counsel title search across registries' },
+      { step: 4, title: 'Physical appraisal', desc: 'Structural engineering and property appraisal' },
+      { step: 5, title: 'Tenant audits', desc: 'Rent roll reconciliation and lease verification' },
+      { step: 6, title: 'Closing', desc: 'Escrow deed registration & wire transfer' }
+    ],
+    dealKillers: [
+      'Clouded title or unresolved dispute in property chain of ownership',
+      'Construction without required municipal or environmental permissions',
+      'High vacancy rates or fragile anchor tenant leases',
+      'Undisclosed contractor liens or local property tax defaults'
+    ],
+    criticalRisks: ['Zoning disputes', 'Interest rate spikes', 'Tenant default'],
+    readinessChecklist: [
+      'Obtain an updated 30-year title search certificate from legal counsel',
+      'Reconcile rent roll data with actual bank deposits for the past 24 months',
+      'Compile all RERA compliance filings and occupancy certificates',
+      'Prepare an independent property valuation report from a certified appraiser'
+    ],
+    proTip: 'Clear, undisputed title deeds and verifiable rent rolls are the bedrock of real estate investor trust.'
+  },
+  {
+    id: 'foodbev',
+    name: 'Food & Beverage',
+    iconText: '☕',
+    checksCount: 8,
+    timeline: '3–6 months',
+    timelineKey: '3-6 months',
+    usersCount: 282,
+    viewsCount: '2.5k',
+    dealSize: '$1M – $5M',
+    focusAreasCount: 3,
+    tagline: 'Audit of food safety certifications, quality control systems, supplier reliability, and retail shelf velocity.',
+    overview: 'Food & beverage due diligence evaluates food safety licensing (FSSAI, FDA), ingredient sourcing traceability, shelf-life testing, and retail distributor margins.',
+    pillars: [
+      { name: 'Safety', desc: 'FSSAI/FDA licenses, HACCP & food safety audits' },
+      { name: 'Shelf Life', desc: 'Lab stability tests, packaging barrier & expiry models' },
+      { name: 'Distribution', desc: 'Retail shelf velocity, distributor margins & slotting fees' },
+      { name: 'Sourcing', desc: 'Ingredient traceability, farm contracts & organic certs' },
+      { name: 'Unit Margins', desc: 'Recipe cost breakdown, co-packer terms & batch yields' },
+      { name: 'Brand', desc: 'Trademark protection across food categories & recipe IP' }
+    ],
+    stages: [
+      { stage: 'Pre-Seed', depth: '25%', desc: 'Commercial kitchen recipe validation, local testing' },
+      { stage: 'Seed', depth: '50%', desc: 'Co-packer agreement, initial retail presence, FSSAI compliance' },
+      { stage: 'Series A', depth: '75%', desc: 'Regional distribution, documented shelf velocity, HACCP' },
+      { stage: 'Series B+', depth: '100%', desc: 'National retail footprint, high repeat purchases, export licenses' }
+    ],
+    checklists: [
+      {
+        categoryTitle: '1. Food safety & regulatory licenses',
+        groups: [
+          {
+            title: 'Regulatory compliance',
+            desc: 'Food safety and lab testing',
+            items: [
+              'FSSAI / FDA manufacturing and distribution licenses',
+              'Third-party laboratory shelf-life and nutritional test reports',
+              'HACCP and GMP food safety management certifications',
+              'Ingredient traceability logs and supplier safety audits'
+            ]
+          }
+        ]
+      }
+    ],
+    dataRoomDocs: [
+      { name: 'Food safety licenses', desc: 'FSSAI, FDA and local municipal health clearances' },
+      { name: 'Recipe costing model', desc: 'Per-batch ingredient costs, packaging and co-packer fees' },
+      { name: 'Distributor agreements', desc: 'Modern trade and general trade margin agreements' }
+    ],
+    processSteps: [
+      { step: 1, title: 'Term sheet', desc: 'Valuation & retail rollout capital' },
+      { step: 2, title: 'Data room', desc: 'Food safety tests, recipe models & distributor files' },
+      { step: 3, title: 'Lab testing', desc: 'Independent shelf-life & nutritional verification' },
+      { step: 4, title: 'Co-packer visit', desc: 'Manufacturing plant hygiene and capacity audit' },
+      { step: 5, title: 'Retail checks', desc: 'Store visits to verify real on-shelf velocity' },
+      { step: 6, title: 'Closing', desc: 'Fund release & working capital deployment' }
+    ],
+    dealKillers: [
+      'Missing or suspended food safety licenses (FSSAI / FDA)',
+      'High product spoilage or failed laboratory shelf-life tests',
+      'Negative contribution margins after modern trade slotting fees',
+      'Unprotected recipe IP or trademark infringement issues'
+    ],
+    criticalRisks: ['Spoilage & expiry returns', 'Retail distributor margin compression', 'Food safety recalls'],
+    readinessChecklist: [
+      'Have certified laboratory nutritional and shelf-life test reports ready',
+      'Compile all co-packing and manufacturing service level agreements',
+      'Document modern trade velocity (units sold per store per week)',
+      'Ensure all ingredient suppliers have active food safety certifications'
+    ],
+    proTip: 'Retail shelf velocity (units per store per week) is the true North Star for F&B investors — prove your product flies off shelves.'
+  },
+  {
+    id: 'ai',
+    name: 'AI & Machine Learning',
+    iconText: '🧠',
+    checksCount: 12,
+    timeline: '4–8 months',
+    timelineKey: '4-8 months',
+    usersCount: 204,
+    viewsCount: '1.7k',
+    dealSize: '$2M – $10M',
+    focusAreasCount: 3,
+    tagline: 'Technical verification of model performance, training data integrity, GPU infra unit economics, and bias mitigation.',
+    overview: 'AI startup due diligence scrutinizes proprietary dataset rights, model benchmark validation, inference compute costs (gross margin health), and AI safety compliance.',
+    pillars: [
+      { name: 'Data Rights', desc: 'Dataset licensing, clean scraping terms & data provenance' },
+      { name: 'Compute Cost', desc: 'GPU inference cost per query & gross margin trajectory' },
+      { name: 'Model Moat', desc: 'Fine-tuning vs wrapper evaluation, proprietary architecture' },
+      { name: 'Evaluation', desc: 'Benchmark metrics, hallucination rates & latency SLAs' },
+      { name: 'AI Safety', desc: 'EU AI Act compliance, bias mitigation & alignment guardrails' },
+      { name: 'IP & Code', desc: 'Open-source license compliance (GPL vs Apache 2.0)' }
+    ],
+    stages: [
+      { stage: 'Pre-Seed', depth: '25%', desc: 'Proof of concept model, benchmark validation on public data' },
+      { stage: 'Seed', depth: '50%', desc: 'Proprietary fine-tuned weights, initial API customers, latency SLA' },
+      { stage: 'Series A', depth: '80%', desc: 'Defensible data flywheel, positive gross margins on inference' },
+      { stage: 'Series B+', depth: '100%', desc: 'Enterprise private deployments, multi-model orchestrator scale' }
+    ],
+    checklists: [
+      {
+        categoryTitle: '1. Dataset rights & model architecture',
+        groups: [
+          {
+            title: 'Data & compute integrity',
+            desc: 'Training data and unit economics',
+            items: [
+              'Training dataset copyright clearances and commercial licensing agreements',
+              'Proprietary model benchmark evaluation logs vs open-weights (Llama, Mistral)',
+              'Inference compute cost breakdown (GPU hosting vs revenue per customer)',
+              'Hallucination and guardrail evaluation test suites'
+            ]
+          }
+        ]
+      }
+    ],
+    dataRoomDocs: [
+      { name: 'Data provenance report', desc: 'Complete audit of training data sources and licenses' },
+      { name: 'Model evaluation suite', desc: 'Benchmark results, latency logs and safety audit files' },
+      { name: 'Inference cost model', desc: 'GPU cluster utilization and gross margin projections' }
+    ],
+    processSteps: [
+      { step: 1, title: 'Term sheet', desc: 'Valuation & compute credits structure' },
+      { step: 2, title: 'Data room', desc: 'Model evaluations, data licenses & GPU costs' },
+      { step: 3, title: 'Tech deep dive', desc: 'External AI researcher architecture audit' },
+      { step: 4, title: 'Data audit', desc: 'Copyright & data rights verification' },
+      { step: 5, title: 'Customer calls', desc: 'Enterprise customer accuracy & ROI verification' },
+      { step: 6, title: 'Closing', desc: 'Funding wire transfer' }
+    ],
+    dealKillers: [
+      'Unlicensed or copyrighted training data vulnerable to copyright lawsuits',
+      'Negative gross margins on inference compute costs',
+      'Thin wrapper around third-party APIs without proprietary moat',
+      'Uncontrolled hallucination rates in mission-critical applications'
+    ],
+    criticalRisks: ['Foundation model commoditization', 'GPU infrastructure cost spikes', 'AI copyright liability'],
+    readinessChecklist: [
+      'Conduct a thorough audit of all training datasets and license terms',
+      'Demonstrate a clear gross margin path (>70%) accounting for inference compute',
+      'Provide standardized benchmark comparisons against leading open models',
+      'Document enterprise privacy controls and zero-data-retention agreements'
+    ],
+    proTip: 'Prove your AI startup is not just a thin wrapper: demonstrate proprietary data flywheels and defensible inference unit economics.'
+  },
+  {
+    id: 'cleantech',
+    name: 'CleanTech & Energy',
+    iconText: '⚡',
+    checksCount: 11,
+    timeline: '6–12 months',
+    timelineKey: '6-12 months',
+    usersCount: 195,
+    viewsCount: '1.5k',
+    dealSize: '$3M – $15M',
+    focusAreasCount: 3,
+    tagline: 'Audit of carbon accounting methodologies, hardware durability, regulatory grid-interconnect approvals, and subsidies.',
+    overview: 'CleanTech due diligence focuses on third-party carbon offset verification, energy efficiency metrics, hardware warranty life cycles, and government green subsidy frameworks.',
+    pillars: [
+      { name: 'Carbon Audits', desc: 'Verra/Gold Standard methodology & LCA reports' },
+      { name: 'Efficiency', desc: 'Energy generation/storage efficiency & degradation curves' },
+      { name: 'Grid Approvals', desc: 'Utility interconnect permits & net metering rights' },
+      { name: 'Hardware', desc: 'Field durability, warranty provisions & MTBF logs' },
+      { name: 'Subsidies', desc: 'Government green grants, tax credits (IRA) & policy stability' },
+      { name: 'IP', desc: 'Core chemistry, thermodynamics & control software patents' }
+    ],
+    stages: [
+      { stage: 'Pre-Seed', depth: '20%', desc: 'Lab scale prototype, carbon reduction model' },
+      { stage: 'Seed', depth: '45%', desc: 'Pilot site deployment, verified energy yield data' },
+      { stage: 'Series A', depth: '75%', desc: 'Commercial pilot contracts, utility grid approval' },
+      { stage: 'Series B+', depth: '100%', desc: 'Multi-megawatt scaling, project financing readiness' }
+    ],
+    checklists: [
+      {
+        categoryTitle: '1. Carbon validation & grid compliance',
+        groups: [
+          {
+            title: 'Technical efficacy',
+            desc: 'Energy yields and lifecycle assessment',
+            items: [
+              'Life Cycle Assessment (LCA) certified by accredited carbon auditor',
+              'Hardware accelerated degradation and MTBF test reports',
+              'Utility grid interconnect approvals and power purchase agreements (PPAs)',
+              'Government subsidy and tax credit eligibility documentation'
+            ]
+          }
+        ]
+      }
+    ],
+    dataRoomDocs: [
+      { name: 'Carbon audit report', desc: 'Third-party validated carbon offset methodology' },
+      { name: 'Hardware durability logs', desc: 'Laboratory stress testing and degradation curves' },
+      { name: 'Power purchase agreements', desc: 'Executed customer contracts and utility permissions' }
+    ],
+    processSteps: [
+      { step: 1, title: 'Term sheet', desc: 'Valuation & project debt schedule' },
+      { step: 2, title: 'Data room', desc: 'LCA reports, patents & pilot site data' },
+      { step: 3, title: 'Field audit', desc: 'Independent engineering inspection of pilot site' },
+      { step: 4, title: 'Policy review', desc: 'Subsidies and regulatory stability analysis' },
+      { step: 5, title: 'Customer review', desc: 'Offtake customer and utility partner interviews' },
+      { step: 6, title: 'Closing', desc: 'Tranche funding release' }
+    ],
+    dealKillers: [
+      'Unverified or fraudulent carbon accounting claims (greenwashing risk)',
+      'Hardware degradation rates significantly higher than promised',
+      'Reliance on expiring subsidies without a path to grid parity',
+      'Inability to obtain utility grid interconnect approvals'
+    ],
+    criticalRisks: ['Regulatory policy shifts', 'Hardware reliability in extreme weather', 'Grid interconnect delays'],
+    readinessChecklist: [
+      'Obtain an independent third-party Life Cycle Assessment (LCA) report',
+      'Compile multi-year hardware accelerated life testing and field degradation data',
+      'Document all utility interconnection agreements and off-take contracts',
+      'Ensure complete patent protection across core thermodynamics or chemical innovations'
+    ],
+    proTip: 'Third-party engineering validation is essential in CleanTech: independent lab reports build unshakeable investor conviction.'
+  }
+];
+
+let currentDDSearch = '';
+let currentDDTimeline = 'all';
+let currentDDSort = 'popular';
+
+function renderDueDiligenceDirectory() {
+  const container = document.getElementById('dueDiligenceGrid');
+  if (!container) return;
+
+  const countBadge = document.getElementById('ddCountBadge');
+  if (countBadge) {
+    countBadge.textContent = `${(window.DUE_DILIGENCE_DATA || []).length} industry frameworks`;
+  }
+
+  filterAndRenderDDGrid();
+}
+
+window.renderDueDiligenceDirectory = renderDueDiligenceDirectory;
+
+function filterAndRenderDDGrid() {
+  const container = document.getElementById('dueDiligenceGrid');
+  if (!container) return;
+
+  let list = window.DUE_DILIGENCE_DATA || [];
+
+  if (currentDDSearch.trim()) {
+    const q = currentDDSearch.toLowerCase().trim();
+    list = list.filter(item =>
+      item.name.toLowerCase().includes(q) ||
+      item.tagline.toLowerCase().includes(q) ||
+      item.timeline.toLowerCase().includes(q) ||
+      (item.criticalRisks && item.criticalRisks.some(r => r.toLowerCase().includes(q)))
+    );
+  }
+
+  if (currentDDTimeline !== 'all') {
+    list = list.filter(item => item.timelineKey === currentDDTimeline);
+  }
+
+  if (currentDDSort === 'checks') {
+    list = [...list].sort((a, b) => b.checksCount - a.checksCount);
+  } else if (currentDDSort === 'duration') {
+    list = [...list].sort((a, b) => a.checksCount - b.checksCount);
+  } else {
+    list = [...list].sort((a, b) => b.usersCount - a.usersCount);
+  }
+
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div class="empty-placeholder-box" style="grid-column: 1 / -1; padding:48px 24px; text-align:center;">
+        <i data-lucide="shield-check" style="width:32px; height:32px; color:var(--text-light); margin-bottom:8px;"></i>
+        <h4 style="font-size:14px; font-weight:800; color:var(--text-dark); margin:0 0 4px;">No matching frameworks found</h4>
+        <p style="font-size:12px; color:var(--text-muted); margin:0;">Try adjusting your keyword or timeline filter selections.</p>
+      </div>`;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="dd-grid-layout">
+      ${list.map(item => `
+        <div class="dd-industry-card" onclick="window.location.href='./due-diligence-detail.html?id=${item.id}'">
+          <!-- Header: Icon on Left + Title & Tagline on Right -->
+          <div class="dd-card-header-row">
+            <div class="dd-card-icon-badge">
+              ${item.iconText}
+            </div>
+            <div class="dd-card-header-text">
+              <h3 class="dd-card-title">${item.name}</h3>
+              <p class="dd-card-tagline">${item.tagline}</p>
+            </div>
+          </div>
+
+          <!-- Pills Row: Checks & Duration -->
+          <div class="dd-card-pills-row">
+            <span class="dd-card-pill"><i data-lucide="check-circle-2" style="width:10px;height:10px;"></i> ${item.checksCount} checks</span>
+            <span class="dd-card-pill"><i data-lucide="clock" style="width:10px;height:10px;"></i> ${item.timeline}</span>
+          </div>
+
+          <!-- Footer Row: Views & Action -->
+          <div class="dd-card-footer">
+            <div class="dd-card-stats">
+              <span><i data-lucide="users" style="width:10px;height:10px;"></i> ${item.usersCount}</span>
+              <span><i data-lucide="eye" style="width:10px;height:10px;"></i> ${item.viewsCount}</span>
+            </div>
+            <span class="dd-card-view-link">View <i data-lucide="arrow-right" style="width:11px;height:11px;"></i></span>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+window.handleDDSearch = function(input) {
+  currentDDSearch = input.value;
+  filterAndRenderDDGrid();
+};
+
+window.handleDDTimelineFilter = function(val) {
+  currentDDTimeline = val;
+  filterAndRenderDDGrid();
+};
+
+window.handleDDSort = function(val) {
+  currentDDSort = val;
+  filterAndRenderDDGrid();
+};
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Due Diligence Detail Page Renderer
+   ────────────────────────────────────────────────────────────────────────── */
+function renderDueDiligenceDetailPage() {
+  const root = document.getElementById('dueDiligenceDetailRoot');
+  if (!root) return;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const ddId = urlParams.get('id') || 'saas';
+
+  const data = (window.DUE_DILIGENCE_DATA || []).find(d => d.id === ddId) || window.DUE_DILIGENCE_DATA[0];
+  if (!data) return;
+
+  const breadcrumb = document.getElementById('ddNavBreadcrumb');
+  if (breadcrumb) {
+    breadcrumb.textContent = `${data.name} investor readiness`;
+  }
+
+  const heroBand = document.getElementById('ddHeroBand');
+  if (heroBand) {
+    heroBand.innerHTML = `
+      <div class="dd-hero-inner">
+        <div class="dd-hero-top-row">
+          <div class="dd-hero-identity">
+            <div class="dd-card-icon-badge dd-hero-icon">${data.iconText}</div>
+            <div class="dd-hero-chips">
+              <span class="category-tag-pill">${data.name}</span>
+              <span class="badge-pill neutral-soft">Verified readiness framework</span>
+            </div>
+          </div>
+          <div class="dd-hero-actions">
+            <button class="btn btn-outline" style="font-size:11.5px; padding:6px 12px; gap:5px;" onclick="if(window.showToast) window.showToast('Downloading complete ${data.name} due diligence package (.PDF)...', 'success');">
+              <i data-lucide="download" style="width:12px;height:12px;"></i>
+              <span>Download guide (.PDF)</span>
+            </button>
+            <button class="btn btn-outline" style="font-size:11.5px; padding:6px 9px;" onclick="copyDDLink('${data.id}')" title="Copy shareable link">
+              <i data-lucide="share-2" style="width:12px;height:12px;"></i>
+            </button>
+          </div>
+        </div>
+        <h1 class="dd-hero-title">${data.name} startup due diligence: complete investor readiness guide</h1>
+        <p class="dd-hero-subtitle">A comprehensive due diligence guide for ${data.name.toLowerCase()} founders covering regulatory requirements, financial validation, market analysis, and investor expectations. Includes stage-wise checklist, process flow, and required documents.</p>
+        <div class="dd-vitals-strip">
+          <div class="dd-vital-cell">
+            <span class="dd-vital-label">Timeline</span>
+            <span class="dd-vital-value">${data.timeline}</span>
+          </div>
+          <div class="dd-vital-cell">
+            <span class="dd-vital-label">Deal size</span>
+            <span class="dd-vital-value">${data.dealSize}</span>
+          </div>
+          <div class="dd-vital-cell">
+            <span class="dd-vital-label">Focus areas</span>
+            <span class="dd-vital-value">${data.focusAreasCount} categories</span>
+          </div>
+          <div class="dd-vital-cell">
+            <span class="dd-vital-label">Checks count</span>
+            <span class="dd-vital-value">${data.checksCount} items</span>
+          </div>
+          <div class="dd-vital-cell">
+            <span class="dd-vital-label">Active founders</span>
+            <span class="dd-vital-value">${data.usersCount} founders</span>
+          </div>
+          <div class="dd-vital-cell">
+            <span class="dd-vital-label">Readiness</span>
+            <span class="dd-vital-value">2–3 months prior</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  root.innerHTML = `
+    <div style="display:flex; flex-direction:column; gap:16px;">
+
+      <!-- 01. What is Due Diligence? -->
+      <div class="dd-surface-section">
+        <div class="dd-section-head-row">
+          <div class="dd-section-head">
+            <span class="dd-section-num">01</span>
+            <h3 class="dd-section-title">What is ${data.name} due diligence?</h3>
+          </div>
+        </div>
+        <p style="font-size:13px; color:var(--text-main); line-height:1.6; margin:0; white-space:pre-line;">${data.overview}</p>
+      </div>
+
+      <!-- 02. The 6 Pillars of Due Diligence -->
+      <div class="dd-surface-section">
+        <div class="dd-section-head-row">
+          <div class="dd-section-head">
+            <span class="dd-section-num">02</span>
+            <h3 class="dd-section-title">The 6 pillars of due diligence</h3>
+          </div>
+          <span class="dd-section-note">Standard institutional diligence taxonomy</span>
+        </div>
+        <div class="dd-pillars-grid">
+          ${data.pillars.map(p => `
+            <div class="dd-pillar-card">
+              <div style="font-size:13px; font-weight:800; margin-bottom:2px;">${p.name}</div>
+              <div style="font-size:10px; color:inherit; opacity:0.8; line-height:1.35;">${p.desc}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- 03. Stage-Wise Due Diligence Depth -->
+      <div class="dd-surface-section">
+        <div class="dd-section-head-row">
+          <div class="dd-section-head">
+            <span class="dd-section-num">03</span>
+            <h3 class="dd-section-title">Stage-wise due diligence depth</h3>
+          </div>
+          <span class="dd-section-note">Diligence depth evolves with round stage</span>
+        </div>
+        <div class="dd-stages-grid">
+          ${data.stages.map(s => `
+            <div class="dd-stage-card">
+              <div class="dd-stage-header">
+                <span style="font-size:12.5px; font-weight:800; color:var(--text-dark);">${s.stage}</span>
+                <span class="dd-stage-depth-pill">${s.depth}</span>
+              </div>
+              <p style="font-size:11.5px; color:var(--text-muted); line-height:1.45; margin:0;">${s.desc}</p>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- 04. Complete Due Diligence Checklist (Categorized) -->
+      <div class="dd-surface-section">
+        <div class="dd-section-head-row">
+          <div class="dd-section-head">
+            <span class="dd-section-num">04</span>
+            <h3 class="dd-section-title">Complete due diligence checklist</h3>
+          </div>
+          <span class="dd-section-note">${data.checksCount} required items across ${data.focusAreasCount} categories</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          ${data.checklists.map(cat => `
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <h4 style="font-size:13px; font-weight:800; color:var(--text-dark); margin:0; padding-bottom:4px; border-bottom:1px solid var(--border-faint);">${cat.categoryTitle}</h4>
+              ${cat.groups.map(grp => `
+                <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:4px;">
+                  <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <span style="font-size:12.5px; font-weight:700; color:var(--text-dark);">${grp.title}</span>
+                    <span style="font-size:11px; color:var(--text-light);">${grp.desc}</span>
+                  </div>
+                  <div class="dd-checklist-group">
+                    ${grp.items.map(item => `
+                      <div class="dd-checklist-item">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                          <i data-lucide="check" style="width:13px;height:13px; color:var(--text-dark); stroke-width:2.5;"></i>
+                          <span>${item}</span>
+                        </div>
+                        <span class="badge-pill neutral-solid" style="font-size:9.5px; padding:1px 6px;">Required</span>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- 05. Documents Required (Data Room) -->
+      <div class="dd-surface-section">
+        <div class="dd-section-head-row">
+          <div class="dd-section-head">
+            <span class="dd-section-num">05</span>
+            <h3 class="dd-section-title">Documents required (data room)</h3>
+          </div>
+          <span class="dd-section-note">${data.dataRoomDocs.length} critical documents</span>
+        </div>
+        <p style="font-size:12.5px; color:var(--text-muted); margin:0;">Investors expect a well-structured digital data room with these critical documents organized prior to term sheet execution:</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px;">
+          ${data.dataRoomDocs.map(doc => `
+            <div style="background:#FAFAF9; border:1px solid var(--border-main); border-radius:8px; padding:12px 14px; display:flex; flex-direction:column; gap:4px;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <i data-lucide="file-text" style="width:13px;height:13px; color:var(--text-dark);"></i>
+                <span style="font-size:12.5px; font-weight:800; color:var(--text-dark);">${doc.name}</span>
+              </div>
+              <span style="font-size:11px; color:var(--text-muted); line-height:1.4;">${doc.desc}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- 06. Due Diligence Process (Step-by-Step Flow) -->
+      <div class="dd-surface-section">
+        <div class="dd-section-head-row">
+          <div class="dd-section-head">
+            <span class="dd-section-num">06</span>
+            <h3 class="dd-section-title">Due diligence process (step-by-step)</h3>
+          </div>
+          <span class="dd-section-note">Standard 6-step deal execution sequence</span>
+        </div>
+        <div class="dd-process-flow">
+          ${data.processSteps.map(st => `
+            <div class="dd-process-step">
+              <div style="display:flex; align-items:center; justify-content:space-between;">
+                <div class="dd-process-step-num">${st.step}</div>
+                <i data-lucide="chevron-right" style="width:12px;height:12px; color:var(--text-light);"></i>
+              </div>
+              <div style="font-size:12px; font-weight:800; color:var(--text-dark); margin-top:2px;">${st.title}</div>
+              <div style="font-size:10.5px; color:var(--text-muted); line-height:1.35;">${st.desc}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- 07. Deal Killers (Red Flags) & Critical Risks -->
+      <div class="dd-surface-section">
+        <div class="dd-section-head-row">
+          <div class="dd-section-head">
+            <span class="dd-section-num">07</span>
+            <h3 class="dd-section-title">Top deal killers (red flags)</h3>
+          </div>
+          <span class="dd-section-note">${data.dealKillers.length} critical red flags</span>
+        </div>
+        <p style="font-size:12.5px; color:var(--text-muted); margin:0;">These are the fastest ways to kill an active venture deal during institutional evaluation:</p>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          ${data.dealKillers.map(flag => `
+            <div class="dd-flag-card">
+              <i data-lucide="alert-triangle" style="width:14px;height:14px; flex-shrink:0;"></i>
+              <span>${flag}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- 08. Founder DD Readiness Interactive Checklist -->
+      <div class="dd-surface-section">
+        <div class="dd-section-head-row">
+          <div class="dd-section-head">
+            <span class="dd-section-num">08</span>
+            <h3 class="dd-section-title">Founder DD readiness checklist</h3>
+          </div>
+          <span class="badge-pill neutral-soft" id="ddProgressBadge">0 / ${data.readinessChecklist.length} completed</span>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin:0;">Tick off action items as you prepare your company data room</p>
+        <div style="display:flex; flex-direction:column; gap:8px;" id="ddReadinessList">
+          ${data.readinessChecklist.map((task, idx) => `
+            <label style="display:flex; align-items:center; gap:10px; padding:9px 12px; background:#FAFAF9; border:1px solid var(--border-faint); border-radius:8px; cursor:pointer; user-select:none;">
+              <input type="checkbox" onchange="window.toggleDDReadinessItem(${idx}, this)" style="width:16px; height:16px; accent-color:var(--text-dark);" />
+              <span style="font-size:12.5px; color:var(--text-dark); font-weight:600;">${task}</span>
+            </label>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- 09. Pro Tip -->
+      <div class="dd-pro-tip">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="dd-section-num" style="background:var(--text-dark); color:#FFFFFF; border:none;">09</span>
+          <div style="display:flex; align-items:center; gap:6px; font-weight:800; font-size:13px;">
+            <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+            <span>Investor Pro Tip</span>
+          </div>
+        </div>
+        <p style="margin:8px 0 0; font-style:italic;">"${data.proTip}"</p>
+      </div>
+
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+window.renderDueDiligenceDetailPage = renderDueDiligenceDetailPage;
+
+window.toggleDDReadinessItem = function(idx, checkbox) {
+  const root = document.getElementById('ddReadinessList');
+  if (!root) return;
+
+  const total = root.querySelectorAll('input[type="checkbox"]').length;
+  const checked = root.querySelectorAll('input[type="checkbox"]:checked').length;
+
+  const badge = document.getElementById('ddProgressBadge');
+  if (badge) {
+    badge.textContent = `${checked} / ${total} completed`;
+    if (checked === total) {
+      badge.className = 'badge-pill neutral-solid';
+      if (window.showToast) window.showToast('Congratulations! All readiness checks completed.', 'success');
+    } else {
+      badge.className = 'badge-pill neutral-soft';
+    }
+  }
+};
+
+window.copyDDLink = function(id) {
+  const url = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}due-diligence-detail.html?id=${id}`;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url);
+  }
+  if (window.showToast) {
+    window.showToast('Framework link copied to clipboard', 'success');
   }
 };

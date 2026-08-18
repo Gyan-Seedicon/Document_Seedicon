@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — Due-Diligence Checklist Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="./css/styles.css">
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<!-- Outer Ambient Viewport Frame -->
+<div class="app-viewport">
+  <!-- Inner Floating Application Card -->
+  <div class="app-frame">
+
+    <!-- 01. Integrated Modern Sidebar Slot (Rendered via components.js) -->
+    <div id="sidebarSlot"></div>
+
+    <!-- 02. Main Workspace Canvas (Center-Focused Notion Style) -->
+    <main class="founder-workspace-canvas">
+      
+      <!-- Top Navigation Header Bar -->
+      <header class="workspace-top-nav">
+        <!-- Left Area: Page Icon + Name -->
+        <div class="workspace-top-nav-left">
+          <div class="topnav-page-title">
+            <span class="topnav-page-icon"><i data-lucide="shield-check" style="width:15px; height:15px;"></i></span>
+            <span class="topnav-page-name">Due-diligence checklist</span>
+          </div>
+        </div>
+
+        <!-- Center Pill Search Bar -->
+        <div class="workspace-search-pill-wrap">
+          <i data-lucide="search" class="workspace-search-icon"></i>
+          <input type="text" class="workspace-search-input" placeholder="Search industry, KPI, or diligence requirements..." oninput="handleDDSearch(this)" />
+          <span class="workspace-search-kbd">⌘K</span>
+        </div>
+
+        <!-- Right Header Action Group -->
+        <div class="workspace-top-nav-right">
+          <button class="nav-ghost-icon-btn" title="Messages" onclick="openMessagesNavDrawer()">
+            <i data-lucide="message-square" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-ghost-icon-btn" title="Notifications" onclick="showNotifications()">
+            <i data-lucide="bell" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-ghost-icon-btn" title="Documentation &amp; Notes" onclick="showHelp()">
+            <i data-lucide="file-text" style="width:16px; height:16px;"></i>
+          </button>
+
+          <button class="nav-invite-btn" title="Invite Team Members" onclick="openInviteModal()">
+            <i data-lucide="user-plus" style="width:14px; height:14px;"></i>
+            <span>Invite</span>
+          </button>
+
+          <div class="avatar-gradient-circle" title="Dr. Sarah Chen (Founder)">SC</div>
+        </div>
+      </header>
+
+      <!-- Scrollable Workspace Body: Center-Focused Notion Style -->
+      <div class="workspace-scroll-body">
+        
+        <div class="center-focused-container">
+
+          <!-- 01. Directory Hero Header Row -->
+          <div class="directory-hero-row" style="align-items:center;">
+            <div class="directory-hero-titles">
+              <h1 class="directory-main-title">
+                <span>Due diligence checklists</span>
+                <span class="badge-pill neutral-soft" id="ddCountBadge">10 industry frameworks</span>
+              </h1>
+              <p class="directory-main-subtitle">
+                Comprehensive investor readiness frameworks, compliance audits, and data room requirements tailored for each startup industry.
+              </p>
+            </div>
+
+            <button class="btn btn-outline" onclick="if(window.showToast) window.showToast('Downloading universal data room checklist pack...', 'success');" style="font-size:12px; padding:8px 14px; gap:6px; white-space:nowrap;">
+              <i data-lucide="download" style="width:13px; height:13px;"></i>
+              <span>Export all templates</span>
+            </button>
+          </div>
+
+          <!-- 02. Filter, Search & Duration Controls Bar -->
+          <div class="directory-controls-bar">
+            <div class="directory-search-sort-row">
+              <div class="directory-search-box">
+                <i data-lucide="search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); width:14px; height:14px; color:var(--text-light);"></i>
+                <input type="text" class="directory-search-input" placeholder="Filter by industry, focus area, or check items..." oninput="handleDDSearch(this)" />
+              </div>
+
+              <!-- Filter Selects -->
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <!-- Duration Filter -->
+                <select class="btn btn-outline directory-stage-select" style="font-size:11.5px; padding:6px 10px;" onchange="handleDDTimelineFilter(this.value)">
+                  <option value="all">All timelines</option>
+                  <option value="2-4 months">2–4 months</option>
+                  <option value="3-6 months">3–6 months</option>
+                  <option value="4-8 months">4–8 months</option>
+                  <option value="6-12 months">6–12 months</option>
+                  <option value="9-18 months">9–18 months</option>
+                </select>
+
+                <!-- Sort Order -->
+                <select class="btn btn-outline directory-stage-select" style="font-size:11.5px; padding:6px 10px;" onchange="handleDDSort(this.value)">
+                  <option value="popular">Most popular</option>
+                  <option value="checks">Most checklist items</option>
+                  <option value="duration">Shortest duration</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 03. Due Diligence Industry Cards Grid (Rendered dynamically via app.js) -->
+          <div id="dueDiligenceGrid">
+            <!-- Dynamic 3-Column Grid of Industry DD Cards -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+</div>
+
+<!-- Modal & Toast Dynamic Slot -->
+<div id="modalSlot"></div>
+
+<!-- Scripts -->
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>
