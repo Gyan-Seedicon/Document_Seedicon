@@ -221,10 +221,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (pathName.includes('product-listing') || pathName.includes('listing') || pathName.includes('product-detail')) {
     pageNav = 'listing';
+  } else if (pathName.includes('analytics')) {
+    pageNav = 'analytics';
   } else if (pathName.includes('deck') || pathName.includes('deckwale')) {
     pageNav = 'deck';
   } else if (pathName.includes('vdr') || pathName.includes('data-vault') || pathName.includes('dd-checklist')) {
     pageNav = 'diligence';
+  } else if (pathName.includes('investors') || pathName.includes('investor-tracking') || pathName.includes('investor-pipeline')) {
+    pageNav = 'investors';
   } else if (pathName.includes('grants')) {
     pageNav = 'grants';
   } else if (pathName.includes('problems')) {
@@ -250,6 +254,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // If on Product Listing Page, render directory stream
   if (document.getElementById('startupDirectoryList')) {
     renderProductDirectoryStream(window.PRODUCT_DIRECTORY_DATA);
+  }
+
+  // If on Product Analytics Page, render analytics dashboard
+  if (document.getElementById('productAnalyticsRoot')) {
+    renderProductAnalyticsPage();
   }
 
   // If on Product Detail Page, render the centered detail view
@@ -290,6 +299,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // If on Due Diligence Detail Page
   if (document.getElementById('dueDiligenceDetailRoot')) {
     renderDueDiligenceDetailPage();
+  }
+
+  // If on Pitch Deck Reviewer Page
+  if (document.getElementById('pitchDeckRoot')) {
+    renderPitchDeckReviewerPage();
+  }
+
+  // If on Investor Tracking (pipelines) Page
+  if (document.getElementById('investorTrackingRoot')) {
+    renderInvestorTrackingPage();
+  }
+
+  // If on Investor Pipeline (board/list) Page
+  if (document.getElementById('investorPipelineRoot')) {
+    renderInvestorPipelinePage();
   }
 
   // Bind App Events
@@ -1688,17 +1712,44 @@ function submitListingForm() {
 // 06. GENERIC MODAL, DRAWER & TOAST HELPERS
 // ──────────────────────────────────────────────────────────────────────────
 window.openModal = function(title, contentHtml) {
-  const overlay = document.getElementById('modalOverlay');
-  const titleEl = document.getElementById('modalTitle');
-  const bodyEl = document.getElementById('modalBody');
+  let overlay = document.getElementById('modalOverlay');
+  let titleEl = document.getElementById('modalTitle');
+  let bodyEl = document.getElementById('modalBody');
 
-  if (titleEl && bodyEl && overlay) {
-    titleEl.textContent = title;
-    bodyEl.innerHTML = contentHtml;
-    overlay.style.display = 'flex';
-    if (typeof lucide !== 'undefined') lucide.createIcons();
+  if (!overlay) {
+    const slot = document.getElementById('modalSlot') || document.body;
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `
+      <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-dialog">
+          <div class="modal-header">
+            <h3 class="modal-title" id="modalTitle">Modal Title</h3>
+            <button class="btn-icon" onclick="closeModal()" title="Close">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+          <div class="modal-body" id="modalBody"></div>
+        </div>
+      </div>
+    `;
+    slot.appendChild(wrap.firstElementChild);
+    overlay = document.getElementById('modalOverlay');
+    titleEl = document.getElementById('modalTitle');
+    bodyEl = document.getElementById('modalBody');
   }
+
+  if (titleEl) titleEl.textContent = title;
+  if (bodyEl) bodyEl.innerHTML = contentHtml;
+  if (overlay) {
+    overlay.style.display = 'flex';
+    overlay.onclick = function(e) {
+      if (e.target === overlay) window.closeModal();
+    };
+  }
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 };
+
+window.showModal = window.openModal;
 
 window.closeModal = function() {
   const overlay = document.getElementById('modalOverlay');
@@ -1856,12 +1907,25 @@ function handleNavClick(navKey) {
     window.location.href = './founder-network.html';
     return;
   }
+  if (navKey === 'analytics') {
+    window.location.href = './product-analytics.html';
+    return;
+  }
+  if (navKey === 'deck') {
+    window.location.href = './pitch-deck-reviewer.html';
+    return;
+  }
+  if (navKey === 'investors') {
+    window.location.href = './investor-tracking.html';
+    return;
+  }
   if (window.showToast) {
     const titles = {
       dashboard: 'Founder Dashboard',
       listing: 'Product Listing',
       analytics: 'Product Analytics',
       deck: 'Pitch Deck Reviewer (AI)',
+      investors: 'Investor Tracking (CRM)',
       diligence: 'Due-Diligence Checklist',
       grants: 'Government Grants (6 Matched)',
       problems: 'Real Market Problems',
@@ -3898,11 +3962,9 @@ window.submitChallengeAnswer = function(challengeId) {
    Post New Challenge Modal Handler
    ────────────────────────────────────────────────────────────────────────── */
 window.openPostChallengeModal = function() {
-  if (!window.showModal) return;
-
-  window.showModal('Share Your Founder Challenge', `
+  window.openModal('Share your founder challenge', `
     <div style="display:flex; flex-direction:column; gap:14px;">
-      <p style="font-size:12.5px; color:var(--text-main); margin:0;">
+      <p style="font-size:12.5px; color:var(--text-main); margin:0; line-height:1.5;">
         Ask experienced founders, mentors, and operators for tactical solutions to hurdles you are currently facing.
       </p>
 
@@ -3942,7 +4004,7 @@ window.openPostChallengeModal = function() {
       <label style="display:flex; align-items:center; gap:8px; cursor:pointer; padding:8px 10px; background:#FAFAF9; border:1px solid var(--border-main); border-radius:8px; user-select:none;">
         <input type="checkbox" id="newChallengeIsAnon" style="width:16px; height:16px; accent-color:var(--text-dark);" />
         <div style="display:flex; flex-direction:column; gap:1px;">
-          <span style="font-size:12.5px; font-weight:700; color:var(--text-dark);">🎭 Post anonymously</span>
+          <span style="font-size:12px; font-weight:700; color:var(--text-dark);">🎭 Post anonymously</span>
           <span style="font-size:11px; color:var(--text-muted);">Hide your name, avatar, and company identity from other founders</span>
         </div>
       </label>
@@ -3956,6 +4018,11 @@ window.openPostChallengeModal = function() {
       </div>
     </div>
   `);
+
+  setTimeout(() => {
+    const input = document.getElementById('newChallengeTitle');
+    if (input) input.focus();
+  }, 50);
 };
 
 window.submitNewChallenge = function() {
@@ -5295,3 +5362,2215 @@ window.copyDDLink = function(id) {
     window.showToast('Framework link copied to clipboard', 'success');
   }
 };
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PITCH DECK REVIEWER (AI) — Upload → Analyze (skeleton) → Full Report
+   ══════════════════════════════════════════════════════════════════════════ */
+
+// Sample deck data — matches the Alpha Health 2.0 assets in /assets
+const PDR_SAMPLE_DECK = {
+  name: 'alpha-health-2.0-investor-deck.pdf',
+  size: '8.4 MB',
+  length: 5,
+  overallScore: 78,
+  grade: 'B+',
+  gradeTag: 'Strong',
+  verdictTitle: 'Investor-ready narrative — tighten the numbers',
+  verdictText: 'The deck tells a clear, compelling story and scores well on structure and flow. Focus on proving unit economics and spelling out the ask to push past the 85 mark.',
+  metrics: [
+    { label: 'Deck structure', value: 'Excellent' },
+    { label: 'Storytelling flow', value: 'Strong' },
+    { label: 'Visual consistency', value: 'Good' },
+    { label: 'Data clarity', value: 'Needs work' },
+    { label: 'Investor readiness', value: 'Fundable' }
+  ],
+  slides: [
+    {
+      num: 1,
+      title: 'Cover · Problem & Vision',
+      img: './assets/slide_1.png',
+      score: 86,
+      label: 'Excellent',
+      review: 'The opening slide lands the problem in a single, memorable line and gives investors an immediate reason to keep reading. It sets a confident tone, but stops short of quantifying the pain the way a data-driven investor expects.',
+      positives: [
+        'The problem is framed in one clear, memorable line',
+        'Vision statement is specific enough to feel credible',
+        'Visually clean with a sharp opening hook'
+      ],
+      improvements: [
+        'The pain point is not quantified — add a hard market statistic',
+        'The target customer persona could be named more explicitly'
+      ],
+      focus: 'Add a quantified market pain point to the cover to anchor the problem.'
+    },
+    {
+      num: 2,
+      title: 'Solution & Product',
+      img: './assets/slide_2.png',
+      score: 78,
+      label: 'Good',
+      review: 'The value proposition is obvious at a glance and the demo walkthrough is easy to follow. The product visuals, however, read more like internal engineering screens than customer-facing outcomes, which dilutes the impact.',
+      positives: [
+        'Value proposition is obvious from the first glance',
+        'Demo walkthrough is simple and easy to follow',
+        'Feature-to-benefit mapping is mostly coherent'
+      ],
+      improvements: [
+        'Product screenshots read as internal engineering views',
+        'Lead with the user outcome instead of the feature list'
+      ],
+      focus: 'Reposition product visuals around user outcomes rather than features.'
+    },
+    {
+      num: 3,
+      title: 'Market Opportunity',
+      img: './assets/slide_3.png',
+      score: 82,
+      label: 'Strong',
+      review: 'The TAM / SAM / SOM breakdown is well executed with credible, sourced numbers and a believable bottom-up wedge. What is missing is proof that the wedge is actually being captured.',
+      positives: [
+        'TAM / SAM / SOM is well sourced and believable',
+        'Bottom-up sizing gives a realistic wedge story',
+        'Market growth narrative is backed with references'
+      ],
+      improvements: [
+        'No adoption or traction proof points are shown',
+        'Competitive context could be expanded beyond one line'
+      ],
+      focus: 'Add adoption proof points to demonstrate traction inside the wedge.'
+    },
+    {
+      num: 4,
+      title: 'Business Model & Unit Economics',
+      img: './assets/slide_4.png',
+      score: 64,
+      label: 'Needs work',
+      review: 'This is the weakest slide in the deck. Revenue streams are named but pricing is implied rather than stated, and there is no visible margin, CAC or LTV data for investors to model against.',
+      positives: [
+        'Revenue streams are clearly named and distinct'
+      ],
+      improvements: [
+        'Pricing is implied, not explicit',
+        'Missing margins, CAC and LTV for investors to model',
+        'No mention of the go-to-market motion or sales cycle'
+      ],
+      focus: 'Add explicit pricing, margins and CAC/LTV so the model is inspectable.'
+    },
+    {
+      num: 5,
+      title: 'Financials & The Ask',
+      img: './assets/slide_5.png',
+      score: 71,
+      label: 'Good',
+      review: 'The financial projections are directionally sound and the growth curve is realistic for the stage. The main gaps are around defensibility: the assumptions are not stress-tested and the ask is never stated outright.',
+      positives: [
+        'Projections are directionally sensible',
+        'Growth curve is realistic for the stage',
+        'Key drivers are identified in the notes'
+      ],
+      improvements: [
+        'Assumptions are not stress-tested or sensitivity-tested',
+        'The ask is never stated outright',
+        'Add runway and a clear use-of-funds plan'
+      ],
+      focus: 'Stress-test assumptions and state the round amount and use of funds explicitly.'
+    }
+  ]
+};
+
+let pdrState = 'result';
+let pdrPreviewSlide = 1;
+let pdrActiveDeck = PDR_SAMPLE_DECK;
+let pdrActiveFileName = PDR_SAMPLE_DECK.name;
+let pdrActiveFileSize = PDR_SAMPLE_DECK.size;
+let pdrAnalysisTimer = null;
+
+const PDR_STEPS = [
+  { id: 'upload', label: 'Uploading deck', pct: 22, icon: 'upload-cloud' },
+  { id: 'extract', label: 'Extracting slides', pct: 48, icon: 'file-search' },
+  { id: 'score', label: 'Scoring each slide', pct: 76, icon: 'gauge' },
+  { id: 'report', label: 'Generating AI report', pct: 100, icon: 'sparkles' }
+];
+
+const PDR_RING_CIRC = (2 * Math.PI * 26).toFixed(2);
+
+// Monochrome score tone — subtle gray scale only (no accent colors)
+function pdrScoreTone(score) {
+  if (score >= 80) return '#141413';
+  if (score >= 70) return '#6B6B66';
+  return '#A0A09A';
+}
+
+function pdrGradeFromScore(score) {
+  if (score >= 85) return { grade: 'A', tag: 'Excellent' };
+  if (score >= 78) return { grade: 'B+', tag: 'Strong' };
+  if (score >= 70) return { grade: 'B', tag: 'Good' };
+  if (score >= 65) return { grade: 'C+', tag: 'Fundable' };
+  return { grade: 'C', tag: 'Needs work' };
+}
+
+function pdrDeckForScore(targetScore) {
+  const ratio = targetScore / PDR_SAMPLE_DECK.overallScore;
+  const g = pdrGradeFromScore(targetScore);
+  return {
+    ...PDR_SAMPLE_DECK,
+    overallScore: Math.round(targetScore),
+    grade: g.grade,
+    gradeTag: g.tag,
+    slides: PDR_SAMPLE_DECK.slides.map(s => ({
+      ...s,
+      score: Math.max(42, Math.min(95, Math.round(s.score * ratio)))
+    }))
+  };
+}
+
+function renderPitchDeckReviewerPage() {
+  const root = document.getElementById('pitchDeckRoot');
+  if (!root) return;
+
+  if (pdrState === 'upload') {
+    pdrRenderUpload(root);
+  } else if (pdrState === 'analyzing') {
+    pdrRenderAnalyzing(root);
+  } else {
+    pdrRenderResult(root);
+  }
+}
+
+/* ── STATE 01 · UPLOAD ─────────────────────────────────────────────────── */
+function pdrRenderUpload(root) {
+  root.innerHTML = `
+    <!-- Hero Header -->
+    <div class="directory-hero-row" style="align-items:center;">
+      <div class="directory-hero-titles">
+        <h1 class="directory-main-title">
+          <span>Pitch deck reviewer</span>
+          <span class="badge-pill neutral-soft">AI powered</span>
+        </h1>
+        <p class="directory-main-subtitle">
+          Upload your pitch deck and get a slide-by-slide investor-readiness score in seconds.
+        </p>
+      </div>
+      <button class="btn btn-outline" onclick="if(window.showToast) window.showToast('Review history is being prepared...', 'info');" style="font-size:12px; padding:8px 14px; gap:6px; white-space:nowrap;">
+        <i data-lucide="history" style="width:13px; height:13px;"></i>
+        <span>Review history</span>
+      </button>
+    </div>
+
+    <!-- Upload Dropzone (single primary card — no nesting) -->
+    <div class="pdr-dropzone" id="pdrDropzone" onclick="document.getElementById('pdrFileInput').click()">
+      <div class="pdr-dropzone-icon"><i data-lucide="upload-cloud"></i></div>
+      <div class="pdr-dropzone-title">Upload your pitch deck</div>
+      <div class="pdr-dropzone-sub">Drag &amp; drop your file here, or browse from your device</div>
+      <div class="pdr-dropzone-sub2">PDF, PPTX or Keynote · up to 50 MB</div>
+      <div class="pdr-dropzone-actions" onclick="event.stopPropagation();">
+        <button class="btn btn-primary" onclick="document.getElementById('pdrFileInput').click()">
+          <i data-lucide="file-up" style="width:13px; height:13px;"></i>
+          <span>Browse files</span>
+        </button>
+        <button class="btn btn-outline" onclick="pdrStartAnalysis('${PDR_SAMPLE_DECK.name}', '${PDR_SAMPLE_DECK.size}')">
+          <i data-lucide="presentation" style="width:13px; height:13px;"></i>
+          <span>Try sample deck</span>
+        </button>
+      </div>
+      <input type="file" id="pdrFileInput" accept=".pdf,.ppt,.pptx,.key,.jpg,.jpeg,.png" hidden onchange="pdrHandleFile(this)" />
+
+      <div class="pdr-upload-foot">
+        <div class="pdr-upload-foot-item"><i data-lucide="lock" style="width:12px; height:12px;"></i> Files are private &amp; encrypted</div>
+        <div class="pdr-upload-foot-item"><i data-lucide="scan" style="width:12px; height:12px;"></i> Analyzed slide by slide</div>
+        <div class="pdr-upload-foot-item"><i data-lucide="timer" style="width:12px; height:12px;"></i> Takes ~4 seconds</div>
+      </div>
+    </div>
+
+    <!-- Recent / Sample Reviews -->
+    <div class="pdr-recent-row">
+      <div class="pdr-section-head">
+        <span class="pdr-section-title">Recent reviews</span>
+        <span class="badge-pill neutral-soft">3 total</span>
+      </div>
+      <div class="pdr-recent-grid">
+        <div class="pdr-recent-card" onclick="pdrStartAnalysis('${PDR_SAMPLE_DECK.name}', '${PDR_SAMPLE_DECK.size}', 78)">
+          <div class="pdr-recent-icon"><i data-lucide="file-text"></i></div>
+          <div class="pdr-recent-info">
+            <div class="pdr-recent-name">alpha-health-2.0-investor-deck.pdf</div>
+            <div class="pdr-recent-meta">5 slides · Today, 11:42 AM</div>
+          </div>
+          <div class="pdr-recent-score" style="color:var(--text-dark);">78</div>
+        </div>
+        <div class="pdr-recent-card" onclick="pdrStartAnalysis('seed-stage-growth-deck.pptx', '6.1 MB', 64)">
+          <div class="pdr-recent-icon"><i data-lucide="file-text"></i></div>
+          <div class="pdr-recent-info">
+            <div class="pdr-recent-name">seed-stage-growth-deck.pptx</div>
+            <div class="pdr-recent-meta">12 slides · Yesterday, 6:08 PM</div>
+          </div>
+          <div class="pdr-recent-score" style="color:var(--text-dark);">64</div>
+        </div>
+        <div class="pdr-recent-card" onclick="pdrStartAnalysis('pre-seed-concept-keynote.key', '4.9 MB', 81)">
+          <div class="pdr-recent-icon"><i data-lucide="file-text"></i></div>
+          <div class="pdr-recent-info">
+            <div class="pdr-recent-name">pre-seed-concept-keynote.key</div>
+            <div class="pdr-recent-meta">8 slides · Aug 15, 9:03 PM</div>
+          </div>
+          <div class="pdr-recent-score" style="color:var(--text-dark);">81</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+
+  const dropzone = document.getElementById('pdrDropzone');
+  if (dropzone) {
+    ['dragover', 'dragenter'].forEach(evt =>
+      dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.add('dragover'); })
+    );
+    ['dragleave', 'dragend'].forEach(evt =>
+      dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.remove('dragover'); })
+    );
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      const files = e.dataTransfer && e.dataTransfer.files;
+      if (files && files.length) pdrConsumeFile(files[0]);
+      else if (window.showToast) window.showToast('Please drop a single deck file.', 'error');
+    });
+  }
+}
+
+function pdrHandleFile(input) {
+  const file = input && input.files && input.files[0];
+  if (file) pdrConsumeFile(file);
+}
+
+function pdrConsumeFile(file) {
+  const name = file.name || 'custom-deck.pdf';
+  const sizeMb = file.size ? (file.size / (1024 * 1024)).toFixed(1) + ' MB' : '7.8 MB';
+  pdrStartAnalysis(name, sizeMb);
+}
+
+/* ── STATE 02 · ANALYZING (skeleton) ───────────────────────────────────── */
+function pdrStartAnalysis(fileName, fileSize, scoreOverride) {
+  if (pdrAnalysisTimer) {
+    clearInterval(pdrAnalysisTimer);
+    pdrAnalysisTimer = null;
+  }
+
+  pdrActiveFileName = fileName || PDR_SAMPLE_DECK.name;
+  pdrActiveFileSize = fileSize || PDR_SAMPLE_DECK.size;
+  pdrActiveDeck = scoreOverride ? pdrDeckForScore(scoreOverride) : PDR_SAMPLE_DECK;
+  pdrState = 'analyzing';
+  renderPitchDeckReviewerPage();
+
+  const progressEl = document.getElementById('pdrProgressFill');
+  const stepsEl = document.getElementById('pdrStepsList');
+  let pct = 0;
+  let stepIdx = 0;
+
+  const activateStep = (idx) => {
+    if (!stepsEl) return;
+    const items = stepsEl.querySelectorAll('.pdr-step-item');
+    items.forEach((el, i) => {
+      el.classList.toggle('done', i < idx);
+      el.classList.toggle('active', i === idx);
+      const icon = el.querySelector('.pdr-step-icon i');
+      if (icon) icon.setAttribute('data-lucide', i < idx ? 'check' : PDR_STEPS[i].icon);
+    });
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  };
+
+  const finish = () => {
+    clearInterval(pdrAnalysisTimer);
+    pdrAnalysisTimer = null;
+    pdrState = 'result';
+    renderPitchDeckReviewerPage();
+    setTimeout(() => {
+      const ring = document.getElementById('pdrRingFg');
+      if (ring) ring.style.strokeDashoffset = PDR_RING_CIRC * (1 - pdrActiveDeck.overallScore / 100);
+    }, 60);
+    if (window.showToast) window.showToast(`AI review complete — ${pdrActiveDeck.overallScore}/100 overall`, 'success');
+  };
+
+  pdrAnalysisTimer = setInterval(() => {
+    pct = Math.min(100, pct + (1.6 + Math.random() * 1.8));
+    if (progressEl) progressEl.style.width = `${pct}%`;
+
+    while (stepIdx < PDR_STEPS.length && pct >= PDR_STEPS[stepIdx].pct) {
+      stepIdx++;
+      activateStep(stepIdx);
+    }
+
+    if (pct >= 100) finish();
+  }, 85);
+}
+
+function pdrRenderAnalyzing(root) {
+  root.innerHTML = `
+    <!-- Analyzing Header -->
+    <div class="pdr-analyzing-header">
+      <div class="pdr-file-chip">
+        <i data-lucide="file-text" style="width:13px; height:13px;"></i>
+        <span id="pdrAnalyzingFile">${escapeHtml(pdrActiveFileName)}</span>
+        <span class="pdr-file-size">${escapeHtml(pdrActiveFileSize)}</span>
+      </div>
+      <span class="badge-pill neutral-soft" style="gap:6px;">
+        <span class="pdr-pulse-dot"></span> AI analyzing
+      </span>
+    </div>
+
+    <!-- Progress Track -->
+    <div class="pdr-progress-card">
+      <div class="pdr-progress-track">
+        <div class="pdr-progress-fill" id="pdrProgressFill"></div>
+      </div>
+      <div class="pdr-steps-list" id="pdrStepsList">
+        ${PDR_STEPS.map((s, i) => `
+          <div class="pdr-step-item ${i === 0 ? 'active' : ''}" data-step="${s.id}">
+            <div class="pdr-step-icon"><i data-lucide="${s.icon}"></i></div>
+            <div class="pdr-step-label">${s.label}</div>
+            <div class="pdr-step-status"></div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- Skeleton Placeholders mimicking the report layout -->
+    <div class="pdr-skeleton-grid">
+      <div class="pdr-skeleton-col">
+        <div class="pdr-skeleton-card">
+          <div class="pdr-skeleton pdr-skeleton-ring"></div>
+          <div class="pdr-skeleton-right-block">
+            <div class="pdr-skeleton pdr-skeleton-line w40"></div>
+            <div class="pdr-skeleton pdr-skeleton-line w90"></div>
+            <div class="pdr-skeleton pdr-skeleton-line w75"></div>
+            <div class="pdr-skeleton-row">
+              <div class="pdr-skeleton pdr-skeleton-chip"></div>
+              <div class="pdr-skeleton pdr-skeleton-chip"></div>
+              <div class="pdr-skeleton-chip"></div>
+            </div>
+          </div>
+        </div>
+        <div class="pdr-skeleton-card">
+          ${Array.from({ length: 5 }).map(() => `
+            <div class="pdr-skeleton-slide-row">
+              <div class="pdr-skeleton pdr-skeleton-num"></div>
+              <div class="pdr-skeleton-right-block">
+                <div class="pdr-skeleton pdr-skeleton-line w70"></div>
+                <div class="pdr-skeleton-bar"></div>
+              </div>
+              <div class="pdr-skeleton pdr-skeleton-score"></div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="pdr-skeleton-col">
+        ${Array.from({ length: 5 }).map(() => `
+          <div class="pdr-skeleton-slide">
+            <div class="pdr-skeleton pdr-skeleton-slide-img"></div>
+            <div class="pdr-skeleton pdr-skeleton-line w60"></div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+/* ── STATE 03 · RESULT ─────────────────────────────────────────────────── */
+function pdrRenderResult(root) {
+  const deck = pdrActiveDeck;
+  const curSlide = pdrPreviewSlide && pdrPreviewSlide <= deck.length ? pdrPreviewSlide : 1;
+
+  root.innerHTML = `
+    <!-- Result Toolbar -->
+    <div class="pdr-result-toolbar">
+      <div class="pdr-file-chip">
+        <i data-lucide="file-text" style="width:13px; height:13px;"></i>
+        <span>${escapeHtml(pdrActiveFileName)}</span>
+        <span class="pdr-file-size">${escapeHtml(pdrActiveFileSize)} · ${deck.length} slides</span>
+      </div>
+      <div class="pdr-result-actions">
+        <button class="btn btn-outline" onclick="pdrStartAnalysis('${escapeHtml(pdrActiveFileName)}', '${escapeHtml(pdrActiveFileSize)}')">
+          <i data-lucide="refresh-cw" style="width:13px; height:13px;"></i>
+          <span>Reanalyze</span>
+        </button>
+        <button class="btn btn-outline" onclick="pdrShowUpload()">
+          <i data-lucide="plus" style="width:13px; height:13px;"></i>
+          <span>Upload new deck</span>
+        </button>
+        <button class="btn btn-primary" onclick="if(window.showToast) window.showToast('AI review report exported as PDF', 'success')">
+          <i data-lucide="download" style="width:13px; height:13px;"></i>
+          <span>Export report</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="pdr-result-grid">
+
+      <!-- ── LEFT · Overall Score + Slide-wise Accordions ── -->
+      <div class="pdr-analysis-col">
+        <div class="pdr-score-card">
+          <div class="pdr-score-top-flex">
+            <!-- Left: Compact Gauge -->
+            <div class="pdr-score-ring-wrap">
+              <svg width="64" height="64" viewBox="0 0 64 64">
+                <circle class="pdr-ring-bg" cx="32" cy="32" r="26" fill="none" stroke-width="6" />
+                <circle id="pdrRingFg" class="pdr-ring-fg" cx="32" cy="32" r="26" fill="none" stroke-width="6"
+                  stroke-linecap="round" stroke="#141413"
+                  stroke-dasharray="${PDR_RING_CIRC}" stroke-dashoffset="${PDR_RING_CIRC}" />
+              </svg>
+              <div class="pdr-score-center">
+                <span class="pdr-score-num">${deck.overallScore}</span>
+                <span class="pdr-score-label">/ 100</span>
+              </div>
+            </div>
+
+            <!-- Right: Metadata & Verdict -->
+            <div class="pdr-score-meta">
+              <div class="pdr-score-meta-top">
+                <span class="pdr-grade-badge">${deck.grade}</span>
+                <span class="pdr-grade-tag">${deck.gradeTag} · Investor-readiness score</span>
+              </div>
+              <div class="pdr-verdict-title">${deck.verdictTitle}</div>
+              <div class="pdr-verdict-text">${deck.verdictText}</div>
+            </div>
+          </div>
+
+          <!-- Bottom: 5-metric Horizontal Key-Value Strip -->
+          <div class="pdr-metric-strip">
+            ${deck.metrics.map(m => `
+              <div class="pdr-metric-item">
+                <span class="pdr-metric-label">${m.label}</span>
+                <span class="pdr-metric-value">${m.value}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Slide-wise Accordions -->
+        <div class="pdr-acc-list">
+          <div class="pdr-section-head">
+            <span class="pdr-section-title">Slide-by-slide analysis</span>
+            <span class="pdr-section-note">${deck.length} slides · tap to expand</span>
+          </div>
+
+          ${deck.slides.map(s => `
+            <div class="pdr-acc" data-slide="${s.num}">
+              <div class="pdr-acc-head" onclick="pdrToggleAcc(this)">
+                <div class="pdr-acc-num">${s.num}</div>
+                <div class="pdr-acc-main">
+                  <div class="pdr-acc-title-row">
+                    <span class="pdr-acc-name">${s.title}</span>
+                    <span class="pdr-acc-label">${s.label}</span>
+                  </div>
+                  <div class="pdr-acc-bar">
+                    <div class="pdr-acc-fill" style="width:${s.score}%; background:${pdrScoreTone(s.score)};"></div>
+                  </div>
+                </div>
+                <div class="pdr-acc-score">
+                  <span class="pdr-acc-score-num">${s.score}</span>
+                </div>
+                <i data-lucide="chevron-down" class="pdr-acc-chevron"></i>
+              </div>
+              <div class="pdr-acc-body">
+                <p class="pdr-acc-review">${s.review}</p>
+                <div class="pdr-acc-pointers">
+                  <div class="pdr-acc-ptr-group">
+                    <div class="pdr-acc-ptr-title">What&rsquo;s working</div>
+                    <ul class="pdr-acc-ul">
+                      ${s.positives.map(p => `<li>${p}</li>`).join('')}
+                    </ul>
+                  </div>
+                  <div class="pdr-acc-ptr-group">
+                    <div class="pdr-acc-ptr-title">What to improve</div>
+                    <ul class="pdr-acc-ul">
+                      ${s.improvements.map(p => `<li>${p}</li>`).join('')}
+                    </ul>
+                  </div>
+                </div>
+                <div class="pdr-acc-focus">
+                  <span class="pdr-focus-label">Focus</span>
+                  <span>${s.focus}</span>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        </div>
+
+      <!-- ── RIGHT · Deck Preview Panel ── -->
+      <div class="pdr-preview-col">
+        <div class="pdr-preview-card">
+          <div class="pdr-preview-head">
+            <div class="pdr-preview-head-title">
+              <span class="pdr-preview-head-label">Deck preview</span>
+              <span class="pdr-preview-counter" id="pdrPreviewCounter">Slide ${curSlide} of ${deck.length}</span>
+            </div>
+            <div class="pdr-preview-nav">
+              <button class="pdr-preview-nav-btn" onclick="pdrPreviewNav(-1)" title="Previous slide"><i data-lucide="chevron-left" style="width:15px;height:15px;"></i></button>
+              <button class="pdr-preview-nav-btn" onclick="pdrPreviewNav(1)" title="Next slide"><i data-lucide="chevron-right" style="width:15px;height:15px;"></i></button>
+            </div>
+          </div>
+          <div class="pdr-preview-stage">
+            <img id="pdrPreviewImg" src="${deck.slides[curSlide - 1].img}" alt="${deck.slides[curSlide - 1].title}" />
+            <span class="pdr-preview-badge">${curSlide}</span>
+          </div>
+          <div class="pdr-preview-cap">
+            <span class="pdr-preview-cap-num">${curSlide} · ${deck.slides[curSlide - 1].score}</span>
+            <span class="pdr-preview-cap-title">${deck.slides[curSlide - 1].title}</span>
+          </div>
+        </div>
+
+        <div class="pdr-filmstrip" id="pdrFilmstrip">
+          ${deck.slides.map(s => `
+            <button class="pdr-film-item ${s.num === curSlide ? 'active' : ''}" data-slide="${s.num}" onclick="pdrPreviewGo(${s.num})">
+              <img src="${s.img}" alt="${s.title}" loading="lazy" />
+              <span>${s.num}</span>
+            </button>
+          `).join('')}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── BUILD WITH DECKWALE CTA (full width) ── -->
+    <div class="pdr-deckwale-bar">
+      <div class="pdr-deckwale-bar-text">
+        <i data-lucide="sparkles" style="width:15px;height:15px;"></i>
+        <span class="pdr-deckwale-bar-title">Want to pitch better?</span>
+        <span class="pdr-deckwale-bar-sub">Create a professional pitch deck with AI-powered templates</span>
+      </div>
+      <button class="btn btn-primary" onclick="if(window.showToast) window.showToast('Opening Deckwale AI pitch deck builder...', 'success');">
+        <span>Build with Deckwale</span>
+      </button>
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+
+  setTimeout(() => {
+    const ring = document.getElementById('pdrRingFg');
+    if (ring) ring.style.strokeDashoffset = PDR_RING_CIRC * (1 - deck.overallScore / 100);
+  }, 80);
+}
+
+function pdrShowUpload() {
+  if (pdrAnalysisTimer) {
+    clearInterval(pdrAnalysisTimer);
+    pdrAnalysisTimer = null;
+  }
+  pdrState = 'upload';
+  renderPitchDeckReviewerPage();
+}
+
+function pdrToggleAcc(headEl) {
+  const acc = headEl.closest('.pdr-acc');
+  if (!acc) return;
+
+  const wasOpen = acc.classList.contains('open');
+
+  // Classic accordion — only one section open at a time
+  document.querySelectorAll('.pdr-acc.open').forEach(a => {
+    if (a !== acc) a.classList.remove('open');
+  });
+
+  acc.classList.toggle('open', !wasOpen);
+
+  // Keep the corresponding filmstrip item highlighted
+  const num = Number(acc.dataset.slide);
+  document.querySelectorAll('.pdr-film-item').forEach(el => {
+    el.classList.toggle('active', Number(el.dataset.slide) === num);
+  });
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function pdrUpdatePreview(num) {
+  const deck = pdrActiveDeck;
+  if (!deck || !deck.slides || !deck.slides.length) return;
+  if (num < 1) num = deck.length;
+  if (num > deck.length) num = 1;
+
+  pdrPreviewSlide = num;
+  const slide = deck.slides[num - 1];
+
+  const img = document.getElementById('pdrPreviewImg');
+  if (img) img.src = slide.img;
+
+  const counter = document.getElementById('pdrPreviewCounter');
+  if (counter) counter.textContent = `Slide ${num} of ${deck.length}`;
+
+  const badge = document.querySelector('.pdr-preview-badge');
+  if (badge) badge.textContent = num;
+
+  const capNum = document.querySelector('.pdr-preview-cap-num');
+  if (capNum) capNum.textContent = `${num} · ${slide.score}`;
+
+  const capTitle = document.querySelector('.pdr-preview-cap-title');
+  if (capTitle) capTitle.textContent = slide.title;
+
+  // Highlight the matching filmstrip item
+  document.querySelectorAll('.pdr-film-item').forEach(el => {
+    el.classList.toggle('active', Number(el.dataset.slide) === num);
+  });
+}
+
+function pdrPreviewGo(num) {
+  pdrUpdatePreview(num);
+
+  // Open the matching accordion
+  const acc = document.querySelector(`.pdr-acc[data-slide="${num}"]`);
+  if (acc) {
+    document.querySelectorAll('.pdr-acc.open').forEach(a => a.classList.remove('open'));
+    acc.classList.add('open');
+    acc.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function pdrPreviewNav(dir) {
+  const deck = pdrActiveDeck;
+  if (!deck || !deck.slides || !deck.slides.length) return;
+  let next = (pdrPreviewSlide || 1) + dir;
+  if (next < 1) next = deck.length;
+  if (next > deck.length) next = 1;
+  pdrPreviewGo(next);
+}
+
+function pdrFocusSlide(num) {
+  // Sync the preview panel and open the matching accordion
+  pdrUpdatePreview(num);
+
+  const acc = document.querySelector(`.pdr-acc[data-slide="${num}"]`);
+  if (acc) {
+    document.querySelectorAll('.pdr-acc.open').forEach(a => a.classList.remove('open'));
+    acc.classList.add('open');
+    acc.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+}
+
+function handlePDRSearch(input) {
+  const q = (input && input.value || '').trim();
+  if (q && window.showToast) {
+    window.showToast(`Searching pitch deck reports for "${q}"...`, 'info');
+  }
+}
+
+window.renderPitchDeckReviewerPage = renderPitchDeckReviewerPage;
+window.pdrStartAnalysis = pdrStartAnalysis;
+window.pdrShowUpload = pdrShowUpload;
+window.pdrFocusSlide = pdrFocusSlide;
+window.pdrToggleAcc = pdrToggleAcc;
+window.pdrUpdatePreview = pdrUpdatePreview;
+window.pdrPreviewGo = pdrPreviewGo;
+window.pdrPreviewNav = pdrPreviewNav;
+window.pdrHandleFile = pdrHandleFile;
+window.handlePDRSearch = handlePDRSearch;
+
+/* ══════════════════════════════════════════════════════════════════════════
+   INVESTOR TRACKING (CRM) — Pipelines → Board/List → Investor drawer
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const INV_STAGES = [
+  { id: 'research',        label: 'Research',        dot: '#141413' },
+  { id: 'contacted',       label: 'Contacted',       dot: '#4A4A46' },
+  { id: 'meeting',         label: 'Meeting',         dot: '#6B6B66' },
+  { id: 'light-dd',        label: 'Light Diligence', dot: '#8A8A84' },
+  { id: 'partner-meeting', label: 'Partner Meeting', dot: '#A0A09A' },
+  { id: 'term-sheet',      label: 'Term Sheet',      dot: '#8A8A84' },
+  { id: 'closed',          label: 'Closed',          dot: '#141413' },
+  { id: 'keep-in-touch',   label: 'Keep in Touch',   dot: '#B5B5AE' },
+  { id: 'passed',          label: 'Passed',          dot: '#C0C0BA' }
+];
+
+const INV_CURRENCIES = [
+  { code: 'USD', symbol: '$', label: 'USD ($)' },
+  { code: 'INR', symbol: '₹', label: 'INR (₹)' },
+  { code: 'EUR', symbol: '€', label: 'EUR (€)' },
+  { code: 'GBP', symbol: '£', label: 'GBP (£)' }
+];
+
+window.INVESTOR_PIPELINES = [
+  {
+    id: 'seed-round',
+    name: 'Seed Round',
+    currency: 'USD',
+    raising: 1500000,
+    updated: 'Today, 11:20 AM',
+    description: 'Institutional seed round to scale the Alpha Health 2.0 platform.',
+    investors: [
+      { id: 'inv-1', name: 'Hudson Bay Capital', contact: 'investments@hudsonbay.com', stage: 'research', amount: 0, rating: 3, initial: '2026-08-12', followUp: '2026-08-26', notes: [], activity: [], comments: [] },
+      { id: 'inv-2', name: 'Sequoia India', contact: 'shailendra@sequoia.in', stage: 'contacted', amount: 500000, rating: 4, initial: '2026-08-10', followUp: '2026-08-22', notes: [], activity: [], comments: [] },
+      { id: 'inv-3', name: 'Lightspeed Venture Partners', contact: 'rahul@lightspeed.vc', stage: 'contacted', amount: 200000, rating: 3, initial: '2026-08-11', followUp: '2026-08-20', notes: [], activity: [], comments: [] }
+    ]
+  },
+  {
+    id: 'pre-seed-bridge',
+    name: 'Pre-Seed Bridge',
+    currency: 'INR',
+    raising: 250000,
+    updated: 'Yesterday, 6:08 PM',
+    description: 'Short bridge round with existing angels while the seed closes.',
+    investors: [
+      { id: 'inv-4', name: 'Aman Gupta Angels', contact: 'aman@guptafamilyoffice.com', stage: 'meeting', amount: 100000, rating: 4, initial: '2026-08-14', followUp: '2026-08-21', notes: [], activity: [], comments: [] },
+      { id: 'inv-5', name: 'Tiger Global', contact: 'bd@tigerglobal.com', stage: 'research', amount: 0, rating: 2, initial: '', followUp: '2026-08-30', notes: [], activity: [], comments: [] }
+    ]
+  },
+  {
+    id: 'series-a-prep',
+    name: 'Series A Prep',
+    currency: 'USD',
+    raising: 5000000,
+    updated: 'Aug 15, 9:03 PM',
+    description: 'Early-stage diligence on Series A candidates.',
+    investors: []
+  }
+];
+
+let invActiveView = 'board';
+let invSearchQuery = '';
+let invDrawerTab = 'info';
+let invEditingId = null;
+let invActivePipelineId = null;
+let invActiveStageId = null;
+let invDraft = {
+  name: '', contact: '', amount: '', rating: 0, initial: '', followUp: '',
+  note: '', actType: 'Email', actNote: '', comment: ''
+};
+
+function invStageById(id) {
+  return INV_STAGES.find(s => s.id === id) || INV_STAGES[0];
+}
+
+function invPipelineById(id) {
+  return (window.INVESTOR_PIPELINES || []).find(p => p.id === id);
+}
+
+function invCurrentPipeline() {
+  const params = new URLSearchParams(window.location.search);
+  return invPipelineById(invActivePipelineId) || invPipelineById(params.get('id')) || (window.INVESTOR_PIPELINES || [])[0];
+}
+
+function invInvestorById(p, id) {
+  return p.investors.find(i => i.id === id);
+}
+
+function invInitials(name) {
+  return String(name || '?').split(' ').map(w => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
+}
+
+function invCurrencySymbol(code) {
+  const c = INV_CURRENCIES.find(x => x.code === code);
+  return c ? c.symbol : '$';
+}
+
+function invFmt(raw, p) {
+  const sym = invCurrencySymbol(p ? p.currency : 'USD');
+  const n = Number(raw) || 0;
+  if (!n) return `${sym}0`;
+  if (n >= 1000000) {
+    const v = n / 1000000;
+    return `${sym}${(v % 1 === 0 ? v.toFixed(0) : v.toFixed(1))}M`;
+  }
+  if (n >= 1000) {
+    const v = n / 1000;
+    return `${sym}${(v % 1 === 0 ? v.toFixed(0) : v.toFixed(1))}K`;
+  }
+  return `${sym}${n}`;
+}
+
+function invParseAmount(str) {
+  const s = String(str || '').trim();
+  if (!s) return 0;
+  const m = parseFloat(s.replace(/[^0-9.]/g, ''));
+  if (isNaN(m)) return 0;
+  if (/m/i.test(s)) return Math.round(m * 1000000);
+  if (/k/i.test(s)) return Math.round(m * 1000);
+  return Math.round(m);
+}
+
+function invStars(rating, interactive, extraAttr) {
+  let html = '';
+  for (let i = 1; i <= 5; i++) {
+    if (interactive) {
+      html += `<span class="inv-star inv-star-pick ${i <= rating ? 'filled' : ''}" data-rating="${i}" onclick="invSetRating(${i})">★</span>`;
+    } else {
+      html += `<span class="inv-star ${i <= rating ? 'filled' : ''}">★</span>`;
+    }
+  }
+  return html;
+}
+
+function invPipelineStats(p) {
+  const investors = p.investors || [];
+  const committed = investors.reduce((sum, i) => sum + (Number(i.amount) || 0), 0);
+  const followUps = investors.filter(i => i.followUp).length;
+  return { committed, count: investors.length, followUps };
+}
+
+function invStageTotal(p, stageId) {
+  return (p.investors || []).filter(i => i.stage === stageId).reduce((sum, i) => sum + (Number(i.amount) || 0), 0);
+}
+
+/* ── PIPELINE DIRECTORY (table view) ───────────────────────────────────── */
+function renderInvestorTrackingPage() {
+  const root = document.getElementById('investorTrackingRoot');
+  if (!root) return;
+
+  const pipes = window.INVESTOR_PIPELINES || [];
+
+  root.innerHTML = `
+    <div class="directory-hero-row" style="align-items:center;">
+      <div class="directory-hero-titles">
+        <h1 class="directory-main-title">
+          <span>Investor tracking</span>
+          <span class="badge-pill neutral-soft" id="invPipeCount">${pipes.length} pipelines</span>
+        </h1>
+        <p class="directory-main-subtitle">
+          Manage your fundraising pipelines — track every investor from research to term sheet.
+        </p>
+      </div>
+      <button class="btn btn-primary" onclick="invOpenCreatePipelineModal()" style="font-size:12px; padding:8px 14px; gap:6px; white-space:nowrap;">
+        <i data-lucide="plus" style="width:13px; height:13px;"></i>
+        <span>Create pipeline</span>
+      </button>
+    </div>
+
+    <div class="inv-table-card">
+      <table class="inv-table">
+        <thead>
+          <tr>
+            <th>Pipeline</th>
+            <th class="inv-num">Raising</th>
+            <th class="inv-num">Investors</th>
+            <th class="inv-num">Committed</th>
+            <th>Updated</th>
+            <th style="width:40px;"></th>
+          </tr>
+        </thead>
+        <tbody id="invPipeRows">
+          ${invRenderPipelineRows(pipes)}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function invRenderPipelineRows(pipes) {
+  if (!pipes.length) {
+    return `
+      <tr>
+        <td colspan="6">
+          <div class="inv-empty-row">
+            <i data-lucide="handshake" style="width:28px; height:28px; color:var(--text-light);"></i>
+            <div style="font-size:13px; font-weight:800; color:var(--text-dark);">No pipelines yet</div>
+            <div style="font-size:12px; color:var(--text-muted);">Create your first pipeline to start tracking investors.</div>
+            <button class="btn btn-primary" onclick="invOpenCreatePipelineModal()" style="margin-top:4px;">
+              <i data-lucide="plus" style="width:13px; height:13px;"></i> Create pipeline
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }
+
+  return pipes.map(p => {
+    const st = invPipelineStats(p);
+    return `
+      <tr class="inv-row" onclick="window.location.href='./investor-pipeline.html?id=${p.id}'">
+        <td>
+          <div class="inv-cell-pipeline">
+            <div class="inv-pipe-icon">${invInitials(p.name)}</div>
+            <div class="inv-cell-pipeline-text">
+              <span class="inv-cell-title">${escapeHtml(p.name)}</span>
+              <span class="inv-cell-sub">${escapeHtml(p.description || 'Fundraising pipeline')} · ${INV_STAGES.length} stages</span>
+            </div>
+          </div>
+        </td>
+        <td class="inv-num"><span class="inv-amount">${invFmt(p.raising, p)}</span></td>
+        <td class="inv-num"><span class="inv-count-pill">${st.count}</span></td>
+        <td class="inv-num"><span class="inv-amount ${st.committed ? '' : 'muted'}">${invFmt(st.committed, p)}</span></td>
+        <td><span class="inv-cell-muted">${escapeHtml(p.updated)}</span></td>
+        <td onclick="event.stopPropagation();">
+          <div class="inv-dot-wrap">
+            <button class="inv-dots" onclick="invToggleDotMenu(this, '${p.id}')" title="Pipeline actions">
+              <i data-lucide="more-horizontal"></i>
+            </button>
+            <div class="inv-dot-menu" id="invMenu-${p.id}">
+              <button onclick="window.location.href='./investor-pipeline.html?id=${p.id}'"><i data-lucide="arrow-up-right"></i> Open pipeline</button>
+              <button onclick="invOpenCreatePipelineModal('${p.id}')"><i data-lucide="pencil"></i> Rename</button>
+              <button onclick="invDuplicatePipeline('${p.id}')"><i data-lucide="copy"></i> Duplicate</button>
+              <button class="danger" onclick="invArchivePipeline('${p.id}')"><i data-lucide="archive"></i> Archive</button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function handleInvTrackSearch(input) {
+  const q = (input && input.value || '').trim();
+  if (q && window.showToast) window.showToast(`Searching pipelines for "${q}"...`, 'info');
+}
+
+function invToggleDotMenu(btn, id) {
+  btn.classList.toggle('active');
+  const menu = document.getElementById(`invMenu-${id}`);
+  if (menu) {
+    const open = menu.classList.toggle('show');
+    document.querySelectorAll('.inv-dot-menu.show').forEach(m => { if (m !== menu) m.classList.remove('show'); });
+    document.querySelectorAll('.inv-dots.active').forEach(b => { if (b !== btn) b.classList.remove('active'); });
+    if (open) {
+      const rect = btn.getBoundingClientRect();
+      menu.style.top = `${rect.bottom + 6}px`;
+      menu.style.left = `${Math.min(rect.left, window.innerWidth - 190)}px`;
+    }
+  }
+}
+
+function invCloseDotMenus() {
+  document.querySelectorAll('.inv-dot-menu.show').forEach(m => m.classList.remove('show'));
+  document.querySelectorAll('.inv-dots.active').forEach(b => b.classList.remove('active'));
+}
+
+function invOpenCreatePipelineModal(pipeId) {
+  const p = pipeId ? invPipelineById(pipeId) : null;
+
+  window.openModal(p ? 'Rename pipeline' : 'Create pipeline', `
+    <div style="display:flex; flex-direction:column; gap:16px; padding:2px 0;">
+      <div class="inv-form-group">
+        <label class="inv-field-label">Pipeline name</label>
+        <input id="invPipeName" class="inv-input" placeholder="e.g. Seed Round" value="${p ? escapeHtml(p.name) : ''}" />
+      </div>
+      <div class="inv-form-group">
+        <label class="inv-field-label">How much are you raising?</label>
+        <div class="inv-money-row">
+          <input id="invPipeAmount" class="inv-input" placeholder="e.g. 1.5M" value="${p ? p.raising : ''}" inputmode="decimal" />
+          <select id="invPipeCurrency" class="inv-input inv-input-select">
+            ${INV_CURRENCIES.map(c => `<option value="${c.code}" ${p && p.currency === c.code ? 'selected' : ''}>${c.label}</option>`).join('')}
+          </select>
+        </div>
+        <div class="inv-field-note">Amounts can be entered as 1500000, 1.5M or 250K.</div>
+      </div>
+      <div class="inv-form-group">
+        <label class="inv-field-label">Description <span class="inv-opt">optional</span></label>
+        <textarea id="invPipeDesc" class="inv-input" rows="3" placeholder="What is this round for?">${p ? escapeHtml(p.description || '') : ''}</textarea>
+      </div>
+      <div class="inv-modal-actions">
+        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="invSubmitPipelineModal(${p ? `'${p.id}'` : 'null'})">${p ? 'Save changes' : 'Create pipeline'}</button>
+      </div>
+    </div>
+  `);
+}
+
+function invSubmitPipelineModal(pipeId) {
+  const nameEl = document.getElementById('invPipeName');
+  const amountEl = document.getElementById('invPipeAmount');
+  const curEl = document.getElementById('invPipeCurrency');
+  const descEl = document.getElementById('invPipeDesc');
+
+  const name = nameEl ? nameEl.value.trim() : '';
+  if (!name) {
+    if (window.showToast) window.showToast('Please enter a pipeline name.', 'alert');
+    return;
+  }
+
+  if (pipeId) {
+    const p = invPipelineById(pipeId);
+    if (p) {
+      p.name = name;
+      p.currency = curEl ? curEl.value : p.currency;
+      p.raising = invParseAmount(amountEl ? amountEl.value : '');
+      p.description = descEl ? descEl.value.trim() : '';
+      p.updated = 'Just now';
+    }
+    if (window.showToast) window.showToast('Pipeline updated', 'success');
+  } else {
+    const id = 'pipe-' + Date.now();
+    window.INVESTOR_PIPELINES.push({
+      id,
+      name,
+      currency: curEl ? curEl.value : 'USD',
+      raising: invParseAmount(amountEl ? amountEl.value : ''),
+      description: descEl ? descEl.value.trim() : '',
+      updated: 'Just now',
+      investors: []
+    });
+    if (window.showToast) window.showToast(`"${name}" pipeline created`, 'success');
+  }
+
+  window.closeModal();
+  renderInvestorTrackingPage();
+}
+
+function invDuplicatePipeline(id) {
+  const p = invPipelineById(id);
+  if (!p) return;
+  const copy = JSON.parse(JSON.stringify(p));
+  copy.id = 'pipe-' + Date.now();
+  copy.name = p.name + ' (copy)';
+  copy.updated = 'Just now';
+  window.INVESTOR_PIPELINES.push(copy);
+  if (window.showToast) window.showToast(`"${p.name}" duplicated`, 'success');
+  invCloseDotMenus();
+  renderInvestorTrackingPage();
+}
+
+function invArchivePipeline(id) {
+  const p = invPipelineById(id);
+  window.INVESTOR_PIPELINES = window.INVESTOR_PIPELINES.filter(x => x.id !== id);
+  if (p && window.showToast) window.showToast(`"${p.name}" archived`, 'info');
+  invCloseDotMenus();
+  renderInvestorTrackingPage();
+}
+
+/* ── PIPELINE DETAIL (board + list) ────────────────────────────────────── */
+function renderInvestorPipelinePage() {
+  const root = document.getElementById('investorPipelineRoot');
+  if (!root) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const pid = params.get('id') || 'seed-round';
+  const p = invPipelineById(pid) || window.INVESTOR_PIPELINES[0];
+
+  const breadcrumb = document.getElementById('invPipelineBreadcrumb');
+  if (breadcrumb) breadcrumb.textContent = p.name;
+
+  root.innerHTML = `
+    <!-- Pipeline Hero -->
+    <div class="inv-hero">
+      <div class="inv-hero-left">
+        <div class="inv-hero-titles">
+          <h1 class="directory-main-title">
+            <span>${escapeHtml(p.name)}</span>
+            <span class="badge-pill neutral-soft">${invFmt(p.raising, p)} raised</span>
+          </h1>
+          <p class="directory-main-subtitle">${escapeHtml(p.description || 'Fundraising pipeline')}</p>
+        </div>
+      </div>
+      <div class="inv-hero-actions">
+        <div class="inv-view-toggle">
+          <button class="${invActiveView === 'board' ? 'active' : ''}" onclick="invSetView('board')"><i data-lucide="columns-3"></i> Board</button>
+          <button class="${invActiveView === 'list' ? 'active' : ''}" onclick="invSetView('list')"><i data-lucide="list"></i> List</button>
+        </div>
+        <button class="btn btn-primary" onclick="invOpenInvestorDrawer('${p.id}', 'research', null)" style="font-size:12px; padding:8px 14px; gap:6px; white-space:nowrap;">
+          <i data-lucide="plus" style="width:13px; height:13px;"></i>
+          <span>New investor</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="inv-stats-row">
+      <div class="inv-stat">
+        <span class="inv-stat-label">Raising</span>
+        <span class="inv-stat-value">${invFmt(p.raising, p)}</span>
+      </div>
+      <div class="inv-stat">
+        <span class="inv-stat-label">Committed</span>
+        <span class="inv-stat-value">${invFmt(invPipelineStats(p).committed, p)}</span>
+      </div>
+      <div class="inv-stat">
+        <span class="inv-stat-label">Investors</span>
+        <span class="inv-stat-value">${invPipelineStats(p).count}</span>
+      </div>
+      <div class="inv-stat">
+        <span class="inv-stat-label">Follow-ups due</span>
+        <span class="inv-stat-value">${invPipelineStats(p).followUps}</span>
+      </div>
+    </div>
+
+    <!-- View Content -->
+    <div id="invPipelineView"></div>
+  `;
+
+  invRenderPipelineView(p);
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function invRenderPipelineView(p) {
+  const wrap = document.getElementById('invPipelineView');
+  if (!wrap) return;
+  wrap.innerHTML = invActiveView === 'board' ? invRenderBoard(p) : invRenderList(p);
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function invFilteredInvestors(p) {
+  if (!invSearchQuery) return p.investors || [];
+  const q = invSearchQuery.toLowerCase();
+  return (p.investors || []).filter(i =>
+    i.name.toLowerCase().includes(q) || (i.contact || '').toLowerCase().includes(q)
+  );
+}
+
+/* ── BOARD VIEW ────────────────────────────────────────────────────────── */
+function invRenderBoard(p) {
+  const filtered = invFilteredInvestors(p);
+
+  const cols = INV_STAGES.map(stage => {
+    const cards = filtered.filter(i => i.stage === stage.id);
+    const total = cards.reduce((sum, i) => sum + (Number(i.amount) || 0), 0);
+    return `
+      <div class="inv-col" id="invCol-${stage.id}" ondragover="event.preventDefault();" ondrop="invOnDrop(event,'${stage.id}')">
+        <div class="inv-col-header">
+          <div class="inv-col-title-row">
+            <span class="inv-col-dot" style="background:${stage.dot};"></span>
+            <span class="inv-col-title" title="${stage.label}">${stage.label}</span>
+            <span class="inv-col-count">${cards.length}</span>
+          </div>
+          <span class="inv-col-total">${invFmt(total, p)}</span>
+        </div>
+        <div class="inv-col-body" id="invCards-${stage.id}">
+          ${cards.map(inv => invRenderCard(inv, p)).join('')}
+          ${cards.length === 0 ? `<div class="inv-col-empty">No investors in this stage</div>` : ''}
+        </div>
+        <button class="inv-col-add" onclick="invOpenInvestorDrawer('${p.id}', '${stage.id}', null)">
+          <i data-lucide="plus" style="width:12px; height:12px;"></i>
+          <span>New investor</span>
+        </button>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <div class="inv-board">
+      <div class="inv-kanban-wrap">${cols}</div>
+    </div>
+  `;
+}
+
+function invRenderCard(inv, p) {
+  return `
+    <div class="inv-card" draggable="true"
+         ondragstart="invOnDragStart(event,'${inv.id}')"
+         onclick="invOpenInvestorDrawer('${p.id}', '${inv.stage}', '${inv.id}')">
+      <div class="inv-card-top">
+        <div class="inv-card-avatar">${invInitials(inv.name)}</div>
+        <div class="inv-card-name">${escapeHtml(inv.name)}</div>
+      </div>
+      <div class="inv-card-meta">
+        <span class="inv-card-amount">${invFmt(inv.amount, p)}</span>
+        <span class="inv-card-stars">${invStars(inv.rating, false)}</span>
+      </div>
+      <div class="inv-card-footer">
+        <span class="inv-card-followup">${inv.followUp ? `<i data-lucide="calendar" style="width:11px; height:11px;"></i> ${inv.followUp}` : 'No follow-up'}</span>
+        <span class="inv-card-move" onclick="event.stopPropagation(); invMoveStage('${p.id}', '${inv.id}', -1)">
+          <i data-lucide="chevron-left" style="width:11px; height:11px;"></i>
+        </span>
+        <span class="inv-card-move" onclick="event.stopPropagation(); invMoveStage('${p.id}', '${inv.id}', 1)">
+          <i data-lucide="chevron-right" style="width:11px; height:11px;"></i>
+        </span>
+      </div>
+    </div>
+  `;
+}
+
+let invDragInvestorId = null;
+
+function invOnDragStart(e, invId) {
+  invDragInvestorId = invId;
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function invOnDrop(e, targetStage) {
+  e.preventDefault();
+  if (!invDragInvestorId) return;
+  const p = invCurrentPipeline();
+  const inv = invInvestorById(p, invDragInvestorId);
+  if (inv && inv.stage !== targetStage) {
+    inv.stage = targetStage;
+    if (window.showToast) window.showToast(`${inv.name} moved to ${invStageById(targetStage).label}`, 'success');
+    invRenderPipelineView(p);
+  }
+  invDragInvestorId = null;
+}
+
+function invMoveStage(pid, invId, delta) {
+  const p = invPipelineById(pid);
+  const inv = invInvestorById(p, invId);
+  if (!inv) return;
+  const idx = INV_STAGES.findIndex(s => s.id === inv.stage);
+  const next = INV_STAGES[idx + delta];
+  if (next) {
+    inv.stage = next.id;
+    if (window.showToast) window.showToast(`${inv.name} → ${next.label}`, 'info');
+    invRenderPipelineView(p);
+  }
+}
+
+/* ── LIST VIEW ─────────────────────────────────────────────────────────── */
+function invRenderList(p) {
+  const filtered = invFilteredInvestors(p);
+
+  if (!filtered.length) {
+    return `
+      <div class="inv-empty-row" style="padding:60px 24px; border:1px solid var(--border-main); border-radius:10px; background:#fff;">
+        <i data-lucide="inbox" style="width:28px; height:28px; color:var(--text-light);"></i>
+        <div style="font-size:13px; font-weight:800; color:var(--text-dark);">No investors in this pipeline</div>
+        <div style="font-size:12px; color:var(--text-muted);">Add an investor from the board or the button above.</div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="inv-table-card">
+      <table class="inv-table inv-list-table">
+        <thead>
+          <tr>
+            <th>Investor</th>
+            <th>Contact</th>
+            <th class="inv-num">Amount</th>
+            <th>Rating</th>
+            <th>Initial contact</th>
+            <th>Next follow up</th>
+            <th>Stage</th>
+            <th style="width:40px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${filtered.map(inv => `
+            <tr class="inv-row" onclick="invOpenInvestorDrawer('${p.id}', '${inv.stage}', '${inv.id}')">
+              <td>
+                <div class="inv-cell-investor">
+                  <span class="inv-avatar-sm">${invInitials(inv.name)}</span>
+                  <span class="inv-cell-title">${escapeHtml(inv.name)}</span>
+                </div>
+              </td>
+              <td><span class="inv-cell-muted">${escapeHtml(inv.contact || '—')}</span></td>
+              <td class="inv-num"><span class="inv-amount">${invFmt(inv.amount, p)}</span></td>
+              <td><span class="inv-cell-stars">${invStars(inv.rating, false)}</span></td>
+              <td><span class="inv-cell-muted">${escapeHtml(inv.initial || '—')}</span></td>
+              <td><span class="inv-cell-followup">${escapeHtml(inv.followUp || '—')}</span></td>
+              <td onclick="event.stopPropagation();">
+                <select class="inv-stage-select" onchange="invChangeStage('${p.id}', '${inv.id}', this.value)">
+                  ${INV_STAGES.map(s => `<option value="${s.id}" ${s.id === inv.stage ? 'selected' : ''}>${s.label}</option>`).join('')}
+                </select>
+              </td>
+              <td onclick="event.stopPropagation();">
+                <div class="inv-dot-wrap">
+                  <button class="inv-dots" onclick="invToggleDotMenu(this, '${p.id}-${inv.id}')" title="Investor actions">
+                    <i data-lucide="more-horizontal"></i>
+                  </button>
+                  <div class="inv-dot-menu" id="invMenu-${p.id}-${inv.id}">
+                    <button onclick="invOpenInvestorDrawer('${p.id}', '${inv.stage}', '${inv.id}')"><i data-lucide="eye"></i> View details</button>
+                    <button onclick="invDuplicateInvestor('${p.id}', '${inv.id}')"><i data-lucide="copy"></i> Duplicate</button>
+                    <button class="danger" onclick="invDeleteInvestor('${p.id}', '${inv.id}')"><i data-lucide="trash-2"></i> Remove</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function invChangeStage(pid, invId, stageId) {
+  const p = invPipelineById(pid);
+  const inv = invInvestorById(p, invId);
+  if (inv) {
+    inv.stage = stageId;
+    if (window.showToast) window.showToast(`${inv.name} → ${invStageById(stageId).label}`, 'info');
+    invRenderPipelineView(p);
+  }
+}
+
+function invDuplicateInvestor(pid, invId) {
+  const p = invPipelineById(pid);
+  const inv = invInvestorById(p, invId);
+  if (inv) {
+    const copy = JSON.parse(JSON.stringify(inv));
+    copy.id = 'inv-' + Date.now();
+    copy.name = inv.name + ' (copy)';
+    p.investors.push(copy);
+    if (window.showToast) window.showToast('Investor duplicated', 'success');
+    invRenderPipelineView(p);
+  }
+}
+
+function invDeleteInvestor(pid, invId) {
+  const p = invPipelineById(pid);
+  p.investors = p.investors.filter(i => i.id !== invId);
+  if (window.showToast) window.showToast('Investor removed from pipeline', 'info');
+  invCloseDotMenus();
+  invRenderPipelineView(p);
+}
+
+function handleInvPipelineSearch(input) {
+  invSearchQuery = (input && input.value || '').trim().toLowerCase();
+  const p = invCurrentPipeline();
+  invRenderPipelineView(p);
+}
+
+function invSetView(view) {
+  invActiveView = view;
+  const p = invCurrentPipeline();
+  invRenderPipelineView(p);
+}
+
+/* ── INVESTOR DRAWER (tabs: Info / Notes / Contact Activity / Comments) ── */
+function invOpenInvestorDrawer(pid, stageId, invId) {
+  const p = invPipelineById(pid);
+  if (!p) return;
+  const stage = invStageById(stageId);
+  const inv = invId ? invInvestorById(p, invId) : null;
+
+  invActivePipelineId = pid;
+  invActiveStageId = inv ? inv.stage : stageId;
+  invEditingId = invId || null;
+  invDrawerTab = 'info';
+  invDraft = {
+    name: inv ? inv.name : '',
+    contact: inv ? inv.contact : '',
+    amount: inv && inv.amount ? String(inv.amount) : '',
+    rating: inv ? inv.rating : 0,
+    initial: inv ? inv.initial : '',
+    followUp: inv ? inv.followUp : '',
+    note: '', actType: 'Email', actNote: '', comment: ''
+  };
+
+  invRenderDrawer(p, stage, inv);
+}
+
+function invRenderDrawer(p, stage, inv) {
+  const isEdit = !!inv;
+  const title = isEdit ? 'Investor details' : 'New investor';
+  const subtitle = `${p.name} · ${stage.label}`;
+
+  const tabs = [
+    { id: 'info', label: 'Info' },
+    { id: 'notes', label: 'Notes' },
+    { id: 'activity', label: 'Contact activity' },
+    { id: 'comments', label: 'Comments' }
+  ];
+
+  const tabBar = `
+    <div class="inv-drawer-tabs">
+      ${tabs.map(t => `
+        <button class="${invDrawerTab === t.id ? 'active' : ''}" onclick="invSetDrawerTab('${t.id}')">
+          ${t.label}
+        </button>
+      `).join('')}
+    </div>
+  `;
+
+  let bodyHtml = tabBar + `<div class="inv-drawer-content">`;
+
+  if (invDrawerTab === 'info') {
+    bodyHtml += invDrawerInfoHtml(p, inv);
+  } else if (invDrawerTab === 'notes') {
+    bodyHtml += invDrawerNotesHtml(inv);
+  } else if (invDrawerTab === 'activity') {
+    bodyHtml += invDrawerActivityHtml(inv);
+  } else {
+    bodyHtml += invDrawerCommentsHtml(inv);
+  }
+  bodyHtml += `</div>`;
+
+  const footer = `
+    <button class="btn btn-outline" onclick="closeDrawer()">Cancel</button>
+    <button class="btn btn-primary" onclick="invSaveInvestor()">${isEdit ? 'Save changes' : 'Add investor'}</button>
+  `;
+
+  window.openDrawer(title, subtitle, bodyHtml, footer);
+}
+
+function invDrawerInfoHtml(p, inv) {
+  return `
+    <div class="inv-drawer-section">
+      <div class="inv-section">
+        <span class="inv-section-label">Investor</span>
+        <div class="inv-form-group">
+          <label class="inv-field-label">Investor or fund name</label>
+          <input id="invFieldName" class="inv-input" placeholder="e.g. Sequoia India" value="${escapeHtml(invDraft.name)}" />
+        </div>
+      </div>
+
+      <div class="inv-section">
+        <span class="inv-section-label">Contact</span>
+        <div class="inv-form-group">
+          <label class="inv-field-label">Contact email</label>
+          <div class="inv-contact-search">
+            <i data-lucide="search" style="width:14px; height:14px; color:var(--text-light);"></i>
+            <input id="invFieldContact" class="inv-input inv-contact-input" placeholder="Search for a contact or enter an email to create one" value="${escapeHtml(invDraft.contact)}" />
+            <span class="inv-contact-enter" onclick="invEnterContact()">Enter</span>
+          </div>
+          <div class="inv-field-note">Search your saved contacts or type an email to create one.</div>
+        </div>
+      </div>
+
+      <div class="inv-section">
+        <span class="inv-section-label">Investment</span>
+        <div class="inv-form-grid">
+          <div class="inv-field-block">
+            <span class="inv-field-label-sm">Amount</span>
+            <div class="inv-money-row">
+              <span class="inv-money-symbol">${invCurrencySymbol(p.currency)}</span>
+              <input id="invFieldAmount" class="inv-input" placeholder="e.g. 500K" value="${escapeHtml(invDraft.amount)}" inputmode="decimal" />
+            </div>
+          </div>
+          <div class="inv-field-block">
+            <span class="inv-field-label-sm">Rating</span>
+            <div class="inv-star-picker" id="invStarPicker">${invStars(invDraft.rating, true)}</div>
+          </div>
+          <div class="inv-field-block">
+            <span class="inv-field-label-sm">Initial contact</span>
+            <input id="invFieldInitial" type="date" class="inv-input" value="${escapeHtml(invDraft.initial)}" />
+          </div>
+          <div class="inv-field-block">
+            <span class="inv-field-label-sm">Next follow up</span>
+            <input id="invFieldFollowUp" type="date" class="inv-input" value="${escapeHtml(invDraft.followUp)}" />
+          </div>
+        </div>
+        <div class="inv-field-states">All fields are empty until you add them — leave blank until known.</div>
+      </div>
+    </div>
+  `;
+}
+
+function invSetRating(rating) {
+  invDraft.rating = rating;
+  const picker = document.getElementById('invStarPicker');
+  if (picker) picker.innerHTML = invStars(rating, true);
+}
+
+function invEnterContact() {
+  const el = document.getElementById('invFieldContact');
+  if (el && el.value.trim()) {
+    if (window.showToast) window.showToast(`Contact "${el.value.trim()}" ready to add`, 'info');
+  }
+}
+
+function invDrawerNotesHtml(inv) {
+  const notes = (inv && inv.notes) || [];
+  return `
+    <div class="inv-drawer-section">
+      <div class="inv-section">
+        <span class="inv-section-label">New note</span>
+        <div class="inv-form-group">
+          <label class="inv-field-label">Note</label>
+          <textarea id="invFieldNote" class="inv-input" rows="4" placeholder="Capture context about this investor...">${escapeHtml(invDraft.note)}</textarea>
+          <button class="btn btn-outline" style="align-self:flex-start; margin-top:2px;" onclick="invAddNote()">
+            <i data-lucide="plus" style="width:12px; height:12px;"></i> Add note
+          </button>
+        </div>
+      </div>
+      <div class="inv-section">
+        <span class="inv-section-label">Notes history</span>
+        <div class="inv-note-list">
+          ${notes.length ? notes.map(n => `
+            <div class="inv-note-item">
+              <div class="inv-note-text">${escapeHtml(n.text)}</div>
+              <div class="inv-note-time">${escapeHtml(n.time)}</div>
+            </div>
+          `).join('') : `<div class="inv-empty-inline">No notes yet for this investor.</div>`}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function invAddNote() {
+  const el = document.getElementById('invFieldNote');
+  const text = el ? el.value.trim() : '';
+  if (!text) return;
+  const p = invPipelineById(invActivePipelineId);
+  const inv = invEditingId ? invInvestorById(p, invEditingId) : null;
+  if (!inv) {
+    invDraft.note = '';
+    if (window.showToast) window.showToast('Save the investor first, then add notes.', 'info');
+    return;
+  }
+  inv.notes = inv.notes || [];
+  inv.notes.unshift({ text, time: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) });
+  if (window.showToast) window.showToast('Note added', 'success');
+  invDraft.note = '';
+  invRenderDrawer(p, invStageById(inv.stage), inv);
+}
+
+function invDrawerActivityHtml(inv) {
+  const activity = (inv && inv.activity) || [];
+  return `
+    <div class="inv-drawer-section">
+      <div class="inv-section">
+        <span class="inv-section-label">Log activity</span>
+        <div class="inv-form-group">
+          <label class="inv-field-label">What happened</label>
+          <div class="inv-activity-row">
+            <select id="invFieldActType" class="inv-input inv-input-select" style="max-width:130px;">
+              ${['Email', 'Call', 'Meeting'].map(t => `<option value="${t}" ${invDraft.actType === t ? 'selected' : ''}>${t}</option>`).join('')}
+            </select>
+            <input id="invFieldActNote" class="inv-input" placeholder="Short summary..." value="${escapeHtml(invDraft.actNote)}" />
+          </div>
+          <button class="btn btn-outline" style="align-self:flex-start; margin-top:2px;" onclick="invAddActivity()">
+            <i data-lucide="plus" style="width:12px; height:12px;"></i> Log activity
+          </button>
+        </div>
+      </div>
+      <div class="inv-section">
+        <span class="inv-section-label">Activity history</span>
+        <div class="inv-activity-list">
+          ${activity.length ? activity.map(a => `
+            <div class="inv-activity-item">
+              <div class="inv-activity-icon"><i data-lucide="${a.type === 'Call' ? 'phone' : a.type === 'Meeting' ? 'users' : 'mail'}"></i></div>
+              <div class="inv-activity-body">
+                <div class="inv-activity-text"><strong>${escapeHtml(a.type)}</strong> — ${escapeHtml(a.text)}</div>
+                <div class="inv-note-time">${escapeHtml(a.time)}</div>
+              </div>
+            </div>
+          `).join('') : `<div class="inv-empty-inline">No contact activity logged yet.</div>`}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function invAddActivity() {
+  const typeEl = document.getElementById('invFieldActType');
+  const noteEl = document.getElementById('invFieldActNote');
+  const text = noteEl ? noteEl.value.trim() : '';
+  if (!text) return;
+  const p = invPipelineById(invActivePipelineId);
+  const inv = invEditingId ? invInvestorById(p, invEditingId) : null;
+  if (!inv) {
+    if (window.showToast) window.showToast('Save the investor first, then log activity.', 'info');
+    return;
+  }
+  inv.activity = inv.activity || [];
+  inv.activity.unshift({ type: typeEl ? typeEl.value : 'Email', text, time: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) });
+  if (window.showToast) window.showToast('Activity logged', 'success');
+  invDraft.actNote = '';
+  invRenderDrawer(p, invStageById(inv.stage), inv);
+}
+
+function invDrawerCommentsHtml(inv) {
+  const comments = (inv && inv.comments) || [];
+  return `
+    <div class="inv-drawer-section">
+      <div class="inv-section">
+        <span class="inv-section-label">New comment</span>
+        <div class="inv-form-group">
+          <label class="inv-field-label">Comment</label>
+          <textarea id="invFieldComment" class="inv-input" rows="3" placeholder="Add a comment...">${escapeHtml(invDraft.comment)}</textarea>
+          <button class="btn btn-outline" style="align-self:flex-start; margin-top:2px;" onclick="invAddComment()">
+            <i data-lucide="message-square-plus" style="width:12px; height:12px;"></i> Post comment
+          </button>
+        </div>
+      </div>
+      <div class="inv-section">
+        <span class="inv-section-label">Discussion</span>
+        <div class="inv-comment-list">
+          ${comments.length ? comments.map(c => `
+            <div class="inv-comment-item">
+              <div class="inv-comment-avatar">SC</div>
+              <div class="inv-comment-body">
+                <div class="inv-comment-head">
+                  <span class="inv-comment-author">Dr. Sarah Chen</span>
+                  <span class="inv-note-time">${escapeHtml(c.time)}</span>
+                </div>
+                <div class="inv-comment-text">${escapeHtml(c.text)}</div>
+              </div>
+            </div>
+          `).join('') : `<div class="inv-empty-inline">No comments yet. Start the discussion.</div>`}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function invAddComment() {
+  const el = document.getElementById('invFieldComment');
+  const text = el ? el.value.trim() : '';
+  if (!text) return;
+  const p = invPipelineById(invActivePipelineId);
+  const inv = invEditingId ? invInvestorById(p, invEditingId) : null;
+  if (!inv) {
+    if (window.showToast) window.showToast('Save the investor first, then comment.', 'info');
+    return;
+  }
+  inv.comments = inv.comments || [];
+  inv.comments.unshift({ text, time: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) });
+  if (window.showToast) window.showToast('Comment posted', 'success');
+  invDraft.comment = '';
+  invRenderDrawer(p, invStageById(inv.stage), inv);
+}
+
+function invSetDrawerTab(tab) {
+  invDrawerTab = tab;
+  const p = invPipelineById(invActivePipelineId);
+  const inv = invEditingId ? invInvestorById(p, invEditingId) : null;
+  const stage = inv ? invStageById(inv.stage) : invStageById(invActiveStageId);
+  invRenderDrawer(p, stage, inv);
+}
+
+function invSaveInvestor() {
+  const p = invPipelineById(invActivePipelineId);
+  if (!p) return;
+
+  const name = (document.getElementById('invFieldName') ? document.getElementById('invFieldName').value : '').trim();
+  if (!name) {
+    if (window.showToast) window.showToast('Investor or Fund Name is required.', 'alert');
+    return;
+  }
+  const contact = document.getElementById('invFieldContact') ? document.getElementById('invFieldContact').value.trim() : '';
+  const amount = invParseAmount(document.getElementById('invFieldAmount') ? document.getElementById('invFieldAmount').value : '');
+  const initial = document.getElementById('invFieldInitial') ? document.getElementById('invFieldInitial').value : '';
+  const followUp = document.getElementById('invFieldFollowUp') ? document.getElementById('invFieldFollowUp').value : '';
+
+  const data = { name, contact, amount, rating: invDraft.rating, initial, followUp };
+
+  if (invEditingId) {
+    const inv = invInvestorById(p, invEditingId);
+    if (inv) Object.assign(inv, data);
+    if (window.showToast) window.showToast('Investor updated', 'success');
+  } else {
+    const inv = {
+      id: 'inv-' + Date.now(),
+      stage: invActiveStageId || 'research',
+      ...data,
+      notes: [], activity: [], comments: []
+    };
+    p.investors.push(inv);
+    if (window.showToast) window.showToast(`${inv.name} added to ${invStageById(inv.stage).label}`, 'success');
+  }
+
+  window.closeDrawer();
+  invRenderPipelineView(p);
+}
+
+window.renderInvestorTrackingPage = renderInvestorTrackingPage;
+window.renderInvestorPipelinePage = renderInvestorPipelinePage;
+window.invOpenCreatePipelineModal = invOpenCreatePipelineModal;
+window.invSubmitPipelineModal = invSubmitPipelineModal;
+window.invToggleDotMenu = invToggleDotMenu;
+window.invDuplicatePipeline = invDuplicatePipeline;
+window.invArchivePipeline = invArchivePipeline;
+window.invSetView = invSetView;
+window.invOpenInvestorDrawer = invOpenInvestorDrawer;
+window.invSetDrawerTab = invSetDrawerTab;
+window.invSetRating = invSetRating;
+window.invEnterContact = invEnterContact;
+window.invAddNote = invAddNote;
+window.invAddActivity = invAddActivity;
+window.invAddComment = invAddComment;
+window.invSaveInvestor = invSaveInvestor;
+window.invChangeStage = invChangeStage;
+window.invMoveStage = invMoveStage;
+window.invDuplicateInvestor = invDuplicateInvestor;
+window.invDeleteInvestor = invDeleteInvestor;
+window.handleInvTrackSearch = handleInvTrackSearch;
+window.handleInvPipelineSearch = handleInvPipelineSearch;
+window.invCloseDotMenus = invCloseDotMenus;
+
+// Close pipeline/investor dot menus on outside click
+document.addEventListener('click', (e) => {
+  if (!e.target.closest || !e.target.closest('.inv-dot-wrap')) {
+    invCloseDotMenus();
+  }
+});
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PRODUCT ANALYTICS — KPIs, Engagement chart, Recent viewers,
+   Scroll-depth table, heatmap & key insights
+   ══════════════════════════════════════════════════════════════════════════ */
+
+let paRange = '7d';
+let paChart = null;
+
+const PA_DATA = {
+  '7d': {
+    label: 'Last 7 days',
+    compare: 'vs previous 7 days',
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    viewers: [128, 141, 156, 138, 172, 189, 164],
+    upvotes: [42, 51, 47, 58, 62, 55, 49],
+    kpi: {
+      viewers: '1,088', viewersDelta: 12.4, viewersSpark: [128, 141, 156, 138, 172, 189, 164],
+      upvotes: '364', upvotesDelta: 8.1, upvotesSpark: [42, 51, 47, 58, 62, 55, 49],
+      avgTime: '4m 38s', avgTimeDelta: 2.4, avgTimeSpark: [3.9, 4.0, 4.3, 4.1, 4.6, 4.4, 4.6],
+      totalTime: '69.4 hrs', totalTimeDelta: 15.2, totalTimeSpark: [48, 52, 49, 56, 62, 58, 64]
+    },
+    scroll: [
+      { depth: '0–25% · top', viewers: 1088, share: 100, drop: 0, time: '0:24', status: 'ok', statusLabel: 'Healthy' },
+      { depth: '25–50%', viewers: 892, share: 82.0, drop: -18.0, time: '0:41', status: 'ok', statusLabel: 'Good' },
+      { depth: '50–75%', viewers: 724, share: 66.5, drop: -18.8, time: '0:58', status: 'warn', statusLabel: 'Drop-off' },
+      { depth: '75–100%', viewers: 512, share: 47.1, drop: -29.3, time: '1:16', status: 'warn', statusLabel: 'Watch' },
+      { depth: 'Bottom · 100%', viewers: 398, share: 36.6, drop: -22.3, time: '1:42', status: 'warn', statusLabel: 'Drop-off' }
+    ],
+    recent: [
+      { anon: true, action: 'Scrolled to 64% of page', time: '2m ago', device: 'Safari · macOS', location: 'Bengaluru, IN' },
+      { anon: true, action: 'Upvoted & shared', time: '6m ago', device: 'Chrome · Windows', location: 'Remote' },
+      { name: 'Rahul Mehta', avatar: 'https://randomuser.me/api/portraits/men/32.jpg', action: 'Viewed for 3m 12s', time: '9m ago', device: 'Chrome · Android', location: 'Mumbai, IN' },
+      { name: 'Dr. Alina Petrova', avatar: 'https://randomuser.me/api/portraits/women/65.jpg', action: 'Scrolled to 88% of page', time: '14m ago', device: 'Safari · iOS', location: 'Berlin, DE' },
+      { anon: true, action: 'Scrolled to 41% of page', time: '21m ago', device: 'Firefox · macOS', location: 'London, GB' },
+      { name: 'Kenji Watanabe', avatar: 'https://randomuser.me/api/portraits/men/41.jpg', action: 'Upvoted', time: '28m ago', device: 'Chrome · Android', location: 'Tokyo, JP' }
+    ],
+    insights: [
+      { icon: 'trending-up', title: 'Strong hook retention', text: '82% of viewers scrolled past the 25% mark — the opening sections are doing their job.' },
+      { icon: 'activity', title: 'Mid-page drop-off', text: 'Biggest loss happens between 50–75% (−18.8%). Tighten the middle section to keep momentum.' },
+      { icon: 'mouse-pointer-click', title: 'Prime engagement window', text: 'Peak visits cluster 12–2 PM on Wednesdays. Time product updates and launches accordingly.' },
+      { icon: 'smartphone', title: 'Mobile viewers spend less', text: 'Mobile sessions average 38% less time. Check tap targets and section order on smaller screens.' }
+    ]
+  },
+
+  '30d': {
+    label: 'Last 30 days',
+    compare: 'vs previous 30 days',
+    labels: ['Aug 1', 'Aug 3', 'Aug 5', 'Aug 7', 'Aug 9', 'Aug 11', 'Aug 13', 'Aug 15', 'Aug 17', 'Aug 19', 'Aug 21', 'Aug 23', 'Aug 25', 'Aug 27', 'Aug 29'],
+    viewers: [96, 112, 105, 124, 138, 121, 147, 156, 142, 163, 171, 158, 182, 176, 191],
+    upvotes: [31, 38, 34, 42, 47, 40, 52, 54, 49, 58, 61, 55, 64, 60, 68],
+    kpi: {
+      viewers: '2,142', viewersDelta: 9.7, viewersSpark: [96, 112, 105, 124, 138, 121, 147, 156, 142, 163, 171, 158, 182, 176, 191],
+      upvotes: '734', upvotesDelta: 6.2, upvotesSpark: [31, 38, 34, 42, 47, 40, 52, 54, 49, 58, 61, 55, 64, 60, 68],
+      avgTime: '4m 12s', avgTimeDelta: 1.8, avgTimeSpark: [3.8, 3.9, 4.1, 3.7, 4.0, 4.2, 3.9, 4.3, 4.1, 4.4, 4.2, 4.5, 4.3, 4.4, 4.6],
+      totalTime: '149.8 hrs', totalTimeDelta: 13.6, totalTimeSpark: [98, 104, 101, 112, 118, 110, 124, 131, 126, 138, 145, 140, 151, 158, 164]
+    },
+    scroll: [
+      { depth: '0–25% · top', viewers: 2142, share: 100, drop: 0, time: '0:26', status: 'ok', statusLabel: 'Healthy' },
+      { depth: '25–50%', viewers: 1756, share: 82.0, drop: -18.0, time: '0:44', status: 'ok', statusLabel: 'Good' },
+      { depth: '50–75%', viewers: 1428, share: 66.7, drop: -18.7, time: '1:01', status: 'warn', statusLabel: 'Drop-off' },
+      { depth: '75–100%', viewers: 1018, share: 47.5, drop: -28.7, time: '1:19', status: 'warn', statusLabel: 'Watch' },
+      { depth: 'Bottom · 100%', viewers: 791, share: 36.9, drop: -22.3, time: '1:46', status: 'warn', statusLabel: 'Drop-off' }
+    ],
+    recent: [
+      { anon: true, action: 'Upvoted', time: '1m ago', device: 'Chrome · Windows', location: 'Austin, US' },
+      { name: 'Priya Nair', avatar: 'https://randomuser.me/api/portraits/women/44.jpg', action: 'Viewed for 2m 41s', time: '4m ago', device: 'Safari · macOS', location: 'Chennai, IN' },
+      { anon: true, action: 'Scrolled to 72% of page', time: '8m ago', device: 'Chrome · Android', location: 'Remote' },
+      { name: 'Liam O’Connor', avatar: 'https://randomuser.me/api/portraits/men/75.jpg', action: 'Scrolled to 54% of page', time: '12m ago', device: 'Edge · Windows', location: 'Dublin, IE' },
+      { name: 'Sofia García', avatar: 'https://randomuser.me/api/portraits/women/68.jpg', action: 'Upvoted & shared', time: '17m ago', device: 'Safari · iOS', location: 'Madrid, ES' },
+      { anon: true, action: 'Viewed for 1m 08s', time: '24m ago', device: 'Firefox · Linux', location: 'Remote' }
+    ],
+    insights: [
+      { icon: 'trending-up', title: 'Steady view growth', text: 'Daily viewers grew 9.7% vs the previous month, with the biggest gains in week three.' },
+      { icon: 'activity', title: 'Consistent 50% drop-off', text: 'Roughly 1 in 3 viewers leaves between 50–75%. Reordering the middle sections could lift it.' },
+      { icon: 'mouse-pointer-click', title: 'Upvotes follow deep reads', text: '86% of upvotes come from sessions that reach 75%+. Keep strong content near the end.' },
+      { icon: 'hourglass', title: 'Evening traffic rising', text: 'Evening (6–9 PM) visits grew 22% this month — test launch emails in that window.' }
+    ]
+  },
+
+  '90d': {
+    label: 'Last 90 days',
+    compare: 'vs previous 90 days',
+    labels: ['Jun 1', 'Jun 8', 'Jun 15', 'Jun 22', 'Jun 29', 'Jul 6', 'Jul 13', 'Jul 20', 'Jul 27', 'Aug 3', 'Aug 10', 'Aug 17'],
+    viewers: [74, 88, 83, 97, 112, 106, 125, 138, 131, 149, 158, 171],
+    upvotes: [22, 27, 25, 31, 36, 33, 41, 45, 42, 51, 55, 62],
+    kpi: {
+      viewers: '1,351', viewersDelta: 21.3, viewersSpark: [74, 88, 83, 97, 112, 106, 125, 138, 131, 149, 158, 171],
+      upvotes: '470', upvotesDelta: 14.8, upvotesSpark: [22, 27, 25, 31, 36, 33, 41, 45, 42, 51, 55, 62],
+      avgTime: '3m 58s', avgTimeDelta: 0.9, avgTimeSpark: [3.5, 3.7, 3.6, 3.9, 4.0, 3.8, 4.0, 4.1, 4.0, 4.2, 4.1, 4.3],
+      totalTime: '89.2 hrs', totalTimeDelta: 11.4, totalTimeSpark: [46, 51, 49, 55, 61, 58, 64, 68, 63, 71, 76, 82]
+    },
+    scroll: [
+      { depth: '0–25% · top', viewers: 1351, share: 100, drop: 0, time: '0:28', status: 'ok', statusLabel: 'Healthy' },
+      { depth: '25–50%', viewers: 1110, share: 82.2, drop: -17.8, time: '0:47', status: 'ok', statusLabel: 'Good' },
+      { depth: '50–75%', viewers: 897, share: 66.4, drop: -19.2, time: '1:04', status: 'warn', statusLabel: 'Drop-off' },
+      { depth: '75–100%', viewers: 651, share: 48.2, drop: -27.4, time: '1:21', status: 'warn', statusLabel: 'Watch' },
+      { depth: 'Bottom · 100%', viewers: 506, share: 37.5, drop: -22.3, time: '1:48', status: 'warn', statusLabel: 'Drop-off' }
+    ],
+    recent: [
+      { name: 'Hannah Lee', avatar: 'https://randomuser.me/api/portraits/women/21.jpg', action: 'Upvoted', time: '3m ago', device: 'Chrome · macOS', location: 'Seoul, KR' },
+      { anon: true, action: 'Scrolled to 59% of page', time: '7m ago', device: 'Safari · iOS', location: 'Remote' },
+      { name: 'Marco Rossi', avatar: 'https://randomuser.me/api/portraits/men/29.jpg', action: 'Viewed for 4m 02s', time: '11m ago', device: 'Chrome · Windows', location: 'Milan, IT' },
+      { anon: true, action: 'Scrolled to 33% of page', time: '16m ago', device: 'Firefox · macOS', location: 'Toronto, CA' },
+      { name: 'Aisha Bello', avatar: 'https://randomuser.me/api/portraits/women/47.jpg', action: 'Upvoted & shared', time: '22m ago', device: 'Safari · Android', location: 'Lagos, NG' },
+      { anon: true, action: 'Viewed for 2m 15s', time: '30m ago', device: 'Chrome · Windows', location: 'Remote' }
+    ],
+    insights: [
+      { icon: 'trending-up', title: 'Quarter on quarter growth', text: 'Views are up 21.3% vs the previous quarter — the last launch clearly moved the needle.' },
+      { icon: 'activity', title: 'Retention steady at ~48%', text: 'Half of all viewers still reach 75%. Focused on the 50–75% band for the next bump.' },
+      { icon: 'mouse-pointer-click', title: 'Week 3 spike', text: 'The mid-July feature update caused a 32% traffic spike that held its momentum.' },
+      { icon: 'smartphone', title: 'Mobile share climbing', text: 'Mobile now accounts for 44% of viewers, up from 37% three months ago.' }
+    ]
+  },
+
+  'all': {
+    label: 'All time',
+    compare: 'vs previous 6 months',
+    labels: ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+    viewers: [310, 428, 512, 647, 782, 924],
+    upvotes: [98, 132, 164, 205, 238, 271],
+    kpi: {
+      viewers: '3,603', viewersDelta: 18.2, viewersSpark: [310, 428, 512, 647, 782, 924],
+      upvotes: '1,108', upvotesDelta: 12.6, upvotesSpark: [98, 132, 164, 205, 238, 271],
+      avgTime: '4m 05s', avgTimeDelta: 1.2, avgTimeSpark: [3.4, 3.6, 3.8, 3.9, 4.1, 4.3],
+      totalTime: '245.6 hrs', totalTimeDelta: 9.8, totalTimeSpark: [104, 128, 152, 186, 221, 268]
+    },
+    scroll: [
+      { depth: '0–25% · top', viewers: 3603, share: 100, drop: 0, time: '0:29', status: 'ok', statusLabel: 'Healthy' },
+      { depth: '25–50%', viewers: 2960, share: 82.2, drop: -17.8, time: '0:49', status: 'ok', statusLabel: 'Good' },
+      { depth: '50–75%', viewers: 2384, share: 66.2, drop: -19.5, time: '1:06', status: 'warn', statusLabel: 'Drop-off' },
+      { depth: '75–100%', viewers: 1728, share: 48.0, drop: -27.5, time: '1:23', status: 'warn', statusLabel: 'Watch' },
+      { depth: 'Bottom · 100%', viewers: 1352, share: 37.5, drop: -21.8, time: '1:51', status: 'warn', statusLabel: 'Drop-off' }
+    ],
+    recent: [
+      { name: 'Dr. Elena Moreau', avatar: 'https://randomuser.me/api/portraits/women/33.jpg', action: 'Upvoted & shared', time: '2m ago', device: 'Safari · macOS', location: 'Paris, FR' },
+      { anon: true, action: 'Scrolled to 81% of page', time: '5m ago', device: 'Chrome · Android', location: 'Remote' },
+      { name: 'David Kim', avatar: 'https://randomuser.me/api/portraits/men/52.jpg', action: 'Viewed for 5m 44s', time: '9m ago', device: 'Chrome · Windows', location: 'Sydney, AU' },
+      { name: 'Fatima Zahra', avatar: 'https://randomuser.me/api/portraits/women/75.jpg', action: 'Scrolled to 66% of page', time: '13m ago', device: 'Firefox · macOS', location: 'Dubai, AE' },
+      { anon: true, action: 'Upvoted', time: '19m ago', device: 'Safari · iOS', location: 'Remote' },
+      { name: 'Oliver Smith', avatar: 'https://randomuser.me/api/portraits/men/11.jpg', action: 'Viewed for 1m 52s', time: '26m ago', device: 'Chrome · Windows', location: 'Manchester, GB' }
+    ],
+    insights: [
+      { icon: 'trending-up', title: 'Sustained momentum', text: 'Six consecutive months of growth — from 310 to 924 monthly viewers.' },
+      { icon: 'activity', title: 'Best quarter ever', text: 'Last 30 days recorded the highest upvote rate (18.4% of viewers) since launch.' },
+      { icon: 'mouse-pointer-click', title: 'Content depth pays off', text: 'Deck and demo sections hold viewers 2.4× longer than the intro — lean into them.' },
+      { icon: 'smartphone', title: 'Time to internationalise', text: '44% of recent viewers are now outside India — prepare translations and region pricing.' }
+    ]
+  }
+};
+
+function renderProductAnalyticsPage() {
+  const root = document.getElementById('productAnalyticsRoot');
+  if (!root) return;
+  paRender(root);
+}
+
+function paRender(root) {
+  const d = PA_DATA[paRange] || PA_DATA['7d'];
+
+  const kpiCards = [
+    { label: 'Total viewers', value: d.kpi.viewers, delta: d.kpi.viewersDelta, icon: 'eye', spark: d.kpi.viewersSpark },
+    { label: 'Total upvotes', value: d.kpi.upvotes, delta: d.kpi.upvotesDelta, icon: 'thumbs-up', spark: d.kpi.upvotesSpark },
+    { label: 'Avg viewing time', value: d.kpi.avgTime, delta: d.kpi.avgTimeDelta, icon: 'clock', spark: d.kpi.avgTimeSpark },
+    { label: 'Total time spent', value: d.kpi.totalTime, delta: d.kpi.totalTimeDelta, icon: 'timer', spark: d.kpi.totalTimeSpark }
+  ];
+
+  root.innerHTML = `
+    <!-- Hero Header + Range Filter -->
+    <div class="directory-hero-row pa-hero" style="align-items:center;">
+      <div class="directory-hero-titles">
+        <h1 class="directory-main-title">
+          <span>Product analytics</span>
+          <span class="badge-pill neutral-soft">Alpha Health 2.0</span>
+        </h1>
+        <p class="directory-main-subtitle">
+          Engagement, reach and scroll behaviour across your product page. Updated 5 minutes ago.
+        </p>
+      </div>
+      <div class="pa-hero-actions">
+        <div class="pa-range-seg">
+          <button class="pa-range-btn ${paRange === '7d' ? 'active' : ''}" onclick="paSetRange('7d')">7D</button>
+          <button class="pa-range-btn ${paRange === '30d' ? 'active' : ''}" onclick="paSetRange('30d')">30D</button>
+          <button class="pa-range-btn ${paRange === '90d' ? 'active' : ''}" onclick="paSetRange('90d')">90D</button>
+          <button class="pa-range-btn ${paRange === 'all' ? 'active' : ''}" onclick="paSetRange('all')">All</button>
+        </div>
+        <button class="btn btn-outline pa-export-btn" onclick="paExportReport()">
+          <i data-lucide="download" style="width:13px; height:13px;"></i>
+          <span>Export report</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- KPI Metric Cards -->
+    <div class="pa-kpi-row">
+      ${kpiCards.map(c => `
+        <div class="pa-kpi-card">
+          <div class="pa-kpi-top">
+            <span class="pa-kpi-icon"><i data-lucide="${c.icon}"></i></span>
+            <span class="pa-kpi-label">${c.label}</span>
+          </div>
+          <div class="pa-kpi-value">${c.value}</div>
+          <div class="pa-kpi-bottom">
+            <span class="pa-delta up"><i data-lucide="arrow-up-right" style="width:12px; height:12px;"></i> ${c.delta}%</span>
+            <span class="pa-kpi-sub">${d.compare}</span>
+          </div>
+          <div class="pa-kpi-spark">${paSparkline(c.spark)}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- Engagement chart + Recent viewers -->
+    <div class="pa-duo-row">
+      <div class="pa-chart-card">
+        <div class="pa-card-head">
+          <div>
+            <div class="pa-card-title">Engagement over time</div>
+            <div class="pa-card-sub">Viewers vs upvotes · ${d.label}</div>
+          </div>
+          <div class="pa-chart-legend">
+            <span class="pa-legend-item"><span class="pa-legend-dot dark"></span>Viewers</span>
+            <span class="pa-legend-item"><span class="pa-legend-dot gray"></span>Upvotes</span>
+          </div>
+        </div>
+        <div id="paEngChart" class="pa-chart-body"></div>
+      </div>
+
+      <div class="pa-viewers-card">
+        <div class="pa-card-head">
+          <div>
+            <div class="pa-card-title">Recent viewers</div>
+            <div class="pa-card-sub">Live activity · ${d.label}</div>
+          </div>
+          <span class="badge-pill neutral-soft">${d.recent.length}</span>
+        </div>
+        <div class="pa-viewer-list">
+          ${d.recent.map(v => paViewerRow(v)).join('')}
+        </div>
+        <button class="pa-see-all" onclick="if(window.showToast) window.showToast('Opening full visitor timeline...', 'info');">
+          <span>View all visitors</span>
+          <i data-lucide="chevron-right" style="width:13px; height:13px;"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Scroll depth + heatmap + table -->
+    <div class="pa-scroll-card">
+      <div class="pa-card-head">
+        <div>
+          <div class="pa-card-title">Scroll depth &amp; drop-off</div>
+          <div class="pa-card-sub">How far viewers scrolled through the page</div>
+        </div>
+        <div class="pa-heat-legend">
+          <span class="pa-legend-item"><span class="pa-legend-dot dark"></span>Reached</span>
+          <span class="pa-legend-item"><span class="pa-legend-dot light"></span>Dropped</span>
+        </div>
+      </div>
+
+      <!-- Heatmap band -->
+      <div class="pa-heatmap">
+        ${d.scroll.map(s => `
+          <div class="pa-heat-seg" style="flex:${s.share};">
+            <div class="pa-heat-fill" style="background:rgba(20,20,19,${0.10 + (s.share / 100) * 0.72});"></div>
+            <span class="pa-heat-val">${s.share}%</span>
+          </div>
+        `).join('')}
+      </div>
+      <div class="pa-heat-labels">
+        ${d.scroll.map(s => `<span>${s.depth}</span>`).join('')}
+      </div>
+
+      <table class="pa-table">
+        <thead>
+          <tr>
+            <th>Scroll depth</th>
+            <th class="pa-num">Viewers reached</th>
+            <th class="pa-num">Share</th>
+            <th class="pa-num">Drop-off</th>
+            <th class="pa-num">Avg. time at depth</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${d.scroll.map(s => `
+            <tr>
+              <td>
+                <div class="pa-depth-cell">
+                  <span class="pa-depth-dot" style="background:rgba(20,20,19,${0.18 + (s.share / 100) * 0.82});"></span>
+                  ${s.depth}
+                </div>
+              </td>
+              <td class="pa-num">${paFmt(s.viewers)}</td>
+              <td class="pa-num">${s.share}%</td>
+              <td class="pa-num">${s.drop < 0 ? `<span class="pa-drop">${s.drop}%</span>` : '—'}</td>
+              <td class="pa-num">${s.time}</td>
+              <td><span class="pa-status ${s.status}">${s.statusLabel}</span></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Key insights -->
+    <div class="pa-insights-card">
+      <div class="pa-card-head">
+        <div>
+          <div class="pa-card-title">Key insights</div>
+          <div class="pa-card-sub">Automated highlights from this period</div>
+        </div>
+        <span class="badge-pill neutral-soft">AI generated</span>
+      </div>
+      <div class="pa-insights-grid">
+        ${d.insights.map(i => `
+          <div class="pa-insight">
+            <div class="pa-insight-icon"><i data-lucide="${i.icon}"></i></div>
+            <div class="pa-insight-title">${i.title}</div>
+            <div class="pa-insight-text">${i.text}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+  paDrawChart();
+}
+
+function paSetRange(r) {
+  paRange = r;
+  const root = document.getElementById('productAnalyticsRoot');
+  if (root) paRender(root);
+}
+
+function paExportReport() {
+  const d = PA_DATA[paRange] || PA_DATA['7d'];
+  if (window.showToast) window.showToast(`Analytics report (${d.label}) exported as CSV`, 'success');
+}
+
+function handleAnalyticsSearch(input) {
+  const q = (input && input.value || '').trim();
+  if (q && window.showToast) {
+    window.showToast(`Searching analytics for "${q}"...`, 'info');
+  }
+}
+
+function paViewerRow(v) {
+  const avatar = v.anon
+    ? `<div class="pa-viewer-avatar anon"><i data-lucide="ghost" style="width:14px; height:14px;"></i></div>`
+    : `<div class="pa-viewer-avatar"><img src="${v.avatar}" alt="${escapeHtml(v.name)}" /></div>`;
+  return `
+    <div class="pa-viewer-row">
+      ${avatar}
+      <div class="pa-viewer-info">
+        <div class="pa-viewer-name">${v.anon ? 'Anonymous viewer' : escapeHtml(v.name)}</div>
+        <div class="pa-viewer-meta">${v.action} · ${v.time}</div>
+      </div>
+      <div class="pa-viewer-right">
+        <div class="pa-viewer-device">${v.device}</div>
+        <div class="pa-viewer-loc">${v.location}</div>
+      </div>
+    </div>
+  `;
+}
+
+function paFmt(n) {
+  if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+  return String(n);
+}
+
+function paSparkline(data, w = 118, h = 34) {
+  const max = Math.max.apply(null, data);
+  const min = Math.min.apply(null, data);
+  const span = (max - min) || 1;
+  const pts = data.map((v, i) => [
+    (i / (data.length - 1)) * w,
+    h - 4 - ((v - min) / span) * (h - 10)
+  ]);
+  const line = pts.map(p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
+  const area = `M0,${h} L${line.replace(/ /g, ' L')} L${w},${h} Z`;
+  return `
+    <svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="paSparkFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#141413" stop-opacity="0.12"/>
+          <stop offset="100%" stop-color="#141413" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <polygon points="${area}" fill="url(#paSparkFill)"/>
+      <polyline points="${line}" fill="none" stroke="#141413" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+}
+
+function paDrawChart() {
+  const chartEl = document.getElementById('paEngChart');
+  if (!chartEl) return;
+  const d = PA_DATA[paRange] || PA_DATA['7d'];
+
+  // Destroy any previous Apex instance
+  if (window.__paChart) {
+    try { window.__paChart.destroy(); } catch (e) {}
+    window.__paChart = null;
+  }
+
+  if (typeof ApexCharts === 'undefined') {
+    paFallbackChart(chartEl, d);
+    return;
+  }
+
+  const opts = {
+    chart: {
+      type: 'area',
+      height: 268,
+      toolbar: { show: false },
+      fontFamily: 'Inter, -apple-system, sans-serif',
+      foreColor: '#666662',
+      parentHeightOffset: 0,
+      zoom: { enabled: false },
+      animations: { enabled: true }
+    },
+    series: [
+      { name: 'Viewers', data: d.viewers },
+      { name: 'Upvotes', data: d.upvotes }
+    ],
+    colors: ['#141413', '#94948E'],
+    stroke: { curve: 'smooth', width: [2.5, 2], dashArray: [0, 0] },
+    fill: {
+      type: 'gradient',
+      gradient: { shadeIntensity: 1, opacityFrom: 0.25, opacityTo: 0.02, stops: [0, 95] }
+    },
+    dataLabels: { enabled: false },
+    grid: { borderColor: '#EFEFEA', strokeDashArray: 4, padding: { left: 0, right: 0 } },
+    xaxis: {
+      categories: d.labels,
+      axisBorder: { show: false },
+      axisTicks: { show: false },
+      labels: { style: { fontSize: '10px', colors: '#94948E' } }
+    },
+    yaxis: {
+      labels: { formatter: (v) => v >= 1000 ? (v / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : v, style: { fontSize: '10px', colors: '#94948E' } },
+      axisBorder: { show: false }
+    },
+    legend: {
+      show: true,
+      position: 'top',
+      horizontalAlign: 'left',
+      fontSize: '11px',
+      markers: { size: 4, shape: 'circle', strokeWidth: 0 },
+      itemMargin: { horizontal: 12, vertical: 0 }
+    },
+    tooltip: { theme: 'light', x: { show: true } }
+  };
+
+  window.__paChart = new ApexCharts(chartEl, opts);
+  window.__paChart.render();
+}
+
+function paFallbackChart(el, d) {
+  const w = 560, h = 250, padL = 36, padR = 8, padT = 12, padB = 24;
+  const n = d.viewers.length;
+  const max = Math.max.apply(null, d.viewers.concat(d.upvotes));
+  const innerW = w - padL - padR;
+  const innerH = h - padT - padB;
+  const px = i => padL + (i / (n - 1 || 1)) * innerW;
+  const py = v => padT + (1 - v / max) * innerH;
+
+  const grid = [0, 0.25, 0.5, 0.75, 1].map(f => {
+    const y = padT + innerH * f;
+    return `<line x1="${padL}" y1="${y}" x2="${padL + innerW}" y2="${y}" stroke="#EFEFEA" stroke-width="1"/>`;
+  }).join('');
+
+  const yLab = [0, 0.25, 0.5, 0.75, 1].map(f => {
+    const y = padT + innerH * f;
+    return `<text x="${padL - 7}" y="${y + 3}" text-anchor="end" font-size="9" fill="#94948E">${Math.round(max * (1 - f))}</text>`;
+  }).join('');
+
+  const xLab = d.labels.map((l, i) => {
+    if (n > 12 && i % Math.ceil(n / 6) !== 0) return '';
+    return `<text x="${px(i)}" y="${h - 6}" text-anchor="middle" font-size="9" fill="#94948E">${l}</text>`;
+  }).join('');
+
+  const vline = d.viewers.map((v, i) => `${px(i).toFixed(1)},${py(v).toFixed(1)}`).join(' ');
+  const uline = d.upvotes.map((v, i) => `${px(i).toFixed(1)},${py(v).toFixed(1)}`).join(' ');
+  const area = `${padL},${padT + innerH} L${vline.replace(/ /g, ' L')} L${padL + innerW},${padT + innerH} Z`;
+
+  el.innerHTML = `
+    <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto; display:block;">
+      ${grid}${yLab}${xLab}
+      <polygon points="${area}" fill="rgba(20,20,19,0.06)"/>
+      <polyline points="${vline}" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="${uline}" fill="none" stroke="#94948E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 3"/>
+    </svg>
+  `;
+}
+
+window.renderProductAnalyticsPage = renderProductAnalyticsPage;
+window.paSetRange = paSetRange;
+window.paExportReport = paExportReport;
+window.handleAnalyticsSearch = handleAnalyticsSearch;

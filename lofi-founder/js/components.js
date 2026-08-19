@@ -90,7 +90,7 @@ const FounderLayoutComponents = {
           </a>
 
           <!-- 3. Product Analytics -->
-          <a href="#analytics" class="sidebar-nav-item ${isActive('analytics')}" onclick="handleNavClick('analytics')" data-tooltip="Product Analytics">
+          <a href="./product-analytics.html" class="sidebar-nav-item ${isActive('analytics')}" data-tooltip="Product Analytics">
             <div class="sidebar-nav-item-left">
               <i data-lucide="bar-chart-2"></i>
               <span>Product Analytics</span>
@@ -103,7 +103,7 @@ const FounderLayoutComponents = {
           <div class="nav-group-label">Fundraising &amp; Diligence</div>
 
           <!-- 4. Pitch Deck Reviewer -->
-          <a href="#deck-reviewer" class="sidebar-nav-item ${isActive('deck')}" onclick="handleNavClick('deck')" data-tooltip="Pitch Deck Reviewer">
+          <a href="./pitch-deck-reviewer.html" class="sidebar-nav-item ${isActive('deck')}" data-tooltip="Pitch Deck Reviewer">
             <div class="sidebar-nav-item-left">
               <i data-lucide="presentation"></i>
               <span>Pitch Deck Reviewer</span>
@@ -111,7 +111,16 @@ const FounderLayoutComponents = {
             <span class="sidebar-nav-count" style="font-size:10px; font-weight:700; background:var(--bg-muted); padding:1px 5px; border-radius:3px;">AI</span>
           </a>
 
-          <!-- 5. Due-Diligence Checklist -->
+          <!-- 5. Investor Tracking (CRM) -->
+          <a href="./investor-tracking.html" class="sidebar-nav-item ${isActive('investors')}" data-tooltip="Investor Tracking">
+            <div class="sidebar-nav-item-left">
+              <i data-lucide="handshake"></i>
+              <span>Investor Tracking</span>
+            </div>
+            <span class="sidebar-nav-count">(3)</span>
+          </a>
+
+          <!-- 6. Due-Diligence Checklist -->
           <a href="./due-diligence.html" class="sidebar-nav-item ${isActive('diligence')}" data-tooltip="Due-Diligence Checklist">
             <div class="sidebar-nav-item-left">
               <i data-lucide="shield-check"></i>
