@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pageNav = 'grants';
   } else if (pathName.includes('problems')) {
     pageNav = 'problems';
-  } else if (pathName.includes('network')) {
+  } else if (pathName.includes('founder-detail') || pathName.includes('network')) {
     pageNav = 'network';
   } else if (pathName.includes('challenges')) {
     pageNav = 'challenges';
@@ -269,6 +269,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // If on Founder Network Page, render founders + premium investors
   if (document.getElementById('founderNetworkList')) {
     renderFounderNetwork();
+  }
+
+  // If on Founder Detail Page, render LinkedIn-style profile
+  if (document.getElementById('founderDetailRoot')) {
+    renderFounderDetailPage();
   }
 
   // If on Government Grants Directory Page
@@ -441,8 +446,8 @@ function renderProductDirectoryStream(items) {
 
   const filtered = items.filter(item => {
     const matchesCategory = currentCategoryFilter === 'all' || item.category.toLowerCase() === currentCategoryFilter.toLowerCase() || item.tags.some(t => t.toLowerCase() === currentCategoryFilter.toLowerCase());
-    const matchesSearch = !currentSearchQuery || 
-      item.name.toLowerCase().includes(currentSearchQuery) || 
+    const matchesSearch = !currentSearchQuery ||
+      item.name.toLowerCase().includes(currentSearchQuery) ||
       item.tagline.toLowerCase().includes(currentSearchQuery) ||
       item.founder.toLowerCase().includes(currentSearchQuery) ||
       item.tags.some(t => t.toLowerCase().includes(currentSearchQuery));
@@ -612,8 +617,8 @@ function renderProductDetailPage() {
     <div class="pd-hero">
       <div class="pd-hero-logo">
         ${item.logo
-          ? `<img src="${item.logo}" alt="${item.name} logo" class="startup-logo-img" onerror="this.outerHTML='<div class=\\'startup-logo-fallback\\'>${item.name.slice(0, 2).toUpperCase()}</div>'" />`
-          : `<div class="startup-logo-fallback">${item.name.slice(0, 2).toUpperCase()}</div>`}
+      ? `<img src="${item.logo}" alt="${item.name} logo" class="startup-logo-img" onerror="this.outerHTML='<div class=\\'startup-logo-fallback\\'>${item.name.slice(0, 2).toUpperCase()}</div>'" />`
+      : `<div class="startup-logo-fallback">${item.name.slice(0, 2).toUpperCase()}</div>`}
       </div>
 
       <div class="pd-hero-info">
@@ -846,7 +851,7 @@ function getCurrentPdItem() {
   return window.PRODUCT_DIRECTORY_DATA.find(p => p.id === (params.get('id') || 'linear'));
 }
 
-window.playDemoVideoModal = function(name) {
+window.playDemoVideoModal = function (name) {
   openModal(`${name} — Product walkthrough`, `
     <div style="aspect-ratio:16/9; border-radius:8px; overflow:hidden; background:#0F0F0E; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; border:1px solid var(--border-main); padding:20px; text-align:center;">
       <div style="width:52px; height:52px; border-radius:50%; background:#FFFFFF; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(0,0,0,0.3);">
@@ -1637,10 +1642,10 @@ async function fetchBrandLogoForWizard() {
       headers: { Authorization: `Bearer ${BRANDFETCH_API_KEY}` }
     });
     const data = await res.json();
-    
-    const iconUrl = data.logos?.find(l => l.type === 'icon' || l.type === 'symbol')?.formats?.[0]?.src || 
-                    data.logos?.find(l => l.type === 'logo')?.formats?.[0]?.src || 
-                    data.icon;
+
+    const iconUrl = data.logos?.find(l => l.type === 'icon' || l.type === 'symbol')?.formats?.[0]?.src ||
+      data.logos?.find(l => l.type === 'logo')?.formats?.[0]?.src ||
+      data.icon;
 
     if (iconUrl) {
       wizardFormData.logo = iconUrl;
@@ -1711,7 +1716,7 @@ function submitListingForm() {
 // ──────────────────────────────────────────────────────────────────────────
 // 06. GENERIC MODAL, DRAWER & TOAST HELPERS
 // ──────────────────────────────────────────────────────────────────────────
-window.openModal = function(title, contentHtml) {
+window.openModal = function (title, contentHtml) {
   let overlay = document.getElementById('modalOverlay');
   let titleEl = document.getElementById('modalTitle');
   let bodyEl = document.getElementById('modalBody');
@@ -1742,7 +1747,7 @@ window.openModal = function(title, contentHtml) {
   if (bodyEl) bodyEl.innerHTML = contentHtml;
   if (overlay) {
     overlay.style.display = 'flex';
-    overlay.onclick = function(e) {
+    overlay.onclick = function (e) {
       if (e.target === overlay) window.closeModal();
     };
   }
@@ -1751,12 +1756,12 @@ window.openModal = function(title, contentHtml) {
 
 window.showModal = window.openModal;
 
-window.closeModal = function() {
+window.closeModal = function () {
   const overlay = document.getElementById('modalOverlay');
   if (overlay) overlay.style.display = 'none';
 };
 
-window.openDrawer = function(title, subtitle, bodyHtml, footerHtml = '') {
+window.openDrawer = function (title, subtitle, bodyHtml, footerHtml = '') {
   let backdrop = document.getElementById('drawerBackdrop');
   let panel = document.getElementById('drawerPanel');
 
@@ -1795,7 +1800,7 @@ window.openDrawer = function(title, subtitle, bodyHtml, footerHtml = '') {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 };
 
-window.closeDrawer = function() {
+window.closeDrawer = function () {
   const backdrop = document.getElementById('drawerBackdrop');
   const panel = document.getElementById('drawerPanel');
   if (panel) {
@@ -1807,7 +1812,7 @@ window.closeDrawer = function() {
   }
 };
 
-window.showToast = function(message, icon = 'info') {
+window.showToast = function (message, icon = 'info') {
   const container = document.getElementById('toastContainer');
   if (!container) return;
 
@@ -2085,12 +2090,12 @@ function founderAvatarHtml(f) {
 function founderRowHtml(f) {
   const domain = String(f.website || '').replace(/^https?:\/\/(www\.)?/, '').split('/')[0];
   const msgBtn = f.messageEnabled
-    ? `<button class="fn-message-btn" onclick="openFounderDrawer('${f.id}')"><i data-lucide="message-square"></i> Message</button>`
-    : `<button class="fn-message-btn locked" onclick="openFounderDrawer('${f.id}')" title="Messaging requires a verified profile"><i data-lucide="lock"></i> Message</button>`;
+    ? `<button class="fn-message-btn" onclick="event.stopPropagation(); openFounderDrawer('${f.id}')"><i data-lucide="message-square"></i> Message</button>`
+    : `<button class="fn-message-btn locked" onclick="event.stopPropagation(); openFounderDrawer('${f.id}')" title="Messaging requires a verified profile"><i data-lucide="lock"></i> Message</button>`;
 
   return `
     <div class="fn-row">
-      <div class="fn-main">
+      <div class="fn-main fn-clickable" onclick="window.location.href='./founder-detail.html?id=${f.id}'" title="View profile">
         <div class="fn-avatar-wrap">
           <div class="fn-avatar">${founderAvatarHtml(f)}</div>
           ${f.verified ? `<span class="fn-verified-badge" title="Verified Founder"><i data-lucide="badge-check"></i></span>` : ''}
@@ -2113,7 +2118,10 @@ function founderRowHtml(f) {
           </div>
         </div>
       </div>
-      <div class="fn-actions">${msgBtn}</div>
+      <div class="fn-actions">
+        ${msgBtn}
+        <button class="fn-view-btn" onclick="window.location.href='./founder-detail.html?id=${f.id}'"><i data-lucide="user"></i> View profile</button>
+      </div>
     </div>`;
 }
 
@@ -2149,7 +2157,7 @@ function investorRowHtml(inv) {
     </div>`;
 }
 
-window.renderFounderNetwork = function(filter) {
+window.renderFounderNetwork = function (filter) {
   const stream = document.getElementById('founderNetworkList');
   if (!stream) return;
 
@@ -2158,11 +2166,11 @@ window.renderFounderNetwork = function(filter) {
 
   const list = q
     ? items.filter(it => {
-        const hay = it.kind === 'investor'
-          ? [it.name, it.type, it.sectors.join(' ')].join(' ').toLowerCase()
-          : [it.name, it.company, it.designation, it.tagline, it.location].join(' ').toLowerCase();
-        return hay.includes(q);
-      })
+      const hay = it.kind === 'investor'
+        ? [it.name, it.type, it.sectors.join(' ')].join(' ').toLowerCase()
+        : [it.name, it.company, it.designation, it.tagline, it.location].join(' ').toLowerCase();
+      return hay.includes(q);
+    })
     : items;
 
   const badge = document.getElementById('founderCountBadge');
@@ -2175,7 +2183,7 @@ window.renderFounderNetwork = function(filter) {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 };
 
-window.handleFounderSearch = function(input) {
+window.handleFounderSearch = function (input) {
   if (window.renderFounderNetwork) renderFounderNetwork(input.value);
 };
 
@@ -2183,7 +2191,7 @@ function founderById(id) {
   return (window.FOUNDER_NETWORK_ITEMS || []).find(x => x.kind === 'founder' && x.id === id);
 }
 
-window.openFounderDrawer = function(id) {
+window.openFounderDrawer = function (id) {
   const f = founderById(id);
   if (!f) return;
 
@@ -2227,7 +2235,7 @@ window.openFounderDrawer = function(id) {
         <div class="chat-head-status"><span class="status-dot"></span> Online · usually replies within a few hours</div>
       </div>
       <div class="chat-head-actions">
-        <button class="chat-profile-btn" onclick="closeDrawer(); if(window.showToast) window.showToast('Opening ${f.name}&#39;s profile...')"><i data-lucide="user"></i> Profile</button>
+        <button class="chat-profile-btn" onclick="closeDrawer(); window.location.href='./founder-detail.html?id=${f.id}'"><i data-lucide="user"></i> Profile</button>
         <button class="btn-icon" onclick="closeDrawer()" title="Close"><i data-lucide="x"></i></button>
       </div>
     </div>
@@ -2255,7 +2263,7 @@ window.openFounderDrawer = function(id) {
   setTimeout(() => { const i = document.getElementById('chatInput'); if (i) i.focus(); }, 120);
 };
 
-window.sendFounderMessage = function(id) {
+window.sendFounderMessage = function (id) {
   const input = document.getElementById('chatInput');
   if (!input) return;
   const text = input.value.trim();
@@ -2276,7 +2284,7 @@ window.sendFounderMessage = function(id) {
   if (window.showToast) window.showToast(f ? `Message sent to ${f.name}` : 'Message sent', 'success');
 };
 
-window.openMessagesNavDrawer = function() {
+window.openMessagesNavDrawer = function () {
   const convos = (window.FOUNDER_NETWORK_ITEMS || []).filter(x => x.kind === 'founder' && x.messageEnabled);
   const body = `
     <div class="conv-list">
@@ -2301,7 +2309,409 @@ window.openMessagesNavDrawer = function() {
   window.openDrawer('Messages', 'Recent conversations with founders', body);
 };
 
-window.openPaywallModal = function() {
+/* ══════════════════════════════════════════════════════════════════════════
+   FOUNDER DETAILS — LinkedIn-style internal profile page
+   (banner, profile photo, identity, actions, about, experience,
+    education, founding team, contact info, verification)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+window.FOUNDER_DETAILS = {
+  'amara-okafor': {
+    phone: '+234 803 555 0192',
+    country: 'Nigeria',
+    city: 'Lagos',
+    bio: 'Healthcare technologist and founder building AI-powered maternal care for emerging markets. Over a decade of shipping digital health products across West Africa, where fragmented maternal-care infrastructure puts mothers at risk. Previously scaled a telemedicine product to 210k monthly users before acquisition.',
+    experience: [
+      { company: 'Nova Health', role: 'Founder & CEO', start: 'Jan 2023', end: 'Present', current: true, desc: 'Leading product, partnerships and fundraising for an AI maternal-care platform serving 40k+ mothers across Nigeria and Kenya.' },
+      { company: 'MedEase (Acquired)', role: 'Product Lead', start: 'Mar 2018', end: 'Dec 2022', current: false, desc: 'Built telemedicine triage used by 120+ clinics; scaled monthly users from 4k to 210k before acquisition.' },
+      { company: 'Lagos State Ministry of Health', role: 'Health Innovation Specialist', start: 'Jun 2015', end: 'Feb 2018', current: false, desc: 'Ran digital-health pilots across 30 primary health centres in the state.' }
+    ],
+    education: [
+      { institution: 'University of Lagos', course: 'MSc, Health Informatics', start: '2013', end: '2015', current: false },
+      { institution: 'Covenant University', course: 'BSc, Computer Science', start: '2009', end: '2013', current: false }
+    ],
+    team: [
+      { name: 'Chidinma Obi', role: 'Co-Founder & COO', email: 'chidinma@novahealth.ai', linkedin: 'https://linkedin.com/in/chidinmaobi' },
+      { name: 'Tunde Adeyemi', role: 'Co-Founder & CTO', email: 'tunde@novahealth.ai', linkedin: 'https://linkedin.com/in/tundeadyemi' }
+    ]
+  },
+  'daniel-reyes': {
+    phone: '+1 512 555 0187',
+    country: 'USA',
+    city: 'Austin, Texas',
+    bio: 'Product-minded engineer and co-founder of Stackform — the fastest way to ship internal tools. Previously built developer infrastructure at GitHub and led platform engineering at Hashlabs. Passionate about DX, devtools and boring-on-the-outside software.',
+    experience: [
+      { company: 'Stackform', role: 'Co-Founder & CTO', start: 'Mar 2022', end: 'Present', current: true, desc: 'Designing the runtime, SDK and control plane that powers Stackform\'s internal-tooling platform.' },
+      { company: 'Hashlabs', role: 'Senior Software Engineer', start: 'Jun 2018', end: 'Feb 2022', current: false, desc: 'Led the platform team behind a multi-tenant SaaS serving 40k developers.' },
+      { company: 'GitHub', role: 'Software Engineer', start: 'Jan 2016', end: 'May 2018', current: false, desc: 'Worked on repository tooling used by millions of developers.' }
+    ],
+    education: [
+      { institution: 'University of Texas at Austin', course: 'BSc, Computer Science', start: '2011', end: '2015', current: false }
+    ],
+    team: [
+      { name: 'Emily Grant', role: 'Co-Founder & CEO', email: 'emily@stackform.dev', linkedin: 'https://linkedin.com/in/emilygrant' },
+      { name: 'Marcus Lee', role: 'Co-Founder & Head of Design', email: 'marcus@stackform.dev', linkedin: 'https://linkedin.com/in/marcuslee' }
+    ]
+  },
+  'priya-nair': {
+    phone: '+91 98450 12345',
+    country: 'India',
+    city: 'Bengaluru, Karnataka',
+    bio: 'Fintech builder and founder of Finloop — neobanking rails built for gig-economy workers. Ex-product leader at Niyo and Razorpay, with a decade of experience turning complex money movement into simple, delightful products.',
+    experience: [
+      { company: 'Finloop', role: 'Founder & CEO', start: 'Jun 2021', end: 'Present', current: true, desc: 'Building neobanking infrastructure for gig workers across India, now live in 14 cities.' },
+      { company: 'Niyo', role: 'Head of Product', start: 'Jan 2018', end: 'May 2021', current: false, desc: 'Owned product for salary-advance and forex products serving 1.2M customers.' },
+      { company: 'Razorpay', role: 'Senior Product Manager', start: 'Aug 2015', end: 'Dec 2017', current: false, desc: 'Shipped payment-link and subscription billing products now used by 300k+ businesses.' }
+    ],
+    education: [
+      { institution: 'IIM Bangalore', course: 'MBA, Finance & Strategy', start: '2013', end: '2015', current: false },
+      { institution: 'NIT Trichy', course: 'B.Tech, Computer Science', start: '2008', end: '2012', current: false }
+    ],
+    team: [
+      { name: 'Vikram Rao', role: 'Co-Founder & CTO', email: 'vikram@finloop.in', linkedin: 'https://linkedin.com/in/vikramrao' },
+      { name: 'Neha Kulkarni', role: 'Co-Founder & Head of Growth', email: 'neha@finloop.in', linkedin: 'https://linkedin.com/in/nehakulkarni' }
+    ]
+  },
+  'tom-becker': {
+    phone: '+49 151 5550 2277',
+    country: 'Germany',
+    city: 'Berlin',
+    bio: 'Climate engineer and founder of Greenlyte — carbon capture that finally makes economic sense. A decade in carbontech, from research at ETH Zürich to leading engineering at Climeworks.',
+    experience: [
+      { company: 'Greenlyte', role: 'Founder & CEO', start: 'Feb 2022', end: 'Present', current: true, desc: 'Building low-cost direct-air-capture technology with a pilot plant in Germany.' },
+      { company: 'Climeworks', role: 'Director of Engineering', start: 'Apr 2018', end: 'Jan 2022', current: false, desc: 'Led the engineering org behind commercial DAC plants in Iceland and Switzerland.' },
+      { company: 'Siemens Energy', role: 'Senior Research Engineer', start: 'Sep 2013', end: 'Mar 2018', current: false, desc: 'Developed next-gen carbon-capture processes for industrial point sources.' }
+    ],
+    education: [
+      { institution: 'ETH Zürich', course: 'PhD, Process Engineering', start: '2011', end: '2014', current: false },
+      { institution: 'TU München', course: 'MSc, Chemical Engineering', start: '2007', end: '2010', current: false }
+    ],
+    team: [
+      { name: 'Lina Brandt', role: 'Co-Founder & CTO', email: 'lina@greenlyte.co', linkedin: 'https://linkedin.com/in/linabrandt' }
+    ]
+  },
+  'sofia-marino': {
+    phone: '+39 02 5550 8834',
+    country: 'Italy',
+    city: 'Milan',
+    bio: 'Design-driven co-founder of Cartwise — headless checkout for modern DTC brands. Former product designer at Shopify and e-commerce lead at Bottega Veneta. Obsessed with conversion, craft and conversion-optimised commerce.',
+    experience: [
+      { company: 'Cartwise', role: 'Co-Founder', start: 'Sep 2022', end: 'Present', current: true, desc: 'Co-leading product and design for a headless checkout platform used by 900+ DTC brands.' },
+      { company: 'Shopify', role: 'Product Designer', start: 'May 2019', end: 'Aug 2022', current: false, desc: 'Designed the one-page checkout now used by a third of Shopify merchants.' },
+      { company: 'Bottega Veneta', role: 'E-commerce Lead', start: 'Jan 2016', end: 'Apr 2019', current: false, desc: 'Led the brand\'s DTC e-commerce experience across 12 markets.' }
+    ],
+    education: [
+      { institution: 'Politecnico di Milano', course: 'MSc, Interaction Design', start: '2014', end: '2016', current: false },
+      { institution: 'University of Milan', course: 'BA, Art History', start: '2010', end: '2013', current: false }
+    ],
+    team: [
+      { name: 'Marco Ricci', role: 'Co-Founder & CEO', email: 'marco@cartwise.io', linkedin: 'https://linkedin.com/in/marcoricci' },
+      { name: 'Giulia Ferrari', role: 'Co-Founder & CMO', email: 'giulia@cartwise.io', linkedin: 'https://linkedin.com/in/giuliaferrari' }
+    ]
+  },
+  'rahul-mehta': {
+    phone: '+1 415 555 0166',
+    country: 'USA',
+    city: 'San Francisco, California',
+    bio: 'Founder of AIdentify — enterprise-grade AI identity verification. Previously led identity product at Plaid and was an early PM at Sift. Backed by a simple thesis: trust is the most valuable thing on the internet.',
+    experience: [
+      { company: 'AIdentify', role: 'Founder & CEO', start: 'Jan 2021', end: 'Present', current: true, desc: 'Building AI identity-verification infrastructure used by 200+ enterprises.' },
+      { company: 'Plaid', role: 'Head of Product, Identity', start: 'Feb 2018', end: 'Dec 2020', current: false, desc: 'Launched identity and income products adopted by 8 of the top 10 US banks.' },
+      { company: 'Sift', role: 'Product Manager', start: 'Jul 2015', end: 'Jan 2018', current: false, desc: 'Shipped fraud-prevention products protecting $40B+ in annual transactions.' }
+    ],
+    education: [
+      { institution: 'Stanford University', course: 'MS, Management Science & Engineering', start: '2013', end: '2015', current: false },
+      { institution: 'IIT Delhi', course: 'B.Tech, Computer Science', start: '2008', end: '2012', current: false }
+    ],
+    team: [
+      { name: 'Meera Patel', role: 'Co-Founder & CTO', email: 'meera@aidentify.ai', linkedin: 'https://linkedin.com/in/meerapatel' }
+    ]
+  }
+};
+
+function fdDefaults(f) {
+  return {
+    phone: '—',
+    country: String(f.location || '').split(',').pop().trim(),
+    city: String(f.location || '').split(',')[0].trim(),
+    bio: f.tagline || '',
+    experience: [{ company: f.company, role: f.designation, start: '—', end: 'Present', current: true, desc: '' }],
+    education: [],
+    team: []
+  };
+}
+
+function fdInitials(name) {
+  return String(name).split(' ').map(w => w && w[0]).slice(0, 2).join('').toUpperCase();
+}
+
+function fdDates(entry) {
+  if (entry.start === '—') return entry.end || '';
+  const sep = entry.current ? ' – Present' : entry.end ? ` – ${entry.end}` : '';
+  return `${entry.start}${sep}`;
+}
+
+function fdExpRow(e) {
+  return `
+    <div class="fd-exp-row">
+      <div class="fd-logo">${fdInitials(e.company)}</div>
+      <div class="fd-exp-info">
+        <div class="fd-exp-role">${escapeHtml(e.role)}</div>
+        <div class="fd-exp-company">${escapeHtml(e.company)}</div>
+        <div class="fd-exp-dates">${fdDates(e)}</div>
+        ${e.desc ? `<p class="fd-exp-desc">${e.desc}</p>` : ''}
+      </div>
+    </div>`;
+}
+
+function fdEduRow(e) {
+  return `
+    <div class="fd-exp-row">
+      <div class="fd-logo">${fdInitials(e.institution)}</div>
+      <div class="fd-exp-info">
+        <div class="fd-exp-role">${escapeHtml(e.course)}</div>
+        <div class="fd-exp-company">${escapeHtml(e.institution)}</div>
+        <div class="fd-exp-dates">${e.start}${e.current ? ' – Present' : e.end ? ` – ${e.end}` : ''}</div>
+      </div>
+    </div>`;
+}
+
+function fdTeamRow(m) {
+  return `
+    <div class="fd-team-row">
+      <div class="fd-team-avatar">${fdInitials(m.name)}</div>
+      <div class="fd-team-info">
+        <div class="fd-team-name">${escapeHtml(m.name)}</div>
+        <div class="fd-team-role">${escapeHtml(m.role || 'Co-Founder')}</div>
+      </div>
+      <div class="fd-team-links">
+        ${m.email ? `<a class="fd-team-link" href="mailto:${escapeHtml(m.email)}" title="${escapeHtml(m.email)}"><i data-lucide="mail"></i></a>` : ''}
+        ${m.linkedin ? `<a class="fd-team-link" href="${escapeHtml(m.linkedin)}" target="_blank" rel="noopener" title="LinkedIn"><img src="./assets/linkedin.png" class="fn-linkedin-icon" alt="LinkedIn" /></a>` : ''}
+      </div>
+    </div>`;
+}
+
+window.renderFounderDetailPage = function () {
+  const root = document.getElementById('founderDetailRoot');
+  if (!root) return;
+
+  let id = '';
+  try { id = new URLSearchParams(window.location.search).get('id') || ''; } catch (e) { }
+
+  const f = founderById(id);
+  if (!f) {
+    root.innerHTML = `
+      <div style="padding:60px 14px; text-align:center;">
+        <div style="font-size:14px; font-weight:800; color:var(--text-dark); margin-bottom:6px;">Founder profile not found</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-bottom:18px;">The profile you are looking for may have been removed.</div>
+        <button class="btn btn-outline" onclick="window.location.href='./founder-network.html'"><i data-lucide="arrow-left" style="width:13px;height:13px;"></i> Back to founder network</button>
+      </div>`;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    return;
+  }
+
+  const crumb = document.getElementById('fdBreadcrumbName');
+  if (crumb) crumb.textContent = f.name;
+
+  const det = window.FOUNDER_DETAILS[id] || fdDefaults(f);
+  const expRows = (det.experience && det.experience.length ? det.experience : fdDefaults(f).experience).map(fdExpRow).join('');
+  const eduRows = (det.education || []).length ? det.education.map(fdEduRow).join('') : '<div class="fd-empty">No education added yet. Auto-fill from LinkedIn to populate this section.</div>';
+  const teamRows = (det.team || []).length ? det.team.map(fdTeamRow).join('') : '<div class="fd-empty">No co-founders added yet. Use &ldquo;Add member&rdquo; to build your founding team.</div>';
+
+  const verified = !!f.verified;
+  const msgBtn = f.messageEnabled
+    ? `<button class="btn btn-primary" onclick="openFounderDrawer('${f.id}')"><i data-lucide="message-square" style="width:13px;height:13px;"></i> Message</button>`
+    : `<button class="btn btn-primary" onclick="if(window.showToast) window.showToast('Your profile needs to be verified to message.', 'alert')"><i data-lucide="lock" style="width:13px;height:13px;"></i> Message</button>`;
+
+  root.innerHTML = `
+    <div class="fd-header-card">
+      <div class="fd-banner"></div>
+      <div class="fd-header-body">
+        <div class="fd-photo-row">
+          <div class="fd-avatar-wrap">
+            <div class="fd-avatar">
+              ${f.avatar ? `<img src="${f.avatar}" alt="${escapeHtml(f.name)}" onerror="this.outerHTML='<div class=\\'fd-avatar-init\\'>${fdInitials(f.name)}</div>'" />` : `<div class="fd-avatar-init">${fdInitials(f.name)}</div>`}
+            </div>
+            ${verified ? `<span class="fd-verified" title="Verified founder"><i data-lucide="badge-check"></i></span>` : ''}
+          </div>
+          <div class="fd-identity">
+            <div class="fd-name">${escapeHtml(f.name)}</div>
+            <div class="fd-headline">${escapeHtml(f.designation)} at ${escapeHtml(f.company)}</div>
+            <div class="fd-loc-line">
+              <i data-lucide="map-pin" style="width:12px;height:12px;"></i>
+              <span>${escapeHtml(det.city)}, ${escapeHtml(det.country)}</span>
+              <span class="fd-dot">&middot;</span>
+              <span>500+ connections</span>
+              <span class="fd-dot">&middot;</span>
+              <span>24 mutual connections</span>
+            </div>
+          </div>
+        </div>
+        <div class="fd-actions">
+          ${msgBtn}
+          <button class="btn btn-outline" onclick="if(window.showToast) window.showToast('Connection request sent to ${f.name}', 'success')"><i data-lucide="user-plus" style="width:13px;height:13px;"></i> Connect</button>
+          <a class="btn btn-outline" href="${escapeHtml(f.linkedin)}" target="_blank" rel="noopener"><img src="./assets/linkedin.png" class="fn-linkedin-icon" alt="LinkedIn" /> LinkedIn</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="fd-grid">
+      <div class="fd-main">
+
+        <div class="fd-card">
+          <div class="fd-card-title">About</div>
+          <p class="fd-about-text">${escapeHtml(det.bio) || 'No bio yet. Auto-fill from LinkedIn to populate this section.'}</p>
+          ${f.tagline ? `<div class="fd-about-tag">${escapeHtml(f.tagline)}</div>` : ''}
+        </div>
+
+        <div class="fd-card">
+          <div class="fd-card-title">Professional experience</div>
+          <div class="fd-list">${expRows}</div>
+        </div>
+
+        <div class="fd-card">
+          <div class="fd-card-title">Education</div>
+          <div class="fd-list">${eduRows}</div>
+        </div>
+
+        <div class="fd-card">
+          <div class="fd-card-title-row">
+            <div class="fd-card-title">Founding team</div>
+            <button class="fd-add-btn" onclick="openAddTeamMember('${f.id}')"><i data-lucide="plus" style="width:12px;height:12px;"></i> Add member</button>
+          </div>
+          <div class="fd-list" id="fdTeamList">${teamRows}</div>
+        </div>
+
+      </div>
+
+      <div class="fd-side">
+
+        <div class="fd-card">
+          <div class="fd-card-title">Contact info</div>
+          <div class="fd-crow">
+            <i data-lucide="mail" class="fd-cicon"></i>
+            <div class="fd-cbody"><div class="fd-clabel">Official email &middot; verified</div><div class="fd-cval">${escapeHtml(f.email)}</div></div>
+          </div>
+          <div class="fd-crow">
+            <i data-lucide="phone" class="fd-cicon"></i>
+            <div class="fd-cbody"><div class="fd-clabel">Contact number</div><div class="fd-cval">${escapeHtml(det.phone)}</div></div>
+          </div>
+          <div class="fd-crow">
+            <i data-lucide="map-pin" class="fd-cicon"></i>
+            <div class="fd-cbody"><div class="fd-clabel">Location</div><div class="fd-cval">${escapeHtml(det.city)}, ${escapeHtml(det.country)}</div></div>
+          </div>
+          <div class="fd-crow">
+            <i data-lucide="globe" class="fd-cicon"></i>
+            <div class="fd-cbody"><div class="fd-clabel">Website</div><div class="fd-cval"><a href="${escapeHtml(f.website)}" target="_blank" rel="noopener">${escapeHtml(f.website)}</a></div></div>
+          </div>
+          <div class="fd-crow">
+            <img src="./assets/linkedin.png" class="fd-cicon fn-linkedin-icon" alt="LinkedIn" />
+            <div class="fd-cbody"><div class="fd-clabel">LinkedIn profile</div><div class="fd-cval"><a href="${escapeHtml(f.linkedin)}" target="_blank" rel="noopener">View profile &rarr;</a></div></div>
+          </div>
+          <div class="fd-sync-note"><i data-lucide="download" style="width:11px;height:11px;"></i> Auto-filled from LinkedIn profile</div>
+        </div>
+
+        <div class="fd-card">
+          <div class="fd-card-title">Verification</div>
+          <div class="fd-vrow ${verified ? '' : 'dim'}">
+            <i data-lucide="badge-check" class="fd-vicon"></i>
+            <div class="fd-vbody">
+              <div class="fd-vtitle">Official email verified</div>
+              <div class="fd-vsub">Sent to ${escapeHtml(f.email)} on sign-up to reduce fake accounts.</div>
+            </div>
+          </div>
+          <div class="fd-vrow ${verified ? '' : 'dim'}">
+            <i data-lucide="shield-check" class="fd-vicon"></i>
+            <div class="fd-vbody">
+              <div class="fd-vtitle">Contact number verified</div>
+              <div class="fd-vsub">Confirmed via OTP at registration.</div>
+            </div>
+          </div>
+          <div class="fd-vrow">
+            <i data-lucide="user-check" class="fd-vicon"></i>
+            <div class="fd-vbody">
+              <div class="fd-vtitle">Profile status</div>
+              <div class="fd-vsub">${verified ? 'Verified founder' : 'Verification pending'}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fd-card">
+          <div class="fd-card-title-row">
+            <div class="fd-card-title">Profile strength</div>
+            <span class="fd-pscore">82%</span>
+          </div>
+          <div class="fd-pbar"><div class="fd-pfill" style="width:82%;"></div></div>
+          <div class="fd-psub">Photo, email, experience and education complete.</div>
+        </div>
+
+      </div>
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+};
+
+function fdEmpty(msg) {
+  return `<div class="fd-empty">${msg}</div>`;
+}
+
+window.openAddTeamMember = function (id) {
+  const f = founderById(id);
+  if (!f) return;
+  window.openModal(`Add co-founder · ${f.name}`, `
+    <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Add a member to the founding team for <strong>${f.name}</strong>.</p>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div>
+        <label style="font-size:11px; font-weight:700; color:var(--text-dark); display:block; margin-bottom:4px;">Full name</label>
+        <input type="text" id="fdTeamName" placeholder="e.g. Jane Doe" style="width:100%; padding:8px 10px; border:1px solid var(--border-main); border-radius:6px; font-size:12px; font-family:Inter;" />
+      </div>
+      <div>
+        <label style="font-size:11px; font-weight:700; color:var(--text-dark); display:block; margin-bottom:4px;">Role</label>
+        <input type="text" id="fdTeamRole" placeholder="e.g. Co-Founder & CTO" style="width:100%; padding:8px 10px; border:1px solid var(--border-main); border-radius:6px; font-size:12px; font-family:Inter;" />
+      </div>
+      <div>
+        <label style="font-size:11px; font-weight:700; color:var(--text-dark); display:block; margin-bottom:4px;">Official email <span style="font-weight:500; color:var(--text-light);">(optional)</span></label>
+        <input type="email" id="fdTeamEmail" placeholder="cofounder@company.com" style="width:100%; padding:8px 10px; border:1px solid var(--border-main); border-radius:6px; font-size:12px; font-family:Inter;" />
+      </div>
+      <div>
+        <label style="font-size:11px; font-weight:700; color:var(--text-dark); display:block; margin-bottom:4px;">LinkedIn profile URL <span style="font-weight:500; color:var(--text-light);">(optional)</span></label>
+        <input type="url" id="fdTeamLinkedin" placeholder="https://linkedin.com/in/janedoe" style="width:100%; padding:8px 10px; border:1px solid var(--border-main); border-radius:6px; font-size:12px; font-family:Inter;" />
+      </div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:20px;">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="fdAddTeamMember('${id}')">Add member</button>
+    </div>
+  `);
+};
+
+window.fdAddTeamMember = function (id) {
+  const name = (document.getElementById('fdTeamName') || {}).value?.trim?.() || '';
+  if (!name) {
+    if (window.showToast) window.showToast('Please enter a name for the team member.', 'alert');
+    return;
+  }
+  const role = (document.getElementById('fdTeamRole') || {}).value?.trim?.() || 'Co-Founder';
+  const email = (document.getElementById('fdTeamEmail') || {}).value?.trim?.() || '';
+  const linkedin = (document.getElementById('fdTeamLinkedin') || {}).value?.trim?.() || '';
+
+  const f = founderById(id);
+  if (!window.FOUNDER_DETAILS[id]) window.FOUNDER_DETAILS[id] = fdDefaults(f);
+  window.FOUNDER_DETAILS[id].team.push({ name, role, email, linkedin });
+
+  const list = document.getElementById('fdTeamList');
+  if (list) {
+    const empty = list.querySelector('.fd-empty');
+    if (empty) empty.remove();
+    list.insertAdjacentHTML('beforeend', fdTeamRow({ name, role, email, linkedin }));
+  }
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+  window.closeModal();
+  if (window.showToast) window.showToast(`${name} added to the founding team`, 'success');
+};
+
+window.openMessagesNavDrawer = function () {
   window.openModal('Unlock Investor Contacts', `
     <div class="paywall">
       <div class="paywall-icon"><i data-lucide="lock"></i></div>
@@ -2319,6 +2729,419 @@ window.openPaywallModal = function() {
 function escapeHtml(str) {
   return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   FOUNDER DETAILS — LinkedIn-style internal profile page
+   (banner, profile photo, identity, actions, about, experience,
+    education, founding team, contact info, verification)
+   ────────────────────────────────────────────────────────────────────────── */
+window.FOUNDER_DETAILS = {
+  'amara-okafor': {
+    phone: '+234 803 555 0192',
+    country: 'Nigeria',
+    city: 'Lagos',
+    bio: 'Healthcare technologist and founder building AI-powered maternal care for emerging markets. Over a decade of shipping digital health products across West Africa, where fragmented maternal-care infrastructure puts mothers at risk. Previously scaled a telemedicine product to 210k monthly users before acquisition.',
+    experience: [
+      { company: 'Nova Health', role: 'Founder & CEO', start: 'Jan 2023', end: 'Present', current: true, desc: 'Leading product, partnerships and fundraising for an AI maternal-care platform serving 40k+ mothers across Nigeria and Kenya.' },
+      { company: 'MedEase (Acquired)', role: 'Product Lead', start: 'Mar 2018', end: 'Dec 2022', current: false, desc: 'Built telemedicine triage used by 120+ clinics; scaled monthly users from 4k to 210k before acquisition.' },
+      { company: 'Lagos State Ministry of Health', role: 'Health Innovation Specialist', start: 'Jun 2015', end: 'Feb 2018', current: false, desc: 'Ran digital-health pilots across 30 primary health centres in the state.' }
+    ],
+    education: [
+      { institution: 'University of Lagos', course: 'MSc, Health Informatics', start: '2013', end: '2015', current: false },
+      { institution: 'Covenant University', course: 'BSc, Computer Science', start: '2009', end: '2013', current: false }
+    ],
+    team: [
+      { name: 'Chidinma Obi', role: 'Co-Founder & COO', email: 'chidinma@novahealth.ai', linkedin: 'https://linkedin.com/in/chidinmaobi' },
+      { name: 'Tunde Adeyemi', role: 'Co-Founder & CTO', email: 'tunde@novahealth.ai', linkedin: 'https://linkedin.com/in/tundeadyemi' }
+    ]
+  },
+  'daniel-reyes': {
+    phone: '+1 512 555 0187',
+    country: 'USA',
+    city: 'Austin, Texas',
+    bio: 'Product-minded engineer and co-founder of Stackform — the fastest way to ship internal tools. Previously built developer infrastructure at GitHub and led platform engineering at Hashlabs. Passionate about DX, devtools and boring-on-the-outside software.',
+    experience: [
+      { company: 'Stackform', role: 'Co-Founder & CTO', start: 'Mar 2022', end: 'Present', current: true, desc: 'Designing the runtime, SDK and control plane that powers Stackform&#39;s internal-tooling platform.' },
+      { company: 'Hashlabs', role: 'Senior Software Engineer', start: 'Jun 2018', end: 'Feb 2022', current: false, desc: 'Led the platform team behind a multi-tenant SaaS serving 40k developers.' },
+      { company: 'GitHub', role: 'Software Engineer', start: 'Jan 2016', end: 'May 2018', current: false, desc: 'Worked on repository tooling used by millions of developers.' }
+    ],
+    education: [
+      { institution: 'University of Texas at Austin', course: 'BSc, Computer Science', start: '2011', end: '2015', current: false }
+    ],
+    team: [
+      { name: 'Emily Grant', role: 'Co-Founder & CEO', email: 'emily@stackform.dev', linkedin: 'https://linkedin.com/in/emilygrant' },
+      { name: 'Marcus Lee', role: 'Co-Founder & Head of Design', email: 'marcus@stackform.dev', linkedin: 'https://linkedin.com/in/marcuslee' }
+    ]
+  },
+  'priya-nair': {
+    phone: '+91 98450 12345',
+    country: 'India',
+    city: 'Bengaluru, Karnataka',
+    bio: 'Fintech builder and founder of Finloop — neobanking rails built for gig-economy workers. Ex-product leader at Niyo and Razorpay, with a decade of experience turning complex money movement into simple, delightful products.',
+    experience: [
+      { company: 'Finloop', role: 'Founder & CEO', start: 'Jun 2021', end: 'Present', current: true, desc: 'Building neobanking infrastructure for gig workers across India, now live in 14 cities.' },
+      { company: 'Niyo', role: 'Head of Product', start: 'Jan 2018', end: 'May 2021', current: false, desc: 'Owned product for salary-advance and forex products serving 1.2M customers.' },
+      { company: 'Razorpay', role: 'Senior Product Manager', start: 'Aug 2015', end: 'Dec 2017', current: false, desc: 'Shipped payment-link and subscription billing products now used by 300k+ businesses.' }
+    ],
+    education: [
+      { institution: 'IIM Bangalore', course: 'MBA, Finance & Strategy', start: '2013', end: '2015', current: false },
+      { institution: 'NIT Trichy', course: 'B.Tech, Computer Science', start: '2008', end: '2012', current: false }
+    ],
+    team: [
+      { name: 'Vikram Rao', role: 'Co-Founder & CTO', email: 'vikram@finloop.in', linkedin: 'https://linkedin.com/in/vikramrao' },
+      { name: 'Neha Kulkarni', role: 'Co-Founder & Head of Growth', email: 'neha@finloop.in', linkedin: 'https://linkedin.com/in/nehakulkarni' }
+    ]
+  },
+  'tom-becker': {
+    phone: '+49 151 5550 2277',
+    country: 'Germany',
+    city: 'Berlin',
+    bio: 'Climate engineer and founder of Greenlyte — carbon capture that finally makes economic sense. A decade in carbontech, from research at ETH Zürich to leading engineering at Climeworks.',
+    experience: [
+      { company: 'Greenlyte', role: 'Founder & CEO', start: 'Feb 2022', end: 'Present', current: true, desc: 'Building low-cost direct-air-capture technology with a pilot plant in Germany.' },
+      { company: 'Climeworks', role: 'Director of Engineering', start: 'Apr 2018', end: 'Jan 2022', current: false, desc: 'Led the engineering org behind commercial DAC plants in Iceland and Switzerland.' },
+      { company: 'Siemens Energy', role: 'Senior Research Engineer', start: 'Sep 2013', end: 'Mar 2018', current: false, desc: 'Developed next-gen carbon-capture processes for industrial point sources.' }
+    ],
+    education: [
+      { institution: 'ETH Zürich', course: 'PhD, Process Engineering', start: '2011', end: '2014', current: false },
+      { institution: 'TU München', course: 'MSc, Chemical Engineering', start: '2007', end: '2010', current: false }
+    ],
+    team: [
+      { name: 'Lina Brandt', role: 'Co-Founder & CTO', email: 'lina@greenlyte.co', linkedin: 'https://linkedin.com/in/linabrandt' }
+    ]
+  },
+  'sofia-marino': {
+    phone: '+39 02 5550 8834',
+    country: 'Italy',
+    city: 'Milan',
+    bio: 'Design-driven co-founder of Cartwise — headless checkout for modern DTC brands. Former product designer at Shopify and e-commerce lead at Bottega Veneta. Obsessed with conversion, craft and conversion-optimised commerce.',
+    experience: [
+      { company: 'Cartwise', role: 'Co-Founder', start: 'Sep 2022', end: 'Present', current: true, desc: 'Co-leading product and design for a headless checkout platform used by 900+ DTC brands.' },
+      { company: 'Shopify', role: 'Product Designer', start: 'May 2019', end: 'Aug 2022', current: false, desc: 'Designed the one-page checkout now used by a third of Shopify merchants.' },
+      { company: 'Bottega Veneta', role: 'E-commerce Lead', start: 'Jan 2016', end: 'Apr 2019', current: false, desc: 'Led the brand&#39;s DTC e-commerce experience across 12 markets.' }
+    ],
+    education: [
+      { institution: 'Politecnico di Milano', course: 'MSc, Interaction Design', start: '2014', end: '2016', current: false },
+      { institution: 'University of Milan', course: 'BA, Art History', start: '2010', end: '2013', current: false }
+    ],
+    team: [
+      { name: 'Marco Ricci', role: 'Co-Founder & CEO', email: 'marco@cartwise.io', linkedin: 'https://linkedin.com/in/marcoricci' },
+      { name: 'Giulia Ferrari', role: 'Co-Founder & CMO', email: 'giulia@cartwise.io', linkedin: 'https://linkedin.com/in/giuliaferrari' }
+    ]
+  },
+  'rahul-mehta': {
+    phone: '+1 415 555 0166',
+    country: 'USA',
+    city: 'San Francisco, California',
+    bio: 'Founder of AIdentify — enterprise-grade AI identity verification. Previously led identity product at Plaid and was an early PM at Sift. Backed by a simple thesis: trust is the most valuable thing on the internet.',
+    experience: [
+      { company: 'AIdentify', role: 'Founder & CEO', start: 'Jan 2021', end: 'Present', current: true, desc: 'Building AI identity-verification infrastructure used by 200+ enterprises.' },
+      { company: 'Plaid', role: 'Head of Product, Identity', start: 'Feb 2018', end: 'Dec 2020', current: false, desc: 'Launched identity and income products adopted by 8 of the top 10 US banks.' },
+      { company: 'Sift', role: 'Product Manager', start: 'Jul 2015', end: 'Jan 2018', current: false, desc: 'Shipped fraud-prevention products protecting $40B+ in annual transactions.' }
+    ],
+    education: [
+      { institution: 'Stanford University', course: 'MS, Management Science & Engineering', start: '2013', end: '2015', current: false },
+      { institution: 'IIT Delhi', course: 'B.Tech, Computer Science', start: '2008', end: '2012', current: false }
+    ],
+    team: [
+      { name: 'Meera Patel', role: 'Co-Founder & CTO', email: 'meera@aidentify.ai', linkedin: 'https://linkedin.com/in/meerapatel' }
+    ]
+  }
+};
+
+function fdDefaults(f) {
+  return {
+    phone: '—',
+    country: String(f.location || '').split(',').pop().trim(),
+    city: String(f.location || '').split(',')[0].trim(),
+    bio: f.tagline || '',
+    experience: [{ company: f.company, role: f.designation, start: '—', end: 'Present', current: true, desc: '' }],
+    education: [],
+    team: []
+  };
+}
+
+function fdInitials(name) {
+  return String(name).split(' ').map(w => w && w[0]).slice(0, 2).join('').toUpperCase();
+}
+
+function fdDates(entry) {
+  if (entry.start === '—') return entry.end || '';
+  const sep = entry.current ? ' – Present' : entry.end ? ` – ${entry.end}` : '';
+  return `${entry.start}${sep}`;
+}
+
+function fdExpRow(e) {
+  return `
+    <div class="fd-exp-row">
+      <div class="fd-logo">${fdInitials(e.company)}</div>
+      <div class="fd-exp-info">
+        <div class="fd-exp-role">${escapeHtml(e.role)}</div>
+        <div class="fd-exp-company">${escapeHtml(e.company)}</div>
+        <div class="fd-exp-dates">${fdDates(e)}</div>
+        ${e.desc ? `<p class="fd-exp-desc">${e.desc}</p>` : ''}
+      </div>
+    </div>`;
+}
+
+function fdEduRow(e) {
+  return `
+    <div class="fd-exp-row">
+      <div class="fd-logo">${fdInitials(e.institution)}</div>
+      <div class="fd-exp-info">
+        <div class="fd-exp-role">${escapeHtml(e.course)}</div>
+        <div class="fd-exp-company">${escapeHtml(e.institution)}</div>
+        <div class="fd-exp-dates">${e.start}${e.current ? ' – Present' : e.end ? ` – ${e.end}` : ''}</div>
+      </div>
+    </div>`;
+}
+
+function fdTeamRow(m) {
+  const avatar = m.name
+    ? `<div class="fd-team-avatar">${fdInitials(m.name)}</div>`
+    : `<div class="fd-team-avatar"><i data-lucide="user" style="width:14px;height:14px;"></i></div>`;
+  return `
+    <div class="fd-team-row">
+      ${avatar}
+      <div class="fd-team-info">
+        <div class="fd-team-name">${escapeHtml(m.name)}</div>
+        <div class="fd-team-role">${escapeHtml(m.role || 'Co-Founder')}</div>
+      </div>
+      <div class="fd-team-links">
+        ${m.email ? `<a class="fd-team-link" href="mailto:${escapeHtml(m.email)}" title="${escapeHtml(m.email)}"><i data-lucide="mail"></i></a>` : ''}
+        ${m.linkedin ? `<a class="fd-team-link" href="${escapeHtml(m.linkedin)}" target="_blank" rel="noopener" title="LinkedIn"><img src="./assets/linkedin.png" class="fn-linkedin-icon" alt="LinkedIn" /></a>` : ''}
+      </div>
+    </div>`;
+}
+
+window.renderFounderDetailPage = function () {
+  const root = document.getElementById('founderDetailRoot');
+  if (!root) return;
+
+  let id = '';
+  try { id = new URLSearchParams(window.location.search).get('id') || ''; } catch (e) { }
+
+  const f = founderById(id);
+  if (!f) {
+    root.innerHTML = `
+      <div style="padding:60px 14px; text-align:center;">
+        <div style="font-size:14px; font-weight:800; color:var(--text-dark); margin-bottom:6px;">Founder profile not found</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-bottom:18px;">The profile you are looking for may have been removed.</div>
+        <button class="btn btn-outline" onclick="window.location.href='./founder-network.html'"><i data-lucide="arrow-left" style="width:13px;height:13px;"></i> Back to founder network</button>
+      </div>`;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    return;
+  }
+
+  const crumb = document.getElementById('fdBreadcrumbName');
+  if (crumb) crumb.textContent = f.name;
+
+  const det = window.FOUNDER_DETAILS[id] || fdDefaults(f);
+  const expRows = (det.experience && det.experience.length ? det.experience : fdDefaults(f).experience).map(fdExpRow).join('');
+  const eduRows = (det.education || []).length ? det.education.map(fdEduRow).join('') : fdEmpty('No education added yet. Auto-fill from LinkedIn to populate this section.');
+  const teamRows = (det.team || []).length ? det.team.map(fdTeamRow).join('') : fdEmpty('No co-founders added yet. Use &ldquo;Add member&rdquo; to build your founding team.');
+
+  const verified = !!f.verified;
+  const msgBtn = f.messageEnabled
+    ? `<button class="btn btn-primary" onclick="openFounderDrawer('${f.id}')"><i data-lucide="message-square" style="width:13px;height:13px;"></i> Message</button>`
+    : `<button class="btn btn-primary" onclick="if(window.showToast) window.showToast('Your profile needs to be verified to message.', 'alert')"><i data-lucide="lock" style="width:13px;height:13px;"></i> Message</button>`;
+
+  root.innerHTML = `
+    <!-- Profile Header (LinkedIn style) -->
+    <div class="fd-header-card">
+      <div class="fd-banner"></div>
+      <div class="fd-header-body">
+        <div class="fd-photo-row">
+          <div class="fd-avatar-wrap">
+            <div class="fd-avatar">
+              ${f.avatar ? `<img src="${f.avatar}" alt="${escapeHtml(f.name)}" onerror="this.outerHTML='<div class=\\'fd-avatar-init\\'>${fdInitials(f.name)}</div>'" />` : `<div class="fd-avatar-init">${fdInitials(f.name)}</div>`}
+            </div>
+            ${verified ? `<span class="fd-verified" title="Verified founder"><i data-lucide="badge-check"></i></span>` : ''}
+          </div>
+          <div class="fd-identity">
+            <div class="fd-name">${escapeHtml(f.name)}</div>
+            <div class="fd-headline">${escapeHtml(f.designation)} at ${escapeHtml(f.company)}</div>
+            <div class="fd-loc-line">
+              <i data-lucide="map-pin" style="width:12px;height:12px;"></i>
+              <span>${escapeHtml(det.city)}, ${escapeHtml(det.country)}</span>
+              <span class="fd-dot">&middot;</span>
+              <span>500+ connections</span>
+              <span class="fd-dot">&middot;</span>
+              <span>24 mutual connections</span>
+            </div>
+          </div>
+        </div>
+        <div class="fd-actions">
+          ${msgBtn}
+          <button class="btn btn-outline" onclick="if(window.showToast) window.showToast('Connection request sent to ${f.name}', 'success')"><i data-lucide="user-plus" style="width:13px;height:13px;"></i> Connect</button>
+          <a class="btn btn-outline" href="${escapeHtml(f.linkedin)}" target="_blank" rel="noopener"><img src="./assets/linkedin.png" class="fn-linkedin-icon" alt="LinkedIn" /> LinkedIn</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main + Side -->
+    <div class="fd-grid">
+      <div class="fd-main">
+
+        <!-- About -->
+        <div class="fd-card">
+          <div class="fd-card-title">About</div>
+          <p class="fd-about-text">${escapeHtml(det.bio) || 'No bio yet. Auto-fill from LinkedIn to populate this section.'}</p>
+          ${f.tagline ? `<div class="fd-about-tag">${escapeHtml(f.tagline)}</div>` : ''}
+        </div>
+
+        <!-- Experience -->
+        <div class="fd-card">
+          <div class="fd-card-title">Professional experience</div>
+          <div class="fd-list">${expRows}</div>
+        </div>
+
+        <!-- Education -->
+        <div class="fd-card">
+          <div class="fd-card-title">Education</div>
+          <div class="fd-list">${eduRows}</div>
+        </div>
+
+        <!-- Founding team -->
+        <div class="fd-card">
+          <div class="fd-card-title-row">
+            <div class="fd-card-title">Founding team</div>
+            <button class="fd-add-btn" onclick="openAddTeamMember('${f.id}')"><i data-lucide="plus" style="width:12px;height:12px;"></i> Add member</button>
+          </div>
+          <div class="fd-list" id="fdTeamList">${teamRows}</div>
+        </div>
+
+      </div>
+
+      <div class="fd-side">
+
+        <!-- Contact -->
+        <div class="fd-card">
+          <div class="fd-card-title">Contact info</div>
+          <div class="fd-crow">
+            <i data-lucide="mail" class="fd-cicon"></i>
+            <div class="fd-cbody"><div class="fd-clabel">Official email · verified</div><div class="fd-cval">${escapeHtml(f.email)}</div></div>
+          </div>
+          <div class="fd-crow">
+            <i data-lucide="phone" class="fd-cicon"></i>
+            <div class="fd-cbody"><div class="fd-clabel">Contact number</div><div class="fd-cval">${escapeHtml(det.phone)}</div></div>
+          </div>
+          <div class="fd-crow">
+            <i data-lucide="map-pin" class="fd-cicon"></i>
+            <div class="fd-cbody"><div class="fd-clabel">Location</div><div class="fd-cval">${escapeHtml(det.city)}, ${escapeHtml(det.country)}</div></div>
+          </div>
+          <div class="fd-crow">
+            <i data-lucide="globe" class="fd-cicon"></i>
+            <div class="fd-cbody"><div class="fd-clabel">Website</div><div class="fd-cval"><a href="${escapeHtml(f.website)}" target="_blank" rel="noopener">${escapeHtml(f.website)}</a></div></div>
+          </div>
+          <div class="fd-crow">
+            <img src="./assets/linkedin.png" class="fd-cicon fn-linkedin-icon" alt="LinkedIn" />
+            <div class="fd-cbody"><div class="fd-clabel">LinkedIn profile</div><div class="fd-cval"><a href="${escapeHtml(f.linkedin)}" target="_blank" rel="noopener">View profile &rarr;</a></div></div>
+          </div>
+          <div class="fd-sync-note"><i data-lucide="download" style="width:11px;height:11px;"></i> Auto-filled from LinkedIn profile</div>
+        </div>
+
+        <!-- Verification -->
+        <div class="fd-card">
+          <div class="fd-card-title">Verification</div>
+          <div class="fd-vrow ${verified ? '' : 'dim'}">
+            <i data-lucide="badge-check" class="fd-vicon"></i>
+            <div class="fd-vbody">
+              <div class="fd-vtitle">Official email verified</div>
+              <div class="fd-vsub">Sent to ${escapeHtml(f.email)} on sign-up to reduce fake accounts.</div>
+            </div>
+          </div>
+          <div class="fd-vrow ${verified ? '' : 'dim'}">
+            <i data-lucide="shield-check" class="fd-vicon"></i>
+            <div class="fd-vbody">
+              <div class="fd-vtitle">Contact number verified</div>
+              <div class="fd-vsub">Confirmed via OTP at registration.</div>
+            </div>
+          </div>
+          <div class="fd-vrow">
+            <i data-lucide="user-check" class="fd-vicon"></i>
+            <div class="fd-vbody">
+              <div class="fd-vtitle">Profile status</div>
+              <div class="fd-vsub">${verified ? 'Verified founder' : 'Verification pending'}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile strength -->
+        <div class="fd-card">
+          <div class="fd-card-title-row">
+            <div class="fd-card-title">Profile strength</div>
+            <span class="fd-pscore">82%</span>
+          </div>
+          <div class="fd-pbar"><div class="fd-pfill" style="width:82%;"></div></div>
+          <div class="fd-psub">Photo, email, experience and education complete.</div>
+        </div>
+
+      </div>
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+};
+
+function fdEmpty(msg) {
+  return `<div class="fd-empty">${msg}</div>`;
+}
+
+window.openAddTeamMember = function (id) {
+  const f = founderById(id);
+  if (!f) return;
+  window.openModal(`Add co-founder · ${f.name}`, `
+    <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Add a member to the founding team for <strong>${f.name}</strong>.</p>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div>
+        <label style="font-size:11px; font-weight:700; color:var(--text-dark); display:block; margin-bottom:4px;">Full name</label>
+        <input type="text" id="fdTeamName" placeholder="e.g. Jane Doe" style="width:100%; padding:8px 10px; border:1px solid var(--border-main); border-radius:6px; font-size:12px; font-family:Inter;" />
+      </div>
+      <div>
+        <label style="font-size:11px; font-weight:700; color:var(--text-dark); display:block; margin-bottom:4px;">Role</label>
+        <input type="text" id="fdTeamRole" placeholder="e.g. Co-Founder & CTO" style="width:100%; padding:8px 10px; border:1px solid var(--border-main); border-radius:6px; font-size:12px; font-family:Inter;" />
+      </div>
+      <div>
+        <label style="font-size:11px; font-weight:700; color:var(--text-dark); display:block; margin-bottom:4px;">Official email <span style="font-weight:500; color:var(--text-light);">(optional)</span></label>
+        <input type="email" id="fdTeamEmail" placeholder="cofounder@company.com" style="width:100%; padding:8px 10px; border:1px solid var(--border-main); border-radius:6px; font-size:12px; font-family:Inter;" />
+      </div>
+      <div>
+        <label style="font-size:11px; font-weight:700; color:var(--text-dark); display:block; margin-bottom:4px;">LinkedIn profile URL <span style="font-weight:500; color:var(--text-light);">(optional)</span></label>
+        <input type="url" id="fdTeamLinkedin" placeholder="https://linkedin.com/in/janedoe" style="width:100%; padding:8px 10px; border:1px solid var(--border-main); border-radius:6px; font-size:12px; font-family:Inter;" />
+      </div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:20px;">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="fdAddTeamMember('${id}')">Add member</button>
+    </div>
+  `);
+};
+
+window.fdAddTeamMember = function (id) {
+  const name = (document.getElementById('fdTeamName') || {}).value?.trim?.() || '';
+  if (!name) {
+    if (window.showToast) window.showToast('Please enter a name for the team member.', 'alert');
+    return;
+  }
+  const role = (document.getElementById('fdTeamRole') || {}).value?.trim?.() || 'Co-Founder';
+  const email = (document.getElementById('fdTeamEmail') || {}).value?.trim?.() || '';
+  const linkedin = (document.getElementById('fdTeamLinkedin') || {}).value?.trim?.() || '';
+
+  const f = founderById(id);
+  if (!window.FOUNDER_DETAILS[id]) window.FOUNDER_DETAILS[id] = fdDefaults(f);
+  window.FOUNDER_DETAILS[id].team.push({ name, role, email, linkedin });
+
+  const list = document.getElementById('fdTeamList');
+  if (list) {
+    const empty = list.querySelector('.fd-empty');
+    if (empty) empty.remove();
+    list.insertAdjacentHTML('beforeend', fdTeamRow({ name, role, email, linkedin }));
+  }
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+  window.closeModal();
+  if (window.showToast) window.showToast(`${name} added to the founding team`, 'success');
+};
 
 /* ──────────────────────────────────────────────────────────────────────────
    11. GOVERNMENT GRANTS DATASET & CONTROLLERS
@@ -2820,7 +3643,7 @@ function renderGrantDetailPage() {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-window.openGrantSupportModal = function(grantId) {
+window.openGrantSupportModal = function (grantId) {
   const grant = (window.GOVERNMENT_GRANTS_DATA || []).find(g => g.id === grantId) || window.GOVERNMENT_GRANTS_DATA[0];
   openModal(`Application support — ${grant.shortTitle || grant.title}`, `
     <div style="display:flex; flex-direction:column; gap:16px; font-size:12.5px;">
@@ -2852,7 +3675,7 @@ window.openGrantSupportModal = function(grantId) {
   `);
 };
 
-window.submitGrantSupportQuery = function(grantId) {
+window.submitGrantSupportQuery = function (grantId) {
   const input = document.getElementById('grantSupportMsg');
   closeModal();
   if (window.showToast) {
@@ -2860,7 +3683,7 @@ window.submitGrantSupportQuery = function(grantId) {
   }
 };
 
-window.copyGrantLink = function(grantId) {
+window.copyGrantLink = function (grantId) {
   const url = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}grant-detail.html?id=${grantId}`;
   if (navigator.clipboard) {
     navigator.clipboard.writeText(url);
@@ -2870,7 +3693,7 @@ window.copyGrantLink = function(grantId) {
   }
 };
 
-window.bookmarkGrant = function(grantId) {
+window.bookmarkGrant = function (grantId) {
   if (window.showToast) {
     window.showToast('Grant saved to your bookmarks', 'success');
   }
@@ -3281,7 +4104,7 @@ function handleProblemSignalFilter(val) {
 /* ──────────────────────────────────────────────────────────────────────────
    Problem Slide-Out Right Drawer Controller
    ────────────────────────────────────────────────────────────────────────── */
-window.openProblemDrawer = function(problemId) {
+window.openProblemDrawer = function (problemId) {
   const problem = (window.REAL_MARKET_PROBLEMS_DATA || []).find(p => p.id === problemId);
   if (!problem) return;
 
@@ -3406,7 +4229,7 @@ window.openProblemDrawer = function(problemId) {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 };
 
-window.closeProblemDrawer = function() {
+window.closeProblemDrawer = function () {
   const backdrop = document.getElementById('problemDrawerBackdrop');
   const panel = document.getElementById('problemDrawerPanel');
 
@@ -3419,7 +4242,7 @@ window.closeProblemDrawer = function() {
   }
 };
 
-window.toggleProblemUpvote = function(problemId, event) {
+window.toggleProblemUpvote = function (problemId, event) {
   if (event) event.stopPropagation();
 
   const problem = (window.REAL_MARKET_PROBLEMS_DATA || []).find(p => p.id === problemId);
@@ -3445,7 +4268,7 @@ window.toggleProblemUpvote = function(problemId, event) {
   }
 };
 
-window.copyCurrentProblemLink = function() {
+window.copyCurrentProblemLink = function () {
   if (!currentActiveProblemId) return;
   const url = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}real-market-problems.html?id=${currentActiveProblemId}`;
   if (navigator.clipboard) {
@@ -3456,7 +4279,7 @@ window.copyCurrentProblemLink = function() {
   }
 };
 
-window.startValidationWorkflow = function() {
+window.startValidationWorkflow = function () {
   const problem = (window.REAL_MARKET_PROBLEMS_DATA || []).find(p => p.id === currentActiveProblemId);
   const name = problem ? problem.title : 'Market Problem';
 
@@ -3866,7 +4689,7 @@ function renderChallengeStream(list) {
 
 window.renderChallengeStream = renderChallengeStream;
 
-window.toggleChallengeExpand = function(challengeId, event) {
+window.toggleChallengeExpand = function (challengeId, event) {
   if (event) event.stopPropagation();
 
   const challenge = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
@@ -3876,22 +4699,22 @@ window.toggleChallengeExpand = function(challengeId, event) {
   filterAndRenderChallenges();
 };
 
-window.handleChallengeSearch = function(input) {
+window.handleChallengeSearch = function (input) {
   currentChallengeSearch = input.value;
   filterAndRenderChallenges();
 };
 
-window.handleChallengeCategoryFilter = function(val) {
+window.handleChallengeCategoryFilter = function (val) {
   currentChallengeCategory = val;
   filterAndRenderChallenges();
 };
 
-window.handleChallengeTypeFilter = function(val) {
+window.handleChallengeTypeFilter = function (val) {
   currentChallengeType = val;
   filterAndRenderChallenges();
 };
 
-window.toggleChallengeLike = function(challengeId, event) {
+window.toggleChallengeLike = function (challengeId, event) {
   if (event) event.stopPropagation();
 
   const challenge = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
@@ -3917,7 +4740,7 @@ window.toggleChallengeLike = function(challengeId, event) {
   }
 };
 
-window.toggleChallengeAnswers = function(challengeId) {
+window.toggleChallengeAnswers = function (challengeId) {
   const challenge = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
   if (!challenge) return;
 
@@ -3925,7 +4748,7 @@ window.toggleChallengeAnswers = function(challengeId) {
   filterAndRenderChallenges();
 };
 
-window.submitChallengeAnswer = function(challengeId) {
+window.submitChallengeAnswer = function (challengeId) {
   const input = document.getElementById(`answer-input-${challengeId}`);
   if (!input || !input.value.trim()) {
     if (window.showToast) window.showToast('Please enter your advice before submitting.', 'warning');
@@ -3961,7 +4784,7 @@ window.submitChallengeAnswer = function(challengeId) {
 /* ──────────────────────────────────────────────────────────────────────────
    Post New Challenge Modal Handler
    ────────────────────────────────────────────────────────────────────────── */
-window.openPostChallengeModal = function() {
+window.openPostChallengeModal = function () {
   window.openModal('Share your founder challenge', `
     <div style="display:flex; flex-direction:column; gap:14px;">
       <p style="font-size:12.5px; color:var(--text-main); margin:0; line-height:1.5;">
@@ -4025,7 +4848,7 @@ window.openPostChallengeModal = function() {
   }, 50);
 };
 
-window.submitNewChallenge = function() {
+window.submitNewChallenge = function () {
   const titleInput = document.getElementById('newChallengeTitle');
   const contentInput = document.getElementById('newChallengeContent');
   const catInput = document.getElementById('newChallengeCategory');
@@ -4078,7 +4901,7 @@ window.submitNewChallenge = function() {
   }
 };
 
-window.openShareSolutionModal = function(challengeId) {
+window.openShareSolutionModal = function (challengeId) {
   const challenge = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
   if (!challenge) return;
 
@@ -4106,7 +4929,7 @@ window.openShareSolutionModal = function(challengeId) {
   }
 };
 
-window.submitModalSolution = function(challengeId) {
+window.submitModalSolution = function (challengeId) {
   const input = document.getElementById('modalSolutionInput');
   if (!input || !input.value.trim()) {
     if (window.showToast) window.showToast('Please enter your solution.', 'warning');
@@ -4141,7 +4964,7 @@ window.submitModalSolution = function(challengeId) {
   }
 };
 
-window.copyChallengeLink = function(challengeId) {
+window.copyChallengeLink = function (challengeId) {
   const url = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}founder-challenges.html?id=${challengeId}`;
   if (navigator.clipboard) {
     navigator.clipboard.writeText(url);
@@ -5049,17 +5872,17 @@ function filterAndRenderDDGrid() {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-window.handleDDSearch = function(input) {
+window.handleDDSearch = function (input) {
   currentDDSearch = input.value;
   filterAndRenderDDGrid();
 };
 
-window.handleDDTimelineFilter = function(val) {
+window.handleDDTimelineFilter = function (val) {
   currentDDTimeline = val;
   filterAndRenderDDGrid();
 };
 
-window.handleDDSort = function(val) {
+window.handleDDSort = function (val) {
   currentDDSort = val;
   filterAndRenderDDGrid();
 };
@@ -5334,7 +6157,7 @@ function renderDueDiligenceDetailPage() {
 
 window.renderDueDiligenceDetailPage = renderDueDiligenceDetailPage;
 
-window.toggleDDReadinessItem = function(idx, checkbox) {
+window.toggleDDReadinessItem = function (idx, checkbox) {
   const root = document.getElementById('ddReadinessList');
   if (!root) return;
 
@@ -5353,7 +6176,7 @@ window.toggleDDReadinessItem = function(idx, checkbox) {
   }
 };
 
-window.copyDDLink = function(id) {
+window.copyDDLink = function (id) {
   const url = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}due-diligence-detail.html?id=${id}`;
   if (navigator.clipboard) {
     navigator.clipboard.writeText(url);
@@ -6074,15 +6897,15 @@ window.handlePDRSearch = handlePDRSearch;
    ══════════════════════════════════════════════════════════════════════════ */
 
 const INV_STAGES = [
-  { id: 'research',        label: 'Research',        dot: '#141413' },
-  { id: 'contacted',       label: 'Contacted',       dot: '#4A4A46' },
-  { id: 'meeting',         label: 'Meeting',         dot: '#6B6B66' },
-  { id: 'light-dd',        label: 'Light Diligence', dot: '#8A8A84' },
+  { id: 'research', label: 'Research', dot: '#141413' },
+  { id: 'contacted', label: 'Contacted', dot: '#4A4A46' },
+  { id: 'meeting', label: 'Meeting', dot: '#6B6B66' },
+  { id: 'light-dd', label: 'Light Diligence', dot: '#8A8A84' },
   { id: 'partner-meeting', label: 'Partner Meeting', dot: '#A0A09A' },
-  { id: 'term-sheet',      label: 'Term Sheet',      dot: '#8A8A84' },
-  { id: 'closed',          label: 'Closed',          dot: '#141413' },
-  { id: 'keep-in-touch',   label: 'Keep in Touch',   dot: '#B5B5AE' },
-  { id: 'passed',          label: 'Passed',          dot: '#C0C0BA' }
+  { id: 'term-sheet', label: 'Term Sheet', dot: '#8A8A84' },
+  { id: 'closed', label: 'Closed', dot: '#141413' },
+  { id: 'keep-in-touch', label: 'Keep in Touch', dot: '#B5B5AE' },
+  { id: 'passed', label: 'Passed', dot: '#C0C0BA' }
 ];
 
 const INV_CURRENCIES = [
@@ -7475,7 +8298,7 @@ function paDrawChart() {
 
   // Destroy any previous Apex instance
   if (window.__paChart) {
-    try { window.__paChart.destroy(); } catch (e) {}
+    try { window.__paChart.destroy(); } catch (e) { }
     window.__paChart = null;
   }
 

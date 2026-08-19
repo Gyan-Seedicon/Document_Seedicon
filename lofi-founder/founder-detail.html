@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — Founder Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="./css/styles.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="app-viewport">
+  <div class="app-frame">
+
+    <div id="sidebarSlot"></div>
+
+    <main class="founder-workspace-canvas">
+
+      <header class="workspace-top-nav">
+        <div class="workspace-top-nav-left">
+          <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+            <span class="topnav-page-icon"><i data-lucide="users" style="width:15px; height:15px;"></i></span>
+            <a href="./founder-network.html" class="breadcrumb-link">Founder Network</a>
+            <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
+            <span class="breadcrumb-current" id="fdBreadcrumbName">Founder</span>
+          </nav>
+        </div>
+
+        <div class="workspace-search-pill-wrap">
+          <i data-lucide="search" class="workspace-search-icon"></i>
+          <input type="text" class="workspace-search-input" placeholder="Search founders, companies, or tags..." oninput="handleFounderSearch(this)" />
+          <span class="workspace-search-kbd">⌘K</span>
+        </div>
+
+        <div class="workspace-top-nav-right">
+          <button class="nav-ghost-icon-btn" title="Messages" onclick="openMessagesNavDrawer()">
+            <i data-lucide="message-square" style="width:16px; height:16px;"></i>
+          </button>
+          <button class="nav-ghost-icon-btn" title="Notifications" onclick="showNotifications()">
+            <i data-lucide="bell" style="width:16px; height:16px;"></i>
+          </button>
+          <button class="nav-ghost-icon-btn" title="Documentation & Notes" onclick="showHelp()">
+            <i data-lucide="file-text" style="width:16px; height:16px;"></i>
+          </button>
+          <button class="nav-invite-btn" title="Invite Team Members" onclick="openInviteModal()">
+            <i data-lucide="user-plus" style="width:14px; height:14px;"></i>
+            <span>Invite</span>
+          </button>
+          <div class="avatar-gradient-circle" title="Dr. Sarah Chen (Founder)">SC</div>
+        </div>
+      </header>
+
+      <div class="workspace-scroll-body">
+
+        <div class="center-focused-container fd-page-root" id="founderDetailRoot">
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+</div>
+
+<div id="modalSlot"></div>
+
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>
