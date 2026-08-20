@@ -8824,3 +8824,1140 @@ textarea.form-control {
   padding-top: 12px !important;
   border-top: 1px solid var(--border-faint, #EFEFEA) !important;
 }
+
+
+/* ==========================================================================
+   SEEDICON FOUNDER COMMUNITY & CHALLENGES (REDDIT / LINKEDIN STYLE)
+   Lo-Fi Monochrome Community Feed with Upvoting, On-Surface Creator & Threaded Discussions
+   ========================================================================== */
+
+.community-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 310px;
+  gap: 20px;
+  align-items: start;
+  width: 100%;
+  max-width: 1060px;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .community-layout-grid {
+    grid-template-columns: 1fr;
+  }
+  .community-sidebar-col {
+    display: none;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   01. COMMUNITY SUB-FEED HEADER BANNER
+   ────────────────────────────────────────────────────────────────────────── */
+.community-sub-header {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.community-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.community-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--text-dark);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.community-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.community-main-title {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
+}
+
+.community-tag-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: var(--bg-muted);
+  color: var(--text-muted);
+  border: 1px solid var(--border-faint);
+}
+
+.community-main-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.community-stats-chips {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.community-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.community-stat-val {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.community-stat-lbl {
+  font-size: 10.5px;
+  color: var(--text-light);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   02. ON-SURFACE CREATE POST / SHARE CHALLENGE COMPOSER
+   ────────────────────────────────────────────────────────────────────────── */
+.surface-composer-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: all 0.15s ease;
+}
+
+.surface-composer-card.expanded {
+  border-color: var(--border-dark);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.composer-collapsed-trigger {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.composer-author-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #818CF8, #3730A3);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.composer-dummy-input {
+  flex: 1;
+  background: #FAFAF9;
+  border: 1px solid var(--border-main);
+  border-radius: 9999px;
+  padding: 9px 16px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.composer-dummy-input:hover {
+  background: #F4F4F2;
+  border-color: var(--border-dark);
+  color: var(--text-dark);
+}
+
+.composer-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.composer-quick-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.12s ease;
+}
+
+.composer-quick-btn:hover {
+  background: var(--bg-muted);
+  color: var(--text-dark);
+}
+
+/* Expanded State */
+.composer-expanded-form {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+.composer-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-faint);
+}
+
+.composer-header-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.composer-title-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: #FAFAF9;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  font-family: var(--font-inter);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-dark);
+  outline: none;
+  transition: all 0.12s ease;
+}
+
+.composer-title-input:focus {
+  background: #FFFFFF;
+  border-color: var(--text-dark);
+}
+
+.composer-category-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.composer-cat-chip {
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid var(--border-main);
+  background: #FAFAF9;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.composer-cat-chip:hover {
+  background: #EAEAE7;
+  color: var(--text-dark);
+}
+
+.composer-cat-chip.active {
+  background: var(--text-dark);
+  color: #FFFFFF;
+  border-color: var(--text-dark);
+}
+
+.composer-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px 14px;
+  background: #FAFAF9;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  font-family: var(--font-inter);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-dark);
+  outline: none;
+  resize: vertical;
+  transition: all 0.12s ease;
+}
+
+.composer-textarea:focus {
+  background: #FFFFFF;
+  border-color: var(--text-dark);
+}
+
+.composer-tags-input {
+  width: 100%;
+  padding: 8px 12px;
+  background: #FAFAF9;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  font-family: var(--font-inter);
+  font-size: 12px;
+  color: var(--text-dark);
+  outline: none;
+}
+
+.composer-tags-input:focus {
+  background: #FFFFFF;
+  border-color: var(--text-dark);
+}
+
+.composer-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 6px;
+  border-top: 1px solid var(--border-faint);
+}
+
+.composer-anon-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.composer-anon-toggle input {
+  cursor: pointer;
+}
+
+.composer-submit-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   03. REDDIT-STYLE SORT & FILTER CONTROL BAR
+   ────────────────────────────────────────────────────────────────────────── */
+.community-sort-bar {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 10px;
+  padding: 6px 12px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.community-sort-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sort-tab-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.12s ease;
+}
+
+.sort-tab-btn:hover {
+  background: var(--bg-muted);
+  color: var(--text-dark);
+}
+
+.sort-tab-btn.active {
+  background: var(--text-dark);
+  color: #FFFFFF;
+  border-color: var(--text-dark);
+}
+
+.community-filter-selects {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.community-filter-dropdown {
+  background: #FAFAF9;
+  border: 1px solid var(--border-main);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-family: var(--font-inter);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-dark);
+  outline: none;
+  cursor: pointer;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   04. REDDIT-STYLE POST CARDS & THREADED DISCUSSIONS
+   ────────────────────────────────────────────────────────────────────────── */
+.reddit-post-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: all 0.12s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.reddit-post-card:hover {
+  border-color: #D4D4CE;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.reddit-post-inner {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Left Upvote Column (Classic Reddit) */
+.reddit-vote-column {
+  width: 48px;
+  background: #FAFAF9;
+  border-right: 1px solid var(--border-faint);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 12px 0;
+  gap: 3px;
+  flex-shrink: 0;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.reddit-vote-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s ease;
+}
+
+.reddit-vote-btn:hover {
+  background: #EAEAE7;
+  color: var(--text-dark);
+}
+
+.reddit-vote-btn.upvoted {
+  color: #EA580C;
+  background: #FFEDD5;
+}
+
+.reddit-vote-btn.downvoted {
+  color: #3B82F6;
+  background: #DBEAFE;
+}
+
+.reddit-vote-score {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Right Content Column */
+.reddit-content-column {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 18px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reddit-post-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.reddit-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.reddit-author-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #141413;
+  color: #FFFFFF;
+  font-size: 9.5px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.reddit-author-avatar.anon {
+  background: #40403C;
+}
+
+.reddit-author-name {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.reddit-author-company {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.reddit-meta-dot {
+  font-size: 11px;
+  color: var(--text-light);
+}
+
+.reddit-post-time {
+  font-size: 11px;
+  color: var(--text-light);
+}
+
+.reddit-category-flair {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--bg-muted);
+  color: var(--text-dark);
+  border: 1px solid var(--border-faint);
+}
+
+.reddit-post-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: color 0.1s ease;
+}
+
+.reddit-post-title:hover {
+  color: #4338CA;
+}
+
+.reddit-post-body {
+  font-size: 12.5px;
+  color: var(--text-main);
+  line-height: 1.55;
+  white-space: pre-line;
+}
+
+.reddit-post-body.collapsed {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.reddit-see-more-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.reddit-see-more-btn:hover {
+  color: var(--text-dark);
+  text-decoration: underline;
+}
+
+.reddit-post-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.reddit-tag-chip {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: #FAFAF9;
+  border: 1px solid var(--border-faint);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+/* Post Action Bar */
+.reddit-post-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-faint);
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.reddit-actions-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.reddit-action-pill {
+  background: #FAFAF9;
+  border: 1px solid var(--border-faint);
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.12s ease;
+}
+
+.reddit-action-pill:hover {
+  background: var(--bg-muted);
+  color: var(--text-dark);
+  border-color: var(--border-main);
+}
+
+.reddit-action-pill.active {
+  background: var(--text-dark);
+  color: #FFFFFF;
+  border-color: var(--text-dark);
+}
+
+.reddit-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   05. THREADED COMMENTS SECTION (Reddit / LinkedIn Style)
+   ────────────────────────────────────────────────────────────────────────── */
+.reddit-comments-thread {
+  background: #FAFAF9;
+  border-top: 1px solid var(--border-main);
+  padding: 14px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comments-thread-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.comments-thread-title {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+/* Inline Comment Composer Box */
+.comment-composer-box {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 9px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comment-textarea {
+  width: 100%;
+  min-height: 60px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-inter);
+  font-size: 12.5px;
+  color: var(--text-dark);
+  outline: none;
+  resize: vertical;
+}
+
+.comment-composer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 6px;
+  border-top: 1px solid var(--border-faint);
+}
+
+.comment-submit-btn {
+  background: var(--text-dark);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-family: var(--font-inter);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.comment-submit-btn:hover {
+  background: #000000;
+}
+
+/* Individual Comment Items */
+.comment-item-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.comment-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.comment-author-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.comment-author-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--text-dark);
+  color: #FFFFFF;
+  font-size: 9.5px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.comment-author-name {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.comment-author-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: #DCFCE7;
+  color: #15803D;
+}
+
+.comment-author-role {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.comment-time {
+  font-size: 10.5px;
+  color: var(--text-light);
+}
+
+.comment-body-text {
+  font-size: 12px;
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+.comment-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.comment-action-link {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+}
+
+.comment-action-link:hover {
+  color: var(--text-dark);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   06. COMMUNITY SIDEBAR WIDGETS (Reddit / LinkedIn Style)
+   ────────────────────────────────────────────────────────────────────────── */
+.community-sidebar-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.community-widget-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.widget-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.widget-desc {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+.widget-rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+}
+
+.widget-rule-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--text-main);
+  line-height: 1.35;
+}
+
+.rule-number {
+  font-weight: 800;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* Trending Flairs / Topics */
+.trending-flairs-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.trending-flair-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--text-dark);
+  font-size: 12px;
+  font-weight: 600;
+  transition: background 0.1s ease;
+  cursor: pointer;
+}
+
+.trending-flair-row:hover {
+  background: var(--bg-muted);
+}
+
+.flair-count {
+  font-size: 10.5px;
+  color: var(--text-light);
+  font-weight: normal;
+}
+
+/* Mentors List */
+.mentors-list-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mentor-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.mentor-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.mentor-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #141413;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mentor-name {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+
+.mentor-role {
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+
+.btn-mentor-action {
+  background: #FAFAF9;
+  border: 1px solid var(--border-main);
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: all 0.12s ease;
+  white-space: nowrap;
+}
+
+.btn-mentor-action:hover {
+  background: var(--text-dark);
+  color: #FFFFFF;
+  border-color: var(--text-dark);
+}
+
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   DEFINITIVE SIDEBAR COLLAPSED & EXPANDED BEHAVIOR FIX
+   ────────────────────────────────────────────────────────────────────────── */
+.founder-sidebar {
+  transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.2s ease, padding 0.18s ease !important;
+}
+
+.founder-sidebar.collapsed {
+  width: 60px !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
+  padding: 12px 6px 14px !important;
+  align-items: center !important;
+  gap: 8px !important;
+  overflow: visible !important;
+}
+
+.founder-sidebar.collapsed .sidebar-brand-row {
+  width: 100% !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin-bottom: 4px !important;
+}
+
+.founder-sidebar.collapsed .brand-title-wrap {
+  display: none !important;
+}
+
+.founder-sidebar.collapsed .brand-name,
+.founder-sidebar.collapsed .startup-switcher-name,
+.founder-sidebar.collapsed .startup-switcher-arrows,
+.founder-sidebar.collapsed .nav-group-label,
+.founder-sidebar.collapsed .nav-action-pill span,
+.founder-sidebar.collapsed .sidebar-nav-item span,
+.founder-sidebar.collapsed .sidebar-nav-count,
+.founder-sidebar.collapsed .founder-info-text {
+  display: none !important;
+}
+
+.founder-sidebar.collapsed .sidebar-collapse-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 6px !important;
+  margin: 0 auto !important;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+}
+
+.founder-sidebar.collapsed .startup-switcher-pill {
+  width: 38px !important;
+  height: 38px !important;
+  padding: 0 !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
+  margin: 0 auto !important;
+}
+
+.founder-sidebar.collapsed .startup-switcher-left {
+  justify-content: center !important;
+  gap: 0 !important;
+  width: 100% !important;
+}
+
+.founder-sidebar.collapsed .nav-group-section {
+  width: 100% !important;
+  align-items: center !important;
+  margin-top: 4px !important;
+  gap: 4px !important;
+}
+
+.founder-sidebar.collapsed .sidebar-nav-item {
+  width: 38px !important;
+  height: 38px !important;
+  padding: 0 !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
+  margin: 0 auto !important;
+}
+
+.founder-sidebar.collapsed .sidebar-nav-item-left {
+  gap: 0 !important;
+  justify-content: center !important;
+}
+
+.founder-sidebar.collapsed .sidebar-bottom-footer {
+  width: 100% !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 10px 0 0 !important;
+}
+
+.founder-sidebar.collapsed .founder-profile-pill {
+  padding: 0 !important;
+  justify-content: center !important;
+}
+
+/* Tooltips in Collapsed Sidebar */
+.founder-sidebar.collapsed [data-tooltip] {
+  position: relative !important;
+}
+
+.founder-sidebar.collapsed [data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #141413;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 5px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 99999;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   FULL-WIDTH LAYOUT FOR INVESTOR TRACKING & INVESTOR PIPELINE
+   ────────────────────────────────────────────────────────────────────────── */
+.it-page-root,
+#investorPipelineRoot,
+#investorTrackingRoot,
+.it-page-root.center-focused-container {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 20px 28px 60px !important;
+}
+
+.it-pipeline-header,
+.inv-table-wrap,
+.pipeline-board-container,
+.inv-board-grid {
+  width: 100% !important;
+  max-width: 100% !important;
+}

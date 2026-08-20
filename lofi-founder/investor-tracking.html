@@ -3,9 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seedicon — Investor Tracking</title>
+<title>Seedicon — Investor CRM &amp; Pipeline Tracking</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/global.css">
 <link rel="stylesheet" href="./css/styles.css">
+<link rel="stylesheet" href="./css/pages/investor-tracking.css">
 <!-- Lucide Icons CDN -->
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -28,7 +32,7 @@
         <div class="workspace-top-nav-left">
           <div class="topnav-page-title">
             <span class="topnav-page-icon"><i data-lucide="handshake" style="width:15px; height:15px;"></i></span>
-            <span class="topnav-page-name">Investor tracking</span>
+            <span class="topnav-page-name">Investor CRM</span>
           </div>
         </div>
 
@@ -39,33 +43,14 @@
           <span class="workspace-search-kbd">⌘K</span>
         </div>
 
-        <!-- Right Header Action Group -->
-        <div class="workspace-top-nav-right">
-          <button class="nav-ghost-icon-btn" title="Messages" onclick="openMessagesNavDrawer()">
-            <i data-lucide="message-square" style="width:16px; height:16px;"></i>
-          </button>
-
-          <button class="nav-ghost-icon-btn" title="Notifications" onclick="showNotifications()">
-            <i data-lucide="bell" style="width:16px; height:16px;"></i>
-          </button>
-
-          <button class="nav-ghost-icon-btn" title="Documentation &amp; Notes" onclick="showHelp()">
-            <i data-lucide="file-text" style="width:16px; height:16px;"></i>
-          </button>
-
-          <button class="nav-invite-btn" title="Invite Team Members" onclick="openInviteModal()">
-            <i data-lucide="user-plus" style="width:14px; height:14px;"></i>
-            <span>Invite</span>
-          </button>
-
-          <div class="avatar-gradient-circle" title="Dr. Sarah Chen (Founder)">SC</div>
-        </div>
+        <!-- Right Header Action Group (Populated via components.js) -->
+        <div class="workspace-top-nav-right"></div>
       </header>
 
       <!-- Scrollable Workspace Body -->
       <div class="workspace-scroll-body">
 
-        <div class="center-focused-container it-page-root" id="investorTrackingRoot">
+        <div class="it-page-root" id="investorTrackingRoot">
           <!-- Investor Tracking pipelines rendered dynamically via app.js -->
         </div>
 

@@ -3,9 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seedicon — Founder Challenges &amp; Peer Advisory</title>
+<title>Seedicon — Founder Challenges & Peer Advisory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="./css/styles.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/global.css">
+<link rel="stylesheet" href="./css/pages/founder-challenges.css">
 <!-- Lucide Icons CDN -->
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -19,9 +22,9 @@
     <!-- 01. Integrated Modern Sidebar Slot (Rendered via components.js) -->
     <div id="sidebarSlot"></div>
 
-    <!-- 02. Main Workspace Canvas (Center-Focused Founder Challenges) -->
+    <!-- 02. Main Workspace Canvas -->
     <main class="founder-workspace-canvas">
-      
+
       <!-- Top Navigation Header Bar -->
       <header class="workspace-top-nav">
         <!-- Left Area: Page Icon + Name -->
@@ -35,92 +38,151 @@
         <!-- Center Pill Search Bar -->
         <div class="workspace-search-pill-wrap">
           <i data-lucide="search" class="workspace-search-icon"></i>
-          <input type="text" class="workspace-search-input" placeholder="Search challenges, advice, tags, or founders..." oninput="handleChallengeSearch(this)" />
+          <input type="text" class="workspace-search-input" placeholder="Search challenges, advice, tags, or founders..." oninput="handleRedditChallengeSearch(this.value)" />
           <span class="workspace-search-kbd">⌘K</span>
         </div>
 
-        <!-- Right Header Action Group -->
-        <div class="workspace-top-nav-right">
-          <button class="nav-ghost-icon-btn" title="Messages" onclick="openMessagesNavDrawer()">
-            <i data-lucide="message-square" style="width:16px; height:16px;"></i>
-          </button>
-
-          <button class="nav-ghost-icon-btn" title="Notifications" onclick="showNotifications()">
-            <i data-lucide="bell" style="width:16px; height:16px;"></i>
-          </button>
-
-          <button class="nav-ghost-icon-btn" title="Documentation &amp; Notes" onclick="showHelp()">
-            <i data-lucide="file-text" style="width:16px; height:16px;"></i>
-          </button>
-
-          <button class="nav-invite-btn" title="Invite Team Members" onclick="openInviteModal()">
-            <i data-lucide="user-plus" style="width:14px; height:14px;"></i>
-            <span>Invite</span>
-          </button>
-
-          <div class="avatar-gradient-circle" title="Dr. Sarah Chen (Founder)">SC</div>
-        </div>
+        <!-- Right Header Action Group (Rendered via components.js) -->
+        <div class="workspace-top-nav-right"></div>
       </header>
 
-      <!-- Scrollable Workspace Body: Center-Focused Notion Style -->
+      <!-- Scrollable Workspace Body -->
       <div class="workspace-scroll-body">
-        
-        <div class="center-focused-container">
 
-          <!-- 01. Directory Hero Header Row -->
-          <div class="directory-hero-row" style="align-items:center;">
-            <div class="directory-hero-titles">
-              <h1 class="directory-main-title">
-                <span>Founder challenges</span>
-                <span class="badge-pill neutral-soft" id="challengesCountBadge">6 active challenges</span>
-              </h1>
-              <p class="directory-main-subtitle">
-                Community-driven peer advisory where founders share real hurdles, seek solutions, and exchange tactical lessons openly or anonymously.
+        <div class="center-focused-container" style="max-width:880px; padding:18px 16px 48px;">
+
+          <!-- 01. Page Header (Neutral hero band, explains the page simply) -->
+          <div class="challenges-page-head">
+            <div class="challenges-head-text">
+              <span class="challenges-eyebrow">Founder Community</span>
+              <h1 class="challenges-main-title">Founder Challenges</h1>
+              <p class="challenges-main-subtitle">
+                Founders share the problems they're facing, peers and mentors respond upfront with tactical advice, and everyone can talk around any challenge.
               </p>
             </div>
-
-            <!-- Share Problem CTA Button -->
-            <button class="btn btn-primary" onclick="openPostChallengeModal()" style="font-size:12.5px; padding:9px 16px; gap:6px; white-space:nowrap;">
-              <i data-lucide="plus" style="width:14px; height:14px;"></i>
-              <span>Share your challenge</span>
-            </button>
-          </div>
-
-          <!-- 02. Filter, Search & Category Controls Bar -->
-          <div class="directory-controls-bar">
-            <div class="directory-search-sort-row">
-              <div class="directory-search-box">
-                <i data-lucide="search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); width:14px; height:14px; color:var(--text-light);"></i>
-                <input type="text" class="directory-search-input" placeholder="Filter challenges by keyword, tag, or topic..." oninput="handleChallengeSearch(this)" />
-              </div>
-
-              <!-- Filter Selects -->
-              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                <!-- Category Filter -->
-                <select class="btn btn-outline directory-stage-select" style="font-size:11.5px; padding:6px 10px;" onchange="handleChallengeCategoryFilter(this.value)">
-                  <option value="all">All categories</option>
-                  <option value="Co-founder & Team">Co-founder &amp; Team</option>
-                  <option value="Fundraising & Pitching">Fundraising &amp; Pitching</option>
-                  <option value="Sales & GTM">Sales &amp; GTM</option>
-                  <option value="Legal & Equity">Legal &amp; Equity</option>
-                  <option value="Product & Tech">Product &amp; Tech</option>
-                  <option value="Hiring & Culture">Hiring &amp; Culture</option>
-                </select>
-
-                <!-- Post Type Filter -->
-                <select class="btn btn-outline directory-stage-select" style="font-size:11.5px; padding:6px 10px;" onchange="handleChallengeTypeFilter(this.value)">
-                  <option value="all">All posts</option>
-                  <option value="anonymous">Anonymous only</option>
-                  <option value="identified">Identified founders</option>
-                </select>
-              </div>
+            <div class="challenges-head-stats">
+              <span class="stat-cell"><strong>1,248</strong><span class="stat-lbl">active founders</span></span>
+              <span class="stat-cell"><strong>84</strong><span class="stat-lbl">solved this month</span></span>
             </div>
           </div>
 
-          <!-- 03. Challenges Feed Stream (Rendered dynamically via app.js) -->
-          <div id="founderChallengesList">
-            <!-- Dynamic Founder Challenge Cards -->
+          <!-- 02. On-Surface Composer (No Card, No Popup) -->
+          <div class="surface-composer" id="surfaceComposerCard">
+
+            <!-- Collapsed State Trigger Row -->
+            <div class="composer-collapsed-trigger" id="composerCollapsedTrigger" onclick="openSurfaceComposer()">
+              <div class="composer-author-avatar" title="Dr. Sarah Chen">SC</div>
+              <div class="composer-dummy-input">
+                Share a problem you're facing or ask the community for advice...
+              </div>
+              <button type="button" class="composer-post-btn" onclick="openSurfaceComposer()">
+                <i data-lucide="plus" style="width:14px; height:14px;"></i>
+                <span>Post</span>
+              </button>
+            </div>
+
+            <!-- Expanded State Form (In-Place on the Surface) -->
+            <form class="composer-expanded-form" id="composerExpandedForm" onsubmit="handleSurfacePostSubmit(event)">
+              <div class="composer-form-header">
+                <div class="composer-header-title">
+                  <i data-lucide="edit-3" style="width:14px; height:14px;"></i>
+                  <span>Share a challenge</span>
+                </div>
+                <button type="button" class="btn-icon" onclick="closeSurfaceComposer()" title="Close Composer" style="width:24px; height:24px;">
+                  <i data-lucide="x" style="width:14px; height:14px;"></i>
+                </button>
+              </div>
+
+              <!-- Post Title -->
+              <input type="text" id="composerTitleInput" class="composer-title-input" placeholder="Title: What specific challenge, blocker, or decision are you facing?" required />
+
+              <!-- Category Pills -->
+              <div>
+                <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px;">Category</div>
+                <div class="composer-category-row" id="composerCategoryRow">
+                  <span class="composer-cat-chip active" onclick="selectComposerCategory('Fundraising & Pitching', this)">Fundraising &amp; Pitching</span>
+                  <span class="composer-cat-chip" onclick="selectComposerCategory('Co-founder & Team', this)">Co-founder &amp; Team</span>
+                  <span class="composer-cat-chip" onclick="selectComposerCategory('Sales & GTM', this)">Sales &amp; GTM</span>
+                  <span class="composer-cat-chip" onclick="selectComposerCategory('Legal & Equity', this)">Legal &amp; Equity</span>
+                  <span class="composer-cat-chip" onclick="selectComposerCategory('Product & Tech', this)">Product &amp; Tech</span>
+                  <span class="composer-cat-chip" onclick="selectComposerCategory('Hiring & Culture', this)">Hiring &amp; Culture</span>
+                </div>
+              </div>
+
+              <!-- Post Content Body -->
+              <textarea id="composerContentInput" class="composer-textarea" placeholder="Describe the situation: What is the context? What have you already tried? What specific advice do you need?" required></textarea>
+
+              <!-- Tags Input -->
+              <input type="text" id="composerTagsInput" class="composer-tags-input" placeholder="Tags (comma-separated, e.g. term-sheet, liquidation-preference, seed-round)" />
+
+              <!-- Composer Footer: Anon Toggle & Submit -->
+              <div class="composer-footer-row">
+                <label class="composer-anon-toggle">
+                  <input type="checkbox" id="composerAnonCheckbox" />
+                  <span><i data-lucide="shield" style="width:12px; height:12px; display:inline; vertical-align:middle;"></i> Post anonymously</span>
+                </label>
+
+                <div class="composer-submit-actions">
+                  <button type="button" class="btn btn-outline" style="font-size:11.5px; padding:6px 12px;" onclick="closeSurfaceComposer()">Cancel</button>
+                  <button type="submit" class="btn btn-primary" style="font-size:11.5px; padding:6px 16px; gap:6px;">
+                    <i data-lucide="send" style="width:12px; height:12px;"></i>
+                    <span>Publish</span>
+                  </button>
+                </div>
+              </div>
+            </form>
+
           </div>
+
+          <!-- 03. Feed Section Head + Flat Sort & Filter Toolbar -->
+          <div class="feed-section-head">
+            <span class="feed-section-title">Latest challenges</span>
+            <span class="feed-section-count" id="challengesCountBadge"></span>
+          </div>
+
+          <div class="challenges-toolbar">
+            <!-- Sort Tabs -->
+            <div class="challenges-sort-tabs">
+              <button class="sort-tab-btn active" id="sortTabHot" onclick="handleRedditSort('hot', this)">
+                <i data-lucide="flame" style="width:13px; height:13px;"></i>
+                <span>Hot</span>
+              </button>
+              <button class="sort-tab-btn" id="sortTabNew" onclick="handleRedditSort('new', this)">
+                <i data-lucide="sparkles" style="width:13px; height:13px;"></i>
+                <span>New</span>
+              </button>
+              <button class="sort-tab-btn" id="sortTabTop" onclick="handleRedditSort('top', this)">
+                <i data-lucide="award" style="width:13px; height:13px;"></i>
+                <span>Top Voted</span>
+              </button>
+              <button class="sort-tab-btn" id="sortTabDiscussed" onclick="handleRedditSort('discussed', this)">
+                <i data-lucide="message-circle" style="width:13px; height:13px;"></i>
+                <span>Most Discussed</span>
+              </button>
+            </div>
+
+            <!-- Category & Type Filters -->
+            <div class="challenges-filters">
+              <select class="challenges-filter-dropdown" id="redditCategorySelect" onchange="handleRedditCategoryChange(this.value)">
+                <option value="all">All Topics</option>
+                <option value="Fundraising & Pitching">Fundraising &amp; Pitching</option>
+                <option value="Co-founder & Team">Co-founder &amp; Team</option>
+                <option value="Sales & GTM">Sales &amp; GTM</option>
+                <option value="Legal & Equity">Legal &amp; Equity</option>
+                <option value="Product & Tech">Product &amp; Tech</option>
+                <option value="Hiring & Culture">Hiring &amp; Culture</option>
+              </select>
+
+              <select class="challenges-filter-dropdown" id="redditTypeSelect" onchange="handleRedditTypeChange(this.value)">
+                <option value="all">All Posts</option>
+                <option value="identified">Verified Founders</option>
+                <option value="anonymous">Anonymous Only</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 04. Challenges Feed Stream (Rendered via JavaScript) -->
+          <div id="founderChallengesFeed"></div>
 
         </div>
 

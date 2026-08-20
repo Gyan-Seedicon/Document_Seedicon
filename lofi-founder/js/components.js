@@ -26,8 +26,8 @@ const FounderLayoutComponents = {
             </div>
             <span class="brand-name">Seedicon Founder</span>
           </a>
-          <button class="sidebar-collapse-btn" id="toggleSidebarBtn" title="Collapse Sidebar (⌘[)">
-            <i data-lucide="chevrons-left" style="width:14px; height:14px;" id="toggleSidebarIcon"></i>
+          <button class="sidebar-collapse-btn" id="toggleSidebarBtn" onclick="window.toggleSidebar(event)" title="Collapse Sidebar (⌘[)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevrons-left"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg>
           </button>
         </div>
 
@@ -90,12 +90,11 @@ const FounderLayoutComponents = {
           </a>
 
           <!-- 3. Product Listing -->
-          <a href="./public-product-listing.html" target="_blank" class="sidebar-nav-item ${isActive('listing')}" data-tooltip="Product Listing (Opens in new tab)">
+          <a href="./public-product-listing.html" class="sidebar-nav-item ${isActive('listing')}" data-tooltip="Product Listing">
             <div class="sidebar-nav-item-left">
               <i data-lucide="store" style="width:13.5px; height:13.5px;"></i>
               <span>Product Listing</span>
             </div>
-            <i data-lucide="external-link" style="width:10px; height:10px; color:var(--text-light); margin-left:auto;"></i>
           </a>
         </div>
 
@@ -336,6 +335,31 @@ const FounderLayoutComponents = {
       document.body.appendChild(div);
     }
   }
+};
+
+// Global Sidebar Toggle Helper (Single source of truth)
+window.toggleSidebar = function(event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  const founderSidebar = document.getElementById('founderSidebar');
+  if (!founderSidebar) return;
+
+  const isNowCollapsed = !founderSidebar.classList.contains('collapsed');
+  founderSidebar.classList.toggle('collapsed', isNowCollapsed);
+
+  const toggleBtn = document.getElementById('toggleSidebarBtn');
+  if (toggleBtn) {
+    toggleBtn.setAttribute('title', isNowCollapsed ? 'Expand Sidebar (⌘[)' : 'Collapse Sidebar (⌘[)');
+    toggleBtn.innerHTML = isNowCollapsed
+      ? '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevrons-right"><path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/></svg>'
+      : '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevrons-left"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg>';
+  }
+
+  try {
+    localStorage.setItem('seedicon_sidebar_collapsed', isNowCollapsed ? 'true' : 'false');
+  } catch (e) {}
 };
 
 // Global Interactive Helpers for Top Nav Dropdown & Header Buttons

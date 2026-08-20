@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — Founder Module PRD</title>
+<style>
+  :root {
+    --navy: #1F3B57;
+    --blue: #3B6E91;
+    --light-blue: #EAF1F6;
+    --grey-fill: #F7F8F9;
+    --border-grey: #DCE0E4;
+    --text-dark: #2B2B2B;
+    --muted: #6B7280;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: "Segoe UI", Calibri, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    color: var(--text-dark);
+    background: #F1F2F4;
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  .page-shell {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 0 0 60px 0;
+  }
+
+  /* ---- Sticky mini nav ---- */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 32px;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    letter-spacing: 0.02em;
+  }
+  .topbar span.dim { color: #B9C7D3; }
+
+  /* ---- Cover ---- */
+  .cover {
+    padding: 90px 60px 70px 60px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-grey);
+  }
+  .cover h1 {
+    font-size: 44px;
+    letter-spacing: 0.06em;
+    color: var(--navy);
+    margin: 0 0 10px 0;
+    font-weight: 800;
+  }
+  .cover h2 {
+    font-size: 24px;
+    color: var(--blue);
+    margin: 0 0 6px 0;
+    font-weight: 700;
+  }
+  .cover .doc-type {
+    font-size: 17px;
+    color: var(--text-dark);
+    margin-bottom: 40px;
+  }
+  .cover .divider {
+    width: 120px;
+    height: 2px;
+    background: var(--border-grey);
+    margin: 0 auto 40px auto;
+  }
+  .cover .meta-line { font-size: 14px; margin: 4px 0; color: var(--text-dark); }
+  .cover .meta-line.status { color: var(--muted); font-style: italic; }
+
+  .content { padding: 0 60px; }
+
+  /* ---- Headings ---- */
+  h1.section {
+    font-size: 22px;
+    color: var(--navy);
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 8px;
+    margin: 52px 0 16px 0;
+    font-weight: 800;
+    scroll-margin-top: 60px;
+  }
+  h2.subsection {
+    font-size: 17px;
+    color: var(--blue);
+    margin: 30px 0 12px 0;
+    font-weight: 700;
+    scroll-margin-top: 60px;
+  }
+  h3.subsubsection {
+    font-size: 14.5px;
+    color: var(--text-dark);
+    margin: 20px 0 8px 0;
+    font-weight: 700;
+    scroll-margin-top: 60px;
+  }
+
+  p { font-size: 14.5px; margin: 0 0 12px 0; }
+  p.note {
+    font-size: 12.5px;
+    color: var(--muted);
+    font-style: italic;
+    margin: 6px 0 14px 0;
+  }
+
+  /* ---- Tables ---- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 22px 0;
+    font-size: 13.5px;
+  }
+  thead th {
+    background: var(--navy);
+    color: #fff;
+    text-align: left;
+    padding: 9px 12px;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  tbody td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-grey);
+    border-left: 1px solid var(--border-grey);
+    border-right: 1px solid var(--border-grey);
+    vertical-align: top;
+  }
+  tbody tr:nth-child(even) { background: var(--grey-fill); }
+  table.bordered-frame { border: 1px solid var(--border-grey); }
+
+  /* ---- Bullets ---- */
+  ul.plain {
+    margin: 8px 0 18px 0;
+    padding-left: 22px;
+  }
+  ul.plain li {
+    font-size: 14.5px;
+    margin-bottom: 7px;
+  }
+  ul.plain li b { color: var(--navy); }
+  ul.plain.tight li { margin-bottom: 4px; }
+
+  /* ---- Flow arrows ---- */
+  .flow-line {
+    font-size: 14.5px;
+    background: var(--light-blue);
+    border-left: 3px solid var(--blue);
+    padding: 12px 16px;
+    margin: 10px 0 20px 0;
+    border-radius: 2px;
+  }
+  .flow-line b.endpoint { color: var(--navy); }
+
+  /* ---- Persona card ---- */
+  .persona-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 26px 0 4px 0;
+  }
+
+  /* ---- TOC ---- */
+  .toc-list { list-style: none; margin: 10px 0; padding: 0; }
+  .toc-list li {
+    display: flex;
+    align-items: baseline;
+    font-size: 14.5px;
+    margin-bottom: 9px;
+  }
+  .toc-list li.l1 { font-weight: 700; color: var(--navy); }
+  .toc-list li.l2 { font-weight: 400; color: var(--text-dark); font-size: 13.5px; margin-left: 22px; margin-bottom: 6px; }
+  .toc-list a { color: inherit; text-decoration: none; }
+  .toc-list a:hover { text-decoration: underline; }
+  .toc-label { white-space: nowrap; }
+  .toc-dots {
+    flex: 1;
+    border-bottom: 1px dotted #B7BEC5;
+    margin: 0 6px;
+    transform: translateY(-3px);
+  }
+  .toc-page { color: var(--muted); }
+  .toc-list li.l1 .toc-page { color: var(--navy); font-weight: 700; }
+
+  /* ---- Feature ref chip ---- */
+  .feat-title { display: flex; align-items: baseline; gap: 10px; }
+  .feat-chip {
+    background: var(--navy);
+    color: #fff;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
+  }
+
+  /* ---- UI walkthrough diagram (visual, not monospace) ---- */
+  .ui-diagram {
+    border: 1px solid var(--border-grey);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 14px 0 22px 0;
+    font-size: 12.5px;
+  }
+  .ui-topbar {
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+  }
+  .ui-topbar .center { color: #CFE0EB; font-weight: 400; }
+  .ui-body { display: flex; min-height: 220px; }
+  .ui-launcher {
+    width: 70px;
+    background: #EFF2F4;
+    border-right: 1px solid var(--border-grey);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px 0;
+  }
+  .ui-launcher .top-icons, .ui-launcher .bottom-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .ui-launcher .icon-dot {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid var(--border-grey);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: var(--blue);
+  }
+  .ui-sidebar {
+    width: 190px;
+    background: #FAFBFC;
+    border-right: 1px solid var(--border-grey);
+    padding: 12px;
+  }
+  .ui-sidebar .item {
+    padding: 7px 8px;
+    border-radius: 4px;
+    margin-bottom: 3px;
+    color: var(--text-dark);
+  }
+  .ui-sidebar .item.active { background: var(--light-blue); color: var(--navy); font-weight: 700; }
+  .ui-main {
+    flex: 1;
+    background: #fff;
+    padding: 16px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* ---- Footer credit ---- */
+  .doc-footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 30px 0 0 0;
+  }
+
+  @media print {
+    .topbar { display: none; }
+    body { background: #fff; }
+    .page-shell { max-width: none; }
+    h1.section { break-before: page; }
+    .cover { break-after: page; }
+  }
+
+  @media (max-width: 700px) {
+    .cover { padding: 60px 24px 40px 24px; }
+    .content { padding: 0 20px; }
+    .ui-sidebar { width: 140px; }
+    .ui-launcher { width: 56px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span><b>SEEDICON</b> · Founder Module PRD</span>
+  <span class="dim">v1.0 · Aug 6, 2026</span>
+</div>
+
+<div class="page-shell">
+
+  <!-- COVER -->
+  <div class="cover">
+    <h1>SEEDICON</h1>
+    <h2>Founder Module</h2>
+    <div class="doc-type">Product Requirements Document</div>
+    <div class="divider"></div>
+    <div class="meta-line">Version 1.0</div>
+    <div class="meta-line">August 6, 2026</div>
+    <div class="meta-line status">Status: Draft for Review</div>
+  </div>
+
+  <div class="content">
+
+    <!-- TOC -->
+    <h1 class="section" id="toc">Table of Contents</h1>
+    <ul class="toc-list">
+      <li class="l1"><a href="#s1"><span class="toc-label">1. Document Overview</span></a><span class="toc-dots"></span><span class="toc-page">01</span></li>
+      <li class="l1"><a href="#s2"><span class="toc-label">2. Executive Summary</span></a><span class="toc-dots"></span><span class="toc-page">01</span></li>
+      <li class="l1"><a href="#s3"><span class="toc-label">3. User Types</span></a><span class="toc-dots"></span><span class="toc-page">02</span></li>
+      <li class="l1"><a href="#s4"><span class="toc-label">4. User Personas</span></a><span class="toc-dots"></span><span class="toc-page">02</span></li>
+      <li class="l1"><a href="#s5"><span class="toc-label">5. Core User Flows</span></a><span class="toc-dots"></span><span class="toc-page">03</span></li>
+      <li class="l1"><a href="#s6"><span class="toc-label">6. Features Overview</span></a><span class="toc-dots"></span><span class="toc-page">03</span></li>
+      <li class="l2"><a href="#s6-1"><span class="toc-label">6.1 Detailed Feature Descriptions</span></a><span class="toc-dots"></span><span class="toc-page">04</span></li>
+      <li class="l1"><a href="#s7"><span class="toc-label">7. Onboarding and Forms</span></a><span class="toc-dots"></span><span class="toc-page">06</span></li>
+      <li class="l1"><a href="#s8"><span class="toc-label">8. Business Rules</span></a><span class="toc-dots"></span><span class="toc-page">07</span></li>
+      <li class="l1"><a href="#s9"><span class="toc-label">9. AI Integration and Automations</span></a><span class="toc-dots"></span><span class="toc-page">08</span></li>
+      <li class="l1"><a href="#s10"><span class="toc-label">10. Success Metrics</span></a><span class="toc-dots"></span><span class="toc-page">08</span></li>
+      <li class="l1"><a href="#s11"><span class="toc-label">11. User Stories</span></a><span class="toc-dots"></span><span class="toc-page">09</span></li>
+      <li class="l1"><a href="#s12"><span class="toc-label">12. Pages to Design</span></a><span class="toc-dots"></span><span class="toc-page">10</span></li>
+      <li class="l1"><a href="#s13"><span class="toc-label">13. Notifications and Email Summary</span></a><span class="toc-dots"></span><span class="toc-page">10</span></li>
+      <li class="l1"><a href="#s14"><span class="toc-label">14. Admin Portal Summary</span></a><span class="toc-dots"></span><span class="toc-page">11</span></li>
+      <li class="l1"><a href="#s15"><span class="toc-label">15. UI Structure of Platform</span></a><span class="toc-dots"></span><span class="toc-page">11</span></li>
+      <li class="l1"><a href="#s16"><span class="toc-label">16. Assumptions, Dependencies, and Open Questions</span></a><span class="toc-dots"></span><span class="toc-page">12</span></li>
+    </ul>
+    <p class="note">Section markers are for on-screen navigation; this document is intended to be read continuously.</p>
+
+    <!-- 1. DOCUMENT OVERVIEW -->
+    <h1 class="section" id="s1">1. Document Overview</h1>
+    <p>This section summarizes the purpose, ownership, and status of this document for quick reference.</p>
+    <table>
+      <thead><tr><th style="width:30%">Field</th><th style="width:70%">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Product Name</td><td>Seedicon</td></tr>
+        <tr><td>Document Type</td><td>Product Requirements Document (PRD)</td></tr>
+        <tr><td>Version</td><td>1.0</td></tr>
+        <tr><td>Date</td><td>August 6, 2026</td></tr>
+        <tr><td>Status</td><td>Draft for Review</td></tr>
+        <tr><td>Prepared By</td><td>Seedicon Product Team</td></tr>
+        <tr><td>Intended Audience</td><td>Founders, Engineering, Design, Admin Operations, and Leadership Stakeholders</td></tr>
+      </tbody>
+    </table>
+
+    <h2 class="subsection">1.1 Purpose of This Document</h2>
+    <p>This PRD defines the scope, features, user flows, and business rules for the Founder Module of the Seedicon platform. It is intended to align product, design, and engineering teams on what is being built, for whom, and why, prior to detailed design and development.</p>
+
+    <h2 class="subsection">1.2 Document Revision History</h2>
+    <table>
+      <thead><tr><th style="width:12%">Version</th><th style="width:18%">Date</th><th style="width:48%">Description</th><th style="width:22%">Author</th></tr></thead>
+      <tbody>
+        <tr><td>0.1</td><td>July 2026</td><td>Initial notes compiled from founder module discovery</td><td>Product Team</td></tr>
+        <tr><td>1.0</td><td>August 6, 2026</td><td>First structured PRD draft for stakeholder review</td><td>Product Team</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 2. EXECUTIVE SUMMARY -->
+    <h1 class="section" id="s2">2. Executive Summary</h1>
+    <p>Seedicon is an investment banking advisory platform that helps early-stage founders raise funds, gain visibility, and connect with the right investors, while giving investors an efficient way to discover high-potential startups. The Founder Module is the founder-facing half of the platform: it covers onboarding, startup listing, fundraising submission, founder networking, and a set of supporting tools (grants, market research, pitch deck review, due diligence, and analytics) that help founders get investment-ready.</p>
+    <p>This document describes the problem being solved, the two primary user types, the core user journeys, the complete feature set, onboarding and listing forms, governing business rules, AI-driven automations, success metrics, and the pages required for design. It is meant to be the single reference point for what ships in the first version of the Founder Module.</p>
+
+    <h2 class="subsection">2.1 Problem Statement</h2>
+    <ul class="plain">
+      <li><b>Problem:</b> Early-stage founders struggle to get discovered by the right investors and lack structured guidance on fundraising readiness, while investors struggle to efficiently find high-potential startups.</li>
+      <li><b>Solution:</b> Seedicon connects founders with curated investors and provides end-to-end fundraising support, startup visibility tools, and founder resources, all in one platform.</li>
+      <li><b>Outcome:</b> Founders accelerate their growth and fundraising journey; investors discover vetted, high-potential opportunities more efficiently.</li>
+    </ul>
+
+    <!-- 3. USER TYPES -->
+    <h1 class="section" id="s3">3. User Types</h1>
+    <p>The Founder Module supports two primary user types at the platform level, though this document focuses on the Founder experience.</p>
+    <table>
+      <thead><tr><th style="width:16%">User Type</th><th style="width:42%">Definition</th><th style="width:42%">Primary Goal on Platform</th></tr></thead>
+      <tbody>
+        <tr><td>Founder</td><td>Early-stage founders below Series funding stage building a startup.</td><td>Get discovered, raise funds, network with peers, and become investment-ready.</td></tr>
+        <tr><td>Investor</td><td>Individuals or firms looking to invest in high-return startups.</td><td>Discover and evaluate high-potential startups curated by Seedicon.</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Note: Investor-side features are governed by a separate module and are referenced here only where they intersect with founder flows (for example, fundraising curation and matching).</p>
+
+    <!-- 4. USER PERSONAS -->
+    <h1 class="section" id="s4">4. User Personas</h1>
+    <p>Two representative founder personas are used throughout this document to ground feature decisions in real user intent.</p>
+
+    <h2 class="subsection">4.1 Persona One: The First-Time Builder</h2>
+    <table>
+      <thead><tr><th style="width:28%">Attribute</th><th style="width:72%">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Name</td><td>Ananya Rao (representative persona)</td></tr>
+        <tr><td>Role</td><td>Solo Founder, Pre-Seed SaaS Startup</td></tr>
+        <tr><td>Background</td><td>First-time founder, 2 years into building a B2B SaaS product, no prior fundraising experience.</td></tr>
+        <tr><td>Goals</td><td>Get her product in front of real users, understand what investors expect, and prepare a credible pitch.</td></tr>
+        <tr><td>Frustrations</td><td>Does not know which documents are needed for due diligence; finds it hard to get feedback on her pitch deck; struggles to find relevant grants.</td></tr>
+        <tr><td>Platform Needs</td><td>Guided onboarding, due diligence checklist, pitch deck reviewer, product listing for visibility.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 class="subsection">4.2 Persona Two: The Networked Operator</h2>
+    <table>
+      <thead><tr><th style="width:28%">Attribute</th><th style="width:72%">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Name</td><td>Rohan Mehta (representative persona)</td></tr>
+        <tr><td>Role</td><td>Co-Founder, Seed-Stage D2C Brand</td></tr>
+        <tr><td>Background</td><td>Second-time founder with an existing network, actively raising a seed round and looking for warm introductions.</td></tr>
+        <tr><td>Goals</td><td>Get curated to relevant investors, benchmark against competitors, and learn from other founders facing similar scaling challenges.</td></tr>
+        <tr><td>Frustrations</td><td>Cold outreach to investors rarely converts; wants a trustworthy space to discuss challenges without competitors or recruiters watching.</td></tr>
+        <tr><td>Platform Needs</td><td>Fundraising submission and curation, founder network and messaging, founder struggles forum.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 5. CORE USER FLOWS -->
+    <h1 class="section" id="s5">5. Core User Flows</h1>
+    <p>The Founder Module supports three primary entry journeys depending on founder intent at sign-up. Each is summarized below, followed by a step-by-step breakdown.</p>
+    <table>
+      <thead><tr><th style="width:8%">Ref</th><th style="width:20%">Flow Name</th><th style="width:38%">Founder Intent</th><th style="width:34%">End State</th></tr></thead>
+      <tbody>
+        <tr><td>F1</td><td>Explore the Platform</td><td>Wants to browse the platform before committing to listing or fundraising.</td><td>Lands on Dashboard with basic profile set up.</td></tr>
+        <tr><td>F2</td><td>List Startup</td><td>Wants visibility for their product or startup.</td><td>Product listed publicly after admin approval.</td></tr>
+        <tr><td>F3</td><td>Raise Funds</td><td>Wants to be curated and matched with investors.</td><td>Fundraising request submitted for Seedicon review.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 class="subsection">5.1 Flow 1: Explore the Platform</h2>
+    <div class="flow-line"><b class="endpoint">Landing Page</b> → Sign Up → Select User Type (Founder) → Choose "Want to Explore" → Complete Basic Founder Onboarding → <b class="endpoint">Dashboard</b></div>
+
+    <h2 class="subsection">5.2 Flow 2: List Startup</h2>
+    <div class="flow-line"><b class="endpoint">Landing Page</b> → Sign Up → Select User Type (Founder) → Choose "Want to List Startup" → Complete Product Listing Form → Pay $5 Listing Fee → Submit for Admin Verification → Product Approved and Listed → <b class="endpoint">Product Listing Page</b></div>
+
+    <h2 class="subsection">5.3 Flow 3: Raise Funds</h2>
+    <div class="flow-line"><b class="endpoint">Landing Page</b> → Sign Up → Select User Type (Founder) → Choose "Want to Raise Funds" → Complete Fundraising Form → Submit to Seedicon (Investor Curation and Matching by Seedicon) → <b class="endpoint">Dashboard</b></div>
+
+    <!-- 6. FEATURES OVERVIEW -->
+    <h1 class="section" id="s6">6. Features Overview</h1>
+    <p>The Founder Module consists of eleven core features. The table below provides a quick reference; detailed descriptions and business rules for each follow in Section 6.1.</p>
+    <table>
+      <thead><tr><th style="width:8%">Ref</th><th style="width:26%">Feature</th><th style="width:66%">Description</th></tr></thead>
+      <tbody>
+        <tr><td>F01</td><td>Dashboard</td><td>Central hub showing startup news, local events, government grants, learning blogs, and due diligence checklists.</td></tr>
+        <tr><td>F02</td><td>Product Listing (Products Hub)</td><td>Product Hunt style discovery page for listed startups with filters and social engagement.</td></tr>
+        <tr><td>F03</td><td>Founder Network</td><td>Exclusive networking space for verified founders only, with profiles and internal messaging.</td></tr>
+        <tr><td>F04</td><td>Government Grants</td><td>Directory of government grants with filters and direct links to official application portals.</td></tr>
+        <tr><td>F05</td><td>Real Market Problems</td><td>Database of real-world market problems aggregated via AI or web scraping.</td></tr>
+        <tr><td>F06</td><td>Founder Struggles and Challenges</td><td>Forum for founders to post building challenges publicly or anonymously and get peer advice.</td></tr>
+        <tr><td>F07</td><td>Pitch Deck Reviewer</td><td>AI analysis of uploaded pitch decks with a CTA to rebuild decks via Deckwale.</td></tr>
+        <tr><td>F08</td><td>Due Diligence Checklist</td><td>Industry-specific checklists to verify legal, financial, and product documents before pitching.</td></tr>
+        <tr><td>F09</td><td>Startup News and Blogs</td><td>Aggregated startup news plus SEO-optimized learning blogs published by Seedicon.</td></tr>
+        <tr><td>F10</td><td>Product Analytics</td><td>Performance dashboard for listed products showing views, search appearances, and time spent.</td></tr>
+        <tr><td>F11</td><td>Messages</td><td>Internal, private conversations between verified founders.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 class="subsection" id="s6-1">6.1 Detailed Feature Descriptions</h2>
+    <p>Each feature below includes its purpose, key components, and governing business rules, so design and engineering can build against a shared understanding.</p>
+
+    <!-- F01 -->
+    <h3 class="subsubsection"><span class="feat-title"><span class="feat-chip">F01</span> Dashboard</span></h3>
+    <p>The Dashboard is the founder's landing page after onboarding. It personalizes content based on the founder's profile to surface relevant news, events, grants, and readiness tools without requiring active search.</p>
+    <table>
+      <thead><tr><th style="width:30%">Key Component</th><th style="width:70%">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>News Feed</td><td>Curated startup news relevant to the founder's industry.</td></tr>
+        <tr><td>Upcoming Events</td><td>Local startup events based on founder's city or country.</td></tr>
+        <tr><td>Grant Alerts</td><td>Relevant government grant opportunities.</td></tr>
+        <tr><td>Learning Blogs</td><td>Seedicon-published articles for founder education.</td></tr>
+        <tr><td>Due Diligence Widget</td><td>Quick-access checklist status for fundraising readiness.</td></tr>
+      </tbody>
+    </table>
+    <p><b>Business Rules</b></p>
+    <ul class="plain tight">
+      <li>Content is personalized based on founder profile data.</li>
+      <li>Grants, events, and recommendations update dynamically.</li>
+      <li>AI-generated content is clearly marked as such.</li>
+    </ul>
+
+    <!-- F02 -->
+    <h3 class="subsubsection"><span class="feat-title"><span class="feat-chip">F02</span> Product Listing (Products Hub)</span></h3>
+    <p>A Product Hunt-style discovery surface where approved startups are publicly listed. This is the primary visibility feature for founders who want their product discovered by the community and, indirectly, by investors.</p>
+    <table>
+      <thead><tr><th style="width:30%">Key Component</th><th style="width:70%">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Discovery Grid</td><td>Browsable grid of listed products with filters (industry, stage, etc.).</td></tr>
+        <tr><td>Social Engagement</td><td>Upvotes and engagement signals on each listing.</td></tr>
+        <tr><td>Product Detail View</td><td>Full listing page per product with all submitted details.</td></tr>
+      </tbody>
+    </table>
+    <p><b>Business Rules</b></p>
+    <ul class="plain tight">
+      <li>Only founders can create and manage startup listings.</li>
+      <li>A mandatory $5 listing fee is required before submission.</li>
+      <li>Listings remain Pending Review until approved by Seedicon admins; only approved listings are publicly visible.</li>
+      <li>Founders can edit and resubmit Draft or Rejected listings.</li>
+      <li>A startup can have only one active public listing at a time, and duplicate listings are not allowed.</li>
+      <li>Featured Startup listings are selected exclusively by the Seedicon team.</li>
+      <li>Deleted listings can be restored by an admin within a defined retention period.</li>
+    </ul>
+
+    <!-- F03 -->
+    <h3 class="subsubsection"><span class="feat-title"><span class="feat-chip">F03</span> Founder Network</span></h3>
+    <p>A networking space exclusively for verified founders. Investors and recruiters are excluded by design, so founders can connect and discuss openly with peers.</p>
+    <table>
+      <thead><tr><th style="width:30%">Key Component</th><th style="width:70%">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Founder Directory</td><td>Searchable and filterable list of verified founder profiles.</td></tr>
+        <tr><td>Profile Details</td><td>View of a founder's background, company, and experience.</td></tr>
+        <tr><td>Messaging Entry Point</td><td>Direct link to start a conversation with another founder.</td></tr>
+      </tbody>
+    </table>
+    <p><b>Business Rules</b></p>
+    <ul class="plain tight">
+      <li>Access is restricted to verified founders only.</li>
+      <li>Unverified founders cannot send internal messages until basic profile verification is completed.</li>
+    </ul>
+
+    <!-- F04 -->
+    <h3 class="subsubsection"><span class="feat-title"><span class="feat-chip">F04</span> Government Grants</span></h3>
+    <p>A discovery directory of government grant opportunities, helping founders find non-dilutive funding sources relevant to their stage and geography.</p>
+    <table>
+      <thead><tr><th style="width:30%">Key Component</th><th style="width:70%">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Grant Cards</td><td>Summary card per grant with key eligibility details.</td></tr>
+        <tr><td>Filters</td><td>Filter by geography, industry, or stage.</td></tr>
+        <tr><td>Apply Redirect</td><td>Direct link out to the official application portal (for example, Grants of India).</td></tr>
+      </tbody>
+    </table>
+    <p><b>Business Rules</b></p>
+    <ul class="plain tight">
+      <li>Grant listings are for discovery purposes only.</li>
+      <li>Applications redirect to official government portals.</li>
+      <li>Seedicon does not guarantee grant approvals.</li>
+    </ul>
+
+    <!-- F05 -->
+    <h3 class="subsubsection"><span class="feat-title"><span class="feat-chip">F05</span> Real Market Problems</span></h3>
+    <p>A research database of real-world market problems, helping founders validate ideas or discover new opportunity areas grounded in real demand signals.</p>
+    <table>
+      <thead><tr><th style="width:30%">Key Component</th><th style="width:70%">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Problem Feed</td><td>List of aggregated market problems with source context.</td></tr>
+        <tr><td>Category Tags</td><td>Tags to filter problems by industry or theme.</td></tr>
+      </tbody>
+    </table>
+    <p><b>Business Rules</b></p>
+    <ul class="plain tight">
+      <li>Problems are aggregated via AI or scraped from public sources.</li>
+      <li>Content is informational and may not represent real-time conditions.</li>
+    </ul>
+
+    <!-- F06 -->
+    <h3 class="subsubsection"><span class="feat-title"><span class="feat-chip">F06</span> Founder Struggles and Challenges</span></h3>
+    <p>A community forum where founders post building challenges, either publicly or anonymously, and receive advice and shared experiences from peers.</p>
+    <table>
+      <thead><tr><th style="width:30%">Key Component</th><th style="width:70%">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Post Feed</td><td>Chronological or trending feed of founder-submitted challenges.</td></tr>
+        <tr><td>Anonymous Toggle</td><td>Option to post without revealing founder identity.</td></tr>
+        <tr><td>Comment Section</td><td>Threaded advice and reactions from other founders.</td></tr>
+      </tbody>
+    </table>
+    <p><b>Business Rules</b></p>
+    <ul class="plain tight">
+      <li>Posts can be published anonymously or under the founder's identity.</li>
+      <li>Founders can comment, react, and share solutions.</li>
+      <li>Seedicon reserves the right to moderate inappropriate content.</li>
+    </ul>
+
+    <!-- F07 -->
+    <h3 class="subsubsection"><span class="feat-title"><span class="feat-chip">F07</span> Pitch Deck Reviewer</span></h3>
+    <p>An AI-powered tool that analyzes an uploaded pitch deck and returns improvement insights, with a direct path to rebuild the deck professionally via Deckwale.</p>
+    <table>
+      <thead><tr><th style="width:30%">Key Component</th><th style="width:70%">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>File Dropzone</td><td>Upload interface supporting PDF, PPT, and PPTX.</td></tr>
+        <tr><td>AI Insights Panel</td><td>Structured feedback generated automatically after upload.</td></tr>
+        <tr><td>Deckwale CTA</td><td>Call-to-action to rebuild the deck from scratch using Deckwale.</td></tr>
+      </tbody>
+    </table>
+    <p><b>Business Rules</b></p>
+    <ul class="plain tight">
+      <li>Supports PDF, PPT, and PPTX formats only.</li>
+      <li>AI analysis starts automatically upon upload.</li>
+      <li>Uploaded decks remain private to the founder.</li>
+      <li>AI recommendations are advisory and do not guarantee funding success.</li>
+      <li>Users can regenerate AI analysis or rebuild their deck using Deckwale.</li>
+    </ul>
+
+    <!-- F08 -->
+    <h3 class="subsubsection"><span class="feat-title"><span class="feat-chip">F08</span> Due Diligence Checklist</span></h3>
+    <p>Industry-specific checklists that help founders verify they have the legal, financial, and product documentation investors typically expect before a fundraising conversation.</p>
+    <table>
+      <thead><tr><th style="width:30%">Key Component</th><th style="width:70%">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Industry Selector</td><td>Choose the relevant industry to load the applicable checklist.</td></tr>
+        <tr><td>Document Checklist</td><td>List of required document categories with completion status.</td></tr>
+      </tbody>
+    </table>
+    <p><b>Business Rules</b></p>
+    <ul class="plain tight">
+      <li>Checklists are filtered by industry.</li>
+      <li>Content is guidance only and does not guarantee investment readiness.</li>
+    </ul>
+
+    <!-- F09 -->
+    <h3 class="subsubsection"><span class="feat-title"><span class="feat-chip">F09</span> Startup News and Blogs</span></h3>
+    <p>A learning and awareness surface combining aggregated startup news with original, SEO-optimized blog content published by Seedicon.</p>
+    <table>
+      <thead><tr><th style="width:30%">Key Component</th><th style="width:70%">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>News Feed</td><td>Scraped headlines and summaries from public online sources.</td></tr>
+        <tr><td>SEO Blogs</td><td>Original long-form articles authored by Seedicon.</td></tr>
+      </tbody>
+    </table>
+    <p><b>Business Rules</b></p>
+    <ul class="plain tight">
+      <li>News is scraped from public online sources.</li>
+      <li>Blogs are published by Seedicon for founder learning and SEO.</li>
+      <li>External news links redirect to original sources.</li>
+    </ul>
+
+    <!-- F10 -->
+    <h3 class="subsubsection"><span class="feat-title"><span class="feat-chip">F10</span> Product Analytics</span></h3>
+    <p>A private performance dashboard available to the founder who owns an approved listing, giving visibility into how their product is performing on the platform.</p>
+    <table>
+      <thead><tr><th style="width:30%">Key Component</th><th style="width:70%">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Views Graph</td><td>Trend of listing page views over time.</td></tr>
+        <tr><td>Search Impressions</td><td>How often the listing appeared in search or discovery results.</td></tr>
+        <tr><td>Time Spent</td><td>Average time users spend on the listing page.</td></tr>
+      </tbody>
+    </table>
+    <p><b>Business Rules</b></p>
+    <ul class="plain tight">
+      <li>Available only to the founder who owns the listing.</li>
+      <li>Metrics are updated periodically.</li>
+      <li>Analytics are private and hidden from public users.</li>
+      <li>Analytics become available only after the listing is approved and published.</li>
+    </ul>
+
+    <!-- F11 -->
+    <h3 class="subsubsection"><span class="feat-title"><span class="feat-chip">F11</span> Messages</span></h3>
+    <p>A private, internal messaging system limited to verified founders, designed to keep conversations focused and free of spam or solicitation.</p>
+    <table>
+      <thead><tr><th style="width:30%">Key Component</th><th style="width:70%">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Chat List</td><td>List of ongoing conversations with other founders.</td></tr>
+        <tr><td>Message Thread Pane</td><td>Individual conversation view for sending and receiving messages.</td></tr>
+      </tbody>
+    </table>
+    <p><b>Business Rules</b></p>
+    <ul class="plain tight">
+      <li>Verified founders can message other verified founders within the platform.</li>
+      <li>File or image attachments are not allowed in messages.</li>
+      <li>Spam, solicitation, and abusive content are prohibited.</li>
+      <li>Users can report or block inappropriate accounts.</li>
+      <li>Guideline violations may result in account suspension or bans.</li>
+    </ul>
+
+    <!-- 7. ONBOARDING AND FORMS -->
+    <h1 class="section" id="s7">7. Onboarding and Forms</h1>
+    <p>This section defines the structured data collected from founders across onboarding, product listing, and other submission forms. Field-level detail is provided so design and engineering can build accurate, validated forms.</p>
+
+    <h2 class="subsection">7.1 Founder Onboarding Form</h2>
+    <p>Basic founder details are collected once at sign-up. A LinkedIn URL can auto-fill much of this data via scraping (see Section 9, AI Integration).</p>
+
+    <h3 class="subsubsection">Founder Details</h3>
+    <ul class="plain">
+      <li><b>LinkedIn Profile URL:</b> Triggers auto-fill via Apify or equivalent scraping tool.</li>
+      <li><b>Profile Photo:</b> Uploaded or auto-filled from LinkedIn.</li>
+      <li><b>Profile Banner:</b> Uploaded image.</li>
+      <li><b>Full Name:</b> Required.</li>
+      <li><b>Designation:</b> Required.</li>
+      <li><b>Official Email:</b> Required; used for verification.</li>
+      <li><b>Contact Number:</b> Required; used to reduce fake accounts.</li>
+      <li><b>Country:</b> Required.</li>
+      <li><b>City:</b> Required.</li>
+      <li><b>Founder Background / Bio:</b> Free text.</li>
+    </ul>
+
+    <h3 class="subsubsection">Professional Experience (Repeatable)</h3>
+    <ul class="plain">
+      <li><b>Company Name:</b> Required per entry.</li>
+      <li><b>Designation / Role:</b> Required per entry.</li>
+      <li><b>Start Date:</b> Required per entry.</li>
+      <li><b>End Date:</b> Optional if current role.</li>
+    </ul>
+
+    <h3 class="subsubsection">Education (Repeatable)</h3>
+    <ul class="plain">
+      <li><b>University / Institution Name:</b> Required per entry.</li>
+      <li><b>Course / Major:</b> Required per entry.</li>
+      <li><b>Start Date:</b> Required per entry.</li>
+      <li><b>End Date:</b> Optional if ongoing.</li>
+    </ul>
+
+    <h3 class="subsubsection">Co-Founders / Founding Team (Optional, Repeatable)</h3>
+    <ul class="plain">
+      <li><b>Co-Founder Full Name:</b> Optional section.</li>
+      <li><b>Role:</b> Optional.</li>
+      <li><b>Official Email:</b> Optional.</li>
+      <li><b>LinkedIn Profile URL:</b> Optional.</li>
+      <li><b>Add Member Action:</b> Button to add additional co-founders.</li>
+    </ul>
+
+    <h2 class="subsection">7.2 Product Listing Form</h2>
+    <p>The Product Listing Form is a nine-step guided flow. Step 9 enforces the minimum required fields before a listing can be submitted for review.</p>
+    <ul class="plain">
+      <li><b>Step 1 — Product Description:</b> Product Logo, Product Name, Short Description, Detailed Description.</li>
+      <li><b>Step 2 — Product Details:</b> Website, Company Address, Social Links (LinkedIn, Instagram, X/Twitter), Key Features (multiple).</li>
+      <li><b>Step 3 — Product Media:</b> Product Demo Video, Product Images (up to 6).</li>
+      <li><b>Step 4 — Product Integrations:</b> Integrations (multiple).</li>
+      <li><b>Step 5 — Product Category:</b> Industries (multi-select), Other Industry.</li>
+      <li><b>Step 6 — Target Market and Stage:</b> Development Stage; FAQ set covering problem solved, target audience, uniqueness, business model, future plans, and usage.</li>
+      <li><b>Step 7 — Pricing and Competitors:</b> Pricing Plans (name, price, features); Competitor Links (multiple).</li>
+      <li><b>Step 8 — Important Links:</b> Link Name and Link URL (multiple).</li>
+      <li><b>Step 9 — Submit for Review:</b> Final validation of required fields before submission.</li>
+    </ul>
+
+    <h3 class="subsubsection">Step 9: Required Fields Before Submission</h3>
+    <p>The following fields must be complete before a founder can submit a listing for admin review:</p>
+    <ul class="plain tight">
+      <li>Product Logo</li>
+      <li>Product Name</li>
+      <li>Short Description</li>
+      <li>Detailed Description</li>
+      <li>Website</li>
+      <li>Company Address</li>
+      <li>Industry (or Other Industry, if not listed)</li>
+      <li>Development Stage</li>
+    </ul>
+
+    <h2 class="subsection">7.3 Founder Struggle Form</h2>
+    <ul class="plain">
+      <li><b>Challenge Title:</b> Required.</li>
+      <li><b>Description:</b> Required.</li>
+      <li><b>Category:</b> Required.</li>
+      <li><b>Tags:</b> Auto-filled based on description via AI.</li>
+      <li><b>Posting Option:</b> Anonymous or Named.</li>
+    </ul>
+
+    <h2 class="subsection">7.4 Pitch Deck Reviewer Form</h2>
+    <ul class="plain">
+      <li><b>Upload Pitch Deck:</b> Accepts PDF, PPT, or PPTX formats only.</li>
+    </ul>
+
+    <!-- 8. BUSINESS RULES -->
+    <h1 class="section" id="s8">8. Business Rules</h1>
+    <p>The rules below govern platform behavior across access control, listings, fundraising, networking, and content. They are grouped by functional area for traceability against features in Section 6.</p>
+
+    <h2 class="subsection">8.1 Platform Access</h2>
+    <ul class="plain tight">
+      <li>Only registered users can access the Founder Dashboard.</li>
+      <li>Users must select a role (Founder or Investor) during sign-up.</li>
+      <li>Mandatory onboarding details must be completed before using the platform.</li>
+      <li>Unverified founders cannot send internal messages until basic profile verification is completed.</li>
+      <li>Phone number is required during onboarding to reduce fake accounts, or sign-up via Google OAuth with disposable email blocking.</li>
+      <li>User duplication must be prevented.</li>
+    </ul>
+
+    <h2 class="subsection">8.2 Startup Listing</h2>
+    <ul class="plain tight">
+      <li>Only founders can create and manage startup listings.</li>
+      <li>A mandatory $5 listing fee is required before submission.</li>
+      <li>Listings remain Pending Review until approved by Seedicon admins.</li>
+      <li>Only approved listings are publicly visible.</li>
+      <li>Founders can edit and resubmit Draft or Rejected listings.</li>
+      <li>A startup can have only one active public listing at a time.</li>
+      <li>Duplicate startup listings are not allowed.</li>
+      <li>Analytics become available only after the listing is approved and published.</li>
+      <li>Deleted listings can be restored by an admin within a defined retention period.</li>
+      <li>Featured Startup listings are selected exclusively by the Seedicon team.</li>
+    </ul>
+
+    <h2 class="subsection">8.3 Fundraising</h2>
+    <ul class="plain tight">
+      <li>Only founders can submit fundraising applications.</li>
+      <li>Requests are manually reviewed and curated by the Seedicon team.</li>
+      <li>Application submission does not guarantee investor meetings or funding.</li>
+      <li>Founders cannot submit a new fundraising request while one is currently under review.</li>
+    </ul>
+
+    <h2 class="subsection">8.4 Founder Network and Messaging</h2>
+    <ul class="plain tight">
+      <li>Access is restricted to verified founders only.</li>
+      <li>Verified founders can message other verified founders within the platform.</li>
+      <li>File or image attachments are not allowed in messages.</li>
+      <li>Spam, solicitation, and abusive content are prohibited.</li>
+      <li>Users can report or block inappropriate accounts.</li>
+      <li>Guideline violations may result in account suspension or bans.</li>
+    </ul>
+
+    <h2 class="subsection">8.5 Government Grants</h2>
+    <ul class="plain tight">
+      <li>Grant listings are for discovery purposes only.</li>
+      <li>Applications redirect to official government portals (for example, Grants of India).</li>
+      <li>Seedicon does not guarantee grant approvals.</li>
+    </ul>
+
+    <h2 class="subsection">8.6 Real Market Problems</h2>
+    <ul class="plain tight">
+      <li>Problems are aggregated via AI or scraped from public sources.</li>
+      <li>Content is informational and may not represent real-time conditions.</li>
+    </ul>
+
+    <h2 class="subsection">8.7 Founder Challenges</h2>
+    <ul class="plain tight">
+      <li>Posts can be published anonymously or under the founder's identity.</li>
+      <li>Founders can comment, react, and share solutions.</li>
+      <li>Seedicon reserves the right to moderate inappropriate content.</li>
+    </ul>
+
+    <h2 class="subsection">8.8 Pitch Deck Reviewer</h2>
+    <ul class="plain tight">
+      <li>Supports PDF, PPT, and PPTX formats only.</li>
+      <li>AI analysis starts automatically upon upload.</li>
+      <li>Uploaded decks remain private to the founder.</li>
+      <li>AI recommendations are advisory and do not guarantee funding success.</li>
+      <li>Users can regenerate AI analysis or rebuild their deck using Deckwale.</li>
+    </ul>
+
+    <h2 class="subsection">8.9 Due Diligence Checklist</h2>
+    <ul class="plain tight">
+      <li>Checklists are filtered by industry.</li>
+      <li>Content is guidance only and does not guarantee investment readiness.</li>
+    </ul>
+
+    <h2 class="subsection">8.10 Startup News and Blogs</h2>
+    <ul class="plain tight">
+      <li>News is scraped from public online sources.</li>
+      <li>Blogs are published by Seedicon for founder learning and SEO.</li>
+      <li>External news links redirect to original sources.</li>
+    </ul>
+
+    <h2 class="subsection">8.11 Product Analytics</h2>
+    <ul class="plain tight">
+      <li>Available only to the founder who owns the listing.</li>
+      <li>Metrics are updated periodically.</li>
+      <li>Analytics are private and hidden from public users.</li>
+    </ul>
+
+    <h2 class="subsection">8.12 Dashboard</h2>
+    <ul class="plain tight">
+      <li>Content is personalized based on founder profile data.</li>
+      <li>Grants, events, and recommendations update dynamically.</li>
+      <li>AI-generated content is clearly marked.</li>
+    </ul>
+
+    <h2 class="subsection">8.13 Admin Permissions and Governance</h2>
+    <ul class="plain tight">
+      <li>Admins can Approve, Reject, Request Changes, or Remove listings.</li>
+      <li>Admins can moderate posts, comments, and reported content.</li>
+      <li>Admins can manage grants, blogs, featured startups, and global announcements.</li>
+    </ul>
+
+    <h2 class="subsection">8.14 Notifications and Privacy</h2>
+    <ul class="plain tight">
+      <li>Notifications are sent for listing status changes, fundraising updates, and messages.</li>
+      <li>Uploaded decks and fundraising documents remain private unless explicitly shared.</li>
+    </ul>
+
+    <!-- 9. AI INTEGRATION -->
+    <h1 class="section" id="s9">9. AI Integration and Automations</h1>
+    <p>The Founder Module relies on a small set of AI and automation touchpoints to reduce manual effort for founders and improve content relevance. These are summarized below.</p>
+    <table>
+      <thead><tr><th style="width:26%">Automation</th><th style="width:26%">Where It Is Used</th><th style="width:48%">What It Does</th></tr></thead>
+      <tbody>
+        <tr><td>LinkedIn Profile Auto-Fill</td><td>Founder Onboarding</td><td>Uses a scraping tool such as Apify to pull founder profile data from LinkedIn and pre-fill onboarding fields.</td></tr>
+        <tr><td>Pitch Deck Reviewer</td><td>Pitch Deck Reviewer</td><td>An LLM (for example, ChatGPT) analyzes an uploaded deck and generates improvement insights.</td></tr>
+        <tr><td>Real Market Problems</td><td>Real Market Problems</td><td>AI and web scraping aggregate real-world market problems from online resources.</td></tr>
+        <tr><td>Struggle Auto-Tagging</td><td>Founder Struggles and Challenges</td><td>AI automatically generates relevant tags based on a submitted challenge description.</td></tr>
+      </tbody>
+    </table>
+    <p class="note">All AI-generated content surfaced to founders is clearly labeled as such, per the business rule defined in Section 8.12.</p>
+
+    <!-- 10. SUCCESS METRICS -->
+    <h1 class="section" id="s10">10. Success Metrics</h1>
+    <p>The metrics below will be used to evaluate whether the Founder Module is meeting its intended outcomes after launch.</p>
+    <table>
+      <thead><tr><th style="width:26%">Metric</th><th style="width:44%">Definition</th><th style="width:30%">Target</th></tr></thead>
+      <tbody>
+        <tr><td>Onboarding Completion Rate</td><td>Percentage of signed-up founders completing basic onboarding.</td><td>Greater than 70%</td></tr>
+        <tr><td>Paid Listing Conversion</td><td>Percentage of listed products completing the $5 payment and submission.</td><td>Steady growth quarter over quarter</td></tr>
+        <tr><td>Founder Network Engagement</td><td>Active messages exchanged between verified founders.</td><td>High daily active usage</td></tr>
+        <tr><td>Deck Reviewer Utilization</td><td>Pitch deck uploads and resulting Deckwale rebuild conversions.</td><td>Strong conversion rate to Deckwale</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 11. USER STORIES -->
+    <h1 class="section" id="s11">11. User Stories</h1>
+    <p>User stories are grouped by feature area below, with the applicable founder journey and a priority rating to guide build sequencing.</p>
+    <p class="note">User Type values refer to the journey a story applies to: Basic Onboarded (explore flow), Fundraising, Product Listing, or All (applies regardless of entry flow).</p>
+    <table>
+      <thead><tr><th style="width:7%">ID</th><th style="width:15%">Feature Area</th><th style="width:48%">User Story</th><th style="width:15%">User Type</th><th style="width:15%">Priority</th></tr></thead>
+      <tbody>
+        <tr><td>US-01</td><td>Onboarding</td><td>I want to complete my onboarding with LinkedIn auto-fill so that I can set up my profile quickly.</td><td>Basic Onboarded</td><td>Must Have</td></tr>
+        <tr><td>US-02</td><td>Onboarding</td><td>I want to add my co-founders during onboarding so that our founding team is represented on my profile.</td><td>Basic Onboarded</td><td>Should Have</td></tr>
+        <tr><td>US-03</td><td>Product Listing</td><td>I want to list my product by paying $5 so that it can be reviewed and published for visibility.</td><td>Product Listing</td><td>Must Have</td></tr>
+        <tr><td>US-04</td><td>Product Listing</td><td>I want to edit and resubmit a rejected listing so that I can address admin feedback without starting over.</td><td>Product Listing</td><td>Must Have</td></tr>
+        <tr><td>US-05</td><td>Product Listing</td><td>I want to view analytics on my published listing so that I can understand how it is performing.</td><td>Product Listing</td><td>Should Have</td></tr>
+        <tr><td>US-06</td><td>Fundraising</td><td>I want to submit a fundraising request so that Seedicon can curate and match me with relevant investors.</td><td>Fundraising</td><td>Must Have</td></tr>
+        <tr><td>US-07</td><td>Fundraising</td><td>I want to see the status of my fundraising request so that I know where things stand.</td><td>Fundraising</td><td>Must Have</td></tr>
+        <tr><td>US-08</td><td>Founder Network</td><td>I want to message other verified founders so that I can network without investor or recruiter spam.</td><td>All</td><td>Must Have</td></tr>
+        <tr><td>US-09</td><td>Founder Network</td><td>I want to report or block a founder so that I feel safe using the messaging feature.</td><td>All</td><td>Must Have</td></tr>
+        <tr><td>US-10</td><td>Pitch Deck Reviewer</td><td>I want to upload my pitch deck so that I can get AI feedback and use Deckwale to recreate it.</td><td>All</td><td>Must Have</td></tr>
+        <tr><td>US-11</td><td>Due Diligence</td><td>I want to view an industry-specific checklist so that I know which documents I need before pitching.</td><td>All</td><td>Should Have</td></tr>
+        <tr><td>US-12</td><td>Government Grants</td><td>I want to filter grants relevant to my startup so that I can find non-dilutive funding options.</td><td>All</td><td>Should Have</td></tr>
+        <tr><td>US-13</td><td>Real Market Problems</td><td>I want to browse aggregated market problems so that I can validate or discover new opportunities.</td><td>All</td><td>Nice to Have</td></tr>
+        <tr><td>US-14</td><td>Founder Struggles</td><td>I want to post a challenge anonymously so that I can get honest advice without exposing my identity.</td><td>All</td><td>Should Have</td></tr>
+        <tr><td>US-15</td><td>Dashboard</td><td>I want a personalized dashboard so that I can see relevant news, events, and grants in one place.</td><td>All</td><td>Must Have</td></tr>
+        <tr><td>US-16</td><td>Admin</td><td>I want to review submitted startup listings so that I can approve, reject, or request changes.</td><td>All</td><td>Must Have</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 12. PAGES TO DESIGN -->
+    <h1 class="section" id="s12">12. Pages to Design</h1>
+    <p>The table below lists every page required for the Founder Module, mapped to its route, applicable user type, and key components, for handoff to design.</p>
+    <table>
+      <thead><tr><th style="width:13%">Slug</th><th style="width:6%">Ref</th><th style="width:15%">Page Name</th><th style="width:13%">User Type</th><th style="width:32%">Key Components</th><th style="width:21%">Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>/dashboard</td><td>P01</td><td>Dashboard</td><td>Founder</td><td>News feed, events, grant alerts, due diligence widget</td><td>Overview hub for founders</td></tr>
+        <tr><td>/products</td><td>P02</td><td>Product Listing</td><td>Public / Founder</td><td>Product Hunt style grid, filters, upvotes, product detail view</td><td>Discover listed startups</td></tr>
+        <tr><td>/network</td><td>P03</td><td>Founder Network</td><td>Verified Founder</td><td>Founder directory, filters, message button</td><td>Founder-to-founder networking</td></tr>
+        <tr><td>/grants</td><td>P04</td><td>Government Grants</td><td>Founder</td><td>Grant cards, filters, apply redirect link</td><td>Discover and apply for grants</td></tr>
+        <tr><td>/market-problems</td><td>P05</td><td>Real Market Problems</td><td>Founder</td><td>Aggregated market problem list, category tags</td><td>Research market gaps</td></tr>
+        <tr><td>/struggles</td><td>P06</td><td>Founder Struggles</td><td>Founder</td><td>Struggle post feed, anonymous toggle, comment section</td><td>Share challenges and advice</td></tr>
+        <tr><td>/pitch-reviewer</td><td>P07</td><td>Pitch Deck Reviewer</td><td>Founder</td><td>File dropzone, AI insights display, Deckwale CTA button</td><td>Analyze and improve pitch decks</td></tr>
+        <tr><td>/due-diligence</td><td>P08</td><td>Due Diligence Checklist</td><td>Founder</td><td>Industry selector, document checklist</td><td>Prepare for fundraising</td></tr>
+        <tr><td>/news-blogs</td><td>P09</td><td>News and Blogs</td><td>Public / Founder</td><td>Scraped news feed, SEO blogs</td><td>Learn and stay informed</td></tr>
+        <tr><td>/analytics</td><td>P10</td><td>Product Analytics</td><td>Listing Owner</td><td>Views graph, search impressions, time spent</td><td>Monitor product performance</td></tr>
+        <tr><td>/messages</td><td>P11</td><td>Messages</td><td>Verified Founder</td><td>Chat list, message thread pane</td><td>Private founder communication</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 13. NOTIFICATIONS -->
+    <h1 class="section" id="s13">13. Notifications and Email Summary</h1>
+    <p>The table below summarizes system-triggered notifications across email and in-app channels.</p>
+    <table>
+      <thead><tr><th style="width:34%">Trigger Event</th><th style="width:20%">Channel</th><th style="width:46%">Summary</th></tr></thead>
+      <tbody>
+        <tr><td>User Onboarding Completed</td><td>Email</td><td>Welcome email with next step guidance.</td></tr>
+        <tr><td>Product Listing Submitted and Fee Paid</td><td>Email / In-App</td><td>Confirmation of submission and payment; pending admin review.</td></tr>
+        <tr><td>Product Listing Approved / Rejected</td><td>Email / In-App</td><td>Listing status update notification with admin feedback.</td></tr>
+        <tr><td>Direct Message Received</td><td>In-App / Email</td><td>Notification of a new message from a verified founder.</td></tr>
+        <tr><td>Pitch Deck Review Ready</td><td>In-App</td><td>Alert when AI deck feedback is generated.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 14. ADMIN PORTAL -->
+    <h1 class="section" id="s14">14. Admin Portal Summary</h1>
+    <p>A summarized admin view supports founder onboarding review, startup listing approvals, and content moderation. Full admin specifications are covered in a separate Admin Module PRD; this section captures the touchpoints relevant to the Founder Module.</p>
+    <table>
+      <thead><tr><th style="width:28%">Module / Area</th><th style="width:72%">Summary View and Admin Actions</th></tr></thead>
+      <tbody>
+        <tr><td>Onboarding Submissions</td><td>Table summary of pending founder profiles for identity verification.</td></tr>
+        <tr><td>Product Listings Queue</td><td>Table of submitted product listings, fee payment verification, and Approve / Reject / Request Change actions.</td></tr>
+        <tr><td>Content and Moderation</td><td>Interface for moderating struggle posts, reported accounts, and comments.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 15. UI STRUCTURE -->
+    <h1 class="section" id="s15">15. UI Structure of Platform</h1>
+    <p>The Founder Module sits within a shared platform shell consisting of a top navigation bar, a tiny app-launcher sidebar, and a feature navigation sidebar specific to Seedicon.</p>
+
+    <h2 class="subsection">15.1 Navigation Layers</h2>
+    <table>
+      <thead><tr><th style="width:30%">Layer</th><th style="width:70%">Contents</th></tr></thead>
+      <tbody>
+        <tr><td>Top Navbar</td><td>Seedicon logo, global search, profile avatar.</td></tr>
+        <tr><td>Tiny Sidebar (Core App Launcher)</td><td>Seedicon, Allbuddy, Deckwale, Watch, Profile, Settings.</td></tr>
+        <tr><td>Feature Navigation Sidebar</td><td>Dashboard, Product Listing, Founder Network, Government Grants, Real Market Problems, Founder Struggles, Pitch Deck Reviewer, Due Diligence Checklist, Startup News and Blogs, Product Analytics, Messages.</td></tr>
+        <tr><td>Main Content Area</td><td>Renders the page corresponding to the selected feature navigation item.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 class="subsection">15.2 Layout Reference</h2>
+    <p>Picture the screen in three horizontal bands and one vertical split, read left to right, top to bottom, the way a founder would actually scan it on login.</p>
+    <p>Across the very top runs a slim navigation bar spanning the full width of the screen: the Seedicon logo sits on the left as the home anchor, a global search bar occupies the center for finding anything on the platform, and the founder's profile avatar sits on the right as the entry point to account and settings.</p>
+    <p>Below that, the screen splits into two vertical columns that persist as the founder moves between features. The far-left strip is a narrow, icon-only launcher, the founder's fastest way to jump between Seedicon's family of products: Seedicon itself, Allbuddy, Deckwale, and Watch stacked at the top, with Profile and Settings anchored at the bottom of the same strip so account controls are always in reach.</p>
+    <p>Immediately to the right of that launcher sits a wider feature navigation sidebar, scoped entirely to Seedicon. This is where a founder spends most of their time choosing what to do next: Dashboard sits at the top as the default landing item, followed by Product Listing, Founder Network, Government Grants, Real Market Problems, Founder Struggles, Pitch Deck Reviewer, Due Diligence Checklist, Startup News and Blogs, Product Analytics, and Messages, in that order.</p>
+    <p>The remaining, largest portion of the screen is the main content area. Whatever the founder selects in the feature navigation sidebar renders here, so this is effectively a single canvas that swaps content as the founder moves between Dashboard, Product Listing, Messages, and every other feature, while the navigation bar, launcher, and sidebar stay fixed in place around it.</p>
+
+    <div class="ui-diagram">
+      <div class="ui-topbar">
+        <span>Seedicon</span>
+        <span class="center">Search</span>
+        <span>● Profile</span>
+      </div>
+      <div class="ui-body">
+        <div class="ui-launcher">
+          <div class="top-icons">
+            <div class="icon-dot">SD</div>
+            <div class="icon-dot">AB</div>
+            <div class="icon-dot">DW</div>
+            <div class="icon-dot">W</div>
+          </div>
+          <div class="bottom-icons">
+            <div class="icon-dot">PR</div>
+            <div class="icon-dot">ST</div>
+          </div>
+        </div>
+        <div class="ui-sidebar">
+          <div class="item active">Dashboard</div>
+          <div class="item">Product Listing</div>
+          <div class="item">Founder Network</div>
+          <div class="item">Government Grants</div>
+          <div class="item">Real Market Problems</div>
+          <div class="item">Founder Struggles</div>
+          <div class="item">Pitch Deck Reviewer</div>
+          <div class="item">Due Diligence Checklist</div>
+          <div class="item">Startup News &amp; Blogs</div>
+          <div class="item">Product Analytics</div>
+          <div class="item">Messages</div>
+        </div>
+        <div class="ui-main">Main content area — renders the page for whatever is selected in the sidebar</div>
+      </div>
+    </div>
+    <p class="note">This description and diagram reflect the wireframe-level navigation skeleton shared during discovery and are provided for structural reference ahead of high-fidelity design.</p>
+
+    <!-- 16. ASSUMPTIONS -->
+    <h1 class="section" id="s16">16. Assumptions, Dependencies, and Open Questions</h1>
+    <p>The following items are called out for stakeholder alignment before or during development, as they are not fully specified in current discovery notes.</p>
+
+    <h2 class="subsection">16.1 Assumptions</h2>
+    <ul class="plain">
+      <li>Deckwale and Allbuddy are separate, existing Seedicon-family products accessible via the tiny sidebar app launcher; this PRD does not define their internal functionality.</li>
+      <li>Payment processing for the $5 listing fee will use a standard third-party payment gateway; gateway selection is outside this document's scope.</li>
+      <li>Admin verification for onboarding and listings is a manual review process at launch, without automated approval.</li>
+      <li>Investor-side matching logic (how Seedicon curates and matches fundraising requests to investors) is defined in a separate Investor Module PRD.</li>
+    </ul>
+
+    <h2 class="subsection">16.2 Dependencies</h2>
+    <ul class="plain">
+      <li>LinkedIn auto-fill depends on a third-party scraping service (for example, Apify) and is subject to that service's availability and rate limits.</li>
+      <li>Pitch Deck Reviewer depends on an LLM provider integration for deck analysis.</li>
+      <li>Government Grants directory depends on maintaining an up-to-date mapping to official portals such as Grants of India.</li>
+      <li>Startup News aggregation depends on ongoing access to public news sources via scraping or a licensed feed.</li>
+    </ul>
+
+    <h2 class="subsection">16.3 Open Questions</h2>
+    <ul class="plain">
+      <li>What is the review turnaround time target for admin approval of listings and onboarding verification?</li>
+      <li>Should the $5 listing fee be refundable if a listing is rejected?</li>
+      <li>What retention period applies to deleted listings before permanent removal?</li>
+      <li>Is there a limit on how many active fundraising requests a founder can have historically (versus the one-at-a-time in-review rule)?</li>
+      <li>What specific criteria determine a Featured Startup selection by the Seedicon team?</li>
+    </ul>
+
+    <div class="doc-footer">Seedicon — Founder Module PRD · Version 1.0 · August 6, 2026</div>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // If on Founder Challenges Page
-  if (document.getElementById('founderChallengesList')) {
+  if (document.getElementById('founderChallengesList') || document.getElementById('founderChallengesFeed')) {
     renderFounderChallengesPage();
   }
 
@@ -338,33 +338,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function bindFounderAppEvents() {
-  // Sidebar Collapse / Expand Handler
-  const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
-  const founderSidebar = document.getElementById('founderSidebar');
-  const toggleSidebarIcon = document.getElementById('toggleSidebarIcon');
-
-  function toggleSidebar() {
-    if (founderSidebar) {
-      founderSidebar.classList.toggle('collapsed');
-      const isCollapsed = founderSidebar.classList.contains('collapsed');
-      if (toggleSidebarIcon) {
-        toggleSidebarIcon.setAttribute('data-lucide', isCollapsed ? 'chevrons-right' : 'chevrons-left');
-        if (typeof lucide !== 'undefined') {
-          lucide.createIcons();
-        }
-      }
-    }
-  }
-
-  if (toggleSidebarBtn) {
-    toggleSidebarBtn.addEventListener('click', toggleSidebar);
-  }
-
   // Keyboard Shortcut: Cmd+[ or Ctrl+[ to toggle sidebar
   document.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === '[') {
       e.preventDefault();
-      toggleSidebar();
+      if (typeof window.toggleSidebar === 'function') {
+        window.toggleSidebar();
+      }
     }
     if (e.key === 'Escape') {
       closeModal();
@@ -4502,32 +4482,35 @@ window.FOUNDER_CHALLENGES_DATA = [
   }
 ];
 
-let currentChallengeSearch = '';
-let currentChallengeCategory = 'all';
-let currentChallengeType = 'all';
+let currentRedditSort = 'hot';
+let currentRedditCategory = 'all';
+let currentRedditType = 'all';
+let currentRedditSearch = '';
+let activeComposerCategory = 'Fundraising & Pitching';
 
 function renderFounderChallengesPage() {
-  const container = document.getElementById('founderChallengesList');
+  const container = document.getElementById('founderChallengesFeed') || document.getElementById('founderChallengesList');
   if (!container) return;
 
   const countBadge = document.getElementById('challengesCountBadge');
   if (countBadge) {
-    countBadge.textContent = `${window.FOUNDER_CHALLENGES_DATA.length} active challenges`;
+    countBadge.textContent = `${(window.FOUNDER_CHALLENGES_DATA || []).length} active challenges`;
   }
 
-  filterAndRenderChallenges();
+  filterAndRenderRedditChallenges();
 }
 
 window.renderFounderChallengesPage = renderFounderChallengesPage;
 
-function filterAndRenderChallenges() {
-  const container = document.getElementById('founderChallengesList');
+function filterAndRenderRedditChallenges() {
+  const container = document.getElementById('founderChallengesFeed') || document.getElementById('founderChallengesList');
   if (!container) return;
 
-  let list = window.FOUNDER_CHALLENGES_DATA || [];
+  let list = [...(window.FOUNDER_CHALLENGES_DATA || [])];
 
-  if (currentChallengeSearch.trim()) {
-    const q = currentChallengeSearch.toLowerCase().trim();
+  // 1. Search Filter
+  if (currentRedditSearch.trim()) {
+    const q = currentRedditSearch.toLowerCase().trim();
     list = list.filter(c =>
       c.title.toLowerCase().includes(q) ||
       c.content.toLowerCase().includes(q) ||
@@ -4537,408 +4520,395 @@ function filterAndRenderChallenges() {
     );
   }
 
-  if (currentChallengeCategory !== 'all') {
-    list = list.filter(c => c.category.toLowerCase() === currentChallengeCategory.toLowerCase());
+  // 2. Category Filter
+  if (currentRedditCategory !== 'all') {
+    list = list.filter(c => c.category.toLowerCase() === currentRedditCategory.toLowerCase());
   }
 
-  if (currentChallengeType !== 'all') {
-    if (currentChallengeType === 'anonymous') {
+  // 3. Post Type Filter
+  if (currentRedditType !== 'all') {
+    if (currentRedditType === 'anonymous') {
       list = list.filter(c => c.isAnonymous);
-    } else if (currentChallengeType === 'identified') {
+    } else if (currentRedditType === 'identified') {
       list = list.filter(c => !c.isAnonymous);
     }
   }
 
-  renderChallengeStream(list);
+  // 4. Sort Filter (Hot, New, Top, Discussed)
+  if (currentRedditSort === 'new') {
+    list.sort((a, b) => (b.id > a.id ? 1 : -1));
+  } else if (currentRedditSort === 'top') {
+    list.sort((a, b) => (b.likesCount || 0) - (a.likesCount || 0));
+  } else if (currentRedditSort === 'discussed') {
+    list.sort((a, b) => ((b.answers || []).length) - ((a.answers || []).length));
+  } else {
+    // 'hot': score based on votes and discussion activity
+    list.sort((a, b) => ((b.likesCount || 0) + (b.answers || []).length * 4) - ((a.likesCount || 0) + (a.answers || []).length * 4));
+  }
+
+  renderRedditChallengeStream(list, container);
 }
 
-window.filterAndRenderChallenges = filterAndRenderChallenges;
+window.filterAndRenderRedditChallenges = filterAndRenderRedditChallenges;
+window.filterAndRenderChallenges = filterAndRenderRedditChallenges;
 
-function renderChallengeStream(list) {
-  const container = document.getElementById('founderChallengesList');
-  if (!container) return;
-
+function renderRedditChallengeStream(list, container) {
   if (list.length === 0) {
     container.innerHTML = `
-      <div class="empty-placeholder-box" style="padding:48px 24px; text-align:center;">
-        <i data-lucide="help-circle" style="width:32px; height:32px; color:var(--text-light); margin-bottom:8px;"></i>
-        <h4 style="font-size:14px; font-weight:800; color:var(--text-dark); margin:0 0 4px;">No matching challenges found</h4>
-        <p style="font-size:12px; color:var(--text-muted); margin:0;">Try adjusting your keyword or category filter selections.</p>
+      <div class="challenges-empty">
+        <i data-lucide="help-circle" class="empty-icon"></i>
+        <h4>No challenges found</h4>
+        <p>Try adjusting your keyword or topic filter, or share a new challenge above.</p>
+        <button class="btn btn-outline" onclick="openSurfaceComposer()" style="font-size:12px; padding:6px 14px;">
+          <i data-lucide="plus" style="width:13px; height:13px;"></i>
+          <span>Share a challenge</span>
+        </button>
       </div>`;
     if (typeof lucide !== 'undefined') lucide.createIcons();
     return;
   }
 
-  container.innerHTML = `
-    <div class="challenge-listing-stream">
-      ${list.map(c => `
-        <div class="challenge-card" id="challenge-card-${c.id}" onclick="window.toggleChallengeExpand('${c.id}', event)">
-          <!-- Top Author Row -->
-          <div class="challenge-author-row">
-            <div class="challenge-author-left">
-              <div class="challenge-avatar ${c.isAnonymous ? 'anonymous' : ''}">
-                ${c.authorAvatar}
-              </div>
-              <div class="challenge-author-info">
+  container.innerHTML = list.map(c => {
+    const isSaved = c.isSaved || false;
+    const answers = c.answers || [];
+    const answersCount = answers.length;
+
+    return `
+      <article class="challenge-row" id="reddit-card-${c.id}">
+
+        <!-- Meta Header -->
+        <div class="challenge-head">
+          <div class="challenge-meta">
+            <div class="challenge-avatar ${c.isAnonymous ? 'anon' : ''}">
+              ${c.authorAvatar || (c.isAnonymous ? '🎭' : 'FC')}
+            </div>
+            <div>
+              <div class="challenge-author-line">
                 <span class="challenge-author-name">${c.authorName}</span>
-                ${c.isAnonymous ? `<span class="challenge-anon-tag"><i data-lucide="shield" style="width:9px;height:9px;"></i> Anon</span>` : ''}
-                <span style="font-size:11px; color:var(--text-light);">·</span>
-                <span class="challenge-author-meta">${c.companyName}</span>
+                <span class="challenge-author-company">· ${c.companyName}</span>
               </div>
-            </div>
-
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span class="category-tag-pill">${c.category}</span>
-              <span class="challenge-date">${c.postDate}</span>
+              <div class="challenge-time">${c.postDate}</div>
             </div>
           </div>
+          <span class="challenge-cat">${c.category}</span>
+        </div>
 
-          <!-- Question / Post Title -->
-          <h3 class="challenge-title">${c.title}</h3>
+        <!-- Title -->
+        <h2 class="challenge-title" onclick="toggleRedditComments('${c.id}', event)">
+          ${c.title}
+        </h2>
 
-          <!-- Post Content (Condensed with See more) -->
-          <div class="challenge-content-wrap">
-            <p class="${c.isExpanded ? 'challenge-content-expanded' : 'challenge-content-collapsed'}">
-              ${c.content}
-            </p>
-            <button class="challenge-see-more-link" onclick="window.toggleChallengeExpand('${c.id}', event)">
-              <span>${c.isExpanded ? 'See less' : 'See more'}</span>
-              <i data-lucide="${c.isExpanded ? 'chevron-up' : 'chevron-down'}" style="width:11px; height:11px;"></i>
+        <!-- Body (with expand/collapse) -->
+        <div class="challenge-body ${c.isExpanded ? 'expanded' : 'collapsed'}" id="reddit-body-${c.id}">
+          ${c.content}
+        </div>
+        ${c.content && c.content.length > 200 ? `
+          <button class="challenge-more" onclick="toggleRedditBodyExpand('${c.id}', event)">
+            <span>${c.isExpanded ? 'Show less' : 'Read full context'}</span>
+            <i data-lucide="${c.isExpanded ? 'chevron-up' : 'chevron-down'}" style="width:12px; height:12px;"></i>
+          </button>
+        ` : ''}
+
+        <!-- Tags -->
+        ${c.tags && c.tags.length > 0 ? `
+          <div class="challenge-tags">
+            ${c.tags.map(t => `<button class="challenge-tag" onclick="filterByFlair('${t}')">#${t}</button>`).join('')}
+          </div>
+        ` : ''}
+
+        <!-- Actions -->
+        <div class="challenge-actions" onclick="event.stopPropagation();">
+          <button class="challenge-action ${c.showAnswers ? 'active' : ''}" onclick="toggleRedditComments('${c.id}', event)" title="View answers and join the discussion">
+            <i data-lucide="message-square" style="width:13px; height:13px;"></i>
+            <span class="action-count">${answersCount}</span>
+            <span>${answersCount === 1 ? 'Answer' : 'Answers'}</span>
+          </button>
+
+          <button class="challenge-action" onclick="copyRedditPostLink('${c.id}', event)" title="Copy shareable link">
+            <i data-lucide="share-2" style="width:13px; height:13px;"></i>
+            <span>Share</span>
+          </button>
+
+          <button class="challenge-action ${isSaved ? 'active' : ''}" onclick="toggleRedditSavePost('${c.id}', event)" title="Save for later reference">
+            <i data-lucide="bookmark" style="width:13px; height:13px; fill:${isSaved ? 'currentColor' : 'none'};"></i>
+            <span>${isSaved ? 'Saved' : 'Save'}</span>
+          </button>
+
+          ${!c.isAnonymous ? `
+            <button class="challenge-action" onclick="openDirectMentorChat('${c.id}', '${c.authorName}')" title="Open a direct conversation">
+              <i data-lucide="message-circle" style="width:13px; height:13px;"></i>
+              <span>Message</span>
             </button>
-          </div>
-
-          <!-- Tags Row -->
-          ${c.tags && c.tags.length > 0 ? `
-            <div class="challenge-tags-row">
-              ${c.tags.map(t => `<span class="challenge-tag-pill">#${t}</span>`).join('')}
-            </div>
           ` : ''}
+        </div>
 
-          <!-- Footer Action Bar -->
-          <div class="challenge-footer-actions" onclick="event.stopPropagation();">
-            <div class="challenge-footer-left">
-              <button class="challenge-action-btn ${c.isLiked ? 'active' : ''}" onclick="window.toggleChallengeLike('${c.id}', event)" title="Like this challenge">
-                <i data-lucide="thumbs-up" style="fill:${c.isLiked ? 'currentColor' : 'none'};"></i>
-                <span id="challenge-likes-${c.id}">${c.likesCount}</span>
-              </button>
-
-              <button class="challenge-action-btn" onclick="window.toggleChallengeAnswers('${c.id}')" title="View discussion and peer answers">
-                <i data-lucide="message-square"></i>
-                <span>${(c.answers || []).length} answers</span>
-                <i data-lucide="${c.showAnswers ? 'chevron-up' : 'chevron-down'}" style="width:11px;height:11px;"></i>
-              </button>
+        <!-- ──────────────────────────────────────────────────────────────────
+             ON-SURFACE DISCUSSION THREAD & INLINE COMPOSER
+             ────────────────────────────────────────────────────────────────── -->
+        ${c.showAnswers ? `
+          <div class="challenge-thread" id="reddit-thread-${c.id}" onclick="event.stopPropagation();">
+            <div class="thread-header">
+              <span class="thread-title">Responses (${answersCount})</span>
+              <span class="thread-verified-note"><i data-lucide="shield-check" style="width:11px; height:11px; display:inline;"></i> Verified peer advice</span>
             </div>
 
-            <div style="display:flex; align-items:center; gap:6px;">
-              <button class="btn btn-primary" style="font-size:11.5px; padding:5px 12px; gap:5px;" onclick="window.openShareSolutionModal('${c.id}')">
-                <i data-lucide="sparkles" style="width:11px;height:11px;"></i>
-                <span>Share solution</span>
-              </button>
-              <button class="btn btn-outline" style="font-size:11.5px; padding:5px 8px;" onclick="window.copyChallengeLink('${c.id}')" title="Share discussion link">
-                <i data-lucide="share-2" style="width:11px;height:11px;"></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- Expandable Answers Thread -->
-          ${c.showAnswers ? `
-            <div class="challenge-answers-container" onclick="event.stopPropagation();">
-              <div style="display:flex; align-items:center; justify-content:space-between;">
-                <h4 style="font-size:12px; font-weight:800; color:var(--text-dark); margin:0;">Peer solutions &amp; advice (${(c.answers || []).length})</h4>
-                <span style="font-size:10.5px; color:var(--text-muted);">Verified founders &amp; mentors</span>
-              </div>
-
-              ${(c.answers || []).map(ans => `
-                <div class="challenge-answer-card">
-                  <div class="challenge-answer-header">
-                    <div style="display:flex; align-items:center; gap:7px;">
-                      <div class="challenge-avatar" style="width:24px; height:24px; font-size:10px;">
-                        ${ans.authorAvatar}
-                      </div>
-                      <div style="display:flex; align-items:center; gap:4px; font-size:11.5px;">
-                        <span style="font-weight:800; color:var(--text-dark);">${ans.authorName}</span>
-                        <span style="color:var(--text-light);">·</span>
-                        <span style="color:var(--text-muted);">${ans.authorRole}</span>
-                      </div>
-                    </div>
-                    <span style="font-size:10.5px; color:var(--text-light);">${ans.postDate}</span>
-                  </div>
-                  <p class="challenge-answer-content">${ans.content}</p>
+            <!-- Inline Reply Composer -->
+            <div class="thread-composer">
+              <textarea id="reddit-reply-input-${c.id}" class="comment-textarea" placeholder="Write tactical, experience-backed advice for ${c.isAnonymous ? 'this founder' : c.authorName.split(' ')[0]}..."></textarea>
+              <div class="thread-composer-footer">
+                <div class="replying-as">
+                  <span class="composer-author-avatar" style="width:18px; height:18px; font-size:8px;">SC</span>
+                  <span>Replying as <strong>Dr. Sarah Chen</strong> (Alpha Health)</span>
                 </div>
-              `).join('')}
+                <button class="comment-submit-btn" onclick="submitRedditReply('${c.id}', event)">
+                  <span>Post Answer</span>
+                </button>
+              </div>
+            </div>
 
-              <!-- Inline Answer Composer -->
-              <div class="challenge-answer-composer">
-                <textarea id="answer-input-${c.id}" class="challenge-answer-textarea" placeholder="Write tactical, experience-backed advice for this founder..."></textarea>
-                <div style="display:flex; justify-content:flex-end; gap:8px;">
-                  <button class="btn btn-primary" style="font-size:11.5px; padding:5px 12px;" onclick="window.submitChallengeAnswer('${c.id}')">
-                    Post answer
+            <!-- Answers Stream -->
+            ${answersCount > 0 ? answers.map(ans => `
+              <div class="thread-answer">
+                <div class="answer-head">
+                  <div class="answer-author">
+                    <div class="answer-avatar">
+                      ${ans.authorAvatar || 'FA'}
+                    </div>
+                    <div>
+                      <div>
+                        <span class="answer-name">${ans.authorName}</span>
+                        <span class="answer-badge">Verified</span>
+                      </div>
+                      <div class="answer-role">${ans.authorRole} · ${ans.companyName}</div>
+                    </div>
+                  </div>
+                  <span class="answer-time">${ans.postDate}</span>
+                </div>
+
+                <p class="answer-body">${ans.content}</p>
+
+                <div class="answer-actions">
+                  <button class="answer-action-link" onclick="handleCommentUpvote('${c.id}', '${ans.id}', this)">
+                    <i data-lucide="arrow-big-up" style="width:13px; height:13px;"></i>
+                    <span>Helpful (${ans.likesCount || 1})</span>
+                  </button>
+                  <button class="answer-action-link" onclick="openDirectMentorChat('${ans.id}', '${ans.authorName}')">
+                    <i data-lucide="message-circle" style="width:12px; height:12px;"></i>
+                    <span>Reply / DM</span>
                   </button>
                 </div>
               </div>
-            </div>
-          ` : ''}
-        </div>
-      `).join('')}
-    </div>
-  `;
+            `).join('') : `
+              <div style="padding:16px 0 4px; text-align:center; color:var(--text-muted); font-size:12px;">
+                No responses yet. Be the first to share tactical advice!
+              </div>
+            `}
+
+          </div>
+        ` : ''}
+
+      </article>
+    `;
+  }).join('');
 
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-window.renderChallengeStream = renderChallengeStream;
+// ──────────────────────────────────────────────────────────────────────────
+// INTERACTIVE REDDIT ACTIONS & COMPOSER CONTROLS
+// ──────────────────────────────────────────────────────────────────────────
 
-window.toggleChallengeExpand = function (challengeId, event) {
-  if (event) event.stopPropagation();
-
-  const challenge = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
-  if (!challenge) return;
-
-  challenge.isExpanded = !challenge.isExpanded;
-  filterAndRenderChallenges();
+window.handleRedditSort = function(sortKey, btn) {
+  currentRedditSort = sortKey;
+  document.querySelectorAll('.sort-tab-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  filterAndRenderRedditChallenges();
 };
 
-window.handleChallengeSearch = function (input) {
-  currentChallengeSearch = input.value;
-  filterAndRenderChallenges();
+window.handleRedditCategoryChange = function(cat) {
+  currentRedditCategory = cat;
+  filterAndRenderRedditChallenges();
 };
 
-window.handleChallengeCategoryFilter = function (val) {
-  currentChallengeCategory = val;
-  filterAndRenderChallenges();
+window.handleRedditTypeChange = function(type) {
+  currentRedditType = type;
+  filterAndRenderRedditChallenges();
 };
 
-window.handleChallengeTypeFilter = function (val) {
-  currentChallengeType = val;
-  filterAndRenderChallenges();
+window.handleRedditChallengeSearch = function(query) {
+  currentRedditSearch = query;
+  filterAndRenderRedditChallenges();
 };
 
-window.toggleChallengeLike = function (challengeId, event) {
-  if (event) event.stopPropagation();
+window.filterByFlair = function(flair) {
+  currentRedditSearch = flair;
+  const searchInput = document.querySelector('.workspace-search-input');
+  if (searchInput) searchInput.value = flair;
+  filterAndRenderRedditChallenges();
+  if (window.showToast) window.showToast(`Filtered feed by #${flair}`);
+};
 
-  const challenge = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
-  if (!challenge) return;
+// On-Surface Composer Controls
+window.openSurfaceComposer = function() {
+  const card = document.getElementById('surfaceComposerCard');
+  const trigger = document.getElementById('composerCollapsedTrigger');
+  const form = document.getElementById('composerExpandedForm');
 
-  challenge.isLiked = !challenge.isLiked;
-  challenge.likesCount += challenge.isLiked ? 1 : -1;
-
-  const countElem = document.getElementById(`challenge-likes-${challenge.id}`);
-  if (countElem) {
-    countElem.textContent = challenge.likesCount;
-  }
-
-  const btn = event ? event.currentTarget : null;
-  if (btn) {
-    btn.classList.toggle('active', challenge.isLiked);
-    const icon = btn.querySelector('i');
-    if (icon) icon.setAttribute('fill', challenge.isLiked ? 'currentColor' : 'none');
-  }
-
-  if (window.showToast) {
-    window.showToast(challenge.isLiked ? 'Liked challenge' : 'Removed like', 'success');
+  if (card && trigger && form) {
+    card.classList.add('expanded');
+    trigger.style.display = 'none';
+    form.style.display = 'flex';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    const titleInput = document.getElementById('composerTitleInput');
+    if (titleInput) titleInput.focus();
   }
 };
 
-window.toggleChallengeAnswers = function (challengeId) {
-  const challenge = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
-  if (!challenge) return;
+window.closeSurfaceComposer = function() {
+  const card = document.getElementById('surfaceComposerCard');
+  const trigger = document.getElementById('composerCollapsedTrigger');
+  const form = document.getElementById('composerExpandedForm');
 
-  challenge.showAnswers = !challenge.showAnswers;
-  filterAndRenderChallenges();
+  if (card && trigger && form) {
+    card.classList.remove('expanded');
+    trigger.style.display = 'flex';
+    form.style.display = 'none';
+  }
 };
 
-window.submitChallengeAnswer = function (challengeId) {
-  const input = document.getElementById(`answer-input-${challengeId}`);
-  if (!input || !input.value.trim()) {
-    if (window.showToast) window.showToast('Please enter your advice before submitting.', 'warning');
+window.selectComposerCategory = function(cat, chip) {
+  activeComposerCategory = cat;
+  document.querySelectorAll('.composer-cat-chip').forEach(c => c.classList.remove('active'));
+  if (chip) chip.classList.add('active');
+};
+
+window.handleSurfacePostSubmit = function(e) {
+  e.preventDefault();
+
+  const titleInput = document.getElementById('composerTitleInput');
+  const contentInput = document.getElementById('composerContentInput');
+  const tagsInput = document.getElementById('composerTagsInput');
+  const anonCheckbox = document.getElementById('composerAnonCheckbox');
+
+  if (!titleInput || !titleInput.value.trim() || !contentInput || !contentInput.value.trim()) {
+    if (window.showToast) window.showToast('Please enter both a title and description.', 'warning');
     return;
   }
 
-  const challenge = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
-  if (!challenge) return;
+  const isAnon = anonCheckbox ? anonCheckbox.checked : false;
+  const rawTags = tagsInput && tagsInput.value.trim() ? tagsInput.value.split(',').map(t => t.trim().replace(/^#/, '')) : [activeComposerCategory];
 
-  const newAns = {
-    id: `ans-${Date.now()}`,
-    authorName: 'Dr. Sarah Chen',
-    authorAvatar: 'SC',
-    authorRole: 'Founder & CEO',
-    companyName: 'Alpha Health 2.0',
-    postDate: 'Just now',
-    content: input.value.trim(),
-    likesCount: 1,
-    isLiked: true
-  };
-
-  challenge.answers = challenge.answers || [];
-  challenge.answers.push(newAns);
-  challenge.answersCount = challenge.answers.length;
-
-  filterAndRenderChallenges();
-
-  if (window.showToast) {
-    window.showToast('Your solution has been posted to the discussion!', 'success');
-  }
-}
-
-/* ──────────────────────────────────────────────────────────────────────────
-   Post New Challenge Modal Handler
-   ────────────────────────────────────────────────────────────────────────── */
-window.openPostChallengeModal = function () {
-  window.openModal('Share your founder challenge', `
-    <div style="display:flex; flex-direction:column; gap:14px;">
-      <p style="font-size:12.5px; color:var(--text-main); margin:0; line-height:1.5;">
-        Ask experienced founders, mentors, and operators for tactical solutions to hurdles you are currently facing.
-      </p>
-
-      <!-- Field 1: What's your challenge? -->
-      <div style="display:flex; flex-direction:column; gap:5px;">
-        <label style="font-size:11.5px; font-weight:700; color:var(--text-dark);">What's your challenge? <span style="color:#DC2626;">*</span></label>
-        <input type="text" id="newChallengeTitle" class="form-control" placeholder="e.g. How do we negotiate with our university TTO on non-dilutable equity?" />
-      </div>
-
-      <!-- Field 2: Describe your situation -->
-      <div style="display:flex; flex-direction:column; gap:5px;">
-        <label style="font-size:11.5px; font-weight:700; color:var(--text-dark);">Describe your situation <span style="color:#DC2626;">*</span></label>
-        <textarea id="newChallengeContent" class="form-control" rows="4" placeholder="Provide background context, constraints, what you have tried so far, and the specific advice you are looking for..."></textarea>
-      </div>
-
-      <!-- Field 3: Category -->
-      <div style="display:flex; flex-direction:column; gap:5px;">
-        <label style="font-size:11.5px; font-weight:700; color:var(--text-dark);">Category <span style="color:#DC2626;">*</span></label>
-        <select id="newChallengeCategory" class="form-control" style="font-size:12.5px;">
-          <option value="">Select a category</option>
-          <option value="Co-founder & Team">Co-founder &amp; Team</option>
-          <option value="Fundraising & Pitching">Fundraising &amp; Pitching</option>
-          <option value="Sales & GTM">Sales &amp; GTM</option>
-          <option value="Legal & Equity">Legal &amp; Equity</option>
-          <option value="Product & Tech">Product &amp; Tech</option>
-          <option value="Hiring & Culture">Hiring &amp; Culture</option>
-        </select>
-      </div>
-
-      <!-- Field 4: Tags -->
-      <div style="display:flex; flex-direction:column; gap:5px;">
-        <label style="font-size:11.5px; font-weight:700; color:var(--text-dark);">Tags (comma-separated)</label>
-        <input type="text" id="newChallengeTags" class="form-control" placeholder="e.g. Cap Table, Series A, Term Sheet, Vesting" />
-      </div>
-
-      <!-- Field 5: Post Anonymously Checkbox -->
-      <label style="display:flex; align-items:center; gap:8px; cursor:pointer; padding:8px 10px; background:#FAFAF9; border:1px solid var(--border-main); border-radius:8px; user-select:none;">
-        <input type="checkbox" id="newChallengeIsAnon" style="width:16px; height:16px; accent-color:var(--text-dark);" />
-        <div style="display:flex; flex-direction:column; gap:1px;">
-          <span style="font-size:12px; font-weight:700; color:var(--text-dark);">🎭 Post anonymously</span>
-          <span style="font-size:11px; color:var(--text-muted);">Hide your name, avatar, and company identity from other founders</span>
-        </div>
-      </label>
-
-      <!-- Actions -->
-      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:4px;">
-        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="submitNewChallenge()">
-          Publish challenge
-        </button>
-      </div>
-    </div>
-  `);
-
-  setTimeout(() => {
-    const input = document.getElementById('newChallengeTitle');
-    if (input) input.focus();
-  }, 50);
-};
-
-window.submitNewChallenge = function () {
-  const titleInput = document.getElementById('newChallengeTitle');
-  const contentInput = document.getElementById('newChallengeContent');
-  const catInput = document.getElementById('newChallengeCategory');
-  const tagsInput = document.getElementById('newChallengeTags');
-  const anonInput = document.getElementById('newChallengeIsAnon');
-
-  if (!titleInput || !titleInput.value.trim()) {
-    if (window.showToast) window.showToast("Please enter what's your challenge.", 'warning');
-    return;
-  }
-
-  if (!contentInput || !contentInput.value.trim()) {
-    if (window.showToast) window.showToast('Please describe your situation.', 'warning');
-    return;
-  }
-
-  if (!catInput || !catInput.value) {
-    if (window.showToast) window.showToast('Please select a category.', 'warning');
-    return;
-  }
-
-  const isAnon = anonInput ? anonInput.checked : false;
-  const rawTags = tagsInput ? tagsInput.value.split(',').map(t => t.trim()).filter(Boolean) : [];
-
-  const newChallenge = {
+  const newPost = {
     id: `fc-${Date.now()}`,
     isAnonymous: isAnon,
     authorName: isAnon ? 'Anonymous Founder' : 'Dr. Sarah Chen',
     authorAvatar: isAnon ? '🎭' : 'SC',
-    authorRole: isAnon ? 'Early Stage Founder' : 'Founder & CEO',
-    companyName: isAnon ? 'Stealth AI Startup' : 'Alpha Health 2.0',
+    authorRole: isAnon ? 'Stealth Founder' : 'Founder & CEO',
+    companyName: isAnon ? 'Stealth Startup' : 'Alpha Health 2.0',
     postDate: 'Just now',
-    category: catInput.value,
+    category: activeComposerCategory,
     title: titleInput.value.trim(),
     content: contentInput.value.trim(),
-    tags: rawTags.length > 0 ? rawTags : [catInput.value],
+    tags: rawTags,
     likesCount: 1,
     isLiked: true,
+    isUpvoted: true,
+    isDownvoted: false,
     answersCount: 0,
-    showAnswers: false,
+    showAnswers: true,
     answers: []
   };
 
-  window.FOUNDER_CHALLENGES_DATA.unshift(newChallenge);
-  closeModal();
-  filterAndRenderChallenges();
+  window.FOUNDER_CHALLENGES_DATA = window.FOUNDER_CHALLENGES_DATA || [];
+  window.FOUNDER_CHALLENGES_DATA.unshift(newPost);
+
+  // Reset & Close composer
+  titleInput.value = '';
+  contentInput.value = '';
+  if (tagsInput) tagsInput.value = '';
+  if (anonCheckbox) anonCheckbox.checked = false;
+  closeSurfaceComposer();
+
+  // Re-render feed
+  filterAndRenderRedditChallenges();
 
   if (window.showToast) {
-    window.showToast(isAnon ? 'Challenge posted anonymously to founder community!' : 'Challenge published to founder community!', 'success');
+    window.showToast('🎉 Your challenge has been published to the community feed!', 'success');
   }
 };
 
-window.openShareSolutionModal = function (challengeId) {
-  const challenge = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
-  if (!challenge) return;
+// Reddit Upvote / Downvote Handler
+window.handleRedditVote = function(challengeId, direction, event) {
+  if (event) event.stopPropagation();
 
-  if (window.showModal) {
-    window.showModal(`Share Solution: "${challenge.title.substring(0, 48)}..."`, `
-      <div style="display:flex; flex-direction:column; gap:12px;">
-        <div style="padding:10px 12px; background:#FAFAF9; border:1px solid var(--border-faint); border-radius:8px;">
-          <span style="font-size:11px; font-weight:700; color:var(--text-muted);">${challenge.authorName} (${challenge.category})</span>
-          <p style="font-size:12.5px; color:var(--text-dark); margin:4px 0 0; line-height:1.45;">${challenge.title}</p>
-        </div>
+  const post = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
+  if (!post) return;
 
-        <div style="display:flex; flex-direction:column; gap:5px;">
-          <label style="font-size:11.5px; font-weight:700; color:var(--text-dark);">Your tactical advice or solution <span style="color:#DC2626;">*</span></label>
-          <textarea id="modalSolutionInput" class="form-control" rows="4" placeholder="Share what worked in your experience, specific clause language, or recommended steps..."></textarea>
-        </div>
-
-        <div style="display:flex; justify-content:flex-end; gap:8px;">
-          <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
-          <button class="btn btn-primary" onclick="submitModalSolution('${challenge.id}')">
-            Submit solution
-          </button>
-        </div>
-      </div>
-    `);
+  if (direction === 'up') {
+    if (post.isUpvoted) {
+      post.isUpvoted = false;
+      post.likesCount = Math.max(0, (post.likesCount || 1) - 1);
+    } else {
+      if (post.isDownvoted) {
+        post.isDownvoted = false;
+        post.likesCount += 1;
+      }
+      post.isUpvoted = true;
+      post.likesCount += 1;
+    }
+  } else if (direction === 'down') {
+    if (post.isDownvoted) {
+      post.isDownvoted = false;
+      post.likesCount += 1;
+    } else {
+      if (post.isUpvoted) {
+        post.isUpvoted = false;
+        post.likesCount = Math.max(0, post.likesCount - 1);
+      }
+      post.isDownvoted = true;
+      post.likesCount = Math.max(0, (post.likesCount || 0) - 1);
+    }
   }
+
+  const scoreElem = document.getElementById(`reddit-score-${post.id}`);
+  if (scoreElem) scoreElem.textContent = post.likesCount;
+
+  filterAndRenderRedditChallenges();
 };
 
-window.submitModalSolution = function (challengeId) {
-  const input = document.getElementById('modalSolutionInput');
+window.toggleRedditComments = function(challengeId, event) {
+  if (event) event.stopPropagation();
+
+  const post = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
+  if (!post) return;
+
+  post.showAnswers = !post.showAnswers;
+  filterAndRenderRedditChallenges();
+};
+
+window.toggleRedditBodyExpand = function(challengeId, event) {
+  if (event) event.stopPropagation();
+
+  const post = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
+  if (!post) return;
+
+  post.isExpanded = !post.isExpanded;
+  filterAndRenderRedditChallenges();
+};
+
+window.submitRedditReply = function(challengeId, event) {
+  if (event) event.stopPropagation();
+
+  const input = document.getElementById(`reddit-reply-input-${challengeId}`);
   if (!input || !input.value.trim()) {
-    if (window.showToast) window.showToast('Please enter your solution.', 'warning');
+    if (window.showToast) window.showToast('Please write your advice before posting.', 'warning');
     return;
   }
 
-  const challenge = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
-  if (!challenge) return;
+  const post = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
+  if (!post) return;
 
-  const newAns = {
+  const newAnswer = {
     id: `ans-${Date.now()}`,
     authorName: 'Dr. Sarah Chen',
     authorAvatar: 'SC',
@@ -4946,30 +4916,56 @@ window.submitModalSolution = function (challengeId) {
     companyName: 'Alpha Health 2.0',
     postDate: 'Just now',
     content: input.value.trim(),
-    likesCount: 1,
-    isLiked: true
+    likesCount: 1
   };
 
-  challenge.answers = challenge.answers || [];
-  challenge.answers.unshift(newAns);
-  challenge.answersCount = challenge.answers.length;
-  challenge.showAnswers = true;
+  post.answers = post.answers || [];
+  post.answers.unshift(newAnswer);
+  post.answersCount = post.answers.length;
 
-  closeModal();
-  filterAndRenderChallenges();
+  filterAndRenderRedditChallenges();
 
   if (window.showToast) {
-    window.showToast('Your solution has been shared with the founder!', 'success');
+    window.showToast('💬 Your answer has been posted to the discussion thread!', 'success');
   }
 };
 
-window.copyChallengeLink = function (challengeId) {
-  const url = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}founder-challenges.html?id=${challengeId}`;
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(url);
+window.handleCommentUpvote = function(challengeId, commentId, btn) {
+  if (btn) {
+    btn.style.color = '#EA580C';
+    btn.innerHTML = '<i data-lucide="arrow-big-up" style="width:13px; height:13px; fill:currentColor;"></i><span>Helpful (+1)</span>';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
   }
+  if (window.showToast) window.showToast('Marked answer as helpful');
+};
+
+window.copyRedditPostLink = function(challengeId, event) {
+  if (event) event.stopPropagation();
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(window.location.href + `#${challengeId}`).catch(() => {});
+  }
+  if (window.showToast) window.showToast('🔗 Post link copied to clipboard!');
+};
+
+window.toggleRedditSavePost = function(challengeId, event) {
+  if (event) event.stopPropagation();
+
+  const post = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
+  if (!post) return;
+
+  post.isSaved = !post.isSaved;
+  filterAndRenderRedditChallenges();
+
   if (window.showToast) {
-    window.showToast('Discussion link copied to clipboard', 'success');
+    window.showToast(post.isSaved ? '🔖 Post saved to your bookmarks' : 'Removed from bookmarks');
+  }
+};
+
+window.openDirectMentorChat = function(mentorId, mentorName) {
+  if (typeof openMessagesNavDrawer === 'function') {
+    openMessagesNavDrawer();
+  } else if (window.showToast) {
+    window.showToast(`💬 Opening direct conversation with ${mentorName}...`);
   }
 };
 
@@ -5871,17 +5867,17 @@ function filterAndRenderDDGrid() {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-window.handleDDSearch = function (input) {
+window.handleDDSearch = function(input) {
   currentDDSearch = input.value;
   filterAndRenderDDGrid();
 };
 
-window.handleDDTimelineFilter = function (val) {
+window.handleDDTimelineFilter = function(val) {
   currentDDTimeline = val;
   filterAndRenderDDGrid();
 };
 
-window.handleDDSort = function (val) {
+window.handleDDSort = function(val) {
   currentDDSort = val;
   filterAndRenderDDGrid();
 };
@@ -6156,7 +6152,7 @@ function renderDueDiligenceDetailPage() {
 
 window.renderDueDiligenceDetailPage = renderDueDiligenceDetailPage;
 
-window.toggleDDReadinessItem = function (idx, checkbox) {
+window.toggleDDReadinessItem = function(idx, checkbox) {
   const root = document.getElementById('ddReadinessList');
   if (!root) return;
 
@@ -6175,7 +6171,7 @@ window.toggleDDReadinessItem = function (idx, checkbox) {
   }
 };
 
-window.copyDDLink = function (id) {
+window.copyDDLink = function(id) {
   const url = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}due-diligence-detail.html?id=${id}`;
   if (navigator.clipboard) {
     navigator.clipboard.writeText(url);
@@ -6896,15 +6892,15 @@ window.handlePDRSearch = handlePDRSearch;
    ══════════════════════════════════════════════════════════════════════════ */
 
 const INV_STAGES = [
-  { id: 'research', label: 'Research', dot: '#141413' },
-  { id: 'contacted', label: 'Contacted', dot: '#4A4A46' },
-  { id: 'meeting', label: 'Meeting', dot: '#6B6B66' },
-  { id: 'light-dd', label: 'Light Diligence', dot: '#8A8A84' },
+  { id: 'research',        label: 'Research',        dot: '#141413' },
+  { id: 'contacted',       label: 'Contacted',       dot: '#4A4A46' },
+  { id: 'meeting',         label: 'Meeting',         dot: '#6B6B66' },
+  { id: 'light-dd',        label: 'Light Diligence', dot: '#8A8A84' },
   { id: 'partner-meeting', label: 'Partner Meeting', dot: '#A0A09A' },
-  { id: 'term-sheet', label: 'Term Sheet', dot: '#8A8A84' },
-  { id: 'closed', label: 'Closed', dot: '#141413' },
-  { id: 'keep-in-touch', label: 'Keep in Touch', dot: '#B5B5AE' },
-  { id: 'passed', label: 'Passed', dot: '#C0C0BA' }
+  { id: 'term-sheet',      label: 'Term Sheet',      dot: '#8A8A84' },
+  { id: 'closed',          label: 'Closed',          dot: '#141413' },
+  { id: 'keep-in-touch',   label: 'Keep in Touch',   dot: '#B5B5AE' },
+  { id: 'passed',          label: 'Passed',          dot: '#C0C0BA' }
 ];
 
 const INV_CURRENCIES = [
@@ -6924,8 +6920,16 @@ window.INVESTOR_PIPELINES = [
     description: 'Institutional seed round to scale the Alpha Health 2.0 platform.',
     investors: [
       { id: 'inv-1', name: 'Hudson Bay Capital', contact: 'investments@hudsonbay.com', stage: 'research', amount: 0, rating: 3, initial: '2026-08-12', followUp: '2026-08-26', notes: [], activity: [], comments: [] },
-      { id: 'inv-2', name: 'Sequoia India', contact: 'shailendra@sequoia.in', stage: 'contacted', amount: 500000, rating: 4, initial: '2026-08-10', followUp: '2026-08-22', notes: [], activity: [], comments: [] },
-      { id: 'inv-3', name: 'Lightspeed Venture Partners', contact: 'rahul@lightspeed.vc', stage: 'contacted', amount: 200000, rating: 3, initial: '2026-08-11', followUp: '2026-08-20', notes: [], activity: [], comments: [] }
+      { id: 'inv-2', name: 'Sequoia India', contact: 'shailendra@sequoia.in', stage: 'contacted', amount: 200000, rating: 4, initial: '2026-08-10', followUp: '2026-08-22', notes: [], activity: [], comments: [] },
+      { id: 'inv-3', name: 'Lightspeed Venture Partners', contact: 'rahul@lightspeed.vc', stage: 'contacted', amount: 100000, rating: 3, initial: '2026-08-11', followUp: '2026-08-20', notes: [], activity: [], comments: [] },
+      { id: 'inv-6', name: 'Andreessen Horowitz', contact: 'partners@a16z.com', stage: 'research', amount: 0, rating: 4, initial: '2026-08-15', followUp: '2026-08-29', notes: [], activity: [], comments: [] },
+      { id: 'inv-7', name: 'Accel Partners', contact: 'priya@accel.com', stage: 'meeting', amount: 150000, rating: 5, initial: '2026-08-13', followUp: '2026-08-19', notes: [], activity: [], comments: [] },
+      { id: 'inv-8', name: 'Greylock Partners', contact: 'jerry@greylock.com', stage: 'light-dd', amount: 100000, rating: 4, initial: '2026-08-09', followUp: '2026-08-23', notes: [], activity: [], comments: [] },
+      { id: 'inv-9', name: 'Bessemer Venture Partners', contact: 'byron@bvp.com', stage: 'partner-meeting', amount: 200000, rating: 5, initial: '2026-08-08', followUp: '2026-08-18', notes: [], activity: [], comments: [] },
+      { id: 'inv-10', name: 'Index Ventures', contact: 'danny@indexventures.com', stage: 'term-sheet', amount: 150000, rating: 4, initial: '2026-08-06', followUp: '2026-08-16', notes: [], activity: [], comments: [] },
+      { id: 'inv-11', name: 'First Round Capital', contact: 'josh@firstround.com', stage: 'closed', amount: 100000, rating: 5, initial: '2026-07-28', followUp: '', notes: [], activity: [], comments: [] },
+      { id: 'inv-12', name: 'GV (Google Ventures)', contact: 'dave@gv.com', stage: 'keep-in-touch', amount: 0, rating: 3, initial: '2026-08-05', followUp: '2026-09-02', notes: [], activity: [], comments: [] },
+      { id: 'inv-13', name: 'General Catalyst', contact: 'hemant@generalcatalyst.com', stage: 'passed', amount: 0, rating: 2, initial: '2026-08-01', followUp: '', notes: [], activity: [], comments: [] }
     ]
   },
   {
@@ -6937,7 +6941,9 @@ window.INVESTOR_PIPELINES = [
     description: 'Short bridge round with existing angels while the seed closes.',
     investors: [
       { id: 'inv-4', name: 'Aman Gupta Angels', contact: 'aman@guptafamilyoffice.com', stage: 'meeting', amount: 100000, rating: 4, initial: '2026-08-14', followUp: '2026-08-21', notes: [], activity: [], comments: [] },
-      { id: 'inv-5', name: 'Tiger Global', contact: 'bd@tigerglobal.com', stage: 'research', amount: 0, rating: 2, initial: '', followUp: '2026-08-30', notes: [], activity: [], comments: [] }
+      { id: 'inv-5', name: 'Tiger Global', contact: 'bd@tigerglobal.com', stage: 'research', amount: 0, rating: 2, initial: '', followUp: '2026-08-30', notes: [], activity: [], comments: [] },
+      { id: 'inv-14', name: 'Kunal Bahl Family Office', contact: 'kunal@bahlfamilyoffice.com', stage: 'contacted', amount: 75000, rating: 3, initial: '2026-08-16', followUp: '2026-08-25', notes: [], activity: [], comments: [] },
+      { id: 'inv-15', name: 'Blume Ventures', contact: 'karthik@blume.vc', stage: 'light-dd', amount: 50000, rating: 4, initial: '2026-08-12', followUp: '2026-08-22', notes: [], activity: [], comments: [] }
     ]
   },
   {
@@ -6947,7 +6953,10 @@ window.INVESTOR_PIPELINES = [
     raising: 5000000,
     updated: 'Aug 15, 9:03 PM',
     description: 'Early-stage diligence on Series A candidates.',
-    investors: []
+    investors: [
+      { id: 'inv-16', name: 'Sequoia Capital', contact: 'doug@sequoia.com', stage: 'research', amount: 0, rating: 4, initial: '', followUp: '2026-09-05', notes: [], activity: [], comments: [] },
+      { id: 'inv-17', name: 'Battery Ventures', contact: 'dharmesh@battery.com', stage: 'contacted', amount: 0, rating: 3, initial: '2026-08-18', followUp: '2026-08-28', notes: [], activity: [], comments: [] }
+    ]
   }
 ];
 
@@ -7288,28 +7297,38 @@ function renderInvestorPipelinePage() {
       </div>
     </div>
 
-    <!-- Stats -->
-    <div class="inv-stats-row">
-      <div class="inv-stat">
-        <span class="inv-stat-label">Raising</span>
-        <span class="inv-stat-value">${invFmt(p.raising, p)}</span>
+    <!-- Condensed stats strip -->
+    <div class="inv-stats-strip">
+      <div class="inv-strip-item">
+        <span class="inv-strip-lbl">Raising</span>
+        <span class="inv-strip-val">${invFmt(p.raising, p)}</span>
       </div>
-      <div class="inv-stat">
-        <span class="inv-stat-label">Committed</span>
-        <span class="inv-stat-value">${invFmt(invPipelineStats(p).committed, p)}</span>
+      <span class="inv-strip-sep"></span>
+      <div class="inv-strip-item">
+        <span class="inv-strip-lbl">Committed</span>
+        <span class="inv-strip-val">${invFmt(invPipelineStats(p).committed, p)}</span>
       </div>
-      <div class="inv-stat">
-        <span class="inv-stat-label">Investors</span>
-        <span class="inv-stat-value">${invPipelineStats(p).count}</span>
+      <span class="inv-strip-sep"></span>
+      <div class="inv-strip-item">
+        <span class="inv-strip-lbl">Investors</span>
+        <span class="inv-strip-val">${invPipelineStats(p).count}</span>
       </div>
-      <div class="inv-stat">
-        <span class="inv-stat-label">Follow-ups due</span>
-        <span class="inv-stat-value">${invPipelineStats(p).followUps}</span>
+      <span class="inv-strip-sep"></span>
+      <div class="inv-strip-item">
+        <span class="inv-strip-lbl">Follow-ups due</span>
+        <span class="inv-strip-val">${invPipelineStats(p).followUps}</span>
       </div>
     </div>
 
-    <!-- View Content -->
-    <div id="invPipelineView"></div>
+    <!-- Layout: Filters Aside + View -->
+    <div class="inv-layout">
+      <aside class="inv-filters-aside" id="invFiltersAside">
+        ${invRenderFilters(p)}
+      </aside>
+      <div class="inv-main">
+        <div id="invPipelineView"></div>
+      </div>
+    </div>
   `;
 
   invRenderPipelineView(p);
@@ -7319,16 +7338,147 @@ function renderInvestorPipelinePage() {
 function invRenderPipelineView(p) {
   const wrap = document.getElementById('invPipelineView');
   if (!wrap) return;
+  const aside = document.getElementById('invFiltersAside');
+  if (aside) aside.innerHTML = invRenderFilters(p);
   wrap.innerHTML = invActiveView === 'board' ? invRenderBoard(p) : invRenderList(p);
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 function invFilteredInvestors(p) {
-  if (!invSearchQuery) return p.investors || [];
-  const q = invSearchQuery.toLowerCase();
-  return (p.investors || []).filter(i =>
-    i.name.toLowerCase().includes(q) || (i.contact || '').toLowerCase().includes(q)
-  );
+  let list = p.investors || [];
+  if (invSearchQuery) {
+    const q = invSearchQuery.toLowerCase();
+    list = list.filter(i =>
+      i.name.toLowerCase().includes(q) || (i.contact || '').toLowerCase().includes(q)
+    );
+  }
+  const f = invFilters || {};
+  const stages = f.stages || {};
+  if (Object.keys(stages).length) {
+    list = list.filter(i => stages[i.stage] !== false);
+  }
+  if (f.minRating) list = list.filter(i => (i.rating || 0) >= f.minRating);
+  if (f.committed === 'committed') list = list.filter(i => (Number(i.amount) || 0) > 0);
+  if (f.committed === 'uncommitted') list = list.filter(i => !(Number(i.amount) || 0));
+  if (f.hasFollowUp) list = list.filter(i => !!i.followUp);
+  return list;
+}
+
+/* ── FILTERS ASIDE (Amazon-style sidebar) ───────────────────────────────── */
+let invFilters = { stages: {}, minRating: 0, committed: 'all', hasFollowUp: false };
+
+function invInitFilters(p) {
+  const s = {};
+  (INV_STAGES || []).forEach(st => { s[st.id] = true; });
+  invFilters.stages = s;
+  invFilters.minRating = 0;
+  invFilters.committed = 'all';
+  invFilters.hasFollowUp = false;
+}
+
+function invFilterCount(p) {
+  return invFilteredInvestors(p).length;
+}
+
+function invRenderFilters(p) {
+  if (!invFilters.stages || Object.keys(invFilters.stages).length === 0) invInitFilters(p);
+  const counts = {};
+  (p.investors || []).forEach(i => { counts[i.stage] = (counts[i.stage] || 0) + 1; });
+  const total = (p.investors || []).length;
+  const shown = invFilterCount(p);
+  return `
+    <div class="inv-filters-head">
+      <span class="inv-filters-title"><i data-lucide="sliders-horizontal" style="width:12px; height:12px;"></i> Filters</span>
+      <button class="inv-filters-clear" onclick="invClearFilters()">Clear all</button>
+    </div>
+
+    <div class="inv-filter-section">
+      <div class="inv-filter-label">Stage</div>
+      <div class="inv-filter-list">
+        ${INV_STAGES.map(st => `
+          <label class="inv-filter-item">
+            <input type="checkbox" class="inv-filter-check" ${invFilters.stages[st.id] ? 'checked' : ''} onchange="invToggleStageFilter('${st.id}', this.checked)" />
+            <span class="inv-filter-label-text">${st.label}</span>
+            <span class="inv-filter-count">${counts[st.id] || 0}</span>
+          </label>`).join('')}
+      </div>
+    </div>
+
+    <div class="inv-filter-section">
+      <div class="inv-filter-label">Rating</div>
+      <div class="inv-rating-chips">
+        <button class="inv-rating-chip ${invFilters.minRating === 0 ? 'active' : ''}" onclick="invSetMinRating(0)">Any</button>
+        <button class="inv-rating-chip ${invFilters.minRating === 3 ? 'active' : ''}" onclick="invSetMinRating(3)">3★ &amp; up</button>
+        <button class="inv-rating-chip ${invFilters.minRating === 4 ? 'active' : ''}" onclick="invSetMinRating(4)">4★ &amp; up</button>
+        <button class="inv-rating-chip ${invFilters.minRating === 5 ? 'active' : ''}" onclick="invSetMinRating(5)">5★ only</button>
+      </div>
+    </div>
+
+    <div class="inv-filter-section">
+      <div class="inv-filter-label">Commitment</div>
+      <div class="inv-filter-list">
+        <label class="inv-filter-item">
+          <input type="radio" name="invCommit" class="inv-filter-check" ${invFilters.committed === 'all' ? 'checked' : ''} onchange="invSetCommitFilter('all')" />
+          <span class="inv-filter-label-text">All investors</span>
+        </label>
+        <label class="inv-filter-item">
+          <input type="radio" name="invCommit" class="inv-filter-check" ${invFilters.committed === 'committed' ? 'checked' : ''} onchange="invSetCommitFilter('committed')" />
+          <span class="inv-filter-label-text">Committed</span>
+        </label>
+        <label class="inv-filter-item">
+          <input type="radio" name="invCommit" class="inv-filter-check" ${invFilters.committed === 'uncommitted' ? 'checked' : ''} onchange="invSetCommitFilter('uncommitted')" />
+          <span class="inv-filter-label-text">No commitment</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="inv-filter-section">
+      <div class="inv-filter-label">Follow-up</div>
+      <div class="inv-filter-list">
+        <label class="inv-filter-item">
+          <input type="checkbox" class="inv-filter-check" ${invFilters.hasFollowUp ? 'checked' : ''} onchange="invSetFollowUpFilter(this.checked)" />
+          <span class="inv-filter-label-text">Has follow-up scheduled</span>
+          <span class="inv-filter-count">${(p.investors || []).filter(i => i.followUp).length}</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="inv-filters-foot">
+      <span class="inv-filters-result">Showing <strong>${shown}</strong> of ${total} investors</span>
+    </div>
+  `;
+}
+
+function invApplyFilters() {
+  const p = invCurrentPipeline();
+  invRenderPipelineView(p);
+}
+
+function invToggleStageFilter(stageId, checked) {
+  if (!invFilters.stages) invFilters.stages = {};
+  invFilters.stages[stageId] = checked;
+  invApplyFilters();
+}
+
+function invSetMinRating(r) {
+  invFilters.minRating = r;
+  invApplyFilters();
+}
+
+function invSetCommitFilter(c) {
+  invFilters.committed = c;
+  invApplyFilters();
+}
+
+function invSetFollowUpFilter(checked) {
+  invFilters.hasFollowUp = checked;
+  invApplyFilters();
+}
+
+function invClearFilters() {
+  const p = invCurrentPipeline();
+  invInitFilters(p);
+  invApplyFilters();
 }
 
 /* ── BOARD VIEW ────────────────────────────────────────────────────────── */
@@ -7890,6 +8040,12 @@ window.invDeleteInvestor = invDeleteInvestor;
 window.handleInvTrackSearch = handleInvTrackSearch;
 window.handleInvPipelineSearch = handleInvPipelineSearch;
 window.invCloseDotMenus = invCloseDotMenus;
+window.invToggleStageFilter = invToggleStageFilter;
+window.invSetMinRating = invSetMinRating;
+window.invSetCommitFilter = invSetCommitFilter;
+window.invSetFollowUpFilter = invSetFollowUpFilter;
+window.invClearFilters = invClearFilters;
+window.invApplyFilters = invApplyFilters;
 
 // Close pipeline/investor dot menus on outside click
 document.addEventListener('click', (e) => {
@@ -8297,7 +8453,7 @@ function paDrawChart() {
 
   // Destroy any previous Apex instance
   if (window.__paChart) {
-    try { window.__paChart.destroy(); } catch (e) { }
+    try { window.__paChart.destroy(); } catch (e) {}
     window.__paChart = null;
   }
 
