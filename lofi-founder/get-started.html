@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — Get Started</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="./css/global.css">
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="app-viewport">
+  <div class="app-frame">
+    <div id="sidebarSlot"></div>
+
+    <main class="founder-workspace-canvas">
+      <header class="workspace-top-nav">
+        <div class="workspace-top-nav-left">
+          <div class="topnav-page-title">
+            <span class="topnav-page-icon"><i data-lucide="rocket" style="width:15px; height:15px;"></i></span>
+            <span class="topnav-page-name">Get Started</span>
+          </div>
+        </div>
+        <div class="workspace-search-pill-wrap">
+          <i data-lucide="search" class="workspace-search-icon"></i>
+          <input type="text" class="workspace-search-input" placeholder="Search guides, setup tasks..." />
+          <span class="workspace-search-kbd">⌘K</span>
+        </div>
+        <div class="workspace-top-nav-right" id="topNavRightSlot"></div>
+      </header>
+
+      <div class="workspace-scroll-body">
+        <div class="center-focused-container" style="padding-top:20px;">
+          <div class="directory-hero-row">
+            <div class="directory-hero-titles">
+              <h1 class="directory-main-title">
+                <span>Get Started</span>
+                <span class="badge-pill neutral-soft">Founder Guide</span>
+              </h1>
+              <p class="directory-main-subtitle">
+                Quick onboarding guide to configure your startup profile, launch products, and connect with verified investors.
+              </p>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:12px; margin-top:10px;">
+            <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:10px; padding:18px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px;">
+              <div style="display:flex; align-items:center; gap:14px;">
+                <div style="width:40px; height:40px; border-radius:8px; background:var(--bg-muted); display:flex; align-items:center; justify-content:center;">
+                  <i data-lucide="store" style="width:20px; height:20px; color:var(--text-dark);"></i>
+                </div>
+                <div>
+                  <h4 style="font-size:14px; font-weight:800; color:var(--text-dark); margin:0 0 2px;">1. List your product</h4>
+                  <p style="font-size:12px; color:var(--text-muted); margin:0;">Create a public product dossier and launch in the next Seedicon batch.</p>
+                </div>
+              </div>
+              <button class="btn btn-primary" onclick="if(window.openSubmitProductModal) window.openSubmitProductModal(); else window.location.href='./public-product-listing.html';" style="font-size:12px; padding:7px 14px;">Start listing</button>
+            </div>
+
+            <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:10px; padding:18px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px;">
+              <div style="display:flex; align-items:center; gap:14px;">
+                <div style="width:40px; height:40px; border-radius:8px; background:var(--bg-muted); display:flex; align-items:center; justify-content:center;">
+                  <i data-lucide="presentation" style="width:20px; height:20px; color:var(--text-dark);"></i>
+                </div>
+                <div>
+                  <h4 style="font-size:14px; font-weight:800; color:var(--text-dark); margin:0 0 2px;">2. Review your pitch deck</h4>
+                  <p style="font-size:12px; color:var(--text-muted); margin:0;">Run AI feedback on your slides to catch gaps before investor pitches.</p>
+                </div>
+              </div>
+              <a href="./pitch-deck-reviewer.html" class="btn btn-outline" style="font-size:12px; padding:7px 14px; text-decoration:none;">Open reviewer</a>
+            </div>
+
+            <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:10px; padding:18px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px;">
+              <div style="display:flex; align-items:center; gap:14px;">
+                <div style="width:40px; height:40px; border-radius:8px; background:var(--bg-muted); display:flex; align-items:center; justify-content:center;">
+                  <i data-lucide="shield-check" style="width:20px; height:20px; color:var(--text-dark);"></i>
+                </div>
+                <div>
+                  <h4 style="font-size:14px; font-weight:800; color:var(--text-dark); margin:0 0 2px;">3. Complete due diligence checklist</h4>
+                  <p style="font-size:12px; color:var(--text-muted); margin:0;">Audit cap table, financials, and IP readiness for seed funding.</p>
+                </div>
+              </div>
+              <a href="./due-diligence.html" class="btn btn-outline" style="font-size:12px; padding:7px 14px; text-decoration:none;">View checklist</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="modalSlot"></div>
+
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>

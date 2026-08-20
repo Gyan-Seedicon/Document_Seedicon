@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seedicon — Discover &amp; Launch New Tech Products</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="./css/public-directory.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- 01. Public Sticky Navigation Header (Monochrome) -->
+  <header class="pub-header">
+    <div class="pub-header-inner">
+      <!-- Brand Logo -->
+      <a href="./public-product-listing.html" class="pub-brand">
+        <div class="pub-brand-logo">▲</div>
+        <div class="pub-brand-text">
+          <span class="pub-brand-title">Seedicon</span>
+          <span class="pub-brand-badge">Directory</span>
+        </div>
+      </a>
+
+      <!-- Center Search Bar -->
+      <div class="pub-search-wrap">
+        <i data-lucide="search" class="pub-search-icon"></i>
+        <input type="text" class="pub-search-input" placeholder="Search launches, products, or founders..." oninput="handlePublicSearch(this)" />
+        <span class="pub-search-kbd">⌘K</span>
+      </div>
+
+      <!-- Right Header Action Group -->
+      <div class="pub-header-actions">
+        <a href="#today-launches" class="pub-nav-link">Launches</a>
+        <a href="#sponsors-section" class="pub-nav-link">Sponsors</a>
+        <button class="pub-btn-primary" onclick="openSubmitProductModal()">
+          <i data-lucide="plus" style="width:13px; height:13px;"></i>
+          <span>Submit Product</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 02. Public Main Page Canvas -->
+  <main class="pub-page-container">
+
+    <!-- 01. Next Launch Countdown Banner (Matches Screenshot) -->
+    <section class="pub-next-launch-banner">
+      <div class="pub-next-launch-top">
+        <span class="pub-next-launch-heading">New launches in</span>
+        <span class="pub-next-launch-pill" id="nlHours">19 hours</span>
+        <span class="pub-next-launch-pill" id="nlMins">53 mins</span>
+        <span class="pub-next-launch-pill" id="nlSecs">15 secs</span>
+      </div>
+      <p class="pub-next-launch-desc">
+        Top 3 daily products win badges. Weekly, Monthly and Yearly winners win badges and are featured in our newsletter. <a href="#" onclick="event.preventDefault(); openPublicModal('Seedicon Badges & Leaderboard', '<p style=\'line-height:1.6; color:#6B6B66;\'>Every 24 hours at 12:00 AM PDT, the top 3 most-upvoted products receive gold, silver, and bronze winner badges to embed on their website, GitHub repos, and pitch decks, plus a dedicated spotlight in the Seedicon Maker Digest sent to 45k+ subscribers.</p>');">More details</a> .
+      </p>
+    </section>
+
+    <!-- 02. Sponsors Header & 3-Item Surface Grid -->
+    <section class="pub-sponsors-section" id="sponsors-section">
+      <div class="pub-sponsors-header">
+        <h2 class="pub-sponsors-title">Sponsors</h2>
+        <a href="#" class="pub-sponsors-learn-more" onclick="event.preventDefault(); openPublicModal('Sponsor a Seedicon Showcase', '<p style=\'font-size:13px; color:#6B6B66; line-height:1.5;\'>Get in front of 40,000+ founders, operators, and venture investors with a featured sponsor placement. Contact <a href=\'mailto:sponsors@seedicon.com\' style=\'color:#141413; font-weight:700;\'>sponsors@seedicon.com</a>.</p>');">Learn More</a>
+      </div>
+
+      <!-- 3-Item Grid (Chloros Agent, Tickclip, Nuvoha) -->
+      <div class="pub-sponsors-grid" id="pubSponsorsGrid">
+        <!-- Rendered dynamically by public-directory.js -->
+      </div>
+    </section>
+
+    <!-- 03. Two-Column Main Layout: Surface Feed (Left) + Top Products Sidebar (Right) -->
+    <div class="pub-main-layout-grid" id="today-launches">
+
+      <!-- Left Column: Surface Launches Stream & Filter Strip -->
+      <section class="pub-feed-column">
+        <div class="pub-feed-header-row">
+          <h2 class="pub-feed-title">Today</h2>
+        </div>
+
+        <!-- Filter Controls Strip (Category Pills & Stage Selector) -->
+        <div class="pub-filter-strip">
+          <div class="pub-cat-group">
+            <button class="pub-cat-btn active" onclick="handlePublicCategoryFilter('all', this)">All</button>
+            <button class="pub-cat-btn" onclick="handlePublicCategoryFilter('AI & ML', this)">AI &amp; ML</button>
+            <button class="pub-cat-btn" onclick="handlePublicCategoryFilter('B2B SaaS', this)">B2B SaaS</button>
+            <button class="pub-cat-btn" onclick="handlePublicCategoryFilter('DevTools', this)">DevTools</button>
+            <button class="pub-cat-btn" onclick="handlePublicCategoryFilter('Fintech', this)">Fintech</button>
+            <button class="pub-cat-btn" onclick="handlePublicCategoryFilter('Sales & Growth', this)">Sales &amp; Growth</button>
+          </div>
+
+          <select class="pub-stage-dropdown" onchange="handlePublicStageFilter(this)">
+            <option value="all">All Stages</option>
+            <option value="seed">Seed</option>
+            <option value="pre-seed">Pre-Seed</option>
+            <option value="series a">Series A</option>
+            <option value="series b">Series B</option>
+          </select>
+        </div>
+
+        <!-- Surface-First Product Launches List (TinyCashflow, BatchCrunch, etc.) -->
+        <div class="pub-surface-rows-container" id="pubSurfaceLaunchesList">
+          <!-- Rendered dynamically by public-directory.js -->
+        </div>
+      </section>
+
+      <!-- Right Column: Top Products & Community (Surface-First Layout) -->
+      <aside class="pub-sidebar-column">
+
+        <!-- Top Products Leaderboard on Surface -->
+        <div class="pub-sidebar-surface-block">
+          <div class="pub-sidebar-header">
+            <h3 class="pub-sidebar-title">Top Products</h3>
+            <span class="pub-sidebar-badge">Weekly</span>
+          </div>
+
+          <!-- Dynamic Top 5 Product Rows on Surface -->
+          <div class="pub-top-products-list" id="pubTopProductsList">
+            <!-- Rendered dynamically by public-directory.js -->
+          </div>
+        </div>
+
+        <div class="pub-sidebar-divider"></div>
+
+        <!-- Newsletter Digest on Surface -->
+        <div class="pub-sidebar-surface-block">
+          <div class="pub-sidebar-header">
+            <h3 class="pub-sidebar-title">Maker Digest</h3>
+            <span class="pub-sidebar-badge">Daily</span>
+          </div>
+          <p class="pub-newsletter-desc">
+            Get the top 3 launches delivered to your inbox every morning at 12:00 AM PDT.
+          </p>
+          <form class="pub-newsletter-input-group" onsubmit="handleNewsletterSubmit(event)">
+            <input type="email" id="pubNewsletterEmail" class="pub-newsletter-input" placeholder="founder@company.com" required />
+            <button type="submit" class="pub-btn-primary" style="padding:0 14px; font-size:12px;">Subscribe</button>
+          </form>
+        </div>
+
+        <div class="pub-sidebar-divider"></div>
+
+        <!-- Launch CTA on Surface -->
+        <div class="pub-sidebar-surface-block">
+          <h3 class="pub-sidebar-title">Launch Your Product</h3>
+          <p style="font-size:12.5px; color:var(--pub-text-muted); line-height:1.45;">
+            Join 45,000+ tech founders, developers, and investors exploring the next wave of software.
+          </p>
+          <button class="pub-btn-outline" style="width:100%; justify-content:center;" onclick="openSubmitProductModal()">
+            <i data-lucide="plus" style="width:13px; height:13px;"></i>
+            <span>Submit a Product</span>
+          </button>
+        </div>
+
+      </aside>
+
+    </div>
+
+  </main>
+
+  <!-- Interactive Scripts -->
+  <script src="./js/public-directory.js"></script>
+</body>
+</html>

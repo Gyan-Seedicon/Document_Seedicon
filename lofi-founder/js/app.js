@@ -219,24 +219,36 @@ document.addEventListener('DOMContentLoaded', () => {
   let pageNav = 'dashboard';
   const pathName = window.location.pathname.toLowerCase();
 
-  if (pathName.includes('product-listing') || pathName.includes('listing') || pathName.includes('product-detail')) {
+  if (pathName.includes('get-started')) {
+    pageNav = 'get-started';
+  } else if (pathName.includes('product-listing') || pathName.includes('listing') || pathName.includes('product-detail')) {
     pageNav = 'listing';
-  } else if (pathName.includes('analytics')) {
-    pageNav = 'analytics';
-  } else if (pathName.includes('deck') || pathName.includes('deckwale')) {
-    pageNav = 'deck';
-  } else if (pathName.includes('vdr') || pathName.includes('data-vault') || pathName.includes('dd-checklist')) {
-    pageNav = 'diligence';
-  } else if (pathName.includes('investors') || pathName.includes('investor-tracking') || pathName.includes('investor-pipeline')) {
+  } else if (pathName.includes('my-applications') || pathName.includes('application')) {
+    pageNav = 'my-applications';
+  } else if (pathName.includes('founder-detail') || pathName.includes('network') || pathName.includes('contact')) {
+    pageNav = 'network';
+  } else if (pathName.includes('watch-data-rooms') || pathName.includes('data-room')) {
+    pageNav = 'data-rooms';
+  } else if (pathName.includes('investor-tracking') || pathName.includes('investor-pipeline') || pathName.includes('investors') || pathName.includes('crm')) {
     pageNav = 'investors';
+  } else if (pathName.includes('deckwale')) {
+    pageNav = 'deckwale';
+  } else if (pathName.includes('pitch-deck-reviewer') || pathName.includes('deck')) {
+    pageNav = 'deck';
+  } else if (pathName.includes('startup-news') || pathName.includes('news')) {
+    pageNav = 'news';
+  } else if (pathName.includes('due-diligence') || pathName.includes('dd-checklist') || pathName.includes('diligence')) {
+    pageNav = 'diligence';
   } else if (pathName.includes('grants')) {
     pageNav = 'grants';
   } else if (pathName.includes('problems')) {
     pageNav = 'problems';
-  } else if (pathName.includes('founder-detail') || pathName.includes('network')) {
-    pageNav = 'network';
   } else if (pathName.includes('challenges')) {
     pageNav = 'challenges';
+  } else if (pathName.includes('resources')) {
+    pageNav = 'resources';
+  } else if (pathName.includes('analytics')) {
+    pageNav = 'analytics';
   } else {
     pageNav = 'dashboard';
   }
@@ -605,7 +617,7 @@ function renderProductDetailPage() {
         <div class="empty-icon-wrap"><i data-lucide="search-x" class="lucide-lg"></i></div>
         <div class="empty-title">Startup Not Found</div>
         <div class="empty-detail">The startup you are looking for does not exist in the directory.</div>
-        <a href="./product-listing.html" class="btn btn-primary">Back to Product Listing</a>
+        <a href="./public-product-listing.html" class="btn btn-primary">Back to Product Listing</a>
       </div>
     `;
     if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -1901,7 +1913,7 @@ function showHelp() {
 
 function handleNavClick(navKey) {
   if (navKey === 'listing') {
-    window.location.href = './product-listing.html';
+    window.location.href = './public-product-listing.html';
     return;
   }
   if (navKey === 'dashboard') {
@@ -2711,20 +2723,7 @@ window.fdAddTeamMember = function (id) {
   if (window.showToast) window.showToast(`${name} added to the founding team`, 'success');
 };
 
-window.openMessagesNavDrawer = function () {
-  window.openModal('Unlock Investor Contacts', `
-    <div class="paywall">
-      <div class="paywall-icon"><i data-lucide="lock"></i></div>
-      <p>Premium investor contacts are available to <strong>verified founders</strong> on the Seedicon Pro plan.</p>
-      <ul>
-        <li>Direct email &amp; LinkedIn access</li>
-        <li>Full investor background &amp; past deals</li>
-        <li>Priority warm intros</li>
-      </ul>
-      <div class="paywall-price">$29 <span>/ month</span></div>
-      <button class="btn btn-primary" onclick="closeModal(); if(window.showToast) window.showToast('Redirecting to secure checkout...')">Unlock Now</button>
-    </div>`);
-};
+// Multi-chat drawer is handled by the primary openMessagesNavDrawer system
 
 function escapeHtml(str) {
   return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

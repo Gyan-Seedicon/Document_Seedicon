@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Startup Detail — Seedicon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="./css/public-directory.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- 01. Public Sticky Navigation Header (Monochrome) -->
+  <header class="pub-header">
+    <div class="pub-header-inner">
+      <!-- Brand Logo -->
+      <a href="./public-product-listing.html" class="pub-brand">
+        <div class="pub-brand-logo">▲</div>
+        <div class="pub-brand-text">
+          <span class="pub-brand-title">Seedicon</span>
+          <span class="pub-brand-badge">Directory</span>
+        </div>
+      </a>
+
+      <!-- Center Search Bar -->
+      <div class="pub-search-wrap">
+        <i data-lucide="search" class="pub-search-icon"></i>
+        <input type="text" class="pub-search-input" placeholder="Search launches, products, or founders..." onkeydown="if(event.key==='Enter') window.location.href='./public-product-listing.html';" />
+        <span class="pub-search-kbd">⌘K</span>
+      </div>
+
+      <!-- Right Header Action Group -->
+      <div class="pub-header-actions">
+        <a href="./public-product-listing.html" class="pub-nav-link">All launches</a>
+        <button class="pub-btn-primary" onclick="openSubmitProductModal()">
+          <i data-lucide="plus" style="width:13px; height:13px;"></i>
+          <span>Submit Product</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 02. Standalone Surface Product Detail Page Body -->
+  <main class="pub-detail-canvas" id="pubProductDetailRoot">
+    <!-- Rendered dynamically by public-directory.js -->
+  </main>
+
+  <!-- Interactive Scripts -->
+  <script src="./js/public-directory.js"></script>
+</body>
+</html>

@@ -1,0 +1,1498 @@
+/* ==========================================================================
+   Seedicon — Public Startup Directory & Launch Platform CSS
+   Strictly Monochrome / Neutral, Surface-First Layout (No Heavy Cards)
+   ========================================================================== */
+
+:root {
+  --pub-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --pub-bg: #FFFFFF;
+  --pub-bg-surface: #FFFFFF;
+  --pub-bg-alt: #FAFAF9;
+  --pub-bg-subtle: #F4F4F2;
+  --pub-bg-hover: #F0F0ED;
+  --pub-text-dark: #141413;
+  --pub-text-main: #2B2B28;
+  --pub-text-muted: #6B6B66;
+  --pub-text-light: #8A8A84;
+  --pub-border: #E8E8E5;
+  --pub-border-subtle: #F0F0ED;
+  --pub-border-dark: #141413;
+  --pub-radius-sm: 6px;
+  --pub-radius-md: 10px;
+  --pub-radius-lg: 14px;
+  --pub-radius-pill: 9999px;
+}
+
+/* Reset & Base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--pub-font);
+  background-color: var(--pub-bg);
+  color: var(--pub-text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   01. Public Sticky Navigation Header (Monochrome)
+   ────────────────────────────────────────────────────────────────────────── */
+.pub-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--pub-border-subtle);
+}
+
+.pub-header-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.pub-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.pub-brand-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--pub-text-dark);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.pub-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.pub-brand-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--pub-text-dark);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.pub-brand-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--pub-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Search Bar */
+.pub-search-wrap {
+  position: relative;
+  flex: 1;
+  max-width: 360px;
+}
+
+.pub-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  color: var(--pub-text-light);
+  pointer-events: none;
+}
+
+.pub-search-input {
+  width: 100%;
+  height: 34px;
+  padding: 0 36px 0 34px;
+  background: var(--pub-bg-subtle);
+  border: 1px solid transparent;
+  border-radius: var(--pub-radius-pill);
+  font-size: 12.5px;
+  color: var(--pub-text-dark);
+  outline: none;
+  transition: all 0.14s ease;
+}
+
+.pub-search-input:focus {
+  background: #FFFFFF;
+  border-color: var(--pub-border);
+}
+
+.pub-search-input::placeholder {
+  color: var(--pub-text-light);
+}
+
+.pub-search-kbd {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--pub-text-light);
+  background: #FFFFFF;
+  border: 1px solid var(--pub-border);
+  border-radius: 4px;
+  padding: 1px 4px;
+  line-height: 1;
+}
+
+/* Header Actions */
+.pub-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.pub-nav-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pub-text-muted);
+  padding: 6px 10px;
+  border-radius: var(--pub-radius-sm);
+  transition: color 0.12s ease;
+}
+
+.pub-nav-link:hover {
+  color: var(--pub-text-dark);
+}
+
+.pub-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid var(--pub-border);
+  border-radius: var(--pub-radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pub-text-dark);
+  transition: all 0.12s ease;
+}
+
+.pub-btn-outline:hover {
+  background: var(--pub-bg-subtle);
+  border-color: var(--pub-text-dark);
+}
+
+.pub-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--pub-text-dark);
+  border: 1px solid var(--pub-text-dark);
+  border-radius: var(--pub-radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+  color: #FFFFFF;
+  transition: all 0.12s ease;
+}
+
+.pub-btn-primary:hover {
+  background: #000000;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   02. Page Container & Layout
+   ────────────────────────────────────────────────────────────────────────── */
+.pub-page-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   03. Next Launch Countdown Banner (Surface First — Matches Screenshot)
+   ────────────────────────────────────────────────────────────────────────── */
+.pub-next-launch-banner {
+  background: transparent;
+  border: 1px solid var(--pub-border);
+  border-radius: var(--pub-radius-md);
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pub-next-launch-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pub-next-launch-heading {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--pub-text-dark);
+  letter-spacing: -0.015em;
+}
+
+.pub-next-launch-pill {
+  background: var(--pub-bg-subtle);
+  border-radius: 5px;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pub-text-dark);
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.pub-next-launch-desc {
+  font-size: 12.5px;
+  color: var(--pub-text-muted);
+  line-height: 1.45;
+}
+
+.pub-next-launch-desc a {
+  color: var(--pub-text-dark);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   04. Sponsors Section (Surface-First 3-Item Grid)
+   ────────────────────────────────────────────────────────────────────────── */
+.pub-sponsors-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pub-sponsors-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pub-sponsors-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--pub-text-dark);
+  letter-spacing: -0.02em;
+}
+
+.pub-sponsors-learn-more {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--pub-text-muted);
+}
+
+.pub-sponsors-learn-more:hover {
+  color: var(--pub-text-dark);
+  text-decoration: underline;
+}
+
+.pub-sponsors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.pub-sponsor-item {
+  background: transparent;
+  border: 1px solid var(--pub-border);
+  border-radius: var(--pub-radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.12s ease;
+}
+
+.pub-sponsor-item:hover {
+  border-color: var(--pub-text-dark);
+}
+
+.pub-sponsor-banner {
+  position: relative;
+  width: 100%;
+  height: 124px;
+  background: #141413;
+  overflow: hidden;
+}
+
+.pub-sponsor-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pub-sponsor-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--pub-text-dark);
+  color: #FFFFFF;
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: var(--pub-radius-pill);
+  letter-spacing: 0.03em;
+  z-index: 2;
+}
+
+.pub-sponsor-logo-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: #141413;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -19px auto 0;
+  position: relative;
+  z-index: 3;
+  border: 2px solid #FFFFFF;
+  overflow: hidden;
+  font-size: 10.5px;
+  font-weight: 800;
+}
+
+.pub-sponsor-logo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pub-sponsor-body {
+  padding: 10px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.pub-sponsor-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--pub-text-dark);
+}
+
+.pub-sponsor-tagline {
+  font-size: 12px;
+  color: var(--pub-text-muted);
+  line-height: 1.4;
+  flex: 1;
+}
+
+.pub-sponsor-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pub-text-dark);
+  margin-top: 4px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   05. Two-Column Main Content Layout (Feed + Top Products Sidebar)
+   ────────────────────────────────────────────────────────────────────────── */
+.pub-main-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 32px;
+  align-items: start;
+  padding-top: 8px;
+  border-top: 1px solid var(--pub-border-subtle);
+}
+
+/* Left Column: Surface Feed */
+.pub-feed-column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pub-feed-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pub-feed-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--pub-text-dark);
+  letter-spacing: -0.02em;
+}
+
+/* Filter Controls */
+.pub-filter-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pub-cat-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.pub-cat-group::-webkit-scrollbar {
+  display: none;
+}
+
+.pub-cat-btn {
+  padding: 4px 10px;
+  border-radius: var(--pub-radius-pill);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--pub-text-muted);
+  background: transparent;
+  border: 1px solid var(--pub-border);
+  white-space: nowrap;
+  transition: all 0.12s ease;
+  cursor: pointer;
+}
+
+.pub-cat-btn:hover {
+  background: var(--pub-bg-subtle);
+  color: var(--pub-text-dark);
+}
+
+.pub-cat-btn.active {
+  background: var(--pub-text-dark);
+  color: #FFFFFF;
+  border-color: var(--pub-text-dark);
+}
+
+.pub-stage-dropdown {
+  padding: 4px 10px;
+  border-radius: var(--pub-radius-pill);
+  border: 1px solid var(--pub-border);
+  background: #FFFFFF;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--pub-text-dark);
+  outline: none;
+  cursor: pointer;
+}
+
+/* Surface Rows (Flat on Canvas with Subtle Dividers) */
+.pub-surface-rows-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.pub-surface-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 6px;
+  border-bottom: 1px solid var(--pub-border-subtle);
+  transition: background-color 0.12s ease;
+  cursor: pointer;
+}
+
+.pub-surface-item:last-child {
+  border-bottom: none;
+}
+
+.pub-surface-item:hover {
+  background-color: var(--pub-bg-alt);
+  border-radius: 6px;
+}
+
+.pub-surface-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pub-surface-logo-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: #141413;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid var(--pub-border-subtle);
+}
+
+.pub-surface-logo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pub-surface-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pub-surface-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--pub-text-dark);
+}
+
+.pub-surface-desc {
+  font-size: 12.5px;
+  color: var(--pub-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pub-surface-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--pub-text-light);
+}
+
+.pub-surface-tag {
+  color: var(--pub-text-muted);
+  font-weight: 600;
+}
+
+/* Surface Upvote Button (Matches Screenshot ▲ Number) */
+.pub-surface-upvote-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  padding: 4px 6px;
+  border-radius: var(--pub-radius-sm);
+  background: transparent;
+  gap: 1px;
+  transition: all 0.12s ease;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.pub-surface-item:hover .pub-surface-upvote-box {
+  background: #FFFFFF;
+  border: 1px solid var(--pub-border);
+}
+
+.pub-surface-upvote-triangle {
+  font-size: 10px;
+  line-height: 1;
+  color: var(--pub-text-muted);
+}
+
+.pub-surface-upvote-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--pub-text-dark);
+  line-height: 1;
+}
+
+.pub-surface-upvote-box.upvoted {
+  background: var(--pub-text-dark) !important;
+  border-color: var(--pub-text-dark) !important;
+}
+
+.pub-surface-upvote-box.upvoted .pub-surface-upvote-triangle,
+.pub-surface-upvote-box.upvoted .pub-surface-upvote-num {
+  color: #FFFFFF;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   06. Right Column: Top Products & Community (Surface-First Layout)
+   ────────────────────────────────────────────────────────────────────────── */
+.pub-sidebar-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pub-sidebar-surface-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pub-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pub-sidebar-title {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--pub-text-dark);
+  letter-spacing: -0.015em;
+}
+
+.pub-sidebar-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--pub-text-muted);
+  background: var(--pub-bg-subtle);
+  border-radius: 4px;
+  padding: 2px 6px;
+  text-transform: uppercase;
+}
+
+.pub-sidebar-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--pub-border-subtle);
+}
+
+/* Top Products List on Surface */
+.pub-top-products-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pub-top-product-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 4px;
+  border-radius: var(--pub-radius-sm);
+  transition: background-color 0.12s ease;
+  cursor: pointer;
+}
+
+.pub-top-product-item:hover {
+  background-color: var(--pub-bg-alt);
+}
+
+.pub-top-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pub-top-rank-num {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--pub-text-light);
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.pub-top-rank-num.rank-1 {
+  color: #141413;
+}
+
+.pub-top-item-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #141413;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10.5px;
+  font-weight: 800;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid var(--pub-border-subtle);
+}
+
+.pub-top-item-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pub-top-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pub-top-item-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--pub-text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pub-top-item-category {
+  font-size: 11px;
+  color: var(--pub-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pub-top-item-upvotes {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--pub-text-dark);
+  background: var(--pub-bg-subtle);
+  border-radius: 4px;
+  padding: 2px 6px;
+  flex-shrink: 0;
+}
+
+/* Newsletter Digest */
+.pub-newsletter-desc {
+  font-size: 12px;
+  color: var(--pub-text-muted);
+  line-height: 1.45;
+}
+
+.pub-newsletter-input-group {
+  display: flex;
+  gap: 6px;
+}
+
+.pub-newsletter-input {
+  flex: 1;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--pub-border);
+  border-radius: var(--pub-radius-sm);
+  font-size: 12px;
+  outline: none;
+  background: transparent;
+}
+
+.pub-newsletter-input:focus {
+  border-color: var(--pub-text-dark);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   07. Standalone Surface Product Detail Page
+   ────────────────────────────────────────────────────────────────────────── */
+.pub-detail-canvas {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.pub-back-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pub-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--pub-text-muted);
+  transition: color 0.12s ease;
+}
+
+.pub-back-btn:hover {
+  color: var(--pub-text-dark);
+}
+
+/* Hero on Surface */
+.pub-detail-hero-surface {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--pub-border-subtle);
+}
+
+.pub-detail-hero-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 1;
+}
+
+.pub-detail-logo-frame {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: #141413;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid var(--pub-border-subtle);
+}
+
+.pub-detail-logo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pub-detail-headings {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.pub-detail-title-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pub-detail-h1 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--pub-text-dark);
+  letter-spacing: -0.02em;
+}
+
+.pub-detail-short-desc {
+  font-size: 13.5px;
+  color: var(--pub-text-muted);
+  line-height: 1.45;
+  max-width: 680px;
+}
+
+.pub-detail-meta-strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11.5px;
+  color: var(--pub-text-light);
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.pub-detail-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Tabs Bar */
+.pub-detail-tabs-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 1px solid var(--pub-border-subtle);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.pub-detail-tabs-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.pub-tab-link {
+  padding: 8px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--pub-text-muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  white-space: nowrap;
+  transition: all 0.12s ease;
+  cursor: pointer;
+}
+
+.pub-tab-link:hover {
+  color: var(--pub-text-dark);
+}
+
+.pub-tab-link.active {
+  color: var(--pub-text-dark);
+  font-weight: 700;
+  border-bottom-color: var(--pub-text-dark);
+}
+
+/* Main Detail Content Grid */
+.pub-detail-body-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 32px;
+  align-items: start;
+}
+
+.pub-detail-main-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.pub-section-h2 {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--pub-text-dark);
+  letter-spacing: -0.015em;
+  margin-bottom: 8px;
+}
+
+.pub-prose-desc {
+  font-size: 13px;
+  color: var(--pub-text-main);
+  line-height: 1.6;
+}
+
+/* Media Gallery (Images from ./assets/) */
+.pub-media-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.pub-media-thumb {
+  width: 100%;
+  aspect-ratio: 16/10;
+  border-radius: var(--pub-radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--pub-border-subtle);
+  background: var(--pub-bg-alt);
+  cursor: pointer;
+}
+
+.pub-media-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Feature Checklist on Surface */
+.pub-features-flow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.pub-feature-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--pub-bg-subtle);
+  border-radius: var(--pub-radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pub-text-dark);
+}
+
+.pub-feature-pill i {
+  width: 13px;
+  height: 13px;
+  color: var(--pub-text-dark);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   08. Amazon-Style Customer Reviews (Structured & Neutral Warm Gray)
+   ────────────────────────────────────────────────────────────────────────── */
+.pub-reviews-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.pub-reviews-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--pub-border-subtle);
+}
+
+.pub-rating-overall-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pub-rating-score-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pub-rating-big-num {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--pub-text-dark);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.pub-stars-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 16px;
+  color: var(--pub-text-dark);
+}
+
+.pub-rating-count-sub {
+  font-size: 12px;
+  color: var(--pub-text-muted);
+  margin-top: 2px;
+}
+
+/* Histogram progress bars (Neutral Gray on Surface) */
+.pub-rating-histogram {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.pub-histogram-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--pub-text-muted);
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background-color 0.12s ease;
+}
+
+.pub-histogram-row:hover {
+  background-color: var(--pub-bg-alt);
+}
+
+.pub-histogram-label {
+  min-width: 44px;
+  font-weight: 600;
+  color: var(--pub-text-dark);
+}
+
+.pub-histogram-bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--pub-bg-subtle);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.pub-histogram-bar-fill {
+  height: 100%;
+  background: var(--pub-text-dark);
+  border-radius: 4px;
+}
+
+.pub-histogram-pct {
+  min-width: 32px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 11.5px;
+  color: var(--pub-text-muted);
+}
+
+/* Right side summary: Value breakdown & Write review CTA */
+.pub-rating-action-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--pub-bg-alt);
+  border: 1px solid var(--pub-border-subtle);
+  border-radius: var(--pub-radius-md);
+  padding: 16px 18px;
+}
+
+.pub-rating-attributes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pub-attr-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.pub-attr-label {
+  color: var(--pub-text-muted);
+}
+
+.pub-attr-val {
+  font-weight: 700;
+  color: var(--pub-text-dark);
+}
+
+/* Write a review form on surface */
+.pub-write-review-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  background: var(--pub-bg-alt);
+  border: 1px solid var(--pub-border-subtle);
+  border-radius: var(--pub-radius-md);
+}
+
+.pub-star-picker {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.pub-star-btn {
+  font-size: 24px;
+  line-height: 1;
+  color: #D4D4D0;
+  transition: color 0.12s ease, transform 0.1s ease;
+  background: none;
+  border: none;
+  padding: 0 2px;
+  cursor: pointer;
+}
+
+.pub-star-btn:hover {
+  transform: scale(1.15);
+}
+
+.pub-star-btn.active,
+.pub-star-btn.hovered {
+  color: var(--pub-text-dark);
+}
+
+/* Individual Review Row on Surface */
+.pub-review-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--pub-border-subtle);
+}
+
+.pub-review-item:last-child {
+  border-bottom: none;
+}
+
+.pub-reviewer-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pub-reviewer-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--pub-text-dark);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.pub-reviewer-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--pub-text-dark);
+}
+
+.pub-review-rating-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pub-review-headline {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--pub-text-dark);
+}
+
+.pub-verified-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--pub-text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pub-verified-badge i {
+  color: var(--pub-text-dark);
+}
+
+.pub-review-date {
+  font-size: 12px;
+  color: var(--pub-text-light);
+}
+
+.pub-review-body {
+  font-size: 13px;
+  color: var(--pub-text-main);
+  line-height: 1.55;
+}
+
+.pub-review-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: var(--pub-text-muted);
+}
+
+.pub-helpful-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border: 1px solid var(--pub-border);
+  border-radius: var(--pub-radius-pill);
+  background: #FFFFFF;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--pub-text-dark);
+  transition: all 0.12s ease;
+  cursor: pointer;
+}
+
+.pub-helpful-btn:hover {
+  background: var(--pub-bg-subtle);
+  border-color: var(--pub-text-dark);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   09. Sidebar Dossier on Detail Page (Surface First — No Boxed Containers)
+   ────────────────────────────────────────────────────────────────────────── */
+.pub-detail-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pub-dossier-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: transparent;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--pub-border-subtle);
+}
+
+.pub-dossier-block:last-child {
+  border-bottom: none;
+}
+
+.pub-dossier-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.pub-dossier-label {
+  color: var(--pub-text-muted);
+}
+
+.pub-dossier-val {
+  font-weight: 700;
+  color: var(--pub-text-dark);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   10. Form & Wizard Controls
+   ────────────────────────────────────────────────────────────────────────── */
+.pub-wizard-progress {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.pub-wizard-dot {
+  flex: 1;
+  height: 3px;
+  background: var(--pub-border);
+  border-radius: 2px;
+  transition: background 0.15s ease;
+}
+
+.pub-wizard-dot.active {
+  background: var(--pub-text-dark);
+}
+
+.pub-wizard-dot.completed {
+  background: var(--pub-text-muted);
+}
+
+.pub-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pub-form-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--pub-text-dark);
+}
+
+.pub-form-input,
+.pub-form-textarea,
+.pub-form-select {
+  width: 100%;
+  padding: 8px 10px;
+  background: #FFFFFF;
+  border: 1px solid var(--pub-border);
+  border-radius: var(--pub-radius-sm);
+  font-family: inherit;
+  font-size: 12.5px;
+  color: var(--pub-text-dark);
+  outline: none;
+  transition: border-color 0.14s ease;
+}
+
+.pub-form-input:focus,
+.pub-form-textarea:focus,
+.pub-form-select:focus {
+  border-color: var(--pub-text-dark);
+}
+
+/* Toast */
+.pub-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 10000;
+}
+
+.pub-toast {
+  background: #141413;
+  color: #FFFFFF;
+  padding: 9px 16px;
+  border-radius: var(--pub-radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   11. Responsive Breakpoints
+   ────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .pub-sponsors-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pub-main-layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pub-detail-body-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pub-reviews-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pub-detail-hero-surface {
+    flex-direction: column;
+  }
+
+  .pub-detail-hero-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .pub-media-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pub-features-flow {
+    grid-template-columns: 1fr;
+  }
+}
