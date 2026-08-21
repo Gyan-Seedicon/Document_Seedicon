@@ -8574,7 +8574,7 @@ window.handleAnalyticsSearch = handleAnalyticsSearch;
 window.WATCH_DATA_ROOMS_DATA = [
   {
     id: 'vdr-seed-lead',
-    name: 'Series Seed Lead Diligence Vault',
+    name: 'Seed Lead Diligence',
     category: 'Seed Round',
     createdOn: 'Aug 12, 2026',
     lastModified: 'Aug 20, 2026',
@@ -8614,7 +8614,7 @@ window.WATCH_DATA_ROOMS_DATA = [
   },
   {
     id: 'vdr-ip-patents',
-    name: 'IP, Patents & Clinical Verification',
+    name: 'IP & Clinical Patents',
     category: 'IP & Patents',
     createdOn: 'Jul 28, 2026',
     lastModified: 'Aug 18, 2026',
@@ -8647,7 +8647,7 @@ window.WATCH_DATA_ROOMS_DATA = [
   },
   {
     id: 'vdr-financials-audit',
-    name: 'Financial Audits & 409A Valuation (2025–2026)',
+    name: 'Financials & 409A Audit',
     category: 'Financials & Audit',
     createdOn: 'Aug 02, 2026',
     lastModified: 'Aug 19, 2026',
@@ -8674,7 +8674,7 @@ window.WATCH_DATA_ROOMS_DATA = [
   },
   {
     id: 'vdr-cap-table-legal',
-    name: 'Cap Table & Corporate Formation (Delaware C-Corp)',
+    name: 'Cap Table & Corporate',
     category: 'Legal & Cap Table',
     createdOn: 'Jun 14, 2026',
     lastModified: 'Aug 15, 2026',
@@ -8701,7 +8701,7 @@ window.WATCH_DATA_ROOMS_DATA = [
   },
   {
     id: 'vdr-commercial-msas',
-    name: 'Commercial Enterprise Contracts & MSAs',
+    name: 'Commercial Contracts',
     category: 'Commercial Contracts',
     createdOn: 'Jul 10, 2026',
     lastModified: 'Aug 17, 2026',
@@ -8726,7 +8726,7 @@ window.WATCH_DATA_ROOMS_DATA = [
   },
   {
     id: 'vdr-tech-soc2',
-    name: 'Product Architecture & Security Compliance (SOC 2)',
+    name: 'Security & SOC 2',
     category: 'IP & Patents',
     createdOn: 'Aug 05, 2026',
     lastModified: 'Aug 21, 2026',
@@ -8933,48 +8933,81 @@ function filterAndRenderWatchDataRooms() {
 
 function renderVdrGridView(vaults, container) {
   container.innerHTML = `
-    <div class="vdr-section-label">Folders</div>
-    <div class="vdr-drive-folder-grid">
-      ${vaults.map(v => `
-        <div class="vdr-drive-folder-pill" id="vdr-card-${v.id}" onclick="navigateToVaultDetail('${v.id}')">
-          <div class="vdr-folder-pill-left">
-            <svg class="vdr-folder-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path>
-            </svg>
-            <span class="vdr-folder-pill-name" title="${escapeHtml(v.name)}">${escapeHtml(v.name)}</span>
-          </div>
+    <div class="vdr-folder-big-grid">
+      ${vaults.map(v => {
+        const docs = v.documents || [];
+        let totalSizeMB = 0;
+        docs.forEach(d => {
+          const sz = parseFloat(d.size) || 2.5;
+          totalSizeMB += sz;
+        });
+        const sizeDisplay = totalSizeMB > 0 ? `${totalSizeMB.toFixed(1)} MB` : '12.4 MB';
 
-          <div class="vdr-pill-actions" onclick="event.stopPropagation();">
-            <button class="vdr-dot-menu-btn" onclick="toggleVdrDotMenu('${v.id}', event)" title="Options">
-              <i data-lucide="more-vertical" style="width:14px; height:14px;"></i>
-            </button>
+        return `
+          <div class="vdr-folder-big-card" id="vdr-card-${v.id}" onclick="navigateToVaultDetail('${v.id}')">
+            
+            <!-- Three dots options menu -->
+            <div class="vdr-folder-card-menu-wrap" onclick="event.stopPropagation();">
+              <button class="vdr-dot-menu-btn" onclick="toggleVdrDotMenu('${v.id}', event)" title="Options">
+                <i data-lucide="more-vertical" style="width:13px; height:13px;"></i>
+              </button>
 
-            <div class="vdr-context-menu" id="vdr-menu-${v.id}">
-              <button class="vdr-menu-item" onclick="editVdrVault('${v.id}', event)">
-                <i data-lucide="edit-3" style="width:13px; height:13px;"></i>
-                <span>Edit Vault</span>
-              </button>
-              <button class="vdr-menu-item" onclick="openVdrShareDrawer('${v.id}', event)">
-                <i data-lucide="share-2" style="width:13px; height:13px;"></i>
-                <span>Share to Investor</span>
-              </button>
-              <button class="vdr-menu-item" onclick="copyVdrShareLink('${v.id}', event)">
-                <i data-lucide="link" style="width:13px; height:13px;"></i>
-                <span>Copy Link</span>
-              </button>
-              <button class="vdr-menu-item" onclick="archiveVdrVault('${v.id}', event)">
-                <i data-lucide="${v.isArchived ? 'rotate-ccw' : 'archive'}" style="width:13px; height:13px;"></i>
-                <span>${v.isArchived ? 'Unarchive' : 'Archive'}</span>
-              </button>
-              <div class="vdr-menu-divider"></div>
-              <button class="vdr-menu-item danger" onclick="deleteVdrVault('${v.id}', event)">
-                <i data-lucide="trash-2" style="width:13px; height:13px;"></i>
-                <span>Delete Vault</span>
-              </button>
+              <div class="vdr-context-menu" id="vdr-menu-${v.id}">
+                <button class="vdr-menu-item" onclick="editVdrVault('${v.id}', event)">
+                  <i data-lucide="edit-3" style="width:13px; height:13px;"></i>
+                  <span>Edit Vault</span>
+                </button>
+                <button class="vdr-menu-item" onclick="openVdrShareDrawer('${v.id}', event)">
+                  <i data-lucide="share-2" style="width:13px; height:13px;"></i>
+                  <span>Share to Investor</span>
+                </button>
+                <button class="vdr-menu-item" onclick="copyVdrShareLink('${v.id}', event)">
+                  <i data-lucide="link" style="width:13px; height:13px;"></i>
+                  <span>Copy Link</span>
+                </button>
+                <button class="vdr-menu-item" onclick="archiveVdrVault('${v.id}', event)">
+                  <i data-lucide="${v.isArchived ? 'rotate-ccw' : 'archive'}" style="width:13px; height:13px;"></i>
+                  <span>${v.isArchived ? 'Unarchive' : 'Archive'}</span>
+                </button>
+                <div class="vdr-menu-divider"></div>
+                <button class="vdr-menu-item danger" onclick="deleteVdrVault('${v.id}', event)">
+                  <i data-lucide="trash-2" style="width:13px; height:13px;"></i>
+                  <span>Delete Vault</span>
+                </button>
+              </div>
             </div>
+
+            <!-- Monochrome Black, White & Neutral Folder Graphic -->
+            <div class="vdr-folder-card-graphic">
+              <svg class="vdr-folder-big-svg" viewBox="0 0 96 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Top white document sheet with subtle grey lines -->
+                <rect x="26" y="7" width="44" height="24" rx="3.5" fill="#FFFFFF" stroke="#D4D4CE" stroke-width="1.2"/>
+                <line x1="33" y1="13" x2="55" y2="13" stroke="#D4D4CE" stroke-width="1.2" stroke-linecap="round"/>
+                <line x1="33" y1="18" x2="46" y2="18" stroke="#E5E5E0" stroke-width="1.2" stroke-linecap="round"/>
+                
+                <!-- Back neutral folder tab -->
+                <path d="M8 17C8 12.5817 11.5817 9 16 9H34C36.2 9 38.3 10.1 39.5 11.9L42.5 16.1C43.7 17.9 45.8 19 48 19H80C84.4183 19 88 22.5817 88 27V60C88 64.4183 84.4183 68 80 68H16C11.5817 68 8 64.4183 8 60V17Z" fill="#D4D4CE"/>
+                
+                <!-- Front neutral folder body -->
+                <path d="M8 25C8 20.5817 11.5817 17 16 17H80C84.4183 17 88 20.5817 88 25V60C88 64.4183 84.4183 68 80 68H16C11.5817 68 8 64.4183 8 60V25Z" fill="#EAEAE7" stroke="#D4D4CE" stroke-width="1"/>
+                
+                <!-- Front top lip highlight line -->
+                <line x1="16" y1="18" x2="80" y2="18" stroke="#F5F5F3" stroke-width="1.5" stroke-linecap="round"/>
+                
+                <!-- Subtle minimal monochrome lock emblem -->
+                <path d="M48 37C45.7909 37 44 38.7909 44 41V43H42C40.8954 43 40 43.8954 40 45V51C40 52.1046 40.8954 53 42 53H54C55.1046 53 56 52.1046 56 51V45C56 43.8954 55.1046 43 54 43H52V41C52 38.7909 50.2091 37 48 37ZM46 41C46 39.8954 46.8954 39 48 39C49.1046 39 50 39.8954 50 41V43H46V41Z" fill="#141413" fill-opacity="0.3"/>
+              </svg>
+            </div>
+
+            <!-- Single-Line Folder Name & Size (Zero Truncation) -->
+            <div class="vdr-folder-card-meta">
+              <span class="vdr-folder-card-name">${escapeHtml(v.name)}</span>
+              <span class="vdr-folder-card-size">${sizeDisplay}</span>
+            </div>
+
           </div>
-        </div>
-      `).join('')}
+        `;
+      }).join('')}
     </div>
   `;
 
@@ -9228,7 +9261,7 @@ function renderDeepDocumentsTable(vault) {
                   <td>
                     <div class="vdr-cell-name">
                       <i data-lucide="${isSpreadsheet ? 'file-spreadsheet' : 'file-text'}" style="width:15px; height:15px; color:var(--text-dark); flex-shrink:0;"></i>
-                      <span title="${escapeHtml(doc.name)}">${escapeHtml(doc.name)}</span>
+                      <span title="${escapeHtml(doc.name)}" onclick="openDocPreviewModal('${vault.id}', '${doc.id}')" style="cursor:pointer;" class="vdr-doc-name-clickable">${escapeHtml(doc.name)}</span>
                     </div>
                   </td>
 
@@ -9249,19 +9282,26 @@ function renderDeepDocumentsTable(vault) {
 
                   <!-- Analytics Column -->
                   <td>
-                    <button class="vdr-analytics-chip" onclick="openDocAnalyticsModal('${vault.id}', '${doc.id}')" title="View viewer & download analytics">
+                    <button class="vdr-analytics-chip" onclick="openDocAnalyticsDrawer('${vault.id}', '${doc.id}')" title="View viewer & download analytics">
                       <i data-lucide="bar-chart-2" style="width:11px; height:11px;"></i>
                       <span>${doc.views} views · ${doc.downloads} DL</span>
                     </button>
                   </td>
 
-                  <!-- Three Dots Actions (Rename, Add Note, Download, Copy Link, Delete) -->
-                  <td style="text-align:right; position:relative;" onclick="event.stopPropagation();">
-                    <button class="vdr-dot-menu-btn" onclick="toggleDocDotMenu('${doc.id}', event)" title="Document options">
+                  <!-- Preview & Three Dots Actions -->
+                  <td style="text-align:right; position:relative; white-space:nowrap;" onclick="event.stopPropagation();">
+                    <button class="vdr-dot-menu-btn" onclick="openDocPreviewModal('${vault.id}', '${doc.id}')" title="Preview document" style="display:inline-flex; margin-right:3px;">
+                      <i data-lucide="eye" style="width:13.5px; height:13.5px;"></i>
+                    </button>
+                    <button class="vdr-dot-menu-btn" onclick="toggleDocDotMenu('${doc.id}', event)" title="Document options" style="display:inline-flex;">
                       <i data-lucide="more-vertical" style="width:14px; height:14px;"></i>
                     </button>
 
                     <div class="vdr-context-menu" id="doc-menu-${doc.id}">
+                      <button class="vdr-menu-item" onclick="openDocPreviewModal('${vault.id}', '${doc.id}')">
+                        <i data-lucide="eye" style="width:13px; height:13px;"></i>
+                        <span>Preview Document</span>
+                      </button>
                       <button class="vdr-menu-item" onclick="openRenameDocModal('${vault.id}', '${doc.id}')">
                         <i data-lucide="edit-2" style="width:13px; height:13px;"></i>
                         <span>Rename Document</span>
@@ -9414,9 +9454,12 @@ function renderDeepRequestedDocsTable(vault) {
                   </div>
                 </td>
 
-                <!-- Template -->
+                <!-- Template (Clickable to view template) -->
                 <td>
-                  <span style="font-size:11.5px; color:var(--text-muted);">${escapeHtml(r.template)}</span>
+                  <button class="vdr-template-pill-btn" onclick="openTemplatePreviewModal('${escapeHtml(r.template)}')" title="Click to preview template">
+                    <i data-lucide="file-text" style="width:12px; height:12px; color:var(--text-muted);"></i>
+                    <span>${escapeHtml(r.template)}</span>
+                  </button>
                 </td>
 
                 <!-- Requested By -->
@@ -9448,6 +9491,10 @@ function renderDeepRequestedDocsTable(vault) {
                   </button>
 
                   <div class="vdr-context-menu" id="req-menu-${r.id}">
+                    <button class="vdr-menu-item" onclick="openTemplatePreviewModal('${escapeHtml(r.template)}')">
+                      <i data-lucide="eye" style="width:13px; height:13px;"></i>
+                      <span>View Template</span>
+                    </button>
                     <button class="vdr-menu-item" onclick="openUploadDocModal('${vault.id}')">
                       <i data-lucide="upload" style="width:13px; height:13px;"></i>
                       <span>Upload Response</span>
@@ -9780,48 +9827,529 @@ window.openDocCommentModal = function(vaultId, docId) {
   }
 };
 
-window.openDocAnalyticsModal = function(vaultId, docId) {
+// ──────────────────────────────────────────────────────────────────────────
+// 04-B. DOCUMENT ANALYTICS RIGHT DRAWER (2-COLUMN MASTER-DETAIL LAYOUT)
+// ──────────────────────────────────────────────────────────────────────────
+
+window.__currentAnalyticsVaultId = null;
+window.__currentAnalyticsDocId = null;
+window.__activeAnalyticsViewerId = 'all';
+window.__currentApexChartInstance = null;
+
+window.openDocAnalyticsDrawer = function(vaultId, docId) {
+  closeAllVdrMenus();
+  window.__currentAnalyticsVaultId = vaultId;
+  window.__currentAnalyticsDocId = docId;
+  window.__activeAnalyticsViewerId = 'all';
+
   const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === vaultId);
   const doc = vault ? (vault.documents || []).find(d => d.id === docId) : null;
   if (!doc) return;
 
-  if (typeof openModal === 'function') {
-    openModal(`Document Analytics — ${doc.name}`, `
-      <div style="display:flex; flex-direction:column; gap:14px;">
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-          <div style="background:#FAFAF9; border:1px solid var(--border-main); border-radius:8px; padding:12px; text-align:center;">
-            <div style="font-size:22px; font-weight:800; color:var(--text-dark);">${doc.views}</div>
-            <div style="font-size:11px; color:var(--text-muted); font-weight:600;">Total Document Views</div>
-          </div>
-          <div style="background:#FAFAF9; border:1px solid var(--border-main); border-radius:8px; padding:12px; text-align:center;">
-            <div style="font-size:22px; font-weight:800; color:var(--text-dark);">${doc.downloads}</div>
-            <div style="font-size:11px; color:var(--text-muted); font-weight:600;">Encrypted Downloads</div>
-          </div>
-        </div>
+  const backdrop = document.getElementById('vdrAnalyticsDrawerBackdrop');
+  const headerName = document.getElementById('vdrAnalyticsDocNameHeader');
+  if (headerName) headerName.textContent = doc.name;
 
-        <div style="font-size:12px; font-weight:700; color:var(--text-dark); margin-top:4px;">Recent Investor Activity</div>
-        <div style="display:flex; flex-direction:column; gap:6px; font-size:11.5px;">
-          <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--border-faint);">
-            <span><strong>Elena Rostova (Accel)</strong></span>
-            <span style="color:var(--text-muted);">Viewed 4 times · Downloaded</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--border-faint);">
-            <span><strong>Vikram Mehta (Matrix)</strong></span>
-            <span style="color:var(--text-muted);">Viewed 3 times</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; padding:6px 0;">
-            <span><strong>David Sacks (Craft Ventures)</strong></span>
-            <span style="color:var(--text-muted);">Viewed 2 times · Downloaded</span>
-          </div>
-        </div>
+  if (backdrop) {
+    backdrop.classList.add('open');
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
 
-        <div style="display:flex; justify-content:flex-end; margin-top:8px;">
-          <button class="btn btn-primary" onclick="closeModal()">Done</button>
-        </div>
-      </div>
-    `);
+  renderAnalyticsDrawerContent();
+};
+
+window.openDocAnalyticsModal = window.openDocAnalyticsDrawer;
+
+window.closeVdrAnalyticsDrawer = function() {
+  const backdrop = document.getElementById('vdrAnalyticsDrawerBackdrop');
+  if (backdrop) backdrop.classList.remove('open');
+  if (window.__currentApexChartInstance) {
+    try { window.__currentApexChartInstance.destroy(); } catch (e) {}
+    window.__currentApexChartInstance = null;
   }
 };
+
+window.handleVdrAnalyticsBackdropClick = function(event) {
+  if (event.target.id === 'vdrAnalyticsDrawerBackdrop') {
+    closeVdrAnalyticsDrawer();
+  }
+};
+
+function getDocAnalyticsData(vaultId, docId) {
+  const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === vaultId);
+  const doc = vault ? (vault.documents || []).find(d => d.id === docId) : null;
+  if (!doc) return null;
+
+  const pages = [
+    'Page 1 (Cover)',
+    'Page 2 (Exec Summary)',
+    'Page 3 (Market & TAM)',
+    'Page 4 (Product Architecture)',
+    'Page 5 (Unit Econ & Growth)',
+    'Page 6 (Cap Table Waterfall)',
+    'Page 7 (Team & Advisors)',
+    'Page 8 (Use of Proceeds)'
+  ];
+
+  const viewers = [
+    {
+      id: 'usr-1',
+      name: 'Elena Rostova',
+      firm: 'Accel Partners',
+      email: 'elena@accel.com',
+      avatarImg: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces',
+      views: 4,
+      downloads: 1,
+      avgTime: '4m 12s',
+      totalTime: '16m 48s',
+      lastActive: 'Aug 20, 2026 · 10:45 AM',
+      completionRate: 100,
+      ndaStatus: 'Signed NDA',
+      pageTimes: [25, 45, 80, 110, 252, 190, 60, 45]
+    },
+    {
+      id: 'usr-2',
+      name: 'Vikram Mehta',
+      firm: 'Matrix Partners',
+      email: 'vikram@matrix.com',
+      avatarImg: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces',
+      views: 3,
+      downloads: 0,
+      avgTime: '2m 50s',
+      totalTime: '8m 30s',
+      lastActive: 'Aug 20, 2026 · 09:12 AM',
+      completionRate: 75,
+      ndaStatus: 'Signed NDA',
+      pageTimes: [20, 35, 60, 85, 170, 95, 30, 15]
+    },
+    {
+      id: 'usr-3',
+      name: 'David Sacks',
+      firm: 'Craft Ventures',
+      email: 'david@craftventures.com',
+      avatarImg: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=96&h=96&fit=crop&crop=faces',
+      views: 2,
+      downloads: 1,
+      avgTime: '3m 15s',
+      totalTime: '6m 30s',
+      lastActive: 'Aug 19, 2026 · 02:40 PM',
+      completionRate: 62,
+      ndaStatus: 'Signed NDA',
+      pageTimes: [15, 40, 50, 70, 140, 60, 20, 10]
+    },
+    {
+      id: 'usr-4',
+      name: 'Marc Benioff',
+      firm: 'Angel Investor',
+      email: 'marc@benioffholdings.com',
+      avatarImg: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&h=96&fit=crop&crop=faces',
+      views: 1,
+      downloads: 0,
+      avgTime: '1m 45s',
+      totalTime: '1m 45s',
+      lastActive: 'Aug 16, 2026 · 04:15 PM',
+      completionRate: 38,
+      ndaStatus: 'Signed NDA',
+      pageTimes: [30, 25, 30, 20, 0, 0, 0, 0]
+    },
+    {
+      id: 'usr-5',
+      name: 'Aarav Sharma',
+      firm: 'Peak XV Partners',
+      email: 'aarav@peakxv.com',
+      avatarImg: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=96&h=96&fit=crop&crop=faces',
+      views: 0,
+      downloads: 0,
+      avgTime: '0s',
+      totalTime: '0s',
+      lastActive: 'Pending Visit',
+      completionRate: 0,
+      ndaStatus: 'Invite Sent',
+      pageTimes: [0, 0, 0, 0, 0, 0, 0, 0]
+    }
+  ];
+
+  // Aggregate global page times
+  const activeViewers = viewers.filter(v => v.views > 0);
+  const aggregatePageTimes = pages.map((_, pIdx) => {
+    let sum = 0;
+    activeViewers.forEach(v => { sum += (v.pageTimes[pIdx] || 0); });
+    return Math.round(sum / (activeViewers.length || 1));
+  });
+
+  return {
+    doc,
+    pages,
+    viewers,
+    aggregate: {
+      views: doc.views || 24,
+      downloads: doc.downloads || 8,
+      avgTime: '3m 42s',
+      totalTime: '1h 28m',
+      completionRate: 84,
+      pageTimes: aggregatePageTimes
+    }
+  };
+}
+
+function renderAnalyticsDrawerContent() {
+  const body = document.getElementById('vdrAnalyticsDrawerBody');
+  if (!body) return;
+
+  const data = getDocAnalyticsData(window.__currentAnalyticsVaultId, window.__currentAnalyticsDocId);
+  if (!data) {
+    body.innerHTML = '<p style="font-size:12px; color:var(--text-muted); padding:20px;">No analytics data available.</p>';
+    return;
+  }
+
+  const { doc, pages, viewers, aggregate } = data;
+  const isGlobal = window.__activeAnalyticsViewerId === 'all';
+  const selectedViewer = isGlobal ? null : viewers.find(v => v.id === window.__activeAnalyticsViewerId) || viewers[0];
+
+  const currentViews = isGlobal ? aggregate.views : selectedViewer.views;
+  const currentDownloads = isGlobal ? aggregate.downloads : selectedViewer.downloads;
+  const currentAvgTime = isGlobal ? aggregate.avgTime : selectedViewer.avgTime;
+  const currentTotalTime = isGlobal ? aggregate.totalTime : selectedViewer.totalTime;
+  const currentPageTimes = isGlobal ? aggregate.pageTimes : selectedViewer.pageTimes;
+
+  // Find max dwell page
+  let maxTime = -1;
+  let maxPageIdx = 0;
+  currentPageTimes.forEach((t, idx) => {
+    if (t > maxTime) {
+      maxTime = t;
+      maxPageIdx = idx;
+    }
+  });
+  const maxPageTitle = pages[maxPageIdx] || 'Page 5';
+  const maxTimeFormatted = maxTime > 0 ? `${Math.floor(maxTime / 60)}m ${maxTime % 60}s` : '0s';
+
+  body.innerHTML = `
+    <div class="vdr-analytics-split-layout">
+      
+      <!-- 01. LEFT COLUMN: SLIM VIEWERS LIST (Small Avatar + Name Only) -->
+      <div class="vdr-analytics-viewers-pane">
+        <div class="vdr-viewers-pane-heading">Viewers (${viewers.length})</div>
+
+        <!-- All Viewers Nav Item -->
+        <div class="vdr-viewer-nav-item ${isGlobal ? 'active' : ''}" onclick="selectAnalyticsViewer('all')">
+          <div class="vdr-viewer-avatar-circle" style="${isGlobal ? 'background:#FFFFFF; color:#141413;' : ''}">
+            <i data-lucide="users" style="width:10px; height:10px;"></i>
+          </div>
+          <span class="vdr-viewer-nav-name">All Viewers</span>
+        </div>
+
+        <div style="height:1px; background:var(--border-faint); margin:3px 2px;"></div>
+
+        <!-- Individual Viewers List (Small Avatar + Name Only) -->
+        ${viewers.map(v => `
+          <div class="vdr-viewer-nav-item ${window.__activeAnalyticsViewerId === v.id ? 'active' : ''}" onclick="selectAnalyticsViewer('${v.id}')">
+            <div class="vdr-viewer-avatar-circle"><img src="${v.avatarImg}" class="vdr-viewer-avatar-img" alt="${escapeHtml(v.name)}" /></div>
+            <span class="vdr-viewer-nav-name" title="${escapeHtml(v.name)}">${escapeHtml(v.name)}</span>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- 02. RIGHT COLUMN: MAIN ANALYTICS DETAILS PANEL -->
+      <div class="vdr-analytics-details-pane">
+        
+        <!-- Active Target Header Banner -->
+        ${!isGlobal && selectedViewer ? `
+          <div class="vdr-selected-viewer-banner">
+            <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+              <div class="vdr-viewer-avatar-circle" style="width:32px; height:32px;"><img src="${selectedViewer.avatarImg}" class="vdr-viewer-avatar-img" alt="${escapeHtml(selectedViewer.name)}" /></div>
+              <div style="display:flex; flex-direction:column; min-width:0;">
+                <div style="font-weight:800; font-size:13px; color:var(--text-dark); display:flex; align-items:center; gap:6px;">
+                  <span>${escapeHtml(selectedViewer.name)}</span>
+                  <span style="font-size:11.5px; color:var(--text-muted); font-weight:500;">· ${escapeHtml(selectedViewer.firm)}</span>
+                </div>
+                <div style="font-size:11px; color:var(--text-muted); font-family:monospace;">${escapeHtml(selectedViewer.email)} · Last active ${selectedViewer.lastActive}</div>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:2px; flex-shrink:0;">
+              <span style="font-size:10.5px; font-weight:700; color:#15803D; background:#DCFCE7; padding:2px 6px; border-radius:4px;">${selectedViewer.ndaStatus}</span>
+              <span style="font-size:10.5px; color:var(--text-muted); font-weight:600;">${selectedViewer.completionRate}% read completion</span>
+            </div>
+          </div>
+        ` : `
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <span style="font-size:13px; font-weight:800; color:var(--text-dark);">Global Audience Analytics</span>
+              <div style="font-size:11.5px; color:var(--text-muted);">Aggregated performance across all evaluating investor firms</div>
+            </div>
+            <span style="font-size:11px; font-weight:700; color:#15803D; background:#DCFCE7; padding:2.5px 8px; border-radius:5px;">84% Avg Completion</span>
+          </div>
+        `}
+
+        <!-- 4 Condensed KPI Stat Cards -->
+        <div class="vdr-analytics-kpi-grid">
+          <div class="vdr-kpi-card">
+            <span class="vdr-kpi-label">Total Views</span>
+            <span class="vdr-kpi-value">${currentViews}</span>
+            <span class="vdr-kpi-sub">
+              <i data-lucide="trending-up" style="width:11px; height:11px;"></i>
+              <span>${isGlobal ? '+18%' : `${currentViews} sessions`}</span>
+            </span>
+          </div>
+
+          <div class="vdr-kpi-card">
+            <span class="vdr-kpi-label">Downloads</span>
+            <span class="vdr-kpi-value">${currentDownloads}</span>
+            <span class="vdr-kpi-sub" style="color:var(--text-muted);">
+              <span>${isGlobal ? 'Encrypted' : currentDownloads > 0 ? 'Downloaded' : 'View only'}</span>
+            </span>
+          </div>
+
+          <div class="vdr-kpi-card">
+            <span class="vdr-kpi-label">Avg. Dwell</span>
+            <span class="vdr-kpi-value">${currentAvgTime}</span>
+            <span class="vdr-kpi-sub">
+              <i data-lucide="clock" style="width:11px; height:11px;"></i>
+              <span>Per visit</span>
+            </span>
+          </div>
+
+          <div class="vdr-kpi-card">
+            <span class="vdr-kpi-label">Total Time</span>
+            <span class="vdr-kpi-value">${currentTotalTime}</span>
+            <span class="vdr-kpi-sub" style="color:var(--text-muted);">
+              <span>Engaged</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Page-wise Analytics Graph (ApexCharts) -->
+        <div class="vdr-analytics-chart-box">
+          <div class="vdr-chart-box-header">
+            <div>
+              <span class="vdr-chart-title">Page-by-Page Attention &amp; Dwell Time</span>
+              <div style="font-size:11px; color:var(--text-muted); margin-top:1px;">
+                ${isGlobal ? 'Average seconds spent per slide across all evaluating investors' : `Detailed reading profile for ${selectedViewer.name}`}
+              </div>
+            </div>
+            ${maxTime > 0 ? `
+              <span class="vdr-chart-peak-badge">
+                🔥 Peak: ${maxPageTitle.split('(')[0]} (${maxTimeFormatted})
+              </span>
+            ` : ''}
+          </div>
+
+          <!-- Chart Mount Point -->
+          <div id="vdrApexChartContainer"></div>
+        </div>
+
+        <!-- Activity Timeline Stream -->
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <span style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Recent Access Stream</span>
+          <div style="background:#FAFAF9; border:1px solid var(--border-main); border-radius:8px; padding:8px 12px; display:flex; flex-direction:column; gap:6px; font-size:11.5px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:4px; border-bottom:1px solid var(--border-faint);">
+              <span><strong>Elena Rostova (Accel)</strong> spent 4m 12s on Page 5 (Unit Econ)</span>
+              <span style="color:var(--text-muted); font-size:11px;">Today · 10:45 AM</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:4px; border-bottom:1px solid var(--border-faint);">
+              <span><strong>Vikram Mehta (Matrix)</strong> viewed 6 pages</span>
+              <span style="color:var(--text-muted); font-size:11px;">Today · 09:12 AM</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span><strong>David Sacks (Craft)</strong> downloaded encrypted copy</span>
+              <span style="color:var(--text-muted); font-size:11px;">Yesterday · 02:40 PM</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+
+  // Render ApexChart
+  setTimeout(() => {
+    renderApexPageWiseChart(currentPageTimes, pages, isGlobal ? 'Avg Seconds' : 'Seconds Spent');
+  }, 50);
+}
+
+window.selectAnalyticsViewer = function(viewerId) {
+  window.__activeAnalyticsViewerId = viewerId;
+  renderAnalyticsDrawerContent();
+};
+
+function renderApexPageWiseChart(dataSeries, categories, seriesName = 'Seconds Spent') {
+  const chartContainer = document.getElementById('vdrApexChartContainer');
+  if (!chartContainer) return;
+
+  if (window.__currentApexChartInstance) {
+    try { window.__currentApexChartInstance.destroy(); } catch (e) {}
+    window.__currentApexChartInstance = null;
+  }
+
+  if (typeof ApexCharts === 'undefined') {
+    chartContainer.innerHTML = '<p style="font-size:12px; color:var(--text-muted); text-align:center; padding:20px;">Chart library loading...</p>';
+    return;
+  }
+
+  // Find max value to highlight highest dwell bar
+  const maxVal = Math.max(...dataSeries);
+
+  const options = {
+    series: [{
+      name: seriesName,
+      data: dataSeries
+    }],
+    chart: {
+      type: 'bar',
+      height: 200,
+      toolbar: { show: false },
+      fontFamily: 'Inter, sans-serif'
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 4,
+        columnWidth: '45%',
+        distributed: true,
+        dataLabels: { position: 'top' }
+      }
+    },
+    colors: dataSeries.map(val => (val > 0 && val === maxVal) ? '#141413' : '#94A3B8'),
+    dataLabels: {
+      enabled: true,
+      formatter: function (val) {
+        if (val >= 60) {
+          return `${Math.floor(val / 60)}m ${val % 60 ? `${val % 60}s` : ''}`;
+        }
+        return val > 0 ? `${val}s` : '0s';
+      },
+      offsetY: -18,
+      style: {
+        fontSize: '10px',
+        fontWeight: '700',
+        colors: ['#141413']
+      }
+    },
+    legend: { show: false },
+    xaxis: {
+      categories: categories.map(c => c.split(' (')[0]),
+      labels: {
+        style: { fontSize: '10.5px', fontWeight: 600, colors: '#64748B' }
+      },
+      axisBorder: { show: false },
+      axisTicks: { show: false }
+    },
+    yaxis: {
+      show: true,
+      labels: {
+        formatter: function(val) {
+          return `${val}s`;
+        },
+        style: { fontSize: '10px', colors: '#94A3B8' }
+      }
+    },
+    grid: {
+      borderColor: '#F1F1EF',
+      strokeDashArray: 3,
+      padding: { top: 10, right: 10, bottom: 0, left: 10 }
+    },
+    tooltip: {
+      theme: 'light',
+      y: {
+        formatter: function (val, opts) {
+          const pageTitle = categories[opts.dataPointIndex] || `Page ${opts.dataPointIndex + 1}`;
+          const mins = Math.floor(val / 60);
+          const secs = val % 60;
+          return `${mins > 0 ? `${mins}m ` : ''}${secs}s (${pageTitle})`;
+        }
+      }
+    }
+  };
+
+  window.__currentApexChartInstance = new ApexCharts(chartContainer, options);
+  window.__currentApexChartInstance.render();
+}
+
+
+// 04-C. WATERMARKED DOCUMENT PREVIEW MODAL
+// ──────────────────────────────────────────────────────────────────────────
+
+window.previewCurrentAnalyticsDoc = function() {
+  const vaultId = window.__currentAnalyticsVaultId;
+  const docId = window.__currentAnalyticsDocId;
+  openDocPreviewModal(vaultId, docId);
+};
+
+window.openDocPreviewModal = function(vaultId, docId) {
+  const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === vaultId);
+  const doc = vault ? (vault.documents || []).find(d => d.id === docId) : null;
+  const docTitle = doc ? doc.name : 'Diligence Document';
+  const format = doc ? (doc.format || 'pdf').toUpperCase() : 'PDF';
+
+  if (typeof openModal === 'function') {
+    openModal(`Document Preview — ${docTitle}`, `
+      <div class="vdr-preview-modal-body">
+        
+        <!-- Viewer Control Strip -->
+        <div class="vdr-preview-toolbar">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-weight:700; color:var(--text-dark);">${format} Viewer</span>
+            <span style="color:var(--text-light);">·</span>
+            <span style="color:var(--text-muted); font-size:11.5px;">Page 1 of 8</span>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:6px;">
+            <button class="btn btn-outline" style="padding:3px 7px; font-size:11px;" onclick="window.showToast && window.showToast('Zoom: 100%', 'info')">100%</button>
+            <button class="btn btn-outline" style="padding:3px 7px; font-size:11px;" onclick="window.showToast && window.showToast('Fit to Width', 'info')">Fit</button>
+            <button class="btn btn-primary" style="padding:3.5px 9px; font-size:11px; gap:4px;" onclick="downloadDocFile('${docTitle}')">
+              <i data-lucide="download" style="width:11px; height:11px;"></i>
+              <span>Download</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Watermarked Slide Sheet -->
+        <div class="vdr-preview-sheet">
+          <div class="vdr-preview-watermark">
+            CONFIDENTIAL · SEEDICON VDR<br>STAMPED: ELENA@ACCEL.COM
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-faint); padding-bottom:12px; margin-bottom:16px;">
+            <div style="font-weight:800; font-size:16px; color:var(--text-dark);">${escapeHtml(docTitle.replace(/_/g, ' ').replace('.pdf', '').replace('.xlsx', ''))}</div>
+            <div style="font-size:11px; font-weight:700; color:#15803D; background:#DCFCE7; padding:2px 8px; border-radius:4px;">CONFIDENTIAL</div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-bottom:20px;">
+            <div style="background:#FAFAF9; border:1px solid var(--border-main); border-radius:6px; padding:10px;">
+              <div style="font-size:10.5px; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Key Metric</div>
+              <div style="font-size:16px; font-weight:800; color:var(--text-dark); margin-top:2px;">$180K ARR</div>
+            </div>
+            <div style="background:#FAFAF9; border:1px solid var(--border-main); border-radius:6px; padding:10px;">
+              <div style="font-size:10.5px; color:var(--text-muted); font-weight:600; text-transform:uppercase;">MoM Growth</div>
+              <div style="font-size:16px; font-weight:800; color:#15803D; margin-top:2px;">+38% MoM</div>
+            </div>
+            <div style="background:#FAFAF9; border:1px solid var(--border-main); border-radius:6px; padding:10px;">
+              <div style="font-size:10.5px; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Net Retention</div>
+              <div style="font-size:16px; font-weight:800; color:var(--text-dark); margin-top:2px;">134% NDR</div>
+            </div>
+          </div>
+
+          <div style="font-size:12px; color:var(--text-main); line-height:1.6; display:flex; flex-direction:column; gap:8px;">
+            <p><strong>Executive Summary:</strong> Proprietary AI diagnostic biomarker platform generating high-margin enterprise SaaS revenue across 4 institutional hospital systems.</p>
+            <p><strong>Diligence Notes:</strong> Verified audited waterfall cap table reflecting post-money valuation cap and option pool reservation.</p>
+          </div>
+
+          <!-- Bottom Pagination Controls -->
+          <div style="margin-top:auto; display:flex; justify-content:space-between; align-items:center; padding-top:16px; border-top:1px solid var(--border-faint);">
+            <button class="btn btn-outline" style="font-size:11px; padding:4px 10px;" onclick="window.showToast && window.showToast('Already on first page', 'info')">← Previous Slide</button>
+            <span style="font-size:11.5px; color:var(--text-muted); font-weight:600;">Slide 1 of 8</span>
+            <button class="btn btn-outline" style="font-size:11px; padding:4px 10px;" onclick="window.showToast && window.showToast('Navigated to Slide 2', 'success')">Next Slide →</button>
+          </div>
+        </div>
+
+      </div>
+    `);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+};
+
 
 // ──────────────────────────────────────────────────────────────────────────
 // FAST MULTI-FILE UPLOAD (NO TEDIOUS FORMS, JUST SELECT/DROP & UPLOAD)
@@ -10163,7 +10691,7 @@ function positionVdrContextMenu(menu, btn) {
   menu.style.left = 'auto';
 
   if (rect.bottom + menuHeight > window.innerHeight - 12) {
-    menu.style.top = `${Math.max(12, rect.top - menuHeight - 2)}px`;
+    menu.style.top = `${Math.max(12, rect.top - menuHeight - 4)}px`;
     menu.style.bottom = 'auto';
   } else {
     menu.style.top = `${rect.bottom + 4}px`;
@@ -10304,5 +10832,66 @@ window.copyVdrShareLink = function(vaultId, event) {
   }
   if (window.showToast) {
     window.showToast('🔗 Secure data room link copied to clipboard!', 'success');
+  }
+};
+
+
+// ──────────────────────────────────────────────────────────────────────────
+// 04-D. TEMPLATE PREVIEW MODAL
+// ──────────────────────────────────────────────────────────────────────────
+
+window.openTemplatePreviewModal = function(templateName) {
+  closeAllVdrMenus();
+  if (typeof openModal === 'function') {
+    openModal(`Document Template — ${templateName}`, `
+      <div class="vdr-preview-modal-body">
+        
+        <!-- Viewer Control Strip -->
+        <div class="vdr-preview-toolbar">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-weight:700; color:var(--text-dark);">Standard Diligence Template</span>
+            <span style="color:var(--text-light);">·</span>
+            <span style="color:var(--text-muted); font-size:11.5px;">Schema v2.4</span>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:6px;">
+            <button class="btn btn-outline" style="padding:3px 7px; font-size:11px;" onclick="window.showToast && window.showToast('Zoom: 100%', 'info')">100%</button>
+            <button class="btn btn-primary" style="padding:3.5px 9px; font-size:11px; gap:4px;" onclick="downloadDocFile('${templateName}.xlsx')">
+              <i data-lucide="download" style="width:11px; height:11px;"></i>
+              <span>Download Template</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Watermarked Template Sheet -->
+        <div class="vdr-preview-sheet">
+          <div class="vdr-preview-watermark">
+            OFFICIAL DILIGENCE TEMPLATE<br>SEEDICON STANDARD COMPLIANCE
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-faint); padding-bottom:12px; margin-bottom:16px;">
+            <div style="font-weight:800; font-size:15px; color:var(--text-dark);">${escapeHtml(templateName)}</div>
+            <div style="font-size:10.5px; font-weight:700; color:#1D4ED8; background:#EFF6FF; padding:2px 8px; border-radius:4px;">VERIFIED TEMPLATE</div>
+          </div>
+
+          <div style="background:#FAFAF9; border:1px solid var(--border-main); border-radius:6px; padding:12px; margin-bottom:14px;">
+            <div style="font-size:11.5px; font-weight:700; color:var(--text-dark); margin-bottom:4px;">Template Instructions &amp; Required Data Points:</div>
+            <ul style="font-size:11.5px; color:var(--text-muted); line-height:1.6; margin:0; padding-left:18px;">
+              <li>Monthly customer cohort retention rates (M1 through M24).</li>
+              <li>Gross margin contribution per product line and enterprise tier.</li>
+              <li>Net revenue retention (NRR) and logo churn breakdown.</li>
+              <li>Sign-off from Lead Finance Officer or independent audit partner.</li>
+            </ul>
+          </div>
+
+          <div style="margin-top:auto; display:flex; justify-content:space-between; align-items:center; padding-top:14px; border-top:1px solid var(--border-faint);">
+            <span style="font-size:11px; color:var(--text-muted);">Format: XLSX / CSV Formatted Matrix</span>
+            <button class="btn btn-primary" style="font-size:11px; padding:4px 10px;" onclick="downloadDocFile('${templateName}.xlsx')">Use This Template</button>
+          </div>
+        </div>
+
+      </div>
+    `);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 };

@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="./css/global.css">
 <link rel="stylesheet" href="./css/styles.css">
 <link rel="stylesheet" href="./css/pages/watch-data-rooms.css">
+<!-- ApexCharts CDN -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <!-- Lucide Icons CDN -->
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -217,6 +219,38 @@
       </div>
 
     </form>
+
+  </div>
+</div>
+
+<!-- 05. DOCUMENT ANALYTICS RIGHT DRAWER -->
+<div class="vdr-drawer-backdrop" id="vdrAnalyticsDrawerBackdrop" onclick="handleVdrAnalyticsBackdropClick(event)">
+  <div class="vdr-drawer-card vdr-analytics-drawer-card">
+    
+    <!-- Analytics Drawer Header -->
+    <div class="vdr-drawer-header">
+      <div class="vdr-drawer-title-group" style="min-width:0; flex:1;">
+        <div class="vdr-drawer-icon" style="background:#141413;">
+          <i data-lucide="bar-chart-2" style="width:16px; height:16px;"></i>
+        </div>
+        <div style="display:flex; flex-direction:column; min-width:0;">
+          <span class="vdr-drawer-title">Document Analytics</span>
+          <span id="vdrAnalyticsDocNameHeader" style="font-size:11.5px; color:var(--text-muted); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:260px;"></span>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button class="btn btn-outline" id="vdrAnalyticsPreviewBtn" onclick="previewCurrentAnalyticsDoc()" style="font-size:11.5px; padding:4.5px 9px; gap:4px;">
+          <i data-lucide="eye" style="width:12px; height:12px;"></i>
+          <span>Preview</span>
+        </button>
+        <button class="vdr-drawer-close-btn" onclick="closeVdrAnalyticsDrawer()" title="Close Drawer">
+          <i data-lucide="x" style="width:16px; height:16px;"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Analytics Drawer Dynamic Body (Zero padding for split layout) -->
+    <div class="vdr-drawer-body vdr-analytics-drawer-body" id="vdrAnalyticsDrawerBody" style="padding:0 !important; margin:0 !important; gap:0 !important; overflow:hidden;"></div>
 
   </div>
 </div>
