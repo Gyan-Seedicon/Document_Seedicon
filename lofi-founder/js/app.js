@@ -2556,7 +2556,6 @@ window.renderFounderDetailPage = function () {
         </div>
         <div class="fd-actions">
           ${msgBtn}
-          <button class="btn btn-outline" onclick="if(window.showToast) window.showToast('Connection request sent to ${f.name}', 'success')"><i data-lucide="user-plus" style="width:13px;height:13px;"></i> Connect</button>
           <a class="btn btn-outline" href="${escapeHtml(f.linkedin)}" target="_blank" rel="noopener"><img src="./assets/linkedin.png" class="fn-linkedin-icon" alt="LinkedIn" /> LinkedIn</a>
         </div>
       </div>
@@ -2967,7 +2966,6 @@ window.renderFounderDetailPage = function () {
         </div>
         <div class="fd-actions">
           ${msgBtn}
-          <button class="btn btn-outline" onclick="if(window.showToast) window.showToast('Connection request sent to ${f.name}', 'success')"><i data-lucide="user-plus" style="width:13px;height:13px;"></i> Connect</button>
           <a class="btn btn-outline" href="${escapeHtml(f.linkedin)}" target="_blank" rel="noopener"><img src="./assets/linkedin.png" class="fn-linkedin-icon" alt="LinkedIn" /> LinkedIn</a>
         </div>
       </div>
@@ -7183,6 +7181,7 @@ window.INVESTOR_PIPELINES = [
     name: 'Seed Round',
     currency: 'USD',
     raising: 1500000,
+    createdOn: 'Aug 12, 2026',
     updated: 'Today, 11:20 AM',
     description: 'Institutional seed round to scale the Alpha Health 2.0 platform.',
     investors: [
@@ -7204,6 +7203,7 @@ window.INVESTOR_PIPELINES = [
     name: 'Pre-Seed Bridge',
     currency: 'INR',
     raising: 250000,
+    createdOn: 'Aug 01, 2026',
     updated: 'Yesterday, 6:08 PM',
     description: 'Short bridge round with existing angels while the seed closes.',
     investors: [
@@ -7218,6 +7218,7 @@ window.INVESTOR_PIPELINES = [
     name: 'Series A Prep',
     currency: 'USD',
     raising: 5000000,
+    createdOn: 'Jul 15, 2026',
     updated: 'Aug 15, 9:03 PM',
     description: 'Early-stage diligence on Series A candidates.',
     investors: [
@@ -7340,12 +7341,10 @@ function renderInvestorTrackingPage() {
       <table class="inv-table">
         <thead>
           <tr>
-            <th>Pipeline</th>
-            <th class="inv-num">Raising</th>
-            <th class="inv-num">Investors</th>
-            <th class="inv-num">Committed</th>
-            <th>Updated</th>
-            <th style="width:40px;"></th>
+            <th style="padding-left: 18px;">Pipeline</th>
+            <th class="inv-num" style="text-align: right; width: 140px;">Investors</th>
+            <th style="text-align: right; width: 180px;">Created Date</th>
+            <th style="width: 48px; text-align: right; padding-right: 18px;"></th>
           </tr>
         </thead>
         <tbody id="invPipeRows">
@@ -7362,7 +7361,7 @@ function invRenderPipelineRows(pipes) {
   if (!pipes.length) {
     return `
       <tr>
-        <td colspan="6">
+        <td colspan="4">
           <div class="inv-empty-row">
             <i data-lucide="handshake" style="width:28px; height:28px; color:var(--text-light);"></i>
             <div style="font-size:13px; font-weight:800; color:var(--text-dark);">No pipelines yet</div>
@@ -7380,20 +7379,16 @@ function invRenderPipelineRows(pipes) {
     const st = invPipelineStats(p);
     return `
       <tr class="inv-row" onclick="window.location.href='./investor-pipeline.html?id=${p.id}'">
-        <td>
-          <div class="inv-cell-pipeline">
-            <div class="inv-pipe-icon">${invInitials(p.name)}</div>
-            <div class="inv-cell-pipeline-text">
-              <span class="inv-cell-title">${escapeHtml(p.name)}</span>
-              <span class="inv-cell-sub">${escapeHtml(p.description || 'Fundraising pipeline')} · ${INV_STAGES.length} stages</span>
-            </div>
-          </div>
+        <td style="padding: 13px 18px;">
+          <span class="inv-cell-title" style="font-size: 13px; font-weight: 700; color: var(--text-dark);">${escapeHtml(p.name)}</span>
         </td>
-        <td class="inv-num"><span class="inv-amount">${invFmt(p.raising, p)}</span></td>
-        <td class="inv-num"><span class="inv-count-pill">${st.count}</span></td>
-        <td class="inv-num"><span class="inv-amount ${st.committed ? '' : 'muted'}">${invFmt(st.committed, p)}</span></td>
-        <td><span class="inv-cell-muted">${escapeHtml(p.updated)}</span></td>
-        <td onclick="event.stopPropagation();">
+        <td class="inv-num" style="text-align: right; padding: 13px 14px; font-variant-numeric: tabular-nums; font-size: 13px; font-weight: 600; color: var(--text-dark);">
+          ${st.count}
+        </td>
+        <td style="text-align: right; padding: 13px 14px; font-variant-numeric: tabular-nums; font-size: 12.5px; color: var(--text-muted);">
+          ${escapeHtml(p.createdOn || p.updated || 'Aug 12, 2026')}
+        </td>
+        <td style="text-align: right; padding-right: 18px;" onclick="event.stopPropagation();">
           <div class="inv-dot-wrap">
             <button class="inv-dots" onclick="invToggleDotMenu(this, '${p.id}')" title="Pipeline actions">
               <i data-lucide="more-horizontal"></i>
@@ -7759,7 +7754,6 @@ function invRenderBoard(p) {
       <div class="inv-col" id="invCol-${stage.id}" ondragover="event.preventDefault();" ondrop="invOnDrop(event,'${stage.id}')">
         <div class="inv-col-header">
           <div class="inv-col-title-row">
-            <span class="inv-col-dot" style="background:${stage.dot};"></span>
             <span class="inv-col-title" title="${stage.label}">${stage.label}</span>
             <span class="inv-col-count">${cards.length}</span>
           </div>
