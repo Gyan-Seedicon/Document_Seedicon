@@ -333,6 +333,11 @@ document.addEventListener('DOMContentLoaded', () => {
     renderInvestorPipelinePage();
   }
 
+  // If on Watch Data Rooms Page
+  if (document.getElementById('watchDataRoomsRoot')) {
+    renderWatchDataRoomsPage();
+  }
+
   // Bind App Events
   bindFounderAppEvents();
 });
@@ -8552,3 +8557,1752 @@ window.renderProductAnalyticsPage = renderProductAnalyticsPage;
 window.paSetRange = paSetRange;
 window.paExportReport = paExportReport;
 window.handleAnalyticsSearch = handleAnalyticsSearch;
+
+
+
+
+
+
+
+
+
+/* ==========================================================================
+   16. WATCH DATA ROOMS (VDR) — COMPLETE WORKSPACE & DEEP VAULT EXPLORER
+   Navbar Breadcrumbs, One-Row Tabs & Actions, Clean Single-Line Tables
+   ========================================================================== */
+
+window.WATCH_DATA_ROOMS_DATA = [
+  {
+    id: 'vdr-seed-lead',
+    name: 'Series Seed Lead Diligence Vault',
+    category: 'Seed Round',
+    createdOn: 'Aug 12, 2026',
+    lastModified: 'Aug 20, 2026',
+    investorsCount: 8,
+    requireNda: true,
+    domainLock: true,
+    allowedDomains: 'accel.com, matrixpartners.com',
+    isArchived: false,
+    documents: [
+      { id: 'doc-1', name: 'Alpha_Health_Series_Seed_Cap_Table_Waterfall_2026.xlsx', format: 'xlsx', type: 'Cap Table (XLSX)', date: 'Aug 20, 2026', size: '2.4 MB', views: 24, downloads: 8 },
+      { id: 'doc-2', name: 'Alpha_Health_24_Month_Audited_Financial_Model.xlsx', format: 'xlsx', type: 'Financial Model (XLSX)', date: 'Aug 19, 2026', size: '5.8 MB', views: 31, downloads: 11 },
+      { id: 'doc-3', name: 'Alpha_Health_Seed_Pitch_Deck_v2.4_Confidential.pdf', format: 'pdf', type: 'Pitch Deck (PDF)', date: 'Aug 18, 2026', size: '12.1 MB', views: 48, downloads: 19 },
+      { id: 'doc-4', name: 'Delaware_C_Corp_Certificate_of_Incorporation.pdf', format: 'pdf', type: 'Legal & Corporate (PDF)', date: 'Aug 15, 2026', size: '1.8 MB', views: 14, downloads: 5 },
+      { id: 'doc-5', name: 'US_Provisional_Patent_AI_Biomarker_Diagnostics.pdf', format: 'pdf', type: 'Patent & IP (PDF)', date: 'Aug 14, 2026', size: '8.6 MB', views: 19, downloads: 7 },
+      { id: 'doc-6', name: 'Enterprise_Pilot_MSA_Agreement_Redacted.pdf', format: 'pdf', type: 'Commercial MSA (PDF)', date: 'Aug 12, 2026', size: '3.5 MB', views: 9, downloads: 3 },
+      { id: 'doc-7', name: 'SOC_2_Type_II_Compliance_Report_2026.pdf', format: 'pdf', type: 'SOC 2 & Security (PDF)', date: 'Aug 10, 2026', size: '4.1 MB', views: 16, downloads: 6 },
+      { id: 'doc-8', name: 'Key_Management_Employment_IP_Assignment_Agreements.pdf', format: 'pdf', type: 'Legal & Corporate (PDF)', date: 'Aug 08, 2026', size: '2.9 MB', views: 11, downloads: 4 }
+    ],
+    sharedUsers: [
+      { id: 'usr-1', name: 'Elena Rostova (Accel)', email: 'elena@accel.com', accessGivenOn: 'Aug 14, 2026' },
+      { id: 'usr-2', name: 'Vikram Mehta (Matrix)', email: 'vikram@matrix.com', accessGivenOn: 'Aug 15, 2026' },
+      { id: 'usr-3', name: 'Marc Benioff (Angel)', email: 'marc@benioffholdings.com', accessGivenOn: 'Aug 16, 2026' },
+      { id: 'usr-4', name: 'David Sacks (Craft)', email: 'david@craftventures.com', accessGivenOn: 'Aug 17, 2026' },
+      { id: 'usr-5', name: 'Aarav Sharma (Peak XV)', email: 'aarav@peakxv.com', accessGivenOn: 'Aug 18, 2026' }
+    ],
+    requestedDocs: [
+      { id: 'req-1', title: 'Q3 2026 Customer Retention & Cohort Breakdown', template: 'Cohort Analysis Template v2', requestedBy: 'Elena Rostova (Accel)', requestedOn: 'Aug 19, 2026', uploadedOn: 'Pending', status: 'Pending Upload' },
+      { id: 'req-2', title: 'Auditor Sign-Off Letter on 2025 R&D Tax Credits', template: 'KPMG Standard Audit Form', requestedBy: 'Vikram Mehta (Matrix)', requestedOn: 'Aug 18, 2026', uploadedOn: 'Aug 20, 2026', status: 'Fulfilled' },
+      { id: 'req-3', title: 'HIPAA Business Associate Agreement (BAA) Master', template: 'HHS Standard BAA Model', requestedBy: 'David Sacks (Craft)', requestedOn: 'Aug 17, 2026', uploadedOn: 'Aug 18, 2026', status: 'Fulfilled' }
+    ],
+    history: [
+      { id: 'hist-1', user: 'Elena Rostova (Accel)', action: 'Downloaded Alpha_Health_Series_Seed_Cap_Table_Waterfall_2026.xlsx', time: 'Aug 20, 2026 · 10:45 AM', location: 'San Francisco, US (192.0.2.45)' },
+      { id: 'hist-2', user: 'Vikram Mehta (Matrix)', action: 'Viewed Alpha_Health_24_Month_Audited_Financial_Model.xlsx', time: 'Aug 20, 2026 · 09:12 AM', location: 'Palo Alto, US (198.51.100.12)' },
+      { id: 'hist-3', user: 'Elena Rostova (Accel)', action: 'Signed Seedicon Mutual NDA (Digital Signature v3.2)', time: 'Aug 14, 2026 · 04:30 PM', location: 'San Francisco, US (192.0.2.45)' },
+      { id: 'hist-4', user: 'Dr. Sarah Chen (Founder)', action: 'Uploaded SOC_2_Type_II_Compliance_Report_2026.pdf', time: 'Aug 10, 2026 · 02:15 PM', location: 'Boston, US (203.0.113.88)' }
+    ]
+  },
+  {
+    id: 'vdr-ip-patents',
+    name: 'IP, Patents & Clinical Verification',
+    category: 'IP & Patents',
+    createdOn: 'Jul 28, 2026',
+    lastModified: 'Aug 18, 2026',
+    investorsCount: 5,
+    requireNda: true,
+    domainLock: true,
+    allowedDomains: 'sequoiacap.com, khoslaventures.com',
+    isArchived: false,
+    documents: [
+      { id: 'doc-21', name: 'US_Provisional_Patent_63_892_104_AI_Biomarker.pdf', format: 'pdf', type: 'Patent & IP (PDF)', date: 'Aug 18, 2026', size: '14.2 MB', views: 22, downloads: 7 },
+      { id: 'doc-22', name: 'Stanford_Tech_Transfer_Exclusive_License_Agreement.pdf', format: 'pdf', type: 'Legal & Corporate (PDF)', date: 'Aug 15, 2026', size: '4.8 MB', views: 18, downloads: 4 },
+      { id: 'doc-23', name: 'Clinical_Trial_Phase_1_Efficacy_Metrics_Report.pdf', format: 'pdf', type: 'Clinical Data (PDF)', date: 'Aug 12, 2026', size: '28.4 MB', views: 35, downloads: 12 },
+      { id: 'doc-24', name: 'IRB_Human_Subject_Protocol_Approval_Notice.pdf', format: 'pdf', type: 'Compliance (PDF)', date: 'Aug 10, 2026', size: '1.9 MB', views: 15, downloads: 3 },
+      { id: 'doc-25', name: 'PCT_International_Patent_Application_WO2026_09124.pdf', format: 'pdf', type: 'Patent & IP (PDF)', date: 'Aug 05, 2026', size: '8.3 MB', views: 19, downloads: 6 }
+    ],
+    sharedUsers: [
+      { id: 'usr-21', name: 'Jessica Livingston (YC)', email: 'jessica@ycalumni.com', accessGivenOn: 'Aug 01, 2026' },
+      { id: 'usr-22', name: 'Dr. Sanjay Gupta (BioTech)', email: 'sanjay@biotechangels.com', accessGivenOn: 'Aug 05, 2026' },
+      { id: 'usr-23', name: 'Marcus Vance (Pulse)', email: 'marcus@pulse.vc', accessGivenOn: 'Aug 08, 2026' }
+    ],
+    requestedDocs: [
+      { id: 'req-21', title: 'Independent Clinical Lab Raw Chromatography Data (CSV)', template: 'Clinical Trial Raw Data Schema', requestedBy: 'Dr. Sanjay Gupta (BioTech)', requestedOn: 'Aug 16, 2026', uploadedOn: 'Pending', status: 'Pending Upload' },
+      { id: 'req-22', title: 'Stanford Tech-Transfer Royalties Schedule Amendment', template: 'University License Annex B', requestedBy: 'Jessica Livingston (YC)', requestedOn: 'Aug 14, 2026', uploadedOn: 'Aug 17, 2026', status: 'Fulfilled' }
+    ],
+    history: [
+      { id: 'hist-21', user: 'Dr. Sanjay Gupta (BioTech)', action: 'Downloaded US_Provisional_Patent_63_892_104_AI_Biomarker.pdf', time: 'Aug 18, 2026 · 11:20 AM', location: 'New York, US (198.51.100.4)' },
+      { id: 'hist-22', user: 'Jessica Livingston (YC)', action: 'Viewed Clinical_Trial_Phase_1_Efficacy_Metrics_Report.pdf', time: 'Aug 17, 2026 · 03:40 PM', location: 'Palo Alto, US (192.0.2.78)' },
+      { id: 'hist-23', user: 'Marcus Vance (Pulse)', action: 'Signed Seedicon Mutual NDA', time: 'Aug 08, 2026 · 09:15 AM', location: 'London, UK (81.2.69.142)' }
+    ]
+  },
+  {
+    id: 'vdr-financials-audit',
+    name: 'Financial Audits & 409A Valuation (2025–2026)',
+    category: 'Financials & Audit',
+    createdOn: 'Aug 02, 2026',
+    lastModified: 'Aug 19, 2026',
+    investorsCount: 6,
+    requireNda: true,
+    domainLock: false,
+    allowedDomains: '',
+    isArchived: false,
+    documents: [
+      { id: 'doc-31', name: 'KPMG_Compiled_Financial_Statements_2025_2026.pdf', format: 'pdf', type: 'Financial Model (PDF)', date: 'Aug 19, 2026', size: '6.2 MB', views: 28, downloads: 9 },
+      { id: 'doc-32', name: 'Carta_Independent_409A_Valuation_Report_Q2_2026.pdf', format: 'pdf', type: 'Financial Model (PDF)', date: 'Aug 14, 2026', size: '3.1 MB', views: 19, downloads: 6 },
+      { id: 'doc-33', name: 'Monthly_MRR_Gross_Margin_Cohort_Waterfall.xlsx', format: 'xlsx', type: 'Financial Model (XLSX)', date: 'Aug 10, 2026', size: '4.5 MB', views: 32, downloads: 14 }
+    ],
+    sharedUsers: [
+      { id: 'usr-31', name: 'Rohit Bansal (Titan)', email: 'rohit@titancapital.vc', accessGivenOn: 'Aug 08, 2026' },
+      { id: 'usr-32', name: 'Michael Seibel (YC)', email: 'michael@ycombinator.com', accessGivenOn: 'Aug 10, 2026' }
+    ],
+    requestedDocs: [
+      { id: 'req-31', title: 'Q3 2026 Operating Expense Runway Forecast Model', template: 'SaaS Runway Calculator v4', requestedBy: 'Rohit Bansal (Titan)', requestedOn: 'Aug 18, 2026', uploadedOn: 'Pending', status: 'Pending Upload' }
+    ],
+    history: [
+      { id: 'hist-31', user: 'Rohit Bansal (Titan)', action: 'Downloaded Monthly_MRR_Gross_Margin_Cohort_Waterfall.xlsx', time: 'Aug 19, 2026 · 04:10 PM', location: 'New Delhi, IN (182.74.12.90)' }
+    ]
+  },
+  {
+    id: 'vdr-cap-table-legal',
+    name: 'Cap Table & Corporate Formation (Delaware C-Corp)',
+    category: 'Legal & Cap Table',
+    createdOn: 'Jun 14, 2026',
+    lastModified: 'Aug 15, 2026',
+    investorsCount: 11,
+    requireNda: true,
+    domainLock: true,
+    allowedDomains: 'initialized.com, 776.org',
+    isArchived: false,
+    documents: [
+      { id: 'doc-41', name: 'Delaware_Certificate_of_Incorporation_Stamped.pdf', format: 'pdf', type: 'Legal & Corporate (PDF)', date: 'Aug 15, 2026', size: '1.4 MB', views: 16, downloads: 4 },
+      { id: 'doc-42', name: 'Founder_Stock_Purchase_Agreements_83b_Elections.pdf', format: 'pdf', type: 'Legal & Corporate (PDF)', date: 'Aug 10, 2026', size: '5.2 MB', views: 12, downloads: 3 },
+      { id: 'doc-43', name: '2026_Stock_Incentive_Plan_Option_Pool_Summary.pdf', format: 'pdf', type: 'Cap Table (PDF)', date: 'Aug 05, 2026', size: '2.1 MB', views: 20, downloads: 7 }
+    ],
+    sharedUsers: [
+      { id: 'usr-41', name: 'Garry Tan (Initialized)', email: 'garry@initialized.com', accessGivenOn: 'Aug 02, 2026' },
+      { id: 'usr-42', name: 'Alexis Ohanian (776)', email: 'alexis@sevensevensix.com', accessGivenOn: 'Aug 05, 2026' }
+    ],
+    requestedDocs: [
+      { id: 'req-41', title: 'Board Consent for 2026 Series Seed Authorized Shares', template: 'Standard Delaware Board Action', requestedBy: 'Garry Tan (Initialized)', requestedOn: 'Aug 12, 2026', uploadedOn: 'Aug 14, 2026', status: 'Fulfilled' }
+    ],
+    history: [
+      { id: 'hist-41', user: 'Garry Tan (Initialized)', action: 'Downloaded Delaware_Certificate_of_Incorporation_Stamped.pdf', time: 'Aug 15, 2026 · 02:20 PM', location: 'San Francisco, US (198.51.100.22)' }
+    ]
+  },
+  {
+    id: 'vdr-commercial-msas',
+    name: 'Commercial Enterprise Contracts & MSAs',
+    category: 'Commercial Contracts',
+    createdOn: 'Jul 10, 2026',
+    lastModified: 'Aug 17, 2026',
+    investorsCount: 4,
+    requireNda: true,
+    domainLock: false,
+    allowedDomains: '',
+    isArchived: false,
+    documents: [
+      { id: 'doc-51', name: 'Fortune_500_Enterprise_Master_Services_Agreement_Redacted.pdf', format: 'pdf', type: 'Commercial MSA (PDF)', date: 'Aug 17, 2026', size: '3.8 MB', views: 11, downloads: 3 },
+      { id: 'doc-52', name: 'Healthcare_System_Pilot_SOW_Execution_Copy.pdf', format: 'pdf', type: 'Commercial MSA (PDF)', date: 'Aug 12, 2026', size: '2.4 MB', views: 8, downloads: 2 }
+    ],
+    sharedUsers: [
+      { id: 'usr-51', name: 'Marc Benioff (Angel)', email: 'marc@benioffholdings.com', accessGivenOn: 'Aug 12, 2026' }
+    ],
+    requestedDocs: [
+      { id: 'req-51', title: 'Customer Security Questionnaire & SLA Addendum', template: 'Enterprise Vendor Assessment Form', requestedBy: 'Marc Benioff (Angel)', requestedOn: 'Aug 15, 2026', uploadedOn: 'Pending', status: 'Pending Upload' }
+    ],
+    history: [
+      { id: 'hist-51', user: 'Marc Benioff (Angel)', action: 'Viewed Fortune_500_Enterprise_Master_Services_Agreement_Redacted.pdf', time: 'Aug 17, 2026 · 05:00 PM', location: 'San Francisco, US (192.0.2.10)' }
+    ]
+  },
+  {
+    id: 'vdr-tech-soc2',
+    name: 'Product Architecture & Security Compliance (SOC 2)',
+    category: 'IP & Patents',
+    createdOn: 'Aug 05, 2026',
+    lastModified: 'Aug 21, 2026',
+    investorsCount: 7,
+    requireNda: true,
+    domainLock: true,
+    allowedDomains: 'accel.com, matrix.com',
+    isArchived: false,
+    documents: [
+      { id: 'doc-61', name: 'AWS_Multi_Region_Cloud_Architecture_Diagram_2026.pdf', format: 'pdf', type: 'SOC 2 & Security (PDF)', date: 'Aug 21, 2026', size: '7.9 MB', views: 24, downloads: 8 },
+      { id: 'doc-62', name: 'Third_Party_Penetration_Test_Executive_Summary.pdf', format: 'pdf', type: 'SOC 2 & Security (PDF)', date: 'Aug 18, 2026', size: '2.8 MB', views: 19, downloads: 5 },
+      { id: 'doc-63', name: 'GDPR_HIPAA_Data_Protection_Agreement_Template.pdf', format: 'pdf', type: 'Compliance (PDF)', date: 'Aug 14, 2026', size: '1.7 MB', views: 14, downloads: 4 }
+    ],
+    sharedUsers: [
+      { id: 'usr-61', name: 'Elena Rostova (Accel)', email: 'elena@accel.com', accessGivenOn: 'Aug 16, 2026' }
+    ],
+    requestedDocs: [
+      { id: 'req-61', title: 'SOC 2 Type II Bridge Letter for Q3 2026', template: 'AICPA Standard Bridge Letter', requestedBy: 'Elena Rostova (Accel)', requestedOn: 'Aug 20, 2026', uploadedOn: 'Pending', status: 'Pending Upload' }
+    ],
+    history: [
+      { id: 'hist-61', user: 'Elena Rostova (Accel)', action: 'Downloaded AWS_Multi_Region_Cloud_Architecture_Diagram_2026.pdf', time: 'Aug 21, 2026 · 08:30 AM', location: 'San Francisco, US (192.0.2.45)' }
+    ]
+  }
+];
+
+let currentVdrView = 'grid';
+try {
+  const savedView = localStorage.getItem('seedicon_vdr_view');
+  if (savedView === 'grid' || savedView === 'table') {
+    currentVdrView = savedView;
+  }
+} catch (e) {}
+
+let currentVdrSearch = '';
+let currentVdrCategory = 'all';
+let currentActiveVaultId = null;
+let currentDeepTab = 'documents';
+
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('vault')) {
+  currentActiveVaultId = urlParams.get('vault');
+}
+if (urlParams.get('tab')) {
+  currentDeepTab = urlParams.get('tab');
+}
+
+function updateTopNavBreadcrumb() {
+  const topNavLeft = document.querySelector('.workspace-top-nav-left');
+  if (!topNavLeft) return;
+
+  if (currentActiveVaultId) {
+    const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === currentActiveVaultId);
+    const vaultName = vault ? vault.name : 'Diligence Vault';
+    topNavLeft.innerHTML = `
+      <div class="topnav-page-title" style="display:flex; align-items:center; gap:6px;">
+        <a onclick="navigateBackToVaultsList()" style="cursor:pointer; display:inline-flex; align-items:center; gap:5px; color:var(--text-muted); font-size:13px; font-weight:600; text-decoration:none;">
+          <i data-lucide="folder-lock" style="width:14px; height:14px;"></i>
+          <span>Watch Data Rooms</span>
+        </a>
+        <span style="color:var(--text-light); font-size:12px;">/</span>
+        <span style="display:inline-flex; align-items:center; gap:5px; font-weight:800; color:var(--text-dark); font-size:13.5px;">
+          <i data-lucide="folder" style="width:14px; height:14px;"></i>
+          <span>${escapeHtml(vaultName)}</span>
+        </span>
+      </div>
+    `;
+  } else {
+    topNavLeft.innerHTML = `
+      <div class="topnav-page-title">
+        <span class="topnav-page-icon"><i data-lucide="folder-lock" style="width:15px; height:15px;"></i></span>
+        <span class="topnav-page-name">Watch Data Rooms</span>
+      </div>
+    `;
+  }
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function renderWatchDataRoomsPage() {
+  const root = document.getElementById('watchDataRoomsRoot');
+  if (!root) return;
+
+  updateTopNavBreadcrumb();
+
+  if (currentActiveVaultId) {
+    renderDeepVaultExplorer(currentActiveVaultId);
+  } else {
+    renderVaultsListView();
+  }
+}
+
+window.renderWatchDataRoomsPage = renderWatchDataRoomsPage;
+
+// ──────────────────────────────────────────────────────────────────────────
+// 01. VAULTS LIST VIEW (GOOGLE DRIVE GRID OR CONDENSED TABLE)
+// ──────────────────────────────────────────────────────────────────────────
+function renderVaultsListView() {
+  const root = document.getElementById('watchDataRoomsRoot');
+  if (!root) return;
+
+  const allVaults = window.WATCH_DATA_ROOMS_DATA || [];
+  const activeVaults = allVaults.filter(v => !v.isArchived).length;
+
+  root.innerHTML = `
+    <!-- Surface Header Toolbar (No metrics cards) -->
+    <div class="vdr-surface-toolbar">
+      <div class="vdr-toolbar-left">
+        <div class="vdr-page-heading">
+          <h1 class="vdr-main-title">
+            <span>Watch Data Rooms</span>
+          </h1>
+          <span class="vdr-count-badge">${activeVaults}</span>
+        </div>
+      </div>
+
+      <div class="vdr-toolbar-right">
+        <!-- Search Input -->
+        <div class="vdr-search-box">
+          <i data-lucide="search" class="vdr-search-icon"></i>
+          <input type="text" class="vdr-search-input" placeholder="Search data rooms..." value="${escapeHtml(currentVdrSearch)}" oninput="handleVdrSearch(this.value)" />
+        </div>
+
+        <!-- Category Dropdown Filter -->
+        <select class="vdr-filter-dropdown" onchange="handleVdrCategoryChange(this.value)">
+          <option value="all" ${currentVdrCategory === 'all' ? 'selected' : ''}>All Categories</option>
+          <option value="Seed Round" ${currentVdrCategory === 'Seed Round' ? 'selected' : ''}>Seed Round</option>
+          <option value="Series A" ${currentVdrCategory === 'Series A' ? 'selected' : ''}>Series A</option>
+          <option value="IP & Patents" ${currentVdrCategory === 'IP & Patents' ? 'selected' : ''}>IP &amp; Patents</option>
+          <option value="Financials & Audit" ${currentVdrCategory === 'Financials & Audit' ? 'selected' : ''}>Financials &amp; Audit</option>
+          <option value="Legal & Cap Table" ${currentVdrCategory === 'Legal & Cap Table' ? 'selected' : ''}>Legal &amp; Cap Table</option>
+          <option value="Commercial Contracts" ${currentVdrCategory === 'Commercial Contracts' ? 'selected' : ''}>Commercial Contracts</option>
+        </select>
+
+        <!-- View Switcher (Grid vs Table) -->
+        <div class="vdr-view-switcher">
+          <button class="vdr-view-btn ${currentVdrView === 'grid' ? 'active' : ''}" onclick="handleVdrViewChange('grid', this)" title="Google Drive Grid View">
+            <i data-lucide="layout-grid" style="width:13px; height:13px;"></i>
+            <span>Grid</span>
+          </button>
+          <button class="vdr-view-btn ${currentVdrView === 'table' ? 'active' : ''}" onclick="handleVdrViewChange('table', this)" title="Condensed Table View">
+            <i data-lucide="list" style="width:13px; height:13px;"></i>
+            <span>Table</span>
+          </button>
+        </div>
+
+        <!-- Create New Vault Button -->
+        <button class="btn btn-primary" onclick="openVdrDrawer()" style="gap:6px; padding:6px 12px; font-size:12px;">
+          <i data-lucide="plus" style="width:13px; height:13px;"></i>
+          <span>Create new vault</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Data Rooms Container (Google Drive Grid or Condensed Table) -->
+    <div id="vdrContentContainer" style="margin-top:2px;"></div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+
+  filterAndRenderWatchDataRooms();
+}
+
+function filterAndRenderWatchDataRooms() {
+  const container = document.getElementById('vdrContentContainer');
+  if (!container) return;
+
+  let list = [...(window.WATCH_DATA_ROOMS_DATA || [])];
+
+  if (currentVdrSearch.trim()) {
+    const q = currentVdrSearch.toLowerCase().trim();
+    list = list.filter(v =>
+      v.name.toLowerCase().includes(q) ||
+      (v.category && v.category.toLowerCase().includes(q))
+    );
+  }
+
+  if (currentVdrCategory !== 'all') {
+    list = list.filter(v => v.category === currentVdrCategory);
+  }
+
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:10px; padding:48px 20px; text-align:center;">
+        <div style="width:38px; height:38px; border-radius:50%; background:var(--bg-muted); display:inline-flex; align-items:center; justify-content:center; margin-bottom:10px;">
+          <i data-lucide="folder" style="width:18px; height:18px; color:var(--text-muted);"></i>
+        </div>
+        <h4 style="font-size:14px; font-weight:800; color:var(--text-dark); margin:0 0 4px;">No data rooms found</h4>
+        <p style="font-size:12px; color:var(--text-muted); max-width:360px; margin:0 auto 14px;">Try a different search term or create a new vault.</p>
+        <button class="btn btn-outline" onclick="openVdrDrawer()" style="font-size:12px; padding:5px 12px;">
+          <i data-lucide="plus" style="width:12px; height:12px;"></i>
+          <span>Create new vault</span>
+        </button>
+      </div>`;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    return;
+  }
+
+  if (currentVdrView === 'grid') {
+    renderVdrGridView(list, container);
+  } else {
+    renderVdrTableView(list, container);
+  }
+}
+
+function renderVdrGridView(vaults, container) {
+  container.innerHTML = `
+    <div class="vdr-section-label">Folders</div>
+    <div class="vdr-drive-folder-grid">
+      ${vaults.map(v => `
+        <div class="vdr-drive-folder-pill" id="vdr-card-${v.id}" onclick="navigateToVaultDetail('${v.id}')">
+          <div class="vdr-folder-pill-left">
+            <svg class="vdr-folder-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path>
+            </svg>
+            <span class="vdr-folder-pill-name" title="${escapeHtml(v.name)}">${escapeHtml(v.name)}</span>
+          </div>
+
+          <div class="vdr-pill-actions" onclick="event.stopPropagation();">
+            <button class="vdr-dot-menu-btn" onclick="toggleVdrDotMenu('${v.id}', event)" title="Options">
+              <i data-lucide="more-vertical" style="width:14px; height:14px;"></i>
+            </button>
+
+            <div class="vdr-context-menu" id="vdr-menu-${v.id}">
+              <button class="vdr-menu-item" onclick="editVdrVault('${v.id}', event)">
+                <i data-lucide="edit-3" style="width:13px; height:13px;"></i>
+                <span>Edit Vault</span>
+              </button>
+              <button class="vdr-menu-item" onclick="openVdrShareDrawer('${v.id}', event)">
+                <i data-lucide="share-2" style="width:13px; height:13px;"></i>
+                <span>Share to Investor</span>
+              </button>
+              <button class="vdr-menu-item" onclick="copyVdrShareLink('${v.id}', event)">
+                <i data-lucide="link" style="width:13px; height:13px;"></i>
+                <span>Copy Link</span>
+              </button>
+              <button class="vdr-menu-item" onclick="archiveVdrVault('${v.id}', event)">
+                <i data-lucide="${v.isArchived ? 'rotate-ccw' : 'archive'}" style="width:13px; height:13px;"></i>
+                <span>${v.isArchived ? 'Unarchive' : 'Archive'}</span>
+              </button>
+              <div class="vdr-menu-divider"></div>
+              <button class="vdr-menu-item danger" onclick="deleteVdrVault('${v.id}', event)">
+                <i data-lucide="trash-2" style="width:13px; height:13px;"></i>
+                <span>Delete Vault</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function renderVdrTableView(vaults, container) {
+  container.innerHTML = `
+    <div class="vdr-condensed-table-card">
+      <div class="vdr-table-responsive">
+        <table class="vdr-condensed-table">
+          <thead>
+            <tr>
+              <th>VDR Name</th>
+              <th>Created On</th>
+              <th>Last Modified</th>
+              <th>Shared Investors</th>
+              <th style="text-align:right; width:48px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${vaults.map(v => `
+              <tr id="vdr-row-${v.id}" onclick="navigateToVaultDetail('${v.id}')" style="cursor:pointer;">
+                <!-- VDR Name (Single Line) -->
+                <td>
+                  <div class="vdr-cell-name">
+                    <svg style="width:16px; height:16px; color:var(--text-dark); flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path>
+                    </svg>
+                    <span>${escapeHtml(v.name)}</span>
+                  </div>
+                </td>
+
+                <!-- Created On (Single Line) -->
+                <td class="vdr-cell-date">
+                  ${v.createdOn}
+                </td>
+
+                <!-- Last Modified On (Single Line) -->
+                <td class="vdr-cell-date">
+                  ${v.lastModified}
+                </td>
+
+                <!-- No. of Shared Investors (Number only) -->
+                <td>
+                  <span class="vdr-cell-investor-num">${v.investorsCount}</span>
+                </td>
+
+                <!-- Three Dots Menu -->
+                <td style="text-align:right; position:relative;" onclick="event.stopPropagation();">
+                  <button class="vdr-dot-menu-btn" onclick="toggleVdrDotMenu('${v.id}', event)" title="Options">
+                    <i data-lucide="more-vertical" style="width:14px; height:14px;"></i>
+                  </button>
+
+                  <div class="vdr-context-menu" id="vdr-menu-${v.id}">
+                    <button class="vdr-menu-item" onclick="editVdrVault('${v.id}', event)">
+                      <i data-lucide="edit-3" style="width:13px; height:13px;"></i>
+                      <span>Edit Vault</span>
+                    </button>
+                    <button class="vdr-menu-item" onclick="openVdrShareDrawer('${v.id}', event)">
+                      <i data-lucide="share-2" style="width:13px; height:13px;"></i>
+                      <span>Share to Investor</span>
+                    </button>
+                    <button class="vdr-menu-item" onclick="copyVdrShareLink('${v.id}', event)">
+                      <i data-lucide="link" style="width:13px; height:13px;"></i>
+                      <span>Copy Link</span>
+                    </button>
+                    <button class="vdr-menu-item" onclick="archiveVdrVault('${v.id}', event)">
+                      <i data-lucide="${v.isArchived ? 'rotate-ccw' : 'archive'}" style="width:13px; height:13px;"></i>
+                      <span>${v.isArchived ? 'Unarchive' : 'Archive'}</span>
+                    </button>
+                    <div class="vdr-menu-divider"></div>
+                    <button class="vdr-menu-item danger" onclick="deleteVdrVault('${v.id}', event)">
+                      <i data-lucide="trash-2" style="width:13px; height:13px;"></i>
+                      <span>Delete Vault</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// 02. ONE PAGE DEEP — VAULT EXPLORER (BREADCRUMBS IN NAVBAR, SINGLE ROW TABS & ACTIONS)
+// ──────────────────────────────────────────────────────────────────────────
+
+window.navigateToVaultDetail = function(vaultId) {
+  currentActiveVaultId = vaultId;
+  currentDeepTab = 'documents';
+
+  const newUrl = `${window.location.pathname}?vault=${vaultId}`;
+  window.history.pushState({ vaultId }, '', newUrl);
+
+  renderWatchDataRoomsPage();
+};
+
+window.navigateBackToVaultsList = function() {
+  currentActiveVaultId = null;
+  const newUrl = window.location.pathname;
+  window.history.pushState({}, '', newUrl);
+
+  renderWatchDataRoomsPage();
+};
+
+window.addEventListener('popstate', function() {
+  const params = new URLSearchParams(window.location.search);
+  currentActiveVaultId = params.get('vault') || null;
+  renderWatchDataRoomsPage();
+});
+
+function renderDeepVaultExplorer(vaultId) {
+  const root = document.getElementById('watchDataRoomsRoot');
+  if (!root) return;
+
+  const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === vaultId);
+  if (!vault) {
+    root.innerHTML = `
+      <div style="padding:40px; text-align:center;">
+        <h3>Vault not found</h3>
+        <button class="btn btn-outline" onclick="navigateBackToVaultsList()">← Back to Data Rooms</button>
+      </div>`;
+    return;
+  }
+
+  const docs = vault.documents || [];
+  const sharedUsers = vault.sharedUsers || [];
+  const requestedDocs = vault.requestedDocs || [];
+
+  root.innerHTML = `
+    <!-- Top Row: Tabs (Left) & Actions (Right) in a single streamlined row -->
+    <div class="vdr-deep-toolbar-row">
+      
+      <!-- 5 Multiple Tabs: Plain text brackets (N) -->
+      <div class="vdr-deep-tabs-bar">
+        <button class="vdr-tab-btn ${currentDeepTab === 'documents' ? 'active' : ''}" onclick="switchDeepTab('documents')">
+          <span>Documents (${docs.length})</span>
+        </button>
+
+        <button class="vdr-tab-btn ${currentDeepTab === 'shared' ? 'active' : ''}" onclick="switchDeepTab('shared')">
+          <span>Shared Users (${sharedUsers.length})</span>
+        </button>
+
+        <button class="vdr-tab-btn ${currentDeepTab === 'requests' ? 'active' : ''}" onclick="switchDeepTab('requests')">
+          <span>Requested Documents (${requestedDocs.length})</span>
+        </button>
+
+        <button class="vdr-tab-btn ${currentDeepTab === 'settings' ? 'active' : ''}" onclick="switchDeepTab('settings')">
+          <span>Settings</span>
+        </button>
+
+        <button class="vdr-tab-btn ${currentDeepTab === 'history' ? 'active' : ''}" onclick="switchDeepTab('history')">
+          <span>History</span>
+        </button>
+      </div>
+
+      <!-- Actions on the right of the same row -->
+      <div class="vdr-deep-actions-right">
+        <!-- Upload Document Button -->
+        <button class="btn btn-outline" onclick="openUploadDocModal('${vault.id}')" style="gap:5px; font-size:12px; padding:5px 11px;">
+          <i data-lucide="upload-cloud" style="width:13px; height:13px;"></i>
+          <span>Upload Document</span>
+        </button>
+
+        <!-- Share to Investor Button -->
+        <button class="btn btn-primary" onclick="openVdrShareDrawer('${vault.id}')" style="gap:5px; font-size:12px; padding:5.5px 12px;">
+          <i data-lucide="user-plus" style="width:13px; height:13px;"></i>
+          <span>Share to investor</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Active Tab Dynamic Content Area -->
+    <div id="deepTabContentArea" style="margin-top:2px;">
+      ${renderActiveDeepTabContent(vault)}
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+window.switchDeepTab = function(tabName) {
+  currentDeepTab = tabName;
+  const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === currentActiveVaultId);
+  if (vault) {
+    renderDeepVaultExplorer(vault.id);
+  }
+};
+
+function renderActiveDeepTabContent(vault) {
+  if (currentDeepTab === 'documents') {
+    return renderDeepDocumentsTable(vault);
+  } else if (currentDeepTab === 'shared') {
+    return renderDeepSharedUsersTable(vault);
+  } else if (currentDeepTab === 'requests') {
+    return renderDeepRequestedDocsTable(vault);
+  } else if (currentDeepTab === 'settings') {
+    return renderDeepSettingsSurface(vault);
+  } else if (currentDeepTab === 'history') {
+    return renderDeepHistoryTable(vault);
+  }
+  return '';
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// TAB 1: DOCUMENTS (COLUMNS: Document Name, Document Type, Date, Size, Analytics, Actions)
+// ──────────────────────────────────────────────────────────────────────────
+function renderDeepDocumentsTable(vault) {
+  const docs = vault.documents || [];
+
+  if (docs.length === 0) {
+    return `
+      <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:10px; padding:48px 20px; text-align:center;">
+        <h4 style="font-size:14px; font-weight:800; color:var(--text-dark); margin:0 0 4px;">No documents uploaded yet</h4>
+        <p style="font-size:12px; color:var(--text-muted); max-width:360px; margin:0 auto 14px;">Upload due diligence materials, financial audits, or cap tables for investors.</p>
+        <button class="btn btn-primary" onclick="openUploadDocModal('${vault.id}')" style="font-size:12px; padding:5px 12px;">
+          <i data-lucide="upload" style="width:12px; height:12px;"></i>
+          <span>Upload Document</span>
+        </button>
+      </div>`;
+  }
+
+  return `
+    <div class="vdr-condensed-table-card">
+      <div class="vdr-table-responsive">
+        <table class="vdr-condensed-table">
+          <thead>
+            <tr>
+              <th>Document Name</th>
+              <th>Document Type</th>
+              <th>Date</th>
+              <th>Size</th>
+              <th>Analytics</th>
+              <th style="text-align:right; width:48px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${docs.map(doc => {
+              const format = (doc.format || 'pdf').toLowerCase();
+              const isSpreadsheet = format === 'xlsx' || format === 'csv' || format === 'xls';
+              return `
+                <tr id="doc-row-${doc.id}">
+                  <!-- Document Name (Clean: No format badge here!) -->
+                  <td>
+                    <div class="vdr-cell-name">
+                      <i data-lucide="${isSpreadsheet ? 'file-spreadsheet' : 'file-text'}" style="width:15px; height:15px; color:var(--text-dark); flex-shrink:0;"></i>
+                      <span title="${escapeHtml(doc.name)}">${escapeHtml(doc.name)}</span>
+                    </div>
+                  </td>
+
+                  <!-- Document Type (e.g. Cap Table (XLSX), Pitch Deck (PDF)) -->
+                  <td>
+                    <span style="font-size:12px; font-weight:600; color:var(--text-dark);">${doc.type}</span>
+                  </td>
+
+                  <!-- Date -->
+                  <td class="vdr-cell-date">
+                    ${doc.date}
+                  </td>
+
+                  <!-- Size -->
+                  <td class="vdr-cell-date">
+                    ${doc.size}
+                  </td>
+
+                  <!-- Analytics Column -->
+                  <td>
+                    <button class="vdr-analytics-chip" onclick="openDocAnalyticsModal('${vault.id}', '${doc.id}')" title="View viewer & download analytics">
+                      <i data-lucide="bar-chart-2" style="width:11px; height:11px;"></i>
+                      <span>${doc.views} views · ${doc.downloads} DL</span>
+                    </button>
+                  </td>
+
+                  <!-- Three Dots Actions (Rename, Add Note, Download, Copy Link, Delete) -->
+                  <td style="text-align:right; position:relative;" onclick="event.stopPropagation();">
+                    <button class="vdr-dot-menu-btn" onclick="toggleDocDotMenu('${doc.id}', event)" title="Document options">
+                      <i data-lucide="more-vertical" style="width:14px; height:14px;"></i>
+                    </button>
+
+                    <div class="vdr-context-menu" id="doc-menu-${doc.id}">
+                      <button class="vdr-menu-item" onclick="openRenameDocModal('${vault.id}', '${doc.id}')">
+                        <i data-lucide="edit-2" style="width:13px; height:13px;"></i>
+                        <span>Rename Document</span>
+                      </button>
+                      <button class="vdr-menu-item" onclick="openDocCommentModal('${vault.id}', '${doc.id}')">
+                        <i data-lucide="message-square" style="width:13px; height:13px;"></i>
+                        <span>Add Note / Comment</span>
+                      </button>
+                      <button class="vdr-menu-item" onclick="downloadDocFile('${doc.name}')">
+                        <i data-lucide="download" style="width:13px; height:13px;"></i>
+                        <span>Download</span>
+                      </button>
+                      <button class="vdr-menu-item" onclick="copyDocLink('${doc.id}')">
+                        <i data-lucide="link" style="width:13px; height:13px;"></i>
+                        <span>Copy Link</span>
+                      </button>
+                      <div class="vdr-menu-divider"></div>
+                      <button class="vdr-menu-item danger" onclick="deleteDocFile('${vault.id}', '${doc.id}')">
+                        <i data-lucide="trash-2" style="width:13px; height:13px;"></i>
+                        <span>Delete Document</span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// TAB 2: SHARED USERS (COLUMNS: User, Email ID, Access Given On, Three Dots)
+// ──────────────────────────────────────────────────────────────────────────
+function renderDeepSharedUsersTable(vault) {
+  const users = vault.sharedUsers || [];
+
+  if (users.length === 0) {
+    return `
+      <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:10px; padding:40px 20px; text-align:center;">
+        <h4 style="font-size:14px; font-weight:800; color:var(--text-dark); margin:0 0 4px;">No shared users yet</h4>
+        <p style="font-size:12px; color:var(--text-muted); max-width:360px; margin:0 auto 14px;">Share this data room with evaluating venture partners or angel syndicates.</p>
+        <button class="btn btn-primary" onclick="openVdrShareDrawer('${vault.id}')" style="font-size:12px; padding:5px 12px;">
+          <i data-lucide="user-plus" style="width:12px; height:12px;"></i>
+          <span>Share to Investor</span>
+        </button>
+      </div>`;
+  }
+
+  return `
+    <div class="vdr-condensed-table-card">
+      <div class="vdr-table-responsive">
+        <table class="vdr-condensed-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Email ID</th>
+              <th>Access Given On</th>
+              <th style="text-align:right; width:48px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${users.map(u => `
+              <tr id="user-row-${u.id}">
+                <!-- User (Single Line) -->
+                <td>
+                  <div style="font-weight:700; color:var(--text-dark); font-size:12.5px;">${escapeHtml(u.name)}</div>
+                </td>
+
+                <!-- Email ID -->
+                <td>
+                  <span style="font-family:monospace; font-size:11.5px; color:var(--text-muted);">${escapeHtml(u.email)}</span>
+                </td>
+
+                <!-- Access Given On -->
+                <td class="vdr-cell-date">
+                  ${u.accessGivenOn}
+                </td>
+
+                <!-- Three Dots Menu to Revoke / Options -->
+                <td style="text-align:right; position:relative;" onclick="event.stopPropagation();">
+                  <button class="vdr-dot-menu-btn" onclick="toggleUserDotMenu('${u.id}', event)" title="User options">
+                    <i data-lucide="more-vertical" style="width:14px; height:14px;"></i>
+                  </button>
+
+                  <div class="vdr-context-menu" id="user-menu-${u.id}">
+                    <button class="vdr-menu-item" onclick="resendUserInvite('${u.email}')">
+                      <i data-lucide="mail" style="width:13px; height:13px;"></i>
+                      <span>Resend Invite Link</span>
+                    </button>
+                    <button class="vdr-menu-item" onclick="copyVdrShareLink('${vault.id}', event)">
+                      <i data-lucide="link" style="width:13px; height:13px;"></i>
+                      <span>Copy Access Link</span>
+                    </button>
+                    <div class="vdr-menu-divider"></div>
+                    <button class="vdr-menu-item danger" onclick="revokeUserAccess('${vault.id}', '${u.id}')">
+                      <i data-lucide="user-x" style="width:13px; height:13px;"></i>
+                      <span>Revoke Access</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// TAB 3: REQUESTED DOCUMENTS (COLUMNS: Doc Name, Template, Requested By, Requested On, Uploaded On, Status, Actions)
+// ──────────────────────────────────────────────────────────────────────────
+function renderDeepRequestedDocsTable(vault) {
+  const reqs = vault.requestedDocs || [];
+
+  if (reqs.length === 0) {
+    return `
+      <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:10px; padding:40px 20px; text-align:center;">
+        <h4 style="font-size:14px; font-weight:800; color:var(--text-dark); margin:0 0 4px;">No requested documents</h4>
+        <p style="font-size:12px; color:var(--text-muted); max-width:360px; margin:0 auto;">All requested diligence materials have been fulfilled.</p>
+      </div>`;
+  }
+
+  return `
+    <div class="vdr-condensed-table-card">
+      <div class="vdr-table-responsive">
+        <table class="vdr-condensed-table">
+          <thead>
+            <tr>
+              <th>Doc Name</th>
+              <th>Template</th>
+              <th>Requested By</th>
+              <th>Requested On</th>
+              <th>Uploaded On</th>
+              <th>Status</th>
+              <th style="text-align:right; width:48px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${reqs.map(r => `
+              <tr id="req-row-${r.id}">
+                <!-- Doc Name (Single Line) -->
+                <td>
+                  <div class="vdr-cell-name">
+                    <i data-lucide="file-question" style="width:14px; height:14px; color:var(--text-dark); flex-shrink:0;"></i>
+                    <span title="${escapeHtml(r.title)}">${escapeHtml(r.title)}</span>
+                  </div>
+                </td>
+
+                <!-- Template -->
+                <td>
+                  <span style="font-size:11.5px; color:var(--text-muted);">${escapeHtml(r.template)}</span>
+                </td>
+
+                <!-- Requested By -->
+                <td>
+                  <span style="font-size:12px; font-weight:600; color:var(--text-dark);">${escapeHtml(r.requestedBy)}</span>
+                </td>
+
+                <!-- Requested On -->
+                <td class="vdr-cell-date">
+                  ${r.requestedOn}
+                </td>
+
+                <!-- Uploaded On -->
+                <td class="vdr-cell-date">
+                  ${r.uploadedOn}
+                </td>
+
+                <!-- Status Badge -->
+                <td>
+                  <span class="vdr-status-badge ${r.status.includes('Pending') ? 'pending' : 'fulfilled'}">
+                    ${r.status}
+                  </span>
+                </td>
+
+                <!-- Actions Menu / Upload -->
+                <td style="text-align:right; position:relative;" onclick="event.stopPropagation();">
+                  <button class="vdr-dot-menu-btn" onclick="toggleReqDotMenu('${r.id}', event)" title="Options">
+                    <i data-lucide="more-vertical" style="width:14px; height:14px;"></i>
+                  </button>
+
+                  <div class="vdr-context-menu" id="req-menu-${r.id}">
+                    <button class="vdr-menu-item" onclick="openUploadDocModal('${vault.id}')">
+                      <i data-lucide="upload" style="width:13px; height:13px;"></i>
+                      <span>Upload Response</span>
+                    </button>
+                    <button class="vdr-menu-item" onclick="window.showToast && window.showToast('Notified requester about upload status', 'success'); closeAllVdrMenus();">
+                      <i data-lucide="bell" style="width:13px; height:13px;"></i>
+                      <span>Send Status Update</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// TAB 4: SETTINGS (ON-SURFACE ROW LIST, NO BULKY CARDS)
+// ──────────────────────────────────────────────────────────────────────────
+function renderDeepSettingsSurface(vault) {
+  return `
+    <div class="vdr-surface-settings-list">
+      
+      <!-- Row 1: Dynamic Watermarking -->
+      <div class="vdr-surface-setting-row">
+        <div class="vdr-setting-text">
+          <span class="vdr-setting-title">Dynamic PDF Watermarking</span>
+          <span class="vdr-setting-desc">Stamps viewer's verified email address and timestamp dynamically onto PDF pages to prevent unauthorized leaking.</span>
+        </div>
+        <label class="switch-input">
+          <input type="checkbox" checked onchange="window.showToast && window.showToast('Watermarking preferences updated', 'success')" />
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+
+      <!-- Row 2: Require NDA -->
+      <div class="vdr-surface-setting-row">
+        <div class="vdr-setting-text">
+          <span class="vdr-setting-title">Require Mutual NDA Signature</span>
+          <span class="vdr-setting-desc">Enforces Seedicon standard digital one-click NDA signature before files can be viewed or downloaded.</span>
+        </div>
+        <label class="switch-input">
+          <input type="checkbox" ${vault.requireNda ? 'checked' : ''} onchange="window.showToast && window.showToast('NDA requirement updated', 'success')" />
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+
+      <!-- Row 3: Disable Document Downloads -->
+      <div class="vdr-surface-setting-row">
+        <div class="vdr-setting-text">
+          <span class="vdr-setting-title">Disable Document Downloads</span>
+          <span class="vdr-setting-desc">Restricts investors to encrypted in-browser viewing only without local file download permissions.</span>
+        </div>
+        <label class="switch-input">
+          <input type="checkbox" onchange="window.showToast && window.showToast('Download permissions updated', 'success')" />
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+
+      <!-- Row 4: Domain Whitelist -->
+      <div class="vdr-surface-setting-row">
+        <div class="vdr-setting-text" style="flex:1;">
+          <span class="vdr-setting-title">Domain Access Whitelist</span>
+          <span class="vdr-setting-desc">Only emails matching these domains can enter the vault:</span>
+          <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
+            <input type="text" id="surfaceDomainInput" class="vdr-input-text" style="max-width:320px; padding:6px 10px; font-size:12px;" value="${escapeHtml(vault.allowedDomains || 'accel.com, matrixpartners.com')}" />
+            <button class="btn btn-outline" onclick="saveSurfaceDomains('${vault.id}')" style="font-size:11.5px; padding:5.5px 10px;">Save Domains</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
+window.saveSurfaceDomains = function(vaultId) {
+  const input = document.getElementById('surfaceDomainInput');
+  const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === vaultId);
+  if (vault && input) {
+    vault.allowedDomains = input.value.trim();
+    if (window.showToast) window.showToast('✨ Domain whitelist saved successfully', 'success');
+  }
+};
+
+// ──────────────────────────────────────────────────────────────────────────
+// TAB 5: HISTORY (ON-SURFACE CONDENSED TABLE)
+// ──────────────────────────────────────────────────────────────────────────
+function renderDeepHistoryTable(vault) {
+  const hist = vault.history || [];
+
+  if (hist.length === 0) {
+    return `
+      <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:10px; padding:40px 20px; text-align:center;">
+        <h4 style="font-size:14px; font-weight:800; color:var(--text-dark); margin:0 0 4px;">No history recorded</h4>
+        <p style="font-size:12px; color:var(--text-muted); max-width:360px; margin:0 auto;">Access and download events will appear here.</p>
+      </div>`;
+  }
+
+  return `
+    <div class="vdr-condensed-table-card">
+      <div class="vdr-table-responsive">
+        <table class="vdr-condensed-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Action</th>
+              <th>Timestamp</th>
+              <th>IP / Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${hist.map(h => `
+              <tr>
+                <!-- User (Single Line) -->
+                <td>
+                  <span style="font-weight:700; color:var(--text-dark); font-size:12.5px;">${escapeHtml(h.user)}</span>
+                </td>
+
+                <!-- Action (Single Line) -->
+                <td>
+                  <span style="font-size:12px; color:var(--text-main);">${escapeHtml(h.action)}</span>
+                </td>
+
+                <!-- Timestamp -->
+                <td class="vdr-cell-date">
+                  ${h.time}
+                </td>
+
+                <!-- IP / Location -->
+                <td>
+                  <span style="font-family:monospace; font-size:11px; color:var(--text-muted);">${escapeHtml(h.location || 'San Francisco, US')}</span>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// 03. SHARE TO INVESTOR DRAWER HANDLERS & CONFIRMATION
+// ──────────────────────────────────────────────────────────────────────────
+
+window.openVdrShareDrawer = function(vaultId, event) {
+  if (event) event.stopPropagation();
+  closeAllVdrMenus();
+
+  const backdrop = document.getElementById('vdrShareDrawerBackdrop');
+  const targetVaultId = vaultId || currentActiveVaultId || 'vdr-seed-lead';
+  window.__currentSharingVaultId = targetVaultId;
+
+  if (backdrop) {
+    backdrop.classList.add('open');
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    const emailInput = document.getElementById('vdrShareInvestorEmail');
+    setTimeout(() => { if (emailInput) emailInput.focus(); }, 120);
+  }
+};
+
+window.closeVdrShareDrawer = function() {
+  const backdrop = document.getElementById('vdrShareDrawerBackdrop');
+  if (backdrop) {
+    backdrop.classList.remove('open');
+  }
+};
+
+window.handleVdrShareBackdropClick = function(event) {
+  if (event.target.id === 'vdrShareDrawerBackdrop') {
+    closeVdrShareDrawer();
+  }
+};
+
+window.handleVdrShareSubmit = function(event) {
+  event.preventDefault();
+
+  const nameInput = document.getElementById('vdrShareInvestorName');
+  const typeSelect = document.getElementById('vdrShareInvestorType');
+  const emailInput = document.getElementById('vdrShareInvestorEmail');
+  const phoneInput = document.getElementById('vdrShareInvestorPhone');
+
+  const email = emailInput ? emailInput.value.trim() : '';
+  if (!email) {
+    if (window.showToast) window.showToast('Please enter the investor email address.', 'warning');
+    return;
+  }
+
+  const name = nameInput && nameInput.value.trim() ? nameInput.value.trim() : email.split('@')[0];
+  const type = typeSelect ? typeSelect.value : 'Lead VC';
+  const phone = phoneInput ? phoneInput.value.trim() : '';
+
+  const vaultId = window.__currentSharingVaultId || currentActiveVaultId || 'vdr-seed-lead';
+  const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === vaultId);
+  const vaultName = vault ? vault.name : 'Diligence Vault';
+
+  if (confirm(`Confirm Diligence Access:\n\nAre you sure you want to share "${vaultName}" with ${name} (${email})?`)) {
+    if (vault) {
+      vault.sharedUsers = vault.sharedUsers || [];
+      vault.sharedUsers.unshift({
+        id: `usr-${Date.now()}`,
+        name: name,
+        email: email,
+        accessGivenOn: 'Just now'
+      });
+      vault.investorsCount = (vault.investorsCount || 0) + 1;
+      vault.lastModified = 'Just now';
+    }
+
+    closeVdrShareDrawer();
+    renderWatchDataRoomsPage();
+
+    if (window.showToast) {
+      window.showToast(`🎉 Diligence invite & secure NDA link sent to ${email}!`, 'success');
+    }
+  }
+};
+
+window.resendUserInvite = function(email) {
+  closeAllVdrMenus();
+  if (window.showToast) {
+    window.showToast(`📨 Re-sent invite link to ${email}`, 'success');
+  }
+};
+
+// ──────────────────────────────────────────────────────────────────────────
+// 04. DOCUMENT ACTIONS: RENAME, DOWNLOAD, COMMENT, ANALYTICS & MULTI-FILE UPLOAD
+// ──────────────────────────────────────────────────────────────────────────
+
+window.openRenameDocModal = function(vaultId, docId) {
+  closeAllVdrMenus();
+  const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === vaultId);
+  const doc = vault ? (vault.documents || []).find(d => d.id === docId) : null;
+  if (!doc) return;
+
+  if (typeof openModal === 'function') {
+    openModal('Rename Document', `
+      <form onsubmit="handleRenameDocSubmit(event, '${vaultId}', '${docId}')" style="display:flex; flex-direction:column; gap:12px;">
+        <div class="vdr-field-group">
+          <label class="vdr-field-label">Document Name</label>
+          <input type="text" id="renameDocInput" class="vdr-input-text" value="${escapeHtml(doc.name)}" required />
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:4px;">
+          <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Name</button>
+        </div>
+      </form>
+    `);
+    setTimeout(() => {
+      const inp = document.getElementById('renameDocInput');
+      if (inp) inp.select();
+    }, 100);
+  }
+};
+
+window.handleRenameDocSubmit = function(event, vaultId, docId) {
+  event.preventDefault();
+  const input = document.getElementById('renameDocInput');
+  if (!input || !input.value.trim()) return;
+
+  const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === vaultId);
+  const doc = vault ? (vault.documents || []).find(d => d.id === docId) : null;
+  if (doc) {
+    const newName = input.value.trim();
+    doc.name = newName;
+    const format = newName.toLowerCase().endsWith('.xlsx') ? 'xlsx' : (newName.toLowerCase().endsWith('.docx') ? 'docx' : 'pdf');
+    doc.format = format;
+    vault.lastModified = 'Just now';
+
+    if (typeof closeModal === 'function') closeModal();
+    renderWatchDataRoomsPage();
+
+    if (window.showToast) {
+      window.showToast(`✨ Document renamed to "${newName}"`, 'success');
+    }
+  }
+};
+
+window.downloadDocFile = function(fileName) {
+  closeAllVdrMenus();
+  if (window.showToast) {
+    window.showToast(`⬇️ Downloading ${fileName}...`, 'success');
+  }
+};
+
+window.copyDocLink = function(docId) {
+  closeAllVdrMenus();
+  const link = `${window.location.origin}${window.location.pathname}?doc=${docId}`;
+  if (navigator.clipboard) navigator.clipboard.writeText(link).catch(() => {});
+  if (window.showToast) {
+    window.showToast('🔗 Secure document link copied to clipboard!', 'success');
+  }
+};
+
+window.deleteDocFile = function(vaultId, docId) {
+  closeAllVdrMenus();
+  const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === vaultId);
+  if (!vault) return;
+
+  if (confirm('Are you sure you want to delete this document from the vault?')) {
+    vault.documents = (vault.documents || []).filter(d => d.id !== docId);
+    vault.lastModified = 'Just now';
+    renderWatchDataRoomsPage();
+    if (window.showToast) {
+      window.showToast('🗑️ Document removed from vault.');
+    }
+  }
+};
+
+window.openDocCommentModal = function(vaultId, docId) {
+  closeAllVdrMenus();
+  const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === vaultId);
+  const doc = vault ? (vault.documents || []).find(d => d.id === docId) : null;
+  const docTitle = doc ? doc.name : 'Document';
+
+  if (typeof openModal === 'function') {
+    openModal(`Add Diligence Note — ${docTitle}`, `
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <label class="form-label" style="font-size:12px; font-weight:700;">Internal Note for Co-Founders &amp; Evaluators</label>
+        <textarea id="docCommentInput" class="vdr-textarea" placeholder="e.g. Updated with Q2 Carta 409A appraisal and audited stock options waterfall..."></textarea>
+        <div style="display:flex; justify-content:flex-end; gap:8px;">
+          <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+          <button class="btn btn-primary" onclick="window.showToast && window.showToast('💬 Diligence note saved', 'success'); closeModal();">Save Note</button>
+        </div>
+      </div>
+    `);
+  }
+};
+
+window.openDocAnalyticsModal = function(vaultId, docId) {
+  const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === vaultId);
+  const doc = vault ? (vault.documents || []).find(d => d.id === docId) : null;
+  if (!doc) return;
+
+  if (typeof openModal === 'function') {
+    openModal(`Document Analytics — ${doc.name}`, `
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div style="background:#FAFAF9; border:1px solid var(--border-main); border-radius:8px; padding:12px; text-align:center;">
+            <div style="font-size:22px; font-weight:800; color:var(--text-dark);">${doc.views}</div>
+            <div style="font-size:11px; color:var(--text-muted); font-weight:600;">Total Document Views</div>
+          </div>
+          <div style="background:#FAFAF9; border:1px solid var(--border-main); border-radius:8px; padding:12px; text-align:center;">
+            <div style="font-size:22px; font-weight:800; color:var(--text-dark);">${doc.downloads}</div>
+            <div style="font-size:11px; color:var(--text-muted); font-weight:600;">Encrypted Downloads</div>
+          </div>
+        </div>
+
+        <div style="font-size:12px; font-weight:700; color:var(--text-dark); margin-top:4px;">Recent Investor Activity</div>
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:11.5px;">
+          <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--border-faint);">
+            <span><strong>Elena Rostova (Accel)</strong></span>
+            <span style="color:var(--text-muted);">Viewed 4 times · Downloaded</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--border-faint);">
+            <span><strong>Vikram Mehta (Matrix)</strong></span>
+            <span style="color:var(--text-muted);">Viewed 3 times</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; padding:6px 0;">
+            <span><strong>David Sacks (Craft Ventures)</strong></span>
+            <span style="color:var(--text-muted);">Viewed 2 times · Downloaded</span>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; margin-top:8px;">
+          <button class="btn btn-primary" onclick="closeModal()">Done</button>
+        </div>
+      </div>
+    `);
+  }
+};
+
+// ──────────────────────────────────────────────────────────────────────────
+// FAST MULTI-FILE UPLOAD (NO TEDIOUS FORMS, JUST SELECT/DROP & UPLOAD)
+// ──────────────────────────────────────────────────────────────────────────
+
+window.openUploadDocModal = function(vaultId) {
+  window.__selectedUploadFiles = [];
+
+  if (typeof openModal === 'function') {
+    openModal('Upload Due Diligence Documents', `
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        
+        <!-- Drag & Drop Multi-file Zone -->
+        <div class="vdr-dropzone-box" id="vdrUploadDropzone" onclick="document.getElementById('vdrMultiFileInput').click()">
+          <input type="file" multiple id="vdrMultiFileInput" style="display:none;" onchange="handleFileSelectionChange(this.files, '${vaultId}')" />
+          <i data-lucide="upload-cloud" style="width:28px; height:28px; color:var(--text-dark); margin-bottom:6px;"></i>
+          <div style="font-size:13px; font-weight:700; color:var(--text-dark);">Choose files or drag &amp; drop here</div>
+          <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">Upload single or multiple files (PDF, XLSX, DOCX, CSV up to 100MB)</div>
+        </div>
+
+        <!-- Selected Files Preview Area -->
+        <div id="vdrSelectedFilesList" style="display:none; flex-direction:column; gap:6px; max-height:160px; overflow-y:auto;"></div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:4px;">
+          <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+          <button type="button" class="btn btn-primary" id="vdrStartUploadBtn" onclick="executeFilesUpload('${vaultId}')" style="gap:6px;">
+            <i data-lucide="upload" style="width:13px; height:13px;"></i>
+            <span id="vdrUploadBtnLabel">Upload Files</span>
+          </button>
+        </div>
+
+      </div>
+    `);
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    // Attach dragover/drop handlers
+    setTimeout(() => {
+      const dropzone = document.getElementById('vdrUploadDropzone');
+      if (dropzone) {
+        dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
+        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+        dropzone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          dropzone.classList.remove('dragover');
+          if (e.dataTransfer && e.dataTransfer.files) {
+            handleFileSelectionChange(e.dataTransfer.files, vaultId);
+          }
+        });
+      }
+    }, 100);
+  }
+};
+
+window.handleFileSelectionChange = function(files, vaultId) {
+  if (!files || files.length === 0) return;
+
+  window.__selectedUploadFiles = Array.from(files);
+  const listEl = document.getElementById('vdrSelectedFilesList');
+  const btnLabel = document.getElementById('vdrUploadBtnLabel');
+
+  if (listEl) {
+    listEl.style.display = 'flex';
+    listEl.innerHTML = window.__selectedUploadFiles.map((file, idx) => `
+      <div style="background:#FAFAF9; border:1px solid var(--border-main); border-radius:6px; padding:6px 10px; display:flex; align-items:center; justify-content:space-between; font-size:11.5px;">
+        <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1;">
+          <i data-lucide="file" style="width:13px; height:13px; color:var(--text-dark); flex-shrink:0;"></i>
+          <span style="font-weight:600; color:var(--text-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(file.name)}</span>
+        </div>
+        <span style="color:var(--text-muted); font-size:11px; margin-left:8px;">${(file.size / (1024 * 1024)).toFixed(1)} MB</span>
+      </div>
+    `).join('');
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  if (btnLabel) {
+    btnLabel.textContent = `Upload ${window.__selectedUploadFiles.length} ${window.__selectedUploadFiles.length === 1 ? 'File' : 'Files'}`;
+  }
+};
+
+window.executeFilesUpload = function(vaultId) {
+  const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === vaultId);
+  if (!vault) return;
+
+  const files = window.__selectedUploadFiles || [];
+
+  if (files.length === 0) {
+    // If user didn't pick from file dialog, add a demo document
+    const demoName = `Diligence_Material_${Date.now().toString().slice(-4)}.pdf`;
+    vault.documents = vault.documents || [];
+    vault.documents.unshift({
+      id: `doc-${Date.now()}`,
+      name: demoName,
+      format: 'pdf',
+      type: 'General Diligence (PDF)',
+      date: 'Just now',
+      size: '2.5 MB',
+      views: 0,
+      downloads: 0
+    });
+  } else {
+    vault.documents = vault.documents || [];
+    files.forEach((file, idx) => {
+      const name = file.name;
+      const format = name.toLowerCase().endsWith('.xlsx') ? 'xlsx' : (name.toLowerCase().endsWith('.docx') ? 'docx' : (name.toLowerCase().endsWith('.csv') ? 'csv' : 'pdf'));
+      
+      let type = 'General Diligence';
+      if (name.toLowerCase().includes('cap') || name.toLowerCase().includes('table')) type = 'Cap Table';
+      else if (name.toLowerCase().includes('model') || name.toLowerCase().includes('financial')) type = 'Financial Model';
+      else if (name.toLowerCase().includes('deck') || name.toLowerCase().includes('pitch')) type = 'Pitch Deck';
+      else if (name.toLowerCase().includes('patent') || name.toLowerCase().includes('ip')) type = 'Patent & IP';
+      else if (name.toLowerCase().includes('soc') || name.toLowerCase().includes('security')) type = 'SOC 2 & Security';
+      else if (name.toLowerCase().includes('msa') || name.toLowerCase().includes('contract')) type = 'Commercial MSA';
+
+      vault.documents.unshift({
+        id: `doc-${Date.now()}-${idx}`,
+        name: name,
+        format: format,
+        type: `${type} (${format.toUpperCase()})`,
+        date: 'Just now',
+        size: `${Math.max(0.8, (file.size / (1024 * 1024))).toFixed(1)} MB`,
+        views: 0,
+        downloads: 0
+      });
+    });
+  }
+
+  vault.lastModified = 'Just now';
+
+  if (typeof closeModal === 'function') closeModal();
+  renderWatchDataRoomsPage();
+
+  if (window.showToast) {
+    const count = files.length > 0 ? files.length : 1;
+    window.showToast(`🎉 ${count} ${count === 1 ? 'document' : 'documents'} uploaded & encrypted successfully!`, 'success');
+  }
+};
+
+window.revokeUserAccess = function(vaultId, userId) {
+  closeAllVdrMenus();
+  const vault = (window.WATCH_DATA_ROOMS_DATA || []).find(v => v.id === vaultId);
+  if (!vault) return;
+
+  if (confirm('Revoke access for this user? They will no longer be able to view or download vault documents.')) {
+    vault.sharedUsers = (vault.sharedUsers || []).filter(u => u.id !== userId);
+    vault.investorsCount = Math.max(0, (vault.investorsCount || 1) - 1);
+    renderWatchDataRoomsPage();
+    if (window.showToast) {
+      window.showToast('🔒 User access revoked.');
+    }
+  }
+};
+
+// ──────────────────────────────────────────────────────────────────────────
+// 05. CORE DRAWER & MODAL CONTROLS (CREATE VAULT DRAWER)
+// ──────────────────────────────────────────────────────────────────────────
+
+window.openVdrDrawer = function(vaultId = null) {
+  const backdrop = document.getElementById('vdrDrawerBackdrop');
+  const heading = document.getElementById('vdrDrawerHeading');
+  const editIdInput = document.getElementById('vdrEditVaultId');
+  const nameInput = document.getElementById('vdrVaultNameInput');
+  const domainToggle = document.getElementById('vdrDomainToggle');
+  const domainExpand = document.getElementById('vdrDomainExpand');
+  const domainsInput = document.getElementById('vdrAllowedDomainsInput');
+  const ndaToggle = document.getElementById('vdrNdaToggle');
+  const submitText = document.getElementById('vdrSubmitBtnText');
+
+  closeAllVdrMenus();
+
+  if (vaultId) {
+    const v = (window.WATCH_DATA_ROOMS_DATA || []).find(item => item.id === vaultId);
+    if (v) {
+      if (heading) heading.textContent = 'Edit Vault';
+      if (editIdInput) editIdInput.value = v.id;
+      if (nameInput) nameInput.value = v.name;
+      if (domainToggle) domainToggle.checked = !!v.domainLock;
+      if (domainExpand) domainExpand.classList.toggle('show', !!v.domainLock);
+      if (domainsInput) domainsInput.value = v.allowedDomains || '';
+      if (ndaToggle) ndaToggle.checked = !!v.requireNda;
+      if (submitText) submitText.textContent = 'Save Changes';
+    }
+  } else {
+    if (heading) heading.textContent = 'Create New Vault';
+    if (editIdInput) editIdInput.value = '';
+    if (nameInput) nameInput.value = '';
+    if (domainToggle) domainToggle.checked = false;
+    if (domainExpand) domainExpand.classList.remove('show');
+    if (domainsInput) domainsInput.value = '';
+    if (ndaToggle) ndaToggle.checked = true;
+    if (submitText) submitText.textContent = 'Create Vault';
+  }
+
+  if (backdrop) {
+    backdrop.classList.add('open');
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    setTimeout(() => {
+      if (nameInput) nameInput.focus();
+    }, 120);
+  }
+};
+
+window.closeVdrDrawer = function() {
+  const backdrop = document.getElementById('vdrDrawerBackdrop');
+  if (backdrop) backdrop.classList.remove('open');
+};
+
+window.handleVdrDrawerBackdropClick = function(event) {
+  if (event.target.id === 'vdrDrawerBackdrop') {
+    closeVdrDrawer();
+  }
+};
+
+window.toggleDomainSwitch = function() {
+  const checkbox = document.getElementById('vdrDomainToggle');
+  if (checkbox) {
+    checkbox.checked = !checkbox.checked;
+    handleDomainToggleChange(checkbox.checked);
+  }
+};
+
+window.handleDomainToggleChange = function(isChecked) {
+  const expand = document.getElementById('vdrDomainExpand');
+  if (expand) {
+    expand.classList.toggle('show', isChecked);
+    if (isChecked) {
+      const input = document.getElementById('vdrAllowedDomainsInput');
+      if (input) input.focus();
+    }
+  }
+};
+
+window.toggleNdaSwitch = function() {
+  const checkbox = document.getElementById('vdrNdaToggle');
+  if (checkbox) checkbox.checked = !checkbox.checked;
+};
+
+window.handleNdaToggleChange = function(isChecked) {};
+
+window.handleVdrFormSubmit = function(event) {
+  event.preventDefault();
+
+  const editIdInput = document.getElementById('vdrEditVaultId');
+  const nameInput = document.getElementById('vdrVaultNameInput');
+  const domainToggle = document.getElementById('vdrDomainToggle');
+  const domainsInput = document.getElementById('vdrAllowedDomainsInput');
+  const ndaToggle = document.getElementById('vdrNdaToggle');
+
+  if (!nameInput || !nameInput.value.trim()) {
+    if (window.showToast) window.showToast('Please enter a vault name.', 'warning');
+    return;
+  }
+
+  const editId = editIdInput ? editIdInput.value : '';
+  const isDomainLocked = domainToggle ? domainToggle.checked : false;
+  const isNdaRequired = ndaToggle ? ndaToggle.checked : false;
+  const allowedDomains = domainsInput ? domainsInput.value.trim() : '';
+
+  window.WATCH_DATA_ROOMS_DATA = window.WATCH_DATA_ROOMS_DATA || [];
+
+  if (editId) {
+    const existing = window.WATCH_DATA_ROOMS_DATA.find(item => item.id === editId);
+    if (existing) {
+      existing.name = nameInput.value.trim();
+      existing.domainLock = isDomainLocked;
+      existing.allowedDomains = allowedDomains;
+      existing.requireNda = isNdaRequired;
+      existing.lastModified = 'Just now';
+    }
+    if (window.showToast) window.showToast('✨ Vault updated successfully!', 'success');
+  } else {
+    const newVault = {
+      id: `vdr-${Date.now()}`,
+      name: nameInput.value.trim(),
+      category: 'Seed Round',
+      createdOn: 'Just now',
+      lastModified: 'Just now',
+      investorsCount: 0,
+      requireNda: isNdaRequired,
+      domainLock: isDomainLocked,
+      allowedDomains: allowedDomains,
+      isArchived: false,
+      documents: [
+        { id: `doc-${Date.now()}-1`, name: `${nameInput.value.trim().replace(/\s+/g, '_')}_Overview.pdf`, format: 'pdf', type: 'Pitch Deck (PDF)', date: 'Just now', size: '3.1 MB', views: 0, downloads: 0 },
+        { id: `doc-${Date.now()}-2`, name: `${nameInput.value.trim().replace(/\s+/g, '_')}_Financials.xlsx`, format: 'xlsx', type: 'Financial Model (XLSX)', date: 'Just now', size: '4.8 MB', views: 0, downloads: 0 }
+      ],
+      sharedUsers: [],
+      requestedDocs: [
+        { id: `req-${Date.now()}`, title: 'Initial Due Diligence Checklist', template: 'Seedicon Standard Checklist', requestedBy: 'System', requestedOn: 'Just now', uploadedOn: 'Pending', status: 'Pending Upload' }
+      ],
+      history: [
+        { id: `hist-${Date.now()}`, user: 'Dr. Sarah Chen (Founder)', action: `Created vault "${nameInput.value.trim()}"`, time: 'Just now', location: 'Boston, US' }
+      ]
+    };
+
+    window.WATCH_DATA_ROOMS_DATA.unshift(newVault);
+    if (window.showToast) window.showToast(`🎉 Vault "${newVault.name}" created!`, 'success');
+  }
+
+  closeVdrDrawer();
+  renderWatchDataRoomsPage();
+};
+
+window.handleVdrViewChange = function(viewMode, btn) {
+  currentVdrView = viewMode;
+  try {
+    localStorage.setItem('seedicon_vdr_view', viewMode);
+  } catch (e) {}
+
+  document.querySelectorAll('.vdr-view-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  filterAndRenderWatchDataRooms();
+};
+
+window.handleVdrSearch = function(query) {
+  currentVdrSearch = query;
+  filterAndRenderWatchDataRooms();
+};
+
+window.handleVdrCategoryChange = function(cat) {
+  currentVdrCategory = cat;
+  filterAndRenderWatchDataRooms();
+};
+
+function positionVdrContextMenu(menu, btn) {
+  if (!menu || !btn) return;
+  
+  menu.classList.add('show');
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+
+  const rect = btn.getBoundingClientRect();
+  const menuWidth = 175;
+  const menuHeight = menu.offsetHeight || 140;
+
+  menu.style.position = 'fixed';
+  menu.style.zIndex = '999999';
+  menu.style.right = `${Math.max(12, window.innerWidth - rect.right)}px`;
+  menu.style.left = 'auto';
+
+  if (rect.bottom + menuHeight > window.innerHeight - 12) {
+    menu.style.top = `${Math.max(12, rect.top - menuHeight - 2)}px`;
+    menu.style.bottom = 'auto';
+  } else {
+    menu.style.top = `${rect.bottom + 4}px`;
+    menu.style.bottom = 'auto';
+  }
+}
+
+window.toggleVdrDotMenu = function(vaultId, event) {
+  if (event) event.stopPropagation();
+
+  const menu = document.getElementById(`vdr-menu-${vaultId}`);
+  const btn = event ? event.currentTarget : null;
+  if (!menu) return;
+
+  const isShown = menu.classList.contains('show');
+  closeAllVdrMenus();
+
+  if (!isShown && btn) {
+    positionVdrContextMenu(menu, btn);
+  }
+};
+
+window.toggleDocDotMenu = function(docId, event) {
+  if (event) event.stopPropagation();
+
+  const menu = document.getElementById(`doc-menu-${docId}`);
+  const btn = event ? event.currentTarget : null;
+  if (!menu) return;
+
+  const isShown = menu.classList.contains('show');
+  closeAllVdrMenus();
+
+  if (!isShown && btn) {
+    positionVdrContextMenu(menu, btn);
+  }
+};
+
+window.toggleUserDotMenu = function(userId, event) {
+  if (event) event.stopPropagation();
+
+  const menu = document.getElementById(`user-menu-${userId}`);
+  const btn = event ? event.currentTarget : null;
+  if (!menu) return;
+
+  const isShown = menu.classList.contains('show');
+  closeAllVdrMenus();
+
+  if (!isShown && btn) {
+    positionVdrContextMenu(menu, btn);
+  }
+};
+
+window.toggleReqDotMenu = function(reqId, event) {
+  if (event) event.stopPropagation();
+
+  const menu = document.getElementById(`req-menu-${reqId}`);
+  const btn = event ? event.currentTarget : null;
+  if (!menu) return;
+
+  const isShown = menu.classList.contains('show');
+  closeAllVdrMenus();
+
+  if (!isShown && btn) {
+    positionVdrContextMenu(menu, btn);
+  }
+};
+
+function closeAllVdrMenus() {
+  document.querySelectorAll('.vdr-context-menu').forEach(m => {
+    m.classList.remove('show');
+    m.style.position = '';
+    m.style.top = '';
+    m.style.bottom = '';
+    m.style.right = '';
+    m.style.left = '';
+  });
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.vdr-context-menu') && !e.target.closest('.vdr-dot-menu-btn')) {
+    closeAllVdrMenus();
+  }
+});
+
+window.addEventListener('scroll', function() {
+  closeAllVdrMenus();
+}, true);
+
+window.editVdrVault = function(vaultId, event) {
+  if (event) event.stopPropagation();
+  closeAllVdrMenus();
+  openVdrDrawer(vaultId);
+};
+
+window.archiveVdrVault = function(vaultId, event) {
+  if (event) event.stopPropagation();
+  closeAllVdrMenus();
+
+  const v = (window.WATCH_DATA_ROOMS_DATA || []).find(item => item.id === vaultId);
+  if (!v) return;
+
+  v.isArchived = !v.isArchived;
+  v.lastModified = 'Just now';
+
+  filterAndRenderWatchDataRooms();
+
+  if (window.showToast) {
+    window.showToast(v.isArchived ? `📦 Vault "${v.name}" archived.` : `✨ Vault "${v.name}" unarchived.`);
+  }
+};
+
+window.deleteVdrVault = function(vaultId, event) {
+  if (event) event.stopPropagation();
+  closeAllVdrMenus();
+
+  const v = (window.WATCH_DATA_ROOMS_DATA || []).find(item => item.id === vaultId);
+  if (!v) return;
+
+  if (confirm(`Are you sure you want to delete "${v.name}"?`)) {
+    window.WATCH_DATA_ROOMS_DATA = window.WATCH_DATA_ROOMS_DATA.filter(item => item.id !== vaultId);
+    if (currentActiveVaultId === vaultId) {
+      currentActiveVaultId = null;
+    }
+    renderWatchDataRoomsPage();
+    if (window.showToast) {
+      window.showToast(`🗑️ Vault "${v.name}" deleted.`);
+    }
+  }
+};
+
+window.copyVdrShareLink = function(vaultId, event) {
+  if (event) event.stopPropagation();
+  closeAllVdrMenus();
+
+  const link = `${window.location.origin}${window.location.pathname}?vault=${vaultId}`;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(link).catch(() => {});
+  }
+  if (window.showToast) {
+    window.showToast('🔗 Secure data room link copied to clipboard!', 'success');
+  }
+};

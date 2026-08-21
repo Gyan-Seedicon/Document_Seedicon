@@ -1,0 +1,786 @@
+/* ==========================================================================
+   WATCH DATA ROOMS (VDR) — CONDENSED GOOGLE DRIVE WORKSPACE & DEEP EXPLORER
+   Navbar Breadcrumbs, One-Row Tabs & Actions, Clean Single-Line Tables
+   ========================================================================== */
+
+/* ──────────────────────────────────────────────────────────────────────────
+   01. FULL-WIDTH ROOT CONTAINER
+   ────────────────────────────────────────────────────────────────────────── */
+.vdr-page-root {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 18px 28px 60px !important;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   02. SURFACE TOOLBAR (VAULTS ROOT LIST VIEW)
+   ────────────────────────────────────────────────────────────────────────── */
+.vdr-surface-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 2px;
+}
+
+.vdr-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.vdr-page-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vdr-main-title {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vdr-count-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: var(--bg-muted);
+  color: var(--text-muted);
+  border: 1px solid var(--border-faint);
+}
+
+.vdr-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.vdr-search-box {
+  position: relative;
+  width: 250px;
+}
+
+.vdr-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 13.5px;
+  height: 13.5px;
+  color: var(--text-light);
+  pointer-events: none;
+}
+
+.vdr-search-input {
+  width: 100%;
+  padding: 6px 10px 6px 30px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  font-family: var(--font-inter);
+  font-size: 12px;
+  color: var(--text-dark);
+  outline: none;
+  transition: all 0.12s ease;
+}
+
+.vdr-search-input:focus {
+  border-color: var(--text-dark);
+  box-shadow: 0 0 0 2px rgba(20, 20, 19, 0.05);
+}
+
+.vdr-filter-dropdown {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-family: var(--font-inter);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dark);
+  outline: none;
+  cursor: pointer;
+}
+
+/* View Mode Switcher (Grid vs Table) */
+.vdr-view-switcher {
+  display: flex;
+  align-items: center;
+  background: #EAEAE7;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.vdr-view-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 4.5px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  transition: all 0.1s ease;
+}
+
+.vdr-view-btn:hover {
+  color: var(--text-dark);
+}
+
+.vdr-view-btn.active {
+  background: #FFFFFF;
+  color: var(--text-dark);
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   03. GOOGLE DRIVE FOLDER GRID (JUST FOLDER ICON + NAME + 3 DOTS)
+   ────────────────────────────────────────────────────────────────────────── */
+.vdr-section-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.vdr-drive-folder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+
+.vdr-drive-folder-pill {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 46px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.12s ease;
+  position: relative;
+}
+
+.vdr-drive-folder-pill:hover {
+  background: #FAFAF9;
+  border-color: #D4D4CE;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.vdr-folder-pill-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.vdr-folder-icon-svg {
+  width: 19px;
+  height: 19px;
+  color: var(--text-dark);
+  flex-shrink: 0;
+}
+
+.vdr-folder-pill-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.vdr-pill-actions {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.vdr-dot-menu-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s ease;
+}
+
+.vdr-dot-menu-btn:hover {
+  background: var(--bg-muted);
+  color: var(--text-dark);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   04. CONDENSED TABLE VIEWS (SINGLE LINE PER ROW FOR ALL TABS)
+   ────────────────────────────────────────────────────────────────────────── */
+.vdr-condensed-table-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 10px;
+  overflow: visible;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  width: 100%;
+}
+
+.vdr-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.vdr-condensed-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 12px;
+}
+
+.vdr-condensed-table th {
+  background: #FAFAF9;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border-main);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.vdr-condensed-table td {
+  padding: 8.5px 14px;
+  border-bottom: 1px solid var(--border-faint);
+  color: var(--text-main);
+  vertical-align: middle;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.vdr-condensed-table tr:last-child td {
+  border-bottom: none;
+}
+
+.vdr-condensed-table tr:hover td {
+  background: #FAFAF9;
+}
+
+.vdr-cell-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--text-dark);
+  min-width: 220px;
+}
+
+.vdr-cell-date {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.vdr-cell-investor-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   05. DEEP VAULT VIEW: COMBINED TABS & ACTION BAR (SPACE EFFICIENT)
+   ────────────────────────────────────────────────────────────────────────── */
+.vdr-deep-toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-main);
+  padding-bottom: 0;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+
+.vdr-deep-tabs-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+}
+
+.vdr-tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 7px 11px;
+  font-family: var(--font-inter);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.12s ease;
+  white-space: nowrap;
+  margin-bottom: -1px;
+}
+
+.vdr-tab-btn:hover {
+  color: var(--text-dark);
+}
+
+.vdr-tab-btn.active {
+  color: var(--text-dark);
+  font-weight: 800;
+  border-bottom-color: #141413;
+}
+
+.vdr-deep-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+  flex-shrink: 0;
+}
+
+/* Document Analytics Button / Cell */
+.vdr-analytics-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dark);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-main);
+  padding: 2.5px 7px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  white-space: nowrap;
+}
+
+.vdr-analytics-chip:hover {
+  background: #FFFFFF;
+  border-color: var(--text-dark);
+}
+
+/* Status Badges */
+.vdr-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.vdr-status-badge.pending {
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+}
+
+.vdr-status-badge.fulfilled {
+  background: #DCFCE7;
+  color: #15803D;
+  border: 1px solid #BBF7D0;
+}
+
+.vdr-status-badge.review {
+  background: #EFF6FF;
+  color: #1D4ED8;
+  border: 1px solid #DBEAFE;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   06. SURFACE SETTINGS LIST
+   ────────────────────────────────────────────────────────────────────────── */
+.vdr-surface-settings-list {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.vdr-surface-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-faint);
+  gap: 16px;
+}
+
+.vdr-surface-setting-row:last-child {
+  border-bottom: none;
+}
+
+.vdr-setting-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vdr-setting-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.vdr-setting-desc {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   07. DRAWERS & MODALS
+   ────────────────────────────────────────────────────────────────────────── */
+.vdr-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.vdr-drawer-backdrop.open {
+  display: block;
+  opacity: 1;
+}
+
+.vdr-drawer-card {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 440px;
+  background: #FFFFFF;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.16);
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vdr-drawer-backdrop.open .vdr-drawer-card {
+  transform: translateX(0);
+}
+
+.vdr-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-main);
+  background: #FAFAF9;
+}
+
+.vdr-drawer-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vdr-drawer-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: #141413;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.vdr-drawer-title {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.vdr-drawer-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vdr-drawer-close-btn:hover {
+  background: var(--bg-muted);
+  color: var(--text-dark);
+}
+
+.vdr-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.vdr-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.vdr-field-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vdr-input-text {
+  width: 100%;
+  padding: 9px 12px;
+  background: #FAFAF9;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  font-family: var(--font-inter);
+  font-size: 12.5px;
+  color: var(--text-dark);
+  outline: none;
+  transition: all 0.12s ease;
+}
+
+.vdr-input-text:focus {
+  background: #FFFFFF;
+  border-color: var(--text-dark);
+  box-shadow: 0 0 0 2px rgba(20, 20, 19, 0.05);
+}
+
+.vdr-toggle-box {
+  background: #FAFAF9;
+  border: 1px solid var(--border-main);
+  border-radius: 9px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vdr-toggle-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.vdr-toggle-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.vdr-toggle-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.vdr-toggle-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.switch-input {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.switch-input input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #D4D4CE;
+  transition: 0.2s;
+  border-radius: 20px;
+}
+
+.switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.2s;
+  border-radius: 50%;
+}
+
+.switch-input input:checked + .switch-slider {
+  background-color: #141413;
+}
+
+.switch-input input:checked + .switch-slider:before {
+  transform: translateX(16px);
+}
+
+.vdr-toggle-expand {
+  display: none;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-faint);
+  flex-direction: column;
+  gap: 6px;
+}
+
+.vdr-toggle-expand.show {
+  display: flex;
+}
+
+.vdr-drawer-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border-main);
+  background: #FAFAF9;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Dropzone styling */
+.vdr-dropzone-box {
+  border: 2px dashed #D4D4CE;
+  border-radius: 10px;
+  padding: 32px 20px;
+  text-align: center;
+  background: #FAFAF9;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vdr-dropzone-box:hover,
+.vdr-dropzone-box.dragover {
+  background: #F4F4F2;
+  border-color: #141413;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   08. THREE-DOTS CONTEXT DROPDOWN MENU
+   ────────────────────────────────────────────────────────────────────────── */
+.vdr-context-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  width: 175px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.14), 0 4px 8px -2px rgba(0, 0, 0, 0.06);
+  padding: 4px;
+  z-index: 99999;
+  display: none;
+  animation: menuPopIn 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vdr-context-menu.show {
+  display: block;
+}
+
+.vdr-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6.5px 9px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: #141413;
+  font-family: var(--font-inter);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.vdr-menu-item:hover {
+  background: #F4F4F2;
+  color: #000000;
+}
+
+.vdr-menu-item.danger {
+  color: #DC2626;
+}
+
+.vdr-menu-item.danger:hover {
+  background: #FEF2F2;
+  color: #B91C1C;
+}
+
+.vdr-menu-divider {
+  height: 1px;
+  background: #EAEAE7;
+  margin: 3px 0;
+}
