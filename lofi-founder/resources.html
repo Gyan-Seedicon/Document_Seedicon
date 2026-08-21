@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seedicon — Resources</title>
+<title>Seedicon — Founder Resources &amp; Playbooks</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="./css/global.css">
+<link rel="stylesheet" href="./css/pages/resources.css">
 <!-- Lucide Icons CDN -->
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -13,52 +14,70 @@
 
 <div class="app-viewport">
   <div class="app-frame">
+    <!-- Main Left Sidebar Slot -->
     <div id="sidebarSlot"></div>
 
     <main class="founder-workspace-canvas">
+      <!-- Top Navigation Bar -->
       <header class="workspace-top-nav">
         <div class="workspace-top-nav-left">
           <div class="topnav-page-title">
             <span class="topnav-page-icon"><i data-lucide="book-open" style="width:15px; height:15px;"></i></span>
-            <span class="topnav-page-name">Resources</span>
+            <span class="topnav-page-name">Resources &amp; Playbooks</span>
           </div>
         </div>
+        
         <div class="workspace-search-pill-wrap">
           <i data-lucide="search" class="workspace-search-icon"></i>
-          <input type="text" class="workspace-search-input" placeholder="Search resources..." />
+          <input type="text" id="globalResourceSearchInput" class="workspace-search-input" placeholder="Search playbooks, templates, legal term sheets..." oninput="handleResourceSearch(this.value)" />
           <span class="workspace-search-kbd">⌘K</span>
         </div>
-        <div class="workspace-top-nav-right" id="topNavRightSlot"></div>
+
+        <div class="workspace-top-nav-right" id="topNavRightSlot">
+          <button class="btn btn-outline" style="font-size:12px; padding:5px 11px; gap:5px;" onclick="window.showToast && window.showToast('Downloaded complete Seedicon Founder Toolkit bundle (.zip)', 'success')">
+            <i data-lucide="download-cloud" style="width:13px; height:13px;"></i>
+            <span>Download All Kits</span>
+          </button>
+        </div>
       </header>
 
-      <div class="workspace-scroll-body">
-        <div class="center-focused-container" style="padding-top:20px;">
-          <div class="directory-hero-row">
-            <div class="directory-hero-titles">
-              <h1 class="directory-main-title">
-                <span>Resources</span>
-                <span class="badge-pill neutral-soft">Workspace</span>
-              </h1>
-              <p class="directory-main-subtitle">
-                Free founder toolkits, legal term sheet templates, and early-stage fundraising playbooks.
-              </p>
-            </div>
-          </div>
-
-          <div class="empty-state-box" style="padding:60px 24px; text-align:center; background:#FFFFFF; border:1px solid var(--border-main); border-radius:10px; margin-top:16px;">
-            <div style="width:44px; height:44px; border-radius:50%; background:var(--bg-muted); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
-              <i data-lucide="book-open" style="width:20px; height:20px; color:var(--text-dark);"></i>
-            </div>
-            <h4 style="font-size:15px; font-weight:800; color:var(--text-dark); margin:0 0 6px;">Founder Resource Library</h4>
-            <p style="font-size:12.5px; color:var(--text-muted); max-width:440px; margin:0 auto 16px; line-height:1.5;">Download verified SAFEs, founder vest agreements, board templates, and financial model sheets.</p>
-            <a href="./index.html" class="btn btn-outline" style="font-size:12px; padding:6px 14px; text-decoration:none;">← Return to Dashboard</a>
-          </div>
+      <!-- Scroll Body (Full Width, No Max-Width Limitation) -->
+      <div class="workspace-scroll-body" style="padding:0 !important;">
+        <div id="resourcesRoot" class="resources-page-root">
+          <!-- Dynamic Content rendered via app.js -->
         </div>
       </div>
     </main>
   </div>
 </div>
 
+<!-- Slide-Over Resource & Blog Reader Drawer Backdrop -->
+<div class="vdr-drawer-backdrop" id="resourceReaderDrawerBackdrop" onclick="handleResourceReaderBackdropClick(event)">
+  <div class="vdr-drawer-card resource-reader-drawer-card" id="resourceReaderDrawerCard">
+    <div class="vdr-drawer-header">
+      <div class="vdr-drawer-title-stack">
+        <span class="vdr-drawer-title" id="resourceReaderHeaderCategory">Founder Playbook</span>
+        <span class="vdr-drawer-subtitle" id="resourceReaderHeaderMeta">Verified Diligence Resource</span>
+      </div>
+      <div class="vdr-drawer-actions">
+        <button class="vdr-drawer-icon-btn" onclick="toggleCurrentResourceBookmark()" title="Bookmark playbook" id="resourceReaderBookmarkBtn">
+          <i data-lucide="bookmark" style="width:15px; height:15px;"></i>
+        </button>
+        <button class="vdr-drawer-icon-btn" onclick="copyCurrentResourceLink()" title="Copy link">
+          <i data-lucide="link" style="width:15px; height:15px;"></i>
+        </button>
+        <button class="vdr-drawer-icon-btn" onclick="closeResourceReaderDrawer()" title="Close (Esc)">
+          <i data-lucide="x" style="width:16px; height:16px;"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Reader Drawer Body -->
+    <div class="resource-reader-body" id="resourceReaderDrawerBody"></div>
+  </div>
+</div>
+
+<!-- Modal Slot -->
 <div id="modalSlot"></div>
 
 <script src="./js/components.js"></script>

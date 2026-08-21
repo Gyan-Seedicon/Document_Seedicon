@@ -338,6 +338,16 @@ document.addEventListener('DOMContentLoaded', () => {
     renderWatchDataRoomsPage();
   }
 
+  // If on Startup News & Venture Intelligence Page
+  if (document.getElementById('startupNewsRoot')) {
+    renderStartupNewsPage();
+  }
+
+  // If on Founder Resources & Playbooks Page
+  if (document.getElementById('resourcesRoot')) {
+    renderResourcesPage();
+  }
+
   // Bind App Events
   bindFounderAppEvents();
 });
@@ -4723,29 +4733,29 @@ function renderRedditChallengeStream(list, container) {
 // INTERACTIVE REDDIT ACTIONS & COMPOSER CONTROLS
 // ──────────────────────────────────────────────────────────────────────────
 
-window.handleRedditSort = function(sortKey, btn) {
+window.handleRedditSort = function (sortKey, btn) {
   currentRedditSort = sortKey;
   document.querySelectorAll('.sort-tab-btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   filterAndRenderRedditChallenges();
 };
 
-window.handleRedditCategoryChange = function(cat) {
+window.handleRedditCategoryChange = function (cat) {
   currentRedditCategory = cat;
   filterAndRenderRedditChallenges();
 };
 
-window.handleRedditTypeChange = function(type) {
+window.handleRedditTypeChange = function (type) {
   currentRedditType = type;
   filterAndRenderRedditChallenges();
 };
 
-window.handleRedditChallengeSearch = function(query) {
+window.handleRedditChallengeSearch = function (query) {
   currentRedditSearch = query;
   filterAndRenderRedditChallenges();
 };
 
-window.filterByFlair = function(flair) {
+window.filterByFlair = function (flair) {
   currentRedditSearch = flair;
   const searchInput = document.querySelector('.workspace-search-input');
   if (searchInput) searchInput.value = flair;
@@ -4754,7 +4764,7 @@ window.filterByFlair = function(flair) {
 };
 
 // On-Surface Composer Controls
-window.openSurfaceComposer = function() {
+window.openSurfaceComposer = function () {
   const card = document.getElementById('surfaceComposerCard');
   const trigger = document.getElementById('composerCollapsedTrigger');
   const form = document.getElementById('composerExpandedForm');
@@ -4769,7 +4779,7 @@ window.openSurfaceComposer = function() {
   }
 };
 
-window.closeSurfaceComposer = function() {
+window.closeSurfaceComposer = function () {
   const card = document.getElementById('surfaceComposerCard');
   const trigger = document.getElementById('composerCollapsedTrigger');
   const form = document.getElementById('composerExpandedForm');
@@ -4781,13 +4791,13 @@ window.closeSurfaceComposer = function() {
   }
 };
 
-window.selectComposerCategory = function(cat, chip) {
+window.selectComposerCategory = function (cat, chip) {
   activeComposerCategory = cat;
   document.querySelectorAll('.composer-cat-chip').forEach(c => c.classList.remove('active'));
   if (chip) chip.classList.add('active');
 };
 
-window.handleSurfacePostSubmit = function(e) {
+window.handleSurfacePostSubmit = function (e) {
   e.preventDefault();
 
   const titleInput = document.getElementById('composerTitleInput');
@@ -4843,7 +4853,7 @@ window.handleSurfacePostSubmit = function(e) {
 };
 
 // Reddit Upvote / Downvote Handler
-window.handleRedditVote = function(challengeId, direction, event) {
+window.handleRedditVote = function (challengeId, direction, event) {
   if (event) event.stopPropagation();
 
   const post = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
@@ -4881,7 +4891,7 @@ window.handleRedditVote = function(challengeId, direction, event) {
   filterAndRenderRedditChallenges();
 };
 
-window.toggleRedditComments = function(challengeId, event) {
+window.toggleRedditComments = function (challengeId, event) {
   if (event) event.stopPropagation();
 
   const post = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
@@ -4891,7 +4901,7 @@ window.toggleRedditComments = function(challengeId, event) {
   filterAndRenderRedditChallenges();
 };
 
-window.toggleRedditBodyExpand = function(challengeId, event) {
+window.toggleRedditBodyExpand = function (challengeId, event) {
   if (event) event.stopPropagation();
 
   const post = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
@@ -4901,7 +4911,7 @@ window.toggleRedditBodyExpand = function(challengeId, event) {
   filterAndRenderRedditChallenges();
 };
 
-window.submitRedditReply = function(challengeId, event) {
+window.submitRedditReply = function (challengeId, event) {
   if (event) event.stopPropagation();
 
   const input = document.getElementById(`reddit-reply-input-${challengeId}`);
@@ -4935,7 +4945,7 @@ window.submitRedditReply = function(challengeId, event) {
   }
 };
 
-window.handleCommentUpvote = function(challengeId, commentId, btn) {
+window.handleCommentUpvote = function (challengeId, commentId, btn) {
   if (btn) {
     btn.style.color = '#EA580C';
     btn.innerHTML = '<i data-lucide="arrow-big-up" style="width:13px; height:13px; fill:currentColor;"></i><span>Helpful (+1)</span>';
@@ -4944,15 +4954,15 @@ window.handleCommentUpvote = function(challengeId, commentId, btn) {
   if (window.showToast) window.showToast('Marked answer as helpful');
 };
 
-window.copyRedditPostLink = function(challengeId, event) {
+window.copyRedditPostLink = function (challengeId, event) {
   if (event) event.stopPropagation();
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(window.location.href + `#${challengeId}`).catch(() => {});
+    navigator.clipboard.writeText(window.location.href + `#${challengeId}`).catch(() => { });
   }
   if (window.showToast) window.showToast('🔗 Post link copied to clipboard!');
 };
 
-window.toggleRedditSavePost = function(challengeId, event) {
+window.toggleRedditSavePost = function (challengeId, event) {
   if (event) event.stopPropagation();
 
   const post = (window.FOUNDER_CHALLENGES_DATA || []).find(c => c.id === challengeId);
@@ -4966,7 +4976,7 @@ window.toggleRedditSavePost = function(challengeId, event) {
   }
 };
 
-window.openDirectMentorChat = function(mentorId, mentorName) {
+window.openDirectMentorChat = function (mentorId, mentorName) {
   if (typeof openMessagesNavDrawer === 'function') {
     openMessagesNavDrawer();
   } else if (window.showToast) {
@@ -5872,17 +5882,17 @@ function filterAndRenderDDGrid() {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-window.handleDDSearch = function(input) {
+window.handleDDSearch = function (input) {
   currentDDSearch = input.value;
   filterAndRenderDDGrid();
 };
 
-window.handleDDTimelineFilter = function(val) {
+window.handleDDTimelineFilter = function (val) {
   currentDDTimeline = val;
   filterAndRenderDDGrid();
 };
 
-window.handleDDSort = function(val) {
+window.handleDDSort = function (val) {
   currentDDSort = val;
   filterAndRenderDDGrid();
 };
@@ -6157,7 +6167,7 @@ function renderDueDiligenceDetailPage() {
 
 window.renderDueDiligenceDetailPage = renderDueDiligenceDetailPage;
 
-window.toggleDDReadinessItem = function(idx, checkbox) {
+window.toggleDDReadinessItem = function (idx, checkbox) {
   const root = document.getElementById('ddReadinessList');
   if (!root) return;
 
@@ -6176,7 +6186,7 @@ window.toggleDDReadinessItem = function(idx, checkbox) {
   }
 };
 
-window.copyDDLink = function(id) {
+window.copyDDLink = function (id) {
   const url = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}due-diligence-detail.html?id=${id}`;
   if (navigator.clipboard) {
     navigator.clipboard.writeText(url);
@@ -6897,15 +6907,15 @@ window.handlePDRSearch = handlePDRSearch;
    ══════════════════════════════════════════════════════════════════════════ */
 
 const INV_STAGES = [
-  { id: 'research',        label: 'Research',        dot: '#141413' },
-  { id: 'contacted',       label: 'Contacted',       dot: '#4A4A46' },
-  { id: 'meeting',         label: 'Meeting',         dot: '#6B6B66' },
-  { id: 'light-dd',        label: 'Light Diligence', dot: '#8A8A84' },
+  { id: 'research', label: 'Research', dot: '#141413' },
+  { id: 'contacted', label: 'Contacted', dot: '#4A4A46' },
+  { id: 'meeting', label: 'Meeting', dot: '#6B6B66' },
+  { id: 'light-dd', label: 'Light Diligence', dot: '#8A8A84' },
   { id: 'partner-meeting', label: 'Partner Meeting', dot: '#A0A09A' },
-  { id: 'term-sheet',      label: 'Term Sheet',      dot: '#8A8A84' },
-  { id: 'closed',          label: 'Closed',          dot: '#141413' },
-  { id: 'keep-in-touch',   label: 'Keep in Touch',   dot: '#B5B5AE' },
-  { id: 'passed',          label: 'Passed',          dot: '#C0C0BA' }
+  { id: 'term-sheet', label: 'Term Sheet', dot: '#8A8A84' },
+  { id: 'closed', label: 'Closed', dot: '#141413' },
+  { id: 'keep-in-touch', label: 'Keep in Touch', dot: '#B5B5AE' },
+  { id: 'passed', label: 'Passed', dot: '#C0C0BA' }
 ];
 
 const INV_CURRENCIES = [
@@ -8458,7 +8468,7 @@ function paDrawChart() {
 
   // Destroy any previous Apex instance
   if (window.__paChart) {
-    try { window.__paChart.destroy(); } catch (e) {}
+    try { window.__paChart.destroy(); } catch (e) { }
     window.__paChart = null;
   }
 
@@ -8562,13 +8572,9 @@ window.handleAnalyticsSearch = handleAnalyticsSearch;
 
 
 
-
-
-
-
 /* ==========================================================================
    16. WATCH DATA ROOMS (VDR) — COMPLETE WORKSPACE & DEEP VAULT EXPLORER
-   Navbar Breadcrumbs, One-Row Tabs & Actions, Clean Single-Line Tables
+   Google Drive Folder Grid/Table, Breadcrumbs, 5 Diligence Tabs, Drawers
    ========================================================================== */
 
 window.WATCH_DATA_ROOMS_DATA = [
@@ -10894,4 +10900,917 @@ window.openTemplatePreviewModal = function(templateName) {
     `);
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }
+};
+
+
+// ==========================================================================
+// STARTUP NEWS & VENTURE INTELLIGENCE ENGINE (MINIMAL & BEAUTIFUL LAYOUT)
+// ==========================================================================
+
+window.STARTUP_NEWS_DATA = {
+  macro: [
+    { label: 'Fed Funds Rate', val: '4.25%', sub: 'FOMC Neutral' },
+    { label: 'Seed Median Cap', val: '$16.5M', sub: '+4.2% QoQ' },
+    { label: 'Median Dilution', val: '18.2%', sub: 'Seed Stage' },
+    { label: 'Avg Runway', val: '21.4 Mo', sub: '+2.1 mo' }
+  ],
+
+  articles: [
+    {
+      id: 'art-1',
+      category: 'AI & DeepTech',
+      readTime: '5 min read',
+      publishedAt: '2 hours ago',
+      author: 'Elena Rostova',
+      authorRole: 'Seedicon Intelligence',
+      title: 'OpenAI & Tier-1 VCs Form $2.4B Autonomous Agent Syndicate: What Early-Stage Founders Must Know',
+      subtitle: 'How automated code verification, synthetic angel syndicates, and standardized Seed SAFEs are transforming early-stage fundraising velocity in 2026.',
+      isLead: true,
+      content: `
+        <p>A coalition of prominent Silicon Valley venture firms alongside developer tooling leaders have formalized a $2.4B syndicate specifically structured to fund autonomous software agents and specialized vertical AI startups at the pre-seed and seed stages.</p>
+        
+        <h3>The Shift in Early-Stage Unit Economics</h3>
+        <p>Unlike traditional SaaS where team expansion directly correlated with growth milestones, early-stage agent startups are achieving $1M ARR with median team sizes of just 2 to 4 founders. Lead venture partners are recalibrating standard term sheets away from headcount projections toward compute inference margins.</p>
+        
+        <p>Key takeaways for evaluating founders:</p>
+        <ul>
+          <li><strong>Compute Bundles:</strong> Compute credits up to $500,000 are now routinely bundled outside the core equity cap structure.</li>
+          <li><strong>Automated DD:</strong> Codebases undergo instantaneous security, hallucination, and SOC 2 automated verification.</li>
+          <li><strong>Founder Retention:</strong> Median founder equity retained at Series A has increased to 77% over the last four quarters.</li>
+        </ul>
+      `
+    },
+    {
+      id: 'art-2',
+      category: 'Funding & VC Deals',
+      readTime: '4 min read',
+      publishedAt: '4 hours ago',
+      author: 'Vikram Mehta',
+      authorRole: 'Matrix Research',
+      title: 'Carta Q2 2026 State of Seed: Valuations Stabilize at $16.5M Post-Money Cap with 18% Median Dilution',
+      subtitle: 'Comprehensive analysis of 3,200+ venture financings across North America reveals resilient early-stage appetite.',
+      content: `
+        <p>Carta's newly released Q2 2026 Venture Benchmark confirms that seed-stage company valuations have fully decoupled from late-stage volatility, stabilizing at a healthy $16.5M median post-money valuation cap.</p>
+        <p>Investor appetite for early technical risk remains at record highs, particularly for teams demonstrating deep product velocity within 90 days of formation.</p>
+      `
+    },
+    {
+      id: 'art-3',
+      category: 'Founder Playbooks',
+      readTime: '6 min read',
+      publishedAt: '6 hours ago',
+      author: 'David Sacks',
+      authorRole: 'Craft Ventures',
+      title: 'Why Multi-Agent Systems Are Displacing First-Gen SaaS Workflows (And How to Pivot)',
+      subtitle: 'The architectural transition from static dashboard software to autonomous background execution engines.',
+      content: `
+        <p>Enterprise buyers are actively consolidating 10-15 point-solution SaaS tools into unified agentic workflow stacks that operate autonomously.</p>
+        <p>This playbook outlines the exact architectural roadmap required to transition your SaaS application into an asynchronous workflow engine.</p>
+      `
+    },
+    {
+      id: 'art-4',
+      category: 'Macro & Policy',
+      readTime: '3 min read',
+      publishedAt: '8 hours ago',
+      author: 'Seedicon Legal Team',
+      authorRole: 'Corporate Compliance',
+      title: 'Delaware Franchise Tax & Section 83(b) Electronic Filing Portal Goes Live for Q3 2026',
+      subtitle: 'The IRS and Delaware Secretary of State launch unified instant electronic verification for founder stock vesting elections.',
+      content: `
+        <p>Founders can now submit and instantly timestamp Section 83(b) election forms through an authorized electronic portal, eliminating paper mail risks.</p>
+      `
+    },
+    {
+      id: 'art-5',
+      category: 'Funding & VC Deals',
+      readTime: '4 min read',
+      publishedAt: '12 hours ago',
+      author: 'Aarav Sharma',
+      authorRole: 'Peak XV Intelligence',
+      title: 'Y Combinator W26 Batch Analysis: 68% of Cohort Is AI-Native Infrastructure & Bio-Compute',
+      subtitle: 'A deep dive into the 280 selected teams, geographic shifts toward engineering hubs, and investor syndicate trends.',
+      content: `
+        <p>The latest YC batch demonstrates a decisive pivot toward deep technological moats, with two-thirds of the cohort building proprietary model infrastructure or computational biology tools.</p>
+      `
+    },
+    {
+      id: 'art-6',
+      category: 'Founder Playbooks',
+      readTime: '5 min read',
+      publishedAt: '1 day ago',
+      author: 'Marc Benioff',
+      authorRole: 'Angel Investor',
+      title: 'The Death of 100x Multiples: Why Seed Investors Demand 15% Free Cash Flow Margins by Series A',
+      subtitle: 'How capital efficiency and payback periods under 8 months have replaced raw top-line growth at all costs.',
+      content: `
+        <p>Seed investors are scrutinizing customer acquisition payback periods and cash burn multiples more rigorously than in previous market cycles.</p>
+      `
+    }
+  ],
+
+  deals: [
+    {
+      id: 'deal-1',
+      name: 'Apex Bio',
+      cat: 'AI Oncology',
+      amount: '$14.0M',
+      stage: 'Seed',
+      lead: 'Matrix Partners',
+      time: '2h ago'
+    },
+    {
+      id: 'deal-2',
+      name: 'Cognitive OS',
+      cat: 'Agent Runtimes',
+      amount: '$6.5M',
+      stage: 'Seed',
+      lead: 'Founders Fund',
+      time: '4h ago'
+    },
+    {
+      id: 'deal-3',
+      name: 'Sentry Cloud',
+      cat: 'K8s Security',
+      amount: '$28.0M',
+      stage: 'Series A',
+      lead: 'Sequoia Capital',
+      time: '6h ago'
+    },
+    {
+      id: 'deal-4',
+      name: 'Pulse Robotics',
+      cat: 'Warehouse Humanoids',
+      amount: '$18.5M',
+      stage: 'Series A',
+      lead: 'Bessemer',
+      time: '8h ago'
+    },
+    {
+      id: 'deal-5',
+      name: 'Krypton Energy',
+      cat: 'Solid State Batteries',
+      amount: '$9.2M',
+      stage: 'Seed',
+      lead: 'Khosla Ventures',
+      time: '11h ago'
+    },
+    {
+      id: 'deal-6',
+      name: 'Helios Legal',
+      cat: 'Cross-Border Diligence',
+      amount: '$4.8M',
+      stage: 'Seed',
+      lead: 'Peak XV Partners',
+      time: '14h ago'
+    }
+  ]
+};
+
+window.STARTUP_NEWS_STATE = {
+  activeCategory: 'all',
+  searchQuery: '',
+  currentArticleId: null
+};
+
+window.renderStartupNewsPage = function() {
+  const root = document.getElementById('startupNewsRoot');
+  if (!root) return;
+
+  const data = window.STARTUP_NEWS_DATA;
+  const state = window.STARTUP_NEWS_STATE;
+
+  const filteredArticles = (data.articles || []).filter(art => {
+    if (state.activeCategory !== 'all' && art.category !== state.activeCategory) {
+      return false;
+    }
+    if (state.searchQuery) {
+      const q = state.searchQuery.toLowerCase();
+      const matchTitle = (art.title || '').toLowerCase().includes(q);
+      const matchSub = (art.subtitle || '').toLowerCase().includes(q);
+      if (!matchTitle && !matchSub) return false;
+    }
+    return true;
+  });
+
+  const leadArticle = filteredArticles.find(a => a.isLead) || filteredArticles[0];
+  const streamArticles = filteredArticles.filter(a => a.id !== (leadArticle ? leadArticle.id : ''));
+
+  root.innerHTML = `
+    <!-- SINGLE-ROW SURFACE TABS & EDITION INFO -->
+    <div class="news-nav-tabs-bar">
+      <div class="news-tabs-group">
+        <button class="news-tab-item ${state.activeCategory === 'all' ? 'active' : ''}" onclick="switchNewsCategory('all')">
+          All
+        </button>
+        <button class="news-tab-item ${state.activeCategory === 'Funding & VC Deals' ? 'active' : ''}" onclick="switchNewsCategory('Funding & VC Deals')">
+          Funding Deals
+        </button>
+        <button class="news-tab-item ${state.activeCategory === 'AI & DeepTech' ? 'active' : ''}" onclick="switchNewsCategory('AI & DeepTech')">
+          AI &amp; DeepTech
+        </button>
+        <button class="news-tab-item ${state.activeCategory === 'Founder Playbooks' ? 'active' : ''}" onclick="switchNewsCategory('Founder Playbooks')">
+          Playbooks
+        </button>
+        <button class="news-tab-item ${state.activeCategory === 'Macro & Policy' ? 'active' : ''}" onclick="switchNewsCategory('Macro & Policy')">
+          Macro
+        </button>
+      </div>
+
+      <div style="font-size:11.5px; color:var(--text-muted); font-weight:500;">
+        Aug 21, 2026 · Daily Edition
+      </div>
+    </div>
+
+    <!-- MINIMAL 2-COLUMN EDITORIAL GRID -->
+    <div class="news-minimal-grid">
+      
+      <!-- LEFT COLUMN: MAIN EDITORIAL STREAM -->
+      <div class="news-main-column">
+        
+        <!-- Lead Story -->
+        ${leadArticle ? `
+          <div class="news-lead-card" onclick="openNewsArticleDrawer('${leadArticle.id}')">
+            <div class="news-meta-line">
+              <span>${leadArticle.category}</span>
+              <span>·</span>
+              <span>${leadArticle.readTime}</span>
+              <span>·</span>
+              <span>${leadArticle.publishedAt}</span>
+            </div>
+            
+            <h2 class="news-lead-title">${escapeHtml(leadArticle.title)}</h2>
+            <p class="news-lead-summary">${escapeHtml(leadArticle.subtitle)}</p>
+            
+            <div class="news-lead-footer">
+              <span>By <strong>${escapeHtml(leadArticle.author)}</strong> (${escapeHtml(leadArticle.authorRole)})</span>
+              <span style="font-weight:700; color:var(--text-dark); display:inline-flex; align-items:center; gap:3px;">
+                Read Article <i data-lucide="arrow-right" style="width:11px; height:11px;"></i>
+              </span>
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- Editorial Stream -->
+        <div class="news-stream-list">
+          ${streamArticles.map(art => `
+            <div class="news-stream-item" onclick="openNewsArticleDrawer('${art.id}')">
+              <div class="news-stream-left">
+                <div class="news-meta-line">
+                  <span>${art.category}</span>
+                  <span>·</span>
+                  <span>${art.readTime}</span>
+                </div>
+                <h3 class="news-stream-title">${escapeHtml(art.title)}</h3>
+                <p class="news-stream-desc">${escapeHtml(art.subtitle)}</p>
+              </div>
+              <div class="news-stream-right-meta">
+                <span>${art.publishedAt}</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: SIDEBAR (FUNDING & MACRO) -->
+      <div class="news-sidebar-column">
+        
+        <!-- Macro Snapshot -->
+        <div class="news-sidebar-block">
+          <div class="news-sidebar-title">
+            <span>Macro Snapshot</span>
+          </div>
+          <div class="news-macro-strip">
+            ${data.macro.map(m => `
+              <div class="news-macro-cell">
+                <span class="news-macro-cell-label">${escapeHtml(m.label)}</span>
+                <span class="news-macro-cell-val">${escapeHtml(m.val)}</span>
+                <span class="news-macro-cell-sub">${escapeHtml(m.sub)}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Recent Funding Rounds -->
+        <div class="news-sidebar-block">
+          <div class="news-sidebar-title">
+            <span>Recent Funding Rounds</span>
+            <span style="font-size:10.5px; font-weight:600; color:var(--text-muted); cursor:pointer;" onclick="switchNewsCategory('Funding & VC Deals')">View all</span>
+          </div>
+
+          <div class="news-rounds-list">
+            ${data.deals.map(d => `
+              <div class="news-round-row" onclick="openDealBreakdownModal('${d.id}')">
+                <div class="news-round-left">
+                  <span class="news-round-name">${escapeHtml(d.name)}</span>
+                  <span class="news-round-lead">${escapeHtml(d.cat)} · Lead: ${escapeHtml(d.lead)}</span>
+                </div>
+                <div class="news-round-right">
+                  <span class="news-round-amount">${d.amount}</span>
+                  <span class="news-round-time">${d.time}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+};
+
+
+window.switchNewsCategory = function(cat) {
+  window.STARTUP_NEWS_STATE.activeCategory = cat;
+  renderStartupNewsPage();
+};
+
+window.handleNewsSearch = function(q) {
+  window.STARTUP_NEWS_STATE.searchQuery = q;
+  renderStartupNewsPage();
+};
+
+window.openNewsArticleDrawer = function(articleId) {
+  const data = window.STARTUP_NEWS_DATA;
+  const article = (data.articles || []).find(a => a.id === articleId) || data.articles[0];
+  if (!article) return;
+
+  window.STARTUP_NEWS_STATE.currentArticleId = articleId;
+
+  const backdrop = document.getElementById('newsReaderDrawerBackdrop');
+  const catHeader = document.getElementById('newsReaderHeaderCategory');
+  const metaHeader = document.getElementById('newsReaderHeaderMeta');
+  const body = document.getElementById('newsReaderDrawerBody');
+
+  if (catHeader) catHeader.textContent = article.category;
+  if (metaHeader) metaHeader.textContent = `${article.publishedAt} · ${article.readTime}`;
+
+  if (body) {
+    body.innerHTML = `
+      <div style="font-size:11px; font-weight:600; color:var(--text-muted);">
+        ${article.category} · ${article.readTime}
+      </div>
+
+      <h1 class="news-reader-title">${escapeHtml(article.title)}</h1>
+      <p style="font-size:13px; color:var(--text-main); line-height:1.5; margin:0;">${escapeHtml(article.subtitle)}</p>
+
+      <div style="display:flex; align-items:center; gap:8px; padding:10px 0; border-top:1px solid var(--border-faint); border-bottom:1px solid var(--border-faint); font-size:11.5px; color:var(--text-muted);">
+        <span>By <strong>${escapeHtml(article.author)}</strong> (${escapeHtml(article.authorRole)})</span>
+        <span>·</span>
+        <span>${article.publishedAt}</span>
+      </div>
+
+      <div class="news-reader-prose">
+        ${article.content || `
+          <p>${escapeHtml(article.subtitle)}</p>
+          <p>Early-stage venture dynamics continue to reward engineering speed and proven capital efficiency. Syndicates are actively looking for pre-seed teams who understand how to structure non-dilutive grant capital alongside standardized Seed SAFEs.</p>
+        `}
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:8px; padding-top:16px; border-top:1px solid var(--border-faint);">
+        <button class="btn btn-outline" onclick="closeNewsReaderDrawer()">Close</button>
+        <button class="btn btn-primary" onclick="window.showToast && window.showToast('Article link copied', 'success'); closeNewsReaderDrawer();">
+          Copy Link
+        </button>
+      </div>
+    `;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  if (backdrop) backdrop.classList.add('open');
+};
+
+window.closeNewsReaderDrawer = function() {
+  const backdrop = document.getElementById('newsReaderDrawerBackdrop');
+  if (backdrop) backdrop.classList.remove('open');
+};
+
+window.handleNewsReaderBackdropClick = function(event) {
+  if (event.target.id === 'newsReaderDrawerBackdrop') {
+    closeNewsReaderDrawer();
+  }
+};
+
+window.openDealBreakdownModal = function(dealId) {
+  const deal = (window.STARTUP_NEWS_DATA.deals || []).find(d => d.id === dealId);
+  if (!deal) return;
+
+  if (typeof openModal === 'function') {
+    openModal(`Funding Round — ${deal.name}`, `
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; background:#FAFAF9; border:1px solid var(--border-main); border-radius:6px; padding:10px 12px;">
+          <div>
+            <div style="font-size:14px; font-weight:800; color:var(--text-dark);">${escapeHtml(deal.name)}</div>
+            <div style="font-size:11.5px; color:var(--text-muted);">${escapeHtml(deal.cat)}</div>
+          </div>
+          <div style="font-size:14px; font-weight:800; color:var(--text-dark);">
+            ${deal.amount} (${deal.stage})
+          </div>
+        </div>
+
+        <div style="font-size:12px; color:var(--text-muted);">
+          <strong>Lead Investor:</strong> ${escapeHtml(deal.lead)}<br>
+          <strong>Announced:</strong> ${deal.time}
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+          <button class="btn btn-outline" onclick="closeModal()">Close</button>
+        </div>
+      </div>
+    `);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+};
+
+window.openSubmitDealModal = function() {
+  if (typeof openModal === 'function') {
+    openModal('Submit Funding Round', `
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div>
+          <label class="form-label">Startup Name</label>
+          <input type="text" class="input-text" placeholder="e.g. Acme AI" id="submitDealName" />
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+          <div>
+            <label class="form-label">Round Size</label>
+            <input type="text" class="input-text" placeholder="e.g. $2.5M" id="submitDealAmount" />
+          </div>
+          <div>
+            <label class="form-label">Stage</label>
+            <select class="input-text" id="submitDealStage">
+              <option value="Pre-Seed">Pre-Seed</option>
+              <option value="Seed">Seed</option>
+              <option value="Series A">Series A</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="form-label">Lead Investor</label>
+          <input type="text" class="input-text" placeholder="e.g. Matrix Partners" id="submitDealLead" />
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:6px;">
+          <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+          <button class="btn btn-primary" onclick="handleDealSubmission()">Submit</button>
+        </div>
+      </div>
+    `);
+  }
+};
+
+window.handleDealSubmission = function() {
+  const name = document.getElementById('submitDealName') ? document.getElementById('submitDealName').value.trim() : '';
+  if (!name) {
+    if (window.showToast) window.showToast('Please enter startup name', 'error');
+    return;
+  }
+  if (typeof closeModal === 'function') closeModal();
+  if (window.showToast) window.showToast(`Round submitted for ${name}`, 'success');
+};
+
+
+
+// ==========================================================================
+// FOUNDER RESOURCES, PLAYBOOKS & TOOLKITS ENGINE (BLOG GRID UI)
+// ==========================================================================
+
+window.FOUNDER_RESOURCES_DATA = [
+  {
+    id: 'res-pe-1',
+    title: 'The Modern Private Equity Playbook: Structure, Leveraged Buyouts & Secondary Sales',
+    category: 'Private Equity & Growth',
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=700&h=420&fit=crop',
+    readTime: '6 min read',
+    publishedAt: 'Aug 20, 2026',
+    downloadsCount: '3 Templates Included',
+    attachments: [
+      { name: 'Growth Equity Term Sheet Matrix.xlsx', size: '1.4 MB' },
+      { name: 'Secondary Share Purchase Agreement.docx', size: '340 KB' },
+      { name: 'LBO Returns & Waterfall Model.xlsx', size: '2.8 MB' }
+    ],
+    author: 'Vikram Mehta',
+    authorRole: 'General Partner, Matrix',
+    authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces',
+    excerpt: 'A comprehensive operational guide on how growth equity funds evaluate $5M to $20M ARR recurring revenue engines, debt covenants, and shareholder buyouts.',
+    content: `
+      <p>As early-stage software and technology companies scale past $5M ARR, the fundraising playbook branches significantly beyond traditional venture capital into growth equity and structured private equity syndicates.</p>
+      
+      <h3>Key Private Equity Diligence Pillars</h3>
+      <p>Private equity investors evaluate stability, net revenue retention (NRR), and cash flow predictability above raw top-line expansion. Unlike early-stage angel syndicates that tolerate negative gross margins for market share capture, PE investors model downside cash protection.</p>
+      
+      <ul>
+        <li><strong>Unit Economics Resilience:</strong> Customer acquisition payback periods strictly under 12 months.</li>
+        <li><strong>Covenant Compliance:</strong> Senior secured leverage ratios modeled below 3.5x adjusted EBITDA.</li>
+        <li><strong>Shareholder Recapitalization:</strong> Providing early angel investors and non-active founders partial liquidity.</li>
+      </ul>
+      
+      <h3>Using the Downloadable Templates</h3>
+      <p>Use the attached <strong>Growth Equity Term Sheet Matrix</strong> to compare term proposals from private equity sponsors against venture debt providers.</p>
+    `
+  },
+  {
+    id: 'res-vc-1',
+    title: 'Standard Seed SAFE Master Toolkit: Pre-Money vs. Post-Money Caps Explained',
+    category: 'Venture Capital & SAFEs',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&h=420&fit=crop',
+    readTime: '5 min read',
+    publishedAt: 'Aug 18, 2026',
+    downloadsCount: '4 Templates Included',
+    attachments: [
+      { name: 'Post-Money Seed SAFE Template.docx', size: '180 KB' },
+      { name: 'Uncapped SAFE with 20% Discount.docx', size: '160 KB' },
+      { name: 'Side Letter Investor Rights.docx', size: '210 KB' },
+      { name: 'Cap Table SAFE Dilution Calculator.xlsx', size: '1.2 MB' }
+    ],
+    author: 'Elena Rostova',
+    authorRole: 'Principal, Accel Partners',
+    authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces',
+    excerpt: 'Complete legal breakdowns and step-by-step math showing exactly how post-money SAFEs dilute founders across multiple angel and institutional tranches.',
+    content: `
+      <p>The Simple Agreement for Future Equity (SAFE) has become the undisputed global standard for pre-seed and seed financing. However, many first-time founders inadvertently surrender excessive equity by stacking multiple post-money SAFEs without dynamic dilution modeling.</p>
+      
+      <h3>The Post-Money Math Reality</h3>
+      <p>In a post-money SAFE, the investor's ownership percentage is fixed relative to the valuation cap at the time of conversion, regardless of how much subsequent SAFE capital is raised before the Series A priced round.</p>
+      
+      <p>This toolkit includes our verified <strong>Cap Table SAFE Dilution Calculator</strong> which dynamically plots founder dilution across up to 8 rolling angel tranches.</p>
+    `
+  },
+  {
+    id: 'res-legal-1',
+    title: 'Series A Term Sheet Negotiation: Liquidation Preferences & Board Seats',
+    category: 'Legal & Term Sheets',
+    image: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?w=700&h=420&fit=crop',
+    readTime: '8 min read',
+    publishedAt: 'Aug 15, 2026',
+    downloadsCount: '2 Templates Included',
+    attachments: [
+      { name: 'NVCA Model Series A Term Sheet.docx', size: '290 KB' },
+      { name: 'Board Observer Agreement.docx', size: '150 KB' }
+    ],
+    author: 'David Sacks',
+    authorRole: 'Founding Partner, Craft Ventures',
+    authorAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=96&h=96&fit=crop&crop=faces',
+    excerpt: 'The definitive founder guide to negotiating 1x non-participating preferred shares, pro-rata rights, drag-along thresholds, and protective provisions.',
+    content: `
+      <p>When negotiating a priced Series A term sheet, the valuation headline is only one piece of the economic puzzle. Terms surrounding liquidation preferences, protective provisions, and board composition often determine founder control in critical exit scenarios.</p>
+      
+      <h3>Key Negotiation Checkpoints</h3>
+      <ul>
+        <li><strong>Liquidation Preference:</strong> Insist on 1x Non-Participating Preferred stock. Avoid participating structures which double-dip during liquidity events.</li>
+        <li><strong>Board Balance:</strong> Maintain a 2-1 or 2-2-1 board structure (2 Founders, 1 Lead VC, 1 Independent Director mutually agreed upon).</li>
+        <li><strong>Protective Provisions:</strong> Ensure ordinary operational expenditures under agreed annual budgets do not require separate investor director approval.</li>
+      </ul>
+    `
+  },
+  {
+    id: 'res-pe-2',
+    title: 'Founder Liquidity & Secondaries: How to Take Chips Off the Table Before IPO',
+    category: 'Private Equity & Growth',
+    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=700&h=420&fit=crop',
+    readTime: '5 min read',
+    publishedAt: 'Aug 12, 2026',
+    downloadsCount: '2 Templates Included',
+    attachments: [
+      { name: 'Secondary Stock Purchase Agreement.docx', size: '380 KB' },
+      { name: 'Board Consent for Secondary Transfer.docx', size: '140 KB' }
+    ],
+    author: 'Marc Benioff',
+    authorRole: 'Angel Investor',
+    authorAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&h=96&fit=crop&crop=faces',
+    excerpt: 'How founders can responsibly sell 5% to 15% of vested shares during growth rounds without signaling lack of conviction to existing venture partners.',
+    content: `
+      <p>Secondary share sales have transformed from a taboo concept into an institutionalized mechanism for aligning long-term founder incentives during Series B, Series C, and growth financing rounds.</p>
+      
+      <p>By securing moderate personal financial runway, founders are empowered to take ambitious multi-year strategic bets rather than seeking premature acquisition exits.</p>
+    `
+  },
+  {
+    id: 'res-vc-2',
+    title: 'Cap Table Waterfall Modeling: Exit Distributions from $10M to $500M',
+    category: 'Venture Capital & SAFEs',
+    image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=700&h=420&fit=crop',
+    readTime: '7 min read',
+    publishedAt: 'Aug 10, 2026',
+    downloadsCount: '1 Template Included',
+    attachments: [
+      { name: 'Interactive Cap Table Waterfall Model.xlsx', size: '3.4 MB' }
+    ],
+    author: 'Aarav Sharma',
+    authorRole: 'Partner, Peak XV Partners',
+    authorAvatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=96&h=96&fit=crop&crop=faces',
+    excerpt: 'Interactive mathematical formulas showing payouts across Common Stock, Series Seed, Series A, and Option Pool under diverse exit valuations.',
+    content: `
+      <p>Understanding the exact cash distribution waterfall across multiple classes of stock is essential when evaluating acquisition offers or structuring employee option pools.</p>
+      
+      <p>This master spreadsheet models seniority rankings, preference claims, conversion thresholds into common stock, and management carve-out pools.</p>
+    `
+  },
+  {
+    id: 'res-legal-2',
+    title: 'Corporate Governance & Board Consent Toolkit: Delaware C-Corp Essentials',
+    category: 'Legal & Term Sheets',
+    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&h=420&fit=crop',
+    readTime: '4 min read',
+    publishedAt: 'Aug 08, 2026',
+    downloadsCount: '3 Templates Included',
+    attachments: [
+      { name: 'Unanimous Written Consent Template.docx', size: '190 KB' },
+      { name: 'Bylaws Amendment Resolution.docx', size: '160 KB' },
+      { name: 'Option Pool Refresh Board Consent.docx', size: '210 KB' }
+    ],
+    author: 'Seedicon Legal Team',
+    authorRole: 'Corporate Practice',
+    excerpt: 'Standardized Delaware corporate minutes, unanimous written consents for option pool refreshes, and director fiduciary checklists.',
+    content: `
+      <p>Maintaining institutional corporate hygiene is the easiest way to prevent diligence roadblocks when closing institutional financings or M&A transactions.</p>
+      
+      <p>Every equity grant, promissory note, and material contract requires proper board authorization under Delaware General Corporation Law (DGCL).</p>
+    `
+  },
+  {
+    id: 'res-pe-3',
+    title: 'M&A Due Diligence Data Room Blueprint: The 100-Point Audit Checklist',
+    category: 'Private Equity & Growth',
+    image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=700&h=420&fit=crop',
+    readTime: '9 min read',
+    publishedAt: 'Aug 04, 2026',
+    downloadsCount: '2 Templates Included',
+    attachments: [
+      { name: '100-Point MA VDR Audit Checklist.xlsx', size: '2.1 MB' },
+      { name: 'Confidential Information Memorandum CIM.docx', size: '850 KB' }
+    ],
+    author: 'Vikram Mehta',
+    authorRole: 'General Partner, Matrix',
+    authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces',
+    excerpt: 'The comprehensive audit framework private equity and strategic corporate acquirers use to evaluate IP ownership, MSAs, and material litigation.',
+    content: `
+      <p>Before entering an exclusivity period or signing a Letter of Intent (LOI), founders should run a dry-run audit against their Virtual Data Room to uncover potential representations and warranties liabilities.</p>
+    `
+  },
+  {
+    id: 'res-legal-3',
+    title: 'Founder Restricted Stock Purchase Agreement & Section 83(b) Guide',
+    category: 'Legal & Term Sheets',
+    image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=700&h=420&fit=crop',
+    readTime: '5 min read',
+    publishedAt: 'Jul 29, 2026',
+    downloadsCount: '2 Templates Included',
+    attachments: [
+      { name: 'Founder Restricted Stock Purchase Agreement.docx', size: '280 KB' },
+      { name: 'Section 83b Election Form & Filing Letter.pdf', size: '120 KB' }
+    ],
+    author: 'Seedicon Legal Team',
+    authorRole: 'Corporate Practice',
+    excerpt: 'Protect your early tax liability with compliant 4-year vesting schedules with 1-year cliff, single-trigger vs. double-trigger acceleration clauses.',
+    content: `
+      <p>Filing your Section 83(b) election with the IRS within precisely 30 days of equity issuance is arguably the single most critical legal requirement when incorporating a high-growth venture.</p>
+    `
+  }
+];
+
+window.FOUNDER_RESOURCES_STATE = {
+  activeCategory: 'all',
+  searchQuery: '',
+  bookmarks: ['res-vc-1', 'res-legal-1'],
+  currentResourceId: null
+};
+
+// ──────────────────────────────────────────────────────────────────────────
+// 01. RENDER RESOURCES PAGE (FULL-WIDTH BLOG GRID UI)
+// ──────────────────────────────────────────────────────────────────────────
+
+window.renderResourcesPage = function() {
+  const root = document.getElementById('resourcesRoot');
+  if (!root) return;
+
+  const data = window.FOUNDER_RESOURCES_DATA;
+  const state = window.FOUNDER_RESOURCES_STATE;
+
+  const filtered = data.filter(res => {
+    if (state.activeCategory === 'bookmarks') {
+      return state.bookmarks.includes(res.id);
+    }
+    if (state.activeCategory !== 'all' && res.category !== state.activeCategory) {
+      return false;
+    }
+    if (state.searchQuery) {
+      const q = state.searchQuery.toLowerCase();
+      const matchTitle = (res.title || '').toLowerCase().includes(q);
+      const matchExcerpt = (res.excerpt || '').toLowerCase().includes(q);
+      const matchAuthor = (res.author || '').toLowerCase().includes(q);
+      if (!matchTitle && !matchExcerpt && !matchAuthor) return false;
+    }
+    return true;
+  });
+
+  const countAll = data.length;
+  const countPE = data.filter(d => d.category === 'Private Equity & Growth').length;
+  const countVC = data.filter(d => d.category === 'Venture Capital & SAFEs').length;
+  const countLegal = data.filter(d => d.category === 'Legal & Term Sheets').length;
+
+  root.innerHTML = `
+    <!-- 01. SINGLE-ROW SURFACE CATEGORY TABS & SUMMARY -->
+    <div class="resources-toolbar-row">
+      <div class="resources-category-tabs">
+        <button class="resources-cat-btn ${state.activeCategory === 'all' ? 'active' : ''}" onclick="switchResourceCategory('all')">
+          <span>All Playbooks (${countAll})</span>
+        </button>
+        <button class="resources-cat-btn ${state.activeCategory === 'Private Equity & Growth' ? 'active' : ''}" onclick="switchResourceCategory('Private Equity & Growth')">
+          <span>Private Equity &amp; Growth (${countPE})</span>
+        </button>
+        <button class="resources-cat-btn ${state.activeCategory === 'Venture Capital & SAFEs' ? 'active' : ''}" onclick="switchResourceCategory('Venture Capital & SAFEs')">
+          <span>Venture Capital &amp; SAFEs (${countVC})</span>
+        </button>
+        <button class="resources-cat-btn ${state.activeCategory === 'Legal & Term Sheets' ? 'active' : ''}" onclick="switchResourceCategory('Legal & Term Sheets')">
+          <span>Legal &amp; Term Sheets (${countLegal})</span>
+        </button>
+        <button class="resources-cat-btn ${state.activeCategory === 'bookmarks' ? 'active' : ''}" onclick="switchResourceCategory('bookmarks')">
+          <i data-lucide="bookmark" style="width:12px; height:12px;"></i>
+          <span>Saved (${state.bookmarks.length})</span>
+        </button>
+      </div>
+
+      <div class="resources-toolbar-right">
+        <span>Verified by Seedicon Diligence Team</span>
+      </div>
+    </div>
+
+    <!-- 02. RESPONSIVE BLOG & TOOLKIT CARDS GRID -->
+    ${filtered.length === 0 ? `
+      <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:10px; padding:60px 20px; text-align:center;">
+        <h4 style="font-size:14px; font-weight:800; color:var(--text-dark); margin:0 0 4px;">No playbooks match your search</h4>
+        <p style="font-size:12px; color:var(--text-muted); margin:0 0 14px;">Try searching for term sheets, SAFEs, or private equity models.</p>
+        <button class="btn btn-outline" style="font-size:11.5px; padding:4px 10px;" onclick="switchResourceCategory('all')">Reset Filters</button>
+      </div>
+    ` : `
+      <div class="resources-blog-grid">
+        ${filtered.map(res => `
+          <div class="resource-blog-card" onclick="openResourceReaderDrawer('${res.id}')">
+            
+            <!-- 01. Cover Image -->
+            <div class="resource-cover-wrapper">
+              <img src="${res.image}" class="resource-cover-img" alt="${escapeHtml(res.title)}" loading="lazy" />
+            </div>
+
+            <!-- 02. Body: Title + Read Time Only -->
+            <div class="resource-card-body">
+              <h3 class="resource-card-title">${escapeHtml(res.title)}</h3>
+              <span class="resource-read-time">${res.readTime}</span>
+            </div>
+
+          </div>
+        `).join('')}
+      </div>
+    `}
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+};
+
+// ──────────────────────────────────────────────────────────────────────────
+// 02. INTERACTIVE FILTERING & DRAWER
+// ──────────────────────────────────────────────────────────────────────────
+
+window.switchResourceCategory = function(cat) {
+  window.FOUNDER_RESOURCES_STATE.activeCategory = cat;
+  renderResourcesPage();
+};
+
+window.handleResourceSearch = function(q) {
+  window.FOUNDER_RESOURCES_STATE.searchQuery = q;
+  renderResourcesPage();
+};
+
+window.openResourceReaderDrawer = function(resId) {
+  const data = window.FOUNDER_RESOURCES_DATA;
+  const res = data.find(d => d.id === resId) || data[0];
+  if (!res) return;
+
+  window.FOUNDER_RESOURCES_STATE.currentResourceId = resId;
+
+  const backdrop = document.getElementById('resourceReaderDrawerBackdrop');
+  const catHeader = document.getElementById('resourceReaderHeaderCategory');
+  const metaHeader = document.getElementById('resourceReaderHeaderMeta');
+  const body = document.getElementById('resourceReaderDrawerBody');
+  const bookmarkBtn = document.getElementById('resourceReaderBookmarkBtn');
+
+  if (catHeader) catHeader.textContent = res.category;
+  if (metaHeader) metaHeader.textContent = `${res.readTime} · Published ${res.publishedAt}`;
+
+  if (bookmarkBtn) {
+    const isBookmarked = window.FOUNDER_RESOURCES_STATE.bookmarks.includes(res.id);
+    bookmarkBtn.style.color = isBookmarked ? '#D97706' : 'var(--text-light)';
+  }
+
+  if (body) {
+    body.innerHTML = `
+      <img src="${res.image}" class="resource-reader-cover" alt="${escapeHtml(res.title)}" />
+
+      <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">
+        ${res.category} · ${res.readTime}
+      </div>
+
+      <h1 class="resource-reader-title">${escapeHtml(res.title)}</h1>
+      <p style="font-size:13px; color:var(--text-main); line-height:1.55; margin:0; font-weight:500;">${escapeHtml(res.excerpt)}</p>
+
+      <!-- Author Card -->
+      <div style="display:flex; align-items:center; gap:9px; padding:10px 0; border-top:1px solid var(--border-faint); border-bottom:1px solid var(--border-faint);">
+        ${res.authorAvatar ? `<img src="${res.authorAvatar}" style="width:32px; height:32px; border-radius:50%; object-fit:cover;" />` : ''}
+        <div style="display:flex; flex-direction:column;">
+          <span style="font-size:12.5px; font-weight:800; color:var(--text-dark);">${escapeHtml(res.author)}</span>
+          <span style="font-size:11px; color:var(--text-muted);">${escapeHtml(res.authorRole || 'Contributor')}</span>
+        </div>
+        <div style="margin-left:auto; font-size:11px; color:var(--text-muted);">
+          <span>Published ${res.publishedAt}</span>
+        </div>
+      </div>
+
+      <!-- Downloadable Attachments Box -->
+      ${res.attachments && res.attachments.length > 0 ? `
+        <div class="resource-downloads-box">
+          <div style="font-size:11.5px; font-weight:800; color:var(--text-dark); display:flex; align-items:center; gap:5px;">
+            <i data-lucide="download-cloud" style="width:13px; height:13px;"></i>
+            <span>Included Diligence Templates &amp; Toolkits (${res.attachments.length})</span>
+          </div>
+          ${res.attachments.map(att => `
+            <div class="resource-download-item">
+              <div style="display:flex; align-items:center; gap:7px;">
+                <i data-lucide="${att.name.endsWith('.xlsx') ? 'file-spreadsheet' : att.name.endsWith('.pdf') ? 'file' : 'file-text'}" style="width:14px; height:14px; color:var(--text-dark);"></i>
+                <span style="font-weight:600; color:var(--text-dark);">${escapeHtml(att.name)}</span>
+                <span style="color:var(--text-muted); font-size:10.5px;">(${att.size})</span>
+              </div>
+              <button class="btn btn-outline" style="font-size:11px; padding:3px 8px; gap:4px;" onclick="window.showToast && window.showToast('Downloaded ${escapeHtml(att.name)}', 'success')">
+                <i data-lucide="download" style="width:11px; height:11px;"></i>
+                <span>Download</span>
+              </button>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+
+      <!-- Main Editorial Prose -->
+      <div class="resource-reader-prose">
+        ${res.content || `
+          <p>${escapeHtml(res.excerpt)}</p>
+          <p>This playbook has been reviewed by certified legal counsel and corporate governance partners. Always customize specific cap amounts, dilution schedules, and governance seats with your institutional attorney.</p>
+        `}
+      </div>
+
+      <!-- Reader Actions -->
+      <div style="display:flex; justify-content:space-between; align-items:center; padding-top:16px; border-top:1px solid var(--border-faint); margin-top:12px;">
+        <button class="btn btn-outline" onclick="copyCurrentResourceLink()" style="font-size:12px; padding:5px 12px; gap:5px;">
+          <i data-lucide="link" style="width:13px; height:13px;"></i>
+          <span>Copy Link</span>
+        </button>
+        <button class="btn btn-primary" onclick="window.showToast && window.showToast('Downloaded complete kit bundle (.zip)', 'success')" style="font-size:12px; padding:5px 12px; gap:5px;">
+          <i data-lucide="download" style="width:13px; height:13px;"></i>
+          <span>Download Entire Toolkit (.zip)</span>
+        </button>
+      </div>
+    `;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  if (backdrop) backdrop.classList.add('open');
+};
+
+window.closeResourceReaderDrawer = function() {
+  const backdrop = document.getElementById('resourceReaderDrawerBackdrop');
+  if (backdrop) backdrop.classList.remove('open');
+};
+
+window.handleResourceReaderBackdropClick = function(event) {
+  if (event.target.id === 'resourceReaderDrawerBackdrop') {
+    closeResourceReaderDrawer();
+  }
+};
+
+window.toggleCurrentResourceBookmark = function() {
+  const resId = window.FOUNDER_RESOURCES_STATE.currentResourceId;
+  if (!resId) return;
+
+  const state = window.FOUNDER_RESOURCES_STATE;
+  const idx = state.bookmarks.indexOf(resId);
+  if (idx !== -1) {
+    state.bookmarks.splice(idx, 1);
+    if (window.showToast) window.showToast('Playbook removed from bookmarks', 'info');
+  } else {
+    state.bookmarks.push(resId);
+    if (window.showToast) window.showToast('Playbook saved to bookmarks', 'success');
+  }
+
+  const bookmarkBtn = document.getElementById('resourceReaderBookmarkBtn');
+  if (bookmarkBtn) {
+    const isBookmarked = state.bookmarks.includes(resId);
+    bookmarkBtn.style.color = isBookmarked ? '#D97706' : 'var(--text-light)';
+  }
+
+  renderResourcesPage();
+};
+
+window.copyCurrentResourceLink = function() {
+  if (window.showToast) window.showToast('Playbook link copied to clipboard', 'success');
 };

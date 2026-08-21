@@ -5987,6 +5987,10 @@ textarea.form-control {
 
 
 
+
+
+
+
 /* ==========================================================================
    WATCH DATA ROOMS (VDR) — CONDENSED GOOGLE DRIVE WORKSPACE & DEEP EXPLORER
    Navbar Breadcrumbs, One-Row Tabs & Actions, Clean Single-Line Tables
@@ -7091,4 +7095,594 @@ textarea.form-control {
   pointer-events: none;
   user-select: none;
   text-align: center;
+}
+
+
+/* ==========================================================================
+   STARTUP NEWS & VENTURE INTELLIGENCE — MINIMALIST EDITORIAL LAYOUT
+   Quiet, High-End Monochrome Editorial Aesthetic, Full-Width Responsive
+   ========================================================================== */
+
+/* ──────────────────────────────────────────────────────────────────────────
+   01. FULL-WIDTH ROOT (IGNORES MAX-WIDTH)
+   ────────────────────────────────────────────────────────────────────────── */
+.news-page-root {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 16px 28px 60px !important;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   02. SINGLE-ROW TABS & CONTROLS TOOLBAR
+   ────────────────────────────────────────────────────────────────────────── */
+.news-nav-tabs-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-main);
+}
+
+.news-tabs-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.news-tab-item {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 5px 11px;
+  font-family: var(--font-inter);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.1s ease;
+}
+
+.news-tab-item:hover {
+  background: var(--bg-muted);
+  color: var(--text-dark);
+}
+
+.news-tab-item.active {
+  background: #141413;
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   03. MINIMAL 2-COLUMN EDITORIAL GRID (65% / 35%)
+   ────────────────────────────────────────────────────────────────────────── */
+.news-minimal-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.1fr);
+  gap: 32px;
+  width: 100%;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .news-minimal-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.news-main-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.news-sidebar-column {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   04. LEFT COLUMN: EDITORIAL FEED & LEAD ARTICLE
+   ────────────────────────────────────────────────────────────────────────── */
+/* Hero Lead Article */
+.news-lead-card {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-main);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.news-meta-line {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.news-lead-title {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--text-dark);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.news-lead-card:hover .news-lead-title {
+  text-decoration: underline;
+}
+
+.news-lead-summary {
+  font-size: 12.5px;
+  color: var(--text-main);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.news-lead-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Minimal Editorial Stream List */
+.news-stream-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.news-stream-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-faint);
+  cursor: pointer;
+}
+
+.news-stream-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.news-stream-left {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.news-stream-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.news-stream-item:hover .news-stream-title {
+  text-decoration: underline;
+}
+
+.news-stream-desc {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.news-stream-right-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   05. RIGHT COLUMN: SIDEBAR (FUNDING ROUNDS & MACRO)
+   ────────────────────────────────────────────────────────────────────────── */
+.news-sidebar-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.news-sidebar-title {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--text-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-main);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Minimal Funding Rounds List */
+.news-rounds-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.news-round-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: transparent;
+  transition: background 0.1s ease;
+  cursor: pointer;
+}
+
+.news-round-row:hover {
+  background: #FAFAF9;
+}
+
+.news-round-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.news-round-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.news-round-lead {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.news-round-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  flex-shrink: 0;
+}
+
+.news-round-amount {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.news-round-time {
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+
+/* Macroeconomic Minimal Snapshot */
+.news-macro-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.news-macro-cell {
+  background: #FAFAF9;
+  border: 1px solid var(--border-faint);
+  border-radius: 6px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.news-macro-cell-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.news-macro-cell-val {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.news-macro-cell-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   06. ARTICLE READER SLIDE-OVER DRAWER
+   ────────────────────────────────────────────────────────────────────────── */
+.news-reader-drawer-card {
+  max-width: 600px !important;
+  width: 100% !important;
+}
+
+.news-reader-body {
+  padding: 24px 28px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+}
+
+.news-reader-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.news-reader-prose {
+  font-size: 13px;
+  color: var(--text-main);
+  line-height: 1.65;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.news-reader-prose p {
+  margin: 0;
+}
+
+.news-reader-prose h3 {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin: 8px 0 2px;
+}
+
+
+/* ==========================================================================
+   FOUNDER RESOURCES, PLAYBOOKS & TOOLKITS — FULL-WIDTH BLOG GRID UI
+   High-End Editorial Blog Cards, Category Filters, Reader Slide-Over Drawer
+   ========================================================================== */
+
+/* ──────────────────────────────────────────────────────────────────────────
+   01. FULL-WIDTH ROOT CONTAINER (NO MAX-WIDTH LIMIT)
+   ────────────────────────────────────────────────────────────────────────── */
+.resources-page-root {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 16px 28px 60px !important;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   02. SINGLE-ROW SURFACE TOOLBAR & CATEGORY SWITCHER
+   ────────────────────────────────────────────────────────────────────────── */
+.resources-toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-main);
+}
+
+.resources-category-tabs {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.resources-category-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.resources-cat-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 5.5px 11px;
+  font-family: var(--font-inter);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.resources-cat-btn:hover {
+  background: var(--bg-muted);
+  color: var(--text-dark);
+}
+
+.resources-cat-btn.active {
+  background: #141413;
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.resources-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   03. RESPONSIVE MINIMAL BLOG CARDS (IMAGE + TITLE + READ TIME ONLY)
+   ────────────────────────────────────────────────────────────────────────── */
+.resources-blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 20px 16px;
+  width: 100%;
+}
+
+.resource-blog-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.resource-blog-card:hover {
+  border-color: #A8A8A2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.resource-cover-wrapper {
+  width: 100%;
+  height: 180px;
+  position: relative;
+  background: #EAEAE7;
+  overflow: hidden;
+}
+
+.resource-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.resource-blog-card:hover .resource-cover-img {
+  transform: scale(1.03);
+}
+
+.resource-card-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.resource-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.resource-blog-card:hover .resource-card-title {
+  text-decoration: underline;
+}
+
+.resource-read-time {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   04. RESOURCE READER SLIDE-OVER DRAWER
+   ────────────────────────────────────────────────────────────────────────── */
+.resource-reader-drawer-card {
+  max-width: 660px !important;
+  width: 100% !important;
+}
+
+.resource-reader-body {
+  padding: 22px 26px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.resource-reader-cover {
+  width: 100%;
+  height: 220px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.resource-reader-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.resource-downloads-box {
+  background: #FAFAF9;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resource-download-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  border: 1px solid var(--border-faint);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 11.5px;
+}
+
+.resource-reader-prose {
+  font-size: 13px;
+  color: var(--text-main);
+  line-height: 1.7;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.resource-reader-prose h3 {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin: 10px 0 2px;
 }

@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seedicon — Startup News</title>
+<title>Seedicon — Venture Intelligence &amp; Startup News</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="./css/global.css">
+<link rel="stylesheet" href="./css/pages/startup-news.css">
 <!-- Lucide Icons CDN -->
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -13,9 +14,11 @@
 
 <div class="app-viewport">
   <div class="app-frame">
+    <!-- Main Left Sidebar Slot -->
     <div id="sidebarSlot"></div>
 
     <main class="founder-workspace-canvas">
+      <!-- Top Navigation Bar -->
       <header class="workspace-top-nav">
         <div class="workspace-top-nav-left">
           <div class="topnav-page-title">
@@ -23,42 +26,58 @@
             <span class="topnav-page-name">Startup News</span>
           </div>
         </div>
+        
         <div class="workspace-search-pill-wrap">
           <i data-lucide="search" class="workspace-search-icon"></i>
-          <input type="text" class="workspace-search-input" placeholder="Search startup news..." />
+          <input type="text" id="globalNewsSearchInput" class="workspace-search-input" placeholder="Search news, funding rounds, insights..." oninput="handleNewsSearch(this.value)" />
           <span class="workspace-search-kbd">⌘K</span>
         </div>
-        <div class="workspace-top-nav-right" id="topNavRightSlot"></div>
+
+        <div class="workspace-top-nav-right" id="topNavRightSlot">
+          <button class="btn btn-outline" style="font-size:12px; padding:5px 11px; gap:5px;" onclick="openSubmitDealModal()">
+            <i data-lucide="plus" style="width:13px; height:13px;"></i>
+            <span>Submit Round</span>
+          </button>
+        </div>
       </header>
 
-      <div class="workspace-scroll-body">
-        <div class="center-focused-container" style="padding-top:20px;">
-          <div class="directory-hero-row">
-            <div class="directory-hero-titles">
-              <h1 class="directory-main-title">
-                <span>Startup News</span>
-                <span class="badge-pill neutral-soft">Workspace</span>
-              </h1>
-              <p class="directory-main-subtitle">
-                Daily curated venture intelligence, funding rounds, and macroeconomic insights for founders.
-              </p>
-            </div>
-          </div>
-
-          <div class="empty-state-box" style="padding:60px 24px; text-align:center; background:#FFFFFF; border:1px solid var(--border-main); border-radius:10px; margin-top:16px;">
-            <div style="width:44px; height:44px; border-radius:50%; background:var(--bg-muted); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
-              <i data-lucide="newspaper" style="width:20px; height:20px; color:var(--text-dark);"></i>
-            </div>
-            <h4 style="font-size:15px; font-weight:800; color:var(--text-dark); margin:0 0 6px;">Venture News Feed</h4>
-            <p style="font-size:12.5px; color:var(--text-muted); max-width:440px; margin:0 auto 16px; line-height:1.5;">Curated updates, investor syndicate trends, and policy changes affecting early-stage founders.</p>
-            <a href="./index.html" class="btn btn-outline" style="font-size:12px; padding:6px 14px; text-decoration:none;">← Return to Dashboard</a>
-          </div>
+      <!-- Scroll Body (Full Width Canvas, Ignores Max-Width) -->
+      <div class="workspace-scroll-body" style="padding:0 !important;">
+        <div id="startupNewsRoot" class="news-page-root">
+          <!-- Dynamic Content rendered via app.js -->
         </div>
       </div>
     </main>
   </div>
 </div>
 
+<!-- Slide-Over Article Reader Drawer Backdrop -->
+<div class="vdr-drawer-backdrop" id="newsReaderDrawerBackdrop" onclick="handleNewsReaderBackdropClick(event)">
+  <div class="vdr-drawer-card news-reader-drawer-card" id="newsReaderDrawerCard">
+    <div class="vdr-drawer-header">
+      <div class="vdr-drawer-title-stack">
+        <span class="vdr-drawer-title" id="newsReaderHeaderCategory">Venture Intelligence</span>
+        <span class="vdr-drawer-subtitle" id="newsReaderHeaderMeta">Published today · 5 min read</span>
+      </div>
+      <div class="vdr-drawer-actions">
+        <button class="vdr-drawer-icon-btn" onclick="toggleCurrentArticleBookmark()" title="Bookmark article" id="newsReaderBookmarkBtn">
+          <i data-lucide="bookmark" style="width:15px; height:15px;"></i>
+        </button>
+        <button class="vdr-drawer-icon-btn" onclick="copyCurrentArticleLink()" title="Copy link">
+          <i data-lucide="link" style="width:15px; height:15px;"></i>
+        </button>
+        <button class="vdr-drawer-icon-btn" onclick="closeNewsReaderDrawer()" title="Close (Esc)">
+          <i data-lucide="x" style="width:16px; height:16px;"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Article Reader Body -->
+    <div class="news-reader-body" id="newsReaderDrawerBody"></div>
+  </div>
+</div>
+
+<!-- Modal Slot -->
 <div id="modalSlot"></div>
 
 <script src="./js/components.js"></script>
