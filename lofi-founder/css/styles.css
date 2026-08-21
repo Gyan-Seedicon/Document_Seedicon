@@ -11684,3 +11684,453 @@ textarea.form-control {
   color: var(--text-dark);
   margin: 10px 0 2px;
 }
+
+
+/* ==========================================================================
+   GOVERNMENT GRANTS DIRECTORY — CONDENSED FULL-WIDTH WORKSPACE
+   High-End Editorial Surface, Monochrome Scheme Tabs, Condensed Table & Cards
+   ========================================================================== */
+
+/* ──────────────────────────────────────────────────────────────────────────
+   01. FULL-WIDTH ROOT CONTAINER (NO MAX-WIDTH LIMIT)
+   ────────────────────────────────────────────────────────────────────────── */
+.grants-page-root {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 16px 28px 60px !important;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   02. SINGLE-ROW SURFACE TOOLBAR & CONTROLS
+   ────────────────────────────────────────────────────────────────────────── */
+.grants-toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-main);
+}
+
+.grants-category-tabs {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.grants-category-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.grants-cat-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 5px 11px;
+  font-family: var(--font-inter);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.grants-cat-btn:hover {
+  background: var(--bg-muted);
+  color: var(--text-dark);
+}
+
+.grants-cat-btn.active {
+  background: #141413;
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.grants-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.grants-search-pill {
+  position: relative;
+  width: 220px;
+}
+
+.grants-search-pill input {
+  width: 100%;
+  padding: 5px 8px 5px 28px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 6px;
+  font-family: var(--font-inter);
+  font-size: 11.5px;
+  color: var(--text-dark);
+  outline: none;
+  transition: all 0.1s ease;
+}
+
+.grants-search-pill input:focus {
+  border-color: var(--text-dark);
+}
+
+.grants-search-pill i {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  pointer-events: none;
+}
+
+.grants-filter-select {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-family: var(--font-inter);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-dark);
+  outline: none;
+  cursor: pointer;
+}
+
+/* View Switcher (Table vs Grid) */
+.grants-view-switcher {
+  display: flex;
+  align-items: center;
+  background: var(--bg-muted);
+  border: 1px solid var(--border-main);
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.grants-view-btn {
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 7px;
+  font-family: var(--font-inter);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.1s ease;
+}
+
+.grants-view-btn.active {
+  background: #FFFFFF;
+  color: var(--text-dark);
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   03. CONDENSED TABLE VIEW (DEFAULT MONOCHROME LINEAR WORKSPACE)
+   ────────────────────────────────────────────────────────────────────────── */
+.grants-table-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.grants-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.grants-condensed-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 12px;
+}
+
+.grants-condensed-table thead tr {
+  background: #FAFAF9;
+  border-bottom: 1px solid var(--border-main);
+}
+
+.grants-condensed-table th {
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.grants-condensed-table tbody tr {
+  border-bottom: 1px solid var(--border-faint);
+  transition: background 0.1s ease;
+  cursor: pointer;
+}
+
+.grants-condensed-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.grants-condensed-table tbody tr:hover {
+  background: #FAFAF9;
+}
+
+.grants-condensed-table td {
+  padding: 10px 12px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Organization Monogram Tile & Title */
+.grant-cell-org-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 240px;
+  max-width: 380px;
+}
+
+.grant-org-monogram {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: #141413;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+.grant-name-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.grant-name-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25;
+}
+
+.grant-name-org-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grant-cell-amount {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--text-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.grant-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2.5px 7px;
+  border-radius: 5px;
+  background: var(--bg-muted);
+  border: 1px solid var(--border-main);
+  color: var(--text-dark);
+  white-space: nowrap;
+}
+
+.grant-deadline-text {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.grant-deadline-text.urgent {
+  color: #141413;
+  font-weight: 700;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   04. CONDENSED GRID / CARD VIEW
+   ────────────────────────────────────────────────────────────────────────── */
+.grants-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.grant-card-item {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.grant-card-item:hover {
+  border-color: #A8A8A2;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.grant-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.grant-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.grant-card-tagline {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.grant-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-faint);
+  font-size: 11.5px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   05. SLIDE-OVER GRANT DETAIL DRAWER
+   ────────────────────────────────────────────────────────────────────────── */
+.grant-drawer-card {
+  max-width: 640px !important;
+  width: 100% !important;
+}
+
+.grant-drawer-body {
+  padding: 20px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.grant-drawer-header-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-main);
+}
+
+.grant-drawer-org-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: #141413;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.grant-drawer-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  background: #FAFAF9;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.grant-stat-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.grant-stat-label {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.grant-stat-val {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.grant-drawer-checklist-box {
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.grant-checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-main);
+  line-height: 1.45;
+}
+
+.grant-checklist-item input[type="checkbox"] {
+  margin-top: 3px;
+  accent-color: #141413;
+}

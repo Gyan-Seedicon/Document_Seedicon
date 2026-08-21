@@ -128,33 +128,17 @@
 
 <!-- 03. Slide-Over Problem Detail Right Drawer -->
 <div class="drawer-backdrop" id="problemDrawerBackdrop" onclick="closeProblemDrawer()"></div>
-<div class="drawer-panel" id="problemDrawerPanel" style="width: 600px;">
-  <div class="drawer-header">
-    <div style="display:flex; align-items:center; gap:8px;" id="problemDrawerHeaderMeta">
-      <span class="category-tag-pill" id="problemDrawerCategory">Category</span>
-      <span class="problem-demand-pill urgent" id="problemDrawerSignal">Signal</span>
-    </div>
-    <button class="btn btn-icon" onclick="closeProblemDrawer()" title="Close details (Esc)" style="border:none; background:transparent;">
-      <i data-lucide="x" style="width:16px; height:16px;"></i>
-    </button>
-  </div>
-  
-  <div class="drawer-body" id="problemDrawerContent">
+<div class="drawer-panel" id="problemDrawerPanel" style="width: 620px; max-width: 100vw;">
+  <div class="drawer-body" id="problemDrawerContent" style="padding: 24px 28px 36px; display: flex; flex-direction: column; gap: 18px;">
     <!-- Rendered Dynamically when user clicks a problem card -->
   </div>
 
-  <div class="drawer-footer" id="problemDrawerFooter">
-    <button class="btn btn-outline" onclick="closeProblemDrawer()">Close</button>
-    <div style="display:flex; align-items:center; gap:8px;">
-      <button class="btn btn-outline" id="problemDrawerShareBtn" onclick="copyCurrentProblemLink()">
-        <i data-lucide="share-2" style="width:13px; height:13px;"></i>
-        <span>Share</span>
-      </button>
-      <button class="btn btn-primary" id="problemDrawerValidateBtn" onclick="startValidationWorkflow()">
-        <i data-lucide="sparkles" style="width:13px; height:13px;"></i>
-        <span>Validate this problem</span>
-      </button>
-    </div>
+  <div class="drawer-footer" id="problemDrawerFooter" style="padding: 12px 24px; border-top: 1px solid var(--border-main); display: flex; align-items: center; justify-content: space-between; background: #FFFFFF;">
+    <button class="btn btn-outline" onclick="closeProblemDrawer()" style="font-size: 12px; padding: 5px 12px;">Close</button>
+    <button class="btn btn-outline" id="problemDrawerShareBtn" onclick="copyCurrentProblemLink()" style="font-size: 12px; padding: 5px 12px; gap: 5px;">
+      <i data-lucide="share-2" style="width: 13px; height: 13px;"></i>
+      <span>Share</span>
+    </button>
   </div>
 </div>
 

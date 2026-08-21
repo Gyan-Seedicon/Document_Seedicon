@@ -289,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // If on Government Grants Directory Page
-  if (document.getElementById('governmentGrantsList')) {
+  if (document.getElementById('governmentGrantsRoot') || document.getElementById('governmentGrantsList')) {
     renderGovernmentGrantsPage();
   }
 
@@ -3350,125 +3350,361 @@ window.GOVERNMENT_GRANTS_DATA = [
 
 let currentGrantSearch = '';
 let currentGrantSector = 'all';
-let currentGrantType = 'all';
-let currentGrantStatus = 'all';
+let currentGrantFundingType = 'all';
+let currentGrantView = 'table';
+let currentActiveGrantId = null;
+
+try {
+  const savedGView = localStorage.getItem('seedicon_grants_view');
+  if (savedGView === 'table' || savedGView === 'grid') {
+    currentGrantView = savedGView;
+  }
+} catch (e) {}
 
 function renderGovernmentGrantsPage() {
-  const container = document.getElementById('governmentGrantsList');
-  if (!container) return;
+  const root = document.getElementById('governmentGrantsRoot');
+  if (!root) return;
 
-  const countBadge = document.getElementById('grantsCountBadge');
-  if (countBadge) {
-    countBadge.textContent = `${window.GOVERNMENT_GRANTS_DATA.length} active grants`;
-  }
+  const data = window.GOVERNMENT_GRANTS_DATA || [];
 
-  filterAndRenderGrants();
-}
+  const filtered = data.filter(g => {
+    if (currentGrantSector !== 'all' && g.sector !== currentGrantSector) {
+      return false;
+    }
+    if (currentGrantFundingType !== 'all') {
+      const ft = (g.fundingType || '').toLowerCase();
+      const t = (g.type || '').toLowerCase();
+      if (!ft.includes(currentGrantFundingType.toLowerCase()) && !t.includes(currentGrantFundingType.toLowerCase())) {
+        return false;
+      }
+    }
+    if (currentGrantSearch.trim()) {
+      const q = currentGrantSearch.toLowerCase().trim();
+      const matchTitle = (g.title || '').toLowerCase().includes(q);
+      const matchOrg = (g.organization || '').toLowerCase().includes(q);
+      const matchTag = (g.tagline || '').toLowerCase().includes(q);
+      const matchSec = (g.sector || '').toLowerCase().includes(q);
+      if (!matchTitle && !matchOrg && !matchTag && !matchSec) return false;
+    }
+    return true;
+  });
 
-function filterAndRenderGrants() {
-  const container = document.getElementById('governmentGrantsList');
-  if (!container) return;
+  const countAll = data.length;
+  const countAI = data.filter(d => d.sector === 'DeepTech & AI').length;
+  const countBio = data.filter(d => d.sector === 'Biotech & MedTech').length;
+  const countDef = data.filter(d => d.sector === 'Defense & Aerospace').length;
 
-  let list = window.GOVERNMENT_GRANTS_DATA || [];
+  root.innerHTML = `
+    <!-- 01. SINGLE-ROW SURFACE SCHEME TABS & CONTROLS -->
+    <div class="grants-toolbar-row">
+      <div class="grants-category-tabs">
+        <button class="grants-cat-btn ${currentGrantSector === 'all' ? 'active' : ''}" onclick="switchGrantSector('all')">
+          <span>All Schemes (${countAll})</span>
+        </button>
+        <button class="grants-cat-btn ${currentGrantSector === 'DeepTech & AI' ? 'active' : ''}" onclick="switchGrantSector('DeepTech & AI')">
+          <span>DeepTech &amp; AI (${countAI})</span>
+        </button>
+        <button class="grants-cat-btn ${currentGrantSector === 'Biotech & MedTech' ? 'active' : ''}" onclick="switchGrantSector('Biotech & MedTech')">
+          <span>Biotech &amp; MedTech (${countBio})</span>
+        </button>
+        <button class="grants-cat-btn ${currentGrantSector === 'Defense & Aerospace' ? 'active' : ''}" onclick="switchGrantSector('Defense & Aerospace')">
+          <span>Defense &amp; Aero (${countDef})</span>
+        </button>
+      </div>
 
-  if (currentGrantSearch.trim()) {
-    const q = currentGrantSearch.toLowerCase().trim();
-    list = list.filter(g =>
-      g.title.toLowerCase().includes(q) ||
-      g.tagline.toLowerCase().includes(q) ||
-      g.organization.toLowerCase().includes(q) ||
-      g.sector.toLowerCase().includes(q) ||
-      g.fundingType.toLowerCase().includes(q)
-    );
-  }
+      <div class="grants-toolbar-right">
+        <!-- Funding Type Select -->
+        <select class="grants-filter-select" onchange="switchGrantFundingType(this.value)">
+          <option value="all" ${currentGrantFundingType === 'all' ? 'selected' : ''}>All Funding Types</option>
+          <option value="Non-Dilutive" ${currentGrantFundingType === 'Non-Dilutive' ? 'selected' : ''}>Non-Dilutive (100%)</option>
+          <option value="Grant-in-Aid" ${currentGrantFundingType === 'Grant-in-Aid' ? 'selected' : ''}>Grant-in-Aid (50%)</option>
+          <option value="Prototyping" ${currentGrantFundingType === 'Prototyping' ? 'selected' : ''}>Prototyping Grant</option>
+          <option value="Seed Fund" ${currentGrantFundingType === 'Seed Fund' ? 'selected' : ''}>Seed Fund Scheme</option>
+        </select>
 
-  if (currentGrantSector !== 'all') {
-    list = list.filter(g => g.sector.toLowerCase() === currentGrantSector.toLowerCase() || g.sector.toLowerCase() === 'all sectors');
-  }
-
-  if (currentGrantType !== 'all') {
-    list = list.filter(g => g.fundingType.toLowerCase().includes(currentGrantType.toLowerCase()) || g.type.toLowerCase().includes(currentGrantType.toLowerCase()));
-  }
-
-  if (currentGrantStatus !== 'all') {
-    list = list.filter(g => g.statusType.toLowerCase() === currentGrantStatus.toLowerCase());
-  }
-
-  renderGrantStream(list);
-}
-
-function renderGrantStream(list) {
-  const container = document.getElementById('governmentGrantsList');
-  if (!container) return;
-
-  if (list.length === 0) {
-    container.innerHTML = `
-      <div class="empty-placeholder-box" style="padding:48px 24px; text-align:center;">
-        <i data-lucide="landmark" style="width:32px; height:32px; color:var(--text-light); margin-bottom:8px;"></i>
-        <h4 style="font-size:14px; font-weight:800; color:var(--text-dark); margin:0 0 4px;">No matching grants found</h4>
-        <p style="font-size:12px; color:var(--text-muted); margin:0;">Try adjusting your search terms or filter selections.</p>
-      </div>`;
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-    return;
-  }
-
-  container.innerHTML = `
-    <div class="startup-listing-stream">
-      ${list.map(g => `
-        <div class="startup-listing-card" onclick="window.location.href='./grant-detail.html?id=${g.id}'">
-          <div class="startup-card-main-left">
-            <div class="grant-logo-badge">
-              ${g.orgCode}
-            </div>
-            <div class="startup-card-details">
-              <div class="startup-title-row">
-                <a href="./grant-detail.html?id=${g.id}" class="startup-name" onclick="event.stopPropagation();">${g.title}</a>
-                <span class="category-tag-pill">${g.sector}</span>
-                <span class="badge-pill ${g.statusType === 'urgent' ? 'neutral-solid' : 'neutral-soft'}">${g.status}</span>
-              </div>
-              <p class="startup-tagline">${g.tagline}</p>
-              <div class="startup-meta-row">
-                <span class="startup-meta-item"><i data-lucide="building" style="width:12px;height:12px;"></i> ${g.organization}</span>
-                <span class="startup-meta-item"><strong style="color:var(--text-dark);">${g.amount}</strong></span>
-                <span class="startup-meta-item"><i data-lucide="file-badge" style="width:12px;height:12px;"></i> ${g.fundingType}</span>
-                <span class="startup-meta-item" style="${g.statusType === 'urgent' ? 'color:#991B1B;font-weight:700;' : ''}"><i data-lucide="clock" style="width:12px;height:12px;"></i> ${g.deadline}</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="startup-card-actions" onclick="event.stopPropagation();" style="display:flex; align-items:center; gap:8px;">
-            <a href="${g.portalUrl}" target="_blank" class="btn btn-primary" style="font-size:12px; padding:7px 14px; gap:6px; text-decoration:none; white-space:nowrap;" title="Open official application portal">
-              <span>Apply now</span>
-              <i data-lucide="arrow-up-right" style="width:12px;height:12px;"></i>
-            </a>
-          </div>
+        <!-- View Switcher (Table vs Grid) -->
+        <div class="grants-view-switcher">
+          <button class="grants-view-btn ${currentGrantView === 'table' ? 'active' : ''}" onclick="switchGrantViewMode('table')" title="Condensed Table View">
+            <i data-lucide="list" style="width:13px; height:13px;"></i>
+            <span>Table</span>
+          </button>
+          <button class="grants-view-btn ${currentGrantView === 'grid' ? 'active' : ''}" onclick="switchGrantViewMode('grid')" title="Condensed Cards View">
+            <i data-lucide="layout-grid" style="width:13px; height:13px;"></i>
+            <span>Cards</span>
+          </button>
         </div>
-      `).join('')}
+      </div>
     </div>
+
+    <!-- 02. GRANTS DATA VIEW (CONDENSED TABLE OR GRID) -->
+    ${filtered.length === 0 ? `
+      <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:8px; padding:48px 20px; text-align:center;">
+        <h4 style="font-size:14px; font-weight:800; color:var(--text-dark); margin:0 0 4px;">No matching schemes found</h4>
+        <p style="font-size:12px; color:var(--text-muted); margin:0 0 12px;">Try selecting "All Schemes" or resetting your search query.</p>
+        <button class="btn btn-outline" style="font-size:11.5px; padding:4px 10px;" onclick="switchGrantSector('all'); switchGrantFundingType('all');">Reset Filters</button>
+      </div>
+    ` : currentGrantView === 'table' ? `
+      <div class="grants-table-card">
+        <div class="grants-table-responsive">
+          <table class="grants-condensed-table">
+            <thead>
+              <tr>
+                <th>Ministry / Scheme</th>
+                <th>Max Grant</th>
+                <th>Structure</th>
+                <th>Sector</th>
+                <th>Deadline</th>
+                <th style="text-align:right; width:130px;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${filtered.map(g => `
+                <tr onclick="window.location.href='./grant-detail.html?id=${g.id}'">
+                  <!-- Org & Scheme Name -->
+                  <td>
+                    <div class="grant-cell-org-name">
+                      <div class="grant-org-monogram">${escapeHtml(g.orgCode || 'GOV')}</div>
+                      <div class="grant-name-details">
+                        <span class="grant-name-title" title="${escapeHtml(g.title)}">${escapeHtml(g.title)}</span>
+                        <span class="grant-name-org-sub">${escapeHtml(g.organization)}</span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Max Grant Amount -->
+                  <td>
+                    <span class="grant-cell-amount">${escapeHtml(g.amount)}</span>
+                  </td>
+
+                  <!-- Funding Structure -->
+                  <td>
+                    <span class="grant-pill-badge">${escapeHtml(g.fundingType || g.type)}</span>
+                  </td>
+
+                  <!-- Sector -->
+                  <td>
+                    <span style="color:var(--text-main); font-size:11.5px; font-weight:500;">${escapeHtml(g.sector)}</span>
+                  </td>
+
+                  <!-- Deadline -->
+                  <td>
+                    <span class="grant-deadline-text ${g.statusType === 'urgent' ? 'urgent' : ''}">
+                      <i data-lucide="clock" style="width:12px; height:12px;"></i>
+                      <span>${escapeHtml(g.deadline)}</span>
+                    </span>
+                  </td>
+
+                  <!-- Action Buttons -->
+                  <td style="text-align:right;" onclick="event.stopPropagation();">
+                    <div style="display:inline-flex; align-items:center; gap:6px;">
+                      <a href="./grant-detail.html?id=${g.id}" class="btn btn-outline" style="font-size:11px; padding:4px 8px; text-decoration:none;" title="View details & requirements">
+                        <span>Details</span>
+                      </a>
+                      <a href="${g.portalUrl}" target="_blank" class="btn btn-primary" style="font-size:11px; padding:4px 8px; text-decoration:none; display:inline-flex; align-items:center; gap:3px;" title="Open official application portal">
+                        <span>Apply</span>
+                        <i data-lucide="arrow-up-right" style="width:11px; height:11px;"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ` : `
+      <div class="grants-grid-layout">
+        ${filtered.map(g => `
+          <div class="grant-card-item" onclick="window.location.href='./grant-detail.html?id=${g.id}'">
+            <div>
+              <div class="grant-card-top">
+                <div class="grant-org-monogram">${escapeHtml(g.orgCode || 'GOV')}</div>
+                <div style="display:flex; flex-direction:column; min-width:0; flex:1;">
+                  <span style="font-size:13px; font-weight:800; color:var(--text-dark); line-height:1.25;">${escapeHtml(g.shortTitle || g.title)}</span>
+                  <span style="font-size:11px; color:var(--text-muted);">${escapeHtml(g.organization)}</span>
+                </div>
+              </div>
+
+              <p class="grant-card-tagline" style="margin-top:10px;">${escapeHtml(g.tagline)}</p>
+            </div>
+
+            <div>
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                <span class="grant-cell-amount">${escapeHtml(g.amount)}</span>
+                <span class="grant-pill-badge">${escapeHtml(g.sector.split(' & ')[0])}</span>
+              </div>
+
+              <div class="grant-card-footer" onclick="event.stopPropagation();">
+                <span class="grant-deadline-text ${g.statusType === 'urgent' ? 'urgent' : ''}">
+                  <i data-lucide="clock" style="width:12px; height:12px;"></i>
+                  <span>${escapeHtml(g.deadline)}</span>
+                </span>
+                
+                <div style="display:inline-flex; align-items:center; gap:6px;">
+                  <a href="./grant-detail.html?id=${g.id}" class="btn btn-outline" style="font-size:11px; padding:3px 7px; text-decoration:none;">
+                    <span>Details</span>
+                  </a>
+                  <a href="${g.portalUrl}" target="_blank" class="btn btn-primary" style="font-size:11px; padding:3px 7px; text-decoration:none; display:inline-flex; align-items:center; gap:3px;">
+                    <span>Apply</span>
+                    <i data-lucide="arrow-up-right" style="width:10px; height:10px;"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `}
   `;
 
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-function handleGrantSearch(input) {
-  currentGrantSearch = input.value;
-  filterAndRenderGrants();
-}
+window.renderGovernmentGrantsPage = renderGovernmentGrantsPage;
 
-function handleGrantSectorFilter(val) {
-  currentGrantSector = val;
-  filterAndRenderGrants();
-}
+window.switchGrantSector = function(sector) {
+  currentGrantSector = sector;
+  renderGovernmentGrantsPage();
+};
 
-function handleGrantTypeFilter(val) {
-  currentGrantType = val;
-  filterAndRenderGrants();
-}
+window.switchGrantFundingType = function(ft) {
+  currentGrantFundingType = ft;
+  renderGovernmentGrantsPage();
+};
 
-function handleGrantStatusFilter(val) {
-  currentGrantStatus = val;
-  filterAndRenderGrants();
-}
+window.switchGrantViewMode = function(mode) {
+  currentGrantView = mode;
+  try {
+    localStorage.setItem('seedicon_grants_view', mode);
+  } catch (e) {}
+  renderGovernmentGrantsPage();
+};
+
+window.handleGrantSearch = function(q) {
+  currentGrantSearch = q;
+  renderGovernmentGrantsPage();
+};
+
+// ──────────────────────────────────────────────────────────────────────────
+// SLIDE-OVER GRANT DETAIL DRAWER
+// ──────────────────────────────────────────────────────────────────────────
+
+window.openGrantDetailDrawer = function(grantId) {
+  const data = window.GOVERNMENT_GRANTS_DATA || [];
+  const grant = data.find(g => g.id === grantId) || data[0];
+  if (!grant) return;
+
+  currentActiveGrantId = grant.id;
+
+  const backdrop = document.getElementById('grantDetailDrawerBackdrop');
+  const titleHeader = document.getElementById('grantDrawerHeaderTitle');
+  const subHeader = document.getElementById('grantDrawerHeaderSub');
+  const body = document.getElementById('grantDrawerBody');
+
+  if (titleHeader) titleHeader.textContent = grant.shortTitle || grant.title;
+  if (subHeader) subHeader.textContent = `${grant.organization} · ${grant.deadline}`;
+
+  if (body) {
+    body.innerHTML = `
+      <!-- Top Banner -->
+      <div class="grant-drawer-header-banner">
+        <div class="grant-drawer-org-badge">${escapeHtml(grant.orgCode || 'GOV')}</div>
+        <div style="display:flex; flex-direction:column; gap:3px;">
+          <h2 style="font-size:16px; font-weight:800; color:var(--text-dark); margin:0; line-height:1.3;">${escapeHtml(grant.title)}</h2>
+          <span style="font-size:12px; color:var(--text-muted);">${escapeHtml(grant.organization)}</span>
+        </div>
+      </div>
+
+      <!-- Key Figures Strip -->
+      <div class="grant-drawer-stats-row">
+        <div class="grant-stat-block">
+          <span class="grant-stat-label">Maximum Grant</span>
+          <span class="grant-stat-val">${escapeHtml(grant.amount)}</span>
+        </div>
+        <div class="grant-stat-block">
+          <span class="grant-stat-label">Funding Structure</span>
+          <span class="grant-stat-val" style="font-size:12px;">${escapeHtml(grant.fundingType || grant.type)}</span>
+        </div>
+        <div class="grant-stat-block">
+          <span class="grant-stat-label">Application Status</span>
+          <span class="grant-stat-val" style="font-size:12px; display:inline-flex; align-items:center; gap:4px;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#141413;"></span>
+            ${escapeHtml(grant.deadline)}
+          </span>
+        </div>
+      </div>
+
+      <!-- Scheme About / Summary -->
+      <div>
+        <h4 style="font-size:12.5px; font-weight:800; color:var(--text-dark); margin:0 0 6px;">Scheme Overview</h4>
+        <p style="font-size:12.5px; color:var(--text-main); line-height:1.6; margin:0;">${escapeHtml(grant.about || grant.tagline)}</p>
+      </div>
+
+      <!-- Eligibility Checklist -->
+      <div class="grant-drawer-checklist-box">
+        <div style="font-size:12px; font-weight:800; color:var(--text-dark); display:flex; align-items:center; gap:5px;">
+          <i data-lucide="check-circle-2" style="width:13px; height:13px;"></i>
+          <span>Mandatory Eligibility Criteria</span>
+        </div>
+        ${(grant.eligibility || []).map(el => `
+          <label class="grant-checklist-item" style="cursor:pointer;">
+            <input type="checkbox" />
+            <span>${escapeHtml(el)}</span>
+          </label>
+        `).join('')}
+      </div>
+
+      <!-- Required Documents -->
+      <div class="grant-drawer-checklist-box">
+        <div style="font-size:12px; font-weight:800; color:var(--text-dark); display:flex; align-items:center; gap:5px;">
+          <i data-lucide="file-text" style="width:13px; height:13px;"></i>
+          <span>Required Application Documents (${(grant.documents || []).length})</span>
+        </div>
+        ${(grant.documents || []).map(doc => `
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px solid var(--border-faint);">
+            <div style="display:flex; flex-direction:column; gap:1px;">
+              <span style="font-size:12px; font-weight:700; color:var(--text-dark);">${escapeHtml(doc.name)}</span>
+              <span style="font-size:11px; color:var(--text-muted);">${escapeHtml(doc.desc)}</span>
+            </div>
+            <span class="badge-pill neutral-soft" style="font-size:10px; font-weight:700;">${doc.required ? 'Required' : 'Optional'}</span>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Actions Strip -->
+      <div style="display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px solid var(--border-faint); margin-top:6px;">
+        <button class="btn btn-outline" style="font-size:12px; padding:6px 12px; gap:5px;" onclick="window.showToast && window.showToast('Application checklist copied', 'success')">
+          <i data-lucide="copy" style="width:13px; height:13px;"></i>
+          <span>Copy Checklist</span>
+        </button>
+
+        <a href="${grant.portalUrl}" target="_blank" class="btn btn-primary" style="font-size:12px; padding:6px 14px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+          <span>Apply on Official Portal</span>
+          <i data-lucide="arrow-up-right" style="width:13px; height:13px;"></i>
+        </a>
+      </div>
+    `;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  if (backdrop) backdrop.classList.add('open');
+};
+
+window.closeGrantDetailDrawer = function() {
+  const backdrop = document.getElementById('grantDetailDrawerBackdrop');
+  if (backdrop) backdrop.classList.remove('open');
+};
+
+window.handleGrantDrawerBackdropClick = function(e) {
+  if (e.target.id === 'grantDetailDrawerBackdrop') {
+    closeGrantDetailDrawer();
+  }
+};
+
+window.copyCurrentGrantLink = function() {
+  if (window.showToast) window.showToast('Grant portal link copied to clipboard', 'success');
+};
+
 
 /* ──────────────────────────────────────────────────────────────────────────
    12. GRANT DETAIL PAGE CONTROLLER
@@ -4113,41 +4349,57 @@ window.openProblemDrawer = function (problemId) {
   if (catSpan) catSpan.textContent = problem.category;
   if (sigSpan) {
     sigSpan.textContent = problem.demandSignal;
-    sigSpan.className = `problem-demand-pill ${problem.signalType === 'urgent' ? 'urgent' : 'active'}`;
+    sigSpan.className = 'badge-pill neutral-solid';
   }
 
   if (content) {
     content.innerHTML = `
+      <!-- Top Meta & Close Actions -->
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:2px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="badge-pill neutral-soft" style="font-size:11px; font-weight:700;">${escapeHtml(problem.category)}</span>
+          <span class="badge-pill neutral-solid" style="font-size:11px; font-weight:700;">${escapeHtml(problem.demandSignal)}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <button class="btn-icon" onclick="copyCurrentProblemLink()" title="Copy link" style="width:28px; height:28px; border-radius:6px; border:1px solid var(--border-main); background:#FFFFFF; color:var(--text-muted); display:inline-flex; align-items:center; justify-content:center; cursor:pointer;">
+            <i data-lucide="link" style="width:13px; height:13px;"></i>
+          </button>
+          <button class="btn-icon" onclick="closeProblemDrawer()" title="Close details (Esc)" style="width:28px; height:28px; border-radius:6px; border:1px solid var(--border-main); background:#FFFFFF; color:var(--text-muted); display:inline-flex; align-items:center; justify-content:center; cursor:pointer;">
+            <i data-lucide="x" style="width:14px; height:14px;"></i>
+          </button>
+        </div>
+      </div>
+
       <!-- Title & Tagline -->
-      <div style="display:flex; flex-direction:column; gap:4px;">
-        <h2 style="font-size:18px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em; line-height:1.3; margin:0;">
-          ${problem.title}
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <h2 style="font-size:17.5px; font-weight:800; color:var(--text-dark); letter-spacing:-0.015em; line-height:1.35; margin:0;">
+          ${escapeHtml(problem.title)}
         </h2>
-        <p style="font-size:13px; color:var(--text-main); line-height:1.45; margin:0;">
-          ${problem.tagline}
+        <p style="font-size:12.5px; color:var(--text-muted); line-height:1.55; margin:0;">
+          ${escapeHtml(problem.tagline)}
         </p>
       </div>
 
       <!-- Overview Stats Box -->
-      <div class="problem-drawer-hero">
-        <div class="problem-drawer-stat-grid">
+      <div class="problem-drawer-hero" style="background:#FAFAF9; border:1px solid var(--border-main); border-radius:8px; padding:12px 14px; display:flex; flex-direction:column; gap:10px;">
+        <div class="problem-drawer-stat-grid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;">
           <div class="problem-drawer-stat-cell">
-            <span class="problem-drawer-stat-label">Validation score</span>
-            <span class="problem-drawer-stat-val" style="color:#166534;">${problem.signalScore}</span>
+            <span class="problem-drawer-stat-label" style="font-size:10.5px; color:var(--text-muted); text-transform:uppercase; font-weight:600;">Validation score</span>
+            <span class="problem-drawer-stat-val" style="font-size:13px; font-weight:800; color:var(--text-dark);">${escapeHtml(problem.signalScore)}</span>
           </div>
           <div class="problem-drawer-stat-cell">
-            <span class="problem-drawer-stat-label">Market TAM</span>
-            <span class="problem-drawer-stat-val">${problem.marketSize}</span>
+            <span class="problem-drawer-stat-label" style="font-size:10.5px; color:var(--text-muted); text-transform:uppercase; font-weight:600;">Market TAM</span>
+            <span class="problem-drawer-stat-val" style="font-size:13px; font-weight:800; color:var(--text-dark);">${escapeHtml(problem.marketSize)}</span>
           </div>
           <div class="problem-drawer-stat-cell">
-            <span class="problem-drawer-stat-label">Target persona</span>
-            <span class="problem-drawer-stat-val" style="font-size:11.5px; font-weight:700;">${problem.targetPersona}</span>
+            <span class="problem-drawer-stat-label" style="font-size:10.5px; color:var(--text-muted); text-transform:uppercase; font-weight:600;">Target persona</span>
+            <span class="problem-drawer-stat-val" style="font-size:11.5px; font-weight:700; color:var(--text-dark); line-height:1.25;">${escapeHtml(problem.targetPersona)}</span>
           </div>
         </div>
 
-        <div style="font-size:11px; color:var(--text-muted); display:flex; align-items:center; gap:5px; border-top:1px solid var(--border-faint); padding-top:8px; margin-top:2px;">
+        <div style="font-size:11px; color:var(--text-muted); display:flex; align-items:center; gap:5px; border-top:1px solid var(--border-faint); padding-top:8px;">
           <i data-lucide="compass" style="width:12px; height:12px;"></i>
-          <span><strong>Signal source:</strong> <a href="${problem.sourceUrl}" target="_blank" style="color:var(--text-dark); text-decoration:underline;">${problem.source}</a></span>
+          <span><strong>Signal source:</strong> <a href="${problem.sourceUrl}" target="_blank" style="color:var(--text-dark); text-decoration:underline;">${escapeHtml(problem.source)}</a></span>
         </div>
       </div>
 

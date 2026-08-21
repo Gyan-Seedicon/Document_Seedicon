@@ -115,21 +115,24 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 7px;
-  border-radius: 6px;
+  padding: 2.5px 7px;
+  border-radius: 5px;
   font-size: 11px;
   font-weight: 700;
   white-space: nowrap;
+  background: var(--bg-muted);
+  color: var(--text-dark);
+  border: 1px solid var(--border-main);
 }
 
 .problem-demand-pill.urgent {
-  background: #FEF2F2;
-  color: #991B1B;
-  border: 1px solid #FEE2E2;
+  background: #141413;
+  color: #FFFFFF;
+  border: 1px solid #141413;
 }
 
 .problem-demand-pill.active {
-  background: #F4F4F2;
+  background: var(--bg-muted);
   color: var(--text-dark);
   border: 1px solid var(--border-main);
 }
