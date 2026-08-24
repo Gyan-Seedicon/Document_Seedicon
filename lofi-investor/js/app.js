@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pageNav = 'deal-crm';
   } else if (pathName.includes('dd-partners') || pathName.includes('dd-onboard-builder') || pathName.includes('dd-partner-detail')) {
     pageNav = 'dd-partners';
-  } else if (pathName.includes('lps-management') || pathName.includes('lp-onboard-builder')) {
+  } else if (pathName.includes('lps-management') || pathName.includes('lp-onboard-builder') || pathName.includes('lp-detail')) {
     pageNav = 'lps-management';
   } else if (pathName.includes('founder-reports')) {
     pageNav = 'founder-reports';

@@ -36,10 +36,10 @@
       color: #86198F;
       border: 1px solid #F0ABFC;
     }
-    .pill-exited {
-      background: #F9F9F8;
-      color: #9A9A96;
-      border: 1px solid #E8E8E6;
+    .pill-offboarded, .pill-exited {
+      background: #F4F4F2;
+      color: #8C8C88;
+      border: 1px solid #E0E0DC;
     }
     .pill-type {
       background: #F4F4F2;
@@ -48,6 +48,19 @@
       font-size: 10.5px;
       font-weight: 600;
       text-transform: none;
+    }
+
+    /* Offboarded Row State (Gray with low opacity) */
+    .row-offboarded {
+      background: #FAFAFA !important;
+      opacity: 0.52;
+      transition: opacity 0.15s ease;
+    }
+    .row-offboarded:hover {
+      opacity: 0.85;
+    }
+    .row-offboarded td {
+      color: #7A7A76 !important;
     }
 
     /* Modal Backdrop & Box */
@@ -117,12 +130,12 @@
       flex-shrink: 0;
     }
 
-    /* Action Copy Icon Button */
+    /* Action Copy & Menu Icon Buttons */
     .icon-action-btn {
       border: none;
       background: transparent;
       cursor: pointer;
-      padding: 2px 3px;
+      padding: 3px 4px;
       color: #8C8C88;
       display: inline-flex;
       align-items: center;
@@ -133,6 +146,62 @@
     .icon-action-btn:hover {
       color: #1A1A18;
       background: #EFEFEA;
+    }
+
+    /* Table Layout Optimization for Zero Horizontal Scroll */
+    #lpsTableContainer .table-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    #lpsTableContainer .table-scroll {
+      overflow-x: auto;
+      width: 100%;
+    }
+    #lpsTableContainer .data-table {
+      width: 100%;
+      min-width: 0;
+      table-layout: auto;
+      border-collapse: collapse;
+    }
+    #lpsTableContainer .data-table thead th {
+      padding: 7px 8px;
+      font-size: 9.5px;
+      white-space: nowrap;
+    }
+    #lpsTableContainer .data-table tbody td {
+      padding: 5.5px 8px;
+      font-size: 11.5px;
+      white-space: nowrap;
+    }
+
+    /* Form Fields inside Modal */
+    .modal-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .modal-field-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #1A1A18;
+    }
+    .modal-input {
+      width: 100%;
+      padding: 8px 11px;
+      border: 1px solid #DFDEDE;
+      border-radius: 6px;
+      font-family: var(--font-inter);
+      font-size: 12px;
+      color: var(--text-dark);
+      background: #FFFFFF;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.12s ease;
+    }
+    .modal-input:focus {
+      border-color: #1A1A18;
     }
 
     /* Floating FAB Toggle Button */
@@ -237,6 +306,7 @@
               <option value="Active">Active</option>
               <option value="Onboarding">Onboarding</option>
               <option value="Prospect">Prospect</option>
+              <option value="Offboarded">Offboarded</option>
               <option value="Exited">Exited</option>
             </select>
           </div>
@@ -252,7 +322,7 @@
       </div>
 
       <!-- MAIN CONTENT WORKSPACE -->
-      <div style="padding:14px 24px; flex:1;">
+      <div id="mainWorkspaceWrap" style="padding:14px 24px; flex:1;">
 
         <!-- 01. TOP SUMMARY METRICS -->
         <div class="stats-grid">
@@ -262,7 +332,7 @@
               <span class="stat-card-icon"><i data-lucide="users" style="width:12px; height:12px;"></i></span>
             </div>
             <div class="stat-card-value" id="statTotalLPs">18</div>
-            <div class="stat-card-sub" id="statTotalLPsSub">16 Active · 2 Exited</div>
+            <div class="stat-card-sub" id="statTotalLPsSub">16 Active · 2 Offboarded</div>
           </div>
 
           <div class="stat-card">
@@ -326,7 +396,42 @@
 </div>
 
 <!-- ========================================================================= -->
-<!-- CSV IMPORT MODAL (WIZARD WITH PARSING, PREVIEW, AND VALIDATION)           -->
+<!-- 04. OFFBOARD LP CONFIRMATION MODAL                                        -->
+<!-- ========================================================================= -->
+<div id="offboardLPModalBackdrop" style="display:none;" class="lp-modal-backdrop" onclick="closeOffboardModal(event)">
+  <div class="lp-modal-box" onclick="event.stopPropagation()" style="max-width:480px;">
+    <!-- Modal Header -->
+    <div class="lp-modal-header">
+      <div class="lp-modal-title">Offboard Limited Partner</div>
+      <button onclick="closeOffboardModal()" style="border:none; background:transparent; cursor:pointer; color:#7A7A78; padding:4px;">
+        <i data-lucide="x" style="width:16px; height:16px;"></i>
+      </button>
+    </div>
+
+    <!-- Modal Body: Confirmation message + comment box -->
+    <div class="lp-modal-body">
+      <p style="font-size:12.5px; color:#2A2A28; line-height:1.5; margin:0;">
+        Are you sure you want to offboard <strong id="offboardTargetLpName">Shikhar Kapoor</strong> from <span id="offboardTargetFund">Seedicon Venture Fund I</span>? This will mark this LP record as offboarded.
+      </p>
+
+      <div class="modal-field-group">
+        <label class="modal-field-label">Reason / Comments</label>
+        <textarea id="offboardNotes" rows="3" class="modal-input" placeholder="Add a comment or reason for offboarding..." style="resize:vertical;"></textarea>
+      </div>
+    </div>
+
+    <!-- Modal Footer: Cancel & Offboard LP -->
+    <div class="lp-modal-footer">
+      <button class="btn btn-outline" onclick="closeOffboardModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmOffboardLP()" style="background:#1A1A18; border-color:#1A1A18;">
+        <span>Offboard LP</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- 05. CSV IMPORT MODAL (WIZARD WITH PARSING, PREVIEW, AND VALIDATION)       -->
 <!-- ========================================================================= -->
 <div id="importLPsModalBackdrop" style="display:none;" class="lp-modal-backdrop" onclick="closeImportLPsModal(event)">
   <div class="lp-modal-box" onclick="event.stopPropagation()" style="max-width:840px;">
@@ -416,6 +521,7 @@
 <script>
   let isStateEmpty = false;
   let parsedCSVRows = [];
+  let currentTargetLPIdToOffboard = null;
 
   // ---------- DATA STORE MATCHING LP-ONBOARD-BUILDER FIELDS ----------
   let lpsStore = [
@@ -689,7 +795,7 @@
       reportingPocPhone: '+1 415 890 1200',
       onboardDate: '15 Nov 2023',
       lastUpdated: '10 Jan 2025',
-      status: 'Exited'
+      status: 'Offboarded'
     },
     {
       id: 'LP-018',
@@ -705,7 +811,7 @@
       reportingPocPhone: '+65 6900 1128',
       onboardDate: '01 Dec 2023',
       lastUpdated: '15 Jan 2025',
-      status: 'Exited'
+      status: 'Offboarded'
     }
   ];
 
@@ -754,18 +860,64 @@
     showToast(`${label} copied: ${text}`);
   }
 
+  // ---------- OFFBOARD MODAL WORKFLOW ----------
+  function openOffboardModal(lpId) {
+    const lp = lpsStore.find(l => l.id === lpId);
+    if (!lp) return;
+
+    currentTargetLPIdToOffboard = lpId;
+    const nameEl = document.getElementById('offboardTargetLpName');
+    if (nameEl) nameEl.textContent = lp.contactName;
+    const fundEl = document.getElementById('offboardTargetFund');
+    if (fundEl) fundEl.textContent = lp.fund;
+    const notesEl = document.getElementById('offboardNotes');
+    if (notesEl) notesEl.value = '';
+
+    const modal = document.getElementById('offboardLPModalBackdrop');
+    if (modal) {
+      modal.style.display = 'flex';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  function closeOffboardModal(e) {
+    if (e && e.target !== document.getElementById('offboardLPModalBackdrop') && e.target.tagName !== 'BUTTON' && !e.target.closest('button')) return;
+    const modal = document.getElementById('offboardLPModalBackdrop');
+    if (modal) modal.style.display = 'none';
+    currentTargetLPIdToOffboard = null;
+  }
+
+  function confirmOffboardLP() {
+    if (!currentTargetLPIdToOffboard) return;
+    const lp = lpsStore.find(l => l.id === currentTargetLPIdToOffboard);
+    if (!lp) return;
+
+    const notes = document.getElementById('offboardNotes')?.value.trim() || 'Fund Exited / Offboarded';
+
+    // Mark as offboarded & update timestamp
+    lp.status = 'Offboarded';
+    lp.offboardNotes = notes;
+    lp.lastUpdated = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+    closeOffboardModal();
+    renderLPsTable();
+    showToast(`Limited Partner "${lp.contactName}" has been successfully offboarded.`);
+  }
+
   // ---------- RENDER LPs TABLE & TOP METRICS ----------
   function renderLPsTable() {
     const container = document.getElementById('lpsTableContainer');
     if (!container) return;
 
     if (isStateEmpty) {
-      document.querySelector('.stats-grid').style.display = 'none';
-      container.style.display = 'none';
+      const workspaceWrap = document.getElementById('mainWorkspaceWrap');
+      if (workspaceWrap) workspaceWrap.style.display = 'none';
       document.getElementById('emptyLPsContainer').style.display = 'block';
       return;
     }
 
+    const workspaceWrap = document.getElementById('mainWorkspaceWrap');
+    if (workspaceWrap) workspaceWrap.style.display = 'block';
     document.querySelector('.stats-grid').style.display = 'grid';
     container.style.display = 'block';
     document.getElementById('emptyLPsContainer').style.display = 'none';
@@ -793,13 +945,13 @@
     // Update Top Metrics
     const totalCount = lpsStore.length;
     const activeCount = lpsStore.filter(l => l.status === 'Active').length;
-    const exitedCount = lpsStore.filter(l => l.status === 'Exited').length;
+    const offboardedCount = lpsStore.filter(l => l.status === 'Offboarded' || l.status === 'Exited').length;
     const totalComm = lpsStore.reduce((s, l) => s + l.comm, 0);
     const avgComm = totalCount > 0 ? (totalComm / totalCount).toFixed(2) : '0.00';
 
     document.getElementById('lpCountHeaderBadge').textContent = `(${totalCount} LPs)`;
     document.getElementById('statTotalLPs').textContent = totalCount;
-    document.getElementById('statTotalLPsSub').textContent = `${activeCount} Active · ${exitedCount} Exited`;
+    document.getElementById('statTotalLPsSub').textContent = `${activeCount} Active · ${offboardedCount} Offboarded`;
     document.getElementById('statTotalCommitted').textContent = `₹${totalComm.toFixed(2)} Cr`;
     document.getElementById('statActiveLPs').textContent = activeCount;
     document.getElementById('statAvgCommitment').textContent = `₹${avgComm} Cr`;
@@ -816,21 +968,24 @@
       return;
     }
 
-    // EXACT REQUIRED COLUMNS:
-    // 1. LP Contact Name (email icon click & copy)
-    // 2. Entity Name
-    // 3. Investor Type
-    // 4. Commitment Amount
-    // 5. Reporting POC (name, email icon to copy, call icon to copy)
-    // 6. Onboarded on
-    // 7. Last updated on
-    // 8. Status
+    // REQUIRED COLUMNS:
+    // 1. S.No.
+    // 2. LP Contact Name (email icon click & copy)
+    // 3. Entity Name
+    // 4. Investor Type
+    // 5. Commitment Amount
+    // 6. Reporting POC (name, email icon to copy, call icon to copy)
+    // 7. Onboarded on
+    // 8. Last updated on
+    // 9. Status
+    // 10. Actions (3 dots button to offboard)
     container.innerHTML = `
       <div class="table-card">
         <div class="table-scroll">
           <table class="data-table">
             <thead>
               <tr>
+                <th style="width:48px; text-align:center; white-space:nowrap;">S.No.</th>
                 <th style="white-space:nowrap;">LP Contact Name</th>
                 <th style="white-space:nowrap;">Entity Name</th>
                 <th style="white-space:nowrap;">Investor Type</th>
@@ -839,40 +994,48 @@
                 <th style="white-space:nowrap;">Onboarded on</th>
                 <th style="white-space:nowrap;">Last updated on</th>
                 <th style="white-space:nowrap;">Status</th>
+                <th style="width:40px; text-align:center; white-space:nowrap;">Actions</th>
               </tr>
             </thead>
             <tbody>
-              ${filtered.map(lp => `
-                <tr>
-                  <!-- 01. LP Contact Name (with email copy icon, NO avatar) -->
+              ${filtered.map((lp, idx) => {
+                const isOffboarded = lp.status === 'Offboarded' || lp.status === 'Exited';
+                return `
+                <tr class="${isOffboarded ? 'row-offboarded' : ''}" onclick="window.location.href='./lp-detail.html?id=${lp.id}'" style="cursor:pointer;" title="View ${lp.contactName} details">
+                  <!-- 01. S.No. -->
+                  <td style="text-align:center; font-weight:600; font-size:11.5px; color:#8C8C88;">
+                    ${idx + 1}
+                  </td>
+
+                  <!-- 02. LP Contact Name (with email copy icon, NO avatar) -->
                   <td style="white-space:nowrap;">
                     <div style="display:inline-flex; align-items:center; gap:6px;">
-                      <span style="font-weight:700; color:#1A1A18; font-size:12px;">${lp.contactName}</span>
+                      <a href="./lp-detail.html?id=${lp.id}" onclick="event.stopPropagation()" style="font-weight:700; color:${isOffboarded ? '#71716E' : '#1A1A18'}; font-size:12px; text-decoration:none;">${lp.contactName}</a>
                       <button type="button" class="icon-action-btn" onclick="copyToClipboard(event, '${lp.email}', 'LP Email')" title="Copy email: ${lp.email}">
                         <i data-lucide="mail" style="width:12px; height:12px;"></i>
                       </button>
                     </div>
                   </td>
 
-                  <!-- 02. Entity Name -->
+                  <!-- 03. Entity Name -->
                   <td style="white-space:nowrap;">
-                    <span style="font-weight:500; color:#2A2A28; font-size:12px;">${lp.entityName}</span>
+                    <span style="font-weight:500; color:${isOffboarded ? '#7A7A78' : '#2A2A28'}; font-size:12px;">${lp.entityName}</span>
                   </td>
 
-                  <!-- 03. Investor Type -->
+                  <!-- 04. Investor Type -->
                   <td style="white-space:nowrap;">
                     <span class="pill pill-type">${lp.type}</span>
                   </td>
 
-                  <!-- 04. Commitment Amount -->
-                  <td class="num" style="white-space:nowrap; font-weight:700; color:#1A1A18; font-size:12px;">
+                  <!-- 05. Commitment Amount -->
+                  <td class="num" style="white-space:nowrap; font-weight:700; color:${isOffboarded ? '#71716E' : '#1A1A18'}; font-size:12px;">
                     ₹${lp.comm.toFixed(2)} Cr
                   </td>
 
-                  <!-- 05. Reporting POC (name + email icon + call icon) -->
+                  <!-- 06. Reporting POC (name + email icon + call icon) -->
                   <td style="white-space:nowrap;">
                     <div style="display:inline-flex; align-items:center; gap:6px;">
-                      <span style="font-size:12px; color:#1A1A18; font-weight:600;">${lp.reportingPocName}</span>
+                      <span style="font-size:12px; color:${isOffboarded ? '#71716E' : '#1A1A18'}; font-weight:600;">${lp.reportingPocName}</span>
                       <button type="button" class="icon-action-btn" onclick="copyToClipboard(event, '${lp.reportingPocEmail}', 'Reporting POC Email')" title="Copy email: ${lp.reportingPocEmail}">
                         <i data-lucide="mail" style="width:12px; height:12px;"></i>
                       </button>
@@ -882,24 +1045,35 @@
                     </div>
                   </td>
 
-                  <!-- 06. Onboarded on -->
+                  <!-- 07. Onboarded on -->
                   <td style="white-space:nowrap; color:#6A6A68; font-size:11.5px;">
                     ${lp.onboardDate}
                   </td>
 
-                  <!-- 07. Last updated on -->
+                  <!-- 08. Last updated on -->
                   <td style="white-space:nowrap; color:#6A6A68; font-size:11.5px;">
                     ${lp.lastUpdated}
                   </td>
 
-                  <!-- 08. Status -->
+                  <!-- 09. Status -->
                   <td style="white-space:nowrap;">
-                    <span class="pill ${lp.status === 'Active' ? 'pill-active' : (lp.status === 'Onboarding' ? 'pill-onboarding' : (lp.status === 'Prospect' ? 'pill-prospect' : 'pill-exited'))}">
+                    <span class="pill ${lp.status === 'Active' ? 'pill-active' : (lp.status === 'Onboarding' ? 'pill-onboarding' : (lp.status === 'Prospect' ? 'pill-prospect' : 'pill-offboarded'))}">
                       ${lp.status.toUpperCase()}
                     </span>
                   </td>
+
+                  <!-- 10. Three Dots Actions -->
+                  <td style="text-align:center; white-space:nowrap;">
+                    ${isOffboarded ? `
+                      <span title="LP is already offboarded" style="font-size:11px; color:#A0A09C; padding:3px 6px; cursor:default;">—</span>
+                    ` : `
+                      <button type="button" class="icon-action-btn" onclick="event.stopPropagation(); openOffboardModal('${lp.id}')" title="Offboard ${lp.contactName}">
+                        <i data-lucide="more-horizontal" style="width:15px; height:15px;"></i>
+                      </button>
+                    `}
+                  </td>
                 </tr>
-              `).join('')}
+              `}).join('')}
             </tbody>
           </table>
         </div>
@@ -1029,9 +1203,9 @@
 
   // ---------- EXPORT REGISTER TO CSV ----------
   function exportLPsCSV() {
-    let csv = "LP ID,LP Contact Name,Entity Name,Investor Type,Commitment Amount (Cr),Reporting POC Name,Reporting POC Email,Reporting POC Phone,Onboarded on,Last updated on,Status\n";
-    lpsStore.forEach(l => {
-      csv += `"${l.id}","${l.contactName}","${l.entityName}","${l.type}","${l.comm.toFixed(2)}","${l.reportingPocName}","${l.reportingPocEmail}","${l.reportingPocPhone}","${l.onboardDate}","${l.lastUpdated}","${l.status}"\n`;
+    let csv = "S.No.,LP ID,LP Contact Name,Entity Name,Investor Type,Commitment Amount (Cr),Reporting POC Name,Reporting POC Email,Reporting POC Phone,Onboarded on,Last updated on,Status\n";
+    lpsStore.forEach((l, idx) => {
+      csv += `"${idx + 1}","${l.id}","${l.contactName}","${l.entityName}","${l.type}","${l.comm.toFixed(2)}","${l.reportingPocName}","${l.reportingPocEmail}","${l.reportingPocPhone}","${l.onboardDate}","${l.lastUpdated}","${l.status}"\n`;
     });
 
     const encodedUri = encodeURI("data:text/csv;charset=utf-8," + csv);

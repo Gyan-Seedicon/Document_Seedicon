@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LP Record Detail — Seedicon Investor Platform</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Executive Neutral Color Palette & High-Density Key-Value Layout */
+    .detail-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
+      border-radius: 6px;
+      padding: 14px 18px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      scroll-margin-top: 20px;
+    }
+    .detail-card:last-child {
+      margin-bottom: 0;
+    }
+    .detail-sec-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-faint);
+    }
+
+    /* Key-Value Pair Rows (Separate Row per Field) */
+    .kv-rows-container {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .kv-row {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      align-items: center;
+      font-size: 12.5px;
+      padding: 3px 0;
+      border-bottom: 1px solid #FAFAFA;
+    }
+    .kv-row:last-child {
+      border-bottom: none;
+    }
+    .kv-label {
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .kv-value {
+      color: var(--text-main);
+      word-break: break-word;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Connected Left Vertical Navigation Rail */
+    .nav-rail-wrapper {
+      position: sticky;
+      top: 10px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
+      border-radius: 6px;
+      padding: 12px 10px;
+    }
+    .nav-rail-list {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .nav-rail-list::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 10px;
+      bottom: 10px;
+      width: 1.5px;
+      background: var(--border-main);
+      z-index: 1;
+    }
+    .rail-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 4px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      transition: color 0.12s ease;
+    }
+    .rail-item:hover {
+      color: var(--text-dark);
+    }
+    .rail-item.active {
+      color: var(--text-dark);
+      font-weight: 700;
+    }
+    .rail-dot-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border-strong);
+      border: 2px solid #FFFFFF;
+      flex-shrink: 0;
+      transition: background 0.12s ease;
+    }
+    .rail-item.active .rail-dot-indicator {
+      background: var(--accent-graphite);
+    }
+
+    /* Pill Badges */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .pill-active { background: #EFEFEA; color: #2A2A28; border: 1px solid #D8D8D4; }
+    .pill-onboarding { background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; }
+    .pill-prospect { background: #FDF4FF; color: #86198F; border: 1px solid #F0ABFC; }
+    .pill-offboarded, .pill-exited { background: #F4F4F2; color: #8C8C88; border: 1px solid #E0E0DC; }
+    .pill-type { background: #F4F4F2; color: #4A4A48; border: 1px solid #E0E0DC; font-size: 10.5px; font-weight: 600; text-transform: none; }
+
+    /* Action Copy & Dropdown Icon Buttons */
+    .icon-action-btn {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 2px 3px;
+      color: #8C8C88;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: all 0.12s ease;
+    }
+    .icon-action-btn:hover {
+      color: #1A1A18;
+      background: #EFEFEA;
+    }
+
+    /* Header 3-Dots Dropdown Menu */
+    .action-dropdown-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .action-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 5px);
+      right: 0;
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
+      border-radius: 6px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      min-width: 170px;
+      z-index: 100;
+      padding: 4px;
+      display: none;
+    }
+    .action-dropdown-menu.show {
+      display: block;
+    }
+    .action-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dark);
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.1s ease;
+    }
+    .action-dropdown-item:hover {
+      background: #F4F4F2;
+    }
+    .action-dropdown-item.danger {
+      color: #DC2626;
+    }
+    .action-dropdown-item.danger:hover {
+      background: #FEF2F2;
+    }
+
+    /* Modal Backdrop & Box */
+    .lp-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(18, 18, 18, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .lp-modal-box {
+      background: #FFFFFF;
+      border-radius: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border-main);
+      overflow: hidden;
+      animation: modalFadeIn 0.15s ease-out;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .lp-modal-header {
+      padding: 14px 20px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .lp-modal-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.01em;
+    }
+    .lp-modal-body {
+      padding: 18px 20px;
+      overflow-y: auto;
+      flex: 1;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .lp-modal-footer {
+      padding: 12px 20px;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .modal-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .modal-field-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #1A1A18;
+    }
+    .modal-input {
+      width: 100%;
+      padding: 8px 11px;
+      border: 1px solid #DFDEDE;
+      border-radius: 6px;
+      font-family: var(--font-inter);
+      font-size: 12px;
+      color: var(--text-dark);
+      background: #FAFAFA;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.12s ease;
+    }
+    .modal-input:focus {
+      border-color: #1A1A18;
+      background: #FFFFFF;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <!-- Top App Header Slot -->
+  <div id="appHeaderSlot"></div>
+
+  <div class="main-workspace" style="display:flex; flex-direction:row;">
+    <!-- Tiny Icon Sidebar Slot -->
+    <div id="tinySidebarSlot"></div>
+
+    <!-- Main Navigation Sidebar Slot -->
+    <div id="mainSidebarSlot"></div>
+
+    <!-- Main Content Workspace Area -->
+    <main class="content-scrollable" style="padding:14px 24px; display:flex; flex-direction:column; gap:12px; background:#F8F8F6; overflow-y:auto;">
+      
+      <!-- BREADCRUMB NAVIGATION -->
+      <div style="display:flex; align-items:center; gap:8px; font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">
+        <a href="./lps-management.html" style="color:var(--text-muted); text-decoration:none;">
+          <span>LPs Management</span>
+        </a>
+        <span>/</span>
+        <span style="color:var(--text-dark); font-weight:700;" id="breadLpName">Shikhar Kapoor</span>
+      </div>
+
+      <!-- TOP EXECUTIVE HEADER CARD -->
+      <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+        
+        <!-- LEFT: AVATAR, LP NAME, ENTITY, AND STATUS BADGES -->
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div style="width:42px; height:42px; background:var(--accent-graphite); color:#FFFFFF; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:15px;" id="headerAvatar">
+            SK
+          </div>
+          <div>
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
+              <h1 style="font-size:18px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em; margin:0;" id="headerContactName">Shikhar Kapoor</h1>
+              <span class="pill pill-type" id="headerInvestorType">Family Office</span>
+              <span class="pill pill-active" id="headerStatus">ACTIVE</span>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px; font-size:12px; color:var(--text-muted); flex-wrap:wrap;">
+              <span>Entity: <strong style="color:var(--text-dark);" id="headerEntityName">Kapoor Family Holdings</strong></span>
+              <span>•</span>
+              <span>Fund: <strong style="color:var(--text-dark);" id="headerFundName">Seedicon Venture Fund I</strong></span>
+              <span>•</span>
+              <span>Commitment: <strong style="color:var(--text-dark); font-weight:800;" id="headerCommitment">₹2.50 Cr</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: THREE DOTS ACTIONS DROPDOWN -->
+        <div class="action-dropdown-wrap">
+          <button class="btn btn-outline" id="btnHeaderActions" onclick="toggleHeaderActionsMenu(event)" style="font-size:12px; padding:6px 10px; display:flex; align-items:center; gap:4px;" title="More Actions">
+            <i data-lucide="more-horizontal" class="lucide-sm"></i>
+          </button>
+          
+          <div id="headerActionsMenu" class="action-dropdown-menu">
+            <a href="./lp-onboard-builder.html" class="action-dropdown-item">
+              <i data-lucide="edit-3" style="width:13px; height:13px;"></i>
+              <span>Edit Details</span>
+            </a>
+            <div class="action-dropdown-item danger" id="menuItemOffboard" onclick="openOffboardModalForCurrent()">
+              <i data-lucide="user-minus" style="width:13px; height:13px;"></i>
+              <span>Offboard LP</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MAIN CONTENT WORKSPACE GRID (LEFT RAIL + RIGHT SECTIONS) -->
+      <div style="display:grid; grid-template-columns:230px 1fr; gap:16px; align-items:start;">
+        
+        <!-- LEFT CONNECTED NAVIGATION RAIL -->
+        <div class="nav-rail-wrapper">
+          <div class="nav-rail-list" id="navRailList">
+            <a class="rail-item active" onclick="scrollToSection('sec_basic', this)">
+              <span class="rail-dot-indicator"></span>
+              <span>1. LP Basic Details</span>
+            </a>
+            <a class="rail-item" onclick="scrollToSection('sec_fund', this)">
+              <span class="rail-dot-indicator"></span>
+              <span>2. Fund &amp; Commitment</span>
+            </a>
+            <a class="rail-item" onclick="scrollToSection('sec_reporting', this)">
+              <span class="rail-dot-indicator"></span>
+              <span>3. Reporting &amp; Comm</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- RIGHT SECTION CONTENT CARDS (EACH INFO IN A SEPARATE ROW) -->
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          
+          <!-- ── SECTION 1: LP BASIC DETAILS ── -->
+          <div id="sec_basic" class="detail-card">
+            <div class="detail-sec-header">
+              <i data-lucide="user" style="width:14px; height:14px;"></i>
+              <span>1. LP Basic Details</span>
+            </div>
+
+            <div class="kv-rows-container">
+              <div class="kv-row">
+                <div class="kv-label">LP Investor Type</div>
+                <div class="kv-value">
+                  <span class="pill pill-type" id="valLpType">Family Office</span>
+                </div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-label">LP / Entity Name</div>
+                <div class="kv-value" id="valEntityName">Kapoor Family Holdings</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-label">Primary Contact Name</div>
+                <div class="kv-value" id="valContactName">Shikhar Kapoor</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-label">Email Address</div>
+                <div class="kv-value">
+                  <span id="valEmail">shikhar.k@kapoorholdings.com</span>
+                  <button type="button" class="icon-action-btn" onclick="copyValueToClipboard('valEmail', 'Email')" title="Copy Email">
+                    <i data-lucide="copy" style="width:12px; height:12px;"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-label">Phone Number</div>
+                <div class="kv-value">
+                  <span id="valPhone">+91 98200 11223</span>
+                  <button type="button" class="icon-action-btn" onclick="copyValueToClipboard('valPhone', 'Phone')" title="Copy Phone">
+                    <i data-lucide="copy" style="width:12px; height:12px;"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-label">Country</div>
+                <div class="kv-value" id="valCountry">India</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-label">Registered Address</div>
+                <div class="kv-value" id="valAddress">42 Nariman Point, Marine Drive, Mumbai 400021, Maharashtra, India</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── SECTION 2: FUND & COMMITMENT DETAILS ── -->
+          <div id="sec_fund" class="detail-card">
+            <div class="detail-sec-header">
+              <i data-lucide="wallet" style="width:14px; height:14px;"></i>
+              <span>2. Fund &amp; Commitment Details</span>
+            </div>
+
+            <div class="kv-rows-container">
+              <div class="kv-row">
+                <div class="kv-label">Fund Invested In</div>
+                <div class="kv-value" style="font-weight:700; color:#1A1A18;" id="valFundInvest">Seedicon Venture Fund I</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-label">Commitment Amount</div>
+                <div class="kv-value" style="font-size:13.5px; font-weight:800; color:#1A1A18;" id="valCommitAmount">₹2.50 Cr</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-label">Commitment Date</div>
+                <div class="kv-value" id="valCommitDate">14 Jan 2024</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-label">Ownership / Commitment %</div>
+                <div class="kv-value" id="valOwnershipPct">11.90% of Fund Corpus</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-label">Investment Start Date</div>
+                <div class="kv-value" id="valInvestStartDate">01 Feb 2024</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-label">Capital Call Preference</div>
+                <div class="kv-value" id="valCallPreference">Standard Notice (10 Business Days)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── SECTION 3: REPORTING & COMMUNICATION ── -->
+          <div id="sec_reporting" class="detail-card">
+            <div class="detail-sec-header">
+              <i data-lucide="mail" style="width:14px; height:14px;"></i>
+              <span>3. Reporting &amp; Communication</span>
+            </div>
+
+            <div class="kv-rows-container">
+              <div class="kv-row">
+                <div class="kv-label">Reporting Preference</div>
+                <div class="kv-value" id="valReportFreq">Quarterly (Standard AIF Cadence)</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-label">Preferred Communication Email</div>
+                <div class="kv-value">
+                  <span id="valReportEmail">reports@kapoorholdings.com</span>
+                  <button type="button" class="icon-action-btn" onclick="copyValueToClipboard('valReportEmail', 'Reporting Email')" title="Copy Email">
+                    <i data-lucide="copy" style="width:12px; height:12px;"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-label">Primary Reporting Contact Name</div>
+                <div class="kv-value" id="valReportContactName">Rohan Varma</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-label">Primary Reporting Contact Phone</div>
+                <div class="kv-value">
+                  <span id="valReportContactPhone">+91 98200 11223</span>
+                  <button type="button" class="icon-action-btn" onclick="copyValueToClipboard('valReportContactPhone', 'Reporting Phone')" title="Copy Phone">
+                    <i data-lucide="copy" style="width:12px; height:12px;"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- SIMPLIFIED OFFBOARD LP CONFIRMATION MODAL                                 -->
+<!-- ========================================================================= -->
+<div id="offboardLPModalBackdrop" style="display:none;" class="lp-modal-backdrop" onclick="closeOffboardModal(event)">
+  <div class="lp-modal-box" onclick="event.stopPropagation()">
+    <!-- Modal Header -->
+    <div class="lp-modal-header">
+      <div class="lp-modal-title">Offboard Limited Partner</div>
+      <button onclick="closeOffboardModal()" style="border:none; background:transparent; cursor:pointer; color:#7A7A78; padding:4px;">
+        <i data-lucide="x" style="width:16px; height:16px;"></i>
+      </button>
+    </div>
+
+    <!-- Modal Body: Confirmation message + comment box -->
+    <div class="lp-modal-body">
+      <p style="font-size:12.5px; color:#2A2A28; line-height:1.5; margin:0;">
+        Are you sure you want to offboard <strong id="modalOffboardLpName">Shikhar Kapoor</strong> from <span id="modalOffboardFundName">Seedicon Venture Fund I</span>? This will mark this LP record as offboarded.
+      </p>
+
+      <div class="modal-field-group">
+        <label class="modal-field-label">Reason / Comments</label>
+        <textarea id="modalOffboardNotes" rows="3" class="modal-input" placeholder="Add a comment or reason for offboarding..." style="resize:vertical;"></textarea>
+      </div>
+    </div>
+
+    <!-- Modal Footer: Cancel & Offboard LP -->
+    <div class="lp-modal-footer">
+      <button class="btn btn-outline" onclick="closeOffboardModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmOffboardFromDetail()" style="background:#1A1A18; border-color:#1A1A18;">
+        <span>Offboard LP</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+<script>
+  // Comprehensive LP Dataset matching lp-onboard-builder and lps-management
+  const lpsDatabase = [
+    {
+      id: 'LP-001',
+      contactName: 'Shikhar Kapoor',
+      entityName: 'Kapoor Family Holdings',
+      type: 'Family Office',
+      comm: '₹2.50 Cr',
+      ownershipPct: '11.90% of Fund Corpus',
+      email: 'shikhar.k@kapoorholdings.com',
+      phone: '+91 98200 11223',
+      country: 'India',
+      address: '42 Nariman Point, Marine Drive, Mumbai 400021, Maharashtra, India',
+      fund: 'Seedicon Venture Fund I',
+      commitDate: '14 Jan 2024',
+      investStartDate: '01 Feb 2024',
+      callPref: 'Standard Notice (10 Business Days)',
+      reportFreq: 'Quarterly (Standard AIF Cadence)',
+      reportingPocName: 'Rohan Varma',
+      reportingPocEmail: 'reports@kapoorholdings.com',
+      reportingPocPhone: '+91 98200 11223',
+      onboardDate: '14 Jan 2024',
+      lastUpdated: '22 Aug 2026',
+      status: 'Active'
+    },
+    {
+      id: 'LP-002',
+      contactName: 'David Sterling',
+      entityName: 'Horizon Capital Partners',
+      type: 'Institution',
+      comm: '₹2.40 Cr',
+      ownershipPct: '11.43% of Fund Corpus',
+      email: 'd.sterling@horizoncap.com',
+      phone: '+91 80 4129 8800',
+      country: 'India',
+      address: 'Prestige Trade Tower, Palace Road, Bengaluru 560001, Karnataka, India',
+      fund: 'Seedicon Venture Fund I',
+      commitDate: '02 Feb 2024',
+      investStartDate: '15 Feb 2024',
+      callPref: 'Standard Notice (10 Business Days)',
+      reportFreq: 'Quarterly (Standard AIF Cadence)',
+      reportingPocName: 'Elena Rostova',
+      reportingPocEmail: 'statements@horizoncap.com',
+      reportingPocPhone: '+91 80 4129 8801',
+      onboardDate: '02 Feb 2024',
+      lastUpdated: '20 Aug 2026',
+      status: 'Active'
+    },
+    {
+      id: 'LP-003',
+      contactName: 'Ananya Raghunathan',
+      entityName: 'Raghunathan Family Trust',
+      type: 'Family Office',
+      comm: '₹2.00 Cr',
+      ownershipPct: '9.52% of Fund Corpus',
+      email: 'ananya@raghunathan.org',
+      phone: '+91 44 2811 0022',
+      country: 'India',
+      address: '7 Kasturi Ranga Road, Alwarpet, Chennai 600018, Tamil Nadu, India',
+      fund: 'Seedicon Venture Fund I',
+      commitDate: '28 Jan 2024',
+      investStartDate: '10 Feb 2024',
+      callPref: 'Staggered Quarterly Drawdown',
+      reportFreq: 'Quarterly (Standard AIF Cadence)',
+      reportingPocName: 'Sanjay Varma',
+      reportingPocEmail: 'accounts@raghunathan.org',
+      reportingPocPhone: '+91 44 2811 0025',
+      onboardDate: '28 Jan 2024',
+      lastUpdated: '18 Aug 2026',
+      status: 'Active'
+    },
+    {
+      id: 'LP-004',
+      contactName: 'Krish Kaul',
+      entityName: 'Krish Kaul',
+      type: 'Individual',
+      comm: '₹1.80 Cr',
+      ownershipPct: '8.57% of Fund Corpus',
+      email: 'krish.kaul@alumni.stanford.edu',
+      phone: '+91 99880 44332',
+      country: 'India',
+      address: 'Flat 12B, Golf Links Apartment, New Delhi 110003, India',
+      fund: 'Seedicon Venture Fund I',
+      commitDate: '10 Feb 2024',
+      investStartDate: '20 Feb 2024',
+      callPref: 'Standard Notice (10 Business Days)',
+      reportFreq: 'Quarterly (Standard AIF Cadence)',
+      reportingPocName: 'Krish Kaul',
+      reportingPocEmail: 'krish.kaul@alumni.stanford.edu',
+      reportingPocPhone: '+91 99880 44332',
+      onboardDate: '10 Feb 2024',
+      lastUpdated: '15 Aug 2026',
+      status: 'Active'
+    },
+    {
+      id: 'LP-005',
+      contactName: 'Suresh Singhania',
+      entityName: 'Meridian Family Office',
+      type: 'Family Office',
+      comm: '₹1.60 Cr',
+      ownershipPct: '7.62% of Fund Corpus',
+      email: 'invest@meridianfo.com',
+      phone: '+91 22 6600 4400',
+      country: 'India',
+      address: 'One BKC, G Block, Bandra Kurla Complex, Mumbai 400051, India',
+      fund: 'Seedicon Venture Fund I',
+      commitDate: '04 Mar 2024',
+      investStartDate: '15 Mar 2024',
+      callPref: 'Standard Notice (10 Business Days)',
+      reportFreq: 'Quarterly (Standard AIF Cadence)',
+      reportingPocName: 'Vikram Joshi',
+      reportingPocEmail: 'reports@meridianfo.com',
+      reportingPocPhone: '+91 22 6600 4410',
+      onboardDate: '04 Mar 2024',
+      lastUpdated: '24 Aug 2026',
+      status: 'Onboarding'
+    }
+  ];
+
+  let currentLP = null;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // 01. Initialize Layout Components
+    if (typeof LayoutComponents !== 'undefined' && document.getElementById('appHeaderSlot')) {
+      LayoutComponents.init({ activeNav: 'lps-management', activeApp: 'investor' });
+    }
+
+    // 02. Bind App Events
+    if (typeof bindAppEvents === 'function') {
+      bindAppEvents();
+    }
+
+    // 03. Load LP by ID from URL params or default to first record
+    const urlParams = new URLSearchParams(window.location.search);
+    const lpId = urlParams.get('id') || 'LP-001';
+    currentLP = lpsDatabase.find(l => l.id === lpId) || lpsDatabase[0];
+
+    renderLPDetail(currentLP);
+
+    // Global click listener to close dropdowns
+    document.addEventListener('click', (e) => {
+      const dropdownWrap = document.querySelector('.action-dropdown-wrap');
+      const menu = document.getElementById('headerActionsMenu');
+      if (dropdownWrap && menu && !dropdownWrap.contains(e.target)) {
+        menu.classList.remove('show');
+      }
+    });
+
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  });
+
+  function toggleHeaderActionsMenu(e) {
+    if (e) e.stopPropagation();
+    const menu = document.getElementById('headerActionsMenu');
+    if (menu) {
+      menu.classList.toggle('show');
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  function renderLPDetail(lp) {
+    if (!lp) return;
+
+    // Breadcrumb & Header
+    document.getElementById('breadLpName').textContent = lp.contactName;
+    document.getElementById('headerAvatar').textContent = lp.contactName.split(' ').map(w => w[0]).slice(0, 2).join('');
+    document.getElementById('headerContactName').textContent = lp.contactName;
+    document.getElementById('headerEntityName').textContent = lp.entityName;
+    document.getElementById('headerInvestorType').textContent = lp.type;
+    document.getElementById('headerFundName').textContent = lp.fund;
+    document.getElementById('headerCommitment').textContent = lp.comm;
+
+    const statusPill = document.getElementById('headerStatus');
+    const isOffboarded = lp.status === 'Offboarded' || lp.status === 'Exited';
+
+    const pillClass = `pill ${lp.status === 'Active' ? 'pill-active' : (lp.status === 'Onboarding' ? 'pill-onboarding' : (lp.status === 'Prospect' ? 'pill-prospect' : 'pill-offboarded'))}`;
+    statusPill.className = pillClass;
+    statusPill.textContent = lp.status.toUpperCase();
+
+    // Section 1: Basic Details
+    document.getElementById('valLpType').textContent = lp.type;
+    document.getElementById('valEntityName').textContent = lp.entityName;
+    document.getElementById('valContactName').textContent = lp.contactName;
+    document.getElementById('valEmail').textContent = lp.email;
+    document.getElementById('valPhone').textContent = lp.phone;
+    document.getElementById('valCountry').textContent = lp.country || 'India';
+    document.getElementById('valAddress').textContent = lp.address || 'Registered Address, India';
+
+    // Section 2: Fund & Commitment
+    document.getElementById('valFundInvest').textContent = lp.fund;
+    document.getElementById('valCommitAmount').textContent = lp.comm;
+    document.getElementById('valCommitDate').textContent = lp.commitDate || lp.onboardDate;
+    document.getElementById('valOwnershipPct').textContent = lp.ownershipPct || '10.00% of Fund Corpus';
+    document.getElementById('valInvestStartDate').textContent = lp.investStartDate || lp.onboardDate;
+    document.getElementById('valCallPreference').textContent = lp.callPref || 'Standard Notice (10 Business Days)';
+
+    // Section 3: Reporting & Communication
+    document.getElementById('valReportFreq').textContent = lp.reportFreq || 'Quarterly (Standard AIF Cadence)';
+    document.getElementById('valReportEmail').textContent = lp.reportingPocEmail;
+    document.getElementById('valReportContactName').textContent = lp.reportingPocName;
+    document.getElementById('valReportContactPhone').textContent = lp.reportingPocPhone;
+
+    // Toggle offboard menu item state
+    const itemOffboard = document.getElementById('menuItemOffboard');
+    if (itemOffboard) {
+      if (isOffboarded) {
+        itemOffboard.style.display = 'none';
+      } else {
+        itemOffboard.style.display = 'flex';
+      }
+    }
+  }
+
+  function scrollToSection(sectionId, railEl) {
+    const target = document.getElementById(sectionId);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    document.querySelectorAll('.rail-item').forEach(el => el.classList.remove('active'));
+    if (railEl) railEl.classList.add('active');
+  }
+
+  function copyValueToClipboard(elementId, label) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    const text = el.textContent.trim();
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+    }
+    showToast(`${label} copied: ${text}`);
+  }
+
+  function showToast(msg) {
+    let toast = document.getElementById('lpToastNotification');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'lpToastNotification';
+      toast.style.cssText = 'position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#1A1A18; color:#FFFFFF; padding:9px 18px; border-radius:6px; font-size:12px; font-weight:600; z-index:9999; box-shadow:0 6px 20px rgba(0,0,0,0.18); display:flex; align-items:center; gap:8px; font-family:Inter,sans-serif; transition:opacity 0.2s ease;';
+      document.body.appendChild(toast);
+    }
+    toast.innerHTML = `<i data-lucide="check-circle-2" style="width:14px; height:14px; color:#A3E635;"></i> <span>${msg}</span>`;
+    toast.style.display = 'flex';
+    toast.style.opacity = '1';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    clearTimeout(window.__detailToastTimer);
+    window.__detailToastTimer = setTimeout(() => {
+      if (toast) toast.style.opacity = '0';
+      setTimeout(() => { if (toast) toast.style.display = 'none'; }, 200);
+    }, 2800);
+  }
+
+  function openOffboardModalForCurrent() {
+    const menu = document.getElementById('headerActionsMenu');
+    if (menu) menu.classList.remove('show');
+
+    if (!currentLP) return;
+    document.getElementById('modalOffboardLpName').textContent = currentLP.contactName;
+    document.getElementById('modalOffboardFundName').textContent = currentLP.fund;
+    document.getElementById('modalOffboardNotes').value = '';
+
+    const modal = document.getElementById('offboardLPModalBackdrop');
+    if (modal) {
+      modal.style.display = 'flex';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  function closeOffboardModal(e) {
+    if (e && e.target !== document.getElementById('offboardLPModalBackdrop') && e.target.tagName !== 'BUTTON' && !e.target.closest('button')) return;
+    const modal = document.getElementById('offboardLPModalBackdrop');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function confirmOffboardFromDetail() {
+    if (!currentLP) return;
+    const notes = document.getElementById('modalOffboardNotes')?.value.trim() || 'Fund Exited / Offboarded';
+
+    currentLP.status = 'Offboarded';
+    currentLP.offboardNotes = notes;
+    currentLP.lastUpdated = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+    closeOffboardModal();
+    renderLPDetail(currentLP);
+    showToast(`Limited Partner "${currentLP.contactName}" has been successfully offboarded.`);
+  }
+</script>
+</body>
+</html>
