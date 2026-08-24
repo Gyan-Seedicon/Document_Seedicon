@@ -240,8 +240,14 @@ function bindAppEvents() {
   }
 
   // Edit Fund Settings Modal
-  window.editFundSettings = function(name, size, currency, vintage, investmentPeriod, term) {
+  window.editFundSettings = function(name, size, currency, inceptionYear, investmentPeriod, term) {
     closeAllDropdowns();
+    const parts = (investmentPeriod || '2026–2030').split(/–|-/);
+    const startYear = parts[0] ? parts[0].trim() : '2026';
+    const endYear = parts[1] ? parts[1].trim() : '2030';
+    const selectedInception = inceptionYear || '2026';
+    const selectedTerm = term || '10 Years';
+
     openModal('Edit Fund Parameters (' + name + ')', `
       <div style="display:flex; flex-direction:column; gap:14px;">
         <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-muted); padding:8px 12px; border-radius:6px; border:1px solid var(--border-main);">
@@ -255,7 +261,7 @@ function bindAppEvents() {
         <div>
           <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
             <span>FUND NAME</span>
-            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Official legal title of the fund entity"></i>
+            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="The name of your fund."></i>
           </label>
           <input type="text" id="inputFundName" value="${name}" placeholder="Seedicon Ventures Fund I" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
         </div>
@@ -263,7 +269,7 @@ function bindAppEvents() {
         <div>
           <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
             <span>TARGET FUND SIZE</span>
-            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Total capital corpus target for investment"></i>
+            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="The total amount you plan to raise."></i>
           </label>
           <input type="text" id="inputFundSize" value="${size}" placeholder="₹20 Cr" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
         </div>
@@ -271,37 +277,55 @@ function bindAppEvents() {
         <div>
           <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
             <span>CURRENCY</span>
-            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Base currency of the fund corpus"></i>
+            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="The currency used for the fund."></i>
           </label>
           <select id="inputFundCurrency" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
             <option value="INR" ${currency==='INR'?'selected':''}>INR (₹ - Indian Rupee)</option>
             <option value="USD" ${currency==='USD'?'selected':''}>USD ($ - US Dollar)</option>
             <option value="EUR" ${currency==='EUR'?'selected':''}>EUR (€ - Euro)</option>
+            <option value="GBP" ${currency==='GBP'?'selected':''}>GBP (£ - British Pound)</option>
+            <option value="SGD" ${currency==='SGD'?'selected':''}>SGD (S$ - Singapore Dollar)</option>
           </select>
         </div>
 
         <div>
           <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
-            <span>VINTAGE YEAR</span>
-            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Year fund was legally established"></i>
+            <span>FUND INCEPTION YEAR</span>
+            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="The year the fund started."></i>
           </label>
-          <input type="text" id="inputFundVintage" value="${vintage}" placeholder="2026" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+          <select id="inputFundInceptionYear" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
+            ${[2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030].map(y => `<option value="${y}" ${String(y) === String(selectedInception) ? 'selected' : ''}>${y}</option>`).join('')}
+          </select>
         </div>
 
         <div>
           <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
-            <span>INVESTMENT PERIOD</span>
-            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Active deployment window for deal sourcing"></i>
+            <span>INVESTMENT PERIOD (Select start and end year)</span>
+            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="The years when the fund will make new investments."></i>
           </label>
-          <input type="text" id="inputFundPeriod" value="${investmentPeriod}" placeholder="2026–2030" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <select id="inputFundPeriodStart" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
+              ${[2023, 2024, 2025, 2026, 2027, 2028, 2029].map(y => `<option value="${y}" ${String(y) === String(startYear) ? 'selected' : ''}>${y}</option>`).join('')}
+            </select>
+            <select id="inputFundPeriodEnd" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
+              ${[2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035].map(y => `<option value="${y}" ${String(y) === String(endYear) ? 'selected' : ''}>${y}</option>`).join('')}
+            </select>
+          </div>
         </div>
 
         <div>
           <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
             <span>FUND TERM</span>
-            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Total legal duration of fund life cycle"></i>
+            <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="The total number of years the fund will run."></i>
           </label>
-          <input type="text" id="inputFundTerm" value="${term}" placeholder="10 Years" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+          <select id="inputFundTerm" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
+            <option value="5 Years" ${selectedTerm === '5 Years' ? 'selected' : ''}>5 Years</option>
+            <option value="7 Years" ${selectedTerm === '7 Years' ? 'selected' : ''}>7 Years</option>
+            <option value="8 Years" ${selectedTerm === '8 Years' ? 'selected' : ''}>8 Years</option>
+            <option value="10 Years" ${selectedTerm === '10 Years' ? 'selected' : ''}>10 Years (Standard 10-Yr Life)</option>
+            <option value="12 Years" ${selectedTerm === '12 Years' ? 'selected' : ''}>12 Years (10 + 2 Ext)</option>
+            <option value="Evergreen" ${selectedTerm === 'Evergreen' ? 'selected' : ''}>Evergreen / Open-Ended</option>
+          </select>
         </div>
 
         <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px;">
@@ -310,6 +334,7 @@ function bindAppEvents() {
         </div>
       </div>
     `);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
   };
 
   // Open Create New Fund Modal Form
@@ -330,7 +355,7 @@ function bindAppEvents() {
           <div>
             <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
               <span>FUND NAME</span>
-              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Official legal title of the fund entity"></i>
+              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="The name of your fund."></i>
             </label>
             <input type="text" id="inputFundName" placeholder="Seedicon Ventures Fund I" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
           </div>
@@ -338,7 +363,7 @@ function bindAppEvents() {
           <div>
             <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
               <span>TARGET FUND SIZE</span>
-              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Total capital corpus target for investment"></i>
+              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="The total amount you plan to raise."></i>
             </label>
             <input type="text" id="inputFundSize" placeholder="₹20 Cr" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
           </div>
@@ -346,45 +371,78 @@ function bindAppEvents() {
           <div>
             <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
               <span>CURRENCY</span>
-              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Base currency of the fund corpus"></i>
+              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="The currency used for the fund."></i>
             </label>
             <select id="inputFundCurrency" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
               <option value="INR" selected>INR (₹ - Indian Rupee)</option>
               <option value="USD">USD ($ - US Dollar)</option>
               <option value="EUR">EUR (€ - Euro)</option>
+              <option value="GBP">GBP (£ - British Pound)</option>
+              <option value="SGD">SGD (S$ - Singapore Dollar)</option>
             </select>
           </div>
 
           <div>
             <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
-              <span>VINTAGE YEAR</span>
-              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Year fund was legally established"></i>
+              <span>FUND INCEPTION YEAR</span>
+              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="The year the fund started."></i>
             </label>
-            <input type="text" id="inputFundVintage" placeholder="2026" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+            <select id="inputFundInceptionYear" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026" selected>2026</option>
+              <option value="2027">2027</option>
+              <option value="2028">2028</option>
+            </select>
           </div>
 
           <div>
             <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
-              <span>INVESTMENT PERIOD</span>
-              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Active deployment window for deal sourcing"></i>
+              <span>INVESTMENT PERIOD (Select start and end year)</span>
+              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="The years when the fund will make new investments."></i>
             </label>
-            <input type="text" id="inputFundPeriod" placeholder="2026–2030" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+              <select id="inputFundPeriodStart" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026" selected>2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+              </select>
+              <select id="inputFundPeriodEnd" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030" selected>2030</option>
+                <option value="2031">2031</option>
+                <option value="2032">2032</option>
+              </select>
+            </div>
           </div>
 
           <div>
             <label style="font-weight:700; font-size:11.5px; color:#1A1A18; display:flex; align-items:center; gap:4px; margin-bottom:5px;">
               <span>FUND TERM</span>
-              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="Total legal duration of fund life cycle"></i>
+              <i data-lucide="help-circle" class="lucide-sm" style="color:var(--text-light);" title="The total number of years the fund will run."></i>
             </label>
-            <input type="text" id="inputFundTerm" placeholder="10 Years" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
+            <select id="inputFundTerm" style="width:100%; padding:9px 12px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
+              <option value="5 Years">5 Years</option>
+              <option value="7 Years">7 Years</option>
+              <option value="8 Years">8 Years</option>
+              <option value="10 Years" selected>10 Years (Standard 10-Yr Life)</option>
+              <option value="12 Years">12 Years (10 + 2 Ext)</option>
+              <option value="Evergreen">Evergreen / Open-Ended</option>
+            </select>
           </div>
 
           <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px;">
             <button onclick="document.getElementById('modalOverlay').style.display='none'" class="btn">Cancel</button>
-            <button onclick="submitFundForm(true)" class="btn btn-primary">Create Fund &amp; Go to Dashboard</button>
+            <button onclick="submitFundForm(true)" class="btn btn-primary">Create Fund</button>
           </div>
         </div>
       `);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
     });
   }
 
@@ -393,15 +451,17 @@ function bindAppEvents() {
     const inputFundName = document.getElementById('inputFundName');
     const inputFundSize = document.getElementById('inputFundSize');
     const inputFundCurrency = document.getElementById('inputFundCurrency');
-    const inputFundVintage = document.getElementById('inputFundVintage');
-    const inputFundPeriod = document.getElementById('inputFundPeriod');
+    const inputFundInceptionYear = document.getElementById('inputFundInceptionYear');
+    const inputFundPeriodStart = document.getElementById('inputFundPeriodStart');
+    const inputFundPeriodEnd = document.getElementById('inputFundPeriodEnd');
     const inputFundTerm = document.getElementById('inputFundTerm');
 
     if (inputFundName) inputFundName.value = "Seedicon Ventures Fund I";
     if (inputFundSize) inputFundSize.value = "₹20 Cr";
     if (inputFundCurrency) inputFundCurrency.value = "INR";
-    if (inputFundVintage) inputFundVintage.value = "2026";
-    if (inputFundPeriod) inputFundPeriod.value = "2026–2030";
+    if (inputFundInceptionYear) inputFundInceptionYear.value = "2026";
+    if (inputFundPeriodStart) inputFundPeriodStart.value = "2026";
+    if (inputFundPeriodEnd) inputFundPeriodEnd.value = "2030";
     if (inputFundTerm) inputFundTerm.value = "10 Years";
   };
 
@@ -424,7 +484,11 @@ function bindAppEvents() {
     }
 
     landOnDashboard(fullName);
-    alert(isNew ? `New Fund "${fullName}" created successfully! Landed on Dashboard.` : `Fund Parameters for "${fullName}" updated! Landed on Dashboard.`);
+    if (window.showToast) {
+      window.showToast(isNew ? `New Fund "${fullName}" created successfully!` : `Fund Parameters for "${fullName}" updated!`);
+    } else {
+      alert(isNew ? `New Fund "${fullName}" created successfully! Landed on Dashboard.` : `Fund Parameters for "${fullName}" updated! Landed on Dashboard.`);
+    }
   };
 
   // Create Actions Context Menu Logic
@@ -457,34 +521,15 @@ function bindAppEvents() {
     });
   }
 
-  // 02. Create Data Room (VDR)
-  const menuDataRoom = document.getElementById('menuDataRoom');
-  if (menuDataRoom) {
-    menuDataRoom.addEventListener('click', () => {
+  // 02. Create New Fund
+  const menuCreateFund = document.getElementById('menuCreateFund');
+  if (menuCreateFund) {
+    menuCreateFund.addEventListener('click', () => {
       closeAllDropdowns();
-      openModal('Create Virtual Data Room (VDR)', `
-        <div style="display:flex; flex-direction:column; gap:12px;">
-          <p style="font-size:12.5px; color:#5A5A54;">Set up a new Virtual Data Room vault with preset folder structures or a blank room for due diligence.</p>
-          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">DATAROOM NAME</label>
-          <input type="text" value="FinFlow Tech — DD Dataroom Vault" style="padding:8px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;"/>
-          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">PRESET TEMPLATE</label>
-          <select style="padding:8px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
-            <option>Full Legal, Cap Table &amp; Financial Preset</option>
-            <option>Technical &amp; Architecture Audit Preset</option>
-            <option>Blank Data Room (Custom Folders)</option>
-          </select>
-          <label style="font-weight:700; font-size:11.5px; color:#1A1A18;">ASSIGN TO STARTUP</label>
-          <select style="padding:8px; border:1px solid #C8C8BF; border-radius:6px; font-family:Inter; font-size:12.5px; color:#1A1A18;">
-            <option>FinFlow Tech (Seed Stage)</option>
-            <option>Apex AI (Series A)</option>
-            <option>Nova Health (Pre-Seed)</option>
-          </select>
-          <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
-            <button onclick="document.getElementById('modalOverlay').style.display='none'" class="btn">Cancel</button>
-            <button onclick="alert('VDR Data Room Created &amp; Request Dispatched to Founder!'); document.getElementById('modalOverlay').style.display='none';" class="btn btn-primary">Create Data Room</button>
-          </div>
-        </div>
-      `);
+      const fundModalBtn = document.getElementById('btnOpenCreateFundModal');
+      if (fundModalBtn) {
+        fundModalBtn.click();
+      }
     });
   }
 

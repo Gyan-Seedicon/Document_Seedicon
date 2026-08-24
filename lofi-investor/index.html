@@ -43,7 +43,7 @@
           <div class="page-header-top-row">
             <div class="header-titles">
               <h1 class="page-title" id="pageHeaderTitle">Investor Command Center</h1>
-              <p class="page-subtitle" id="pageHeaderSub">Seedicon Venture Fund I (₹20 Cr Target) — Ecosystem Active · Vintage 2026 · Fully Subscribed</p>
+              <p class="page-subtitle" id="pageHeaderSub">No active fund data yet. Create your first fund to begin.</p>
             </div>
 
             <div class="header-action-group">
@@ -92,9 +92,9 @@
         <div class="page-header-divider"></div>
 
         <!-- ============================================================
-             DASHBOARD CONTENT
+             POPULATED DASHBOARD CONTENT STACK (PREVIEW)
              ============================================================ -->
-        <div class="dash-stack">
+        <div class="dash-stack" id="dashPopulatedStack" style="display:none;">
 
           <!-- ── SECTION 01 : FUND CAPITAL & PERFORMANCE KPI ── -->
           <section>
@@ -462,10 +462,36 @@
           </section>
 
         </div>
+
+        <!-- ============================================================
+             EMPTY STATE DASHBOARD CONTENT STACK (DEFAULT)
+             ============================================================ -->
+        <div class="dash-stack" id="dashEmptyStack" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:500px; text-align:center; padding:40px 20px;">
+          <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:12px; padding:48px 36px; max-width:440px; width:100%; box-shadow:0 2px 10px rgba(0,0,0,0.02); display:flex; flex-direction:column; align-items:center;">
+            <div style="width:52px; height:52px; border-radius:50%; background:#F2F2F0; border:1px solid #E4E4E0; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+              <i data-lucide="landmark" style="width:24px; height:24px; color:#1A1A18;"></i>
+            </div>
+            <h2 style="font-size:16px; font-weight:800; color:#1A1A18; margin:0 0 6px; letter-spacing:-0.01em;">No Active Fund Found</h2>
+            <p style="font-size:12px; color:var(--text-muted); line-height:1.5; margin:0 0 20px;">
+              Get started by creating your fund entity to manage your deals, LPs, and portfolio operations.
+            </p>
+            <button class="btn btn-primary" onclick="const b=document.getElementById('btnOpenCreateFundModal'); if(b) b.click();" style="font-size:12px; padding:8px 18px; gap:6px; cursor:pointer;">
+              <i data-lucide="plus" style="width:13px; height:13px;"></i>
+              <span>Create New Fund</span>
+            </button>
+          </div>
+        </div>
+
       </div>
     </main>
   </div>
 </div>
+
+<!-- FLOATING FAB STATE TOGGLE BUTTON (BOTTOM RIGHT CORNER) -->
+<button class="fab-toggle-btn" id="fabToggleState" title="Toggle between Empty and Populated State" onclick="toggleDashboardState()">
+  <i data-lucide="eye" style="width:13px; height:13px;"></i>
+  <span id="fabToggleText">Toggle Populated State</span>
+</button>
 
 <!-- Modal Dialog Container Slot -->
 <div id="modalSlot"></div>
@@ -543,6 +569,12 @@
   let lpChart = null;
 
   function renderCapitalChart(period) {
+    const el = document.getElementById('capitalActivityChart');
+    if (!el) return;
+    if (capitalChart) {
+      capitalChart.destroy();
+      capitalChart = null;
+    }
     const d = ACTIVITY_DATA[period] || ACTIVITY_DATA.all;
     const opt = Object.assign({}, baseChartTheme, {
       chart: Object.assign({}, baseChartTheme.chart, { type: 'bar', height: 300 }),
@@ -559,43 +591,37 @@
           borderRadiusApplication: 'end'
         }
       },
-      stroke: { curve: 'smooth', width: [0, 0, 2] },
+      stroke: { width: [0, 0, 2], curve: 'smooth' },
       xaxis: {
         categories: d.categories,
+        labels: { style: { colors: NEUTRAL.text, fontSize: '11px' } },
         axisBorder: { show: true, color: NEUTRAL.grid },
-        axisTicks: { show: false },
-        labels: { style: { colors: NEUTRAL.text, fontSize: '10.5px' } }
+        axisTicks: { show: false }
       },
       yaxis: {
         labels: {
-          formatter: (v) => v.toFixed(1),
-          style: { colors: NEUTRAL.axis, fontSize: '10.5px' }
-        },
-        title: { text: '₹ Cr', style: { color: NEUTRAL.axis, fontSize: '10px', fontWeight: 600 } }
+          formatter: (v) => '₹' + v.toFixed(1) + ' Cr',
+          style: { colors: NEUTRAL.text, fontSize: '10.5px' }
+        }
       },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'right',
-        fontSize: '11px',
-        fontWeight: 600,
-        labels: { colors: '#5A5A54' },
-        markers: { size: 4 }
-      }
+      legend: { position: 'top', horizontalAlign: 'right', fontSize: '11px', fontWeight: 600, labels: { colors: '#5A5A54' } }
     });
-    const el = document.getElementById('capitalActivityChart');
-    if (capitalChart) { capitalChart.destroy(); }
     capitalChart = new ApexCharts(el, opt);
     capitalChart.render();
-    const sub = document.getElementById('capitalChartSub');
-    if (sub) sub.textContent = d.label + ' · ₹ Cr per period';
   }
 
   function renderSectorChart() {
+    const el = document.getElementById('sectorChart');
+    if (!el) return;
+    if (sectorChart) {
+      sectorChart.destroy();
+      sectorChart = null;
+    }
     const opt = Object.assign({}, baseChartTheme, {
       chart: Object.assign({}, baseChartTheme.chart, { type: 'donut', height: 300 }),
-      series: [3, 3, 2, 2, 1, 1],
-      labels: ['FinTech', 'Logistics', 'Healthcare', 'CleanTech', 'AI / Software', 'BioTech'],
-      colors: [NEUTRAL.ink, NEUTRAL.dark, NEUTRAL.mid, NEUTRAL.soft, NEUTRAL.light, NEUTRAL.faint],
+      series: [5, 3, 2, 1, 1],
+      labels: ['FinTech', 'Logistics', 'Healthcare', 'AI / SaaS', 'CleanTech'],
+      colors: [NEUTRAL.ink, NEUTRAL.dark, NEUTRAL.mid, NEUTRAL.soft, NEUTRAL.light],
       plotOptions: {
         pie: {
           donut: {
@@ -612,12 +638,17 @@
       legend: { position: 'bottom', fontSize: '11px', fontWeight: 600, labels: { colors: '#5A5A54' }, markers: { size: 5 } },
       stroke: { width: 0 }
     });
-    const el = document.getElementById('sectorChart');
     sectorChart = new ApexCharts(el, opt);
     sectorChart.render();
   }
 
   function renderPipelineChart() {
+    const el = document.getElementById('pipelineChart');
+    if (!el) return;
+    if (pipelineChart) {
+      pipelineChart.destroy();
+      pipelineChart = null;
+    }
     const opt = Object.assign({}, baseChartTheme, {
       chart: Object.assign({}, baseChartTheme.chart, { type: 'bar', height: 300 }),
       series: [{ name: 'Deals', data: [3, 3, 2, 2, 1, 1, 2] }],
@@ -646,12 +677,17 @@
       yaxis: { labels: { style: { colors: '#5A5A54', fontSize: '11px', fontWeight: 600 } } },
       legend: { show: false }
     });
-    const el = document.getElementById('pipelineChart');
     pipelineChart = new ApexCharts(el, opt);
     pipelineChart.render();
   }
 
   function renderLpChart() {
+    const el = document.getElementById('lpChart');
+    if (!el) return;
+    if (lpChart) {
+      lpChart.destroy();
+      lpChart = null;
+    }
     const opt = Object.assign({}, baseChartTheme, {
       chart: Object.assign({}, baseChartTheme.chart, { type: 'donut', height: 300 }),
       series: [4, 4, 3, 2, 5],
@@ -673,7 +709,6 @@
       legend: { position: 'bottom', fontSize: '11px', fontWeight: 600, labels: { colors: '#5A5A54' }, markers: { size: 5 } },
       stroke: { width: 0 }
     });
-    const el = document.getElementById('lpChart');
     lpChart = new ApexCharts(el, opt);
     lpChart.render();
   }
@@ -691,14 +726,40 @@
     else alert('Dashboard snapshot exported (PNG)');
   }
 
-  // Render all charts on load
-  document.addEventListener('DOMContentLoaded', () => {
-    if (typeof ApexCharts !== 'undefined') {
-      renderCapitalChart('all');
-      renderSectorChart();
-      renderPipelineChart();
-      renderLpChart();
+  /* ── TOGGLE STATE (POPULATED VS EMPTY) ── */
+  let isDashboardEmpty = true;
+
+  function toggleDashboardState() {
+    isDashboardEmpty = !isDashboardEmpty;
+    const fabText = document.getElementById('fabToggleText');
+    if (fabText) fabText.textContent = isDashboardEmpty ? 'Toggle Populated State' : 'Toggle Empty State';
+
+    const populatedStack = document.getElementById('dashPopulatedStack');
+    const emptyStack = document.getElementById('dashEmptyStack');
+    const sub = document.getElementById('pageHeaderSub');
+
+    if (isDashboardEmpty) {
+      if (populatedStack) populatedStack.style.display = 'none';
+      if (emptyStack) emptyStack.style.display = 'flex';
+      if (sub) sub.textContent = 'No active fund data yet. Create your first fund to begin.';
+      if (window.showToast) window.showToast('Switched to Empty State');
+    } else {
+      if (emptyStack) emptyStack.style.display = 'none';
+      if (populatedStack) populatedStack.style.display = 'flex';
+      if (sub) sub.textContent = 'Seedicon Venture Fund I (₹20 Cr Target) — Ecosystem Active · Vintage 2026 · Fully Subscribed';
+      if (typeof ApexCharts !== 'undefined') {
+        renderCapitalChart('all');
+        renderSectorChart();
+        renderPipelineChart();
+        renderLpChart();
+      }
+      if (window.showToast) window.showToast('Switched to Populated State');
     }
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  // Render all icons on load (Dashboard starts in empty state)
+  document.addEventListener('DOMContentLoaded', () => {
     if (typeof lucide !== 'undefined') lucide.createIcons();
   });
 </script>

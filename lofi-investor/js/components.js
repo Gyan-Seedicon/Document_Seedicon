@@ -98,10 +98,10 @@ const LayoutComponents = {
                   <span>Create Intake startup Link</span>
                 </div>
               </div>
-              <div class="dropdown-item" id="menuDataRoom">
+              <div class="dropdown-item" id="menuCreateFund">
                 <div class="dropdown-item-left">
-                  <i data-lucide="folder-lock"></i>
-                  <span>Create Data Room</span>
+                  <i data-lucide="landmark"></i>
+                  <span>Create New Fund</span>
                 </div>
               </div>
               <div class="dropdown-item" id="menuInvestmentThesis">
