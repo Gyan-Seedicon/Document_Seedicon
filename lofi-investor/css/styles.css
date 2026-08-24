@@ -490,10 +490,23 @@ html, body {
   margin: 4px 0;
 }
 
-/* Expanded Primary Sidebar (240px, Clean Flex Collapse) */
+/* Expanded Primary Sidebar (240px, Clean Flex Collapse, Full Viewport Height) */
+#mainSidebarSlot {
+  display: flex;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+#mainSidebarSlot:has(.collapsed) {
+  width: 0 !important;
+  min-width: 0 !important;
+}
+
 .main-sidebar {
   width: var(--sidebar-main-width);
   min-width: var(--sidebar-main-width);
+  height: 100%;
+  min-height: 100%;
   background: var(--bg-sidebar);
   border-right: 1px solid var(--border-main);
   display: flex;
@@ -503,6 +516,7 @@ html, body {
   overflow-y: auto;
   z-index: 70;
   padding-top: 8px;
+  box-sizing: border-box;
   transition: width 0.22s ease, min-width 0.22s ease, padding 0.22s ease, opacity 0.15s ease;
 }
 

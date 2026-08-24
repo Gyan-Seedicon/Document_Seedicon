@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     pageNav = 'deal-crm';
   } else if (pathName.includes('dd-partners') || pathName.includes('dd-onboard-builder') || pathName.includes('dd-partner-detail')) {
     pageNav = 'dd-partners';
+  } else if (pathName.includes('lps-management') || pathName.includes('lp-onboard-builder')) {
+    pageNav = 'lps-management';
   } else if (pathName.includes('founder-reports')) {
     pageNav = 'founder-reports';
   } else if (pathName.includes('lp-reporting') || pathName.includes('lp-reports')) {
@@ -51,34 +53,40 @@ document.addEventListener('DOMContentLoaded', () => {
   bindAppEvents();
 });
 
-function bindAppEvents() {
-  // Sidebar Collapse / Expand Handler
-  const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+// Global Sidebar Toggle Function
+window.toggleSidebar = function() {
   const mainSidebar = document.getElementById('mainSidebar');
   const toggleSidebarIcon = document.getElementById('toggleSidebarIcon');
-
-  function toggleSidebar() {
-    if (mainSidebar) {
-      mainSidebar.classList.toggle('collapsed');
-      const isCollapsed = mainSidebar.classList.contains('collapsed');
-      if (toggleSidebarIcon) {
-        toggleSidebarIcon.setAttribute('data-lucide', isCollapsed ? 'panel-left-open' : 'panel-left-close');
-        if (typeof lucide !== 'undefined') {
-          lucide.createIcons();
-        }
+  if (mainSidebar) {
+    mainSidebar.classList.toggle('collapsed');
+    const isCollapsed = mainSidebar.classList.contains('collapsed');
+    if (toggleSidebarIcon) {
+      toggleSidebarIcon.setAttribute('data-lucide', isCollapsed ? 'panel-left-open' : 'panel-left-close');
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
       }
     }
   }
+};
 
-  if (toggleSidebarBtn) {
-    toggleSidebarBtn.addEventListener('click', toggleSidebar);
+function bindAppEvents() {
+  // Global Event Delegation for Sidebar Collapse Button
+  document.removeEventListener('click', handleToggleClick);
+  document.addEventListener('click', handleToggleClick);
+
+  function handleToggleClick(e) {
+    const btn = e.target.closest('#toggleSidebarBtn');
+    if (btn) {
+      e.preventDefault();
+      window.toggleSidebar();
+    }
   }
 
   // Keyboard Shortcut: Cmd+[ or Ctrl+[ to toggle sidebar collapse
   document.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === '[') {
       e.preventDefault();
-      toggleSidebar();
+      window.toggleSidebar();
     }
   });
 

@@ -1,6 +1,18 @@
-/* ==========================================================================
-   SEEDICON INVESTOR PLATFORM — REUSABLE LAYOUT COMPONENTS SYSTEM
-   ========================================================================== */
+// Global Sidebar Toggle Helper (Resilient against DOM re-renders)
+window.toggleSidebar = function() {
+  const mainSidebar = document.getElementById('mainSidebar');
+  const toggleSidebarIcon = document.getElementById('toggleSidebarIcon');
+  if (mainSidebar) {
+    mainSidebar.classList.toggle('collapsed');
+    const isCollapsed = mainSidebar.classList.contains('collapsed');
+    if (toggleSidebarIcon) {
+      toggleSidebarIcon.setAttribute('data-lucide', isCollapsed ? 'panel-left-open' : 'panel-left-close');
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    }
+  }
+};
 
 const LayoutComponents = {
   // 01. Render Top Header Navbar
@@ -9,7 +21,7 @@ const LayoutComponents = {
       <header class="top-header">
         <div class="header-left">
           <!-- Sidebar Collapse Toggle Button -->
-          <button class="btn-icon" id="toggleSidebarBtn" title="Toggle Navigation Sidebar (⌘[)">
+          <button class="btn-icon" id="toggleSidebarBtn" onclick="window.toggleSidebar()" title="Toggle Navigation Sidebar (⌘[)">
             <i data-lucide="panel-left-close" id="toggleSidebarIcon"></i>
           </button>
 
