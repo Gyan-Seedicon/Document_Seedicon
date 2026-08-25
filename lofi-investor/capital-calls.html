@@ -8,6 +8,137 @@
 <link rel="stylesheet" href="./css/styles.css">
 <!-- Lucide Icons CDN -->
 <script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  /* Status Pill Badges */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .pill-active {
+    background: #EFEFEA;
+    color: #2A2A28;
+    border: 1px solid #D8D8D4;
+  }
+  .pill-onboarding {
+    background: #EFF6FF;
+    color: #1D4ED8;
+    border: 1px solid #BFDBFE;
+  }
+  .pill-rejected {
+    background: #FEF2F2;
+    color: #DC2626;
+    border: 1px solid #FECACA;
+  }
+  .pill-type {
+    background: #F4F4F2;
+    color: #4A4A48;
+    border: 1px solid #E0E0DC;
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: none;
+  }
+
+  /* Action Copy & Menu Icon Buttons */
+  .icon-action-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 3px 4px;
+    color: #8C8C88;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.12s ease;
+  }
+  .icon-action-btn:hover {
+    color: #1A1A18;
+    background: #EFEFEA;
+  }
+
+  /* Modal Backdrop & Box */
+  .decision-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(18, 18, 18, 0.45);
+    backdrop-filter: blur(2px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .decision-modal-box {
+    background: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    width: 100%;
+    max-width: 540px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-main);
+    overflow: hidden;
+    animation: modalFadeIn 0.15s ease-out;
+  }
+  @keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.97); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .decision-modal-header {
+    padding: 14px 20px;
+    background: #FFFFFF;
+    border-bottom: 1px solid var(--border-main);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .decision-modal-title {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--text-dark);
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .decision-modal-body {
+    padding: 18px 20px;
+    overflow-y: auto;
+    flex: 1;
+    background: #FAFAFA;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .decision-modal-footer {
+    padding: 12px 20px;
+    background: #FFFFFF;
+    border-top: 1px solid var(--border-main);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+    width: 100%;
+  }
+</style>
 </head>
 <body>
 
@@ -33,7 +164,6 @@
             <div class="header-titles">
               <div style="display:flex; align-items:center; gap:8px;">
                 <h1 class="page-title">LP Commitments &amp; Capital Calls</h1>
-                <span class="badge-pill neutral-soft" id="viewModeBadge">LP &amp; Capital · Preview Mode</span>
               </div>
             </div>
 
@@ -58,8 +188,8 @@
         <!-- CONTAINER FOR POPULATED STATE -->
         <div id="filledCCContainer">
 
-        <!-- 01. TOP METRIC CARDS ROW (6 CARDS) -->
-        <div class="metrics-grid" style="grid-template-columns: repeat(6, 1fr);">
+        <!-- 01. TOP METRIC CARDS ROW (4 CARDS) -->
+        <div class="metrics-grid" style="grid-template-columns: repeat(4, 1fr);">
 
           <div class="metric-card">
             <div class="metric-label">Committed Capital</div>
@@ -72,19 +202,6 @@
             <div class="metric-value" id="mCalled">₹4.30 Cr</div>
             <div class="metric-hint"><span id="mCallPct">21.5</span>% of committed</div>
             <div class="metric-progress"><div style="width:21.5%" id="mCallBar"></div></div>
-          </div>
-
-          <div class="metric-card">
-            <div class="metric-label">Total Paid</div>
-            <div class="metric-value" id="mPaid">₹4.30 Cr</div>
-            <div class="metric-hint"><span id="mPaidPct">100</span>% of called</div>
-            <div class="metric-progress"><div style="width:100%" id="mPaidBar"></div></div>
-          </div>
-
-          <div class="metric-card">
-            <div class="metric-label">Outstanding Due</div>
-            <div class="metric-value" id="mOut">₹0.00 Cr</div>
-            <div class="metric-hint" id="mOutHint">No payments outstanding</div>
           </div>
 
           <div class="metric-card">
@@ -132,23 +249,27 @@
                 </div>
               </div>
 
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>LP Name</th>
-                    <th>LP Type</th>
-                    <th class="num">Commitment</th>
-                    <th class="num">Called</th>
-                    <th class="num">Paid</th>
-                    <th class="num">Uncalled</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody id="commitTableBody"><!-- Rendered by JS --></tbody>
-              </table>
+              <div class="table-scroll">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th style="width:48px; text-align:center; white-space:nowrap;">S.No.</th>
+                      <th style="white-space:nowrap;">LP Contact Name</th>
+                      <th style="white-space:nowrap;">Entity Name</th>
+                      <th style="white-space:nowrap;">Investor Type</th>
+                      <th class="num" style="white-space:nowrap;">Commitment Amount</th>
+                      <th style="white-space:nowrap;">Committed On</th>
+                      <th style="white-space:nowrap;">Status</th>
+                      <th style="white-space:nowrap;">Approved / Rejected On</th>
+                      <th style="white-space:nowrap;">Reporting POC</th>
+                    </tr>
+                  </thead>
+                  <tbody id="commitTableBody"><!-- Rendered by JS --></tbody>
+                </table>
+              </div>
 
               <div class="table-footer">
-                <span id="commitFooterNote">Commitments come in from LPs · Click any row to view details or accept pending LP</span>
+                <span id="commitFooterNote">Click any row to review proposal, approve, or view rejection comments.</span>
                 <div style="display:flex; gap:6px;">
                   <button class="pager-btn">← Prev</button>
                   <button class="pager-btn">Next →</button>
@@ -249,24 +370,296 @@
   LayoutComponents.init({ activeNav: 'capital-calls', activeApp: 'investor' });
 
   // ---------- SAMPLE LP COMMITMENT DATA (16 LPs) ----------
-  // Commitments always come in from the LPs — the fund takes them in, no GP-initiated flow.
+  // Aligned with LPs Management and LP Registry
   const LPs = [
-    { name: 'Shikhar Kapoor',           type: 'Family Office',   comm: 2.50, called: 0.94, paid: 0.94, status: 'Accepted' },
-    { name: 'Horizon Capital Partners', type: 'Institutional',   comm: 2.40, called: 0.58, paid: 0.58, status: 'Accepted' },
-    { name: 'Ananya Raghunathan',       type: 'Trust',           comm: 2.00, called: 0.48, paid: 0.48, status: 'Accepted' },
-    { name: 'Krish Kaul',               type: 'HNI',             comm: 1.80, called: 0.43, paid: 0.43, status: 'Accepted' },
-    { name: 'Meridian Family Office',   type: 'Family Office',   comm: 1.60, called: 0.00, paid: 0.00, status: 'Pending Acceptance' },
-    { name: 'Aurum Global Trust',       type: 'Institutional',   comm: 1.40, called: 0.00, paid: 0.00, status: 'Pending Acceptance' },
-    { name: 'Vidhi Sharma',             type: 'Angel',           comm: 1.20, called: 0.29, paid: 0.29, status: 'Accepted' },
-    { name: 'Nishant Vohra',            type: 'SFO',             comm: 1.10, called: 0.26, paid: 0.26, status: 'Accepted' },
-    { name: 'Tara Investment Office',   type: 'Asset Office',    comm: 1.00, called: 0.24, paid: 0.24, status: 'Accepted' },
-    { name: 'FinCity Entrepreneurs Fund', type: 'Institutional', comm: 1.00, called: 0.24, paid: 0.24, status: 'Accepted' },
-    { name: 'Bhanu Chandrasekhar',      type: 'HNI',             comm: 0.90, called: 0.22, paid: 0.22, status: 'Accepted' },
-    { name: 'Rohan Mehta',              type: 'Founder Angel',   comm: 0.80, called: 0.19, paid: 0.19, status: 'Accepted' },
-    { name: 'Surya Nair',               type: 'Corporate',       comm: 0.70, called: 0.17, paid: 0.17, status: 'Accepted' },
-    { name: 'Devanshi Patel',           type: 'HNI',             comm: 0.60, called: 0.14, paid: 0.14, status: 'Accepted' },
-    { name: 'Arcus Capital',            type: 'Trust',           comm: 0.50, called: 0.00, paid: 0.00, status: 'Declined' },
-    { name: 'Kenji Watanabe',           type: 'Global Angel',    comm: 0.50, called: 0.12, paid: 0.12, status: 'Accepted' },
+    {
+      id: 'LP-005',
+      contactName: 'Suresh Singhania',
+      entityName: 'Meridian Family Office',
+      type: 'Family Office',
+      comm: 1.60,
+      called: 0.00,
+      paid: 0.00,
+      email: 'invest@meridianfo.com',
+      phone: '+91 22 6600 4400',
+      committedOn: '04 Mar 2024',
+      status: 'Pending',
+      decidedOn: '—',
+      reportingPocName: 'Vikram Joshi',
+      reportingPocEmail: 'reports@meridianfo.com',
+      reportingPocPhone: '+91 22 6600 4410',
+      comment: ''
+    },
+    {
+      id: 'LP-006',
+      contactName: 'Arjun Mehta',
+      entityName: 'Aurum Global Entity',
+      type: 'Institution',
+      comm: 1.40,
+      called: 0.00,
+      paid: 0.00,
+      email: 'compliance@aurumentity.org',
+      phone: '+91 11 4988 2200',
+      committedOn: '12 Mar 2024',
+      status: 'Pending',
+      decidedOn: '—',
+      reportingPocName: 'Nidhi Singhal',
+      reportingPocEmail: 'finance@aurumentity.org',
+      reportingPocPhone: '+91 11 4988 2212',
+      comment: ''
+    },
+    {
+      id: 'LP-001',
+      contactName: 'Shikhar Kapoor',
+      entityName: 'Kapoor Family Holdings',
+      type: 'Family Office',
+      comm: 2.50,
+      called: 0.94,
+      paid: 0.94,
+      email: 'shikhar.k@kapoorholdings.com',
+      phone: '+91 98200 11223',
+      committedOn: '14 Jan 2024',
+      status: 'Approved',
+      decidedOn: '18 Jan 2024',
+      reportingPocName: 'Rohan Varma',
+      reportingPocEmail: 'reports@kapoorholdings.com',
+      reportingPocPhone: '+91 98200 11223',
+      comment: 'Approved following IC resolution #2024-01.'
+    },
+    {
+      id: 'LP-002',
+      contactName: 'David Sterling',
+      entityName: 'Horizon Capital Partners',
+      type: 'Institution',
+      comm: 2.40,
+      called: 0.58,
+      paid: 0.58,
+      email: 'd.sterling@horizoncap.com',
+      phone: '+91 80 4129 8800',
+      committedOn: '02 Feb 2024',
+      status: 'Approved',
+      decidedOn: '06 Feb 2024',
+      reportingPocName: 'Elena Rostova',
+      reportingPocEmail: 'statements@horizoncap.com',
+      reportingPocPhone: '+91 80 4129 8801',
+      comment: 'Approved for institutional Class A units.'
+    },
+    {
+      id: 'LP-003',
+      contactName: 'Ananya Raghunathan',
+      entityName: 'Raghunathan Family Trust',
+      type: 'Trust',
+      comm: 2.00,
+      called: 0.48,
+      paid: 0.48,
+      email: 'ananya@raghunathan.org',
+      phone: '+91 44 2811 0022',
+      committedOn: '28 Jan 2024',
+      status: 'Approved',
+      decidedOn: '01 Feb 2024',
+      reportingPocName: 'Sanjay Varma',
+      reportingPocEmail: 'accounts@raghunathan.org',
+      reportingPocPhone: '+91 44 2811 0025',
+      comment: 'Approved following Trustee verification.'
+    },
+    {
+      id: 'LP-004',
+      contactName: 'Krish Kaul',
+      entityName: 'Krish Kaul',
+      type: 'Individual',
+      comm: 1.80,
+      called: 0.43,
+      paid: 0.43,
+      email: 'krish.kaul@alumni.stanford.edu',
+      phone: '+91 99880 44332',
+      committedOn: '10 Feb 2024',
+      status: 'Approved',
+      decidedOn: '14 Feb 2024',
+      reportingPocName: 'Krish Kaul',
+      reportingPocEmail: 'krish.kaul@alumni.stanford.edu',
+      reportingPocPhone: '+91 99880 44332',
+      comment: ''
+    },
+    {
+      id: 'LP-007',
+      contactName: 'Vidhi Sharma',
+      entityName: 'Vidhi Sharma',
+      type: 'Individual',
+      comm: 1.20,
+      called: 0.29,
+      paid: 0.29,
+      email: 'vidhi@sharmaventures.com',
+      phone: '+91 98110 22334',
+      committedOn: '15 Jan 2024',
+      status: 'Approved',
+      decidedOn: '19 Jan 2024',
+      reportingPocName: 'Vidhi Sharma',
+      reportingPocEmail: 'vidhi@sharmaventures.com',
+      reportingPocPhone: '+91 98110 22334',
+      comment: ''
+    },
+    {
+      id: 'LP-008',
+      contactName: 'Nishant Vohra',
+      entityName: 'Vohra Holdings LLC',
+      type: 'Family Office',
+      comm: 1.10,
+      called: 0.26,
+      paid: 0.26,
+      email: 'nishant@vohraholdings.com',
+      phone: '+91 98300 44920',
+      committedOn: '20 Jan 2024',
+      status: 'Approved',
+      decidedOn: '25 Jan 2024',
+      reportingPocName: 'Tarun Sen',
+      reportingPocEmail: 'ir@vohraholdings.com',
+      reportingPocPhone: '+91 98300 44925',
+      comment: ''
+    },
+    {
+      id: 'LP-009',
+      contactName: 'Tara Chand',
+      entityName: 'Tara Investment Office',
+      type: 'Family Office',
+      comm: 1.00,
+      called: 0.24,
+      paid: 0.24,
+      email: 'invest@tarainvest.in',
+      phone: '+91 11 4100 5500',
+      committedOn: '05 Feb 2024',
+      status: 'Approved',
+      decidedOn: '09 Feb 2024',
+      reportingPocName: 'Priya Das',
+      reportingPocEmail: 'accounts@tarainvest.in',
+      reportingPocPhone: '+91 11 4100 5510',
+      comment: ''
+    },
+    {
+      id: 'LP-010',
+      contactName: 'FinCity GP',
+      entityName: 'FinCity Entrepreneurs Fund',
+      type: 'Institution',
+      comm: 1.00,
+      called: 0.24,
+      paid: 0.24,
+      email: 'lp@fincityfund.com',
+      phone: '+91 80 6700 9900',
+      committedOn: '18 Jan 2024',
+      status: 'Approved',
+      decidedOn: '22 Jan 2024',
+      reportingPocName: 'Kunal Kapoor',
+      reportingPocEmail: 'reporting@fincityfund.com',
+      reportingPocPhone: '+91 80 6700 9911',
+      comment: ''
+    },
+    {
+      id: 'LP-011',
+      contactName: 'Bhanu Chandrasekhar',
+      entityName: 'Chandrasekhar Ventures',
+      type: 'Individual',
+      comm: 0.90,
+      called: 0.22,
+      paid: 0.22,
+      email: 'bhanu@chandrasekhar.in',
+      phone: '+91 40 2345 6789',
+      committedOn: '12 Jan 2024',
+      status: 'Approved',
+      decidedOn: '15 Jan 2024',
+      reportingPocName: 'Bhanu Chandrasekhar',
+      reportingPocEmail: 'bhanu@chandrasekhar.in',
+      reportingPocPhone: '+91 40 2345 6789',
+      comment: ''
+    },
+    {
+      id: 'LP-012',
+      contactName: 'Rohan Mehta',
+      entityName: 'Mehta Angel Fund',
+      type: 'Individual',
+      comm: 0.80,
+      called: 0.19,
+      paid: 0.19,
+      email: 'rohan@mehtaventures.com',
+      phone: '+91 98201 55667',
+      committedOn: '22 Jan 2024',
+      status: 'Approved',
+      decidedOn: '26 Jan 2024',
+      reportingPocName: 'Rohan Mehta',
+      reportingPocEmail: 'rohan@mehtaventures.com',
+      reportingPocPhone: '+91 98201 55667',
+      comment: ''
+    },
+    {
+      id: 'LP-013',
+      contactName: 'Surya Nair',
+      entityName: 'Nair Corporate Holdings',
+      type: 'Corporate',
+      comm: 0.70,
+      called: 0.17,
+      paid: 0.17,
+      email: 'surya@nairholdings.com',
+      phone: '+91 484 233 4455',
+      committedOn: '25 Jan 2024',
+      status: 'Approved',
+      decidedOn: '30 Jan 2024',
+      reportingPocName: 'Devika Nair',
+      reportingPocEmail: 'ir@nairholdings.com',
+      reportingPocPhone: '+91 484 233 4460',
+      comment: ''
+    },
+    {
+      id: 'LP-014',
+      contactName: 'Devanshi Patel',
+      entityName: 'Patel Family Trust',
+      type: 'Family Office',
+      comm: 0.60,
+      called: 0.14,
+      paid: 0.14,
+      email: 'devanshi@pateltrust.org',
+      phone: '+91 79 2656 7890',
+      committedOn: '27 Jan 2024',
+      status: 'Approved',
+      decidedOn: '02 Feb 2024',
+      reportingPocName: 'Jatin Patel',
+      reportingPocEmail: 'accounts@pateltrust.org',
+      reportingPocPhone: '+91 79 2656 7899',
+      comment: ''
+    },
+    {
+      id: 'LP-016',
+      contactName: 'Kenji Watanabe',
+      entityName: 'Watanabe Global',
+      type: 'Individual',
+      comm: 0.50,
+      called: 0.12,
+      paid: 0.12,
+      email: 'kenji.w@tokyo-invest.jp',
+      phone: '+81 3 5555 0143',
+      committedOn: '01 Feb 2024',
+      status: 'Approved',
+      decidedOn: '07 Feb 2024',
+      reportingPocName: 'Kenji Watanabe',
+      reportingPocEmail: 'kenji.w@tokyo-invest.jp',
+      reportingPocPhone: '+81 3 5555 0143',
+      comment: ''
+    },
+    {
+      id: 'LP-015',
+      contactName: 'Rameshwar Sen',
+      entityName: 'Arcus Capital Trust',
+      type: 'Trust',
+      comm: 0.50,
+      called: 0.00,
+      paid: 0.00,
+      email: 'ir@arcuscapital.in',
+      phone: '+91 11 2611 8899',
+      committedOn: '14 Feb 2024',
+      status: 'Rejected',
+      decidedOn: '20 Feb 2024',
+      reportingPocName: 'Rameshwar Sen',
+      reportingPocEmail: 'ir@arcuscapital.in',
+      reportingPocPhone: '+91 11 2611 8899',
+      comment: 'Fund geographic mandate conflicts with Trust deed requiring India-only investments (SEA excluded).'
+    }
   ];
 
   // ---------- CAPITAL CALLS ISSUED BY THE GP (manually maintained) ----------
@@ -295,11 +688,8 @@
     return 'Not Paid';
   }
 
-  function nowStr() {
-    const d = new Date();
-    const ds = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-    const ts = d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-    return ds + ' · ' + ts;
+  function todayDateStr() {
+    return '25 Aug 2026';
   }
 
   function set(id, val) {
@@ -309,87 +699,157 @@
     else el.textContent = val;
   }
 
+  // ---------- TOAST NOTIFICATION HELPER ----------
+  function showToast(msg, icon = 'check-circle-2') {
+    let toast = document.getElementById('toastNotification');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'toastNotification';
+      toast.style.cssText = 'position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#1A1A18; color:#FFFFFF; padding:9px 18px; border-radius:6px; font-size:12px; font-weight:600; z-index:9999; box-shadow:0 6px 20px rgba(0,0,0,0.18); display:flex; align-items:center; gap:8px; font-family:Inter,sans-serif; transition:opacity 0.2s ease;';
+      document.body.appendChild(toast);
+    }
+    const iconColor = icon === 'x-circle' ? '#F87171' : '#A3E635';
+    toast.innerHTML = `<i data-lucide="${icon}" style="width:14px; height:14px; color:${iconColor};"></i> <span>${msg}</span>`;
+    toast.style.display = 'flex';
+    toast.style.opacity = '1';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => {
+      if (toast) toast.style.opacity = '0';
+      setTimeout(() => { if (toast) toast.style.display = 'none'; }, 200);
+    }, 2800);
+  }
+
+  // ---------- COPY INLINE HELPER ----------
+  function copyToClipboard(e, text, label) {
+    if (e) e.stopPropagation();
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+    }
+    showToast(`${label} copied: ${text}`);
+  }
+
   // ---------- METRICS (all LP commitments) ----------
   function renderMetrics() {
     const tComm = totalComm();
     const tCalled = totalCalled();
-    const tPaid = totalPaid();
-    const tOut = round2(tCalled - tPaid);
     const callPct = (tCalled / tComm) * 100;
-    const paidPct = tCalled ? (tPaid / tCalled) * 100 : 0;
-    const pending = LPs.filter(lp => lp.status === 'Pending Acceptance').length;
-    const dueCount = LPs.filter(lp => round2(lp.called - lp.paid) > 0).length;
+    const pending = LPs.filter(lp => lp.status === 'Pending').length;
     const openCalls = CALLS.filter(c => round2(c.amount - c.paid) > 0).length;
     const settled = CALLS.filter(c => c.status === 'Paid').length;
 
     set('mCommit', fmtCr(tComm));
     set('mCalled', fmtCr(tCalled));
-    set('mPaid', fmtCr(tPaid));
-    set('mOut', fmtCr(tOut));
     set('mCallable', fmtCr(round2(tComm - tCalled)));
     set('mCallPct', callPct.toFixed(1));
-    set('mPaidPct', paidPct.toFixed(1));
     set('mUncalledPct', (100 - callPct).toFixed(1));
     set('mCallBar', 'width:' + callPct.toFixed(1) + '%');
-    set('mPaidBar', 'width:' + paidPct.toFixed(1) + '%');
     set('mCommitHint', LPs.length + ' LPs · ₹' + (tComm * 10).toFixed(1) + 'M' + (pending ? ' · ' + pending + ' pending' : ''));
-    set('mOutHint', dueCount > 0 ? dueCount + ' LP' + (dueCount > 1 ? 's' : '') + ' with outstanding · ' + openCalls + ' open call' + (openCalls > 1 ? 's' : '') : 'No payments outstanding');
     set('mCallsIssued', String(CALLS.length));
     set('mCallsHint', CALLS.length ? 'CC-001 → ' + CALLS[CALLS.length - 1].id + ' · ' + settled + ' settled' : 'No calls issued yet');
     set('commitAcceptedBadge', LPs.length + ' LPs');
-    set('commitFooterNote', 'Commitments come in from LPs · Uncalled = Commitment − Called');
+    set('commitFooterNote', 'Click any row to review proposal, approve, or view rejection comments.');
     set('callsOpenBadge', openCalls > 0 ? openCalls + ' open' : settled + ' settled');
-
-    set('healthCalledBadge', callPct.toFixed(1) + '% Called');
-    set('healthCalled', fmtCr(tCalled));
-    set('healthCollected', fmtCr(tPaid) + ' · ' + (paidPct || 0).toFixed(1) + '%');
-    set('healthCalledBar', 'width:' + callPct.toFixed(1) + '%');
-    set('healthCollectedBar', 'width:' + (paidPct || 0).toFixed(1) + '%');
-
-    const chips = document.getElementById('healthChips');
-    if (chips) {
-      chips.innerHTML = CALLS.map(c => {
-        const ok = c.status === 'Paid';
-        return `<div style="display:flex; justify-content:space-between;">
-          <span>${ok ? '✓' : '○'} ${c.id} ${ok ? 'settled' : 'open'}</span>
-          <span class="badge-pill ${ok ? 'neutral-dark' : 'neutral-soft'}">${c.status}</span>
-        </div>`;
-      }).join('') || `<div style="color:var(--text-light);">No capital calls issued</div>`;
-    }
-
-    const remindSub = document.getElementById('qqRemindSub');
-    if (remindSub) remindSub.textContent = openCalls > 0 ? openCalls + ' open call' + (openCalls > 1 ? 's' : '') + ' to follow up' : 'No open calls';
-    const recSub = document.getElementById('qqRecordSub');
-    if (recSub) recSub.textContent = openCalls > 0 ? 'Enter receipts on ' + openCalls + ' open' : 'No receipts pending';
   }
 
-  // ---------- COMMITMENTS TABLE (read-only — commitments come in from LPs) ----------
-  const commitStatusClass = (s) => s === 'Accepted' ? 'accepted' : (s === 'Declined' ? 'declined' : 'pending');
-
+  // ---------- COMMITMENTS TABLE (Consistent 9 Columns matching LPs Management) ----------
   function renderCommitmentsTable() {
     const tbody = document.getElementById('commitTableBody');
-    const filter = (window.__commitFilter || '').toLowerCase();
-    const rows = LPs.map((lp, i) => {
-      const uncalled = round2(lp.comm - lp.called);
-      return `<tr onclick="openCommitmentDrawer('${lp.name.replace(/'/g, "\\'")}')" style="cursor:pointer;" title="Click to view commitment profile &amp; details">
-        <td>
-          <div class="lp-cell">
-            <div class="lp-avatar">${initials(lp.name)}</div>
-            <span class="lp-name" style="font-weight:700;">${lp.name}</span>
-          </div>
-        </td>
-        <td><span class="lp-tag">${lp.type}</span></td>
-        <td class="num">${fmtCr(lp.comm)}</td>
-        <td class="num">${fmtCr(lp.called)}</td>
-        <td class="num">${fmtCr(lp.paid)}</td>
-        <td class="num"><span style="font-weight:${uncalled === 0 ? 400 : 700}; color:${uncalled === 0 ? 'var(--text-light)' : 'var(--text-dark)'};">${fmtCr(uncalled)}</span></td>
-        <td><span class="status-pill ${commitStatusClass(lp.status)}">${lp.status}</span></td>
-      </tr>`;
-    }).filter(r => r.toLowerCase().includes(filter));
+    if (!tbody) return;
+    const filter = (window.__commitFilter || '').toLowerCase().trim();
 
-    tbody.innerHTML = rows.join('') || `<tr><td colspan="7" style="text-align:center; color:var(--text-light); padding:18px;">No LPs match the search.</td></tr>`;
+    // Ensure Pending items always float to the top
+    const sortedLPs = [...LPs].sort((a, b) => {
+      if (a.status === 'Pending' && b.status !== 'Pending') return -1;
+      if (b.status === 'Pending' && a.status !== 'Pending') return 1;
+      return 0;
+    });
+
+    const filtered = sortedLPs.filter(lp => {
+      if (!filter) return true;
+      return lp.contactName.toLowerCase().includes(filter) ||
+             lp.entityName.toLowerCase().includes(filter) ||
+             lp.type.toLowerCase().includes(filter) ||
+             lp.email.toLowerCase().includes(filter) ||
+             lp.reportingPocName.toLowerCase().includes(filter) ||
+             lp.status.toLowerCase().includes(filter);
+    });
+
+    tbody.innerHTML = filtered.map((lp, idx) => {
+      const isRejected = lp.status === 'Rejected';
+      const isPending = lp.status === 'Pending';
+      const statusClass = lp.status === 'Approved' ? 'pill-active' : (isPending ? 'pill-onboarding' : 'pill-rejected');
+      const statusIcon = lp.status === 'Approved' ? 'check' : (isPending ? 'clock' : 'x');
+
+      return `
+        <tr onclick="openCommitmentDecisionModal('${lp.id}')" style="cursor:pointer;" title="Click to view commitment & decision details">
+          <!-- 01. S.No. -->
+          <td style="text-align:center; font-weight:600; font-size:11.5px; color:#8C8C88;">
+            ${idx + 1}
+          </td>
+
+          <!-- 02. LP Contact Name (with email icon) -->
+          <td style="white-space:nowrap;">
+            <div style="display:inline-flex; align-items:center; gap:6px;">
+              <span style="font-weight:700; color:#1A1A18; font-size:12px;">${lp.contactName}</span>
+              <button type="button" class="icon-action-btn" onclick="copyToClipboard(event, '${lp.email}', 'LP Email')" title="Copy email: ${lp.email}">
+                <i data-lucide="mail" style="width:12px; height:12px;"></i>
+              </button>
+            </div>
+          </td>
+
+          <!-- 03. Entity Name -->
+          <td style="white-space:nowrap;">
+            <span style="font-weight:500; color:#2A2A28; font-size:12px;">${lp.entityName}</span>
+          </td>
+
+          <!-- 04. Investor Type -->
+          <td style="white-space:nowrap;">
+            <span class="pill pill-type">${lp.type}</span>
+          </td>
+
+          <!-- 05. Commitment Amount -->
+          <td class="num" style="white-space:nowrap; font-weight:700; color:#1A1A18; font-size:12px;">
+            ₹${lp.comm.toFixed(2)} Cr
+          </td>
+
+          <!-- 06. Committed On -->
+          <td style="white-space:nowrap; color:#6A6A68; font-size:11.5px;">
+            ${lp.committedOn}
+          </td>
+
+          <!-- 07. Status -->
+          <td style="white-space:nowrap;">
+            <span class="pill ${statusClass}">
+              <i data-lucide="${statusIcon}" style="width:10px; height:10px;"></i>
+              ${lp.status.toUpperCase()}
+            </span>
+          </td>
+
+          <!-- 08. Approved / Rejected On -->
+          <td style="white-space:nowrap; color:#6A6A68; font-size:11.5px;">
+            ${lp.decidedOn || '—'}
+          </td>
+
+          <!-- 09. Reporting POC -->
+          <td style="white-space:nowrap;">
+            <div style="display:inline-flex; align-items:center; gap:6px;">
+              <span style="font-size:12px; color:#1A1A18; font-weight:600;">${lp.reportingPocName}</span>
+              <button type="button" class="icon-action-btn" onclick="copyToClipboard(event, '${lp.reportingPocEmail}', 'Reporting POC Email')" title="Copy email: ${lp.reportingPocEmail}">
+                <i data-lucide="mail" style="width:12px; height:12px;"></i>
+              </button>
+              <button type="button" class="icon-action-btn" onclick="copyToClipboard(event, '${lp.reportingPocPhone}', 'Reporting POC Phone')" title="Copy phone: ${lp.reportingPocPhone}">
+                <i data-lucide="phone" style="width:12px; height:12px;"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('') || `<tr><td colspan="9" style="text-align:center; color:var(--text-light); padding:18px;">No LPs match the search.</td></tr>`;
+
     const count = document.getElementById('tabCommitCount');
-    if (count) count.textContent = String(rows.length);
+    if (count) count.textContent = String(filtered.length);
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 
@@ -398,172 +858,205 @@
     renderCommitmentsTable();
   }
 
-  // ---------- CONDENSED LP COMMITMENT DRAWER & ACCEPT/REJECT ACTIONS ----------
-  function openCommitmentDrawer(lpName) {
-    const lp = LPs.find(x => x.name === lpName);
+  // ---------- POPUP CONFIRMATION & DECISION MODAL (No Right Drawer) ----------
+  let currentTargetLPId = null;
+
+  function openCommitmentDecisionModal(lpId) {
+    const lp = LPs.find(x => x.id === lpId);
     if (!lp) return;
+    currentTargetLPId = lpId;
 
-    const uncalled = round2(lp.comm - lp.called);
-    const allocPct = ((lp.comm / 20.00) * 100).toFixed(1);
-    const drawPct = lp.comm > 0 ? ((lp.called / lp.comm) * 100).toFixed(1) : '0.0';
-    const isPending = lp.status === 'Pending Acceptance';
-    const isAccepted = lp.status === 'Accepted';
-    const isDeclined = lp.status === 'Declined';
+    const modalSlot = document.getElementById('modalSlot');
+    if (!modalSlot) return;
 
-    const statusBadgeClass = isAccepted ? 'accepted' : (isDeclined ? 'declined' : 'pending');
+    let headerIcon = 'help-circle';
+    let headerIconColor = '#2563EB';
+    let headerTitle = 'Confirm Commitment';
+    let bodyContent = '';
+    let footerContent = '';
 
-    const bodyHtml = `
-      <div style="display:flex; flex-direction:column; gap:16px;">
-
-        <!-- LP Header Banner -->
-        <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:12px; border-bottom:1px solid var(--border-main);">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div class="lp-avatar" style="width:36px; height:36px; font-size:13px; border-radius:50%; background:#F0F0EE; display:flex; align-items:center; justify-content:center; font-weight:700; color:#2B2B28;">${initials(lp.name)}</div>
-            <div>
-              <div style="font-size:15px; font-weight:800; color:var(--text-dark);">${lp.name}</div>
-              <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
-                <span class="lp-tag" style="font-size:10px;">${lp.type}</span>
-                <span style="font-size:11px; color:var(--text-muted);">Seedicon Venture Fund I</span>
-              </div>
-            </div>
-          </div>
-          <span class="status-pill ${statusBadgeClass}">${lp.status}</span>
+    if (lp.status === 'Pending') {
+      headerIcon = 'help-circle';
+      headerIconColor = '#2563EB';
+      headerTitle = 'Confirm Commitment Proposal';
+      
+      bodyContent = `
+        <div style="font-size: 13px; color: #1A1A18; font-weight: 600; line-height: 1.45;">
+          Are you sure you want to approve or reject the commitment proposal from <strong>${lp.contactName}</strong>?
         </div>
 
-        <!-- If Pending Acceptance: Decision Callout Box -->
-        ${isPending ? `
-          <div style="background:#FBFBFA; border:1px dashed #D4D4D0; border-radius:6px; padding:12px 14px; display:flex; flex-direction:column; gap:6px;">
-            <div style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:#1A1A18;">
-              <i data-lucide="clock" style="width:14px; height:14px; color:#5A5A54;"></i>
-              <span>Pending GP Decision</span>
-            </div>
-            <p style="font-size:11.5px; color:#6A6A68; line-height:1.4; margin:0;">
-              This commitment proposal of <strong>${fmtCr(lp.comm)}</strong> was submitted by <strong>${lp.name}</strong> and requires GP confirmation before capital calls can be drawn.
-            </p>
+        <div style="background: #F8F8F7; border: 1px solid #EBEBEA; border-radius: 6px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; font-size: 12px;">
+          <div>
+            <div style="font-weight: 700; color: #1A1A18;">${lp.entityName}</div>
+            <div style="font-size: 11px; color: #71716E; margin-top: 2px;">${lp.type} · Committed on ${lp.committedOn}</div>
           </div>
-        ` : ''}
-
-        <!-- 4 Condensed Metric Cards Grid -->
-        <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px;">
-          <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; padding:10px 12px;">
-            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted);">Commitment</div>
-            <div style="font-size:14px; font-weight:800; color:var(--text-dark); margin-top:2px;">${fmtCr(lp.comm)}</div>
-            <div style="font-size:10px; color:var(--text-light); margin-top:1px;">${allocPct}% of fund</div>
-          </div>
-
-          <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; padding:10px 12px;">
-            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted);">Called</div>
-            <div style="font-size:14px; font-weight:800; color:var(--text-dark); margin-top:2px;">${fmtCr(lp.called)}</div>
-            <div style="font-size:10px; color:var(--text-light); margin-top:1px;">${drawPct}% drawn</div>
-          </div>
-
-          <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; padding:10px 12px;">
-            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted);">Paid</div>
-            <div style="font-size:14px; font-weight:800; color:var(--text-dark); margin-top:2px;">${fmtCr(lp.paid)}</div>
-            <div style="font-size:10px; color:var(--text-light); margin-top:1px;">100% settled</div>
-          </div>
-
-          <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; padding:10px 12px;">
-            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted);">Uncalled</div>
-            <div style="font-size:14px; font-weight:800; color:var(--text-dark); margin-top:2px;">${fmtCr(uncalled)}</div>
-            <div style="font-size:10px; color:var(--text-light); margin-top:1px;">Callable balance</div>
-          </div>
+          <div style="font-size: 14px; font-weight: 800; color: #1A1A18;">₹${lp.comm.toFixed(2)} Cr</div>
         </div>
 
-        <!-- Condensed Key Details Table -->
-        <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; padding:10px 14px; display:flex; flex-direction:column; gap:8px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px;">
-            <span style="color:var(--text-muted);">Investor Legal Entity</span>
-            <strong style="color:var(--text-dark);">${lp.name}</strong>
-          </div>
-          <div style="display:flex; justify-content:space-between; font-size:11.5px;">
-            <span style="color:var(--text-muted);">Investor Classification</span>
-            <span style="color:var(--text-dark); font-weight:600;">${lp.type}</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; font-size:11.5px;">
-            <span style="color:var(--text-muted);">Target Scheme</span>
-            <span style="color:var(--text-dark);">Seedicon Venture Fund I (₹20 Cr)</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; font-size:11.5px;">
-            <span style="color:var(--text-muted);">Permanent Account Number (PAN)</span>
-            <span style="font-family:var(--font-mono); font-weight:600; color:var(--text-dark);">AAACK4910P</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; font-size:11.5px;">
-            <span style="color:var(--text-muted);">Assigned GP Relationship Manager</span>
-            <span style="color:var(--text-dark);">Rahul Sharma (GP)</span>
-          </div>
+        <div id="rejectionSection" style="display: none; flex-direction: column; gap: 5px;">
+          <label style="font-size: 11.5px; font-weight: 700; color: #991B1B;">Reason for rejection (required):</label>
+          <textarea id="rejectionReasonInput" class="modal-input" placeholder="e.g. Allocation limit reached, mandate mismatch, KYC incomplete..." style="min-height: 60px; font-size: 12px; padding: 8px 10px; border: 1px solid #FCA5A5; border-radius: 6px; resize: none; width: 100%; box-sizing: border-box; outline: none; font-family: Inter, sans-serif;"></textarea>
         </div>
+      `;
 
-      </div>
-    `;
-
-    let footerHtml = '';
-    if (isPending) {
-      footerHtml = `
-        <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-          <button class="btn btn-outline" style="color:#7A2E2E; border-color:#DFD8D8;" onclick="rejectCommitment('${lp.name.replace(/'/g, "\\'")}')">
-            <i data-lucide="x"></i>
-            <span>Decline Commitment</span>
+      footerContent = `
+        <button type="button" id="btnInitiateReject" class="btn btn-outline" style="color: #DC2626; border-color: #FECACA;" onclick="toggleRejectionForm('${lp.id}')">
+          Reject
+        </button>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn btn-outline" onclick="closeCommitmentModal()">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="confirmApproveLP('${lp.id}')">
+            <i data-lucide="check" class="lucide-sm"></i>
+            <span>Approve</span>
           </button>
-          <div style="display:flex; gap:8px;">
-            <button onclick="closeDrawer()" class="btn btn-outline">Cancel</button>
-            <button class="btn btn-primary" onclick="acceptCommitment('${lp.name.replace(/'/g, "\\'")}')">
-              <i data-lucide="check"></i>
-              <span>Accept Commitment</span>
-            </button>
-          </div>
         </div>
       `;
-    } else if (isAccepted) {
-      footerHtml = `
-        <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-          <span style="font-size:11px; color:var(--text-muted);">Active in Seedicon Venture Fund I</span>
-          <div style="display:flex; gap:8px;">
-            <button onclick="closeDrawer()" class="btn btn-outline">Close</button>
-            <button class="btn btn-primary" onclick="closeDrawer(); openCreateCallModal();">
-              <i data-lucide="coins"></i>
-              <span>Issue Capital Call</span>
-            </button>
+    } else if (lp.status === 'Approved') {
+      headerIcon = 'check-circle-2';
+      headerIconColor = '#16A34A';
+      headerTitle = 'Approved Commitment';
+
+      bodyContent = `
+        <div style="font-size: 13px; color: #1A1A18; font-weight: 600; line-height: 1.45;">
+          This commitment of <strong>₹${lp.comm.toFixed(2)} Cr</strong> from <strong>${lp.contactName}</strong> is currently <strong>Approved</strong>.
+        </div>
+
+        <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 6px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; font-size: 12px;">
+          <div>
+            <div style="font-weight: 700; color: #14532D;">${lp.contactName} (${lp.entityName})</div>
+            <div style="font-size: 11px; color: #166534; margin-top: 2px;">Approved on ${lp.decidedOn} · ${lp.type}</div>
           </div>
+          <span class="pill pill-active"><i data-lucide="check" style="width:10px; height:10px;"></i> APPROVED</span>
+        </div>
+
+        <div id="rejectionSection" style="display: none; flex-direction: column; gap: 5px;">
+          <label style="font-size: 11.5px; font-weight: 700; color: #991B1B;">Reason for revoking/rejecting:</label>
+          <textarea id="rejectionReasonInput" class="modal-input" placeholder="Enter reason for revoking approval..." style="min-height: 60px; font-size: 12px; padding: 8px 10px; border: 1px solid #FCA5A5; border-radius: 6px; resize: none; width: 100%; box-sizing: border-box; outline: none; font-family: Inter, sans-serif;"></textarea>
         </div>
       `;
-    } else {
-      footerHtml = `
-        <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-          <span style="font-size:11px; color:var(--text-muted);">Commitment Declined</span>
-          <div style="display:flex; gap:8px;">
-            <button onclick="closeDrawer()" class="btn btn-outline">Close</button>
-            <button class="btn btn-primary" onclick="acceptCommitment('${lp.name.replace(/'/g, "\\'")}')">
-              <i data-lucide="rotate-ccw"></i>
-              <span>Re-evaluate &amp; Accept</span>
-            </button>
-          </div>
+
+      footerContent = `
+        <button type="button" id="btnInitiateReject" class="btn btn-outline" style="color: #DC2626; border-color: #FECACA;" onclick="toggleRejectionForm('${lp.id}')">
+          Revoke / Reject
+        </button>
+        <button type="button" class="btn btn-primary" onclick="closeCommitmentModal()">Close</button>
+      `;
+    } else { // Rejected
+      headerIcon = 'x-circle';
+      headerIconColor = '#DC2626';
+      headerTitle = 'Rejected Commitment Record';
+
+      bodyContent = `
+        <div style="font-size: 13px; color: #1A1A18; font-weight: 600; line-height: 1.45;">
+          This commitment proposal from <strong>${lp.contactName}</strong> was <strong>Rejected</strong> on ${lp.decidedOn}.
         </div>
+
+        <div style="background: #F8F8F7; border: 1px solid #EBEBEA; border-radius: 6px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; font-size: 12px;">
+          <div>
+            <div style="font-weight: 700; color: #1A1A18;">${lp.contactName} (${lp.entityName})</div>
+            <div style="font-size: 11px; color: #71716E; margin-top: 2px;">${lp.type} · Proposed ₹${lp.comm.toFixed(2)} Cr</div>
+          </div>
+          <span class="pill pill-rejected"><i data-lucide="x" style="width:10px; height:10px;"></i> REJECTED</span>
+        </div>
+
+        <div style="background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px; padding: 10px 12px; font-size: 12px;">
+          <div style="font-weight: 700; color: #991B1B; font-size: 11px; margin-bottom: 3px;">Recorded Rejection Reason:</div>
+          <div style="color: #7F1D1D; line-height: 1.4;">${lp.comment || 'No reason provided at time of rejection.'}</div>
+        </div>
+      `;
+
+      footerContent = `
+        <button type="button" class="btn btn-primary" onclick="confirmApproveLP('${lp.id}')">
+          <i data-lucide="rotate-ccw" class="lucide-sm"></i>
+          <span>Re-evaluate &amp; Approve</span>
+        </button>
+        <button type="button" class="btn btn-outline" onclick="closeCommitmentModal()">Close</button>
       `;
     }
 
-    openDrawer(lp.name, 'LP Commitment Profile', bodyHtml, footerHtml);
+    modalSlot.innerHTML = `
+      <div class="decision-modal-backdrop" id="decisionModalBackdrop" onclick="handleDecisionBackdropClick(event)">
+        <div class="decision-modal-box" style="max-width: 440px; border-radius: 10px; box-shadow: 0 16px 40px rgba(0,0,0,0.18);">
+          <div class="decision-modal-header" style="padding: 12px 18px;">
+            <div class="decision-modal-title" style="font-size: 13.5px; display: flex; align-items: center; gap: 7px;">
+              <i data-lucide="${headerIcon}" style="width: 16px; height: 16px; color: ${headerIconColor};"></i>
+              <span>${headerTitle}</span>
+            </div>
+            <button type="button" class="icon-action-btn" onclick="closeCommitmentModal()" style="padding: 2px;">
+              <i data-lucide="x" style="width: 15px; height: 15px;"></i>
+            </button>
+          </div>
+
+          <div class="decision-modal-body" style="padding: 18px; background: #FFFFFF; display: flex; flex-direction: column; gap: 12px;">
+            ${bodyContent}
+          </div>
+
+          <div class="decision-modal-footer" style="padding: 12px 18px; background: #FAFAFA; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+            ${footerContent}
+          </div>
+        </div>
+      </div>
+    `;
+
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 
-  function acceptCommitment(lpName) {
-    const lp = LPs.find(x => x.name === lpName);
-    if (!lp) return;
-    lp.status = 'Accepted';
-    renderCommitmentsTable();
-    renderMetrics();
-    closeDrawer();
-    alert(`Commitment Accepted!\n\n${lp.name}'s commitment of ${fmtCr(lp.comm)} has been accepted into Seedicon Venture Fund I.`);
+  function handleDecisionBackdropClick(e) {
+    if (e.target.id === 'decisionModalBackdrop') closeCommitmentModal();
   }
 
-  function rejectCommitment(lpName) {
-    const lp = LPs.find(x => x.name === lpName);
+  function closeCommitmentModal() {
+    const modalSlot = document.getElementById('modalSlot');
+    if (modalSlot) modalSlot.innerHTML = '';
+    currentTargetLPId = null;
+  }
+
+  function toggleRejectionForm(lpId) {
+    const sec = document.getElementById('rejectionSection');
+    const btn = document.getElementById('btnInitiateReject');
+    if (!sec) return;
+    if (sec.style.display === 'none' || !sec.style.display) {
+      sec.style.display = 'flex';
+      btn.innerHTML = `<i data-lucide="alert-triangle" class="lucide-sm"></i> <span>Confirm Rejection</span>`;
+      btn.onclick = () => confirmRejectLP(lpId);
+      document.getElementById('rejectionReasonInput')?.focus();
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  function confirmApproveLP(lpId) {
+    const lp = LPs.find(x => x.id === lpId);
     if (!lp) return;
-    lp.status = 'Declined';
+
+    lp.status = 'Approved';
+    lp.decidedOn = todayDateStr();
+    lp.comment = 'Approved by GP.';
+
+    closeCommitmentModal();
     renderCommitmentsTable();
     renderMetrics();
-    closeDrawer();
-    alert(`Commitment Declined\n\n${lp.name}'s commitment has been declined.`);
+    showToast(`Commitment proposal from ${lp.contactName} (${lp.entityName}) approved successfully.`, 'check-circle-2');
+  }
+
+  function confirmRejectLP(lpId) {
+    const lp = LPs.find(x => x.id === lpId);
+    if (!lp) return;
+
+    const reason = document.getElementById('rejectionReasonInput')?.value.trim();
+    if (!reason) {
+      alert('Please enter a rejection reason before confirming.');
+      document.getElementById('rejectionReasonInput')?.focus();
+      return;
+    }
+
+    lp.status = 'Rejected';
+    lp.decidedOn = todayDateStr();
+    lp.comment = reason;
+
+    closeCommitmentModal();
+    renderCommitmentsTable();
+    renderMetrics();
+    showToast(`Commitment proposal from ${lp.contactName} has been rejected.`, 'x-circle');
   }
 
   // ---------- CAPITAL CALLS TABLE (READ-ONLY — edit via Record payment) ----------
@@ -894,11 +1387,11 @@
 
   function openCreateCallDrawer() {
     currentCCStep = 1;
-    // Eligible = Accepted/Active LPs with available uncalled commitment > 0
+    // Eligible = Approved/Active LPs with available uncalled commitment > 0
     ccEligible = LPs.map((lp, i) => {
       const uncalled = round2(lp.comm - lp.called);
-      return { i, name: lp.name, type: lp.type, comm: lp.comm, called: lp.called, uncalled, status: lp.status, alloc: 0 };
-    }).filter(x => x.status === 'Accepted' && x.uncalled > 0);
+      return { i, name: `${lp.contactName} (${lp.entityName})`, type: lp.type, comm: lp.comm, called: lp.called, uncalled, status: lp.status, alloc: 0 };
+    }).filter(x => (x.status === 'Approved' || x.status === 'Accepted') && x.uncalled > 0);
 
     const fund = currentFundName();
     const id = nextCallId();
