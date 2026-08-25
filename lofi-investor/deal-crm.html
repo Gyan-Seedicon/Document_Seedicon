@@ -20,15 +20,15 @@
     .kanban-col {
       display: flex;
       flex-direction: column;
-      min-width: 240px;
-      max-width: 240px;
+      min-width: 260px;
+      max-width: 260px;
       background: #F4F4F2;
       border-radius: 8px;
       border: 1px solid var(--border-main);
       flex-shrink: 0;
-      margin-right: 10px;
+      margin-right: 12px;
       overflow: hidden;
-      max-height: calc(100vh - 110px);
+      max-height: calc(100vh - 120px);
     }
     .kanban-col-header {
       padding: 10px 12px 9px;
@@ -42,14 +42,8 @@
     .col-title-row {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 4px;
       min-width: 0;
-    }
-    .col-stage-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
     }
     .col-title {
       font-size: 12px;
@@ -60,15 +54,12 @@
       text-overflow: ellipsis;
       letter-spacing: -0.01em;
     }
-    .col-count {
-      font-size: 10px;
-      font-weight: 700;
+    .col-count-bracket {
+      font-size: 11.5px;
+      font-weight: 600;
       color: var(--text-muted);
-      background: var(--bg-muted);
-      border: 1px solid var(--border-main);
-      border-radius: 10px;
-      padding: 1px 6px;
       flex-shrink: 0;
+      margin-left: 2px;
     }
     .col-actions {
       display: flex;
@@ -105,7 +96,7 @@
       padding: 8px 8px 10px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
     .kanban-add-btn {
       display: flex;
@@ -130,7 +121,7 @@
       color: #1A1A18;
     }
 
-    /* ─── Deal Cards ─── */
+    /* ─── Consistent Sleek Kanban Deal Cards ─── */
     .deal-card {
       background: #FFFFFF;
       border: 1px solid #DFDEDE;
@@ -142,131 +133,15 @@
       overflow: hidden;
     }
     .deal-card:hover {
-      border-color: #B0B0AE;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+      border-color: #1A1A18;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
       transform: translateY(-1px);
-    }
-    .deal-card-inner {
-      padding: 9px 10px 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-    .deal-card-top {
-      display: flex;
-      align-items: flex-start;
-      gap: 7px;
-    }
-    .deal-card-logo {
-      width: 26px;
-      height: 26px;
-      border-radius: 5px;
-      background: #F0F0EE;
-      color: #3A3A38;
-      border: 1px solid #E0E0DE;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 9.5px;
-      flex-shrink: 0;
-      letter-spacing: -0.02em;
-    }
-    .deal-card-name {
-      font-size: 12px;
-      font-weight: 800;
-      color: #1A1A18;
-      letter-spacing: -0.01em;
-      flex: 1;
-      min-width: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      line-height: 1.2;
-    }
-    .deal-card-badges {
-      display: flex;
-      gap: 3px;
-      flex-wrap: wrap;
-      margin-top: 2px;
-    }
-    .deal-badge {
-      font-size: 9px;
-      font-weight: 700;
-      padding: 1px 5px;
-      border-radius: 3px;
-    }
-    .deal-badge-stage {
-      background: #EAEAE8;
-      color: #2A2A28;
-      border: 1px solid #D0D0CE;
-    }
-    .deal-badge-sector {
-      background: #F4F4F2;
-      color: #5A5A58;
-      border: 1px solid #E4E4E2;
-    }
-    .deal-card-metrics {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border: 1px solid #EBEBEA;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    .deal-metric-item {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-      padding: 5px 8px;
-      background: #FAFAFA;
-      border-right: 1px solid #EBEBEA;
-    }
-    .deal-metric-item:last-child { border-right: none; }
-    .deal-metric-lbl {
-      font-size: 8px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #ABABAB;
-    }
-    .deal-metric-val {
-      font-size: 11px;
-      font-weight: 800;
-      color: #1A1A18;
-      letter-spacing: -0.01em;
-    }
-    .deal-card-footer {
-      padding: 6px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #F7F7F5;
-      border-top: 1px solid #EBEBEA;
-      font-size: 9.5px;
-      color: #9A9A96;
-    }
-    .deal-assignee {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .deal-avatar-sm {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: #3A3A38;
-      color: #FFF;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 7px;
-      font-weight: 800;
     }
 
     /* ─── Add Stage Column Button ─── */
     .add-stage-col {
-      min-width: 200px;
-      max-width: 200px;
+      min-width: 220px;
+      max-width: 220px;
       background: transparent;
       border: 1.5px dashed #CACAC8;
       border-radius: 8px;
@@ -279,7 +154,7 @@
       cursor: pointer;
       flex-shrink: 0;
       transition: background 0.12s, border-color 0.12s;
-      margin-right: 10px;
+      margin-right: 12px;
     }
     .add-stage-col:hover {
       background: #F5F5F3;
@@ -514,244 +389,219 @@
       color: #1A1A18;
     }
     .view-toggle {
-      display: flex; background: #F0F0EE; padding: 2px; border-radius: 6px;
-      border: 1px solid #E0E0DE; gap: 1px;
+      display: flex;
+      background: #F0F0EE;
+      padding: 2px;
+      border-radius: 6px;
+      border: 1px solid #E0E0DE;
+      gap: 1px;
     }
     .view-toggle button {
-      display: flex; align-items: center; gap: 4px; padding: 3px 9px;
-      border-radius: 4px; border: none; background: transparent;
-      font-size: 11px; font-weight: 500; color: #7A7A78; cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 24px;
+      border-radius: 4px;
+      border: none;
+      background: transparent;
+      color: #7A7A78;
+      cursor: pointer;
       font-family: Inter, sans-serif;
+      transition: all 0.1s ease;
     }
     .view-toggle button.active {
-      border: 1px solid #C8C8C6; background: #FFFFFF; font-weight: 700; color: #1A1A18;
+      border: 1px solid #C8C8C6;
+      background: #FFFFFF;
+      color: #1A1A18;
     }
-    .group-count-pill {
-      font-size: 12px; font-weight: 700; color: var(--text-muted);
-      background: var(--bg-muted); border: 1px solid var(--border-main);
-      border-radius: 10px; padding: 1px 8px;
-    }
+
     .group-empty {
-      background: #FFFFFF; border: 1px dashed #DCDCDA; border-radius: 8px;
-      padding: 44px 24px; text-align: center; color: var(--text-muted);
+      background: #FFFFFF;
+      border: 1px dashed #DCDCDA;
+      border-radius: 8px;
+      padding: 48px 24px;
+      text-align: center;
+      color: var(--text-muted);
     }
-    .group-empty div { font-size: 13px; font-weight: 800; color: #2A2A28; margin-top: 8px; }
+    .group-empty div { font-size: 13.5px; font-weight: 800; color: #2A2A28; margin-top: 8px; }
     .group-empty p { font-size: 11.5px; color: #8C8C88; margin-top: 4px; }
 
-    /* ─── List View Table ─── */
-    .table-scroll { overflow-x: auto; }
-    .company-cell { display: flex; align-items: center; gap: 9px; min-width: 0; }
-    .company-logo {
-      width: 26px; height: 26px; border-radius: 5px;
-      background: #1A1A18; color: #FFFFFF;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 10px; flex-shrink: 0;
+    /* ─── Filter Sidebar (Matching startups-pool.html) ─── */
+    .filter-group {
+      border-bottom: 1px solid #EBEBEA;
+      padding-bottom: 11px;
+      margin-bottom: 11px;
     }
-    .company-name {
-      font-weight: 700; color: #1A1A18;
-      max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    .filter-group:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .filter-title {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #1A1A18;
+      margin-bottom: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .sector-pill {
-      font-size: 8.5px; font-weight: 700; padding: 1.5px 6px; border-radius: 3px;
-      border: 1px solid #DCDCDA; text-transform: uppercase; letter-spacing: 0.04em;
-      color: #5A5A58; background: #F0F0EE; white-space: nowrap;
+    .filter-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: #5A5A58;
+      padding: 3px 0;
+      cursor: pointer;
+      transition: color 0.1s;
     }
-    .stage-tag {
-      font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 12px;
-      background: #F0F0EE; border: 1px solid #DCDCDA; color: #2A2A28; white-space: nowrap;
+    .filter-option:hover { color: #1A1A18; }
+    .filter-option input[type="checkbox"],
+    .filter-option input[type="radio"] {
+      accent-color: #1A1A18;
+      cursor: pointer;
+      width: 13px;
+      height: 13px;
     }
-    .data-table.list-table {
-      width: 100%; border-collapse: collapse; min-width: 720px;
+    .filter-count {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: #8C8C88;
+      background: #F0F0EE;
+      border-radius: 4px;
+      padding: 1px 5px;
+      border: 1px solid #E4E4E2;
     }
-    .data-table.list-table thead th {
-      text-align: left; font-size: 9.5px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.06em; color: #8C8C88; padding: 7px 12px;
-      border-bottom: 1px solid #EBEBEA; background: #FAFAFA; white-space: nowrap;
-    }
-    .data-table.list-table thead th.num { text-align: right; }
-    .data-table.list-table tbody td {
-      padding: 6px 12px; font-size: 11.5px; color: #3A3A38;
-      border-bottom: 1px solid #F1F1EF; vertical-align: middle; white-space: nowrap; height: 40px;
-    }
-    .data-table.list-table tbody td.num { text-align: right; }
-    .data-table.list-table tbody tr { cursor: pointer; }
-    .data-table.list-table tbody tr:hover td { background: #FAFAFA; }
-    .data-table.list-table tbody tr:last-child td { border-bottom: none; }
 
-    /* ─── Startup-Style Card View (matches startups-pool.html) ─── */
-    .startup-card {
+    /* ─── Rounded Square Chips (Not Pill) ─── */
+    .badge-chip {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px; /* Rounded square */
+      background: #F4F4F2;
+      color: #2A2A28;
+      border: 1px solid #DFDFDC;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      letter-spacing: 0.01em;
+    }
+
+    /* ─── Single-Row Horizontal Startup Card (1 Card Per Row) ─── */
+    .startup-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .startup-row-card {
       background: #FFFFFF;
       border: 1px solid #DFDEDE;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
-      transition: border-color 0.13s, box-shadow 0.13s, transform 0.1s;
-      overflow: hidden;
-    }
-    .startup-card:hover {
-      border-color: #B0B0AE;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-      transform: translateY(-1px);
-    }
-    .card-header {
+      transition: border-color 0.13s ease, box-shadow 0.13s ease;
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 16px 11px;
-      border-bottom: 1px solid #F0F0EE;
+      flex-direction: column;
+      overflow: hidden;
+      width: 100%;
+      box-sizing: border-box;
     }
+    .startup-row-card:hover {
+      border-color: #1A1A18;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    /* Neutral Black Logo */
     .card-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 7px;
-      background: #F0F0EE;
-      color: #3A3A38;
-      border: 1px solid #E0E0DE;
+      width: 42px;
+      height: 42px;
+      border-radius: 4px;
+      background: #1A1A18;
+      color: #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 12.5px;
+      font-size: 11.5px;
       flex-shrink: 0;
       letter-spacing: -0.02em;
     }
-    .card-title-block { flex: 1; min-width: 0; }
-    .card-company-name {
-      font-size: 14px;
+
+    .company-title-link {
+      font-size: 13.5px;
       font-weight: 800;
-      color: #1A1A18;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
+      letter-spacing: -0.01em;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .card-meta-row {
-      display: flex;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
       align-items: center;
       gap: 5px;
-      margin-top: 4px;
-      flex-wrap: wrap;
+      color: #1A1A18;
     }
-    .card-badge {
-      font-size: 9.5px;
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 4px;
-      letter-spacing: 0.02em;
+
+    .card-website-btn {
+      color: #8C8C88;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+      text-decoration: none;
+      transition: color 0.1s ease;
     }
-    .badge-stage {
-      background: #EAEAE8;
-      color: #2A2A28;
-      border: 1px solid #D0D0CE;
+    .card-website-btn:hover {
+      color: #1A1A18;
     }
-    .badge-sector {
-      background: #F4F4F2;
-      color: #5A5A58;
-      border: 1px solid #E4E4E2;
-    }
-    .status-pill {
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 12px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .status-New        { background: #F0F0EE; color: #3A3A38; border: 1px solid #DCDCDA; }
-    .status-Reviewed   { background: #EAEAE8; color: #2A2A28; border: 1px solid #D0D0CE; }
-    .status-Shortlisted{ background: #1A1A18; color: #FFFFFF; border: 1px solid #1A1A18; }
-    .status-In-Pipeline{ background: #2E2E2C; color: #FFFFFF; border: 1px solid #2E2E2C; }
-    .status-Passed     { background: #F5F5F3; color: #8C8C88; border: 1px solid #E0E0DE; }
-    .card-pitch {
-      padding: 10px 16px;
+
+    /* ─── Table View (Strictly Single-Line Rows) ─── */
+    .pool-table {
+      width: 100%;
+      border-collapse: collapse;
       font-size: 12px;
-      color: #5A5A58;
-      line-height: 1.5;
-      border-bottom: 1px solid #F0F0EE;
+      table-layout: fixed;
     }
-    .card-metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-bottom: 1px solid #F0F0EE;
-    }
-    .metric-cell {
-      padding: 9px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      border-right: 1px solid #F0F0EE;
-    }
-    .metric-cell:last-child { border-right: none; }
-    .metric-lbl {
-      font-size: 9px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #A8A8A4;
-    }
-    .metric-val {
-      font-size: 12.5px;
-      font-weight: 800;
-      color: #1A1A18;
-      letter-spacing: -0.01em;
-    }
-    .card-footer {
-      padding: 8px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #FAFAFA;
-    }
-    .card-footer-date {
-      font-size: 10.5px;
-      color: #9A9A96;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .btn-view-detail {
-      font-size: 11px;
-      font-weight: 700;
-      color: #1A1A18;
-      background: #F0F0EE;
-      border: 1px solid #D4D4D2;
-      border-radius: 5px;
-      padding: 4px 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      transition: background 0.12s, border-color 0.12s;
-    }
-    .btn-view-detail:hover {
-      background: #1A1A18;
-      color: #FFFFFF;
-      border-color: #1A1A18;
-    }
-    .pool-table { width: 100%; border-collapse: collapse; min-width: 720px; }
     .pool-table th {
       text-align: left;
       font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       color: #8C8C88;
-      padding: 9px 14px;
+      padding: 9px 12px;
       border-bottom: 1px solid #EBEBEA;
       background: #FAFAFA;
+      white-space: nowrap;
     }
     .pool-table th.num { text-align: right; }
     .pool-table td {
-      padding: 10px 14px;
-      font-size: 12px;
+      padding: 9px 12px;
       color: #3A3A38;
       border-bottom: 1px solid #F3F3F1;
       vertical-align: middle;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .pool-table td.num { text-align: right; font-weight: 700; }
+    .pool-table td.num {
+      text-align: right;
+      font-weight: 700;
+      color: #1A1A18;
+      white-space: nowrap;
+    }
     .pool-table tr:hover td { background: #FAFAFA; }
     .pool-table tr:last-child td { border-bottom: none; }
+
+    .tagline-truncated {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #5A5A58;
+      font-size: 11.5px;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -802,92 +652,123 @@
 
     let DEALS = [
       {
-        id: 'd1', stage: 'potential', name: 'Alpha Health', avatar: 'AH',
-        sector: 'Healthcare', stageBadge: 'Pre-Seed', ask: '$3.00M', arr: '$850K',
-        assignee: 'SK', date: 'Mar 1', priority: 'high',
+        id: 'd1', stage: 'potential', name: 'Alpha Health AI', avatar: 'AH',
+        sector: 'Healthcare', stageBadge: 'Pre-Seed', ask: '$3.00M', askVal: 3.0, raised: '$2.00M', arr: '$850K', arrVal: 0.85,
+        city: 'San Francisco', location: 'San Francisco, USA', website: 'https://alphahealth.ai',
+        tagline: 'Next-gen predictive diagnostic AI for early disease detection across clinical hospital networks.',
+        assignee: 'SK', date: 'Mar 1', priority: 'high', addedOn: '01 Mar 2026',
         detailId: 'sup_1'
       },
       {
         id: 'd2', stage: 'potential', name: 'NeuroPulse Health', avatar: 'NP',
-        sector: 'Healthcare', stageBadge: 'Pre-Seed', ask: '$1.80M', arr: '$300K',
-        assignee: 'AR', date: 'Mar 2', priority: 'medium',
+        sector: 'Healthcare', stageBadge: 'Pre-Seed', ask: '$1.80M', askVal: 1.8, raised: '$500K', arr: '$300K', arrVal: 0.30,
+        city: 'Boston', location: 'Boston, USA', website: 'https://neuropulse.health',
+        tagline: 'Non-invasive EEG neural headband monitoring for early concussion detection in athletes.',
+        assignee: 'AR', date: 'Mar 2', priority: 'medium', addedOn: '02 Mar 2026',
         detailId: 'sup_6'
       },
       {
         id: 'd3', stage: 'potential', name: 'EcoPulse Energy', avatar: 'EP',
-        sector: 'CleanTech', stageBadge: 'Seed', ask: '$3.50M', arr: '$600K',
-        assignee: 'SK', date: 'Mar 3', priority: 'medium',
+        sector: 'CleanTech', stageBadge: 'Seed', ask: '$3.50M', askVal: 3.5, raised: '$1.50M', arr: '$600K', arrVal: 0.60,
+        city: 'Austin', location: 'Austin, USA', website: 'https://ecopulse.energy',
+        tagline: 'Smart grid battery storage optimization using predictive thermodynamic machine learning models.',
+        assignee: 'SK', date: 'Mar 3', priority: 'medium', addedOn: '03 Mar 2026',
         detailId: 'sup_5'
       },
       {
-        id: 'd4', stage: 'evaluation', name: 'Apex AI', avatar: 'AA',
-        sector: 'AI', stageBadge: 'Seed', ask: '₹5 Cr', arr: '₹1.5 Cr',
-        assignee: 'AR', date: 'Feb 25', priority: 'high',
+        id: 'd4', stage: 'evaluation', name: 'Apex AI Systems', avatar: 'AA',
+        sector: 'Artificial Intelligence', stageBadge: 'Seed', ask: '₹5.00 Cr', askVal: 5.0, raised: '₹2.00 Cr', arr: '₹1.50 Cr', arrVal: 1.50,
+        city: 'Bengaluru', location: 'Bengaluru, India', website: 'https://apexai.io',
+        tagline: 'Autonomous agent platform for enterprise financial workflows and automated invoice reconciliation.',
+        assignee: 'AR', date: 'Feb 25', priority: 'high', addedOn: '25 Feb 2026',
         detailId: 'sup_2'
       },
       {
         id: 'd5', stage: 'evaluation', name: 'DataMesh Labs', avatar: 'DM',
-        sector: 'SaaS', stageBadge: 'Seed', ask: '$2.00M', arr: '$700K',
-        assignee: 'SK', date: 'Feb 22', priority: 'medium',
+        sector: 'SaaS / Security', stageBadge: 'Seed', ask: '$2.00M', askVal: 2.0, raised: '$800K', arr: '$700K', arrVal: 0.70,
+        city: 'San Francisco', location: 'San Francisco, USA', website: 'https://datameshlabs.io',
+        tagline: 'Federated data governance and schema drift detection for modern snowflake-lakehouse stacks.',
+        assignee: 'SK', date: 'Feb 22', priority: 'medium', addedOn: '22 Feb 2026',
         detailId: null
       },
       {
-        id: 'd6', stage: 'evaluation', name: 'CloudCraft', avatar: 'CC',
-        sector: 'SaaS', stageBadge: 'Pre-Seed', ask: '$1.20M', arr: '$200K',
-        assignee: 'VR', date: 'Feb 20', priority: 'low',
+        id: 'd6', stage: 'evaluation', name: 'CloudCraft Infra', avatar: 'CC',
+        sector: 'SaaS / Security', stageBadge: 'Pre-Seed', ask: '$1.20M', askVal: 1.2, raised: '$400K', arr: '$200K', arrVal: 0.20,
+        city: 'Bengaluru', location: 'Bengaluru, India', website: 'https://cloudcraftinfra.com',
+        tagline: 'Automated Kubernetes multi-cloud cost remediation and rightsizing engine for devops.',
+        assignee: 'VR', date: 'Feb 20', priority: 'low', addedOn: '20 Feb 2026',
         detailId: null
       },
       {
         id: 'd7', stage: 'due-diligence', name: 'FinFlow Tech', avatar: 'FF',
-        sector: 'FinTech', stageBadge: 'Seed', ask: '$2.50M', arr: '$1.2M',
-        assignee: 'SK', date: 'Feb 18', priority: 'high',
+        sector: 'FinTech', stageBadge: 'Seed', ask: '$2.50M', askVal: 2.5, raised: '$1.00M', arr: '$1.20M', arrVal: 1.20,
+        city: 'London', location: 'London, UK', website: 'https://finflow.global',
+        tagline: 'Cross-border liquidity engine enabling real-time instant settlement for corporate multi-currency treasury.',
+        assignee: 'SK', date: 'Feb 18', priority: 'high', addedOn: '18 Feb 2026',
         detailId: 'sup_3'
       },
       {
         id: 'd8', stage: 'due-diligence', name: 'LogiChain Labs', avatar: 'LC',
-        sector: 'Logistics', stageBadge: 'Series A', ask: '€4.00M', arr: '€2.8M',
-        assignee: 'AR', date: 'Feb 15', priority: 'high',
+        sector: 'Logistics', stageBadge: 'Series A', ask: '€4.00M', askVal: 4.0, raised: '€2.50M', arr: '€2.80M', arrVal: 2.80,
+        city: 'Berlin', location: 'Berlin, Germany', website: 'https://logichain.de',
+        tagline: 'Decentralized cold-chain sensor tracking and predictive ETA intelligence for international ocean freight.',
+        assignee: 'AR', date: 'Feb 15', priority: 'high', addedOn: '15 Feb 2026',
         detailId: 'sup_4'
       },
       {
         id: 'd9', stage: 'ic-decision', name: 'BioCore Diagnostics', avatar: 'BC',
-        sector: 'BioTech', stageBadge: 'Seed', ask: '$3.00M', arr: '$1.1M',
-        assignee: 'SK', date: 'Feb 10', priority: 'high',
+        sector: 'Healthcare', stageBadge: 'Seed', ask: '$3.00M', askVal: 3.0, raised: '$1.40M', arr: '$1.10M', arrVal: 1.10,
+        city: 'Boston', location: 'Boston, USA', website: 'https://biocoredx.com',
+        tagline: 'Ultra-sensitive microfluidic blood assays for point-of-care infectious disease diagnostics.',
+        assignee: 'SK', date: 'Feb 10', priority: 'high', addedOn: '10 Feb 2026',
         detailId: null
       },
       {
         id: 'd10', stage: 'ic-decision', name: 'RoboFarm AI', avatar: 'RF',
-        sector: 'AgriTech', stageBadge: 'Pre-Seed', ask: '$800K', arr: '$180K',
-        assignee: 'VR', date: 'Feb 8', priority: 'medium',
+        sector: 'CleanTech', stageBadge: 'Pre-Seed', ask: '$800K', askVal: 0.8, raised: '$250K', arr: '$180K', arrVal: 0.18,
+        city: 'Austin', location: 'Austin, USA', website: 'https://robofarm.ai',
+        tagline: 'Autonomous weeding and micro-dosing pesticide robots for organic fruit orchards.',
+        assignee: 'VR', date: 'Feb 8', priority: 'medium', addedOn: '08 Feb 2026',
         detailId: null
       },
       {
         id: 'd11', stage: 'term-sheet', name: 'SkyTrack Mobility', avatar: 'ST',
-        sector: 'Mobility', stageBadge: 'Series A', ask: '$5.00M', arr: '$3.2M',
-        assignee: 'SK', date: 'Jan 28', priority: 'high',
+        sector: 'Logistics', stageBadge: 'Series A', ask: '$5.00M', askVal: 5.0, raised: '$3.20M', arr: '$3.20M', arrVal: 3.20,
+        city: 'London', location: 'London, UK', website: 'https://skytrack.co.uk',
+        tagline: 'Drone corridor management and autonomous middle-mile parcel logistics network.',
+        assignee: 'SK', date: 'Jan 28', priority: 'high', addedOn: '28 Jan 2026',
         detailId: null
       },
       {
-        id: 'd12', stage: 'closing', name: 'NovaPay', avatar: 'NV',
-        sector: 'FinTech', stageBadge: 'Seed', ask: '$2.00M', arr: '$900K',
-        assignee: 'AR', date: 'Jan 15', priority: 'high',
+        id: 'd12', stage: 'closing', name: 'NovaPay Global', avatar: 'NV',
+        sector: 'FinTech', stageBadge: 'Seed', ask: '$2.00M', askVal: 2.0, raised: '$1.10M', arr: '$900K', arrVal: 0.90,
+        city: 'Singapore', location: 'Singapore', website: 'https://novapay.sg',
+        tagline: 'Unified merchant checkout gateway and local QR rails aggregator across Southeast Asia.',
+        assignee: 'AR', date: 'Jan 15', priority: 'high', addedOn: '15 Jan 2026',
         detailId: null
       },
       {
         id: 'd13', stage: 'invested', name: 'GreenLeaf Foods', avatar: 'GL',
-        sector: 'FoodTech', stageBadge: 'Pre-Seed', ask: '$1.50M', arr: '$400K',
-        assignee: 'SK', date: 'Dec 2025', priority: 'high',
+        sector: 'CleanTech', stageBadge: 'Pre-Seed', ask: '$1.50M', askVal: 1.5, raised: '$700K', arr: '$400K', arrVal: 0.40,
+        city: 'San Francisco', location: 'San Francisco, USA', website: 'https://greenleaffoods.com',
+        tagline: 'Plant-protein bioreactors generating sustainable mycelium biomass for commercial food processors.',
+        assignee: 'SK', date: 'Dec 2025', priority: 'high', addedOn: '14 Dec 2025',
         detailId: null
       },
       {
         id: 'd14', stage: 'invested', name: 'AquaFlow Systems', avatar: 'AQ',
-        sector: 'CleanTech', stageBadge: 'Seed', ask: '$2.50M', arr: '$800K',
-        assignee: 'AR', date: 'Nov 2025', priority: 'high',
+        sector: 'CleanTech', stageBadge: 'Seed', ask: '$2.50M', askVal: 2.5, raised: '$1.20M', arr: '$800K', arrVal: 0.80,
+        city: 'Berlin', location: 'Berlin, Germany', website: 'https://aquaflow.eu',
+        tagline: 'Smart acoustic leakage telemetry and robotic pipe repair for municipal water utilities.',
+        assignee: 'AR', date: 'Nov 2025', priority: 'high', addedOn: '20 Nov 2025',
         detailId: null
       }
     ];
 
     const PRIORITY_DOT = { high: '#1A1A18', medium: '#7A7A78', low: '#C8C8C4' };
+
+    // Track read / visited deals
+    let readDealSet = new Set(['d1', 'd4']);
 
     // ──────────────────────────────────────────────────────────────────────────
     // GROUPS & CATEGORIES
@@ -990,21 +871,14 @@
                     </div>
                   </div>
 
-                  <!-- Monochrome Folder Graphic (matches vdr.html) -->
+                  <!-- Monochrome Folder Graphic -->
                   <div class="crm-folder-card-graphic">
                     <svg class="crm-folder-big-svg" viewBox="0 0 96 76" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <!-- Top white document sheet with subtle grey lines -->
                       <rect x="26" y="7" width="44" height="24" rx="3.5" fill="#FFFFFF" stroke="#D4D4CE" stroke-width="1.2"/>
                       <line x1="33" y1="13" x2="55" y2="13" stroke="#D4D4CE" stroke-width="1.2" stroke-linecap="round"/>
                       <line x1="33" y1="18" x2="46" y2="18" stroke="#E5E5E0" stroke-width="1.2" stroke-linecap="round"/>
-                      
-                      <!-- Back neutral folder tab -->
                       <path d="M8 17C8 12.5817 11.5817 9 16 9H34C36.2 9 38.3 10.1 39.5 11.9L42.5 16.1C43.7 17.9 45.8 19 48 19H80C84.4183 19 88 22.5817 88 27V60C88 64.4183 84.4183 68 80 68H16C11.5817 68 8 64.4183 8 60V17Z" fill="#D4D4CE"/>
-                      
-                      <!-- Front neutral folder body -->
                       <path d="M8 25C8 20.5817 11.5817 17 16 17H80C84.4183 17 88 20.5817 88 25V60C88 64.4183 84.4183 68 80 68H16C11.5817 68 8 64.4183 8 60V25Z" fill="#EAEAE7" stroke="#D4D4CE" stroke-width="1"/>
-                      
-                      <!-- Front top lip highlight line -->
                       <line x1="16" y1="18" x2="80" y2="18" stroke="#F5F5F3" stroke-width="1.5" stroke-linecap="round"/>
                     </svg>
                   </div>
@@ -1068,7 +942,7 @@
 
             <div style="display:flex; align-items:center; gap:8px;">
               <h1 style="font-size:17px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em; margin:0;">${g.name}</h1>
-              <span style="font-size:12px; font-weight:600; color:var(--text-muted);">(${deals.length})</span>
+              <span id="groupDetailCount" style="font-size:12px; font-weight:600; color:var(--text-muted);">(${deals.length})</span>
             </div>
             <p style="font-size:11.5px; color:var(--text-muted); margin-top:2px; margin-bottom:0;">${g.updated}</p>
           </div>
@@ -1076,26 +950,129 @@
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
             <div style="display:flex; align-items:center; gap:6px; background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:5px 10px; font-size:12px; color:var(--text-muted);">
               <i data-lucide="search" class="lucide-sm"></i>
-              <input type="text" id="searchDeals" onkeyup="filterDeals()" placeholder="Search in ${g.name}..." style="border:none; background:transparent; outline:none; font-family:Inter; font-size:12px; width:160px; color:var(--text-dark);" />
+              <input type="text" id="searchDeals" onkeyup="onGroupSearchChange()" placeholder="Search in ${g.name}..." style="border:none; background:transparent; outline:none; font-family:Inter; font-size:12px; width:160px; color:var(--text-dark);" />
             </div>
 
+            <!-- Icon-Only Toggle Buttons for Board, Cards, and Table -->
             <div class="view-toggle">
-              <button id="btnGroupViewBoard" onclick="setGroupViewMode('board')" class="${groupViewMode === 'board' ? 'active' : ''}">
-                <i data-lucide="kanban" style="width:12px; height:12px;"></i> Board
+              <button id="btnGroupViewBoard" onclick="setGroupViewMode('board')" title="Board View" class="${groupViewMode === 'board' ? 'active' : ''}">
+                <i data-lucide="kanban" style="width:13px; height:13px;"></i>
               </button>
-              <button id="btnGroupViewCards" onclick="setGroupViewMode('cards')" class="${groupViewMode === 'cards' ? 'active' : ''}">
-                <i data-lucide="layout-grid" style="width:12px; height:12px;"></i> Cards
+              <button id="btnGroupViewCards" onclick="setGroupViewMode('cards')" title="Cards View" class="${groupViewMode === 'cards' ? 'active' : ''}">
+                <i data-lucide="layout-grid" style="width:13px; height:13px;"></i>
               </button>
-              <button id="btnGroupViewList" onclick="setGroupViewMode('list')" class="${groupViewMode === 'list' ? 'active' : ''}">
-                <i data-lucide="list" style="width:12px; height:12px;"></i> Table
+              <button id="btnGroupViewList" onclick="setGroupViewMode('list')" title="Table View" class="${groupViewMode === 'list' ? 'active' : ''}">
+                <i data-lucide="list" style="width:13px; height:13px;"></i>
               </button>
             </div>
           </div>
         </div>
 
-        <div style="padding:16px 20px 20px;">
-          ${groupViewMode === 'board' ? renderGroupBoard(g) : groupViewMode === 'cards' ? renderGroupCards(g) : renderGroupList(g)}
-        </div>
+        ${groupViewMode === 'board' ? `
+          <!-- BOARD VIEW: Sleek Kanban with Bracket Counts -->
+          <div style="padding:16px 20px 20px; overflow-x:auto;">
+            ${renderGroupBoard(g)}
+          </div>
+        ` : `
+          <!-- 2-COLUMN LAYOUT MATCHING STARTUPS-POOL.HTML FOR CARDS AND TABLE -->
+          <div style="display:grid; grid-template-columns:220px 1fr; gap:16px; padding:16px 20px; align-items:start;">
+            
+            <!-- LEFT FILTER SIDEBAR -->
+            <aside style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:6px; padding:14px; position:sticky; top:68px; max-height:calc(100vh - 85px); overflow-y:auto;">
+              <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:10px; border-bottom:1px solid #EBEBEA; margin-bottom:12px;">
+                <span style="font-size:11px; font-weight:800; color:#1A1A18; display:flex; align-items:center; gap:5px;">
+                  <i data-lucide="sliders-horizontal" style="width:13px; height:13px;"></i>
+                  Filters
+                </span>
+                <button onclick="resetGroupFilters()" style="font-size:10px; font-weight:700; color:#7A7A78; background:transparent; border:1px solid #E0E0DE; border-radius:4px; padding:2px 7px; cursor:pointer; font-family:Inter,sans-serif;">Reset</button>
+              </div>
+
+              <!-- Sort By -->
+              <div class="filter-group">
+                <div class="filter-title">Sort By</div>
+                <select id="groupSortSelect" onchange="filterGroupStartups()" style="width:100%; border:1px solid #E0E0DE; border-radius:4px; padding:5px 8px; font-size:11.5px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none; box-sizing:border-box;">
+                  <option value="newest">Newest Added</option>
+                  <option value="ask_desc">Ask Amount ↓</option>
+                  <option value="arr_desc">ARR Revenue ↓</option>
+                  <option value="name">Company Name A–Z</option>
+                </select>
+              </div>
+
+              <!-- Pipeline Stage Filter -->
+              <div class="filter-group">
+                <div class="filter-title">Pipeline Stage</div>
+                <label class="filter-option">
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <input type="radio" name="groupStageRadio" value="all" checked onchange="filterGroupStartups()" />
+                    <span>All Stages</span>
+                  </div>
+                  <span class="filter-count" id="countAllGroupDeals">${deals.length}</span>
+                </label>
+                ${STAGES.filter(s => deals.some(d => d.stage === s.id)).map(s => {
+                  const stageCount = deals.filter(d => d.stage === s.id).length;
+                  return `
+                    <label class="filter-option">
+                      <div style="display:flex;align-items:center;gap:6px;">
+                        <input type="radio" name="groupStageRadio" value="${s.id}" onchange="filterGroupStartups()" />
+                        <span>${s.label}</span>
+                      </div>
+                      <span class="filter-count">${stageCount}</span>
+                    </label>
+                  `;
+                }).join('')}
+              </div>
+
+              <!-- Location (City) Dropdown Select -->
+              <div class="filter-group">
+                <div class="filter-title">Location (City)</div>
+                <select id="groupCitySelect" onchange="filterGroupStartups()" style="width:100%; border:1px solid #E0E0DE; border-radius:4px; padding:5px 8px; font-size:11.5px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none; box-sizing:border-box;">
+                  <option value="">All Cities</option>
+                  <option value="San Francisco">San Francisco, USA</option>
+                  <option value="Bengaluru">Bengaluru, India</option>
+                  <option value="Boston">Boston, USA</option>
+                  <option value="London">London, UK</option>
+                  <option value="Berlin">Berlin, Germany</option>
+                  <option value="Austin">Austin, USA</option>
+                  <option value="Singapore">Singapore</option>
+                </select>
+              </div>
+
+              <!-- Industry / Sector -->
+              <div class="filter-group">
+                <div class="filter-title">Industry / Sector</div>
+                <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" class="groupSectorCb" value="Healthcare" onchange="filterGroupStartups()" /> Healthcare</div><span class="filter-count">${deals.filter(d => d.sector === 'Healthcare').length}</span></label>
+                <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" class="groupSectorCb" value="Artificial Intelligence" onchange="filterGroupStartups()" /> AI / ML</div><span class="filter-count">${deals.filter(d => d.sector === 'Artificial Intelligence' || d.sector === 'AI').length}</span></label>
+                <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" class="groupSectorCb" value="FinTech" onchange="filterGroupStartups()" /> FinTech</div><span class="filter-count">${deals.filter(d => d.sector === 'FinTech').length}</span></label>
+                <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" class="groupSectorCb" value="CleanTech" onchange="filterGroupStartups()" /> CleanTech</div><span class="filter-count">${deals.filter(d => d.sector === 'CleanTech').length}</span></label>
+                <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" class="groupSectorCb" value="Logistics" onchange="filterGroupStartups()" /> Logistics</div><span class="filter-count">${deals.filter(d => d.sector === 'Logistics').length}</span></label>
+                <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" class="groupSectorCb" value="SaaS / Security" onchange="filterGroupStartups()" /> SaaS / Security</div><span class="filter-count">${deals.filter(d => d.sector.includes('SaaS')).length}</span></label>
+              </div>
+
+              <!-- Funding Stage -->
+              <div class="filter-group">
+                <div class="filter-title">Funding Stage</div>
+                <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" class="groupStageCb" value="Pre-Seed" onchange="filterGroupStartups()" /> Pre-Seed</div><span class="filter-count">${deals.filter(d => d.stageBadge === 'Pre-Seed').length}</span></label>
+                <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" class="groupStageCb" value="Seed" onchange="filterGroupStartups()" /> Seed</div><span class="filter-count">${deals.filter(d => d.stageBadge === 'Seed').length}</span></label>
+                <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" class="groupStageCb" value="Series A" onchange="filterGroupStartups()" /> Series A</div><span class="filter-count">${deals.filter(d => d.stageBadge === 'Series A').length}</span></label>
+              </div>
+
+              <!-- Ask Amount Range -->
+              <div class="filter-group">
+                <div class="filter-title">Ask Amount Range ($M)</div>
+                <div style="display:flex; gap:4px; flex-wrap:wrap;">
+                  <input type="number" id="groupMinAsk" placeholder="Min" onkeyup="filterGroupStartups()" style="border:1px solid #E0E0DE; border-radius:4px; padding:3px 5px; font-size:10.5px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; width:75px; outline:none; box-sizing:border-box;" />
+                  <input type="number" id="groupMaxAsk" placeholder="Max" onkeyup="filterGroupStartups()" style="border:1px solid #E0E0DE; border-radius:4px; padding:3px 5px; font-size:10.5px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; width:75px; outline:none; box-sizing:border-box;" />
+                </div>
+              </div>
+            </aside>
+
+            <!-- RIGHT CARDS / TABLE CONTENT CONTAINER -->
+            <div id="groupContentContainer" style="display:flex; flex-direction:column; gap:12px; min-width:0; width:100%;">
+              ${groupViewMode === 'cards' ? renderGroupCards(g, deals) : renderGroupList(g, deals)}
+            </div>
+
+          </div>
+        `}
       `;
     }
 
@@ -1104,14 +1081,34 @@
       renderCRM();
     }
 
+    function onGroupSearchChange() {
+      if (groupViewMode === 'board') {
+        const root = document.getElementById('dealCrmRoot');
+        const g = currentGroup;
+        if (!g) return;
+        const boardWrapper = document.getElementById('kanbanBoard');
+        if (boardWrapper) {
+          boardWrapper.outerHTML = renderGroupBoard(g);
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+          attachDropToColumns();
+        }
+      } else {
+        filterGroupStartups();
+      }
+    }
+
     function renderGroupBoard(g) {
       const deals = groupDeals(g);
       const q = (document.getElementById('searchDeals')?.value || '').toLowerCase();
-      const visible = q ? deals.filter(d => d.name.toLowerCase().includes(q) || d.sector.toLowerCase().includes(q)) : deals;
+      const visible = q ? deals.filter(d => 
+        d.name.toLowerCase().includes(q) || 
+        d.sector.toLowerCase().includes(q) || 
+        (d.city && d.city.toLowerCase().includes(q)) ||
+        (d.tagline && d.tagline.toLowerCase().includes(q))
+      ) : deals;
 
       const html = STAGES.map(stage => {
         const cards = visible.filter(d => d.stage === stage.id);
-        const dot = STAGE_DOTS[stage.id] || '#94A3B8';
         const isLocked = stage.id === 'invested';
 
         return `
@@ -1119,13 +1116,13 @@
             <div class="kanban-col-header">
               <div class="col-title-row">
                 <span class="col-title" title="${stage.label}">${stage.label}</span>
-                <span class="col-count">${cards.length}</span>
+                <span class="col-count-bracket">(${cards.length})</span>
               </div>
             </div>
             <div class="col-sub">${stage.sub}</div>
             <div class="kanban-cards" id="cards-${stage.id}">
-              ${cards.map(d => renderDealCard(d, dot)).join('')}
-              ${cards.length === 0 ? `<div style="text-align:center; padding:20px 12px; color:#ABABAB; font-size:11px;">No deals in this stage</div>` : ''}
+              ${cards.map(d => renderDealCard(d)).join('')}
+              ${cards.length === 0 ? `<div style="text-align:center; padding:24px 12px; color:#ABABAB; font-size:11px;">No deals in this stage</div>` : ''}
             </div>
             ${isLocked ? `
               <div style="padding:7px 12px; font-size:10px; color:#8C8C88; border-top:1px solid #EBEBEA; background:#F5F5F3;">
@@ -1139,70 +1136,253 @@
       return `<div class="kanban-wrapper" id="kanbanBoard" style="padding:0; overflow-x:auto;">${html}</div>`;
     }
 
-    function renderGroupCards(g) {
-      const deals = groupDeals(g);
-      const q = (document.getElementById('searchDeals')?.value || '').toLowerCase();
-      const visible = q ? deals.filter(d => d.name.toLowerCase().includes(q) || d.sector.toLowerCase().includes(q)) : deals;
+    function renderDealCard(d) {
+      return `
+        <div class="deal-card" onclick="navigateToDealDetail('${d.id}')" draggable="true"
+             ondragstart="onDragStart(event,'${d.id}')"
+             ondragover="onDragOver(event)"
+             ondrop="onDrop(event,'${d.stage}')">
+          
+          <div style="padding:10px 12px; display:flex; flex-direction:column; gap:7px;">
+            <!-- Top Row: Avatar Logo + Company Name + External Link -->
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:6px;">
+              <div style="display:flex; align-items:center; gap:8px; min-width:0;">
+                <div style="width:26px; height:26px; border-radius:4px; background:#1A1A18; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:10px; flex-shrink:0;">${d.avatar}</div>
+                <span style="font-size:12px; font-weight:800; color:#1A1A18; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; letter-spacing:-0.01em;">${d.name}</span>
+              </div>
+              ${d.website ? `
+                <a href="${d.website}" target="_blank" onclick="event.stopPropagation()" class="card-website-btn" title="Open website: ${d.website}">
+                  <i data-lucide="external-link" style="width:11px; height:11px;"></i>
+                </a>
+              ` : ''}
+            </div>
 
-      if (!visible.length) {
+            <!-- Rounded Square Chips Below Name -->
+            <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap;">
+              <span class="badge-chip" style="font-size:9.5px; padding:1.5px 5px;">${d.sector}</span>
+              <span class="badge-chip" style="font-size:9.5px; padding:1.5px 5px;">${d.stageBadge}</span>
+              ${d.city ? `
+                <span class="badge-chip" style="font-size:9.5px; padding:1.5px 5px;">
+                  <i data-lucide="map-pin" style="width:9px; height:9px;"></i>
+                  <span>${d.city}</span>
+                </span>
+              ` : ''}
+            </div>
+
+            <!-- 1-line Tagline -->
+            ${d.tagline ? `
+              <div style="font-size:11px; color:#5A5A58; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.3;">
+                ${d.tagline}
+              </div>
+            ` : ''}
+
+            <!-- Key Metrics Grid -->
+            <div style="display:grid; grid-template-columns: 1fr 1fr; border:1px solid #EBEBEA; border-radius:4px; overflow:hidden; background:#FAFAFA;">
+              <div style="padding:4px 8px; border-right:1px solid #EBEBEA;">
+                <span style="font-size:8px; font-weight:700; color:#8C8C88; text-transform:uppercase; display:block;">ASK</span>
+                <strong style="font-size:11px; color:#1A1A18;">${d.ask}</strong>
+              </div>
+              <div style="padding:4px 8px;">
+                <span style="font-size:8px; font-weight:700; color:#8C8C88; text-transform:uppercase; display:block;">ARR</span>
+                <strong style="font-size:11px; color:#1A1A18;">${d.arr}</strong>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Footer: Assignee + Date + Move arrows -->
+          <div style="padding:5px 10px 6px; display:flex; align-items:center; justify-content:space-between; background:#F7F7F5; border-top:1px solid #EBEBEA; font-size:10px; color:#8C8C88;">
+            <div style="display:flex; align-items:center; gap:5px;">
+              <div style="width:16px; height:16px; border-radius:50%; background:#3A3A38; color:#FFF; display:flex; align-items:center; justify-content:center; font-size:7.5px; font-weight:800;">${d.assignee}</div>
+              <span>${d.date}</span>
+            </div>
+            <div style="display:flex; gap:2px;">
+              <button onclick="event.stopPropagation(); moveDealStage('${d.id}', -1)" title="Move left"
+                style="border:none; background:transparent; cursor:pointer; padding:2px; color:#8C8C88;">
+                <i data-lucide="chevron-left" style="width:11px; height:11px;"></i>
+              </button>
+              <button onclick="event.stopPropagation(); moveDealStage('${d.id}', 1)" title="Move right"
+                style="border:none; background:transparent; cursor:pointer; padding:2px; color:#8C8C88;">
+                <i data-lucide="chevron-right" style="width:11px; height:11px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // FILTER LOGIC FOR CARDS & TABLE VIEWS (Matching startups-pool.html)
+    // ──────────────────────────────────────────────────────────────────────────
+    function filterGroupStartups() {
+      const g = currentGroup;
+      if (!g) return;
+      let list = groupDeals(g);
+
+      const q = (document.getElementById('searchDeals')?.value || '').toLowerCase().trim();
+      if (q) {
+        list = list.filter(s => 
+          s.name.toLowerCase().includes(q) ||
+          s.sector.toLowerCase().includes(q) ||
+          (s.city && s.city.toLowerCase().includes(q)) ||
+          (s.tagline && s.tagline.toLowerCase().includes(q)) ||
+          s.stageBadge.toLowerCase().includes(q)
+        );
+      }
+
+      // Stage radio
+      const stageVal = document.querySelector('input[name="groupStageRadio"]:checked')?.value || 'all';
+      if (stageVal !== 'all') {
+        list = list.filter(s => s.stage === stageVal);
+      }
+
+      // City filter
+      const cityVal = document.getElementById('groupCitySelect')?.value || '';
+      if (cityVal) {
+        list = list.filter(s => s.city === cityVal);
+      }
+
+      // Industry / Sector checkboxes
+      const checkedSectors = Array.from(document.querySelectorAll('.groupSectorCb:checked')).map(cb => cb.value);
+      if (checkedSectors.length > 0) {
+        list = list.filter(s => {
+          return checkedSectors.some(sec => {
+            if (sec === 'SaaS / Security') return s.sector.includes('SaaS');
+            if (sec === 'Artificial Intelligence') return s.sector === 'Artificial Intelligence' || s.sector === 'AI';
+            return s.sector === sec;
+          });
+        });
+      }
+
+      // Funding Stage checkboxes
+      const checkedStages = Array.from(document.querySelectorAll('.groupStageCb:checked')).map(cb => cb.value);
+      if (checkedStages.length > 0) {
+        list = list.filter(s => checkedStages.includes(s.stageBadge));
+      }
+
+      // Ask Range
+      const minAsk = parseFloat(document.getElementById('groupMinAsk')?.value);
+      const maxAsk = parseFloat(document.getElementById('groupMaxAsk')?.value);
+      if (!isNaN(minAsk)) list = list.filter(s => (s.askVal || 0) >= minAsk);
+      if (!isNaN(maxAsk)) list = list.filter(s => (s.askVal || 0) <= maxAsk);
+
+      // Sort
+      const sortVal = document.getElementById('groupSortSelect')?.value || 'newest';
+      if (sortVal === 'ask_desc') list.sort((a, b) => (b.askVal || 0) - (a.askVal || 0));
+      else if (sortVal === 'arr_desc') list.sort((a, b) => (b.arrVal || 0) - (a.arrVal || 0));
+      else if (sortVal === 'name') list.sort((a, b) => a.name.localeCompare(b.name));
+
+      const container = document.getElementById('groupContentContainer');
+      if (container) {
+        container.innerHTML = groupViewMode === 'cards' ? renderGroupCards(g, list) : renderGroupList(g, list);
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+
+      const countSpan = document.getElementById('groupDetailCount');
+      if (countSpan) countSpan.textContent = `(${list.length})`;
+    }
+
+    function resetGroupFilters() {
+      const search = document.getElementById('searchDeals');
+      if (search) search.value = '';
+      const sort = document.getElementById('groupSortSelect');
+      if (sort) sort.value = 'newest';
+      const city = document.getElementById('groupCitySelect');
+      if (city) city.value = '';
+      const minAsk = document.getElementById('groupMinAsk');
+      if (minAsk) minAsk.value = '';
+      const maxAsk = document.getElementById('groupMaxAsk');
+      if (maxAsk) maxAsk.value = '';
+      const allStageRadio = document.querySelector('input[name="groupStageRadio"][value="all"]');
+      if (allStageRadio) allStageRadio.checked = true;
+      document.querySelectorAll('.groupSectorCb, .groupStageCb').forEach(cb => cb.checked = false);
+      filterGroupStartups();
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // CARDS VIEW (Matching startups-pool.html 1-Card-Per-Row)
+    // ──────────────────────────────────────────────────────────────────────────
+    function renderGroupCards(g, list) {
+      if (!list || !list.length) {
         return `
           <div class="group-empty">
-            <i data-lucide="inbox" style="width:26px; height:26px; color:#B0B0AE;"></i>
-            <div>No startups in this group yet</div>
-            <p>Add a deal or drag cards across the board to build this pipeline.</p>
+            <div style="margin-bottom:8px;"><i data-lucide="inbox" style="width:32px; height:32px; color:#B0B0AE;"></i></div>
+            <div style="font-size:14px; font-weight:800; color:#2A2A28; margin-bottom:3px;">No Startups Found</div>
+            <p style="font-size:11.5px; color:#8C8C88;">No startups in ${g.name} match your active filter criteria.</p>
+            <button onclick="resetGroupFilters()" style="margin-top:12px; font-size:11.5px; font-weight:700; border:1px solid #DCDCDA; border-radius:4px; padding:6px 14px; cursor:pointer; background:#F5F5F3; color:#3A3A38; font-family:Inter,sans-serif;">Reset All Filters</button>
           </div>
         `;
       }
 
       return `
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          ${visible.map(d => {
-            const stage = STAGES.find(s => s.id === d.stage);
-            const stageLabel = stage ? stage.label : '—';
-            const stagePill = stage ? statusClassForStage(stage.id) : 'status-New';
+        <div class="startup-cards-list">
+          ${list.map(s => {
+            const isRead = readDealSet.has(s.id);
             return `
-              <div class="startup-card" onclick="navigateToDealDetail('${d.id}')">
-                <div class="card-header">
-                  <div style="display:flex; align-items:flex-start; gap:11px; flex:1; min-width:0;">
-                    <div class="card-logo">${d.avatar}</div>
-                    <div class="card-title-block">
-                      <div class="card-company-name">${d.name}</div>
-                      <div class="card-meta-row">
-                        <span class="card-badge badge-stage">${d.stageBadge}</span>
-                        <span class="card-badge badge-sector">${d.sector}</span>
+              <div class="startup-row-card" onclick="navigateToDealDetail('${s.id}')">
+                
+                <!-- TOP ROW: Avatar Logo + (Company Name on top line, Chips below) ... Right: Added Date -->
+                <div style="display:flex; align-items:end; justify-content:space-between; gap:16px; padding:12px 16px; border-bottom:1px solid #F0F0EE;">
+                  
+                  <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+                    <div class="card-logo">${s.avatar}</div>
+                    
+                    <div style="display:flex; flex-direction:column; gap:6px; min-width:0;">
+                      <!-- Company Name on Top Line -->
+                      <div style="display:flex; align-items:center; gap:6px;">
+                        <span class="company-title-link">
+                          ${s.name}
+                        </span>
+                        ${s.website ? `
+                          <a href="${s.website}" target="_blank" onclick="event.stopPropagation()" class="card-website-btn" title="Open website: ${s.website}">
+                            <i data-lucide="external-link" style="width:12px; height:12px;"></i>
+                          </a>
+                        ` : ''}
+                      </div>
+
+                      <!-- Rounded Square Chips Smartly Placed Below Name -->
+                      <div style="display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
+                        <span class="badge-chip">${s.sector}</span>
+                        <span class="badge-chip">${s.stageBadge}</span>
+                        ${s.city ? `
+                          <span class="badge-chip">
+                            <i data-lucide="map-pin" style="width:10px; height:10px;"></i>
+                            <span>${s.city}</span>
+                          </span>
+                        ` : ''}
                       </div>
                     </div>
                   </div>
-                  <span class="status-pill ${stagePill}">${stageLabel}</span>
+
+                  <!-- Right Meta: Added Date Only -->
+                  <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+                    <span style="font-size:11px; color:#8C8C88; white-space:nowrap;">Added: ${s.addedOn || s.date}</span>
+                  </div>
+
                 </div>
 
-                <div class="card-pitch">${stageLabel} stage deal — ${d.sector} opportunity tracked under <strong>${g.name}</strong> with ${d.ask} ask and ${d.arr} ARR.</div>
+                <!-- BOTTOM ROW: Truncated Tagline (Left) + Key Metrics (Right) -->
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding:8px 16px; background:#FAFAFA; font-size:11.5px;">
+                  <div style="color:#5A5A58; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0;">
+                    ${s.tagline || ''}
+                  </div>
 
-                <div class="card-metrics">
-                  <div class="metric-cell">
-                    <span class="metric-lbl">Ask Amount</span>
-                    <span class="metric-val">${d.ask}</span>
-                  </div>
-                  <div class="metric-cell">
-                    <span class="metric-lbl">ARR / Revenue</span>
-                    <span class="metric-val">${d.arr}</span>
-                  </div>
-                  <div class="metric-cell">
-                    <span class="metric-lbl">Added</span>
-                    <span class="metric-val" style="font-size:11px;">${d.date}</span>
+                  <div style="display:flex; align-items:center; gap:20px; flex-shrink:0; font-size:12px;">
+                    <div>
+                      <span style="font-size:9px; font-weight:700; color:#8C8C88; text-transform:uppercase;">ASK:</span>
+                      <strong style="color:#1A1A18; margin-left:3px;">${s.ask}</strong>
+                    </div>
+                    <div>
+                      <span style="font-size:9px; font-weight:700; color:#8C8C88; text-transform:uppercase;">RAISED:</span>
+                      <strong style="color:#1A1A18; margin-left:3px;">${s.raised || '—'}</strong>
+                    </div>
+                    <div>
+                      <span style="font-size:9px; font-weight:700; color:#8C8C88; text-transform:uppercase;">ARR:</span>
+                      <strong style="color:#1A1A18; margin-left:3px;">${s.arr}</strong>
+                    </div>
                   </div>
                 </div>
 
-                <div class="card-footer">
-                  <div class="card-footer-date">
-                    <i data-lucide="calendar" style="width:11px; height:11px;"></i>
-                    ${d.date}
-                  </div>
-                  <button class="btn-view-detail" onclick="event.stopPropagation(); navigateToDealDetail('${d.id}')">
-                    View Details
-                    <i data-lucide="arrow-right" style="width:11px; height:11px;"></i>
-                  </button>
-                </div>
               </div>
             `;
           }).join('')}
@@ -1210,80 +1390,101 @@
       `;
     }
 
-    function statusClassForStage(stageId) {
-      const map = {
-        'potential':     'status-New',
-        'evaluation':    'status-Reviewed',
-        'due-diligence': 'status-Shortlisted',
-        'ic-decision':   'status-In-Pipeline',
-        'term-sheet':    'status-In-Pipeline',
-        'closing':       'status-In-Pipeline',
-        'invested':      'status-Passed'
-      };
-      return map[stageId] || 'status-New';
-    }
-
-    function renderGroupList(g) {
-      const deals = groupDeals(g);
-      const q = (document.getElementById('searchDeals')?.value || '').toLowerCase();
-      const visible = q ? deals.filter(d => d.name.toLowerCase().includes(q) || d.sector.toLowerCase().includes(q)) : deals;
-
-      if (!visible.length) {
+    // ──────────────────────────────────────────────────────────────────────────
+    // TABLE VIEW (Matching startups-pool.html Single-Line Rows)
+    // ──────────────────────────────────────────────────────────────────────────
+    function renderGroupList(g, list) {
+      if (!list || !list.length) {
         return `
           <div class="group-empty">
-            <i data-lucide="inbox" style="width:26px; height:26px; color:#B0B0AE;"></i>
-            <div>No startups in this group yet</div>
-            <p>Add a deal or drag cards across the board to build this pipeline.</p>
+            <div style="margin-bottom:8px;"><i data-lucide="inbox" style="width:32px; height:32px; color:#B0B0AE;"></i></div>
+            <div style="font-size:14px; font-weight:800; color:#2A2A28; margin-bottom:3px;">No Startups Found</div>
+            <p style="font-size:11.5px; color:#8C8C88;">No startups in ${g.name} match your active filter criteria.</p>
+            <button onclick="resetGroupFilters()" style="margin-top:12px; font-size:11.5px; font-weight:700; border:1px solid #DCDCDA; border-radius:4px; padding:6px 14px; cursor:pointer; background:#F5F5F3; color:#3A3A38; font-family:Inter,sans-serif;">Reset All Filters</button>
           </div>
         `;
       }
 
       return `
-        <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:8px; overflow:hidden;">
-          <div style="overflow-x:auto;">
-            <table class="pool-table">
-              <thead>
-                <tr>
-                  <th>Startup</th>
-                  <th>Stage / Sector</th>
-                  <th class="num">Ask</th>
-                  <th class="num">ARR</th>
-                  <th>Pipeline Stage</th>
-                  <th style="text-align:right;">Added</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${visible.map(d => {
-                  const stage = STAGES.find(s => s.id === d.stage);
-                  const stageLabel = stage ? stage.label : '—';
-                  return `
-                    <tr style="cursor:pointer;" onclick="navigateToDealDetail('${d.id}')">
-                      <td>
-                        <div style="display:flex; align-items:center; gap:9px;">
-                          <div style="width:28px; height:28px; background:#1A1A18; color:#FFFFFF; border-radius:5px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; flex-shrink:0;">${d.avatar}</div>
-                          <span style="font-weight:700; color:#1A1A18;">${d.name}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div style="display:flex; gap:4px;">
-                          <span class="card-badge badge-stage">${d.stageBadge}</span>
-                          <span class="card-badge badge-sector">${d.sector}</span>
-                        </div>
-                      </td>
-                      <td class="num">${d.ask}</td>
-                      <td class="num" style="color:#5A5A58;">${d.arr}</td>
-                      <td><span class="status-pill ${statusClassForStage(d.stage)}">${stageLabel}</span></td>
-                      <td style="text-align:right; color:#8C8C88; font-size:11px;">${d.date}</td>
-                    </tr>
-                  `;
-                }).join('')}
-              </tbody>
-            </table>
-          </div>
-          <div class="table-footer">
-            <span>Showing <strong>${visible.length}</strong> of <strong>${deals.length}</strong> startups in ${g.name}</span>
-            <span style="color:#8C8C88;">Click a row to open the startup record</span>
-          </div>
+        <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:6px; overflow-x:auto;">
+          <table class="pool-table">
+            <thead>
+              <tr>
+                <th style="width:200px;">Startup</th>
+                <th style="width:300px;">Tagline</th>
+                <th style="width:130px;">Industry</th>
+                <th style="width:90px;">Stage</th>
+                <th style="width:120px;">Location</th>
+                <th class="num" style="width:90px;">Ask</th>
+                <th class="num" style="width:90px;">Raised</th>
+                <th class="num" style="width:90px;">ARR</th>
+                <th style="width:100px; text-align:right;">Added On</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${list.map(s => {
+                return `
+                  <tr style="cursor:pointer;" onclick="navigateToDealDetail('${s.id}')">
+                    
+                    <!-- Startup Name (Single Line) -->
+                    <td>
+                      <div style="display:flex; align-items:center; gap:8px;">
+                        <div class="card-logo" style="width:24px; height:24px; font-size:10px;">${s.avatar}</div>
+                        <span class="company-title-link" style="font-size:12px;">
+                          ${s.name}
+                        </span>
+                        ${s.website ? `
+                          <a href="${s.website}" target="_blank" onclick="event.stopPropagation()" class="card-website-btn" title="Open website: ${s.website}">
+                            <i data-lucide="external-link" style="width:11px; height:11px;"></i>
+                          </a>
+                        ` : ''}
+                      </div>
+                    </td>
+
+                    <!-- Tagline (Single Line Truncated with Ellipsis) -->
+                    <td>
+                      <span class="tagline-truncated" title="${s.tagline || ''}">
+                        ${s.tagline || '—'}
+                      </span>
+                    </td>
+
+                    <!-- Industry (Rounded Square Chip) -->
+                    <td>
+                      <span class="badge-chip">${s.sector}</span>
+                    </td>
+
+                    <!-- Stage (Rounded Square Chip) -->
+                    <td>
+                      <span class="badge-chip">${s.stageBadge}</span>
+                    </td>
+
+                    <!-- Location (Rounded Square Chip) -->
+                    <td>
+                      <span class="badge-chip">
+                        <i data-lucide="map-pin" style="width:10px; height:10px;"></i>
+                        <span>${s.city || 'Global'}</span>
+                      </span>
+                    </td>
+
+                    <!-- Ask Amount -->
+                    <td class="num">${s.ask}</td>
+
+                    <!-- Raised So Far -->
+                    <td class="num" style="color:#5A5A58; font-weight:600;">${s.raised || '—'}</td>
+
+                    <!-- Current ARR -->
+                    <td class="num" style="color:#1A1A18; font-weight:700;">${s.arr}</td>
+
+                    <!-- Added On Date -->
+                    <td style="text-align:right; color:#8C8C88; font-size:11px;">
+                      ${s.addedOn || s.date}
+                    </td>
+
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
         </div>
       `;
     }
@@ -1413,58 +1614,7 @@
       renderCRM();
     }
 
-    function renderDealCard(d, stageColor) {
-      return `
-        <div class="deal-card" onclick="navigateToDealDetail('${d.id}')" draggable="true"
-             ondragstart="onDragStart(event,'${d.id}')"
-             ondragover="onDragOver(event)"
-             ondrop="onDrop(event,'${d.stage}')">
-          <div class="deal-card-inner">
-            <!-- TOP ROW -->
-            <div class="deal-card-top">
-              <div class="deal-card-logo">${d.avatar}</div>
-              <div style="flex:1; min-width:0;">
-                <div class="deal-card-name">${d.name}</div>
-                <div class="deal-card-badges">
-                  <span class="deal-badge deal-badge-stage">${d.stageBadge}</span>
-                  <span class="deal-badge deal-badge-sector">${d.sector}</span>
-                </div>
-              </div>
-            </div>
 
-            <!-- METRICS -->
-            <div class="deal-card-metrics">
-              <div class="deal-metric-item">
-                <div class="deal-metric-lbl">Ask</div>
-                <div class="deal-metric-val">${d.ask}</div>
-              </div>
-              <div class="deal-metric-item">
-                <div class="deal-metric-lbl">ARR</div>
-                <div class="deal-metric-val">${d.arr}</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- FOOTER -->
-          <div class="deal-card-footer">
-            <div class="deal-assignee">
-              <div class="deal-avatar-sm">${d.assignee}</div>
-              <span>${d.date}</span>
-            </div>
-            <div style="display:flex; gap:2px;">
-              <button onclick="event.stopPropagation(); moveDealStage('${d.id}', -1)" title="Move left"
-                style="border:none; background:transparent; cursor:pointer; padding:2px; color:#ABABAB;">
-                <i data-lucide="chevron-left" style="width:11px; height:11px;"></i>
-              </button>
-              <button onclick="event.stopPropagation(); moveDealStage('${d.id}', 1)" title="Move right"
-                style="border:none; background:transparent; cursor:pointer; padding:2px; color:#ABABAB;">
-                <i data-lucide="chevron-right" style="width:11px; height:11px;"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-    }
 
     // ──────────────────────────────────────────────────────────────────────────
     // DRAG & DROP
