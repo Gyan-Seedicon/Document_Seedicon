@@ -6,6 +6,7 @@
   <title>Startup Record Detail — Seedicon Investor Platform</title>
   <link rel="stylesheet" href="./css/styles.css">
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <style>
     /* Executive Neutral Color Palette & Condensed High-Density Key-Value Layout */
     .detail-card {
@@ -13,7 +14,6 @@
       border: 1px solid var(--border-main);
       border-radius: 6px;
       padding: 14px 18px;
-      margin-bottom: 10px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.02);
     }
     .detail-card:last-child {
@@ -23,12 +23,69 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 800;
       color: var(--text-dark);
       margin-bottom: 8px;
       padding-bottom: 6px;
       border-bottom: 1px solid var(--border-faint);
+    }
+
+    /* ─── Rounded Square Chips (Not Pill) ─── */
+    .badge-chip {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px; /* Rounded square */
+      background: #F4F4F2;
+      color: #2A2A28;
+      border: 1px solid #DFDFDC;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      letter-spacing: 0.01em;
+    }
+
+    /* ─── 16:9 Media Preview Cards ─── */
+    .media-preview-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.12s, box-shadow 0.12s;
+    }
+    .media-preview-card:hover {
+      border-color: #1A1A18;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .media-aspect-16-9 {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .media-play-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.94);
+      color: #1A1A18;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.15s;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    }
+    .media-play-btn:hover {
+      transform: scale(1.08);
+      background: #FFFFFF;
     }
 
     /* Key-Value Pair Rows (Each Info in a Separate Row) */
@@ -429,14 +486,14 @@
           
           <!-- LEFT: LOGO, TITLE, LINKS & METADATA BADGES -->
           <div style="display:flex; align-items:center; gap:14px;">
-            <div style="width:42px; height:42px; background:var(--accent-graphite); color:#FFFFFF; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:15px;" id="headerAvatar">
+            <div style="width:42px; height:42px; background:var(--accent-graphite); color:#FFFFFF; border-radius:4px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px;" id="headerAvatar">
               AH
             </div>
             <div>
               <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                <h1 style="font-size:18px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em;" id="headerTitle">Alpha Health 1</h1>
-                <a href="#" style="color:var(--text-muted); font-size:13px;" id="headerWebLink"><i data-lucide="globe" class="lucide-sm"></i></a>
-                <a href="#" style="color:var(--text-muted); font-size:13px;" id="headerLinkedInLink"><i data-lucide="linkedin" class="lucide-sm"></i></a>
+                <h1 style="font-size:18px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em; margin:0;" id="headerTitle">Alpha Health 1</h1>
+                <a href="#" style="color:var(--text-muted); font-size:13px;" id="headerWebLink" title="Company Website"><i data-lucide="globe" class="lucide-sm"></i></a>
+                <a href="#" style="color:var(--text-muted); font-size:13px;" id="headerLinkedInLink" title="Company LinkedIn"><i data-lucide="linkedin" class="lucide-sm"></i></a>
               </div>
 
               <div style="display:flex; align-items:center; gap:8px; font-size:12px; color:var(--text-muted);">
@@ -445,58 +502,68 @@
                   <span>San Francisco, CA</span>
                 </span>
                 <span>•</span>
-                <span id="headerYear">2023</span>
+                <span id="headerIncorp" style="display:inline-flex; align-items:center; gap:4px; font-size:11.5px; color:var(--text-muted);">
+                  <i data-lucide="building-2" style="width:12px; height:12px;"></i>
+                  <span id="headerIncorpText">Inc: Jan 12, 2023</span>
+                </span>
                 <span>•</span>
-                <span class="badge-pill neutral-dark" id="headerStage">Pre-Seed</span>
-                <span class="badge-pill neutral-soft" id="headerSector">Healthcare</span>
-                <span class="badge-pill neutral-dark" id="headerStatus" style="font-weight:600;">Status: New</span>
+                <span class="badge-chip" id="headerStage">Pre-Seed</span>
+                <span class="badge-chip" id="headerSector">Healthcare</span>
               </div>
             </div>
           </div>
 
-          <!-- RIGHT: NEUTRAL EXECUTIVE ACTION BUTTONS (NO DROPDOWNS, STAR POTENTIAL, SUBTLE DOWNLOAD) -->
-          <div style="display:flex; align-items:center; gap:8px;">
-            <button class="btn btn-outline" style="font-size:12px;" onclick="openTeamCommentsDrawer()">
-              <i data-lucide="message-square" class="lucide-sm"></i>
-              <span>Team Comments</span>
-            </button>
-            <button class="btn btn-outline" style="font-size:12px;" onclick="openHistoryDrawer()">
-              <i data-lucide="history" class="lucide-sm"></i>
-              <span>History</span>
-            </button>
-            <div style="position:relative;">
-              <button class="btn" id="btnAddPotential" style="font-size:12px; font-weight:700; background:#FFFBEB; border:1px solid #FCD34D; color:#92400E; display:flex; align-items:center; gap:6px;" onclick="toggleAddPotentialMenu(event)">
-                <i data-lucide="star" class="lucide-sm" style="fill:#F59E0B; color:#F59E0B;"></i>
-                <span>Add as Potential</span>
+          <!-- RIGHT: ACTION BUTTONS + ADDED ON DATE (BELOW DOWNLOAD) -->
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:5px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="btn btn-outline" style="font-size:12px;" onclick="openTeamCommentsDrawer()">
+                <i data-lucide="message-square" class="lucide-sm"></i>
+                <span>Team Comments</span>
               </button>
-              <div id="addPotentialMenu" class="action-dropdown-menu" style="display:none; width:230px;">
-                <div style="font-size:9.5px; font-weight:800; color:#9A9A96; text-transform:uppercase; padding:7px 12px 4px; letter-spacing:0.05em;">Add to Potential Startups Group</div>
-                <div class="action-dropdown-item" onclick="addPotentialToGroup('B2B SaaS &amp; AI')">
-                  <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
-                  <span>B2B SaaS &amp; AI</span>
-                </div>
-                <div class="action-dropdown-item" onclick="addPotentialToGroup('Healthcare &amp; Bio')">
-                  <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
-                  <span>Healthcare &amp; Bio</span>
-                </div>
-                <div class="action-dropdown-item" onclick="addPotentialToGroup('FinTech &amp; Payments')">
-                  <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
-                  <span>FinTech &amp; Payments</span>
-                </div>
-                <div class="action-dropdown-item" onclick="addPotentialToGroup('Climate &amp; Agri')">
-                  <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
-                  <span>Climate &amp; Agri</span>
-                </div>
-                <div class="action-dropdown-item" onclick="addPotentialToGroup('Mobility &amp; Logistics')">
-                  <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
-                  <span>Mobility &amp; Logistics</span>
+              <button class="btn btn-outline" style="font-size:12px;" onclick="openHistoryDrawer()">
+                <i data-lucide="history" class="lucide-sm"></i>
+                <span>History</span>
+              </button>
+              <div style="position:relative;">
+                <button class="btn btn-outline" id="btnAddPotential" style="font-size:12px;" onclick="toggleAddPotentialMenu(event)">
+                  <i data-lucide="star" class="lucide-sm" id="starIcon"></i>
+                  <span id="btnPotentialText">Add as Potential</span>
+                </button>
+                <div id="addPotentialMenu" class="action-dropdown-menu" style="display:none; width:230px;">
+                  <div style="font-size:9.5px; font-weight:800; color:#9A9A96; text-transform:uppercase; padding:7px 12px 4px; letter-spacing:0.05em;">Add to Potential Startups Group</div>
+                  <div class="action-dropdown-item" onclick="addPotentialToGroup('B2B SaaS &amp; AI')">
+                    <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                    <span>B2B SaaS &amp; AI</span>
+                  </div>
+                  <div class="action-dropdown-item" onclick="addPotentialToGroup('Healthcare &amp; Bio')">
+                    <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                    <span>Healthcare &amp; Bio</span>
+                  </div>
+                  <div class="action-dropdown-item" onclick="addPotentialToGroup('FinTech &amp; Payments')">
+                    <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                    <span>FinTech &amp; Payments</span>
+                  </div>
+                  <div class="action-dropdown-item" onclick="addPotentialToGroup('Climate &amp; Agri')">
+                    <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                    <span>Climate &amp; Agri</span>
+                  </div>
+                  <div class="action-dropdown-item" onclick="addPotentialToGroup('Mobility &amp; Logistics')">
+                    <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                    <span>Mobility &amp; Logistics</span>
+                  </div>
                 </div>
               </div>
+              <button class="btn btn-outline" style="font-size:12px; color:var(--text-muted); border-color:var(--border-main); opacity:0.85;" onclick="downloadPackage()" title="Download Due Diligence Package">
+                <i data-lucide="download" class="lucide-sm"></i>
+                <span>Download</span>
+              </button>
             </div>
-            <button class="btn btn-outline" style="font-size:12px; color:var(--text-muted); border-color:var(--border-main); opacity:0.85;" onclick="downloadPackage()" title="Download Due Diligence Package">
-              <i data-lucide="download" class="lucide-sm"></i>
-              <span>Download</span>
-            </button>
+
+            <!-- Added On Date Below Download Button -->
+            <div style="font-size:11px; color:var(--text-muted); display:flex; align-items:center; gap:4px;">
+              <i data-lucide="calendar" style="width:11px; height:11px;"></i>
+              <span>Added on: <strong style="color:var(--text-dark);" id="headerAddedOn">Feb 28, 2026</strong></span>
+            </div>
           </div>
 
         </div>
@@ -596,7 +663,7 @@
           </div>
 
           <!-- RIGHT SECTION CONTENT CARDS (EACH INFO IN SEPARATE ROW) -->
-          <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="display:flex; flex-direction:column; gap:12px;">
             
             <!-- SECTION 1: OVERVIEW -->
             <div id="sec_overview" class="detail-card">
@@ -612,11 +679,11 @@
                 </div>
                 <div class="kv-row">
                   <div class="kv-label">Company Website</div>
-                  <div class="kv-value"><a href="#" id="valWeb">www.alphahealth.io</a></div>
+                  <div class="kv-value"><a href="#" id="valWeb" target="_blank">www.alphahealth.io</a></div>
                 </div>
                 <div class="kv-row">
                   <div class="kv-label">Company LinkedIn</div>
-                  <div class="kv-value"><a href="#" id="valLinkedIn">linkedin.com/company/alpha-health</a></div>
+                  <div class="kv-value"><a href="#" id="valLinkedIn" target="_blank">linkedin.com/company/alpha-health</a></div>
                 </div>
                 <div class="kv-row">
                   <div class="kv-label">Social</div>
@@ -627,7 +694,7 @@
                 </div>
                 <div class="kv-row">
                   <div class="kv-label">Incorporation Date</div>
-                  <div class="kv-value">Jan 12, 2023</div>
+                  <div class="kv-value" id="valIncorp">Jan 12, 2023</div>
                 </div>
                 <div class="kv-row">
                   <div class="kv-label">Stage</div>
@@ -640,10 +707,6 @@
                 <div class="kv-row">
                   <div class="kv-label">Location</div>
                   <div class="kv-value" id="valLoc">San Francisco, CA</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Uploaded on</div>
-                  <div class="kv-value" id="valUploaded">Feb 28, 2026</div>
                 </div>
                 <div class="kv-row">
                   <div class="kv-label">Org. Size</div>
@@ -678,21 +741,93 @@
               </div>
             </div>
 
-            <!-- SECTION 3: PITCH DECK -->
+            <!-- SECTION 3: PITCH DECK & DEMO (16:9 THUMBNAILS) -->
             <div id="sec_pitch" class="detail-card">
-              <div class="detail-sec-header">Pitch Deck</div>
-              <div class="kv-rows-container">
-                <div class="kv-row">
-                  <div class="kv-label">Pitch Presentation</div>
-                  <div class="kv-value" style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:8px 12px;">
-                    <span style="display:flex; align-items:center; gap:8px;"><i data-lucide="file-text" class="lucide-sm"></i> <strong id="valDeck">AlphaHealth_PitchDeck_2026.pdf</strong></span>
-                    <button class="btn btn-outline btn-sm" style="padding:2px 8px;"><i data-lucide="download" class="lucide-sm"></i> Download</button>
+              <div class="detail-sec-header">
+                <i data-lucide="presentation" class="lucide-sm"></i>
+                <span>Pitch Deck &amp; Product Demo</span>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px;">
+                
+                <!-- 16:9 Pitch Deck Thumbnail Card -->
+                <div class="media-preview-card">
+                  <div class="media-aspect-16-9" style="background: linear-gradient(135deg, #1A1A18 0%, #2E2E2C 100%); cursor:pointer;" onclick="openDeckPreviewModal()">
+                    <!-- Slide Preview Mock Graphic -->
+                    <div style="position:absolute; inset:0; padding:16px 18px; display:flex; flex-direction:column; justify-content:space-between; color:#FFFFFF;">
+                      <div style="display:flex; align-items:center; justify-content:space-between;">
+                        <div style="display:flex; align-items:center; gap:6px;">
+                          <div style="width:20px; height:20px; background:#FFFFFF; color:#1A1A18; border-radius:3px; font-weight:800; font-size:10px; display:flex; align-items:center; justify-content:center;" id="deckCoverLogo">AH</div>
+                          <span style="font-size:11px; font-weight:700; letter-spacing:0.02em;" id="deckCoverTitle">AlphaHealth AI</span>
+                        </div>
+                        <span style="font-size:9px; font-weight:700; background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.3); border-radius:4px; padding:1.5px 6px;">18 SLIDES · PDF</span>
+                      </div>
+
+                      <div style="text-align:left; max-width:88%;">
+                        <div style="font-size:13.5px; font-weight:800; line-height:1.25; margin-bottom:3px;" id="deckSlideHeadline">Diagnostic Neural Platform for Clinical Early Disease Detection</div>
+                        <div style="font-size:10px; color:rgba(255,255,255,0.7);">Investor Due Diligence Presentation — Seed Stage</div>
+                      </div>
+
+                      <div style="display:flex; align-items:center; justify-content:space-between; font-size:9.5px; color:rgba(255,255,255,0.6); border-top:1px solid rgba(255,255,255,0.15); padding-top:6px;">
+                        <span>Seedicon Venture Fund I</span>
+                        <span style="display:flex; align-items:center; gap:3px;"><i data-lucide="maximize-2" style="width:10px; height:10px;"></i> Click to preview</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="padding:9px 12px; background:#FAFAFA; border-top:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between;">
+                    <div style="display:flex; align-items:center; gap:8px; min-width:0;">
+                      <i data-lucide="file-text" style="width:15px; height:15px; color:#5A5A58; flex-shrink:0;"></i>
+                      <div style="min-width:0;">
+                        <div style="font-size:11.5px; font-weight:700; color:var(--text-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="valDeck">AlphaHealth_PitchDeck_2026.pdf</div>
+                        <div style="font-size:10px; color:var(--text-muted);">14.2 MB · Verified Submission</div>
+                      </div>
+                    </div>
+                    <button class="btn btn-outline btn-sm" onclick="downloadDeck()" style="padding:3px 9px; font-size:11px; gap:4px;">
+                      <i data-lucide="download" style="width:11px; height:11px;"></i>
+                      <span>Download</span>
+                    </button>
                   </div>
                 </div>
-                <div class="kv-row">
-                  <div class="kv-label">Product Demo</div>
-                  <div class="kv-value"><a href="#">loom.com/share/demo-alphahealth</a></div>
+
+                <!-- 16:9 Product Demo Video Thumbnail Card -->
+                <div class="media-preview-card">
+                  <div class="media-aspect-16-9" style="background: linear-gradient(135deg, #18181B 0%, #27272A 100%); cursor:pointer;" onclick="openVideoDemoModal()">
+                    <!-- Video Vignette Pattern -->
+                    <div style="position:absolute; inset:0; opacity:0.18; background: repeating-linear-gradient(45deg, #3F3F46, #3F3F46 10px, #27272A 10px, #27272A 20px);"></div>
+                    
+                    <div style="position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:6px;">
+                      <div class="media-play-btn">
+                        <i data-lucide="play" style="width:18px; height:18px; margin-left:2px; fill:#1A1A18;"></i>
+                      </div>
+                      <span style="font-size:11px; font-weight:700; color:#FFFFFF; text-shadow:0 1px 3px rgba(0,0,0,0.6);">Watch Product Demo</span>
+                    </div>
+
+                    <div style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.65); color:#FFFFFF; border:1px solid rgba(255,255,255,0.25); border-radius:4px; font-size:9.5px; font-weight:700; padding:1.5px 6px;">
+                      3:24 MIN
+                    </div>
+
+                    <div style="position:absolute; bottom:10px; left:12px; font-size:10px; color:rgba(255,255,255,0.8); display:flex; align-items:center; gap:4px;">
+                      <i data-lucide="video" style="width:11px; height:11px;"></i>
+                      <span>Interactive Clinical Workflow Walkthrough</span>
+                    </div>
+                  </div>
+
+                  <div style="padding:9px 12px; background:#FAFAFA; border-top:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between;">
+                    <div style="display:flex; align-items:center; gap:8px; min-width:0;">
+                      <i data-lucide="video" style="width:15px; height:15px; color:#5A5A58; flex-shrink:0;"></i>
+                      <div style="min-width:0;">
+                        <div style="font-size:11.5px; font-weight:700; color:var(--text-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="valVideoTitle">AlphaHealth_Platform_Demo.mp4</div>
+                        <div style="font-size:10px; color:var(--text-muted);"><a href="https://loom.com" target="_blank" style="color:var(--text-muted); text-decoration:underline;" id="valVideoLink">loom.com/share/demo-alphahealth</a></div>
+                      </div>
+                    </div>
+                    <button class="btn btn-outline btn-sm" onclick="openVideoDemoModal()" style="padding:3px 9px; font-size:11px; gap:4px;">
+                      <i data-lucide="play" style="width:11px; height:11px;"></i>
+                      <span>Play</span>
+                    </button>
+                  </div>
                 </div>
+
               </div>
             </div>
 
@@ -883,26 +1018,41 @@
               </div>
             </div>
 
-            <!-- SECTION 13: CAP TABLE -->
+            <!-- SECTION 13: CAP TABLE (NEUTRAL APEXCHART DONUT + TABLE) -->
             <div id="sec_captable" class="detail-card">
-              <div class="detail-sec-header">CapTable</div>
-              <div class="kv-rows-container">
-                <div class="kv-row">
-                  <div class="kv-label">Dr. Sarah Jenkins</div>
-                  <div class="kv-value">Founder &amp; CEO — 45.0% Ownership (4,500,000 shares)</div>
+              <div class="detail-sec-header">
+                <i data-lucide="pie-chart" class="lucide-sm"></i>
+                <span>Cap Table &amp; Ownership Breakdown</span>
+              </div>
+
+              <div style="display:grid; grid-template-columns:260px 1fr; gap:20px; align-items:center; margin-top:10px;">
+                
+                <!-- Neutral ApexChart Donut Chart Container -->
+                <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:#FAFAFA; border:1px solid var(--border-main); border-radius:6px; padding:12px;">
+                  <div id="capTableDonutChart" style="width:100%; min-height:200px;"></div>
+                  <div style="font-size:10px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em; margin-top:4px;">
+                    TOTAL ISSUED SHARES: 10,000,000
+                  </div>
                 </div>
-                <div class="kv-row">
-                  <div class="kv-label">Markus Vance</div>
-                  <div class="kv-value">Co-Founder CTO — 35.0% Ownership (3,500,000 shares)</div>
+
+                <!-- Structured Ownership Table -->
+                <div style="overflow-x:auto;">
+                  <table class="data-table" style="min-width:100%;">
+                    <thead>
+                      <tr>
+                        <th>Shareholder / Entity</th>
+                        <th>Role / Class</th>
+                        <th class="num">Shares</th>
+                        <th class="num">Equity %</th>
+                        <th style="text-align:right;">Vesting Terms</th>
+                      </tr>
+                    </thead>
+                    <tbody id="capTableRowsBody">
+                      <!-- Populated dynamically via JS -->
+                    </tbody>
+                  </table>
                 </div>
-                <div class="kv-row">
-                  <div class="kv-label">ESOP Pool</div>
-                  <div class="kv-value">Option Pool — 10.0% Ownership (1,000,000 shares)</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Nexus Angel Syndicate</div>
-                  <div class="kv-value">Pre-Seed Investor — 10.0% Ownership (1,000,000 shares)</div>
-                </div>
+
               </div>
             </div>
 
@@ -1141,56 +1291,99 @@
   <script>
     const DATA = {
       'sup_1': {
-        name: 'Alpha Health 1', avatar: 'AH', stage: 'Pre-Seed', sector: 'Healthcare', status: 'Status: New',
-        location: 'San Francisco, CA', year: '2023', web: 'www.alphahealth.io', email: 'hello@alphahealth.io',
+        name: 'Alpha Health 1', avatar: 'AH', stage: 'Pre-Seed', sector: 'Healthcare',
+        location: 'San Francisco, CA', incorpDate: 'Jan 12, 2023', web: 'www.alphahealth.io', email: 'hello@alphahealth.io',
         linkedin: 'linkedin.com/company/alpha-health', pitch: 'Next-gen predictive diagnostics for early disease detection. Our proprietary AI analyzes multi-modal biometric data to identify patterns invisible to the human eye, enabling preventative care at scale across global healthcare systems.',
         org: '1–10 employees', arr: '$850K ARR', burn: '$40K / month', deck: 'AlphaHealth_PitchDeck_2026.pdf',
         target: '$5.00M', ask: '$3.00M', raised: '$2.00M', totalEmp: '9', finRev: '$850K', finGross: '$420K',
-        jurisdiction: 'Delaware, USA', comp: 'HealthAI Corp (Boston, MA)', compWeb: 'healthai.io', uploaded: 'Feb 28, 2026'
+        jurisdiction: 'Delaware, USA', comp: 'HealthAI Corp (Boston, MA)', compWeb: 'healthai.io', addedOn: 'Feb 28, 2026',
+        videoTitle: 'AlphaHealth_Platform_Demo.mp4', videoLink: 'loom.com/share/demo-alphahealth',
+        captable: [
+          { name: 'Dr. Sarah Jenkins', role: 'Founder & CEO', shares: '4,500,000', equity: 45.0, vesting: '4-Yr Monthly (1-Yr Cliff)' },
+          { name: 'Markus Vance', role: 'Co-Founder & CTO', shares: '3,500,000', equity: 35.0, vesting: '4-Yr Monthly (1-Yr Cliff)' },
+          { name: 'ESOP Option Pool', role: 'Reserved Pool', shares: '1,000,000', equity: 10.0, vesting: 'Board Discretion' },
+          { name: 'Nexus Angel Syndicate', role: 'Pre-Seed Lead', shares: '1,000,000', equity: 10.0, vesting: 'Fully Vested' }
+        ]
       },
       'sup_2': {
-        name: 'Apex AI', avatar: 'AA', stage: 'Seed', sector: 'Artificial Intelligence', status: 'Status: Shortlisted',
-        location: 'Bengaluru, India', year: '2024', web: 'www.apexai.in', email: 'founders@apexai.in',
+        name: 'Apex AI Systems', avatar: 'AA', stage: 'Seed', sector: 'Artificial Intelligence',
+        location: 'Bengaluru, India', incorpDate: 'Mar 18, 2024', web: 'www.apexai.in', email: 'founders@apexai.in',
         linkedin: 'linkedin.com/company/apex-ai', pitch: 'Autonomous agent platform for enterprise financial workflows and automated invoice reconciliation across multi-entity ERPs.',
         org: '11–50 employees', arr: '₹1.5 Cr ARR', burn: '₹12L / month', deck: 'Apex_AI_PitchDeck.pdf',
         target: '₹8.00 Cr', ask: '₹5.00 Cr', raised: '₹2.00 Cr', totalEmp: '24', finRev: '₹1.5 Cr', finGross: '₹80L',
-        jurisdiction: 'Karnataka, India', comp: 'Leena AI (Bengaluru, India)', compWeb: 'leena.ai', uploaded: 'Feb 25, 2026'
+        jurisdiction: 'Karnataka, India', comp: 'Leena AI (Bengaluru, India)', compWeb: 'leena.ai', addedOn: 'Feb 25, 2026',
+        videoTitle: 'ApexAI_Workflow_Demo.mp4', videoLink: 'loom.com/share/demo-apexai',
+        captable: [
+          { name: 'Rohan Sharma', role: 'Founder & CEO', shares: '5,000,000', equity: 50.0, vesting: '4-Yr Monthly (1-Yr Cliff)' },
+          { name: 'Priya Nair', role: 'Co-Founder CTO', shares: '3,000,000', equity: 30.0, vesting: '4-Yr Monthly (1-Yr Cliff)' },
+          { name: 'ESOP Pool', role: 'Option Pool', shares: '1,000,000', equity: 10.0, vesting: 'Quarterly Grant' },
+          { name: 'Blume Seed Fund', role: 'Seed Investor', shares: '1,000,000', equity: 10.0, vesting: 'Fully Vested' }
+        ]
       },
       'sup_3': {
-        name: 'FinFlow Tech', avatar: 'FF', stage: 'Seed', sector: 'FinTech', status: 'Status: In Pipeline',
-        location: 'London, UK', year: '2023', web: 'www.finflowtech.io', email: 'team@finflowtech.io',
-        linkedin: 'linkedin.com/company/finflowtech', pitch: 'Cross-border liquidity engine enabling real-time instant settlement for corporate treasury.',
+        name: 'FinFlow Tech', avatar: 'FF', stage: 'Seed', sector: 'FinTech',
+        location: 'London, UK', incorpDate: 'Nov 05, 2023', web: 'www.finflowtech.io', email: 'team@finflowtech.io',
+        linkedin: 'linkedin.com/company/finflowtech', pitch: 'Cross-border liquidity engine enabling real-time instant settlement for corporate multi-currency treasury.',
         org: '11–50 employees', arr: '$1.2M ARR', burn: '$32K / month', deck: 'FinFlow_Pitch_2026.pdf',
         target: '$4.00M', ask: '$2.50M', raised: '$1.00M', totalEmp: '18', finRev: '$1.2M', finGross: '$700K',
-        jurisdiction: 'England & Wales', comp: 'Airwallex (Melbourne, AU)', compWeb: 'airwallex.com', uploaded: 'Feb 20, 2026'
+        jurisdiction: 'England & Wales', comp: 'Airwallex (Melbourne, AU)', compWeb: 'airwallex.com', addedOn: 'Feb 22, 2026',
+        videoTitle: 'FinFlow_Treasury_Demo.mp4', videoLink: 'loom.com/share/demo-finflow',
+        captable: [
+          { name: 'Oliver Wright', role: 'Founder & CEO', shares: '5,500,000', equity: 55.0, vesting: '4-Yr Vesting' },
+          { name: 'Elena Rostova', role: 'Head of Quant', shares: '2,500,000', equity: 25.0, vesting: '4-Yr Vesting' },
+          { name: 'Seedcamp', role: 'Institutional Seed', shares: '1,200,000', equity: 12.0, vesting: 'Fully Vested' },
+          { name: 'Option Pool', role: 'ESOP Pool', shares: '800,000', equity: 8.0, vesting: 'Unallocated' }
+        ]
       },
       'sup_4': {
-        name: 'LogiChain Labs', avatar: 'LC', stage: 'Series A', sector: 'Logistics', status: 'Status: Reviewed',
-        location: 'Berlin, Germany', year: '2022', web: 'www.logichainlabs.de', email: 'hello@logichainlabs.de',
+        name: 'LogiChain Labs', avatar: 'LC', stage: 'Series A', sector: 'Logistics',
+        location: 'Berlin, Germany', incorpDate: 'Aug 14, 2022', web: 'www.logichainlabs.de', email: 'hello@logichainlabs.de',
         linkedin: 'linkedin.com/company/logichain', pitch: 'AI-driven supply chain route optimization reducing carbon emissions and freight transit times.',
         org: '51–200 employees', arr: '€2.8M ARR', burn: '€80K / month', deck: 'LogiChain_Pitch_A.pdf',
         target: '€7.00M', ask: '€4.00M', raised: '€2.50M', totalEmp: '62', finRev: '€2.8M', finGross: '€1.8M',
-        jurisdiction: 'Berlin, Germany', comp: 'Samsara (San Francisco, CA)', compWeb: 'samsara.com', uploaded: 'Feb 18, 2026'
+        jurisdiction: 'Berlin, Germany', comp: 'Samsara (San Francisco, CA)', compWeb: 'samsara.com', addedOn: 'Feb 18, 2026',
+        videoTitle: 'LogiChain_Fleet_Walkthrough.mp4', videoLink: 'loom.com/share/demo-logichain',
+        captable: [
+          { name: 'Klaus Meyer', role: 'Founder & CEO', shares: '4,000,000', equity: 40.0, vesting: '3-Yr Remaining' },
+          { name: 'Hans Weber', role: 'Co-Founder COO', shares: '2,500,000', equity: 25.0, vesting: '3-Yr Remaining' },
+          { name: 'Earlybird VC', role: 'Series Seed', shares: '2,000,000', equity: 20.0, vesting: 'Fully Vested' },
+          { name: 'ESOP Pool', role: 'Staff Incentive', shares: '1,500,000', equity: 15.0, vesting: 'Allocated' }
+        ]
       },
       'sup_5': {
-        name: 'EcoPulse Energy', avatar: 'EP', stage: 'Seed', sector: 'CleanTech', status: 'Status: New',
-        location: 'Austin, TX', year: '2024', web: 'www.ecopulse.io', email: 'team@ecopulse.io',
+        name: 'EcoPulse Energy', avatar: 'EP', stage: 'Seed', sector: 'CleanTech',
+        location: 'Austin, TX', incorpDate: 'Jun 20, 2024', web: 'www.ecopulse.io', email: 'team@ecopulse.io',
         linkedin: 'linkedin.com/company/ecopulse', pitch: 'Solid-state battery thermal management architecture for commercial electric vehicle fleets.',
         org: '1–10 employees', arr: '$600K ARR', burn: '$45K / month', deck: 'EcoPulse_PitchDeck.pdf',
         target: '$5.00M', ask: '$3.50M', raised: '$1.50M', totalEmp: '9', finRev: '$600K', finGross: '$320K',
-        jurisdiction: 'Texas, USA', comp: 'QuantumScape (San Jose, CA)', compWeb: 'quantumscape.com', uploaded: 'Feb 27, 2026'
+        jurisdiction: 'Texas, USA', comp: 'QuantumScape (San Jose, CA)', compWeb: 'quantumscape.com', addedOn: 'Feb 16, 2026',
+        videoTitle: 'EcoPulse_Cell_Architecture.mp4', videoLink: 'loom.com/share/demo-ecopulse',
+        captable: [
+          { name: 'Liam Davies', role: 'Founder & Chief Scientist', shares: '6,000,000', equity: 60.0, vesting: '4-Yr Monthly' },
+          { name: 'Dr. Clara Thorne', role: 'VP Materials', shares: '2,000,000', equity: 20.0, vesting: '4-Yr Monthly' },
+          { name: 'CleanTech Angels', role: 'Seed Syndicate', shares: '1,000,000', equity: 10.0, vesting: 'Fully Vested' },
+          { name: 'ESOP Pool', role: 'Option Pool', shares: '1,000,000', equity: 10.0, vesting: 'Unallocated' }
+        ]
       },
       'sup_6': {
-        name: 'NeuroPulse Health', avatar: 'NP', stage: 'Pre-Seed', sector: 'Healthcare', status: 'Status: New',
-        location: 'Boston, MA', year: '2024', web: 'www.neuropulse.ai', email: 'founders@neuropulse.ai',
+        name: 'NeuroPulse Health', avatar: 'NP', stage: 'Pre-Seed', sector: 'Healthcare',
+        location: 'Boston, MA', incorpDate: 'Oct 10, 2024', web: 'www.neuropulse.ai', email: 'founders@neuropulse.ai',
         linkedin: 'linkedin.com/company/neuropulse', pitch: 'Non-invasive EEG brain-computer interface monitoring neurological rehabilitation recovery.',
         org: '1–10 employees', arr: '$300K ARR', burn: '$25K / month', deck: 'NeuroPulse_Pitch.pdf',
         target: '$2.50M', ask: '$1.80M', raised: '$500K', totalEmp: '6', finRev: '$300K', finGross: '$140K',
-        jurisdiction: 'Massachusetts, USA', comp: 'Muse Headband (Toronto, CA)', compWeb: 'choosemuse.com', uploaded: 'Feb 26, 2026'
+        jurisdiction: 'Massachusetts, USA', comp: 'Muse Headband (Toronto, CA)', compWeb: 'choosemuse.com', addedOn: 'Feb 14, 2026',
+        videoTitle: 'NeuroPulse_EEG_Demo.mp4', videoLink: 'loom.com/share/demo-neuropulse',
+        captable: [
+          { name: 'Dr. Maya Lin', role: 'Founder & CEO', shares: '6,500,000', equity: 65.0, vesting: '4-Yr Vesting' },
+          { name: 'Alexander Cole', role: 'Head of Neuro AI', shares: '2,000,000', equity: 20.0, vesting: '4-Yr Vesting' },
+          { name: 'Mass Bio Angels', role: 'Angel Investor', shares: '500,000', equity: 5.0, vesting: 'Fully Vested' },
+          { name: 'ESOP Reserve', role: 'Option Reserve', shares: '1,000,000', equity: 10.0, vesting: 'Unallocated' }
+        ]
       }
     };
 
     let currentStartup = DATA['sup_1'];
+    let capTableChartInstance = null;
 
     document.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
@@ -1203,9 +1396,9 @@
       document.getElementById('headerAvatar').textContent = s.avatar;
       document.getElementById('headerStage').textContent = s.stage;
       document.getElementById('headerSector').textContent = s.sector;
-      document.getElementById('headerStatus').textContent = s.status;
-      document.getElementById('headerYear').textContent = s.year;
+      document.getElementById('headerIncorpText').textContent = `Inc: ${s.incorpDate}`;
       document.getElementById('headerLoc').querySelector('span').textContent = s.location;
+      document.getElementById('headerAddedOn').textContent = s.addedOn;
 
       document.getElementById('secPitch').textContent = s.pitch;
       document.getElementById('valSector').textContent = s.sector;
@@ -1216,7 +1409,7 @@
       document.getElementById('valEmail').textContent = s.email;
       document.getElementById('valLoc').textContent = s.location;
       document.getElementById('valOrg').textContent = s.org;
-      document.getElementById('valUploaded').textContent = s.uploaded;
+      document.getElementById('valIncorp').textContent = s.incorpDate;
 
       document.getElementById('valArr').textContent = s.arr;
       document.getElementById('valBurn').textContent = s.burn;
@@ -1232,6 +1425,22 @@
       document.getElementById('valComp').textContent = s.comp;
       document.getElementById('valCompWeb').textContent = s.compWeb;
 
+      // Deck preview cover mocks
+      const deckCoverLogo = document.getElementById('deckCoverLogo');
+      const deckCoverTitle = document.getElementById('deckCoverTitle');
+      const valVideoTitle = document.getElementById('valVideoTitle');
+      const valVideoLink = document.getElementById('valVideoLink');
+      if (deckCoverLogo) deckCoverLogo.textContent = s.avatar;
+      if (deckCoverTitle) deckCoverTitle.textContent = s.name;
+      if (valVideoTitle) valVideoTitle.textContent = s.videoTitle || `${s.name.replace(/\s+/g, '_')}_Demo.mp4`;
+      if (valVideoLink) {
+        valVideoLink.textContent = s.videoLink || `loom.com/share/demo-${s.name.toLowerCase().replace(/\s+/g, '')}`;
+        valVideoLink.href = 'https://' + (s.videoLink || 'loom.com');
+      }
+
+      // Render CapTable with Neutral ApexCharts
+      renderCapTable(s.captable);
+
       const tsAvatar = document.getElementById('tsAvatar');
       const tsTitle = document.getElementById('tsTitle');
       const tsAsk = document.getElementById('tsAsk');
@@ -1245,6 +1454,133 @@
 
       if (typeof lucide !== 'undefined') lucide.createIcons();
     });
+
+    function renderCapTable(captable) {
+      if (!captable || !captable.length) return;
+
+      const tableBody = document.getElementById('capTableRowsBody');
+      if (tableBody) {
+        tableBody.innerHTML = captable.map(item => `
+          <tr>
+            <td>
+              <div style="font-weight:700; color:#1A1A18;">${item.name}</div>
+            </td>
+            <td>
+              <span class="badge-chip">${item.role}</span>
+            </td>
+            <td class="num" style="font-weight:600; color:#4A4A48;">${item.shares}</td>
+            <td class="num" style="font-weight:800; color:#1A1A18;">${item.equity.toFixed(1)}%</td>
+            <td style="text-align:right; font-size:11px; color:#7A7A78;">${item.vesting}</td>
+          </tr>
+        `).join('');
+      }
+
+      const chartMount = document.getElementById('capTableDonutChart');
+      if (!chartMount) return;
+
+      if (capTableChartInstance) {
+        capTableChartInstance.destroy();
+      }
+
+      const series = captable.map(c => c.equity);
+      const labels = captable.map(c => c.name);
+      // Strictly neutral monochrome colors
+      const neutralColors = ['#1A1A18', '#3F3F46', '#71717A', '#A1A1AA', '#D4D4D8'];
+
+      const options = {
+        series: series,
+        labels: labels,
+        chart: {
+          type: 'donut',
+          height: 190,
+          animations: { enabled: true }
+        },
+        colors: neutralColors.slice(0, series.length),
+        stroke: { show: true, width: 2, colors: ['#FFFFFF'] },
+        dataLabels: { enabled: false },
+        legend: { show: false },
+        tooltip: {
+          theme: 'dark',
+          y: {
+            formatter: function(val) {
+              return val + '% Ownership';
+            }
+          }
+        },
+        plotOptions: {
+          pie: {
+            donut: {
+              size: '72%',
+              labels: {
+                show: true,
+                name: { show: true, fontSize: '10px', fontWeight: 600, color: '#71717A', offsetY: -3 },
+                value: { show: true, fontSize: '14px', fontWeight: 800, color: '#18181B', offsetY: 2, formatter: (v) => v + '%' },
+                total: { show: true, label: 'Ownership', fontSize: '9px', fontWeight: 700, color: '#71717A', formatter: () => '100%' }
+              }
+            }
+          }
+        }
+      };
+
+      if (typeof ApexCharts !== 'undefined') {
+        capTableChartInstance = new ApexCharts(chartMount, options);
+        capTableChartInstance.render();
+      }
+    }
+
+    function openDeckPreviewModal() {
+      openDrawer('Pitch Deck Presentation', `${currentStartup.name} — Confidential PDF Deck`, `
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="aspect-ratio: 16/9; background:#1A1A18; border-radius:6px; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; padding:24px; color:#FFFFFF;">
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <div style="width:28px; height:28px; background:#FFFFFF; color:#1A1A18; border-radius:4px; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center;">${currentStartup.avatar}</div>
+                <span style="font-size:14px; font-weight:800;">${currentStartup.name}</span>
+              </div>
+              <span style="font-size:11px; background:rgba(255,255,255,0.2); padding:2px 8px; border-radius:4px; font-weight:700;">Slide 1 of 18</span>
+            </div>
+            <div>
+              <h2 style="font-size:18px; font-weight:800; margin:0 0 6px; line-height:1.3;">${currentStartup.pitch}</h2>
+              <p style="font-size:11.5px; color:rgba(255,255,255,0.7); margin:0;">Confidential Investor Deck · Round: ${currentStartup.stage} · Target Ask: ${currentStartup.ask}</p>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:11px; color:rgba(255,255,255,0.6); border-top:1px solid rgba(255,255,255,0.2); padding-top:10px;">
+              <span>Due Diligence Data Room</span>
+              <span>Seedicon Platform Verified</span>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; background:#F5F5F3; border:1px solid #DFDFDC; border-radius:6px; padding:10px 14px;">
+            <span style="font-size:12px; font-weight:700; color:#1A1A18;"><i data-lucide="file-text" style="width:14px; height:14px; vertical-align:middle;"></i> ${currentStartup.deck}</span>
+            <button class="btn btn-primary btn-sm" onclick="downloadDeck()"><i data-lucide="download" style="width:12px; height:12px;"></i> Download PDF</button>
+          </div>
+        </div>
+      `, '');
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function openVideoDemoModal() {
+      openDrawer('Product Demo Walkthrough', `${currentStartup.name} — Video Demonstration`, `
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="aspect-ratio: 16/9; background:#09090B; border-radius:6px; overflow:hidden; position:relative; display:flex; align-items:center; justify-content:center; color:#FFFFFF;">
+            <div style="text-align:center; padding:20px;">
+              <div class="media-play-btn" style="margin:0 auto 12px;" onclick="if(window.showToast) window.showToast('Simulating streaming video playback...')">
+                <i data-lucide="play" style="width:20px; height:20px; fill:#1A1A18; margin-left:2px;"></i>
+              </div>
+              <div style="font-size:14px; font-weight:800; margin-bottom:4px;">${currentStartup.name} Interactive Product Demo</div>
+              <div style="font-size:11.5px; color:#A1A1AA;">Duration: 3:24 min · Full HD 1080p · Loom Hosted</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; background:#F5F5F3; border:1px solid #DFDFDC; border-radius:6px; padding:10px 14px;">
+            <span style="font-size:12px; font-weight:600; color:#1A1A18;">Loom Hosted Demo</span>
+            <a href="https://loom.com" target="_blank" class="btn btn-outline btn-sm"><i data-lucide="external-link" style="width:12px; height:12px;"></i> Open in Loom</a>
+          </div>
+        </div>
+      `, '');
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function downloadDeck() {
+      if (window.showToast) window.showToast(`Downloading ${currentStartup.deck}...`);
+    }
 
     function scrollToSection(id, el) {
       const target = document.getElementById(id);
