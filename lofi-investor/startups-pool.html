@@ -3,42 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Startups Pool — Seedicon Investor Platform</title>
+  <title>Startups Inbound Pool — Seedicon Investor Platform</title>
   <link rel="stylesheet" href="./css/styles.css">
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
+    /* Full Workspace Layout */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .app-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .main-workspace {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      height: calc(100vh - 48px);
+      overflow: hidden;
+    }
+
+    .content-scrollable {
+      flex: 1;
+      height: 100%;
+      overflow-y: auto;
+      background: #F8F8F6;
+    }
+
     /* ─── Filter Sidebar ─── */
     .filter-group {
       border-bottom: 1px solid #EBEBEA;
-      padding-bottom: 12px;
-      margin-bottom: 12px;
+      padding-bottom: 11px;
+      margin-bottom: 11px;
     }
     .filter-group:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
     .filter-title {
       font-size: 10px;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.07em;
+      letter-spacing: 0.06em;
       color: #1A1A18;
-      margin-bottom: 8px;
+      margin-bottom: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     .filter-option {
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-size: 11.5px;
-      color: #6B6B68;
-      padding: 3.5px 0;
+      color: #5A5A58;
+      padding: 3px 0;
       cursor: pointer;
       transition: color 0.1s;
     }
     .filter-option:hover { color: #1A1A18; }
-    .filter-option input[type="checkbox"] {
-      accent-color: #1A1A18;
-      cursor: pointer;
-      width: 13px;
-      height: 13px;
-    }
+    .filter-option input[type="checkbox"],
     .filter-option input[type="radio"] {
       accent-color: #1A1A18;
       cursor: pointer;
@@ -48,254 +76,198 @@
     .filter-count {
       font-size: 9.5px;
       font-weight: 600;
-      color: #A8A8A4;
+      color: #8C8C88;
       background: #F0F0EE;
-      border-radius: 8px;
+      border-radius: 4px;
       padding: 1px 5px;
       border: 1px solid #E4E4E2;
     }
 
-    /* ─── Startup Card ─── */
-    .startup-card {
-      background: #FFFFFF;
-      border: 1px solid #DFDEDE;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: border-color 0.13s, box-shadow 0.13s, transform 0.1s;
-      overflow: hidden;
-    }
-    .startup-card:hover {
-      border-color: #B0B0AE;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-      transform: translateY(-1px);
+    /* ─── Rounded Square Chips (Not Pill) ─── */
+    .badge-chip {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px; /* Rounded square */
+      background: #F4F4F2;
+      color: #2A2A28;
+      border: 1px solid #DFDFDC;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      letter-spacing: 0.01em;
     }
 
-    /* Card Top Band */
-    .card-header {
+    /* ─── Single-Row Horizontal Startup Card (1 Card Per Row) ─── */
+    .startup-cards-list {
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 16px 11px;
-      border-bottom: 1px solid #F0F0EE;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
     }
+
+    .startup-row-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.13s ease, box-shadow 0.13s ease;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .startup-row-card:hover {
+      border-color: #1A1A18;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    /* Neutral Black Logo */
     .card-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 7px;
-      background: #F0F0EE;
-      color: #3A3A38;
-      border: 1px solid #E0E0DE;
+      width: 42px;
+      height: 42px;
+      border-radius: 4px;
+      background: #1A1A18;
+      color: #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 12.5px;
+      font-size: 11.5px;
       flex-shrink: 0;
       letter-spacing: -0.02em;
     }
-    .card-title-block {
-      flex: 1;
-      min-width: 0;
-    }
-    .card-company-name {
-      font-size: 14px;
+
+    /* Google-Style Visited (Purple Underline) vs Unread (Pure Black Bold) */
+    .company-title-link {
+      font-size: 13.5px;
       font-weight: 800;
-      color: #1A1A18;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
+      letter-spacing: -0.01em;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .card-meta-row {
-      display: flex;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
       align-items: center;
       gap: 5px;
-      margin-top: 4px;
-      flex-wrap: wrap;
     }
-    .card-badge {
-      font-size: 9.5px;
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 4px;
-      letter-spacing: 0.02em;
-    }
-    .badge-stage {
-      background: #EAEAE8;
-      color: #2A2A28;
-      border: 1px solid #D0D0CE;
-    }
-    .badge-sector {
-      background: #F4F4F2;
-      color: #5A5A58;
-      border: 1px solid #E4E4E2;
-    }
-    .badge-location {
-      background: transparent;
-      color: #888884;
-      font-size: 10.5px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 2px;
-    }
-
-    /* Status pill — all in grey tones */
-    .status-pill {
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 12px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .status-New        { background: #F0F0EE; color: #3A3A38; border: 1px solid #DCDCDA; }
-    .status-Reviewed   { background: #EAEAE8; color: #2A2A28; border: 1px solid #D0D0CE; }
-    .status-Shortlisted{ background: #1A1A18; color: #FFFFFF; border: 1px solid #1A1A18; }
-    .status-In-Pipeline{ background: #2E2E2C; color: #FFFFFF; border: 1px solid #2E2E2C; }
-    .status-Passed     { background: #F5F5F3; color: #8C8C88; border: 1px solid #E0E0DE; }
-
-    /* Card Body: pitch */
-    .card-pitch {
-      padding: 10px 16px;
-      font-size: 12px;
-      color: #5A5A58;
-      line-height: 1.5;
-      border-bottom: 1px solid #F0F0EE;
-    }
-
-    /* Card Metrics Strip */
-    .card-metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-bottom: 1px solid #F0F0EE;
-    }
-    .metric-cell {
-      padding: 9px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      border-right: 1px solid #F0F0EE;
-    }
-    .metric-cell:last-child { border-right: none; }
-    .metric-lbl {
-      font-size: 9px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #A8A8A4;
-    }
-    .metric-val {
-      font-size: 12.5px;
+    .company-title-link.unread {
+      color: #1A1A18;
       font-weight: 800;
-      color: #1A1A18;
-      letter-spacing: -0.01em;
+      text-decoration: none;
     }
-
-    /* Card Footer */
-    .card-footer {
-      padding: 8px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #FAFAFA;
-    }
-    .card-footer-date {
-      font-size: 10.5px;
-      color: #9A9A96;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .btn-view-detail {
-      font-size: 11px;
+    .company-title-link.read {
+      color: #6B21A8; /* Purple Google-style visited link */
+      text-decoration: underline;
       font-weight: 700;
-      color: #1A1A18;
-      background: #F0F0EE;
-      border: 1px solid #D4D4D2;
-      border-radius: 5px;
-      padding: 4px 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      transition: background 0.12s, border-color 0.12s;
-    }
-    .btn-view-detail:hover {
-      background: #1A1A18;
-      color: #FFFFFF;
-      border-color: #1A1A18;
     }
 
-    /* Table view */
-    .pool-table { width: 100%; border-collapse: collapse; }
+    .card-website-btn {
+      color: #8C8C88;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+      text-decoration: none;
+      transition: color 0.1s ease;
+    }
+    .card-website-btn:hover {
+      color: #1A1A18;
+    }
+
+    /* ─── Table View (Strictly Single-Line Rows) ─── */
+    .pool-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      table-layout: fixed;
+    }
     .pool-table th {
       text-align: left;
       font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       color: #8C8C88;
-      padding: 9px 14px;
+      padding: 9px 12px;
       border-bottom: 1px solid #EBEBEA;
       background: #FAFAFA;
+      white-space: nowrap;
     }
     .pool-table th.num { text-align: right; }
     .pool-table td {
-      padding: 10px 14px;
-      font-size: 12px;
+      padding: 9px 12px;
       color: #3A3A38;
       border-bottom: 1px solid #F3F3F1;
       vertical-align: middle;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .pool-table td.num { text-align: right; font-weight: 700; }
+    .pool-table td.num {
+      text-align: right;
+      font-weight: 700;
+      color: #1A1A18;
+      white-space: nowrap;
+    }
     .pool-table tr:hover td { background: #FAFAFA; }
     .pool-table tr:last-child td { border-bottom: none; }
+
+    .tagline-truncated {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #5A5A58;
+      font-size: 11.5px;
+      display: block;
+    }
   </style>
 </head>
 <body>
   <div class="app-container">
+    <!-- Top App Header Slot -->
     <div id="appHeaderSlot"></div>
+
     <div class="main-workspace" style="display:flex; flex-direction:row;">
+      <!-- Tiny Icon Sidebar Slot -->
       <div id="tinySidebarSlot"></div>
+
+      <!-- Main Navigation Sidebar Slot -->
       <div id="mainSidebarSlot"></div>
 
-      <main class="content-scrollable" style="padding:0; display:flex; flex-direction:column; background:#F5F5F3;">
+      <!-- Main Page Canvas Content -->
+      <main class="content-scrollable" style="padding:0; display:flex; flex-direction:column; background:#F8F8F6;">
 
         <!-- PAGE HEADER BAR -->
-        <header style="padding:10px 22px; background:#FFFFFF; border-bottom:1px solid #E4E4E2; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; position:sticky; top:0; z-index:10;">
+        <header style="padding:10px 24px; background:#FFFFFF; border-bottom:1px solid #E4E4E2; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; position:sticky; top:0; z-index:20;">
           <div>
             <div style="display:flex; align-items:center; gap:8px;">
-              <h1 style="font-size:16.5px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em;">Startups Inbound Pool</h1>
-              <span id="totalCountBadge" style="font-size:10.5px; font-weight:700; background:#F0F0EE; color:#4A4A48; border:1px solid #DCDCDA; border-radius:10px; padding:2px 8px;">28 Submissions</span>
+              <h1 style="font-size:16px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em; margin:0;">Startups Inbound Pool</h1>
+              <span id="totalCountBadge" style="font-size:10.5px; font-weight:700; background:#F0F0EE; color:#4A4A48; border:1px solid #DCDCDA; border-radius:4px; padding:2px 7px;">9 Submissions</span>
             </div>
-            <p style="font-size:11px; color:#8C8C88; margin-top:1px;">
-              Inbound founder applications via your public <strong style="color:#4A4A48;">Intake Link</strong> &amp; direct submissions.
+            <p style="font-size:11px; color:#8C8C88; margin:2px 0 0;">
+              Inbound founder applications received via public <strong style="color:#4A4A48;">Intake Links</strong> &amp; direct submissions.
             </p>
           </div>
-          <button class="btn btn-primary" onclick="location.href='./intake-builder.html'" style="font-size:12px;">
-            <i data-lucide="plus" class="lucide-sm"></i>
-            <span>Create Intake Link</span>
-          </button>
+
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="btn btn-primary" onclick="location.href='./intake-builder.html'" style="font-size:11.5px; padding:6px 14px; gap:5px;">
+              <i data-lucide="plus" class="lucide-sm"></i>
+              <span>Intake Form Builder</span>
+            </button>
+          </div>
         </header>
 
         <!-- SEARCH + CONTROLS STRIP -->
-        <div style="padding:7px 22px; background:#FFFFFF; border-bottom:1px solid #EBEBEA; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-shrink:0;">
-          <div style="display:flex; align-items:center; gap:6px; flex:1; max-width:400px; background:#F7F7F5; border:1px solid #E0E0DE; border-radius:6px; padding:5px 10px;">
+        <div style="padding:8px 24px; background:#FFFFFF; border-bottom:1px solid #EBEBEA; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-shrink:0;">
+          <div style="display:flex; align-items:center; gap:6px; flex:1; max-width:460px; background:#F7F7F5; border:1px solid #E0E0DE; border-radius:6px; padding:5px 10px;">
             <i data-lucide="search" style="width:13px; height:13px; color:#9A9A96; flex-shrink:0;"></i>
-            <input type="text" id="searchInput" onkeyup="filterStartups()" placeholder="Search startups by name, sector, pitch, location..." style="border:none; background:transparent; outline:none; font-family:Inter,sans-serif; font-size:11.5px; width:100%; color:#1A1A18;" />
+            <input type="text" id="searchInput" onkeyup="filterStartups()" placeholder="Search by name, industry, tagline, location, ARR..." style="border:none; background:transparent; outline:none; font-family:Inter,sans-serif; font-size:11.5px; width:100%; color:#1A1A18;" />
           </div>
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
-              <span>Sort:</span>
-              <select id="sortSelect" onchange="filterStartups()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 6px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18;">
-                <option value="newest">Newest First</option>
-                <option value="ask_desc">Ask Amount ↓</option>
-                <option value="name">Name A–Z</option>
-              </select>
-            </div>
+
+          <div style="display:flex; align-items:center; gap:12px;">
+            <!-- Grid vs Table Toggle -->
             <div style="display:flex; background:#F0F0EE; padding:2px; border-radius:6px; border:1px solid #E0E0DE; gap:1px;">
               <button id="btnViewGrid" onclick="setViewMode('grid')" style="display:flex; align-items:center; gap:4px; padding:3px 9px; border-radius:4px; border:1px solid #C8C8C6; background:#FFFFFF; font-size:11px; font-weight:700; color:#1A1A18; cursor:pointer; font-family:Inter,sans-serif;">
                 <i data-lucide="layout-grid" style="width:12px; height:12px;"></i> Cards
@@ -307,78 +279,114 @@
           </div>
         </div>
 
-        <!-- MAIN CONTENT: FILTER + CARDS -->
-        <div style="display:grid; grid-template-columns:218px 1fr; gap:14px; padding:14px 22px; align-items:start; flex:1;">
+        <!-- MAIN CONTENT: FILTER + CARDS / TABLE -->
+        <div style="display:grid; grid-template-columns:220px 1fr; gap:16px; padding:16px 24px; align-items:start; flex:1;">
 
           <!-- LEFT FILTER SIDEBAR -->
-          <aside style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:8px; padding:13px; position:sticky; top:98px; max-height:calc(100vh - 118px); overflow-y:auto;">
+          <aside style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:6px; padding:14px; position:sticky; top:98px; max-height:calc(100vh - 120px); overflow-y:auto;">
             <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:10px; border-bottom:1px solid #EBEBEA; margin-bottom:12px;">
-              <span style="font-size:10.5px; font-weight:800; color:#1A1A18; display:flex; align-items:center; gap:5px;">
+              <span style="font-size:11px; font-weight:800; color:#1A1A18; display:flex; align-items:center; gap:5px;">
                 <i data-lucide="sliders-horizontal" style="width:13px; height:13px;"></i>
                 Filters
               </span>
               <button onclick="resetFilters()" style="font-size:10px; font-weight:700; color:#7A7A78; background:transparent; border:1px solid #E0E0DE; border-radius:4px; padding:2px 7px; cursor:pointer; font-family:Inter,sans-serif;">Reset</button>
             </div>
 
-            <!-- Sector -->
+            <!-- Sort By (Moved to Sidebar) -->
             <div class="filter-group">
-              <div class="filter-title">Sector</div>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Healthcare" onchange="filterStartups()" /> Healthcare</div><span class="filter-count">8</span></label>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Artificial Intelligence" onchange="filterStartups()" /> Artificial Intelligence</div><span class="filter-count">7</span></label>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="CleanTech" onchange="filterStartups()" /> CleanTech</div><span class="filter-count">4</span></label>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Logistics" onchange="filterStartups()" /> Logistics</div><span class="filter-count">4</span></label>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="FinTech" onchange="filterStartups()" /> FinTech</div><span class="filter-count">5</span></label>
+              <div class="filter-title">Sort By</div>
+              <select id="sortSelect" onchange="filterStartups()" style="width:100%; border:1px solid #E0E0DE; border-radius:4px; padding:5px 8px; font-size:11.5px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none; box-sizing:border-box;">
+                <option value="newest">Newest Added</option>
+                <option value="ask_desc">Ask Amount ↓</option>
+                <option value="arr_desc">ARR Revenue ↓</option>
+                <option value="name">Company Name A–Z</option>
+              </select>
+            </div>
+
+            <!-- Reading Status (Unread Filter) -->
+            <div class="filter-group">
+              <div class="filter-title">Reading Status</div>
+              <label class="filter-option">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <input type="radio" name="readStatusFilter" value="all" checked onchange="filterStartups()" />
+                  <span>All Submissions</span>
+                </div>
+                <span class="filter-count" id="countAllSubmissions">9</span>
+              </label>
+              <label class="filter-option">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <input type="radio" name="readStatusFilter" value="unread" onchange="filterStartups()" />
+                  <span style="font-weight:700; color:#1A1A18;">Unread Only</span>
+                </div>
+                <span class="filter-count" id="countUnreadSubmissions">7</span>
+              </label>
+              <label class="filter-option">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <input type="radio" name="readStatusFilter" value="read" onchange="filterStartups()" />
+                  <span>Read / Visited</span>
+                </div>
+                <span class="filter-count" id="countReadSubmissions">2</span>
+              </label>
+            </div>
+
+            <!-- Location / City Dropdown Select -->
+            <div class="filter-group">
+              <div class="filter-title">Location (City)</div>
+              <select id="citySelect" onchange="filterStartups()" style="width:100%; border:1px solid #E0E0DE; border-radius:4px; padding:5px 8px; font-size:11.5px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none; box-sizing:border-box;">
+                <option value="">All Cities</option>
+                <option value="Bengaluru">Bengaluru, India</option>
+                <option value="San Francisco">San Francisco, USA</option>
+                <option value="Mumbai">Mumbai, India</option>
+                <option value="London">London, UK</option>
+                <option value="Berlin">Berlin, Germany</option>
+                <option value="Austin">Austin, USA</option>
+                <option value="Boston">Boston, USA</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Delhi NCR">Delhi NCR, India</option>
+              </select>
+            </div>
+
+            <!-- Industry / Sector -->
+            <div class="filter-group">
+              <div class="filter-title">Industry / Sector</div>
+              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Healthcare" onchange="filterStartups()" /> Healthcare</div><span class="filter-count">2</span></label>
+              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Artificial Intelligence" onchange="filterStartups()" /> AI / ML</div><span class="filter-count">2</span></label>
+              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="FinTech" onchange="filterStartups()" /> FinTech</div><span class="filter-count">1</span></label>
+              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="CleanTech" onchange="filterStartups()" /> CleanTech</div><span class="filter-count">2</span></label>
+              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Logistics" onchange="filterStartups()" /> Logistics</div><span class="filter-count">1</span></label>
+              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="SaaS / Security" onchange="filterStartups()" /> SaaS / Security</div><span class="filter-count">1</span></label>
             </div>
 
             <!-- Stage -->
             <div class="filter-group">
-              <div class="filter-title">Stage</div>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Pre-Seed" onchange="filterStartups()" /> Pre-Seed</div><span class="filter-count">9</span></label>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Seed" onchange="filterStartups()" /> Seed</div><span class="filter-count">12</span></label>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Series A" onchange="filterStartups()" /> Series A</div><span class="filter-count">5</span></label>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Series B" onchange="filterStartups()" /> Series B</div><span class="filter-count">2</span></label>
+              <div class="filter-title">Funding Stage</div>
+              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Pre-Seed" onchange="filterStartups()" /> Pre-Seed</div><span class="filter-count">3</span></label>
+              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Seed" onchange="filterStartups()" /> Seed</div><span class="filter-count">4</span></label>
+              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Series A" onchange="filterStartups()" /> Series A</div><span class="filter-count">2</span></label>
             </div>
 
-            <!-- Startup Status -->
+            <!-- Ask / Ticket Size Range -->
             <div class="filter-group">
-              <div class="filter-title">Startup Status</div>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="New" onchange="filterStartups()" /> New Inbound</div><span class="filter-count">10</span></label>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Reviewed" onchange="filterStartups()" /> Reviewed</div><span class="filter-count">8</span></label>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Shortlisted" onchange="filterStartups()" /> Shortlisted</div><span class="filter-count">5</span></label>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="In Pipeline" onchange="filterStartups()" /> In Pipeline</div><span class="filter-count">3</span></label>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="checkbox" value="Passed" onchange="filterStartups()" /> Passed</div><span class="filter-count">2</span></label>
-            </div>
-
-            <!-- Ticket Size -->
-            <div class="filter-group">
-              <div class="filter-title">Ask / Ticket Size</div>
+              <div class="filter-title">Ask Amount Range</div>
               <div style="display:flex; gap:4px; flex-wrap:wrap;">
-                <select id="currSelect" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 4px; font-size:10px; font-family:Inter,sans-serif; background:#FAFAFA; color:#3A3A38; width:70px;">
-                  <option>USD ($)</option><option>INR (₹)</option><option>EUR (€)</option><option>GBP (£)</option>
-                </select>
-                <input type="number" id="minAsk" placeholder="Min" onkeyup="filterStartups()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 5px; font-size:10.5px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; width:60px; outline:none;" />
-                <input type="number" id="maxAsk" placeholder="Max" onkeyup="filterStartups()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 5px; font-size:10.5px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; width:60px; outline:none;" />
+                <input type="number" id="minAsk" placeholder="Min" onkeyup="filterStartups()" style="border:1px solid #E0E0DE; border-radius:4px; padding:3px 5px; font-size:10.5px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; width:75px; outline:none; box-sizing:border-box;" />
+                <input type="number" id="maxAsk" placeholder="Max" onkeyup="filterStartups()" style="border:1px solid #E0E0DE; border-radius:4px; padding:3px 5px; font-size:10.5px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; width:75px; outline:none; box-sizing:border-box;" />
               </div>
             </div>
 
-            <!-- Location -->
+            <!-- Submission Date Filter -->
             <div class="filter-group">
-              <div class="filter-title">Location</div>
-              <input type="text" placeholder="Country, State or City..." id="locationInput" onkeyup="filterStartups()" style="border:1px solid #E0E0DE; border-radius:5px; padding:5px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; width:100%; outline:none; box-sizing:border-box;" />
-            </div>
-
-            <!-- Submission Date -->
-            <div class="filter-group">
-              <div class="filter-title">Submission Date</div>
+              <div class="filter-title">Applied Date</div>
               <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="radio" name="dateFilter" value="all" checked onchange="filterStartups()" /> All Time</div></label>
               <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="radio" name="dateFilter" value="7days" onchange="filterStartups()" /> Last 7 Days</div></label>
               <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="radio" name="dateFilter" value="30days" onchange="filterStartups()" /> Last 30 Days</div></label>
-              <label class="filter-option"><div style="display:flex;align-items:center;gap:6px;"><input type="radio" name="dateFilter" value="last_month" onchange="filterStartups()" /> Last Month</div></label>
             </div>
           </aside>
 
-          <!-- RIGHT CARDS AREA -->
-          <div id="startupsContainer" style="display:flex; flex-direction:column; gap:10px;"></div>
+          <!-- RIGHT CARDS / TABLE AREA -->
+          <div id="startupsContainer" style="display:flex; flex-direction:column; gap:12px; min-width:0; width:100%;">
+            <!-- Rendered Dynamically -->
+          </div>
         </div>
 
       </main>
@@ -388,54 +396,193 @@
   <script src="./js/components.js"></script>
   <script src="./js/app.js"></script>
   <script>
-    const STARTUPS = [
+    // PREDEFINED STARTUPS INBOUND DATA (NEUTRAL LOGOS & ALL REQUIRED FIELDS)
+    const STARTUPS_DATA = [
       {
-        id: 'sup_1', name: 'Alpha Health', logo: 'AH',
-        sector: 'Healthcare', stage: 'Pre-Seed', location: 'San Francisco, CA', year: 2023,
-        ask: '$3.00M', askVal: 3.0, raised: '$2.00M', arr: '$850K',
-        status: 'New', submitted: 'Feb 28, 2026',
-        pitch: 'Next-gen predictive diagnostic AI for early disease detection across hospital networks.'
+        id: 'sup_1',
+        name: 'Alpha Health AI',
+        logo: 'AH',
+        industry: 'Healthcare',
+        stage: 'Pre-Seed',
+        city: 'San Francisco',
+        location: 'San Francisco, USA',
+        website: 'https://alphahealth.ai',
+        tagline: 'Next-gen predictive diagnostic AI for early disease detection across clinical hospital networks.',
+        ask: '$3.00M',
+        askVal: 3.0,
+        raised: '$2.00M',
+        arr: '$850K',
+        arrVal: 0.85,
+        addedOn: '28 Feb 2026'
       },
       {
-        id: 'sup_2', name: 'Apex AI', logo: 'AA',
-        sector: 'Artificial Intelligence', stage: 'Seed', location: 'Bengaluru, India', year: 2024,
-        ask: '₹5.00 Cr', askVal: 5.0, raised: '₹2.00 Cr', arr: '₹1.5 Cr',
-        status: 'Shortlisted', submitted: 'Feb 25, 2026',
-        pitch: 'Autonomous agent platform for enterprise financial workflows and invoice processing.'
+        id: 'sup_2',
+        name: 'Apex AI Systems',
+        logo: 'AA',
+        industry: 'Artificial Intelligence',
+        stage: 'Seed',
+        city: 'Bengaluru',
+        location: 'Bengaluru, India',
+        website: 'https://apexai.io',
+        tagline: 'Autonomous agent platform for enterprise financial workflows and automated invoice reconciliation.',
+        ask: '₹5.00 Cr',
+        askVal: 5.0,
+        raised: '₹2.00 Cr',
+        arr: '₹1.50 Cr',
+        arrVal: 1.50,
+        addedOn: '25 Feb 2026'
       },
       {
-        id: 'sup_3', name: 'FinFlow Tech', logo: 'FF',
-        sector: 'FinTech', stage: 'Seed', location: 'London, UK', year: 2023,
-        ask: '$2.50M', askVal: 2.5, raised: '$1.00M', arr: '$1.2M',
-        status: 'In Pipeline', submitted: 'Feb 20, 2026',
-        pitch: 'Cross-border liquidity engine enabling real-time instant settlement for corporate treasury.'
+        id: 'sup_3',
+        name: 'FinFlow Tech',
+        logo: 'FF',
+        industry: 'FinTech',
+        stage: 'Seed',
+        city: 'London',
+        location: 'London, UK',
+        website: 'https://finflow.global',
+        tagline: 'Cross-border liquidity engine enabling real-time instant settlement for corporate multi-currency treasury.',
+        ask: '$2.50M',
+        askVal: 2.5,
+        raised: '$1.00M',
+        arr: '$1.20M',
+        arrVal: 1.20,
+        addedOn: '22 Feb 2026'
       },
       {
-        id: 'sup_4', name: 'LogiChain Labs', logo: 'LC',
-        sector: 'Logistics', stage: 'Series A', location: 'Berlin, Germany', year: 2022,
-        ask: '€4.00M', askVal: 4.0, raised: '€2.50M', arr: '€2.8M',
-        status: 'Reviewed', submitted: 'Feb 18, 2026',
-        pitch: 'AI-driven supply chain route optimization reducing carbon emissions and freight transit times.'
+        id: 'sup_4',
+        name: 'LogiChain Labs',
+        logo: 'LC',
+        industry: 'Logistics',
+        stage: 'Series A',
+        city: 'Berlin',
+        location: 'Berlin, Germany',
+        website: 'https://logichain.de',
+        tagline: 'AI-driven multi-modal route optimization reducing freight transit emissions and detention delays.',
+        ask: '€4.00M',
+        askVal: 4.0,
+        raised: '€2.50M',
+        arr: '€2.80M',
+        arrVal: 2.80,
+        addedOn: '18 Feb 2026'
       },
       {
-        id: 'sup_5', name: 'EcoPulse Energy', logo: 'EP',
-        sector: 'CleanTech', stage: 'Seed', location: 'Austin, TX', year: 2024,
-        ask: '$3.50M', askVal: 3.5, raised: '$1.50M', arr: '$600K',
-        status: 'New', submitted: 'Feb 27, 2026',
-        pitch: 'Solid-state battery thermal management architecture for commercial electric vehicle fleets.'
+        id: 'sup_5',
+        name: 'EcoPulse Energy',
+        logo: 'EP',
+        industry: 'CleanTech',
+        stage: 'Seed',
+        city: 'Austin',
+        location: 'Austin, USA',
+        website: 'https://ecopulseenergy.com',
+        tagline: 'Solid-state battery thermal management architecture for commercial electric vehicle fleets.',
+        ask: '$3.50M',
+        askVal: 3.5,
+        raised: '$1.50M',
+        arr: '$600K',
+        arrVal: 0.60,
+        addedOn: '16 Feb 2026'
       },
       {
-        id: 'sup_6', name: 'NeuroPulse Health', logo: 'NP',
-        sector: 'Healthcare', stage: 'Pre-Seed', location: 'Boston, MA', year: 2024,
-        ask: '$1.80M', askVal: 1.8, raised: '$500K', arr: '$300K',
-        status: 'New', submitted: 'Feb 26, 2026',
-        pitch: 'Non-invasive EEG brain-computer interface monitoring neurological rehabilitation recovery.'
+        id: 'sup_6',
+        name: 'NeuroPulse Health',
+        logo: 'NP',
+        industry: 'Healthcare',
+        stage: 'Pre-Seed',
+        city: 'Boston',
+        location: 'Boston, USA',
+        website: 'https://neuropulse.bio',
+        tagline: 'Non-invasive EEG brain-computer interface monitoring neurological stroke rehabilitation recovery.',
+        ask: '$1.80M',
+        askVal: 1.8,
+        raised: '$500K',
+        arr: '$300K',
+        arrVal: 0.30,
+        addedOn: '14 Feb 2026'
+      },
+      {
+        id: 'sup_7',
+        name: 'Kavach Cyber',
+        logo: 'KC',
+        industry: 'SaaS / Security',
+        stage: 'Seed',
+        city: 'Mumbai',
+        location: 'Mumbai, India',
+        website: 'https://kavachcyber.in',
+        tagline: 'Zero-trust identity access management and endpoint cloud security tailored for mid-market banks.',
+        ask: '₹4.00 Cr',
+        askVal: 4.0,
+        raised: '₹1.20 Cr',
+        arr: '₹1.10 Cr',
+        arrVal: 1.10,
+        addedOn: '12 Feb 2026'
+      },
+      {
+        id: 'sup_8',
+        name: 'OmniRetail Robotics',
+        logo: 'OR',
+        industry: 'Artificial Intelligence',
+        stage: 'Series A',
+        city: 'Singapore',
+        location: 'Singapore, Singapore',
+        website: 'https://omniretail.sg',
+        tagline: 'Autonomous shelf scanning robots and inventory forecasting for enterprise supermarket chains.',
+        ask: '$4.50M',
+        askVal: 4.5,
+        raised: '$3.00M',
+        arr: '$2.10M',
+        arrVal: 2.10,
+        addedOn: '10 Feb 2026'
+      },
+      {
+        id: 'sup_9',
+        name: 'Zyro Agritech',
+        logo: 'ZA',
+        industry: 'CleanTech',
+        stage: 'Pre-Seed',
+        city: 'Delhi NCR',
+        location: 'Delhi NCR, India',
+        website: 'https://zyroagri.com',
+        tagline: 'Precision hyper-spectral drone imagery assessing soil moisture and micronutrient health for farmers.',
+        ask: '₹2.50 Cr',
+        askVal: 2.5,
+        raised: '₹80L',
+        arr: '₹45L',
+        arrVal: 0.45,
+        addedOn: '08 Feb 2026'
       }
     ];
 
-    let viewMode = 'grid';
+    // Read vs Unread State Management (Persists when user opens/clicks)
+    function getReadSet() {
+      try {
+        const stored = localStorage.getItem('seedicon_read_pool_v3');
+        if (stored) return new Set(JSON.parse(stored));
+      } catch (e) {}
+      // Top 2 startups (Alpha Health AI & Apex AI Systems) are strictly unread (bold black)!
+      // Lower entries (sup_4 LogiChain Labs & sup_7 Kavach Cyber) can be read (purple underlined).
+      return new Set(['sup_4', 'sup_7']);
+    }
 
-    document.addEventListener('DOMContentLoaded', () => { renderStartups(STARTUPS); });
+    function saveReadSet(set) {
+      try {
+        localStorage.setItem('seedicon_read_pool_v3', JSON.stringify([...set]));
+      } catch (e) {}
+    }
+
+    let readSet = getReadSet();
+    let viewMode = 'grid'; // 'grid' (1 card per row) | 'table' (single-line rows)
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof LayoutComponents !== 'undefined' && document.getElementById('appHeaderSlot')) {
+        LayoutComponents.init({ activeNav: 'startups-pool', activeApp: 'investor' });
+      }
+      if (typeof bindAppEvents === 'function') {
+        bindAppEvents();
+      }
+
+      filterStartups();
+    });
 
     function setViewMode(mode) {
       viewMode = mode;
@@ -448,161 +595,255 @@
       filterStartups();
     }
 
-    function filterStartups() {
-      const query = (document.getElementById('searchInput').value || '').toLowerCase();
-      const loc   = (document.getElementById('locationInput').value || '').toLowerCase();
-      const secCBs = [...document.querySelectorAll('input[type="checkbox"][value]:checked')]
-        .filter(c => ['Healthcare','Artificial Intelligence','CleanTech','Logistics','FinTech'].includes(c.value)).map(c => c.value);
-      const stageCBs = [...document.querySelectorAll('input[type="checkbox"][value]:checked')]
-        .filter(c => ['Pre-Seed','Seed','Series A','Series B'].includes(c.value)).map(c => c.value);
-      const statusCBs = [...document.querySelectorAll('input[type="checkbox"][value]:checked')]
-        .filter(c => ['New','Reviewed','Shortlisted','In Pipeline','Passed'].includes(c.value)).map(c => c.value);
+    function openStartup(id) {
+      readSet.add(id);
+      saveReadSet(readSet);
+      window.location.href = `./startup-detail.html?id=${id}`;
+    }
 
-      let filtered = STARTUPS.filter(s => {
-        if (query && !s.name.toLowerCase().includes(query) && !s.sector.toLowerCase().includes(query) && !s.pitch.toLowerCase().includes(query)) return false;
-        if (loc && !s.location.toLowerCase().includes(loc)) return false;
-        if (secCBs.length && !secCBs.includes(s.sector)) return false;
+    function updateReadingCounts() {
+      const total = STARTUPS_DATA.length;
+      const readCount = STARTUPS_DATA.filter(s => readSet.has(s.id)).length;
+      const unreadCount = total - readCount;
+
+      const elTotal = document.getElementById('countAllSubmissions');
+      const elUnread = document.getElementById('countUnreadSubmissions');
+      const elRead = document.getElementById('countReadSubmissions');
+
+      if (elTotal) elTotal.textContent = total;
+      if (elUnread) elUnread.textContent = unreadCount;
+      if (elRead) elRead.textContent = readCount;
+    }
+
+    function filterStartups() {
+      const query = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+      const city = document.getElementById('citySelect').value.trim();
+      const readFilter = document.querySelector('input[name="readStatusFilter"]:checked')?.value || 'all';
+
+      const secCBs = [...document.querySelectorAll('input[type="checkbox"][value]:checked')]
+        .filter(c => ['Healthcare','Artificial Intelligence','CleanTech','Logistics','FinTech','SaaS / Security'].includes(c.value))
+        .map(c => c.value);
+
+      const stageCBs = [...document.querySelectorAll('input[type="checkbox"][value]:checked')]
+        .filter(c => ['Pre-Seed','Seed','Series A','Series B'].includes(c.value))
+        .map(c => c.value);
+
+      const minAsk = parseFloat(document.getElementById('minAsk')?.value) || 0;
+      const maxAsk = parseFloat(document.getElementById('maxAsk')?.value) || Infinity;
+
+      let filtered = STARTUPS_DATA.filter(s => {
+        const isRead = readSet.has(s.id);
+        if (readFilter === 'unread' && isRead) return false;
+        if (readFilter === 'read' && !isRead) return false;
+
+        if (query) {
+          const match = s.name.toLowerCase().includes(query) ||
+                        s.industry.toLowerCase().includes(query) ||
+                        s.tagline.toLowerCase().includes(query) ||
+                        s.location.toLowerCase().includes(query) ||
+                        s.arr.toLowerCase().includes(query);
+          if (!match) return false;
+        }
+
+        if (city && s.city !== city) return false;
+        if (secCBs.length && !secCBs.includes(s.industry)) return false;
         if (stageCBs.length && !stageCBs.includes(s.stage)) return false;
-        if (statusCBs.length && !statusCBs.includes(s.status)) return false;
+        if (s.askVal < minAsk || s.askVal > maxAsk) return false;
+
         return true;
       });
 
       const sort = document.getElementById('sortSelect').value;
       if (sort === 'ask_desc') filtered.sort((a,b) => b.askVal - a.askVal);
+      else if (sort === 'arr_desc') filtered.sort((a,b) => b.arrVal - a.arrVal);
       else if (sort === 'name') filtered.sort((a,b) => a.name.localeCompare(b.name));
 
+      updateReadingCounts();
       renderStartups(filtered);
     }
 
     function resetFilters() {
       document.getElementById('searchInput').value = '';
-      document.getElementById('locationInput').value = '';
+      document.getElementById('citySelect').value = '';
+      document.getElementById('sortSelect').value = 'newest';
       document.getElementById('minAsk').value = '';
       document.getElementById('maxAsk').value = '';
-      document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
-      document.querySelectorAll('input[type="radio"]').forEach(r => { r.checked = r.value === 'all'; });
-      renderStartups(STARTUPS);
-    }
-
-    function statusClass(s) {
-      return 'status-' + s.replace(/\s+/g, '-');
-    }
-
-    function navigateToDetail(id) {
-      window.location.href = `./startup-detail.html?id=${id}`;
+      document.querySelectorAll('input[type="checkbox"]').forEach(c => { c.checked = false; });
+      document.querySelectorAll('input[name="readStatusFilter"]').forEach(r => { r.checked = r.value === 'all'; });
+      document.querySelectorAll('input[name="dateFilter"]').forEach(r => { r.checked = r.value === 'all'; });
+      filterStartups();
     }
 
     function renderStartups(list) {
       const c = document.getElementById('startupsContainer');
       const badge = document.getElementById('totalCountBadge');
       if (badge) badge.textContent = `${list.length} Submission${list.length !== 1 ? 's' : ''}`;
+
       if (!c) return;
 
       if (!list.length) {
-        c.innerHTML = `<div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:8px; padding:44px; text-align:center; color:#7A7A78;">
-          <div style="margin-bottom:8px;"><i data-lucide="inbox" style="width:28px; height:28px; color:#B0B0AE;"></i></div>
-          <div style="font-size:13.5px; font-weight:800; color:#2A2A28; margin-bottom:3px;">No Startups Found</div>
-          <p style="font-size:11px; color:#8C8C88;">No submissions match the selected filters.</p>
-          <button onclick="resetFilters()" style="margin-top:12px; font-size:11px; font-weight:700; border:1px solid #DCDCDA; border-radius:6px; padding:6px 14px; cursor:pointer; background:#F5F5F3; color:#3A3A38; font-family:Inter,sans-serif;">Reset All Filters</button>
-        </div>`;
+        c.innerHTML = `
+          <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:6px; padding:48px; text-align:center; color:#7A7A78;">
+            <div style="margin-bottom:8px;"><i data-lucide="inbox" style="width:32px; height:32px; color:#B0B0AE;"></i></div>
+            <div style="font-size:14px; font-weight:800; color:#2A2A28; margin-bottom:3px;">No Startups Found</div>
+            <p style="font-size:11.5px; color:#8C8C88;">No submissions match your active filter criteria.</p>
+            <button onclick="resetFilters()" style="margin-top:12px; font-size:11.5px; font-weight:700; border:1px solid #DCDCDA; border-radius:4px; padding:6px 14px; cursor:pointer; background:#F5F5F3; color:#3A3A38; font-family:Inter,sans-serif;">Reset All Filters</button>
+          </div>`;
         if (typeof lucide !== 'undefined') lucide.createIcons();
         return;
       }
 
       if (viewMode === 'grid') {
-        c.innerHTML = list.map(s => `
-          <div class="startup-card" onclick="navigateToDetail('${s.id}')">
-
-            <!-- HEADER: Logo + Name + Status -->
-            <div class="card-header">
-              <div style="display:flex; align-items:flex-start; gap:11px; flex:1; min-width:0;">
-                <div class="card-logo">${s.logo}</div>
-                <div class="card-title-block">
-                  <div class="card-company-name">${s.name}</div>
-                  <div class="card-meta-row">
-                    <span class="card-badge badge-stage">${s.stage}</span>
-                    <span class="card-badge badge-sector">${s.sector}</span>
-                    <span class="badge-location">
-                      <i data-lucide="map-pin" style="width:10px; height:10px;"></i>
-                      ${s.location}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <span class="status-pill ${statusClass(s.status)}">${s.status}</span>
-            </div>
-
-            <!-- PITCH -->
-            <div class="card-pitch">${s.pitch}</div>
-
-            <!-- METRICS STRIP -->
-            <div class="card-metrics">
-              <div class="metric-cell">
-                <span class="metric-lbl">Ask Amount</span>
-                <span class="metric-val">${s.ask}</span>
-              </div>
-              <div class="metric-cell">
-                <span class="metric-lbl">Raised So Far</span>
-                <span class="metric-val">${s.raised}</span>
-              </div>
-              <div class="metric-cell">
-                <span class="metric-lbl">ARR / Revenue</span>
-                <span class="metric-val">${s.arr}</span>
-              </div>
-            </div>
-
-            <!-- FOOTER -->
-            <div class="card-footer">
-              <div class="card-footer-date">
-                <i data-lucide="calendar" style="width:11px; height:11px;"></i>
-                ${s.submitted}
-              </div>
-              <button class="btn-view-detail" onclick="event.stopPropagation(); navigateToDetail('${s.id}')">
-                View Submission
-                <i data-lucide="arrow-right" style="width:11px; height:11px;"></i>
-              </button>
-            </div>
-
-          </div>
-        `).join('');
-      } else {
-        // TABLE VIEW
+        // 1 CARD PER ROW (FULL-WIDTH CONDENSED HORIZONTAL CARD)
         c.innerHTML = `
-          <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:8px; overflow:hidden;">
+          <div class="startup-cards-list">
+            ${list.map(s => {
+              const isRead = readSet.has(s.id);
+              return `
+                <div class="startup-row-card" onclick="openStartup('${s.id}')">
+                  
+                  <!-- TOP ROW: Avatar Logo + (Company Name on top line, Chips below) ... Right: Added Date -->
+                  <div style="display:flex; align-items:end; justify-content:space-between; gap:16px; padding:12px 16px; border-bottom:1px solid #F0F0EE;">
+                    
+                    <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+                      <div class="card-logo">${s.logo}</div>
+                      
+                      <div style="display:flex; flex-direction:column; gap:6px; min-width:0;">
+                        <!-- Company Name on Top Line -->
+                        <div style="display:flex; align-items:center; gap:6px;">
+                          <span class="company-title-link ${isRead ? 'read' : 'unread'}">
+                            ${s.name}
+                          </span>
+                          <a href="${s.website}" target="_blank" onclick="event.stopPropagation()" class="card-website-btn" title="Open website: ${s.website}">
+                            <i data-lucide="external-link" style="width:12px; height:12px;"></i>
+                          </a>
+                        </div>
+
+                        <!-- Rounded Square Chips Smartly Placed Below Name -->
+                        <div style="display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
+                          <span class="badge-chip">${s.industry}</span>
+                          <span class="badge-chip">${s.stage}</span>
+                          <span class="badge-chip">
+                            <i data-lucide="map-pin" style="width:10px; height:10px;"></i>
+                            <span>${s.city}</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Right Meta: Added Date Only (No View Button) -->
+                    <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+                      <span style="font-size:11px; color:#8C8C88; white-space:nowrap;">Added: ${s.addedOn}</span>
+                    </div>
+
+                  </div>
+
+                  <!-- BOTTOM ROW: Truncated Tagline (Left) + Key Metrics (Right) -->
+                  <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding:8px 16px; background:#FAFAFA; font-size:11.5px;">
+                    <div style="color:#5A5A58; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0;">
+                      ${s.tagline}
+                    </div>
+
+                    <div style="display:flex; align-items:center; gap:20px; flex-shrink:0; font-size:12px;">
+                      <div>
+                        <span style="font-size:9px; font-weight:700; color:#8C8C88; text-transform:uppercase;">ASK:</span>
+                        <strong style="color:#1A1A18; margin-left:3px;">${s.ask}</strong>
+                      </div>
+                      <div>
+                        <span style="font-size:9px; font-weight:700; color:#8C8C88; text-transform:uppercase;">RAISED:</span>
+                        <strong style="color:#1A1A18; margin-left:3px;">${s.raised}</strong>
+                      </div>
+                      <div>
+                        <span style="font-size:9px; font-weight:700; color:#8C8C88; text-transform:uppercase;">ARR:</span>
+                        <strong style="color:#1A1A18; margin-left:3px;">${s.arr}</strong>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      } else {
+        // TABLE VIEW (ALL CELLS IN STRICTLY 1 CLEAN HORIZONTAL LINE)
+        c.innerHTML = `
+          <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:6px; overflow-x:auto;">
             <table class="pool-table">
               <thead>
                 <tr>
-                  <th>Startup</th>
-                  <th>Stage / Sector</th>
-                  <th>Location</th>
-                  <th class="num">Ask</th>
-                  <th class="num">ARR</th>
-                  <th>Status</th>
-                  <th style="text-align:right;">Submitted</th>
+                  <th style="width:200px;">Startup</th>
+                  <th style="width:300px;">Tagline</th>
+                  <th style="width:130px;">Industry</th>
+                  <th style="width:90px;">Stage</th>
+                  <th style="width:120px;">Location</th>
+                  <th class="num" style="width:90px;">Ask</th>
+                  <th class="num" style="width:90px;">Raised</th>
+                  <th class="num" style="width:90px;">ARR</th>
+                  <th style="width:100px; text-align:right;">Added On</th>
                 </tr>
               </thead>
               <tbody>
-                ${list.map(s => `
-                  <tr style="cursor:pointer;" onclick="navigateToDetail('${s.id}')">
-                    <td>
-                      <div style="display:flex; align-items:center; gap:9px;">
-                        <div style="width:28px; height:28px; background:#1A1A18; color:#FFFFFF; border-radius:5px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; flex-shrink:0;">${s.logo}</div>
-                        <span style="font-weight:700; color:#1A1A18;">${s.name}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div style="display:flex; gap:4px;">
-                        <span class="card-badge badge-stage">${s.stage}</span>
-                        <span class="card-badge badge-sector">${s.sector}</span>
-                      </div>
-                    </td>
-                    <td style="color:#6B6B68;">${s.location}</td>
-                    <td class="num">${s.ask}</td>
-                    <td class="num" style="color:#5A5A58;">${s.arr}</td>
-                    <td><span class="status-pill ${statusClass(s.status)}">${s.status}</span></td>
-                    <td style="text-align:right; color:#8C8C88; font-size:11px;">${s.submitted}</td>
-                  </tr>
-                `).join('')}
+                ${list.map(s => {
+                  const isRead = readSet.has(s.id);
+                  return `
+                    <tr style="cursor:pointer;" onclick="openStartup('${s.id}')">
+                      
+                      <!-- Startup Name (Single Line + Purple only if read) -->
+                      <td>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                          <div class="card-logo" style="width:24px; height:24px; font-size:10px;">${s.logo}</div>
+                          <span class="company-title-link ${isRead ? 'read' : 'unread'}" style="font-size:12px;">
+                            ${s.name}
+                          </span>
+                          <a href="${s.website}" target="_blank" onclick="event.stopPropagation()" class="card-website-btn" title="Open website: ${s.website}">
+                            <i data-lucide="external-link" style="width:11px; height:11px;"></i>
+                          </a>
+                        </div>
+                      </td>
+
+                      <!-- Tagline (Single Line Truncated with Ellipsis) -->
+                      <td>
+                        <span class="tagline-truncated" title="${s.tagline}">
+                          ${s.tagline}
+                        </span>
+                      </td>
+
+                      <!-- Industry (Rounded Square Chip) -->
+                      <td>
+                        <span class="badge-chip">${s.industry}</span>
+                      </td>
+
+                      <!-- Stage (Rounded Square Chip) -->
+                      <td>
+                        <span class="badge-chip">${s.stage}</span>
+                      </td>
+
+                      <!-- Location (Rounded Square Chip) -->
+                      <td>
+                        <span class="badge-chip">
+                          <i data-lucide="map-pin" style="width:10px; height:10px;"></i>
+                          <span>${s.city}</span>
+                        </span>
+                      </td>
+
+                      <!-- Ask Amount -->
+                      <td class="num">${s.ask}</td>
+
+                      <!-- Raised So Far -->
+                      <td class="num" style="color:#5A5A58; font-weight:600;">${s.raised}</td>
+
+                      <!-- Current ARR -->
+                      <td class="num" style="color:#1A1A18; font-weight:700;">${s.arr}</td>
+
+                      <!-- Added On Date -->
+                      <td style="text-align:right; color:#8C8C88; font-size:11px;">
+                        ${s.addedOn}
+                      </td>
+
+                    </tr>
+                  `;
+                }).join('')}
               </tbody>
             </table>
           </div>
