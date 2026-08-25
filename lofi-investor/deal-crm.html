@@ -121,21 +121,34 @@
       color: #1A1A18;
     }
 
-    /* ─── Consistent Sleek Kanban Deal Cards ─── */
+    /* ─── Consistent Sleek Kanban Deal Cards (Simplified & Professional) ─── */
     .deal-card {
       background: #FFFFFF;
       border: 1px solid #DFDEDE;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: box-shadow 0.12s, border-color 0.12s, transform 0.1s;
+      transition: box-shadow 0.15s, border-color 0.15s, transform 0.12s;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      position: relative;
     }
     .deal-card:hover {
       border-color: #1A1A18;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
-      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      transform: translateY(-1.5px);
+    }
+    .deal-card .deal-move-arrow-btn {
+      opacity: 0.35;
+      transition: opacity 0.12s, color 0.12s;
+    }
+    .deal-card:hover .deal-move-arrow-btn {
+      opacity: 0.9;
+    }
+    .deal-card .deal-move-arrow-btn:hover {
+      color: #1A1A18 !important;
+      opacity: 1 !important;
     }
 
     /* ─── Add Stage Column Button ─── */
@@ -653,6 +666,7 @@
     let DEALS = [
       {
         id: 'd1', stage: 'potential', name: 'Alpha Health AI', avatar: 'AH',
+        founder: 'Peter Spector', starred: true,
         sector: 'Healthcare', stageBadge: 'Pre-Seed', ask: '$3.00M', askVal: 3.0, raised: '$2.00M', arr: '$850K', arrVal: 0.85,
         city: 'San Francisco', location: 'San Francisco, USA', website: 'https://alphahealth.ai',
         tagline: 'Next-gen predictive diagnostic AI for early disease detection across clinical hospital networks.',
@@ -661,6 +675,7 @@
       },
       {
         id: 'd2', stage: 'potential', name: 'NeuroPulse Health', avatar: 'NP',
+        founder: 'Dr. Alex Rivera', starred: false,
         sector: 'Healthcare', stageBadge: 'Pre-Seed', ask: '$1.80M', askVal: 1.8, raised: '$500K', arr: '$300K', arrVal: 0.30,
         city: 'Boston', location: 'Boston, USA', website: 'https://neuropulse.health',
         tagline: 'Non-invasive EEG neural headband monitoring for early concussion detection in athletes.',
@@ -669,6 +684,7 @@
       },
       {
         id: 'd3', stage: 'potential', name: 'EcoPulse Energy', avatar: 'EP',
+        founder: 'Elena Rostov', starred: false,
         sector: 'CleanTech', stageBadge: 'Seed', ask: '$3.50M', askVal: 3.5, raised: '$1.50M', arr: '$600K', arrVal: 0.60,
         city: 'Austin', location: 'Austin, USA', website: 'https://ecopulse.energy',
         tagline: 'Smart grid battery storage optimization using predictive thermodynamic machine learning models.',
@@ -677,6 +693,7 @@
       },
       {
         id: 'd4', stage: 'evaluation', name: 'Apex AI Systems', avatar: 'AA',
+        founder: 'Rahul Sharma', starred: true,
         sector: 'Artificial Intelligence', stageBadge: 'Seed', ask: '₹5.00 Cr', askVal: 5.0, raised: '₹2.00 Cr', arr: '₹1.50 Cr', arrVal: 1.50,
         city: 'Bengaluru', location: 'Bengaluru, India', website: 'https://apexai.io',
         tagline: 'Autonomous agent platform for enterprise financial workflows and automated invoice reconciliation.',
@@ -685,6 +702,7 @@
       },
       {
         id: 'd5', stage: 'evaluation', name: 'DataMesh Labs', avatar: 'DM',
+        founder: 'David Zhang', starred: false,
         sector: 'SaaS / Security', stageBadge: 'Seed', ask: '$2.00M', askVal: 2.0, raised: '$800K', arr: '$700K', arrVal: 0.70,
         city: 'San Francisco', location: 'San Francisco, USA', website: 'https://datameshlabs.io',
         tagline: 'Federated data governance and schema drift detection for modern snowflake-lakehouse stacks.',
@@ -693,6 +711,7 @@
       },
       {
         id: 'd6', stage: 'evaluation', name: 'CloudCraft Infra', avatar: 'CC',
+        founder: 'Vikram Patel', starred: false,
         sector: 'SaaS / Security', stageBadge: 'Pre-Seed', ask: '$1.20M', askVal: 1.2, raised: '$400K', arr: '$200K', arrVal: 0.20,
         city: 'Bengaluru', location: 'Bengaluru, India', website: 'https://cloudcraftinfra.com',
         tagline: 'Automated Kubernetes multi-cloud cost remediation and rightsizing engine for devops.',
@@ -701,6 +720,7 @@
       },
       {
         id: 'd7', stage: 'due-diligence', name: 'FinFlow Tech', avatar: 'FF',
+        founder: 'Angela Goldberg', starred: true,
         sector: 'FinTech', stageBadge: 'Seed', ask: '$2.50M', askVal: 2.5, raised: '$1.00M', arr: '$1.20M', arrVal: 1.20,
         city: 'London', location: 'London, UK', website: 'https://finflow.global',
         tagline: 'Cross-border liquidity engine enabling real-time instant settlement for corporate multi-currency treasury.',
@@ -709,6 +729,7 @@
       },
       {
         id: 'd8', stage: 'due-diligence', name: 'LogiChain Labs', avatar: 'LC',
+        founder: 'Hannah Weber', starred: false,
         sector: 'Logistics', stageBadge: 'Series A', ask: '€4.00M', askVal: 4.0, raised: '€2.50M', arr: '€2.80M', arrVal: 2.80,
         city: 'Berlin', location: 'Berlin, Germany', website: 'https://logichain.de',
         tagline: 'Decentralized cold-chain sensor tracking and predictive ETA intelligence for international ocean freight.',
@@ -717,6 +738,7 @@
       },
       {
         id: 'd9', stage: 'ic-decision', name: 'BioCore Diagnostics', avatar: 'BC',
+        founder: 'Dr. Jonas Vance', starred: false,
         sector: 'Healthcare', stageBadge: 'Seed', ask: '$3.00M', askVal: 3.0, raised: '$1.40M', arr: '$1.10M', arrVal: 1.10,
         city: 'Boston', location: 'Boston, USA', website: 'https://biocoredx.com',
         tagline: 'Ultra-sensitive microfluidic blood assays for point-of-care infectious disease diagnostics.',
@@ -725,6 +747,7 @@
       },
       {
         id: 'd10', stage: 'ic-decision', name: 'RoboFarm AI', avatar: 'RF',
+        founder: 'Samir Mehta', starred: false,
         sector: 'CleanTech', stageBadge: 'Pre-Seed', ask: '$800K', askVal: 0.8, raised: '$250K', arr: '$180K', arrVal: 0.18,
         city: 'Austin', location: 'Austin, USA', website: 'https://robofarm.ai',
         tagline: 'Autonomous weeding and micro-dosing pesticide robots for organic fruit orchards.',
@@ -733,6 +756,7 @@
       },
       {
         id: 'd11', stage: 'term-sheet', name: 'SkyTrack Mobility', avatar: 'ST',
+        founder: 'Oliver Clarke', starred: true,
         sector: 'Logistics', stageBadge: 'Series A', ask: '$5.00M', askVal: 5.0, raised: '$3.20M', arr: '$3.20M', arrVal: 3.20,
         city: 'London', location: 'London, UK', website: 'https://skytrack.co.uk',
         tagline: 'Drone corridor management and autonomous middle-mile parcel logistics network.',
@@ -741,6 +765,7 @@
       },
       {
         id: 'd12', stage: 'closing', name: 'NovaPay Global', avatar: 'NV',
+        founder: 'Li Wei', starred: false,
         sector: 'FinTech', stageBadge: 'Seed', ask: '$2.00M', askVal: 2.0, raised: '$1.10M', arr: '$900K', arrVal: 0.90,
         city: 'Singapore', location: 'Singapore', website: 'https://novapay.sg',
         tagline: 'Unified merchant checkout gateway and local QR rails aggregator across Southeast Asia.',
@@ -749,6 +774,7 @@
       },
       {
         id: 'd13', stage: 'invested', name: 'GreenLeaf Foods', avatar: 'GL',
+        founder: 'Chloe Dubois', starred: false,
         sector: 'CleanTech', stageBadge: 'Pre-Seed', ask: '$1.50M', askVal: 1.5, raised: '$700K', arr: '$400K', arrVal: 0.40,
         city: 'San Francisco', location: 'San Francisco, USA', website: 'https://greenleaffoods.com',
         tagline: 'Plant-protein bioreactors generating sustainable mycelium biomass for commercial food processors.',
@@ -757,6 +783,7 @@
       },
       {
         id: 'd14', stage: 'invested', name: 'AquaFlow Systems', avatar: 'AQ',
+        founder: 'Felix Brandt', starred: false,
         sector: 'CleanTech', stageBadge: 'Seed', ask: '$2.50M', askVal: 2.5, raised: '$1.20M', arr: '$800K', arrVal: 0.80,
         city: 'Berlin', location: 'Berlin, Germany', website: 'https://aquaflow.eu',
         tagline: 'Smart acoustic leakage telemetry and robotic pipe repair for municipal water utilities.',
@@ -1136,6 +1163,38 @@
       return `<div class="kanban-wrapper" id="kanbanBoard" style="padding:0; overflow-x:auto;">${html}</div>`;
     }
 
+    function toggleStarDeal(e, dealId) {
+      if (e) e.stopPropagation();
+      const deal = DEALS.find(d => d.id === dealId);
+      if (deal) {
+        deal.starred = !deal.starred;
+        renderCRM();
+      }
+    }
+
+    function renderStageProgressSegments(stageId) {
+      const stageMap = {
+        'potential': 1,
+        'evaluation': 2,
+        'due-diligence': 3,
+        'ic-decision': 4,
+        'term-sheet': 5,
+        'closing': 5,
+        'invested': 5
+      };
+      const activeCount = stageMap[stageId] || 1;
+      const total = 5;
+      const colors = ['#D99B26', '#D99B26', '#4A8B99', '#82A7B3', '#2B2B28'];
+
+      let html = '';
+      for (let i = 0; i < total; i++) {
+        const isFilled = i < activeCount;
+        const bg = isFilled ? colors[i % colors.length] : '#EAEAE7';
+        html += `<div style="flex: 1; height: 4.5px; border-radius: 3px; background: ${bg};"></div>`;
+      }
+      return html;
+    }
+
     function renderDealCard(d) {
       return `
         <div class="deal-card" onclick="navigateToDealDetail('${d.id}')" draggable="true"
@@ -1143,70 +1202,85 @@
              ondragover="onDragOver(event)"
              ondrop="onDrop(event,'${d.stage}')">
           
-          <div style="padding:10px 12px; display:flex; flex-direction:column; gap:7px;">
-            <!-- Top Row: Avatar Logo + Company Name + External Link -->
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:6px;">
-              <div style="display:flex; align-items:center; gap:8px; min-width:0;">
-                <div style="width:26px; height:26px; border-radius:4px; background:#1A1A18; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:10px; flex-shrink:0;">${d.avatar}</div>
-                <span style="font-size:12px; font-weight:800; color:#1A1A18; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; letter-spacing:-0.01em;">${d.name}</span>
-              </div>
-              ${d.website ? `
-                <a href="${d.website}" target="_blank" onclick="event.stopPropagation()" class="card-website-btn" title="Open website: ${d.website}">
-                  <i data-lucide="external-link" style="width:11px; height:11px;"></i>
-                </a>
-              ` : ''}
-            </div>
+          <!-- Top Accent Border Bar -->
+          <div style="height:2px; background:#2B2B28; width:100%;"></div>
 
-            <!-- Rounded Square Chips Below Name -->
-            <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap;">
-              <span class="badge-chip" style="font-size:9.5px; padding:1.5px 5px;">${d.sector}</span>
-              <span class="badge-chip" style="font-size:9.5px; padding:1.5px 5px;">${d.stageBadge}</span>
-              ${d.city ? `
-                <span class="badge-chip" style="font-size:9.5px; padding:1.5px 5px;">
-                  <i data-lucide="map-pin" style="width:9px; height:9px;"></i>
-                  <span>${d.city}</span>
-                </span>
-              ` : ''}
-            </div>
-
-            <!-- 1-line Tagline -->
-            ${d.tagline ? `
-              <div style="font-size:11px; color:#5A5A58; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.3;">
-                ${d.tagline}
+          <div style="padding:11px 13px 9px; display:flex; flex-direction:column; gap:9px;">
+            
+            <!-- TOP ROW: Circular Logo + Company Name & Founder/Contact + Right Action Icons (Star, Document) -->
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:8px;">
+              <div style="display:flex; align-items:center; gap:9px; min-width:0;">
+                <!-- Circular Logo Badge -->
+                <div style="width:30px; height:30px; border-radius:50%; border:1px solid #DFDFDC; background:#F8F8F6; color:#1A1A18; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; flex-shrink:0; box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+                  ${d.avatar}
+                </div>
+                
+                <!-- Company Name & Founder Subtitle -->
+                <div style="display:flex; flex-direction:column; min-width:0;">
+                  <span style="font-size:12.5px; font-weight:800; color:#1A1A18; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; letter-spacing:-0.01em; line-height:1.2;">
+                    ${d.name}
+                  </span>
+                  <span style="font-size:11px; color:#7A7A78; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:1px;">
+                    ${d.founder || d.sector}
+                  </span>
+                </div>
               </div>
-            ` : ''}
 
-            <!-- Key Metrics Grid -->
-            <div style="display:grid; grid-template-columns: 1fr 1fr; border:1px solid #EBEBEA; border-radius:4px; overflow:hidden; background:#FAFAFA;">
-              <div style="padding:4px 8px; border-right:1px solid #EBEBEA;">
-                <span style="font-size:8px; font-weight:700; color:#8C8C88; text-transform:uppercase; display:block;">ASK</span>
-                <strong style="font-size:11px; color:#1A1A18;">${d.ask}</strong>
-              </div>
-              <div style="padding:4px 8px;">
-                <span style="font-size:8px; font-weight:700; color:#8C8C88; text-transform:uppercase; display:block;">ARR</span>
-                <strong style="font-size:11px; color:#1A1A18;">${d.arr}</strong>
+              <!-- Right Action Icons: Star + File/Link -->
+              <div style="display:flex; align-items:center; gap:4px; flex-shrink:0;" onclick="event.stopPropagation();">
+                <button onclick="toggleStarDeal(event, '${d.id}')" title="${d.starred ? 'Starred' : 'Star deal'}"
+                  style="background:transparent; border:none; cursor:pointer; padding:2px; display:flex; align-items:center; justify-content:center; color:${d.starred ? '#D97706' : '#B8B8B4'};">
+                  <i data-lucide="star" style="width:13.5px; height:13.5px; fill:${d.starred ? '#D97706' : 'none'};"></i>
+                </button>
+                ${d.website ? `
+                  <a href="${d.website}" target="_blank" title="View files & website"
+                    style="background:transparent; border:none; cursor:pointer; padding:2px; display:flex; align-items:center; justify-content:center; color:#B8B8B4; text-decoration:none;">
+                    <i data-lucide="file-text" style="width:13.5px; height:13.5px;"></i>
+                  </a>
+                ` : `
+                  <span style="padding:2px; display:flex; align-items:center; justify-content:center; color:#DCDCD8;">
+                    <i data-lucide="file-text" style="width:13.5px; height:13.5px;"></i>
+                  </span>
+                `}
               </div>
             </div>
 
-          </div>
+            <!-- MIDDLE ROW: Financial Metric / Stage + Assignee Circle Avatar -->
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:1px;">
+              <div style="font-size:13px; font-weight:800; color:#1A1A18; letter-spacing:-0.015em;">
+                ${d.ask} <span style="font-weight:500; color:#7A7A78; font-size:11px; margin-left:1px;">/ ${d.stageBadge}</span>
+              </div>
 
-          <!-- Footer: Assignee + Date + Move arrows -->
-          <div style="padding:5px 10px 6px; display:flex; align-items:center; justify-content:space-between; background:#F7F7F5; border-top:1px solid #EBEBEA; font-size:10px; color:#8C8C88;">
-            <div style="display:flex; align-items:center; gap:5px;">
-              <div style="width:16px; height:16px; border-radius:50%; background:#3A3A38; color:#FFF; display:flex; align-items:center; justify-content:center; font-size:7.5px; font-weight:800;">${d.assignee}</div>
-              <span>${d.date}</span>
+              <!-- Assignee Avatar with Gold Badge Border (Matches Reference Image) -->
+              <div style="width:23px; height:23px; border-radius:50%; border:1.5px solid #C4A265; background:#2B2B28; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-size:8.5px; font-weight:800; box-shadow:0 1px 2px rgba(0,0,0,0.06); flex-shrink:0;" title="Lead: ${d.assignee}">
+                ${d.assignee}
+              </div>
             </div>
-            <div style="display:flex; gap:2px;">
-              <button onclick="event.stopPropagation(); moveDealStage('${d.id}', -1)" title="Move left"
-                style="border:none; background:transparent; cursor:pointer; padding:2px; color:#8C8C88;">
+
+            <!-- BOTTOM PROGRESS UI: Segmented Pill Progress Bar -->
+            <div style="display:flex; align-items:center; gap:4px; width:100%; margin-top:1px;">
+              ${renderStageProgressSegments(d.stage)}
+            </div>
+
+            <!-- FOOTER: Subtle Centered Chevron Indicator + Stage Navigation Arrows -->
+            <div style="display:flex; align-items:center; justify-content:space-between; padding-top:1px; color:#A0A09C;">
+              <button onclick="event.stopPropagation(); moveDealStage('${d.id}', -1)" title="Move left" class="deal-move-arrow-btn"
+                style="border:none; background:transparent; cursor:pointer; padding:1px; color:#A8A8A4;">
                 <i data-lucide="chevron-left" style="width:11px; height:11px;"></i>
               </button>
-              <button onclick="event.stopPropagation(); moveDealStage('${d.id}', 1)" title="Move right"
-                style="border:none; background:transparent; cursor:pointer; padding:2px; color:#8C8C88;">
+
+              <div style="display:flex; align-items:center; justify-content:center; flex:1;">
+                <i data-lucide="chevron-down" style="width:12.5px; height:12.5px; color:#A0A09C;"></i>
+              </div>
+
+              <button onclick="event.stopPropagation(); moveDealStage('${d.id}', 1)" title="Move right" class="deal-move-arrow-btn"
+                style="border:none; background:transparent; cursor:pointer; padding:1px; color:#A8A8A4;">
                 <i data-lucide="chevron-right" style="width:11px; height:11px;"></i>
               </button>
             </div>
+
           </div>
+
         </div>
       `;
     }
