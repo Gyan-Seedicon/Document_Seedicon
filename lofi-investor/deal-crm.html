@@ -990,22 +990,22 @@
                     </div>
                   </div>
 
-                  <!-- Crisp White Folder Graphic -->
+                  <!-- Monochrome Folder Graphic (matches vdr.html) -->
                   <div class="crm-folder-card-graphic">
                     <svg class="crm-folder-big-svg" viewBox="0 0 96 76" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <!-- Top white document sheet with subtle grey lines -->
-                      <rect x="26" y="6" width="44" height="24" rx="3.5" fill="#FFFFFF" stroke="#E4E4E0" stroke-width="1.2"/>
-                      <line x1="33" y1="12" x2="55" y2="12" stroke="#E4E4E0" stroke-width="1.2" stroke-linecap="round"/>
-                      <line x1="33" y1="17" x2="46" y2="17" stroke="#ECECE8" stroke-width="1.2" stroke-linecap="round"/>
+                      <rect x="26" y="7" width="44" height="24" rx="3.5" fill="#FFFFFF" stroke="#D4D4CE" stroke-width="1.2"/>
+                      <line x1="33" y1="13" x2="55" y2="13" stroke="#D4D4CE" stroke-width="1.2" stroke-linecap="round"/>
+                      <line x1="33" y1="18" x2="46" y2="18" stroke="#E5E5E0" stroke-width="1.2" stroke-linecap="round"/>
                       
-                      <!-- Back neutral folder tab (crisp soft white/light bone) -->
-                      <path d="M8 17C8 12.5817 11.5817 9 16 9H34C36.2 9 38.3 10.1 39.5 11.9L42.5 16.1C43.7 17.9 45.8 19 48 19H80C84.4183 19 88 22.5817 88 27V60C88 64.4183 84.4183 68 80 68H16C11.5817 68 8 64.4183 8 60V17Z" fill="#F4F4F2" stroke="#D8D8D4" stroke-width="1"/>
+                      <!-- Back neutral folder tab -->
+                      <path d="M8 17C8 12.5817 11.5817 9 16 9H34C36.2 9 38.3 10.1 39.5 11.9L42.5 16.1C43.7 17.9 45.8 19 48 19H80C84.4183 19 88 22.5817 88 27V60C88 64.4183 84.4183 68 80 68H16C11.5817 68 8 64.4183 8 60V17Z" fill="#D4D4CE"/>
                       
-                      <!-- Front clean white folder body -->
-                      <path d="M8 25C8 20.5817 11.5817 17 16 17H80C84.4183 17 88 20.5817 88 25V60C88 64.4183 84.4183 68 80 68H16C11.5817 68 8 64.4183 8 60V25Z" fill="#FFFFFF" stroke="#D8D8D4" stroke-width="1.2"/>
+                      <!-- Front neutral folder body -->
+                      <path d="M8 25C8 20.5817 11.5817 17 16 17H80C84.4183 17 88 20.5817 88 25V60C88 64.4183 84.4183 68 80 68H16C11.5817 68 8 64.4183 8 60V25Z" fill="#EAEAE7" stroke="#D4D4CE" stroke-width="1"/>
                       
                       <!-- Front top lip highlight line -->
-                      <line x1="16" y1="18" x2="80" y2="18" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+                      <line x1="16" y1="18" x2="80" y2="18" stroke="#F5F5F3" stroke-width="1.5" stroke-linecap="round"/>
                     </svg>
                   </div>
 
@@ -1070,7 +1070,7 @@
               <h1 style="font-size:17px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em; margin:0;">${g.name}</h1>
               <span style="font-size:12px; font-weight:600; color:var(--text-muted);">(${deals.length})</span>
             </div>
-            <p style="font-size:11.5px; color:var(--text-muted); margin-top:2px; margin-bottom:0;">${g.desc} · ${g.updated}</p>
+            <p style="font-size:11.5px; color:var(--text-muted); margin-top:2px; margin-bottom:0;">${g.updated}</p>
           </div>
 
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
@@ -1316,18 +1316,13 @@
         <div class="edit-col-modal-backdrop" onclick="if(event.target===this) closeEditStageModal()">
           <div class="edit-col-modal">
             <h3 style="font-size:15px; font-weight:800; color:var(--text-dark); margin-bottom:14px;">Create Group</h3>
-            <p style="font-size:11.5px; color:var(--text-muted); margin-bottom:14px;">Name your group and describe what this pipeline focuses on.</p>
             <div style="display:flex; flex-direction:column; gap:10px;">
               <div>
                 <label class="form-label">Group Name</label>
                 <input id="newGroupName" class="form-input" placeholder="e.g. Enterprise SaaS" />
               </div>
-              <div>
-                <label class="form-label">Description</label>
-                <textarea id="newGroupDesc" class="form-input" style="min-height:56px;" placeholder="What does this group focus on?"></textarea>
-              </div>
             </div>
-            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:18px;">
               <button class="btn btn-outline" onclick="closeEditStageModal()">Cancel</button>
               <button class="btn btn-primary" onclick="createGroup()">
                 <i data-lucide="folder-plus" class="lucide-sm"></i> Create Group
@@ -1343,8 +1338,7 @@
     function createGroup() {
       const name = document.getElementById('newGroupName')?.value?.trim();
       if (!name) { alert('Please enter a group name.'); return; }
-      const desc = document.getElementById('newGroupDesc')?.value?.trim() || 'No description provided.';
-      GROUPS.push({ id: 'g' + Date.now(), name, desc, updated: 'Updated just now', dealIds: [] });
+      GROUPS.push({ id: 'g' + Date.now(), name, updated: 'Updated just now', dealIds: [] });
       closeEditStageModal();
       renderCRM();
     }
@@ -1363,12 +1357,8 @@
                 <label class="form-label">Group Name</label>
                 <input id="editGroupName" class="form-input" value="${g.name}" />
               </div>
-              <div>
-                <label class="form-label">Description</label>
-                <textarea id="editGroupDesc" class="form-input" style="min-height:56px;">${g.desc}</textarea>
-              </div>
             </div>
-            <div style="display:flex; justify-content:space-between; margin-top:16px; gap:8px;">
+            <div style="display:flex; justify-content:space-between; margin-top:18px; gap:8px;">
               <button class="btn btn-outline" style="color:#DC2626; border-color:#FECACA;" onclick="promptDeleteGroup('${g.id}')">
                 <i data-lucide="trash-2" class="lucide-sm"></i> Delete Group
               </button>
@@ -1389,7 +1379,6 @@
       const name = document.getElementById('editGroupName')?.value?.trim();
       if (!name) { alert('Please enter a group name.'); return; }
       g.name = name;
-      g.desc = document.getElementById('editGroupDesc')?.value?.trim() || g.desc;
       g.updated = 'Updated just now';
       closeEditStageModal();
       renderCRM();
