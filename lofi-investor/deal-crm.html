@@ -13,7 +13,6 @@
       gap: 18px;
       overflow-x: auto;
       overflow-y: hidden;
-      padding: 16px 20px 24px;
       align-items: flex-start;
       min-height: calc(100vh - 140px);
     }
@@ -112,6 +111,18 @@
       border-color: #1A1A18;
       box-shadow: 0 4px 14px rgba(0,0,0,0.07);
       transform: translateY(-1px);
+    }
+    .deal-card.is-dragging {
+      opacity: 0.4;
+      border: 1px dashed #1A1A18;
+      transform: scale(0.98);
+      box-shadow: none;
+    }
+    .kanban-cards.drag-over {
+      background: rgba(26, 26, 24, 0.03);
+      border-radius: 4px;
+      outline: 1.5px dashed #1A1A18;
+      outline-offset: 2px;
     }
 
     /* ─── Add Stage Surface Button ─── */
@@ -628,6 +639,7 @@
         city: 'San Francisco', location: 'San Francisco, USA', website: 'https://alphahealth.ai',
         tagline: 'Next-gen predictive diagnostic AI for early disease detection across clinical hospital networks.',
         assignee: 'SK', date: 'Mar 1', priority: 'high', addedOn: '01 Mar 2026',
+        lastUpdated: 'Added to Potential · 2d ago',
         detailId: 'sup_1'
       },
       {
@@ -637,6 +649,7 @@
         city: 'Boston', location: 'Boston, USA', website: 'https://neuropulse.health',
         tagline: 'Non-invasive EEG neural headband monitoring for early concussion detection in athletes.',
         assignee: 'AR', date: 'Mar 2', priority: 'medium', addedOn: '02 Mar 2026',
+        lastUpdated: 'Added to Potential · 3d ago',
         detailId: 'sup_6'
       },
       {
@@ -646,6 +659,7 @@
         city: 'Austin', location: 'Austin, USA', website: 'https://ecopulse.energy',
         tagline: 'Smart grid battery storage optimization using predictive thermodynamic machine learning models.',
         assignee: 'SK', date: 'Mar 3', priority: 'medium', addedOn: '03 Mar 2026',
+        lastUpdated: 'Added to Potential · 4d ago',
         detailId: 'sup_5'
       },
       {
@@ -655,6 +669,7 @@
         city: 'Bengaluru', location: 'Bengaluru, India', website: 'https://apexai.io',
         tagline: 'Autonomous agent platform for enterprise financial workflows and automated invoice reconciliation.',
         assignee: 'AR', date: 'Feb 25', priority: 'high', addedOn: '25 Feb 2026',
+        lastUpdated: 'Moved to Contacted · 2d ago',
         detailId: 'sup_2'
       },
       {
@@ -664,6 +679,7 @@
         city: 'San Francisco', location: 'San Francisco, USA', website: 'https://datameshlabs.io',
         tagline: 'Federated data governance and schema drift detection for modern snowflake-lakehouse stacks.',
         assignee: 'SK', date: 'Feb 22', priority: 'medium', addedOn: '22 Feb 2026',
+        lastUpdated: 'Moved to Contacted · 4d ago',
         detailId: null
       },
       {
@@ -673,6 +689,7 @@
         city: 'Bengaluru', location: 'Bengaluru, India', website: 'https://cloudcraftinfra.com',
         tagline: 'Automated Kubernetes multi-cloud cost remediation and rightsizing engine for devops.',
         assignee: 'VR', date: 'Feb 20', priority: 'low', addedOn: '20 Feb 2026',
+        lastUpdated: 'Moved to Contacted · 5d ago',
         detailId: null
       },
       {
@@ -682,6 +699,8 @@
         city: 'London', location: 'London, UK', website: 'https://finflow.global',
         tagline: 'Cross-border liquidity engine enabling real-time instant settlement for corporate multi-currency treasury.',
         assignee: 'SK', date: 'Feb 18', priority: 'high', addedOn: '18 Feb 2026',
+        lastUpdated: 'Moved to Diligence · 3d ago',
+        vdrStatus: 'active', vdrProgress: 75, vdrDocs: '6/8 items verified', vdrId: 'vdr_1',
         detailId: 'sup_3'
       },
       {
@@ -691,6 +710,8 @@
         city: 'Berlin', location: 'Berlin, Germany', website: 'https://logichain.de',
         tagline: 'Decentralized cold-chain sensor tracking and predictive ETA intelligence for international ocean freight.',
         assignee: 'AR', date: 'Feb 15', priority: 'high', addedOn: '15 Feb 2026',
+        lastUpdated: 'Moved to Diligence · 6d ago',
+        vdrStatus: 'none',
         detailId: 'sup_4'
       },
       {
@@ -700,6 +721,8 @@
         city: 'Boston', location: 'Boston, USA', website: 'https://biocoredx.com',
         tagline: 'Ultra-sensitive microfluidic blood assays for point-of-care infectious disease diagnostics.',
         assignee: 'SK', date: 'Feb 10', priority: 'high', addedOn: '10 Feb 2026',
+        lastUpdated: 'Moved to Diligence · 1w ago',
+        vdrStatus: 'active', vdrProgress: 40, vdrDocs: '3/8 items uploaded', vdrId: 'vdr_2',
         detailId: null
       },
       {
@@ -709,6 +732,8 @@
         city: 'Austin', location: 'Austin, USA', website: 'https://robofarm.ai',
         tagline: 'Autonomous weeding and micro-dosing pesticide robots for organic fruit orchards.',
         assignee: 'VR', date: 'Feb 8', priority: 'medium', addedOn: '08 Feb 2026',
+        lastUpdated: 'Moved to Diligence · 2w ago',
+        vdrStatus: 'none',
         detailId: null
       },
       {
@@ -718,6 +743,7 @@
         city: 'London', location: 'London, UK', website: 'https://skytrack.co.uk',
         tagline: 'Drone corridor management and autonomous middle-mile parcel logistics network.',
         assignee: 'SK', date: 'Jan 28', priority: 'high', addedOn: '28 Jan 2026',
+        lastUpdated: 'Moved to Committed · 2w ago',
         detailId: null
       },
       {
@@ -727,6 +753,7 @@
         city: 'Singapore', location: 'Singapore', website: 'https://novapay.sg',
         tagline: 'Unified merchant checkout gateway and local QR rails aggregator across Southeast Asia.',
         assignee: 'AR', date: 'Jan 15', priority: 'high', addedOn: '15 Jan 2026',
+        lastUpdated: 'Moved to Committed · 3w ago',
         detailId: null
       },
       {
@@ -736,6 +763,7 @@
         city: 'San Francisco', location: 'San Francisco, USA', website: 'https://greenleaffoods.com',
         tagline: 'Plant-protein bioreactors generating sustainable mycelium biomass for commercial food processors.',
         assignee: 'SK', date: 'Dec 2025', priority: 'high', addedOn: '14 Dec 2025',
+        lastUpdated: 'Moved to Committed · 1m ago',
         detailId: null
       },
       {
@@ -745,6 +773,7 @@
         city: 'Berlin', location: 'Berlin, Germany', website: 'https://aquaflow.eu',
         tagline: 'Smart acoustic leakage telemetry and robotic pipe repair for municipal water utilities.',
         assignee: 'AR', date: 'Nov 2025', priority: 'high', addedOn: '20 Nov 2025',
+        lastUpdated: 'Moved to Committed · 2m ago',
         detailId: null
       }
     ];
@@ -928,7 +957,6 @@
               <h1 style="font-size:17px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em; margin:0;">${g.name}</h1>
               <span id="groupDetailCount" style="font-size:12px; font-weight:600; color:var(--text-muted);">(${deals.length})</span>
             </div>
-            <p style="font-size:11.5px; color:var(--text-muted); margin-top:2px; margin-bottom:0;">${g.updated}</p>
           </div>
 
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
@@ -1108,7 +1136,10 @@
               </div>
             </div>
             ${stage.sub ? `<div class="col-sub">${stage.sub}</div>` : ''}
-            <div class="kanban-cards" id="cards-${stage.id}">
+            <div class="kanban-cards" id="cards-${stage.id}"
+                 ondragover="onColDragOver(event, '${stage.id}')"
+                 ondragleave="onColDragLeave(event, '${stage.id}')"
+                 ondrop="onDrop(event, '${stage.id}')">
               ${cards.map(d => renderDealCard(d)).join('')}
               ${cards.length === 0 ? `<div style="text-align:center; padding:18px 8px; color:#ABABAB; font-size:11px; border:1px dashed #E5E5E3; border-radius:3px; background:#FAFAFA;">No deals</div>` : ''}
             </div>
@@ -1117,7 +1148,7 @@
       }).join('');
 
       return `
-        <div class="kanban-wrapper" id="kanbanBoard" style="padding:16px 20px 24px; overflow-x:auto;">
+        <div class="kanban-wrapper" id="kanbanBoard" style="overflow-x:auto;">
           ${html}
           <button class="add-stage-col-surface" onclick="openAddStageModal()" title="Add new stage / board">
             <i data-lucide="plus" style="width:13px; height:13px;"></i>
@@ -1143,15 +1174,16 @@
 
     function renderDealCard(d) {
       return `
-        <div class="deal-card" onclick="navigateToDealDetail('${d.id}')" draggable="true"
+        <div class="deal-card" data-deal-id="${d.id}" onclick="navigateToDealDetail('${d.id}')" draggable="true"
              ondragstart="onDragStart(event,'${d.id}')"
+             ondragend="onDragEnd(event)"
              ondragover="onDragOver(event)"
              ondrop="onDrop(event,'${d.stage}')">
           
           <!-- Top Accent Border Stripe -->
           <div style="height:2px; background:#1A1A18; width:100%;"></div>
 
-          <div style="padding:11px 12px 10px; display:flex; flex-direction:column; gap:8px;">
+          <div style="padding:10px 12px 9px; display:flex; flex-direction:column; gap:7px;">
             
             <!-- TOP ROW: Square Logo Avatar + Company Name & Founder Subtitle (No star/file icons) -->
             <div style="display:flex; align-items:center; gap:9px; min-width:0;">
@@ -1172,7 +1204,7 @@
             </div>
 
             <!-- MIDDLE ROW: Financial Metric / Stage + Assignee Avatar (Monochrome) -->
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:2px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:1px;">
               <div style="font-size:13px; font-weight:800; color:#1A1A18; letter-spacing:-0.015em;">
                 ${d.ask} <span style="font-weight:500; color:#7A7A78; font-size:11px; margin-left:1px;">/ ${d.stageBadge}</span>
               </div>
@@ -1183,10 +1215,56 @@
               </div>
             </div>
 
-            <!-- BOTTOM PROGRESS UI: Segmented Pill Bar in Neutral Monochrome (No bottom arrows) -->
-            <div style="display:flex; align-items:center; gap:3.5px; width:100%; margin-top:2px;">
+            <!-- PROGRESS BAR UI: Segmented Pill Bar in Neutral Monochrome (No bottom arrows) -->
+            <div style="display:flex; align-items:center; gap:3.5px; width:100%; margin-top:1px;">
               ${renderStageProgressSegments(d.stage)}
             </div>
+
+            <!-- CARD FOOTER: Updated Activity Status / Timestamp -->
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:2px; font-size:10px; color:#8C8C88; font-weight:500;">
+              <span style="display:inline-flex; align-items:center; gap:3.5px; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${d.lastUpdated || 'Updated 2d ago'}">
+                <i data-lucide="clock" style="width:10px; height:10px; color:#A8A8A4; flex-shrink:0;"></i>
+                <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${d.lastUpdated || 'Updated 2d ago'}</span>
+              </span>
+              <span style="color:#A8A8A4; font-size:9.5px; flex-shrink:0; margin-left:6px;">${d.date || 'Feb 25'}</span>
+            </div>
+
+            <!-- DILIGENCE VDR ACTION / PROGRESS STRIP -->
+            ${d.stage === 'diligence' ? (
+              (d.vdrStatus === 'active' || d.vdrCreated) ? `
+                <div style="margin-top:2px; padding:6px 8px; background:#F8F8F6; border:1px solid #E2E2DF; border-radius:4px; display:flex; flex-direction:column; gap:4px;" onclick="event.stopPropagation()">
+                  <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <span style="font-size:10px; font-weight:700; color:#1A1A18; display:flex; align-items:center; gap:4px;">
+                      <i data-lucide="shield-check" style="width:11px; height:11px; color:#1A1A18;"></i> VDR Progress
+                    </span>
+                    <span style="font-size:10px; font-weight:800; color:#1A1A18;">${d.vdrProgress || 75}%</span>
+                  </div>
+                  
+                  <div style="height:3.5px; background:#E2E2DF; border-radius:2px; overflow:hidden; width:100%;">
+                    <div style="height:100%; width:${d.vdrProgress || 75}%; background:#1A1A18; border-radius:2px;"></div>
+                  </div>
+
+                  <div style="display:flex; align-items:center; justify-content:space-between; font-size:9.5px; color:#7A7A78; margin-top:1px;">
+                    <span>${d.vdrDocs || '6/8 items verified'}</span>
+                    <a href="./vdr-detail.html?id=${d.vdrId || 'vdr_1'}&name=${encodeURIComponent(d.name + ' - Diligence VDR')}" 
+                       onclick="event.stopPropagation()" 
+                       style="font-weight:700; color:#1A1A18; text-decoration:none; display:inline-flex; align-items:center; gap:2px; font-size:9.5px;">
+                      <span>View VDR</span>
+                      <i data-lucide="arrow-up-right" style="width:9px; height:9px;"></i>
+                    </a>
+                  </div>
+                </div>
+              ` : `
+                <button onclick="event.stopPropagation(); window.location.href='./vdr.html?action=create&startup=${encodeURIComponent(d.name)}'"
+                        style="width:100%; margin-top:2px; padding:6px 10px; font-size:11px; font-weight:700; background:#1A1A18; color:#FFFFFF; border:1px solid #1A1A18; border-radius:4px; display:flex; align-items:center; justify-content:center; gap:5px; cursor:pointer; transition:all 0.15s ease;"
+                        onmouseover="this.style.background='#3A3A38'"
+                        onmouseout="this.style.background='#1A1A18'"
+                        title="Create and Share Virtual Data Room">
+                  <i data-lucide="shield-plus" style="width:12px; height:12px;"></i>
+                  <span>Create VDR & Share</span>
+                </button>
+              `
+            ) : ''}
 
           </div>
 
@@ -1707,17 +1785,49 @@
     function onDragStart(e, dealId) {
       dragDealId = dealId;
       e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', dealId);
+      setTimeout(() => {
+        const el = document.querySelector(`.deal-card[data-deal-id="${dealId}"]`);
+        if (el) el.classList.add('is-dragging');
+      }, 0);
     }
+
+    function onDragEnd(e) {
+      document.querySelectorAll('.deal-card.is-dragging').forEach(el => el.classList.remove('is-dragging'));
+      document.querySelectorAll('.kanban-cards.drag-over').forEach(el => el.classList.remove('drag-over'));
+      dragDealId = null;
+    }
+
     function onDragOver(e) {
       e.preventDefault();
       e.dataTransfer.dropEffect = 'move';
     }
+
+    function onColDragOver(e, stageId) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const container = document.getElementById('cards-' + stageId);
+      if (container) container.classList.add('drag-over');
+    }
+
+    function onColDragLeave(e, stageId) {
+      const container = document.getElementById('cards-' + stageId);
+      if (container && !container.contains(e.relatedTarget)) {
+        container.classList.remove('drag-over');
+      }
+    }
+
     function onDrop(e, targetStage) {
       e.preventDefault();
+      document.querySelectorAll('.kanban-cards.drag-over').forEach(el => el.classList.remove('drag-over'));
       if (!dragDealId) return;
       const deal = DEALS.find(d => d.id === dragDealId);
       if (deal && deal.stage !== targetStage) {
+        const stageObj = STAGES.find(s => s.id === targetStage);
+        const stageLabel = stageObj ? stageObj.label : targetStage;
         deal.stage = targetStage;
+        deal.lastUpdated = `Moved to ${stageLabel} · Just now`;
+        deal.date = 'Today';
         renderCRM();
       }
       dragDealId = null;
@@ -1728,7 +1838,8 @@
       STAGES.forEach(s => {
         const col = document.getElementById('cards-' + s.id);
         if (col) {
-          col.addEventListener('dragover', onDragOver);
+          col.addEventListener('dragover', (e) => onColDragOver(e, s.id));
+          col.addEventListener('dragleave', (e) => onColDragLeave(e, s.id));
           col.addEventListener('drop', (e) => onDrop(e, s.id));
         }
       });
@@ -1743,7 +1854,10 @@
       const idx = STAGES.findIndex(s => s.id === deal.stage);
       const newIdx = idx + dir;
       if (newIdx < 0 || newIdx >= STAGES.length) return;
-      deal.stage = STAGES[newIdx].id;
+      const newStage = STAGES[newIdx];
+      deal.stage = newStage.id;
+      deal.lastUpdated = `Moved to ${newStage.label} · Just now`;
+      deal.date = 'Today';
       renderCRM();
     }
 
