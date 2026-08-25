@@ -301,75 +301,218 @@
       width: 380px; padding: 20px; box-shadow: 0 12px 30px rgba(0,0,0,0.1);
     }
 
-    /* ─── Groups & Categories ─── */
-    .groups-grid {
+    /* ─── Groups & Categories (Matches vdr.html Monochrome Condensed Folder UI) ─── */
+    .crm-folder-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px 10px;
+      width: 100%;
+      padding: 2px 0 16px;
     }
-    .group-card {
-      background: #FFFFFF;
-      border: 1px solid var(--border-main);
+
+    .crm-folder-card {
+      background: transparent;
+      border: 1px solid transparent;
       border-radius: 8px;
-      padding: 14px 14px 10px;
-      cursor: pointer;
-      transition: border-color 0.12s, box-shadow 0.12s, transform 0.1s;
+      padding: 9px 6px 8px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.1s ease;
     }
-    .group-card:hover {
-      border-color: #B0B0AE;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.06);
-      transform: translateY(-1px);
+
+    .crm-folder-card:hover {
+      background: #EDEDE9;
     }
-    .group-card-top { display: flex; align-items: flex-start; gap: 10px; }
-    .group-card-icon {
-      width: 34px; height: 34px; border-radius: 6px;
-      background: #F0F0EE; border: 1px solid #E0E0DE;
-      display: flex; align-items: center; justify-content: center;
-      color: #3A3A38; flex-shrink: 0;
+
+    .crm-folder-card-menu-wrap {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      opacity: 0;
+      transition: opacity 0.1s ease;
+      z-index: 20;
     }
-    .group-card-name { font-size: 13px; font-weight: 800; color: #1A1A18; letter-spacing: -0.01em; }
-    .group-card-count { font-size: 11px; font-weight: 700; color: var(--text-muted); }
-    .group-card-desc { font-size: 11px; color: #7A7A78; line-height: 1.45; margin-top: 3px; }
-    .group-card-footer {
-      display: flex; align-items: center; justify-content: space-between;
-      border-top: 1px solid #F0F0EE; padding-top: 8px;
+
+    .crm-folder-card:hover .crm-folder-card-menu-wrap {
+      opacity: 1;
     }
-    .group-card-updated { font-size: 10px; color: #9A9A96; display: flex; align-items: center; gap: 4px; }
-    .group-menu-wrap { position: relative; }
-    .group-menu-btn {
-      width: 24px; height: 24px; border-radius: 5px;
-      border: 1px solid #E0E0DE; background: #FFFFFF;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; color: #7A7A78;
-      transition: background 0.1s, color 0.1s, border-color 0.1s;
+
+    .crm-dot-menu-btn {
+      background: transparent;
+      border: none;
+      color: #8A8A88;
+      cursor: pointer;
+      padding: 3px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.1s ease;
     }
-    .group-menu-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
-    .group-menu {
-      position: absolute; right: 0; top: 28px; z-index: 120;
-      background: #FFFFFF; border: 1px solid #E0E0DE; border-radius: 6px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.10);
-      min-width: 150px; padding: 4px 0; display: none;
+
+    .crm-dot-menu-btn:hover {
+      background: rgba(0, 0, 0, 0.08);
+      color: #1A1A18;
     }
-    .group-menu.open { display: block; }
-    .group-menu-item {
-      width: 100%; text-align: left; padding: 6px 12px;
-      font-size: 11.5px; font-family: Inter, sans-serif; color: #1A1A18;
-      background: transparent; border: none; cursor: pointer;
-      display: flex; align-items: center; gap: 8px;
+
+    .crm-context-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 7px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+      min-width: 150px;
+      z-index: 100;
+      padding: 3px;
+      display: none;
+      flex-direction: column;
+      gap: 1px;
     }
-    .group-menu-item:hover { background: #F5F5F3; }
-    .group-menu-item.danger { color: #DC2626; }
-    .group-menu-item.danger:hover { background: #FEF2F2; }
-    .group-menu-divider { height: 1px; background: #EBEBEA; margin: 4px 0; }
-    .add-group-card {
-      border-style: dashed; align-items: center; justify-content: center;
-      color: var(--text-muted); font-size: 12px; font-weight: 700;
-      min-height: 120px;
+
+    .crm-context-menu.show, .crm-context-menu.open {
+      display: flex;
     }
-    .add-group-card:hover { border-color: #1A1A18; color: #1A1A18; }
+
+    .crm-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #1A1A18;
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      font-family: inherit;
+      transition: background 0.08s;
+    }
+
+    .crm-menu-item:hover {
+      background: #F0F0EE;
+    }
+
+    .crm-menu-item.danger {
+      color: #DC2626;
+    }
+
+    .crm-menu-item.danger:hover {
+      background: #FEF2F2;
+    }
+
+    .crm-menu-divider {
+      height: 1px;
+      background: #EBEBEA;
+      margin: 2px 0;
+    }
+
+    .crm-folder-card-graphic {
+      width: 68px;
+      height: 54px;
+      margin: 1px auto 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: transform 0.1s ease;
+    }
+
+    .crm-folder-card:hover .crm-folder-card-graphic {
+      transform: translateY(-1.5px);
+    }
+
+    .crm-folder-big-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05));
+    }
+
+    .crm-folder-card-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .crm-folder-card-name {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #1A1A18;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 135px;
+      line-height: 1.25;
+      text-align: center;
+    }
+
+    .crm-folder-card-size {
+      font-size: 10px;
+      color: #8C8C88;
+      font-variant-numeric: tabular-nums;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 135px;
+    }
+
+    .crm-add-folder-card {
+      background: transparent;
+      border: 1.5px dashed #D4D4CE;
+      border-radius: 8px;
+      padding: 10px 8px 9px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      min-height: 98px;
+      transition: all 0.12s ease;
+    }
+    .crm-add-folder-card:hover {
+      background: #FFFFFF;
+      border-color: #1A1A18;
+    }
+    .crm-add-folder-card .add-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #F0F0EE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #7A7A78;
+      margin-bottom: 5px;
+      transition: all 0.12s;
+    }
+    .crm-add-folder-card:hover .add-icon {
+      background: #1A1A18;
+      color: #FFFFFF;
+    }
+    .crm-add-folder-card span {
+      font-size: 11px;
+      font-weight: 700;
+      color: #7A7A78;
+    }
+    .crm-add-folder-card:hover span {
+      color: #1A1A18;
+    }
     .view-toggle {
       display: flex; background: #F0F0EE; padding: 2px; border-radius: 6px;
       border: 1px solid #E0E0DE; gap: 1px;
@@ -808,7 +951,7 @@
           <div style="display:flex; align-items:center; gap:8px;">
             <div style="display:flex; align-items:center; gap:6px; background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:5px 10px; font-size:12px; color:var(--text-muted);">
               <i data-lucide="search" class="lucide-sm"></i>
-              <input type="text" id="searchDeals" onkeyup="filterDeals()" placeholder="Search deals..." style="border:none; background:transparent; outline:none; font-family:Inter; font-size:12px; width:160px; color:var(--text-dark);" />
+              <input type="text" id="searchDeals" onkeyup="filterGroupsList()" placeholder="Search groups..." style="border:none; background:transparent; outline:none; font-family:Inter; font-size:12px; width:160px; color:var(--text-dark);" />
             </div>
             <button class="btn btn-primary" style="font-size:12px;" onclick="openCreateGroupModal()">
               <i data-lucide="folder-plus" class="lucide-sm"></i>
@@ -818,54 +961,82 @@
         </div>
 
         <div style="padding:16px 20px 20px;">
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
-            <div>
-              <div style="font-size:13px; font-weight:800; color:var(--text-dark);">Pipeline Groups &amp; Categories</div>
-              <div style="font-size:11px; color:var(--text-muted);">Organize shortlisted startups into focused pipelines.</div>
-            </div>
-          </div>
-          <div class="groups-grid">
+          <div class="crm-folder-grid" id="crmGroupsGrid">
             ${GROUPS.map(g => {
               const deals = groupDeals(g);
               return `
-                <div class="group-card" onclick="openGroup('${g.id}')">
-                  <div class="group-card-top">
-                    <div class="group-card-icon"><i data-lucide="folder"></i></div>
-                    <div style="flex:1; min-width:0;">
-                      <div style="display:flex; align-items:center; gap:6px;">
-                        <span class="group-card-name">${g.name}</span>
-                        <span class="group-card-count">(${deals.length})</span>
-                      </div>
-                      <div class="group-card-desc">${g.desc}</div>
-                    </div>
-                  </div>
-                  <div class="group-card-footer">
-                    <span class="group-card-updated"><i data-lucide="clock" style="width:10px; height:10px;"></i> ${g.updated}</span>
-                    <div class="group-menu-wrap" onclick="event.stopPropagation()">
-                      <button class="group-menu-btn" onclick="toggleGroupMenu(event,'${g.id}')" title="Group actions">
-                        <i data-lucide="more-horizontal" style="width:14px; height:14px;"></i>
+                <div class="crm-folder-card" id="group-card-${g.id}" onclick="openGroup('${g.id}')">
+                  
+                  <!-- Kebab Options Menu -->
+                  <div class="crm-folder-card-menu-wrap" onclick="event.stopPropagation();">
+                    <button class="crm-dot-menu-btn" onclick="toggleGroupMenu(event,'${g.id}')" title="Group actions">
+                      <i data-lucide="more-vertical" style="width:13px; height:13px;"></i>
+                    </button>
+
+                    <div class="crm-context-menu" id="groupMenu_${g.id}">
+                      <button class="crm-menu-item" onclick="openGroup('${g.id}')">
+                        <i data-lucide="folder-open" style="width:12px; height:12px;"></i>
+                        <span>Open Group</span>
                       </button>
-                      <div class="group-menu" id="groupMenu_${g.id}">
-                        <button class="group-menu-item" onclick="openEditGroupModal('${g.id}')">
-                          <i data-lucide="pencil" style="width:12px; height:12px;"></i> Edit Group
-                        </button>
-                        <div class="group-menu-divider"></div>
-                        <button class="group-menu-item danger" onclick="promptDeleteGroup('${g.id}')">
-                          <i data-lucide="trash-2" style="width:12px; height:12px;"></i> Delete Group
-                        </button>
-                      </div>
+                      <button class="crm-menu-item" onclick="openEditGroupModal('${g.id}')">
+                        <i data-lucide="pencil" style="width:12px; height:12px;"></i>
+                        <span>Edit Group</span>
+                      </button>
+                      <div class="crm-menu-divider"></div>
+                      <button class="crm-menu-item danger" onclick="promptDeleteGroup('${g.id}')">
+                        <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
+                        <span>Delete Group</span>
+                      </button>
                     </div>
                   </div>
+
+                  <!-- Monochrome Folder Graphic (matches vdr.html) -->
+                  <div class="crm-folder-card-graphic">
+                    <svg class="crm-folder-big-svg" viewBox="0 0 96 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <!-- Top white document sheet with subtle grey lines -->
+                      <rect x="26" y="7" width="44" height="24" rx="3.5" fill="#FFFFFF" stroke="#D4D4CE" stroke-width="1.2"/>
+                      <line x1="33" y1="13" x2="55" y2="13" stroke="#D4D4CE" stroke-width="1.2" stroke-linecap="round"/>
+                      <line x1="33" y1="18" x2="46" y2="18" stroke="#E5E5E0" stroke-width="1.2" stroke-linecap="round"/>
+                      
+                      <!-- Back neutral folder tab -->
+                      <path d="M8 17C8 12.5817 11.5817 9 16 9H34C36.2 9 38.3 10.1 39.5 11.9L42.5 16.1C43.7 17.9 45.8 19 48 19H80C84.4183 19 88 22.5817 88 27V60C88 64.4183 84.4183 68 80 68H16C11.5817 68 8 64.4183 8 60V17Z" fill="#D4D4CE"/>
+                      
+                      <!-- Front neutral folder body -->
+                      <path d="M8 25C8 20.5817 11.5817 17 16 17H80C84.4183 17 88 20.5817 88 25V60C88 64.4183 84.4183 68 80 68H16C11.5817 68 8 64.4183 8 60V25Z" fill="#EAEAE7" stroke="#D4D4CE" stroke-width="1"/>
+                      
+                      <!-- Front top lip highlight line -->
+                      <line x1="16" y1="18" x2="80" y2="18" stroke="#F5F5F3" stroke-width="1.5" stroke-linecap="round"/>
+                      
+                      <!-- Subtle minimal monochrome emblem -->
+                      <path d="M48 37C45.7909 37 44 38.7909 44 41V43H42C40.8954 43 40 43.8954 40 45V51C40 52.1046 40.8954 53 42 53H54C55.1046 53 56 52.1046 56 51V45C56 43.8954 55.1046 43 54 43H52V41C52 38.7909 50.2091 37 48 37ZM46 41C46 39.8954 46.8954 39 48 39C49.1046 39 50 39.8954 50 41V43H46V41Z" fill="#141413" fill-opacity="0.3"/>
+                    </svg>
+                  </div>
+
+                  <!-- Folder Name & Deals Count -->
+                  <div class="crm-folder-card-meta">
+                    <span class="crm-folder-card-name" title="${g.name}">${g.name}</span>
+                    <span class="crm-folder-card-size">${deals.length} Startup${deals.length !== 1 ? 's' : ''} · ${g.updated}</span>
+                  </div>
+
                 </div>
               `;
             }).join('')}
-            <div class="group-card add-group-card" onclick="openCreateGroupModal()">
-              <i data-lucide="plus" style="width:18px; height:18px; color:var(--text-muted);"></i>
-              <span>Create Group</span>
-            </div>
           </div>
         </div>
       `;
+    }
+
+    function filterGroupsList() {
+      const q = (document.getElementById('searchDeals')?.value || '').toLowerCase().trim();
+      const cards = document.querySelectorAll('.crm-folder-card');
+      cards.forEach(c => {
+        const name = c.querySelector('.crm-folder-card-name')?.textContent?.toLowerCase() || '';
+        if (!q || name.includes(q)) {
+          c.style.display = 'flex';
+        } else {
+          c.style.display = 'none';
+        }
+      });
     }
 
     function openGroup(id) {
@@ -1122,13 +1293,20 @@
 
     function toggleGroupMenu(e, id) {
       e.stopPropagation();
-      closeGroupMenus();
       const menu = document.getElementById('groupMenu_' + id);
-      if (menu) menu.classList.add('open');
+      const isAlreadyOpen = menu && (menu.classList.contains('open') || menu.classList.contains('show'));
+      closeGroupMenus();
+      if (menu && !isAlreadyOpen) {
+        menu.classList.add('open');
+        menu.classList.add('show');
+      }
     }
 
     function closeGroupMenus() {
-      document.querySelectorAll('.group-menu.open').forEach(m => m.classList.remove('open'));
+      document.querySelectorAll('.group-menu.open, .crm-context-menu.open, .crm-context-menu.show').forEach(m => {
+        m.classList.remove('open');
+        m.classList.remove('show');
+      });
     }
 
     // ──────────────────────────────────────────────────────────────────────────
@@ -1383,7 +1561,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       renderCRM();
       document.addEventListener('click', (e) => {
-        if (!e.target.closest('.group-menu-wrap')) closeGroupMenus();
+        if (!e.target.closest('.group-menu-wrap') && !e.target.closest('.crm-folder-card-menu-wrap')) closeGroupMenus();
       });
     });
   </script>
