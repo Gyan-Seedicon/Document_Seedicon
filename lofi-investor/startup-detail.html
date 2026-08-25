@@ -521,11 +521,46 @@
                 <span>Team Comments</span>
               </button>
 
-              <!-- Add as Potential Button (Confirmation Modal & Golden State) -->
-              <button class="btn btn-outline" id="btnAddPotential" style="font-size:12px; transition:all 0.25s ease;" onclick="handlePotentialButtonClick(event)">
-                <i data-lucide="star" class="lucide-sm" id="starIcon"></i>
-                <span id="btnPotentialText">Add as Potential</span>
-              </button>
+              <!-- Add as Potential Button with Dropdown (Dropdown -> Confirmation Modal -> Golden Header Gradient) -->
+              <div style="position:relative;">
+                <button class="btn btn-outline" id="btnAddPotential" style="font-size:12px; transition:all 0.25s ease;" onclick="toggleAddPotentialDropdown(event)">
+                  <i data-lucide="star" class="lucide-sm" id="starIcon"></i>
+                  <span id="btnPotentialText">Add as Potential</span>
+                </button>
+                <div id="addPotentialMenu" class="action-dropdown-menu" style="display:none; width:235px; right:0; left:auto; z-index:50;">
+                  <div style="font-size:9.5px; font-weight:800; color:#9A9A96; text-transform:uppercase; padding:7px 12px 4px; letter-spacing:0.05em;">Select Potential Pipeline Group</div>
+                  <div class="action-dropdown-item" onclick="selectPotentialGroupAndConfirm('B2B SaaS &amp; AI')">
+                    <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                    <span>B2B SaaS &amp; AI</span>
+                  </div>
+                  <div class="action-dropdown-item" onclick="selectPotentialGroupAndConfirm('Healthcare &amp; Bio')">
+                    <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                    <span>Healthcare &amp; Bio</span>
+                  </div>
+                  <div class="action-dropdown-item" onclick="selectPotentialGroupAndConfirm('FinTech &amp; Payments')">
+                    <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                    <span>FinTech &amp; Payments</span>
+                  </div>
+                  <div class="action-dropdown-item" onclick="selectPotentialGroupAndConfirm('Climate &amp; Agri')">
+                    <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                    <span>Climate &amp; Agri</span>
+                  </div>
+                  <div class="action-dropdown-item" onclick="selectPotentialGroupAndConfirm('Mobility &amp; Logistics')">
+                    <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                    <span>Mobility &amp; Logistics</span>
+                  </div>
+                  <div class="action-dropdown-item" onclick="selectPotentialGroupAndConfirm('General Watchlist')">
+                    <i data-lucide="bookmark" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
+                    <span>General Watchlist</span>
+                  </div>
+                  <div id="removePotentialOption" style="display:none; border-top:1px solid #E4E4E7; margin-top:4px; padding-top:4px;">
+                    <div class="action-dropdown-item" style="color:#DC2626;" onclick="removeFromPotential(); hideReportMenus();">
+                      <i data-lucide="trash-2" style="width:12px; height:12px; color:#DC2626; flex-shrink:0;"></i>
+                      <span>Remove from Potential</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <!-- Three Dots Dropdown (History & Download in Enabled Mode) -->
               <div style="position:relative;">
@@ -1696,26 +1731,39 @@
     }
 
     // ──────────────────────────────────────────────────────────────────────────
-    // ADD AS POTENTIAL (CONFIRMATION POPUP MODAL & GOLDEN HEADER CARD GRADIENT)
+    // ADD AS POTENTIAL (DROPDOWN -> CONFIRMATION POPUP MODAL -> GOLDEN GRADIENT)
     // ──────────────────────────────────────────────────────────────────────────
     let isPotentialStartup = false;
     let currentPotentialGroup = '';
 
-    function handlePotentialButtonClick(e) {
+    function toggleAddPotentialDropdown(e) {
       if (e) e.stopPropagation();
-      if (!isPotentialStartup) {
-        openAddPotentialConfirmationModal();
-      } else {
-        openManagePotentialModal();
+      const menu = document.getElementById('addPotentialMenu');
+      const isVisible = menu && menu.style.display === 'block';
+      hideReportMenus();
+      if (menu && !isVisible) {
+        const removeOpt = document.getElementById('removePotentialOption');
+        if (removeOpt) {
+          removeOpt.style.display = isPotentialStartup ? 'block' : 'none';
+        }
+        menu.style.display = 'block';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
       }
     }
 
-    function openAddPotentialConfirmationModal() {
-      const smartGroup = currentStartup.sector.includes('Health') ? 'Healthcare & Bio' :
-                        (currentStartup.sector.includes('AI') ? 'B2B SaaS & AI' :
-                        (currentStartup.sector.includes('Fin') ? 'FinTech & Payments' :
-                        (currentStartup.sector.includes('Clean') ? 'Climate & Agri' :
-                        (currentStartup.sector.includes('Log') ? 'Mobility & Logistics' : 'General Watchlist'))));
+    function selectPotentialGroupAndConfirm(groupName) {
+      hideReportMenus();
+      openAddPotentialConfirmationModal(groupName);
+    }
+
+    function openAddPotentialConfirmationModal(targetGroup) {
+      const selectedGroup = targetGroup || (currentPotentialGroup || (
+        currentStartup.sector.includes('Health') ? 'Healthcare & Bio' :
+        (currentStartup.sector.includes('AI') ? 'B2B SaaS & AI' :
+        (currentStartup.sector.includes('Fin') ? 'FinTech & Payments' :
+        (currentStartup.sector.includes('Clean') ? 'Climate & Agri' :
+        (currentStartup.sector.includes('Log') ? 'Mobility & Logistics' : 'General Watchlist'))))
+      ));
 
       openModal('Add to Potential Startups', `
         <div style="display:flex; flex-direction:column; gap:16px;">
@@ -1735,14 +1783,14 @@
           <!-- Form Fields -->
           <div style="display:flex; flex-direction:column; gap:12px;">
             <div>
-              <label style="display:block; font-size:11px; font-weight:700; color:#3F3F46; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.04em;">Select Pipeline Bucket / Group *</label>
+              <label style="display:block; font-size:11px; font-weight:700; color:#3F3F46; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.04em;">Selected Pipeline Bucket / Group *</label>
               <select id="potentialGroupSelect" class="form-input" style="font-size:12.5px; font-weight:600; width:100%; padding:8px 10px; border-radius:6px; border:1px solid #D4D4D8;">
-                <option value="Healthcare &amp; Bio" ${smartGroup === 'Healthcare & Bio' ? 'selected' : ''}>Healthcare &amp; Bio</option>
-                <option value="B2B SaaS &amp; AI" ${smartGroup === 'B2B SaaS & AI' ? 'selected' : ''}>B2B SaaS &amp; AI</option>
-                <option value="FinTech &amp; Payments" ${smartGroup === 'FinTech & Payments' ? 'selected' : ''}>FinTech &amp; Payments</option>
-                <option value="Climate &amp; Agri" ${smartGroup === 'Climate & Agri' ? 'selected' : ''}>Climate &amp; Agri</option>
-                <option value="Mobility &amp; Logistics" ${smartGroup === 'Mobility & Logistics' ? 'selected' : ''}>Mobility &amp; Logistics</option>
-                <option value="General Watchlist" ${smartGroup === 'General Watchlist' ? 'selected' : ''}>General Watchlist</option>
+                <option value="Healthcare &amp; Bio" ${selectedGroup === 'Healthcare & Bio' ? 'selected' : ''}>Healthcare &amp; Bio</option>
+                <option value="B2B SaaS &amp; AI" ${selectedGroup === 'B2B SaaS & AI' ? 'selected' : ''}>B2B SaaS &amp; AI</option>
+                <option value="FinTech &amp; Payments" ${selectedGroup === 'FinTech & Payments' ? 'selected' : ''}>FinTech &amp; Payments</option>
+                <option value="Climate &amp; Agri" ${selectedGroup === 'Climate & Agri' ? 'selected' : ''}>Climate &amp; Agri</option>
+                <option value="Mobility &amp; Logistics" ${selectedGroup === 'Mobility & Logistics' ? 'selected' : ''}>Mobility &amp; Logistics</option>
+                <option value="General Watchlist" ${selectedGroup === 'General Watchlist' ? 'selected' : ''}>General Watchlist</option>
               </select>
             </div>
 
@@ -1807,57 +1855,11 @@
         headerCard.style.boxShadow = '0 2px 10px rgba(245, 158, 11, 0.10)';
       }
 
+      const removeOpt = document.getElementById('removePotentialOption');
+      if (removeOpt) removeOpt.style.display = 'block';
+
       if (window.showToast) {
         window.showToast(`★ ${currentStartup.name} added to Potential Startups (${group})`);
-      }
-    }
-
-    function openManagePotentialModal() {
-      openModal('Manage Potential Startup', `
-        <div style="display:flex; flex-direction:column; gap:16px;">
-          <div style="background:#FFFBEB; border:1px solid #FCD34D; border-radius:6px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between;">
-            <div>
-              <div style="font-size:13px; font-weight:700; color:#92400E;">Currently in Potential Startups</div>
-              <div style="font-size:11.5px; color:#B45309;">Assigned Group: <strong>${currentPotentialGroup}</strong></div>
-            </div>
-            <span class="badge-chip" style="background:#FEF3C7; border-color:#FCD34D; color:#92400E; font-weight:700;">Active Pipeline</span>
-          </div>
-
-          <div>
-            <label style="display:block; font-size:11px; font-weight:700; color:#3F3F46; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.04em;">Reassign Pipeline Group</label>
-            <select id="reassignGroupSelect" class="form-input" style="font-size:12.5px; font-weight:600; width:100%; padding:8px 10px; border-radius:6px; border:1px solid #D4D4D8;">
-              <option value="Healthcare &amp; Bio" ${currentPotentialGroup === 'Healthcare & Bio' ? 'selected' : ''}>Healthcare &amp; Bio</option>
-              <option value="B2B SaaS &amp; AI" ${currentPotentialGroup === 'B2B SaaS & AI' ? 'selected' : ''}>B2B SaaS &amp; AI</option>
-              <option value="FinTech &amp; Payments" ${currentPotentialGroup === 'FinTech & Payments' ? 'selected' : ''}>FinTech &amp; Payments</option>
-              <option value="Climate &amp; Agri" ${currentPotentialGroup === 'Climate & Agri' ? 'selected' : ''}>Climate &amp; Agri</option>
-              <option value="Mobility &amp; Logistics" ${currentPotentialGroup === 'Mobility & Logistics' ? 'selected' : ''}>Mobility &amp; Logistics</option>
-              <option value="General Watchlist" ${currentPotentialGroup === 'General Watchlist' ? 'selected' : ''}>General Watchlist</option>
-            </select>
-          </div>
-
-          <div style="display:flex; align-items:center; justify-content:space-between; border-top:1px solid #E4E4E7; padding-top:14px; margin-top:4px;">
-            <button class="btn btn-outline" onclick="removeFromPotential()" style="color:#DC2626; border-color:#FCA5A5; padding:6px 12px; font-size:12px; display:inline-flex; align-items:center; gap:5px;">
-              <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
-              <span>Remove from Potential</span>
-            </button>
-            <div style="display:flex; gap:8px;">
-              <button class="btn btn-outline" onclick="closeModal()" style="padding:6px 14px; font-size:12px;">Cancel</button>
-              <button class="btn btn-primary" onclick="saveReassignedGroup()" style="padding:6px 16px; font-size:12px; background:#18181B; color:#FFFFFF; font-weight:700;">Save Group</button>
-            </div>
-          </div>
-        </div>
-      `);
-      if (typeof lucide !== 'undefined') lucide.createIcons();
-    }
-
-    function saveReassignedGroup() {
-      const select = document.getElementById('reassignGroupSelect');
-      if (select) {
-        currentPotentialGroup = select.value;
-        const text = document.getElementById('btnPotentialText');
-        if (text) text.textContent = `Added in ${currentPotentialGroup}`;
-        closeModal();
-        if (window.showToast) window.showToast(`Group updated to "${currentPotentialGroup}"`);
       }
     }
 
@@ -1889,6 +1891,9 @@
         headerCard.style.borderColor = 'var(--border-main)';
         headerCard.style.boxShadow = '0 1px 3px rgba(0,0,0,0.02)';
       }
+
+      const removeOpt = document.getElementById('removePotentialOption');
+      if (removeOpt) removeOpt.style.display = 'none';
 
       if (window.showToast) window.showToast(`${currentStartup.name} removed from Potential Startups`);
     }
