@@ -244,7 +244,7 @@
           <div>
             <div style="display:flex; align-items:center; gap:8px;">
               <h1 style="font-size:17px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em; margin:0;">Startups Inbound Pool</h1>
-              <span id="totalCountBadge" style="font-size:11px; font-weight:700; background:#F0F0EE; color:#4A4A48; border:1px solid #DCDCDA; border-radius:4px; padding:2px 7px;">9 Submissions</span>
+              <span id="totalCountBadge" style="font-size:12px; font-weight:600; color:var(--text-muted);">(9 Submissions)</span>
             </div>
             <p style="font-size:11.5px; color:var(--text-muted); margin:2px 0 0;">
               Inbound founder applications received via public <strong>Intake Links</strong> &amp; direct submissions.
@@ -680,7 +680,7 @@
     function renderStartups(list) {
       const c = document.getElementById('startupsContainer');
       const badge = document.getElementById('totalCountBadge');
-      if (badge) badge.textContent = `${list.length} Submission${list.length !== 1 ? 's' : ''}`;
+      if (badge) badge.textContent = `(${list.length} Submission${list.length !== 1 ? 's' : ''})`;
 
       if (!c) return;
 
