@@ -3,99 +3,178 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DD Partner Onboarding &amp; Assignment Builder — Seedicon Investor Platform</title>
+  <title>Add Due Diligence (DD) Partner — Seedicon Investor Platform</title>
   <link rel="stylesheet" href="./css/styles.css">
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    /* Builder Table & TOC Rail Custom UI */
-    .builder-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      font-size: 12.5px;
+    /* Full-height Workspace Layout */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
     }
-    .builder-table th {
-      font-size: 10.5px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      padding: 8px 10px;
-      border-bottom: 1px solid var(--border-main);
-      background: var(--bg-sidebar);
-      text-align: left;
+
+    .app-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
-    .builder-table td {
-      padding: 8px 10px;
-      border-bottom: 1px solid var(--border-faint);
-      vertical-align: middle;
+
+    .main-workspace {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      height: calc(100vh - 48px);
+      overflow: hidden;
+    }
+
+    .content-scrollable {
+      flex: 1;
+      height: 100%;
+      overflow-y: auto;
       background: #FFFFFF;
     }
-    .builder-table tr:hover td {
-      background: #FAFAFA;
+
+    /* Surface Form Sections & Divider Separators */
+    .form-surface-section {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 28px 0;
+      box-shadow: none;
+      scroll-margin-top: 70px;
+      border-bottom: 1px solid var(--border-main);
     }
-    .builder-input {
+
+    .form-surface-section:first-child {
+      padding-top: 4px;
+    }
+
+    .form-surface-section:last-of-type {
+      border-bottom: none;
+      padding-bottom: 16px;
+    }
+
+    .form-section-header {
+      margin-bottom: 18px;
+    }
+
+    .form-section-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-section-desc {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    .preview-input {
       width: 100%;
-      padding: 6px 10px;
-      border: 1px solid var(--border-strong);
-      border-radius: 5px;
-      font-family: var(--font-sans);
+      padding: 8px 11px;
+      border: 1px solid #DFDEDE;
+      border-radius: 6px;
+      font-family: var(--font-inter);
       font-size: 12px;
       color: var(--text-dark);
-      background: #FFFFFF;
+      background: #FAFAFA;
       outline: none;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      box-sizing: border-box;
+      transition: all 0.12s ease;
     }
-    .builder-input:focus {
+
+    .preview-input:focus {
+      background: #FFFFFF;
       border-color: var(--accent-graphite);
-      box-shadow: 0 0 0 2px rgba(58, 58, 56, 0.08);
+      box-shadow: 0 0 0 2px rgba(26,26,24,0.06);
     }
-    .sec-item {
+
+    .form-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-field-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .form-field-label .req {
+      color: #DC2626;
+      font-weight: 700;
+    }
+
+    .form-doc-upload-box {
+      border: 1px dashed #D0D0CE;
+      border-radius: 6px;
+      background: #FAFAFA;
+      padding: 14px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
+      gap: 12px;
       transition: all 0.12s ease;
-      font-size: 12px;
-    }
-    .sec-item:hover {
-      background: var(--bg-muted);
-    }
-    .sec-item.active {
-      background: #FFFFFF;
-      font-weight: 700;
-      color: var(--text-dark);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-      border-left: 3px solid var(--accent-graphite);
+      cursor: pointer;
     }
 
-    /* Floating FAB Toggle Button */
-    .fab-toggle-btn {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 999;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 14px;
-      font-size: 11.5px;
-      font-weight: 700;
-      background: #1A1A18;
-      color: #FFFFFF;
-      border: 1px solid #1A1A18;
-      border-radius: 30px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-      cursor: pointer;
-      font-family: Inter, sans-serif;
-      transition: all 0.15s ease;
+    .form-doc-upload-box:hover {
+      background: #F3F3F0;
+      border-color: var(--accent-graphite);
     }
-    .fab-toggle-btn:hover {
-      background: #2A2A28;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+
+    /* Sticky TOC Rail Navigation without dots */
+    .toc-sticky-rail {
+      width: 250px;
+      flex-shrink: 0;
+      background: #FAFAFA;
+      border-right: 1px solid var(--border-main);
+      padding: 24px 18px;
+      position: sticky;
+      top: 0;
+      height: calc(100vh - 58px);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .preview-rail-item {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.12s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .preview-rail-item:hover {
+      background: var(--bg-muted);
+      color: var(--text-dark);
+    }
+
+    .preview-rail-item.active {
+      background: var(--bg-muted);
+      color: var(--text-dark);
+      font-weight: 700;
     }
   </style>
 </head>
@@ -112,363 +191,229 @@
     <div id="mainSidebarSlot"></div>
 
     <!-- Main Page Content -->
-    <main class="content-scrollable" style="padding:0; display:flex; flex-direction:column; background:#F8F8F6; overflow-y:auto;">
+    <main class="content-scrollable" style="padding:0; display:flex; flex-direction:column; background:#FFFFFF; overflow-y:auto;">
       
-      <!-- PAGE TOP EXECUTIVE ACTION BAR -->
-      <header style="padding:10px 24px; background:#FFFFFF; border-bottom:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; position:sticky; top:0; z-index:10;">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <a href="./dd-partners.html" class="btn btn-outline btn-sm" title="Back to DD Partners list" style="padding:4px 8px;">
-            <i data-lucide="arrow-left" class="lucide-sm"></i>
+      <!-- PAGE TOP EXECUTIVE ACTION BAR (STICKY) -->
+      <header style="padding:10px 28px; background:#FFFFFF; border-bottom:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; position:sticky; top:0; z-index:20;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <a href="./dd-partners.html" title="Back to DD Partners list" style="display:inline-flex; align-items:center; justify-content:center; color:var(--text-dark); text-decoration:none; padding:4px; border-radius:4px; transition:opacity 0.12s ease;">
+            <i data-lucide="arrow-left" style="width:18px; height:18px;"></i>
           </a>
-          <div>
-            <h1 style="font-size:16.5px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em;">DD Partner Onboarding</h1>
-          </div>
+          <h1 style="font-size:16.5px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em; margin:0;">Add Due Diligence (DD) Partner</h1>
         </div>
 
-        <!-- Top Mode Switcher & Actions -->
-        <div style="display:flex; align-items:center; gap:10px;">
-          <!-- View Mode Switcher -->
-          <div style="display:flex; background:var(--bg-muted); padding:3px; border-radius:7px; border:1px solid var(--border-main);">
-            <button class="btn btn-sm" id="btnModeBuilder" onclick="setBuilderMode('builder')" style="background:#FFFFFF; border:1px solid var(--border-strong); font-weight:700; color:var(--text-dark);">
-              <i data-lucide="sliders" class="lucide-sm"></i>
-              <span>Builder</span>
-            </button>
-            <button class="btn btn-sm" id="btnModePreview" onclick="setBuilderMode('preview')" style="background:transparent; border:none; color:var(--text-muted); font-weight:500;">
-              <i data-lucide="eye" class="lucide-sm"></i>
-              <span>Partner Onboarding Preview</span>
-            </button>
-          </div>
-
-          <button class="btn btn-outline" onclick="resetToDefaultTemplate()" style="font-size:12px;">
-            <i data-lucide="rotate-ccw" class="lucide-sm"></i>
-            <span>Reset</span>
+        <!-- Top Actions -->
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="btn btn-outline" onclick="saveAsDraft()" style="font-size:11.5px; padding:6px 12px; gap:5px;">
+            <i data-lucide="file-text" class="lucide-sm"></i>
+            <span>Save as Draft</span>
           </button>
 
-          <button class="btn btn-outline" onclick="saveTemplate()">
-            <i data-lucide="save" class="lucide-sm"></i>
-            <span>Save Setup</span>
-          </button>
-
-          <button class="btn btn-primary" onclick="copyShareOnboardingLink()">
+          <button class="btn btn-outline" onclick="copyShareOnboardingLink()" style="font-size:11.5px; padding:6px 12px; gap:5px;">
             <i data-lucide="share-2" class="lucide-sm"></i>
-            <span>Share Onboarding Link</span>
+            <span>Share Partner Link</span>
+          </button>
+
+          <button class="btn btn-primary" onclick="submitDDForm()" style="font-size:11.5px; padding:6px 14px;">
+            <span>Onboard DD Partner</span>
           </button>
         </div>
       </header>
 
-      <!-- MAIN BUILDER / PREVIEW CANVAS WORKSPACE -->
-      <div id="onboardCanvas" style="padding:20px 24px;">
-        <!-- RENDERED DYNAMICALLY VIA JS -->
-      </div>
-
-    </main>
-  </div>
-</div>
-
-<!-- SUBTLE FLOATING FAB TOGGLE BUTTON (BOTTOM RIGHT CORNER) -->
-<button class="fab-toggle-btn" id="fabToggleState" title="Toggle between Builder Setup and Partner Live Preview Mode" onclick="toggleModeFAB()">
-  <i data-lucide="eye" style="width:13px; height:13px;"></i>
-  <span id="fabToggleText">Switch to Preview Mode</span>
-</button>
-
-<!-- Global Modal Slot -->
-<div id="modalSlot"></div>
-
-<script src="./js/components.js"></script>
-<script src="./js/app.js"></script>
-<script>
-  // ── DD PARTNER ONBOARDING TEMPLATE DATA ──
-  const INITIAL_ONBOARD_TEMPLATE = [
-    {
-      id: 'sec_basic',
-      title: '1. Basic Details',
-      enabled: true,
-      desc: 'Essential contact information of the lead diligence partner.',
-      fields: [
-        { name: 'Full Name', type: 'text', req: true, placeholder: 'e.g. Rahul Mehta' },
-        { name: 'Work Email', type: 'email', req: true, placeholder: 'e.g. rahul.mehta@pwc.com' },
-        { name: 'Phone Number', type: 'text', req: true, placeholder: 'e.g. +91 98765 43210' },
-        { name: 'Designation / Role', type: 'text', req: true, placeholder: 'e.g. Partner – Legal Audit' }
-      ]
-    },
-    {
-      id: 'sec_org',
-      title: '2. Organization Details',
-      enabled: true,
-      desc: 'Audit firm entity name and domain specialty classification.',
-      fields: [
-        { name: 'Firm / Organization Name', type: 'text', req: true, placeholder: 'e.g. PwC Advisory Legal' },
-        { name: 'Partner Type', type: 'select', req: true, options: ['Legal', 'Financial / Accounting', 'Tax', 'Commercial', 'Technical', 'HR', 'Compliance', 'Other'] }
-      ]
-    },
-    {
-      id: 'sec_prof',
-      title: '3. Professional Info',
-      enabled: true,
-      desc: 'Expertise areas, credentials, and geographic location.',
-      fields: [
-        { name: 'Areas of Expertise', type: 'text', req: false, placeholder: 'e.g. Corporate Law, M&A, Startup Compliance' },
-        { name: 'LinkedIn Profile URL', type: 'text', req: false, placeholder: 'https://linkedin.com/in/profile' },
-        { name: 'Location / Country', type: 'text', req: false, placeholder: 'e.g. Mumbai, India' }
-      ]
-    },
-    {
-      id: 'sec_access',
-      title: '4. Access Setup',
-      enabled: true,
-      desc: 'VDR room assignment, folder scope permissions, and access start/expiry dates.',
-      fields: [
-        { name: 'VDR / Deal Assigned', type: 'select', req: true, options: ['Seed Round Due Diligence (Alpha Health)', 'FinFlow Tech Diligence', 'LogiChain Labs Diligence'] },
-        { name: 'Folder Access Scope', type: 'select', req: true, options: ['Full Data Room Access', 'Legal Folder Only', 'Financials Folder Only', 'Tech & Code Folder Only'] },
-        { name: 'Permissions', type: 'select', req: true, options: ['View + Download', 'View Only', 'Full Audit & Review'] },
-        { name: 'Access Expiry Date', type: 'date', req: true, placeholder: 'YYYY-MM-DD' }
-      ]
-    },
-    {
-      id: 'sec_security',
-      title: '5. Account & Security',
-      enabled: true,
-      desc: 'System-driven access verification and account status tracking.',
-      fields: [
-        { name: 'Invitation Status', type: 'text', req: true, placeholder: 'Pending Invitation / Invite Sent' },
-        { name: 'Email Verification', type: 'text', req: true, placeholder: 'Verified' },
-        { name: 'MFA / 2FA Status', type: 'text', req: true, placeholder: 'Enforced' },
-        { name: 'Account Status', type: 'select', req: true, options: ['Active', 'Suspended', 'Revoked'] }
-      ]
-    }
-  ];
-
-  let TEMPLATE = JSON.parse(JSON.stringify(INITIAL_ONBOARD_TEMPLATE));
-  let currentMode = 'builder'; // 'builder' or 'preview'
-  let activeSecIdx = 0;
-
-  document.addEventListener('DOMContentLoaded', () => {
-    if (typeof LayoutComponents !== 'undefined' && document.getElementById('appHeaderSlot')) {
-      LayoutComponents.init({ activeNav: 'dd-partners', activeApp: 'investor' });
-    }
-    if (typeof bindAppEvents === 'function') {
-      bindAppEvents();
-    }
-    renderCanvas();
-  });
-
-  function setBuilderMode(mode) {
-    currentMode = mode;
-    const btnBuilder = document.getElementById('btnModeBuilder');
-    const btnPreview = document.getElementById('btnModePreview');
-    const fabText = document.getElementById('fabToggleText');
-
-    if (mode === 'builder') {
-      btnBuilder.style.background = '#FFFFFF';
-      btnBuilder.style.border = '1px solid var(--border-strong)';
-      btnBuilder.style.fontWeight = '700';
-      btnBuilder.style.color = 'var(--text-dark)';
-
-      btnPreview.style.background = 'transparent';
-      btnPreview.style.border = 'none';
-      btnPreview.style.fontWeight = '500';
-      btnPreview.style.color = 'var(--text-muted)';
-
-      if (fabText) fabText.textContent = 'Switch to Preview Mode';
-    } else {
-      btnPreview.style.background = '#FFFFFF';
-      btnPreview.style.border = '1px solid var(--border-strong)';
-      btnPreview.style.fontWeight = '700';
-      btnPreview.style.color = 'var(--text-dark)';
-
-      btnBuilder.style.background = 'transparent';
-      btnBuilder.style.border = 'none';
-      btnBuilder.style.fontWeight = '500';
-      btnBuilder.style.color = 'var(--text-muted)';
-
-      if (fabText) fabText.textContent = 'Switch to Builder Mode';
-    }
-
-    renderCanvas();
-  }
-
-  function toggleModeFAB() {
-    setBuilderMode(currentMode === 'builder' ? 'preview' : 'builder');
-  }
-
-  function renderCanvas() {
-    const container = document.getElementById('onboardCanvas');
-    if (!container) return;
-
-    if (currentMode === 'builder') {
-      renderBuilderWorkspace(container);
-    } else {
-      renderPreviewWorkspace(container);
-    }
-
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-  }
-
-  // ── BUILDER WORKSPACE (SURFACE TABLE WITH STICKY TOC RAIL) ──
-  function renderBuilderWorkspace(container) {
-    const sec = TEMPLATE[activeSecIdx] || TEMPLATE[0];
-
-    container.innerHTML = `
-      <div style="display:grid; grid-template-columns:275px 1fr; gap:16px; align-items:stretch; min-height:calc(100vh - 180px);">
+      <!-- MAIN ONBOARDING 2-COLUMN SURFACE WORKSPACE -->
+      <div style="display:flex; flex-direction:row; align-items:stretch; flex:1;">
         
-        <!-- LEFT SIDEBAR: TOC SECTION LIST (FULL HEIGHT STICKY RAIL) -->
-        <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:8px; padding:14px; display:flex; flex-direction:column; gap:8px; position:sticky; top:16px; align-self:start; height:calc(100vh - 120px);">
-          <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:8px; border-bottom:1px solid var(--border-main);">
-            <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted);">TOC SECTIONS (${TEMPLATE.length})</span>
+        <!-- LEFT TOC NAVIGATION RAIL (STICKY - NO DOTS) -->
+        <aside class="toc-sticky-rail">
+          <div style="font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin-bottom:12px;">
+            TABLE OF CONTENTS
           </div>
 
-          <div style="display:flex; flex-direction:column; gap:2px; flex:1; overflow-y:auto;">
-            ${TEMPLATE.map((s, idx) => `
-              <div onclick="selectSection(${idx})" class="sec-item ${idx === activeSecIdx ? 'active' : ''}">
-                <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1;">
-                  <input type="checkbox" ${s.enabled ? 'checked' : ''} onclick="event.stopPropagation(); toggleSection(${idx})" style="accent-color:var(--accent-graphite); cursor:pointer; flex-shrink:0;" />
-                  <span style="color:${s.enabled ? 'var(--text-dark)' : 'var(--text-light)'}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                    ${s.title}
-                  </span>
-                </div>
-                <span style="font-size:11px; font-weight:500; color:var(--text-muted); flex-shrink:0;">(${s.fields.length})</span>
-              </div>
-            `).join('')}
-          </div>
-        </div>
+          <nav style="display:flex; flex-direction:column; gap:3px; flex:1;">
+            <a href="#sec_partner" class="preview-rail-item active" onclick="selectPreviewRail(this)">
+              <span>1. Partner Details</span>
+            </a>
+            <a href="#sec_firm" class="preview-rail-item" onclick="selectPreviewRail(this)">
+              <span>2. Firm Details</span>
+            </a>
+            <a href="#sec_poc" class="preview-rail-item" onclick="selectPreviewRail(this)">
+              <span>3. Point of Contact</span>
+            </a>
+            <a href="#sec_confirmation" class="preview-rail-item" onclick="selectPreviewRail(this)">
+              <span>4. Confirmation &amp; NDA</span>
+            </a>
+          </nav>
+        </aside>
 
-        <!-- RIGHT CANVAS: ACTIVE SECTION FIELDS TABLE -->
-        <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:8px; padding:18px; display:flex; flex-direction:column; gap:16px;">
+        <!-- RIGHT FORM CONTENT SURFACE (DIRECTLY ON CANVAS) -->
+        <div style="flex:1; min-width:0; padding:28px 48px 48px; max-width:960px;">
           
-          <div style="display:flex; align-items:flex-start; justify-content:space-between; border-bottom:1px solid var(--border-main); padding-bottom:12px;">
-            <div style="flex:1; margin-right:16px;">
-              <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
-                <h2 style="font-size:16px; font-weight:800; color:var(--text-dark);">${sec.title}</h2>
-                <span class="badge-pill ${sec.enabled ? 'neutral-dark' : 'neutral-soft'}" style="font-size:10.5px;">${sec.enabled ? 'Section Enabled' : 'Disabled'}</span>
+          <!-- ── 1. PARTNER DETAILS ── -->
+          <section id="sec_partner" class="form-surface-section">
+            <div class="form-section-header">
+              <div class="form-section-title">
+                <i data-lucide="user" style="width:15px; height:15px;"></i>
+                <span>1. Partner Details</span>
               </div>
-              <p style="font-size:12px; color:var(--text-muted);">${sec.desc}</p>
-            </div>
-            <button class="btn btn-primary btn-sm" onclick="addFieldToSection(${activeSecIdx})">
-              <i data-lucide="plus" class="lucide-sm"></i>
-              <span>Add Field</span>
-            </button>
-          </div>
-
-          <!-- FIELDS TABLE -->
-          <div>
-            <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin-bottom:8px;">
-              CONFIGURED FIELDS (${sec.fields.length})
+              <div class="form-section-desc">Key contact details and professional profile of the appointed diligence lead.</div>
             </div>
 
-            <table class="builder-table">
-              <thead>
-                <tr>
-                  <th style="width:30px; text-align:center;">#</th>
-                  <th style="width:220px;">Field Label</th>
-                  <th style="width:150px;">Input Type</th>
-                  <th>Placeholder / Hint for Partner</th>
-                  <th style="width:90px; text-align:center;">Required</th>
-                  <th style="width:70px; text-align:right;">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${sec.fields.map((f, fIdx) => `
-                  <tr>
-                    <td style="text-align:center; color:var(--text-light);"><i data-lucide="grip-vertical" class="lucide-sm"></i></td>
-                    <td><input type="text" value="${f.name}" onchange="updateFieldName(${activeSecIdx}, ${fIdx}, this.value)" class="builder-input" style="font-weight:600;" /></td>
-                    <td>
-                      <select onchange="updateFieldType(${activeSecIdx}, ${fIdx}, this.value)" class="builder-input">
-                        <option value="text" ${f.type === 'text' ? 'selected' : ''}>Short Text</option>
-                        <option value="email" ${f.type === 'email' ? 'selected' : ''}>Email Address</option>
-                        <option value="date" ${f.type === 'date' ? 'selected' : ''}>Date</option>
-                        <option value="select" ${f.type === 'select' ? 'selected' : ''}>Dropdown Select</option>
-                      </select>
-                    </td>
-                    <td><input type="text" value="${f.placeholder || ''}" onchange="updateFieldPlaceholder(${activeSecIdx}, ${fIdx}, this.value)" class="builder-input" style="color:var(--text-muted);" placeholder="Hint text..." /></td>
-                    <td style="text-align:center;">
-                      <input type="checkbox" ${f.req ? 'checked' : ''} onchange="toggleFieldRequired(${activeSecIdx}, ${fIdx})" style="accent-color:var(--accent-graphite); cursor:pointer;" />
-                    </td>
-                    <td style="text-align:right;">
-                      <button class="btn btn-outline btn-sm" onclick="deleteField(${activeSecIdx}, ${fIdx})" style="padding:2px 5px; color:#8C2D2D;" title="Delete Field">
-                        <i data-lucide="trash-2" class="lucide-sm"></i>
-                      </button>
-                    </td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-          </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+              <div class="form-field-group">
+                <label class="form-field-label">Full Name <span class="req">*</span></label>
+                <input type="text" id="field_fullName" class="preview-input" placeholder="Rahul Mehta" />
+              </div>
 
-        </div>
-      </div>
-    `;
-  }
+              <div class="form-field-group">
+                <label class="form-field-label">Work Email <span class="req">*</span></label>
+                <input type="email" id="field_email" class="preview-input" placeholder="rahul@lexfirm.com" />
+              </div>
 
-  // ── PARTNER LIVE PREVIEW WORKSPACE (TOC SIDEBAR RAIL + FORM CARDS) ──
-  function renderPreviewWorkspace(container) {
-    const enabledSecs = TEMPLATE.filter(s => s.enabled);
+              <div class="form-field-group">
+                <label class="form-field-label">Phone Number</label>
+                <input type="tel" id="field_phone" class="preview-input" placeholder="+91 98765 43210" />
+              </div>
 
-    container.innerHTML = `
-      <div style="max-width:1100px; margin:0 auto; background:#FFFFFF; border:1px solid var(--border-main); border-radius:10px; box-shadow:0 4px 20px rgba(0,0,0,0.04); overflow:hidden;">
-        
-        <!-- HEADER -->
-        <div style="padding:20px 28px; background:var(--bg-sidebar); border-bottom:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div style="width:32px; height:32px; background:var(--accent-graphite); color:#FFFFFF; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px;">DD</div>
-              <h2 style="font-size:17px; font-weight:800; color:var(--text-dark);">Due Diligence Audit Partner Onboarding &amp; Assignment</h2>
+              <div class="form-field-group">
+                <label class="form-field-label">Designation</label>
+                <input type="text" id="field_designation" class="preview-input" placeholder="Partner / Senior Associate" />
+              </div>
+
+              <div class="form-field-group" style="grid-column: span 2;">
+                <label class="form-field-label">LinkedIn URL</label>
+                <input type="url" id="field_linkedin" class="preview-input" placeholder="https://linkedin.com/in/rahulmehta" />
+              </div>
             </div>
-            <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">
-              Complete your audit profile and verify VDR room access permissions for Seedicon Venture Fund.
-            </p>
-          </div>
-          <span class="badge-pill neutral-dark" style="font-size:11px; padding:3px 10px;">Partner Onboarding Live Preview</span>
-        </div>
+          </section>
 
-        <!-- FORM BODY GRID WITH STICKY TOC RAIL -->
-        <div style="display:grid; grid-template-columns:275px 1fr; align-items:stretch; min-height:calc(100vh - 200px);">
-          
-          <!-- LEFT TOC NAVIGATION RAIL (FULL HEIGHT STICKY) -->
-          <div style="border-right:1px solid var(--border-main); padding:20px; background:#FAFAFA; position:sticky; top:60px; height:calc(100vh - 120px); align-self:start; overflow-y:auto; flex-shrink:0; display:flex; flex-direction:column;">
-            <div style="font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin-bottom:14px;">
-              TABLE OF CONTENTS
+          <!-- ── 2. FIRM DETAILS ── -->
+          <section id="sec_firm" class="form-surface-section">
+            <div class="form-section-header">
+              <div class="form-section-title">
+                <i data-lucide="building-2" style="width:15px; height:15px;"></i>
+                <span>2. Firm Details</span>
+              </div>
+              <div class="form-section-desc">Organization name, diligence specialty, jurisdiction, and official office details.</div>
             </div>
 
-            <div style="display:flex; flex-direction:column; gap:4px; flex:1;">
-              ${enabledSecs.map((s, idx) => `
-                <a href="#preview_sec_${s.id}" class="preview-rail-item ${idx === 0 ? 'active' : ''}" onclick="selectPreviewRail(this)" style="display:flex; align-items:center; gap:9px; padding:9px 12px; border-radius:6px; font-size:12px; font-weight:${idx === 0 ? '700' : '500'}; color:${idx === 0 ? 'var(--text-dark)' : 'var(--text-muted)'}; text-decoration:none; background:${idx === 0 ? 'var(--bg-muted)' : 'transparent'}; transition:all 0.12s ease; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                  <span style="width:6px; height:6px; border-radius:50%; background:${idx === 0 ? 'var(--accent-graphite)' : 'var(--border-strong)'}; flex-shrink:0;"></span>
-                  <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${s.title}</span>
-                </a>
-              `).join('')}
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+              <div class="form-field-group">
+                <label class="form-field-label">Firm / Organization Name <span class="req">*</span></label>
+                <input type="text" id="field_orgName" class="preview-input" placeholder="Lex &amp; Co." />
+              </div>
+
+              <div class="form-field-group">
+                <label class="form-field-label">DD Specialty <span class="req">*</span></label>
+                <select id="field_ddSpecialty" class="preview-input">
+                  <option value="Legal" selected>Legal</option>
+                  <option value="Financial">Financial</option>
+                  <option value="Tax">Tax</option>
+                  <option value="Commercial">Commercial</option>
+                  <option value="Technical">Technical</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-field-group">
+                <label class="form-field-label">Country <span class="req">*</span></label>
+                <select id="field_country" class="preview-input">
+                  <option value="India" selected>India</option>
+                  <option value="United States">United States</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="Singapore">Singapore</option>
+                  <option value="UAE">United Arab Emirates</option>
+                  <option value="Germany">Germany</option>
+                  <option value="Other">Other Country</option>
+                </select>
+              </div>
+
+              <div class="form-field-group">
+                <label class="form-field-label">City</label>
+                <input type="text" id="field_city" class="preview-input" placeholder="Mumbai" />
+              </div>
+
+              <div class="form-field-group" style="grid-column: span 2;">
+                <label class="form-field-label">Firm Website</label>
+                <input type="url" id="field_website" class="preview-input" placeholder="https://lexfirm.com" />
+              </div>
+
+              <div class="form-field-group" style="grid-column: span 2;">
+                <label class="form-field-label">Registered Business Address</label>
+                <textarea id="field_orgAddress" rows="2" class="preview-input" placeholder="Office building, street, city, state, PIN/postal code" style="resize:vertical;"></textarea>
+              </div>
             </div>
-          </div>
+          </section>
 
-          <!-- RIGHT FORM CONTENT -->
-          <div style="padding:24px 32px; display:flex; flex-direction:column; gap:32px;">
-            ${enabledSecs.map((s) => `
-              <div id="preview_sec_${s.id}" style="display:flex; flex-direction:column; gap:14px; border-bottom:1px solid var(--border-faint); padding-bottom:24px;">
-                <div>
-                  <h3 style="font-size:15px; font-weight:800; color:var(--text-dark);">${s.title}</h3>
-                  <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">${s.desc}</p>
-                </div>
+          <!-- ── 3. POINT OF CONTACT ── -->
+          <section id="sec_poc" class="form-surface-section">
+            <div class="form-section-header">
+              <div class="form-section-title">
+                <i data-lucide="contact" style="width:15px; height:15px;"></i>
+                <span>3. Point of Contact</span>
+              </div>
+              <div class="form-section-desc">Primary person to contact for coordination and follow-ups.</div>
+            </div>
 
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-                  ${s.fields.map(f => `
-                    <div>
-                      <label class="form-label" style="display:flex; align-items:center; justify-content:space-between; font-size:11px; margin-bottom:4px;">
-                        <span>${f.name.toUpperCase()} ${f.req ? '<span style="color:#8C2D2D;">*</span>' : ''}</span>
-                      </label>
-                      ${renderPreviewFieldInput(f)}
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+              <div class="form-field-group" style="grid-column: span 2;">
+                <label class="form-field-label">POC Name <span class="req">*</span></label>
+                <input type="text" id="field_pocName" class="preview-input" placeholder="Rahul Mehta" />
+              </div>
+
+              <div class="form-field-group">
+                <label class="form-field-label">POC Email <span class="req">*</span></label>
+                <input type="email" id="field_pocEmail" class="preview-input" placeholder="rahul@lexfirm.com" />
+              </div>
+
+              <div class="form-field-group">
+                <label class="form-field-label">POC Phone Number</label>
+                <input type="tel" id="field_pocPhone" class="preview-input" placeholder="+91 98765 43210" />
+              </div>
+            </div>
+          </section>
+
+          <!-- ── 4. CONFIRMATION & NDA ── -->
+          <section id="sec_confirmation" class="form-surface-section">
+            <div class="form-section-header">
+              <div class="form-section-title">
+                <i data-lucide="shield-check" style="width:15px; height:15px;"></i>
+                <span>4. Confirmation &amp; NDA</span>
+              </div>
+              <div class="form-section-desc">Upload the signed NDA and complete the partner onboarding.</div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+              <div class="form-field-group" style="grid-column: span 2;">
+                <label class="form-field-label">Upload Executed NDA <span class="req">*</span></label>
+                <input type="file" id="field_ndaFile" style="display:none;" onchange="handleNDAUpload(this)" accept=".pdf,.doc,.docx" />
+                <div class="form-doc-upload-box" onclick="document.getElementById('field_ndaFile').click()" id="ndaUploadBox">
+                  <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:36px; height:36px; border-radius:6px; background:#F0F0EE; display:flex; align-items:center; justify-content:center; color:#1A1A18; flex-shrink:0;">
+                      <i data-lucide="file-up" style="width:18px; height:18px;"></i>
                     </div>
-                  `).join('')}
+                    <div>
+                      <div id="ndaFileName" style="font-size:12px; font-weight:700; color:var(--text-dark);">Click to upload Signed NDA Document</div>
+                      <div style="font-size:11px; color:var(--text-muted);">Supports PDF, DOC, DOCX up to 25MB (e.g. Lex_Co_Executed_NDA.pdf)</div>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-sm btn-outline" style="font-size:11px; pointer-events:none;">
+                    Browse File
+                  </button>
                 </div>
               </div>
-            `).join('')}
+            </div>
+          </section>
 
-            <!-- SUBMIT BUTTON -->
-            <div style="display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px solid var(--border-main); margin-bottom:20px;">
-              <span style="font-size:12px; color:var(--text-muted);">
-                Verified partner credentials will be linked to active VDR audit rooms.
-              </span>
-              <button class="btn btn-primary" onclick="simulateOnboardSubmit()" style="padding:9px 22px; font-weight:700; font-size:13px;">
-                <i data-lucide="check-circle" class="lucide-sm"></i>
-                <span>Complete Partner Onboarding</span>
+          <!-- BOTTOM ACTIONS FOOTER -->
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:24px 0 16px; border-top:1px solid var(--border-main); margin-top:8px;">
+            <a href="./dd-partners.html" class="btn btn-outline" style="font-size:12px;">Cancel</a>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="btn btn-outline" onclick="saveAsDraft()" style="font-size:12px;">
+                <i data-lucide="file-text" class="lucide-sm"></i>
+                <span>Save as Draft</span>
+              </button>
+              <button class="btn btn-primary" onclick="submitDDForm()" style="font-size:12px; padding:8px 18px;">
+                <span>Onboard DD Partner</span>
               </button>
             </div>
           </div>
@@ -476,96 +421,118 @@
         </div>
 
       </div>
-    `;
+
+    </main>
+  </div>
+</div>
+
+<div id="modalSlot"></div>
+
+<!-- Scripts -->
+<script src="./js/components.js"></script>
+<script src="./js/app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 01. Initialize Layout Components
+    if (typeof LayoutComponents !== 'undefined' && document.getElementById('appHeaderSlot')) {
+      LayoutComponents.init({ activeNav: 'dd-partners', activeApp: 'investor' });
+    }
+
+    // 02. Bind global app events (including sidebar collapse button)
+    if (typeof bindAppEvents === 'function') {
+      bindAppEvents();
+    }
+
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+
+    // 03. Scrollspy to highlight active TOC link while scrolling
+    const scrollContainer = document.querySelector('.content-scrollable');
+    const sections = document.querySelectorAll('.form-surface-section');
+    const navLinks = document.querySelectorAll('.preview-rail-item');
+
+    if (scrollContainer && sections.length && navLinks.length) {
+      scrollContainer.addEventListener('scroll', () => {
+        let currentSectionId = '';
+        sections.forEach(sec => {
+          const rect = sec.getBoundingClientRect();
+          if (rect.top <= 120) {
+            currentSectionId = sec.getAttribute('id');
+          }
+        });
+
+        if (currentSectionId) {
+          navLinks.forEach(link => {
+            if (link.getAttribute('href') === `#${currentSectionId}`) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
+            }
+          });
+        }
+      });
+    }
+  });
+
+  function selectPreviewRail(el) {
+    document.querySelectorAll('.preview-rail-item').forEach(item => {
+      item.classList.remove('active');
+    });
+
+    el.classList.add('active');
   }
 
-  function renderPreviewFieldInput(f) {
-    if (f.type === 'select') {
-      return `
-        <select class="form-input">
-          <option value="">Select option...</option>
-          ${(f.options || ['Option 1', 'Option 2']).map(o => `<option value="${o}">${o}</option>`).join('')}
-        </select>`;
-    } else {
-      return `<input type="${f.type === 'date' ? 'date' : 'text'}" class="form-input" placeholder="${f.placeholder || ''}" />`;
+  function handleNDAUpload(input) {
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const nameEl = document.getElementById('ndaFileName');
+      const box = document.getElementById('ndaUploadBox');
+      if (nameEl) {
+        nameEl.innerHTML = `<span style="color:#059669; font-weight:800;">✓ ${file.name}</span> <span style="font-size:11px; color:#6A6A68;">(${(file.size / (1024 * 1024)).toFixed(2)} MB)</span>`;
+      }
+      if (box) {
+        box.style.borderColor = '#059669';
+        box.style.background = '#F0FDF4';
+      }
+
+      if (window.showToast) window.showToast(`NDA "${file.name}" uploaded successfully!`, 'check-circle');
     }
   }
 
-  // ── HELPER FUNCTIONS ──
-  function selectSection(idx) {
-    activeSecIdx = idx;
-    renderCanvas();
-  }
-
-  function toggleSection(idx) {
-    TEMPLATE[idx].enabled = !TEMPLATE[idx].enabled;
-    renderCanvas();
-  }
-
-  function addFieldToSection(idx) {
-    TEMPLATE[idx].fields.push({
-      name: 'New Custom Field',
-      type: 'text',
-      req: false,
-      placeholder: 'Enter details...'
-    });
-    renderCanvas();
-  }
-
-  function updateFieldName(secIdx, fIdx, val) {
-    TEMPLATE[secIdx].fields[fIdx].name = val;
-  }
-
-  function updateFieldType(secIdx, fIdx, val) {
-    TEMPLATE[secIdx].fields[fIdx].type = val;
-  }
-
-  function updateFieldPlaceholder(secIdx, fIdx, val) {
-    TEMPLATE[secIdx].fields[fIdx].placeholder = val;
-  }
-
-  function toggleFieldRequired(secIdx, fIdx) {
-    TEMPLATE[secIdx].fields[fIdx].req = !TEMPLATE[secIdx].fields[fIdx].req;
-  }
-
-  function deleteField(secIdx, fIdx) {
-    TEMPLATE[secIdx].fields.splice(fIdx, 1);
-    renderCanvas();
-  }
-
-  function selectPreviewRail(el) {
-    const items = document.querySelectorAll('.preview-rail-item');
-    items.forEach(i => {
-      i.style.background = 'transparent';
-      i.style.fontWeight = '500';
-      i.style.color = 'var(--text-muted)';
-      i.querySelector('span').style.background = 'var(--border-strong)';
-    });
-    el.style.background = 'var(--bg-muted)';
-    el.style.fontWeight = '700';
-    el.style.color = 'var(--text-dark)';
-    el.querySelector('span').style.background = 'var(--accent-graphite)';
+  function saveAsDraft() {
+    const name = document.getElementById('field_fullName')?.value?.trim() || 'Rahul Mehta';
+    if (window.showToast) {
+      window.showToast(`Draft saved for ${name}`, 'check-circle');
+    } else {
+      alert(`Onboarding draft saved for ${name}!`);
+    }
   }
 
   function copyShareOnboardingLink() {
-    const url = 'https://seedicon.app/vdr/dd-onboard?ref=dd_partner_invite';
-    if (navigator.clipboard) navigator.clipboard.writeText(url);
-    if (window.showToast) window.showToast(`DD Partner Onboarding Link copied! (${url})`);
+    const url = window.location.origin + window.location.pathname;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url);
+    }
+    if (window.showToast) {
+      window.showToast('DD Partner Onboarding Link copied to clipboard!', 'check-circle');
+    } else {
+      alert('DD Partner Onboarding Link copied to clipboard:\n' + url);
+    }
   }
 
-  function saveTemplate() {
-    if (window.showToast) window.showToast('DD Partner Onboarding Setup saved successfully!');
-  }
-
-  function resetToDefaultTemplate() {
-    TEMPLATE = JSON.parse(JSON.stringify(INITIAL_ONBOARD_TEMPLATE));
-    activeSecIdx = 0;
-    renderCanvas();
-    if (window.showToast) window.showToast('Reset to recommended DD Partner onboarding setup');
-  }
-
-  function simulateOnboardSubmit() {
-    if (window.showToast) window.showToast('Partner onboarding submitted! Access link sent to lead.');
+  function submitDDForm() {
+    const name = document.getElementById('field_fullName')?.value?.trim() || 'Rahul Mehta';
+    const firm = document.getElementById('field_orgName')?.value?.trim() || 'Lex & Co.';
+    
+    if (window.showToast) {
+      window.showToast(`DD Partner "${name}" (${firm}) onboarded successfully!`, 'check-circle');
+    } else {
+      alert(`DD Partner "${name}" (${firm}) onboarded successfully!`);
+    }
+    setTimeout(() => {
+      window.location.href = './dd-partners.html';
+    }, 600);
   }
 </script>
 </body>

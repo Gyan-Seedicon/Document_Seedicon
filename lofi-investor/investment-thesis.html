@@ -1,613 +1,782 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<html lang="en"><head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seedicon — Investment Thesis</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="./css/styles.css">
-<!-- Lucide Icons CDN -->
-<script src="https://unpkg.com/lucide@latest"></script>
-<style>
-    /* ---- Live Collaboration Presence (minimal avatar stack) ---- */
-    .collab-avatars { display: flex; align-items: center; }
-    .collab-avatar {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      border: 2px solid #FFFFFF;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      margin-left: -7px;
-      flex-shrink: 0;
-      cursor: default;
-    }
-    .collab-avatar:first-child { margin-left: 0; }
-    .collab-avatar.more { background: #F0F0EE; color: #6A6A68; border-color: #E6E6E2; }
-
-    /* ---- Count Badge (Comments button) ---- */
-    .count-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 17px;
-      height: 17px;
-      padding: 0 5px;
-      border-radius: 20px;
-      background: #1A1A18;
-      color: #FFFFFF;
-      font-size: 10px;
-      font-weight: 700;
-      margin-left: 2px;
-    }
-
-    /* ---- Generic Right-Slide Drawer Surface ---- */
-    .th-drawer-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(18, 18, 18, 0.4);
-      backdrop-filter: blur(2px);
-      z-index: 1000;
-      display: flex;
-      justify-content: flex-end;
-      animation: fadeInOverlay 0.15s ease-out;
-    }
-    .th-drawer {
-      width: 100%;
-      max-width: 620px;
-      height: 100%;
-      background: #FFFFFF;
-      box-shadow: -6px 0 24px rgba(0, 0, 0, 0.12);
-      display: flex;
-      flex-direction: column;
-      animation: slideInRight 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
-
-    .th-drawer-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border-main);
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      background: #FFFFFF;
-      flex-shrink: 0;
-    }
-    .th-drawer-title { font-size: 16px; font-weight: 800; color: #1A1A18; letter-spacing: -0.02em; }
-    .th-drawer-sub { font-size: 11.5px; color: #8C8C88; margin-top: 2px; }
-    .th-drawer-close {
-      border: none; background: transparent; cursor: pointer; color: #7A7A78; padding: 4px;
-    }
-    .th-drawer-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 18px 20px;
-      background: #F8F8F6;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .th-drawer-footer {
-      padding: 12px 20px;
-      background: #FFFFFF;
-      border-top: 1px solid var(--border-main);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-shrink: 0;
-      box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
-    }
-
-    /* ---- Drawer Tabs ---- */
-    .th-drawer-tabs {
-      display: flex;
-      border-bottom: 1px solid var(--border-main);
-      background: #FAFAFA;
-      padding: 0 16px;
-      gap: 18px;
-      flex-shrink: 0;
-    }
-    .th-drawer-tab {
-      padding: 10px 4px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid transparent;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .th-drawer-tab:hover { color: var(--text-dark); }
-    .th-drawer-tab.active { color: var(--text-dark); border-bottom-color: var(--accent-graphite); font-weight: 700; }
-    .th-drawer-tab .tab-count {
-      font-size: 11px;
-      font-weight: 600;
-      color: #8C8C88;
-    }
-    .th-drawer-tab.active .tab-count { color: #1A1A18; font-weight: 700; }
-
-    /* ---- Share-with-LPs: Search & Filter Row ---- */
-    .lp-filter-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 16px;
-      background: #FFFFFF;
-      border: 1px solid var(--border-main);
-      border-radius: 8px;
-    }
-    .lp-filter-row input[type="search"] {
-      flex: 1;
-      padding: 7px 10px 7px 30px;
-      border: 1px solid var(--border-main);
-      border-radius: 6px;
-      font-family: var(--font-inter);
-      font-size: 12px;
-      color: var(--text-dark);
-      background: #FFFFFF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") no-repeat 9px center;
-      outline: none;
-    }
-    .lp-filter-row select {
-      padding: 7px 10px;
-      border: 1px solid var(--border-main);
-      border-radius: 6px;
-      font-family: var(--font-inter);
-      font-size: 12px;
-      color: var(--text-dark);
-      background: #FFFFFF;
-      outline: none;
-    }
-    .lp-select-all {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 11px;
-      font-weight: 700;
-      color: #2A2A28;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      padding: 4px 6px;
-      border-radius: 6px;
-    }
-    .lp-select-all:hover { background: #F0F0EE; }
-
-    /* ---- Condensed LP Card Row (multi-select) ---- */
-    .lp-share-card {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 12px;
-      background: #FFFFFF;
-      border: 1px solid var(--border-main);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: border-color 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
-    }
-    .lp-share-card:hover { border-color: #C8C8C0; background: #FCFCFB; }
-    .lp-share-card.selected { border-color: #1A1A18; box-shadow: 0 0 0 1px #1A1A18 inset; background: #FCFCFB; }
-    .lp-share-check {
-      width: 18px;
-      height: 18px;
-      border: 1.5px solid #B4B4B0;
-      border-radius: 5px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: transparent;
-      flex-shrink: 0;
-      transition: all 0.12s ease;
-    }
-    .lp-share-card.selected .lp-share-check { background: #1A1A18; border-color: #1A1A18; color: #FFFFFF; }
-    .lp-share-avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: #F0F0EE;
-      border: 1px solid #E0E0DE;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: 700;
-      color: #4A4A48;
-      flex-shrink: 0;
-    }
-    .lp-share-meta { flex: 1; min-width: 0; }
-    .lp-share-name { font-size: 12.5px; font-weight: 700; color: #1A1A18; }
-    .lp-share-sub { font-size: 11px; color: #8C8C88; margin-top: 2px; }
-    .lp-share-sub strong { color: #2A2A28; font-weight: 600; }
-
-    /* ---- Pill reuse (monochrome) ---- */
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 7px;
-      border-radius: 4px;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-    .pill-verified { background: #F0F0EE; color: #1A1A18; border: 1px solid #DCDCDA; }
-    .pill-pending { background: #F7F7F5; color: #7A7A76; border: 1px solid #E2E2DF; }
-    .pill-active { background: #EFEFEA; color: #2A2A28; border: 1px solid #D8D8D4; }
-    .pill-exited { background: #F9F9F8; color: #9A9A96; border: 1px solid #E8E8E6; }
-    .pill-type { background: #F4F4F2; color: #4A4A48; border: 1px solid #E0E0DC; font-size: 10.5px; font-weight: 600; text-transform: none; }
-
-    /* ---- Collaboration: Comment Thread (flat surface, divider-separated) ---- */
-    .comment-list { display: flex; flex-direction: column; }
-    .comment-item { display: flex; gap: 10px; padding: 12px 0; }
-    .comment-item + .comment-item { border-top: 1px solid var(--border-faint); }
-    .comment-item:last-child { border-bottom: none; }
-    .comment-avatar {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      background: #1A1A18;
-      color: #FFFFFF;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-    .comment-avatar.light { background: #F0F0EE; color: #2A2A28; border: 1px solid #E0E0DE; }
-    .comment-body { flex: 1; min-width: 0; }
-    .comment-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .comment-author { font-size: 12px; font-weight: 700; color: #1A1A18; }
-    .comment-role { font-size: 9.5px; font-weight: 600; color: #8C8C88; background: #F4F4F2; border: 1px solid #E4E4E0; padding: 1px 6px; border-radius: 3px; }
-    .comment-time { font-size: 10.5px; color: #9A9A96; }
-    .comment-text { font-size: 12px; color: #3A3A38; line-height: 1.55; margin-top: 4px; }
-    .comment-actions { display: flex; align-items: center; gap: 12px; margin-top: 6px; }
-    .comment-action {
-      font-size: 11px; font-weight: 700; color: #4A4A48;
-      background: none; border: none; cursor: pointer; padding: 2px 0;
-      display: inline-flex; align-items: center; gap: 3px;
-    }
-    .comment-action:hover { color: #1A1A18; text-decoration: underline; }
-    .comment-action.resolved { color: #9A9A96; }
-    .comment-thread { margin-top: 10px; margin-left: 38px; border-left: 2px solid #E4E4E0; padding-left: 12px; display: flex; flex-direction: column; gap: 10px; }
-    .comment-composer {
-      display: flex; gap: 10px; align-items: flex-start;
-      padding: 12px; background: #FFFFFF; border: 1px solid var(--border-main); border-radius: 8px;
-      margin-top: auto;
-    }
-    .comment-composer textarea {
-      flex: 1; border: 1px solid var(--border-main); border-radius: 6px;
-      padding: 8px 10px; font-family: var(--font-inter); font-size: 12px; color: var(--text-dark);
-      resize: vertical; min-height: 56px; outline: none;
-    }
-    .comment-composer textarea:focus { border-color: var(--accent-graphite); }
-
-    /* ---- Collaboration: Version History ---- */
-    .version-row { display: flex; gap: 12px; padding: 12px 0; }
-    .version-row + .version-row { border-top: 1px solid var(--border-faint); }
-    .version-node { display: flex; flex-direction: column; align-items: center; width: 16px; flex-shrink: 0; }
-    .version-dot { width: 10px; height: 10px; border-radius: 50%; background: #1A1A18; margin-top: 4px; }
-    .version-dot.draft { background: #B4B4B0; }
-    .version-line { flex: 1; width: 1px; background: #E2E2DF; margin-top: 3px; }
-    .version-meta { flex: 1; min-width: 0; }
-    .version-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .version-label { font-size: 13px; font-weight: 800; color: #1A1A18; }
-    .version-stamp {
-      font-size: 9.5px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase;
-      padding: 1px 7px; border-radius: 3px;
-    }
-    .version-stamp.current { background: #1A1A18; color: #FFFFFF; }
-    .version-stamp.historical { background: #F4F4F2; color: #5A5A58; border: 1px solid #E4E4E0; }
-    .version-stamp.draft { background: #FFFFFF; color: #7A7A76; border: 1px dashed #C8C8C0; }
-    .version-sub { font-size: 11px; color: #8C8C88; margin-top: 3px; }
-    .version-sub strong { color: #2A2A28; font-weight: 600; }
-    .version-desc { font-size: 11.5px; color: #5A5A58; line-height: 1.5; margin-top: 5px; }
-    .version-changes {
-      margin-top: 7px; display: flex; flex-wrap: wrap; gap: 5px;
-    }
-    .version-change {
-      font-size: 10px; color: #4A4A48; background: #F5F5F3; border: 1px solid #E6E6E2;
-      padding: 2px 7px; border-radius: 4px;
-    }
-    .version-actions { display: flex; gap: 8px; margin-top: 9px; }
-    .version-empty { text-align: center; padding: 40px 20px; color: #8C8C88; }
-  </style>
+  <title>Seedicon — Investment Thesis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="./css/styles.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style data-gl-uid="user-style-0">.collab-avatars { display: flex; align-items: center; }
+.collab-avatar { width: 26px; height: 26px; border-radius: 50%; border: 2px solid rgb(255, 255, 255); display: inline-flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; letter-spacing: 0.02em; margin-left: -7px; flex-shrink: 0; cursor: default; }
+.collab-avatar:first-child { margin-left: 0px; }
+.collab-avatar.more { background: rgb(240, 240, 238); color: rgb(106, 106, 104); border-color: rgb(230, 230, 226); }
+.count-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 17px; height: 17px; padding: 0px 5px; border-radius: 20px; background: rgb(26, 26, 24); color: rgb(255, 255, 255); font-size: 10px; font-weight: 700; margin-left: 2px; }
+.th-drawer-overlay { position: fixed; inset: 0px; background: rgba(18, 18, 18, 0.4); backdrop-filter: blur(2px); z-index: 1000; display: flex; justify-content: flex-end; animation: 0.15s ease-out 0s 1 normal none running fadeInOverlay; }
+.th-drawer { width: 100%; max-width: 620px; height: 100%; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.12) -6px 0px 24px; display: flex; flex-direction: column; animation: 0.18s cubic-bezier(0.16, 1, 0.3, 1) 0s 1 normal none running slideInRight; }
+@keyframes fadeInOverlay { 
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes slideInRight { 
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(0px); }
+}
+.th-drawer-header { padding: 16px 20px; border-bottom: 1px solid var(--border-main); display: flex; align-items: flex-start; justify-content: space-between; background: rgb(255, 255, 255); flex-shrink: 0; }
+.th-drawer-title { font-size: 16px; font-weight: 800; color: rgb(26, 26, 24); letter-spacing: -0.02em; }
+.th-drawer-sub { font-size: 11.5px; color: rgb(140, 140, 136); margin-top: 2px; }
+.th-drawer-close { border: none; background: transparent; cursor: pointer; color: rgb(122, 122, 120); padding: 4px; }
+.th-drawer-body { flex: 1 1 0%; overflow-y: auto; padding: 18px 20px; background: rgb(248, 248, 246); display: flex; flex-direction: column; gap: 14px; }
+.th-drawer-footer { padding: 12px 20px; background: rgb(255, 255, 255); border-top: 1px solid var(--border-main); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-shrink: 0; box-shadow: rgba(0, 0, 0, 0.03) 0px -4px 12px; }
+.th-drawer-tabs { display: flex; border-bottom: 1px solid var(--border-main); background: rgb(250, 250, 250); padding: 0px 16px; gap: 18px; flex-shrink: 0; }
+.th-drawer-tab { padding: 10px 4px; font-size: 12px; font-weight: 600; color: var(--text-muted); background: transparent; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 2px solid transparent; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+.th-drawer-tab:hover { color: var(--text-dark); }
+.th-drawer-tab.active { color: var(--text-dark); border-bottom-color: var(--accent-graphite); font-weight: 700; }
+.th-drawer-tab .tab-count { font-size: 11px; font-weight: 600; color: rgb(140, 140, 136); }
+.th-drawer-tab.active .tab-count { color: rgb(26, 26, 24); font-weight: 700; }
+.lp-filter-row { display: flex; align-items: center; gap: 8px; padding: 0; background: transparent; border: none; margin-bottom: 12px; }
+.lp-filter-row input[type="search"] { flex: 1 1 0%; padding: 7px 10px 7px 32px; border: 1px solid #DFDEDE; border-radius: 6px; font-family: var(--font-inter); font-size: 12px; color: var(--text-dark); background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238C8C88' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") 10px center no-repeat #FFFFFF; outline: none; transition: border-color 0.12s; }
+.lp-filter-row input[type="search"]:focus { border-color: #1A1A18; }
+.lp-filter-row select { padding: 7px 10px; border: 1px solid #DFDEDE; border-radius: 6px; font-family: var(--font-inter); font-size: 12px; color: var(--text-dark); background: #FFFFFF; outline: none; cursor: pointer; }
+.lp-select-all { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: #1A1A18; background: #FFFFFF; border: 1px solid #DFDEDE; cursor: pointer; padding: 6px 10px; border-radius: 6px; white-space: nowrap; transition: background 0.12s; }
+.lp-select-all:hover { background: #F0F0EE; }
+.lp-share-card { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #FFFFFF; border: 1px solid #DFDEDE; border-radius: 8px; cursor: pointer; transition: border-color 0.12s, box-shadow 0.12s, background 0.12s; }
+.lp-share-card:hover { border-color: #C8C8C0; background: #FCFCFB; }
+.lp-share-card.selected { border-color: #1A1A18; box-shadow: 0 0 0 1px #1A1A18 inset; background: #FCFCFB; }
+.lp-share-checkbox { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid #C8C8C4; cursor: pointer; accent-color: #1A1A18; flex-shrink: 0; margin: 0; }
+.lp-share-avatar { width: 32px; height: 32px; border-radius: 50%; background: #F0F0EE; border: 1px solid #E0E0DE; display: inline-flex; align-items: center; justify-content: center; font-size: 10.5px; font-weight: 700; color: #4A4A48; flex-shrink: 0; }
+.lp-share-meta { flex: 1 1 0%; min-width: 0px; }
+.lp-share-name { font-size: 13px; font-weight: 700; color: #1A1A18; line-height: 1.3; }
+.lp-share-sub { font-size: 11px; color: #8C8C88; margin-top: 2px; line-height: 1.3; }
+.lp-share-sub strong { color: #2A2A28; font-weight: 600; }
+.pill { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 4px; font-size: 9.5px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; }
+.pill-verified { background: #FFFFFF; color: #1A1A18; border: 1px solid #DFDFDC; }
+.pill-pending { background: #FAFAFA; color: #8C8C88; border: 1px solid #E5E5E2; }
+.pill-approved { background: #FFFFFF; color: #1A1A18; border: 1px solid #DFDFDC; }
+.pill-denied { background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA; }
+.pill-active { background: rgb(239, 239, 234); color: rgb(42, 42, 40); border: 1px solid rgb(216, 216, 212); }
+.pill-exited { background: rgb(249, 249, 248); color: rgb(154, 154, 150); border: 1px solid rgb(232, 232, 230); }
+.pill-type { background: rgb(244, 244, 242); color: rgb(74, 74, 72); border: 1px solid rgb(224, 224, 220); font-size: 10.5px; font-weight: 600; text-transform: none; }
+.comment-list { display: flex; flex-direction: column; gap: 10px; }
+.comment-item { display: flex; gap: 12px; padding: 12px 14px; background: rgb(255, 255, 255); border: 1px solid rgb(223, 222, 222); border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 2px; transition: border-color 0.12s; }
+.comment-item:hover { border-color: rgb(200, 200, 196); }
+.comment-avatar { width: 28px; height: 28px; border-radius: 50%; background: rgb(26, 26, 24); color: rgb(255, 255, 255); display: inline-flex; align-items: center; justify-content: center; font-size: 10.5px; font-weight: 700; flex-shrink: 0; }
+.comment-avatar.light { background: rgb(240, 240, 238); color: rgb(42, 42, 40); border: 1px solid rgb(224, 224, 222); }
+.comment-body { flex: 1 1 0%; min-width: 0px; }
+.comment-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.comment-author { font-size: 12px; font-weight: 700; color: rgb(26, 26, 24); }
+.comment-role { font-size: 9.5px; font-weight: 600; color: rgb(140, 140, 136); background: rgb(244, 244, 242); border: 1px solid rgb(228, 228, 224); padding: 1px 6px; border-radius: 3px; }
+.comment-time { font-size: 10.5px; color: rgb(154, 154, 150); }
+.comment-text { font-size: 12px; color: rgb(58, 58, 56); line-height: 1.55; margin-top: 4px; }
+.comment-actions { display: flex; align-items: center; gap: 12px; margin-top: 8px; padding-top: 6px; border-top: 1px dashed rgb(235, 235, 234); }
+.comment-action { font-size: 11px; font-weight: 700; color: rgb(74, 74, 72); background: none; border: none; cursor: pointer; padding: 2px 0px; display: inline-flex; align-items: center; gap: 3px; }
+.comment-action:hover { color: rgb(26, 26, 24); text-decoration: underline; }
+.comment-action.resolved { color: rgb(154, 154, 150); }
+.comment-thread { margin-top: 10px; margin-left: 20px; border-left: 2px solid rgb(228, 228, 224); padding-left: 12px; display: flex; flex-direction: column; gap: 8px; }
+.collab-surface-composer-wrap { padding: 12px 18px 14px; background: rgb(255, 255, 255); border-top: 1px solid rgb(235, 235, 234); display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; box-shadow: rgba(0, 0, 0, 0.03) 0px -4px 14px; }
+.collab-surface-composer { display: flex; gap: 10px; align-items: flex-start; }
+.composer-avatar-pill { width: 28px; height: 28px; border-radius: 50%; background: rgb(26, 26, 24); color: rgb(255, 255, 255); font-size: 10.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.composer-input-box { flex: 1 1 0%; min-width: 0px; display: flex; flex-direction: column; background: rgb(255, 255, 255); border: 1px solid rgb(223, 222, 222); border-radius: 8px; transition: border-color 0.15s, box-shadow 0.15s; overflow: hidden; }
+.composer-input-box:focus-within { border-color: rgb(26, 26, 24); box-shadow: rgba(26, 26, 24, 0.06) 0px 0px 0px 2px; }
+.composer-input-box textarea { width: 100%; border: none; outline: none; padding: 8px 12px 4px; font-family: Inter, sans-serif; font-size: 12px; line-height: 1.5; color: rgb(26, 26, 24); background: transparent; resize: none; min-height: 44px; box-sizing: border-box; }
+.composer-bottom-bar { display: flex; align-items: center; justify-content: space-between; padding: 4px 10px 8px; background: transparent; }
+.composer-shortcuts-hint { display: flex; align-items: center; gap: 6px; font-size: 10.5px; color: rgb(154, 154, 150); }
+.shortcut-tag { padding: 1px 5px; background: rgb(244, 244, 242); border: 1px solid rgb(228, 228, 224); border-radius: 4px; font-size: 10px; font-weight: 600; color: rgb(106, 106, 104); }
+.btn-composer-post { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; font-size: 11.5px; font-weight: 700; font-family: Inter, sans-serif; background: rgb(26, 26, 24); color: rgb(255, 255, 255); border: none; border-radius: 6px; cursor: pointer; transition: background 0.12s; }
+.btn-composer-post:hover { background: rgb(42, 42, 40); }
+.approval-stat-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+.approval-stat-card { background: rgb(255, 255, 255); border: 1px solid rgb(223, 222, 222); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 2px; }
+.approval-stat-label { font-size: 10px; font-weight: 700; color: rgb(140, 140, 136); text-transform: uppercase; letter-spacing: 0.04em; }
+.approval-stat-val { font-size: 16px; font-weight: 800; color: rgb(26, 26, 24); letter-spacing: -0.02em; }
+.approval-stat-sub { font-size: 10.5px; color: rgb(106, 106, 104); }
+.approval-progress-box { background: rgb(255, 255, 255); border: 1px solid rgb(223, 222, 222); border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; }
+.approval-filter-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; background: rgb(255, 255, 255); border: 1px solid rgb(223, 222, 222); border-radius: 8px; padding: 8px 12px; }
+.approval-filter-bar input[type="search"] { flex: 1 1 0%; padding: 6px 8px; border: 1px solid rgb(224, 224, 222); border-radius: 6px; font-family: Inter, sans-serif; font-size: 11.5px; color: rgb(26, 26, 24); outline: none; }
+.approval-filter-bar select { padding: 6px 8px; border: 1px solid rgb(224, 224, 222); border-radius: 6px; font-family: Inter, sans-serif; font-size: 11.5px; color: rgb(26, 26, 24); background: rgb(250, 250, 250); outline: none; }
+.approval-lp-card { background: rgb(255, 255, 255); border: 1px solid rgb(223, 222, 222); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 2px; transition: 0.12s; }
+.approval-lp-card:hover { border-color: rgb(200, 200, 196); background: rgb(252, 252, 251); }
+.approval-lp-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.approval-lp-avatar { width: 30px; height: 30px; border-radius: 6px; background: rgb(240, 240, 238); border: 1px solid rgb(224, 224, 222); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; color: rgb(26, 26, 24); flex-shrink: 0; }
+.approval-lp-notes { font-size: 11.5px; line-height: 1.45; padding: 6px 10px; border-radius: 6px; background: rgb(248, 248, 246); border: 1px solid rgb(234, 234, 232); color: rgb(74, 74, 72); }
+.approval-lp-notes.denied { background: rgb(254, 242, 242); border-color: rgb(254, 202, 202); color: rgb(153, 27, 27); }
+.approval-lp-notes.approved { background: rgb(240, 253, 244); border-color: rgb(220, 252, 231); color: rgb(22, 101, 52); }
+.approval-lp-actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 4px; }
+.version-row { display: flex; gap: 12px; padding: 12px 0px; }
+.version-row + .version-row { border-top: 1px solid var(--border-faint); }
+.version-node { display: flex; flex-direction: column; align-items: center; width: 16px; flex-shrink: 0; }
+.version-dot { width: 10px; height: 10px; border-radius: 50%; background: rgb(26, 26, 24); margin-top: 4px; }
+.version-dot.draft { background: rgb(180, 180, 176); }
+.version-line { flex: 1 1 0%; width: 1px; background: rgb(226, 226, 223); margin-top: 3px; }
+.version-meta { flex: 1 1 0%; min-width: 0px; }
+.version-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.version-label { font-size: 13px; font-weight: 800; color: rgb(26, 26, 24); }
+.version-stamp { font-size: 9.5px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; padding: 1px 7px; border-radius: 3px; }
+.version-stamp.current { background: rgb(26, 26, 24); color: rgb(255, 255, 255); }
+.version-stamp.historical { background: rgb(244, 244, 242); color: rgb(90, 90, 88); border: 1px solid rgb(228, 228, 224); }
+.version-stamp.draft { background: rgb(255, 255, 255); color: rgb(122, 122, 118); border: 1px dashed rgb(200, 200, 192); }
+.version-sub { font-size: 11px; color: rgb(140, 140, 136); margin-top: 3px; }
+.version-sub strong { color: rgb(42, 42, 40); font-weight: 600; }
+.version-desc { font-size: 11.5px; color: rgb(90, 90, 88); line-height: 1.5; margin-top: 5px; }
+.version-changes { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 5px; }
+.version-change { font-size: 10px; color: rgb(74, 74, 72); background: rgb(245, 245, 243); border: 1px solid rgb(230, 230, 226); padding: 2px 7px; border-radius: 4px; }
+.version-actions { display: flex; gap: 8px; margin-top: 9px; }
+.version-empty { text-align: center; padding: 40px 20px; color: rgb(140, 140, 136); }
+</style>
 </head>
+
 <body>
 
-<div class="app-container">
-  <!-- Top Header Component Slot -->
-  <div id="appHeaderSlot"></div>
+  <div class="app-container">
+    <!-- Top Header Component Slot -->
+    <div id="appHeaderSlot"></div>
 
-  <!-- Body Shell -->
-  <div class="body-shell">
-    <!-- Tiny Sidebar Component Slot -->
-    <div id="tinySidebarSlot"></div>
+    <!-- Body Shell -->
+    <div class="body-shell">
+      <!-- Tiny Sidebar Component Slot -->
+      <div id="tinySidebarSlot"></div>
 
-    <!-- Main Navigation Sidebar Component Slot -->
-    <div id="mainSidebarSlot"></div>
+      <!-- Main Navigation Sidebar Component Slot -->
+      <div id="mainSidebarSlot"></div>
 
-    <!-- MAIN WORKSPACE CONTENT AREA (INVESTMENT THESIS PAGE) -->
-    <main class="main-workspace">
-      <div class="content-scrollable">
+      <!-- MAIN WORKSPACE CONTENT AREA (INVESTMENT THESIS PAGE) -->
+      <main class="main-workspace">
+        <div class="content-scrollable">
 
-        <!-- Page Header Container -->
-        <div class="page-header-container">
-          <div class="page-header-top-row">
-            <div class="header-titles">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <h1 class="page-title">Investment Thesis</h1>
-                <span class="badge-pill neutral-soft" id="viewModeBadge">Preview Mode · v3</span>
-              </div>
-              <p class="page-subtitle">Seedicon Venture Fund I (₹20 Cr) — Define, share, and manage LP approval for fund investment criteria.</p>
-            </div>
-            
-            <div class="header-action-group">
-              <!-- Live Collaboration Presence (minimal avatar stack only) -->
-              <div class="collab-avatars" title="Rahul Sharma, Priya Mehta, Arjun Nair + 2 more are viewing this thesis">
-                <span class="collab-avatar" style="background:#1A1A18; color:#FFFFFF;">RS</span>
-                <span class="collab-avatar" style="background:#EFEFEA; color:#2A2A28;">PM</span>
-                <span class="collab-avatar" style="background:#E6E6E2; color:#4A4A48;">AN</span>
-                <span class="collab-avatar more">+2</span>
+          <!-- Page Header Container -->
+          <div class="page-header-container">
+            <div class="page-header-top-row">
+              <div class="header-titles">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <h1 class="page-title">Investment Thesis</h1>
+                </div>
+                
               </div>
 
-              <!-- Import Thesis Button -->
-              <button class="btn btn-outline" title="Import PDF or deck for thesis auto-parsing">
-                <i data-lucide="upload-cloud" class="lucide-sm"></i>
-                <span>Import thesis</span>
-              </button>
+              <div class="header-action-group">
+                <!-- Live Collaboration Presence (minimal avatar stack only) -->
+                <div class="collab-avatars" title="Rahul Sharma, Priya Mehta, Arjun Nair + 2 more are viewing this thesis">
+                  <span class="collab-avatar" style="background:#1A1A18; color:#FFFFFF;">RS</span>
+                  <span class="collab-avatar" style="background:#EFEFEA; color:#2A2A28;">PM</span>
+                  <span class="collab-avatar" style="background:#E6E6E2; color:#4A4A48;">AN</span>
+                  <span class="collab-avatar more">+2</span>
+                </div>
 
-              <!-- Mode Switcher: Toggle between Executive Preview Mode and Form Edit Mode -->
-              <button class="btn btn-outline" id="btnToggleMode" onclick="toggleEditPreviewMode()">
-                <i data-lucide="edit-3" class="lucide-sm"></i>
-                <span id="btnToggleModeText">Edit Thesis</span>
-              </button>
+                <!-- Import Thesis Button -->
+                <button class="btn btn-outline" title="Import PDF or deck for thesis auto-parsing">
+                  <i data-lucide="upload-cloud" class="lucide-sm"></i>
+                  <span>Import thesis</span>
+                </button>
 
-              <!-- Comments / Collaboration Button (opens Comments + Version History drawer) -->
-              <button class="btn btn-outline" onclick="openCollabDrawer('comments')">
-                <i data-lucide="message-square" class="lucide-sm"></i>
-                <span>Comments</span>
-                <span class="count-badge">3</span>
-              </button>
+                <!-- Mode Switcher: Toggle between Executive Preview Mode and Form Edit Mode -->
+                <button class="btn btn-outline" id="btnToggleMode" onclick="toggleEditPreviewMode()">
+                  <i data-lucide="edit-3" class="lucide-sm"></i>
+                  <span id="btnToggleModeText">Edit Thesis</span>
+                </button>
 
-              <!-- Share with LPs Button (opens multi-select right drawer) -->
-              <button class="btn btn-primary" onclick="openShareLPsDrawer()">
-                <i data-lucide="share-2"></i>
-                <span>Share with LPs</span>
-              </button>
+                <!-- Thesis Approvals Button (opens LP approvals tab) -->
+                <button class="btn btn-outline" onclick="openCollabDrawer('approvals')">
+                  <i data-lucide="check-circle-2" class="lucide-sm"></i>
+                  <span>Approvals</span>
+                  <span class="count-badge" id="headerApprovalsBadge">7/18</span>
+                </button>
+
+                <!-- Comments / Collaboration Button (opens Comments + Version History drawer) -->
+                <button class="btn btn-outline" onclick="openCollabDrawer('comments')">
+                  <i data-lucide="message-square" class="lucide-sm"></i>
+                  <span>Comments</span>
+                  <span class="count-badge">3</span>
+                </button>
+
+                <!-- Share with LPs Button (opens multi-select right drawer) -->
+                <button class="btn btn-primary" onclick="openShareLPsDrawer()">
+                  <i data-lucide="share-2"></i>
+                  <span>Share with LPs</span>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Header Bottom Divider Line -->
-        <div class="page-header-divider"></div>
+          <!-- Header Bottom Divider Line -->
+          <div class="page-header-divider"></div>
 
-        <!-- CONTAINER FOR FILLED THESIS STATES -->
-        <div id="filledThesisContainer">
-          
-          <!-- ====================================================================
+          <!-- CONTAINER FOR FILLED THESIS STATES -->
+          <div id="filledThesisContainer">
+
+            <!-- ====================================================================
                MODE 01: EXECUTIVE PREVIEW MODE (CENTERED DOCUMENT VIEW — MAX-WIDTH 920px)
                ==================================================================== -->
-          <div id="previewThesisView">
-            <div class="preview-centered-wrapper">
-              
-              <!-- Top Executive Summary Quote Card -->
-              <div class="preview-summary-card">
-                <div style="display:flex; align-items:center; justify-content:space-between;">
-                  <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted);">
-                    FORMULA THESIS STATEMENT (37 WORDS)
+            <div id="previewThesisView">
+              <div class="preview-centered-wrapper">
+
+                <!-- Top Executive Summary Quote Card -->
+                <div class="preview-summary-card">
+                  <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted);">
+                      FORMULA THESIS STATEMENT (37 WORDS)
+                    </div>
                   </div>
-                  <span class="badge-pill neutral-dark">Approved by LPs</span>
+
+                  <div class="preview-formula-quote">
+                    “Seedicon Ventures Fund I is raising a ₹20 Cr seed fund to back B2B SaaS &amp; Vertical AI startups
+                    in India &amp; SEA, leveraging a specialist network of 20+ enterprise tech operators and founders.”
+                  </div>
+
+                  <!-- Key Stat Parameters Bar -->
+                  <div class="preview-grid-3">
+                    <div class="preview-stat-box">
+                      <div class="preview-stat-label">TARGET CORPUS</div>
+                      <div class="preview-stat-value">₹20 Cr</div>
+                    </div>
+                    <div class="preview-stat-box">
+                      <div class="preview-stat-label">STAGE FOCUS</div>
+                      <div class="preview-stat-value">Seed &amp; Pre-Seed</div>
+                    </div>
+                    <div class="preview-stat-box">
+                      <div class="preview-stat-label">INVESTMENT HORIZON</div>
+                      <div class="preview-stat-value">10 Years</div>
+                    </div>
+                    <div class="preview-stat-box">
+                      <div class="preview-stat-label">TARGET PORTFOLIO</div>
+                      <div class="preview-stat-value">15 Startups</div>
+                    </div>
+                    <div class="preview-stat-box">
+                      <div class="preview-stat-label">CHEQUE SIZE RANGE</div>
+                      <div class="preview-stat-value">₹1 Cr – ₹2.5 Cr</div>
+                    </div>
+                    <div class="preview-stat-box">
+                      <div class="preview-stat-label">TARGET OWNERSHIP</div>
+                      <div class="preview-stat-value">8% – 12%</div>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="preview-formula-quote">
-                  “Seedicon Ventures Fund I is raising a ₹20 Cr seed fund to back B2B SaaS &amp; Vertical AI startups in India &amp; SEA, leveraging a specialist network of 20+ enterprise tech operators and founders.”
+                <!-- Two-Column Preview Layout -->
+                <div class="thesis-grid">
+                  <!-- Left Main Content Column -->
+                  <div class="thesis-main-col">
+
+                    <!-- 01. Focus & Sector Tags -->
+                    <div class="thesis-card">
+                      <div class="thesis-card-head">
+                        <div class="thesis-card-title">
+                          <i data-lucide="tags" class="lucide-sm"></i>
+                          <span>Investment Focus &amp; Target Tags</span>
+                        </div>
+                      </div>
+                      <div class="thesis-card-body" style="display:flex; flex-direction:column; gap:12px;">
+                        <div>
+                          <label class="form-label">TARGET STAGES</label>
+                          <div class="tag-chips">
+                            <span class="tag-chip active">Seed</span>
+                            <span class="tag-chip active">Pre-Seed</span>
+                          </div>
+                        </div>
+                        <div>
+                          <label class="form-label">PRIMARY SECTORS</label>
+                          <div class="tag-chips">
+                            <span class="tag-chip active">B2B SaaS</span>
+                            <span class="tag-chip active">Vertical AI</span>
+                            <span class="tag-chip active">Enterprise Tech</span>
+                          </div>
+                        </div>
+                        <div>
+                          <label class="form-label">GEOGRAPHIES</label>
+                          <div class="tag-chips">
+                            <span class="tag-chip active">India</span>
+                            <span class="tag-chip active">SEA</span>
+                          </div>
+                        </div>
+                        <div class="info-note-box">
+                          🔗 These tags auto-power Startup Pool filtering and your founder-facing match score.
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 02. Target Founder Profile -->
+                    <div class="thesis-card">
+                      <div class="thesis-card-head">
+                        <div class="thesis-card-title">
+                          <i data-lucide="user-check" class="lucide-sm"></i>
+                          <span>Target Founder Profile</span>
+                        </div>
+                      </div>
+                      <div class="thesis-card-body">
+                        <p style="font-size:13px; color:var(--text-dark); line-height:1.55; font-weight:500;">
+                          Second-time founders or domain experts with 5+ years building in enterprise software,
+                          demonstrating high speed of execution, strong product intuition, and clear GTM distribution
+                          leverage.
+                        </p>
+                      </div>
+                    </div>
+
+                    <!-- 03. Portfolio Reserve Split -->
+                    <div class="thesis-card">
+                      <div class="thesis-card-head">
+                        <div class="thesis-card-title">
+                          <i data-lucide="pie-chart" class="lucide-sm"></i>
+                          <span>Portfolio Construction &amp; Reserves</span>
+                        </div>
+                      </div>
+                      <div class="thesis-card-body">
+                        <div style="height: 8px; background: var(--bg-muted); border: 1px solid var(--border-main); border-radius: 4px; position: relative; margin-bottom: 8px;">
+                          <div style="position: absolute; left:0; top:0; bottom:0; width: 65%; background: var(--accent-graphite); border-radius: 3px;">
+                          </div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; font-size:11.5px; color:var(--text-muted); font-weight:600;">
+                          <span>Initial Deployment: 65% (₹13 Cr)</span>
+                          <span>Follow-on Reserves: 35% (₹7 Cr)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 04. Value Proposition & Edge -->
+                    <div class="thesis-card">
+                      <div class="thesis-card-head">
+                        <div class="thesis-card-title">
+                          <i data-lucide="zap" class="lucide-sm"></i>
+                          <span>Value Proposition &amp; Fund Edge</span>
+                        </div>
+                      </div>
+                      <div class="thesis-card-body">
+                        <div class="tag-chips" style="margin-bottom: 10px;">
+                          <span class="tag-chip active">+ Proprietary Founder Network</span>
+                          <span class="tag-chip active">+ GTM &amp; Enterprise Sales Playbook</span>
+                          <span class="tag-chip active">+ Follow-on Access</span>
+                        </div>
+                        <p style="font-size:12.5px; color:var(--text-muted); line-height:1.5;">
+                          Hands-on GTM support to help early portfolio companies close their first $100k ARR through
+                          direct warm introductions to enterprise buyer networks.
+                        </p>
+                      </div>
+                    </div>
+
+                    <!-- 05. Decision Criteria Checklist -->
+                    <div class="thesis-card">
+                      <div class="thesis-card-head">
+                        <div class="thesis-card-title">
+                          <i data-lucide="check-square" class="lucide-sm"></i>
+                          <span>Decision Criteria &amp; Weighted Checklist</span>
+                        </div>
+                      </div>
+                      <div class="thesis-card-body">
+                        <div class="criteria-list-row">
+                          <i data-lucide="check" class="lucide-sm"></i>
+                          <span style="font-weight: 600; font-size: 12.5px;">Team &amp; Founder Capability</span>
+                          <span class="badge-pill neutral-dark">High (40%)</span>
+                        </div>
+                        <div class="criteria-list-row">
+                          <i data-lucide="check" class="lucide-sm"></i>
+                          <span style="font-weight: 600; font-size: 12.5px;">TAM &amp; Market Dynamics</span>
+                          <span class="badge-pill neutral-dark">High (30%)</span>
+                        </div>
+                        <div class="criteria-list-row">
+                          <i data-lucide="check" class="lucide-sm"></i>
+                          <span style="font-weight: 600; font-size: 12.5px;">Early Traction &amp; Customer
+                            Signals</span>
+                          <span class="badge-pill neutral-soft">Medium (20%)</span>
+                        </div>
+                        <div class="criteria-list-row">
+                          <i data-lucide="check" class="lucide-sm"></i>
+                          <span style="font-weight: 600; font-size: 12.5px;">Valuation Cap &amp; Deal Terms</span>
+                          <span class="badge-pill neutral-soft">Low (10%)</span>
+                        </div>
+                        <div class="info-note-box">
+                          Structured criteria reusable in Potential Startups scoring and Data Room Due Diligence.
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!-- RIGHT RAIL COLUMN -->
+                  <div class="thesis-rail-col">
+
+                    <!-- Health Card -->
+                    <div class="thesis-card">
+                      <div class="thesis-card-head">
+                        <div class="thesis-card-title">
+                          <i data-lucide="heart-pulse" class="lucide-sm"></i>
+                          <span>Thesis Health</span>
+                        </div>
+                        <span class="badge-pill neutral-soft">5/8 Done</span>
+                      </div>
+                      <div class="thesis-card-body">
+                        <div style="height: 6px; background: var(--bg-muted); border-radius: 4px; overflow:hidden; margin-bottom: 12px;">
+                          <div style="width: 62%; height: 100%; background: var(--accent-graphite);"></div>
+                        </div>
+
+                        <div style="display:flex; flex-direction:column; gap:6px; font-size:12px; color:var(--text-main);">
+                          <div>✓ Thesis statement</div>
+                          <div>✓ Fund overview</div>
+                          <div style="color:var(--text-muted);">⚠ Investment focus (6 sectors)</div>
+                          <div>✓ Target founders</div>
+                          <div style="color:var(--text-light);">○ Portfolio construction</div>
+                          <div>✓ Your edge</div>
+                          <div style="color:var(--text-light);">○ Decision criteria</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- LP Thesis Approvals Card -->
+                    <div class="thesis-card">
+                      <div class="thesis-card-head">
+                        <div class="thesis-card-title">
+                          <i data-lucide="check-circle-2" class="lucide-sm"></i>
+                          <span>LP Thesis Approvals</span>
+                        </div>
+                        <span class="badge-pill" style="background:#ECFDF5; color:#065F46; border:1px solid #A7F3D0;">7/18 Approved</span>
+                      </div>
+                      <div class="thesis-card-body" style="font-size:11.5px; color:var(--text-muted); display:flex; justify-content:space-between; align-items:center;">
+                        <span>₹10.30 Cr of ₹20 Cr signed off</span>
+                        <a href="#" onclick="openCollabDrawer('approvals'); return false;" style="color:var(--text-dark); font-weight:700; text-decoration:none;">View approvals →</a>
+                      </div>
+                    </div>
+
+                    <!-- Version History (links into the Collaboration drawer's History tab) -->
+                    <div class="thesis-card">
+                      <div class="thesis-card-head">
+                        <div class="thesis-card-title">
+                          <i data-lucide="history" class="lucide-sm"></i>
+                          <span>Version History</span>
+                        </div>
+                        <span class="form-hint">v3 Active</span>
+                      </div>
+                      <div class="thesis-card-body" style="font-size:11.5px; color:var(--text-muted); display:flex; justify-content:space-between;">
+                        <span>v3 · Edited 2 days ago</span>
+                        <a href="#" onclick="openCollabDrawer('history'); return false;" style="color:var(--text-dark); font-weight:600; text-decoration:none;">View history</a>
+                      </div>
+                      <div class="thesis-card-body" style="padding-top:0; font-size:11.5px; color:var(--text-muted); display:flex; justify-content:space-between;">
+                        <span style="display:inline-flex; align-items:center; gap:4px;"><i data-lucide="message-square" class="lucide-sm"></i> 3 comments · 1 reply thread</span>
+                        <a href="#" onclick="openCollabDrawer('comments'); return false;" style="color:var(--text-dark); font-weight:600; text-decoration:none;">Discuss</a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <!-- Key Stat Parameters Bar -->
-                <div class="preview-grid-3">
-                  <div class="preview-stat-box">
-                    <div class="preview-stat-label">TARGET CORPUS</div>
-                    <div class="preview-stat-value">₹20 Cr</div>
-                  </div>
-                  <div class="preview-stat-box">
-                    <div class="preview-stat-label">STAGE FOCUS</div>
-                    <div class="preview-stat-value">Seed &amp; Pre-Seed</div>
-                  </div>
-                  <div class="preview-stat-box">
-                    <div class="preview-stat-label">INVESTMENT HORIZON</div>
-                    <div class="preview-stat-value">10 Years</div>
-                  </div>
-                  <div class="preview-stat-box">
-                    <div class="preview-stat-label">TARGET PORTFOLIO</div>
-                    <div class="preview-stat-value">15 Startups</div>
-                  </div>
-                  <div class="preview-stat-box">
-                    <div class="preview-stat-label">CHEQUE SIZE RANGE</div>
-                    <div class="preview-stat-value">₹1 Cr – ₹2.5 Cr</div>
-                  </div>
-                  <div class="preview-stat-box">
-                    <div class="preview-stat-label">TARGET OWNERSHIP</div>
-                    <div class="preview-stat-value">8% – 12%</div>
-                  </div>
-                </div>
               </div>
+            </div>
 
-              <!-- Two-Column Preview Layout -->
+            <!-- ====================================================================
+               MODE 02: FORM EDIT MODE (Toggled via "Edit Thesis" Button)
+               ==================================================================== -->
+            <div id="editThesisView" style="display: none;">
               <div class="thesis-grid">
-                <!-- Left Main Content Column -->
                 <div class="thesis-main-col">
 
-                  <!-- 01. Focus & Sector Tags -->
+                  <!-- 01. Formula Thesis Statement Builder -->
+                  <div class="thesis-card" style="border: 1px solid var(--border-dark);">
+                    <div class="thesis-card-head" style="background: var(--bg-muted);">
+                      <div>
+                        <div class="thesis-card-title">
+                          <i data-lucide="sparkles" class="lucide-sm"></i>
+                          <span>1. Formula Thesis Statement Builder</span>
+                        </div>
+                        <p class="thesis-card-desc">Formula pattern: <strong>[Fund Name] is raising a [$ size] [stage]
+                            fund to back [target sector] in [geography], leveraging [your edge].</strong></p>
+                      </div>
+                      <span class="badge-pill neutral-dark">Core Formula</span>
+                    </div>
+
+                    <div class="thesis-card-body">
+                      <div class="info-note-box" style="margin-bottom:12px;">
+                        Formula (VC Lab / Carta pattern): <strong>[Fund Name] is raising/manages a [$ size] [stage] fund
+                          to back [target founders/sector] in [geography], leveraging [your edge].</strong>
+                      </div>
+
+                      <div class="form-row-2">
+                        <div>
+                          <label class="form-label">FUND NAME</label>
+                          <input type="text" class="form-input" id="thFundName" value="Seedicon Ventures Fund I">
+                        </div>
+                        <div>
+                          <label class="form-label">FUND SIZE</label>
+                          <input type="text" class="form-input" id="thFundSize" value="₹20 Cr">
+                        </div>
+                      </div>
+
+                      <div class="form-row-2">
+                        <div>
+                          <label class="form-label">STAGE (PICK ONE — NOT A RANGE)</label>
+                          <select class="form-input" id="thStage">
+                            <option value="Seed" selected="">Seed Stage</option>
+                            <option value="Pre-Seed">Pre-Seed Stage</option>
+                            <option value="Series A">Series A</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label class="form-label">GEOGRAPHY</label>
+                          <input type="text" class="form-input" id="thGeo" value="India &amp; South East Asia">
+                        </div>
+                      </div>
+
+                      <div style="margin-bottom: 12px;">
+                        <label class="form-label">WHO YOU BACK — SECTOR / FOUNDER TYPE</label>
+                        <input type="text" class="form-input" id="thSector" value="Early-stage B2B SaaS and Vertical AI startups">
+                        <p class="form-hint">Strong: names specific sub-segments rather than generic "tech".</p>
+                      </div>
+
+                      <div style="margin-bottom: 14px;">
+                        <label class="form-label">YOUR EDGE — WHY YOU VS OTHER FUNDS</label>
+                        <input type="text" class="form-input" id="thEdge" value="Specialist network of 20+ enterprise tech operators &amp; founders">
+                      </div>
+
+                      <div style="border-top: 1px dashed var(--border-strong); padding-top: 12px;">
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 6px;">
+                          <label class="form-label" style="margin-bottom:0;">⟶ AUTO-COMPOSED STATEMENT</label>
+                          <span class="form-hint"><strong>37</strong> / ~40 words · VC Lab benchmark</span>
+                        </div>
+                        <textarea class="form-input" id="thAutoStatement" style="min-height: 64px; font-weight: 500; line-height: 1.5; color: var(--text-dark);">Seedicon Ventures Fund I is raising a ₹20 Cr seed fund to back B2B SaaS &amp; Vertical AI startups in India &amp; SEA, leveraging a specialist network of 20+ enterprise tech operators and founders.</textarea>
+                      </div>
+
+                      <div style="font-size:11.5px; color:var(--text-muted); cursor:pointer; text-decoration:underline; margin-top:8px;" onclick="alert('Real Thesis Examples:\n1. Krakatoa Ventures: $25M climate seed fund in US.\n2. FinTech Collective: $50M B2B payments fund in SEA.\n3. Apex AI: $30M enterprise infrastructure fund.')">
+                        ▸ See 3 more real thesis-statement examples
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 02. Fund Overview & Parameters -->
+                  <div class="thesis-card">
+                    <div class="thesis-card-head">
+                      <div class="thesis-card-title">
+                        <i data-lucide="building-2" class="lucide-sm"></i>
+                        <span>2. Fund Overview &amp; Parameters</span>
+                      </div>
+                    </div>
+                    <div class="thesis-card-body">
+                      <div class="form-row-3">
+                        <div>
+                          <label class="form-label">FUND SIZE</label>
+                          <input type="text" class="form-input" value="₹20 Cr">
+                        </div>
+                        <div>
+                          <label class="form-label">STRUCTURE</label>
+                          <select class="form-input">
+                            <option selected="">Venture Capital Fund (AIF Cat II)</option>
+                            <option>Angel Syndicate</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label class="form-label">INVESTMENT HORIZON</label>
+                          <input type="text" class="form-input" value="10 Years">
+                        </div>
+                      </div>
+                      <div>
+                        <label class="form-label">TARGET # OF PORTFOLIO COMPANIES</label>
+                        <input type="number" class="form-input" style="max-width: 200px;" value="15">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 03. Investment Focus & Sectors -->
                   <div class="thesis-card">
                     <div class="thesis-card-head">
                       <div class="thesis-card-title">
                         <i data-lucide="tags" class="lucide-sm"></i>
-                        <span>Investment Focus &amp; Target Tags</span>
+                        <span>3. Investment Focus Tags</span>
                       </div>
                     </div>
                     <div class="thesis-card-body" style="display:flex; flex-direction:column; gap:12px;">
                       <div>
                         <label class="form-label">TARGET STAGES</label>
                         <div class="tag-chips">
-                          <span class="tag-chip active">Seed</span>
-                          <span class="tag-chip active">Pre-Seed</span>
+                          <span class="tag-chip active" onclick="this.classList.toggle('active')">Seed</span>
+                          <span class="tag-chip active" onclick="this.classList.toggle('active')">Pre-Seed</span>
+                          <span class="tag-chip" onclick="this.classList.toggle('active')">Series A</span>
+                          <span class="tag-chip add-tag" onclick="addNewTag(this, 'Stage')">+ Add Stage</span>
                         </div>
                       </div>
+
                       <div>
                         <label class="form-label">PRIMARY SECTORS</label>
                         <div class="tag-chips">
-                          <span class="tag-chip active">B2B SaaS</span>
-                          <span class="tag-chip active">Vertical AI</span>
-                          <span class="tag-chip active">Enterprise Tech</span>
+                          <span class="tag-chip active" onclick="this.classList.toggle('active')">B2B SaaS</span>
+                          <span class="tag-chip active" onclick="this.classList.toggle('active')">Vertical AI</span>
+                          <span class="tag-chip active" onclick="this.classList.toggle('active')">Enterprise Tech</span>
+                          <span class="tag-chip" onclick="this.classList.toggle('active')">FinTech</span>
+                          <span class="tag-chip add-tag" onclick="addNewTag(this, 'Sector')">+ Add Sector</span>
                         </div>
                       </div>
+
                       <div>
                         <label class="form-label">GEOGRAPHIES</label>
                         <div class="tag-chips">
-                          <span class="tag-chip active">India</span>
-                          <span class="tag-chip active">SEA</span>
+                          <span class="tag-chip active" onclick="this.classList.toggle('active')">India</span>
+                          <span class="tag-chip active" onclick="this.classList.toggle('active')">SEA</span>
+                          <span class="tag-chip" onclick="this.classList.toggle('active')">US / Global</span>
+                          <span class="tag-chip add-tag" onclick="addNewTag(this, 'Geography')">+ Add Region</span>
                         </div>
-                      </div>
-                      <div class="info-note-box">
-                        🔗 These tags auto-power Startup Pool filtering and your founder-facing match score.
                       </div>
                     </div>
                   </div>
 
-                  <!-- 02. Target Founder Profile -->
+                  <!-- 04. Target Founders & Profile -->
                   <div class="thesis-card">
                     <div class="thesis-card-head">
                       <div class="thesis-card-title">
                         <i data-lucide="user-check" class="lucide-sm"></i>
-                        <span>Target Founder Profile</span>
+                        <span>4. Target Founders &amp; Founder Profile</span>
                       </div>
                     </div>
                     <div class="thesis-card-body">
-                      <p style="font-size:13px; color:var(--text-dark); line-height:1.55; font-weight:500;">
-                        Second-time founders or domain experts with 5+ years building in enterprise software, demonstrating high speed of execution, strong product intuition, and clear GTM distribution leverage.
-                      </p>
+                      <textarea class="form-input" style="min-height: 70px; line-height:1.5;">Second-time founders or domain experts with 5+ years building in enterprise software, demonstrating high speed of execution, strong product intuition, and clear GTM distribution leverage.</textarea>
+                      <div style="font-size:11.5px; color:var(--text-muted); cursor:pointer; text-decoration:underline; margin-top:6px;" onclick="alert('Founder Criteria Example:\nWe look for technical co-founders with deep domain expertise in B2B SaaS who have previously managed products with $1M+ ARR.')">
+                        ▸ See example guidance
+                      </div>
                     </div>
                   </div>
 
-                  <!-- 03. Portfolio Reserve Split -->
+                  <!-- 05. Portfolio Construction -->
                   <div class="thesis-card">
                     <div class="thesis-card-head">
                       <div class="thesis-card-title">
                         <i data-lucide="pie-chart" class="lucide-sm"></i>
-                        <span>Portfolio Construction &amp; Reserves</span>
+                        <span>5. Portfolio Construction &amp; Reserves</span>
                       </div>
                     </div>
                     <div class="thesis-card-body">
-                      <div style="height: 8px; background: var(--bg-muted); border: 1px solid var(--border-main); border-radius: 4px; position: relative; margin-bottom: 8px;">
-                        <div style="position: absolute; left:0; top:0; bottom:0; width: 65%; background: var(--accent-graphite); border-radius: 3px;"></div>
+                      <div class="form-row-2">
+                        <div>
+                          <label class="form-label">CHECK SIZE RANGE</label>
+                          <input type="text" class="form-input" value="₹1 Cr – ₹2.5 Cr">
+                        </div>
+                        <div>
+                          <label class="form-label">TARGET OWNERSHIP</label>
+                          <input type="text" class="form-input" value="8% – 12%">
+                        </div>
                       </div>
-                      <div style="display:flex; justify-content:space-between; font-size:11.5px; color:var(--text-muted); font-weight:600;">
-                        <span>Initial Deployment: 65% (₹13 Cr)</span>
-                        <span>Follow-on Reserves: 35% (₹7 Cr)</span>
+
+                      <div style="margin-top: 8px;">
+                        <label class="form-label">INITIAL VS. FOLLOW-ON RESERVE SPLIT</label>
+                        <div style="height: 8px; background: var(--bg-muted); border: 1px solid var(--border-main); border-radius: 4px; position: relative; margin: 8px 0;">
+                          <div style="position: absolute; left:0; top:0; bottom:0; width: 65%; background: var(--accent-graphite); border-radius: 3px;">
+                          </div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; font-size:11.5px; color:var(--text-muted); font-weight:600;">
+                          <span>Initial Deployment: 65% (₹13 Cr)</span>
+                          <span>Follow-on Reserves: 35% (₹7 Cr)</span>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <!-- 04. Value Proposition & Edge -->
+                  <!-- 06. Your Edge / Value Proposition (INTERACTIVE PROMPT CHIPS!) -->
                   <div class="thesis-card">
                     <div class="thesis-card-head">
                       <div class="thesis-card-title">
                         <i data-lucide="zap" class="lucide-sm"></i>
-                        <span>Value Proposition &amp; Fund Edge</span>
+                        <span>6. Value Proposition &amp; Fund Edge</span>
                       </div>
                     </div>
                     <div class="thesis-card-body">
-                      <div class="tag-chips" style="margin-bottom: 10px;">
-                        <span class="tag-chip active">+ Proprietary Founder Network</span>
-                        <span class="tag-chip active">+ GTM &amp; Enterprise Sales Playbook</span>
-                        <span class="tag-chip active">+ Follow-on Access</span>
+                      <label class="form-label">CLICK PROMPT CHIPS TO INSERT EDGE HELPERS</label>
+                      <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;">
+                        <span class="prompt-chip" onclick="appendPromptToEdge('+ Proprietary founder network')">+
+                          Proprietary network</span>
+                        <span class="prompt-chip" onclick="appendPromptToEdge('+ Operational GTM expertise')">+
+                          Operational expertise</span>
+                        <span class="prompt-chip" onclick="appendPromptToEdge('+ Enterprise buyer track record')">+
+                          Track record</span>
+                        <span class="prompt-chip" onclick="appendPromptToEdge('+ Domain specialist access')">+ Domain
+                          focus</span>
                       </div>
-                      <p style="font-size:12.5px; color:var(--text-muted); line-height:1.5;">
-                        Hands-on GTM support to help early portfolio companies close their first $100k ARR through direct warm introductions to enterprise buyer networks.
-                      </p>
+                      <textarea class="form-input" id="thValuePropText" style="min-height: 64px;">Hands-on GTM support to help early portfolio companies close their first $100k ARR through direct warm introductions to enterprise buyer networks.</textarea>
                     </div>
                   </div>
 
-                  <!-- 05. Decision Criteria Checklist -->
+                  <!-- 07. Decision Criteria Checklist (Weighted Scoring) -->
                   <div class="thesis-card">
                     <div class="thesis-card-head">
                       <div class="thesis-card-title">
                         <i data-lucide="check-square" class="lucide-sm"></i>
-                        <span>Decision Criteria &amp; Weighted Checklist</span>
+                        <span>7. Decision Criteria &amp; Weighted Checklist</span>
                       </div>
                     </div>
-                    <div class="thesis-card-body">
+                    <div class="thesis-card-body" id="criteriaListContainer">
                       <div class="criteria-list-row">
-                        <i data-lucide="check" class="lucide-sm"></i>
+                        <input type="checkbox" checked="">
                         <span style="font-weight: 600; font-size: 12.5px;">Team &amp; Founder Capability</span>
-                        <span class="badge-pill neutral-dark">High (40%)</span>
+                        <select class="form-input btn-sm">
+                          <option selected="">High (40%)</option>
+                          <option>Medium</option>
+                          <option>Low</option>
+                        </select>
                       </div>
                       <div class="criteria-list-row">
-                        <i data-lucide="check" class="lucide-sm"></i>
+                        <input type="checkbox" checked="">
                         <span style="font-weight: 600; font-size: 12.5px;">TAM &amp; Market Dynamics</span>
-                        <span class="badge-pill neutral-dark">High (30%)</span>
+                        <select class="form-input btn-sm">
+                          <option selected="">High (30%)</option>
+                          <option>Medium</option>
+                          <option>Low</option>
+                        </select>
                       </div>
                       <div class="criteria-list-row">
-                        <i data-lucide="check" class="lucide-sm"></i>
+                        <input type="checkbox" checked="">
                         <span style="font-weight: 600; font-size: 12.5px;">Early Traction &amp; Customer Signals</span>
-                        <span class="badge-pill neutral-soft">Medium (20%)</span>
+                        <select class="form-input btn-sm">
+                          <option selected="">Medium (20%)</option>
+                          <option>High</option>
+                          <option>Low</option>
+                        </select>
                       </div>
                       <div class="criteria-list-row">
-                        <i data-lucide="check" class="lucide-sm"></i>
+                        <input type="checkbox" checked="">
                         <span style="font-weight: 600; font-size: 12.5px;">Valuation Cap &amp; Deal Terms</span>
-                        <span class="badge-pill neutral-soft">Low (10%)</span>
+                        <select class="form-input btn-sm">
+                          <option selected="">Low (10%)</option>
+                          <option>Medium</option>
+                          <option>High</option>
+                        </select>
                       </div>
-                      <div class="info-note-box">
-                        Structured criteria reusable in Potential Startups scoring and Data Room Due Diligence.
+                      <div class="criteria-list-row">
+                        <input type="checkbox" checked="">
+                        <span style="font-weight: 600; font-size: 12.5px;">Timing &amp; Market Window</span>
+                        <select class="form-input btn-sm">
+                          <option selected="">Low (10%)</option>
+                          <option>Medium</option>
+                          <option>High</option>
+                        </select>
                       </div>
+                      <button class="btn btn-outline btn-sm" style="margin-top: 10px;" onclick="addCustomCriteria()">+
+                        Add Custom Criteria</button>
                     </div>
                   </div>
 
-                </div>
-
-                <!-- RIGHT RAIL COLUMN (Includes Thesis Stress Test Checkpoints) -->
-                <div class="thesis-rail-col">
-                  
-                  <!-- THESIS STRESS TEST CHECKPOINTS (MOVED TO RIGHT RAIL AS REQUESTED) -->
+                  <!-- 08. Track Record (Optional) -->
                   <div class="thesis-card">
                     <div class="thesis-card-head">
                       <div class="thesis-card-title">
-                        <i data-lucide="shield-alert" class="lucide-sm"></i>
-                        <span>Thesis Stress Test</span>
+                        <i data-lucide="trending-up" class="lucide-sm"></i>
+                        <span>8. Track Record (Fund I Historical)</span>
                       </div>
                     </div>
-                    <div class="thesis-card-body" style="display:flex; flex-direction:column; gap:10px;">
-                      <div style="display:flex; flex-direction:column; gap:4px; font-size:12px;">
-                        <span class="badge-pill neutral-soft" style="width:fit-content;">⚠ Notice</span>
-                        <span style="font-weight:600; color:var(--text-dark);">Too broad check</span>
-                        <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">"We invest in tech" is unmeasurable. Narrow sub-segments.</span>
-                      </div>
-                      <div style="height:1px; background:var(--border-main); margin:2px 0;"></div>
-                      <div style="display:flex; flex-direction:column; gap:4px; font-size:12px;">
-                        <span class="badge-pill neutral-dark" style="width:fit-content;">✓ Passed</span>
-                        <span style="font-weight:600; color:var(--text-dark);">Anyone-could-run test</span>
-                        <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">20+ operator network is specific and defensible.</span>
-                      </div>
-                      <div style="height:1px; background:var(--border-main); margin:2px 0;"></div>
-                      <div style="display:flex; flex-direction:column; gap:4px; font-size:12px;">
-                        <span class="badge-pill neutral-dark" style="width:fit-content;">✓ Passed</span>
-                        <span style="font-weight:600; color:var(--text-dark);">Portfolio math check</span>
-                        <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">Cheque size range fits ₹20 Cr fund corpus.</span>
+                    <div class="thesis-card-body">
+                      <div class="form-row-3">
+                        <div>
+                          <label class="form-label">INVESTMENTS TO DATE</label>
+                          <input type="number" class="form-input" value="12">
+                        </div>
+                        <div>
+                          <label class="form-label">NOTABLE EXITS</label>
+                          <input type="number" class="form-input" value="2">
+                        </div>
+                        <div>
+                          <label class="form-label">FOLLOW-ON RATE (%)</label>
+                          <input type="text" class="form-input" value="75%">
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <!-- Health Card -->
+                  <!-- Save Changes Button Bar -->
+                  <div style="display:flex; justify-content:flex-end; gap:8px;">
+                    <button class="btn btn-outline" onclick="toggleEditPreviewMode()">Cancel</button>
+                    <button class="btn btn-primary" onclick="toggleEditPreviewMode(); alert('Thesis changes saved! Switched to Preview Mode.');">Save
+                      Changes &amp; Switch to Preview</button>
+                  </div>
+                </div>
+
+                <!-- Rail Column in Edit Mode -->
+                <div class="thesis-rail-col">
                   <div class="thesis-card">
                     <div class="thesis-card-head">
                       <div class="thesis-card-title">
@@ -620,694 +789,565 @@
                       <div style="height: 6px; background: var(--bg-muted); border-radius: 4px; overflow:hidden; margin-bottom: 12px;">
                         <div style="width: 62%; height: 100%; background: var(--accent-graphite);"></div>
                       </div>
-
-                      <div style="display:flex; flex-direction:column; gap:6px; font-size:12px; color:var(--text-main);">
-                        <div>✓ Thesis statement</div>
-                        <div>✓ Fund overview</div>
-                        <div style="color:var(--text-muted);">⚠ Investment focus (6 sectors)</div>
-                        <div>✓ Target founders</div>
-                        <div style="color:var(--text-light);">○ Portfolio construction</div>
-                        <div>✓ Your edge</div>
-                        <div style="color:var(--text-light);">○ Decision criteria</div>
+                      <div style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">
+                        Editing mode active. Update fields on the left to complete remaining sections.
                       </div>
-                    </div>
-                  </div>
-
-                  <!-- AI Copilot Card -->
-                  <div class="thesis-card">
-                    <div class="thesis-card-head">
-                      <div class="thesis-card-title">
-                        <i data-lucide="wand-2" class="lucide-sm"></i>
-                        <span>AI Assist</span>
-                      </div>
-                    </div>
-                    <div class="thesis-card-body" style="display:flex; flex-direction:column; gap:8px;">
-                      <button class="btn btn-outline btn-sm" style="justify-content:flex-start;" onclick="alert('AI Copilot: Drafted thesis section from Fund Parameters!')">
-                        <i data-lucide="sparkles" class="lucide-sm"></i>
-                        <span>Draft section from fund data</span>
-                      </button>
-                      <button class="btn btn-outline btn-sm" style="justify-content:flex-start;" onclick="alert('AI Copilot: Elevator pitch tightened to 37 words!')">
-                        <i data-lucide="file-check" class="lucide-sm"></i>
-                        <span>Tighten elevator pitch</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  <!-- Version History (links into the Collaboration drawer's History tab) -->
-                  <div class="thesis-card">
-                    <div class="thesis-card-head">
-                      <div class="thesis-card-title">
-                        <i data-lucide="history" class="lucide-sm"></i>
-                        <span>Version History</span>
-                      </div>
-                      <span class="form-hint">v3 Active</span>
-                    </div>
-                    <div class="thesis-card-body" style="font-size:11.5px; color:var(--text-muted); display:flex; justify-content:space-between;">
-                      <span>v3 · Edited 2 days ago</span>
-                      <a href="#" onclick="openCollabDrawer('history'); return false;" style="color:var(--text-dark); font-weight:600; text-decoration:none;">View history</a>
-                    </div>
-                    <div class="thesis-card-body" style="padding-top:0; font-size:11.5px; color:var(--text-muted); display:flex; justify-content:space-between;">
-                      <span style="display:inline-flex; align-items:center; gap:4px;"><i data-lucide="message-square" class="lucide-sm"></i> 3 comments · 1 reply thread</span>
-                      <a href="#" onclick="openCollabDrawer('comments'); return false;" style="color:var(--text-dark); font-weight:600; text-decoration:none;">Discuss</a>
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
+
           </div>
 
           <!-- ====================================================================
-               MODE 02: FORM EDIT MODE (Toggled via "Edit Thesis" Button)
-               ==================================================================== -->
-          <div id="editThesisView" style="display: none;">
-            <div class="thesis-grid">
-              <div class="thesis-main-col">
-                
-                <!-- 01. Formula Thesis Statement Builder -->
-                <div class="thesis-card" style="border: 1px solid var(--border-dark);">
-                  <div class="thesis-card-head" style="background: var(--bg-muted);">
-                    <div>
-                      <div class="thesis-card-title">
-                        <i data-lucide="sparkles" class="lucide-sm"></i>
-                        <span>1. Formula Thesis Statement Builder</span>
-                      </div>
-                      <p class="thesis-card-desc">Formula pattern: <strong>[Fund Name] is raising a [$ size] [stage] fund to back [target sector] in [geography], leveraging [your edge].</strong></p>
-                    </div>
-                    <span class="badge-pill neutral-dark">Core Formula</span>
-                  </div>
-
-                  <div class="thesis-card-body">
-                    <div class="info-note-box" style="margin-bottom:12px;">
-                      Formula (VC Lab / Carta pattern): <strong>[Fund Name] is raising/manages a [$ size] [stage] fund to back [target founders/sector] in [geography], leveraging [your edge].</strong>
-                    </div>
-
-                    <div class="form-row-2">
-                      <div>
-                        <label class="form-label">FUND NAME</label>
-                        <input type="text" class="form-input" id="thFundName" value="Seedicon Ventures Fund I" />
-                      </div>
-                      <div>
-                        <label class="form-label">FUND SIZE</label>
-                        <input type="text" class="form-input" id="thFundSize" value="₹20 Cr" />
-                      </div>
-                    </div>
-
-                    <div class="form-row-2">
-                      <div>
-                        <label class="form-label">STAGE (PICK ONE — NOT A RANGE)</label>
-                        <select class="form-input" id="thStage">
-                          <option value="Seed" selected>Seed Stage</option>
-                          <option value="Pre-Seed">Pre-Seed Stage</option>
-                          <option value="Series A">Series A</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label class="form-label">GEOGRAPHY</label>
-                        <input type="text" class="form-input" id="thGeo" value="India &amp; South East Asia" />
-                      </div>
-                    </div>
-
-                    <div style="margin-bottom: 12px;">
-                      <label class="form-label">WHO YOU BACK — SECTOR / FOUNDER TYPE</label>
-                      <input type="text" class="form-input" id="thSector" value="Early-stage B2B SaaS and Vertical AI startups" />
-                      <p class="form-hint">Strong: names specific sub-segments rather than generic "tech".</p>
-                    </div>
-
-                    <div style="margin-bottom: 14px;">
-                      <label class="form-label">YOUR EDGE — WHY YOU VS OTHER FUNDS</label>
-                      <input type="text" class="form-input" id="thEdge" value="Specialist network of 20+ enterprise tech operators &amp; founders" />
-                    </div>
-
-                    <div style="border-top: 1px dashed var(--border-strong); padding-top: 12px;">
-                      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 6px;">
-                        <label class="form-label" style="margin-bottom:0;">⟶ AUTO-COMPOSED STATEMENT (EDITABLE)</label>
-                        <span class="form-hint"><strong>37</strong> / ~40 words · VC Lab benchmark</span>
-                      </div>
-                      <textarea class="form-input" id="thAutoStatement" style="min-height: 64px; font-weight: 500; line-height: 1.5; color: var(--text-dark);">Seedicon Ventures Fund I is raising a ₹20 Cr seed fund to back B2B SaaS &amp; Vertical AI startups in India &amp; SEA, leveraging a specialist network of 20+ enterprise tech operators and founders.</textarea>
-                    </div>
-
-                    <div style="font-size:11.5px; color:var(--text-muted); cursor:pointer; text-decoration:underline; margin-top:8px;" onclick="alert('Real Thesis Examples:\n1. Krakatoa Ventures: $25M climate seed fund in US.\n2. FinTech Collective: $50M B2B payments fund in SEA.\n3. Apex AI: $30M enterprise infrastructure fund.')">
-                      ▸ See 3 more real thesis-statement examples
-                    </div>
-                  </div>
-                </div>
-
-                <!-- 02. Fund Overview & Parameters -->
-                <div class="thesis-card">
-                  <div class="thesis-card-head">
-                    <div class="thesis-card-title">
-                      <i data-lucide="building-2" class="lucide-sm"></i>
-                      <span>2. Fund Overview &amp; Parameters</span>
-                    </div>
-                  </div>
-                  <div class="thesis-card-body">
-                    <div class="form-row-3">
-                      <div>
-                        <label class="form-label">FUND SIZE</label>
-                        <input type="text" class="form-input" value="₹20 Cr" />
-                      </div>
-                      <div>
-                        <label class="form-label">STRUCTURE</label>
-                        <select class="form-input">
-                          <option selected>Venture Capital Fund (AIF Cat II)</option>
-                          <option>Angel Syndicate</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label class="form-label">INVESTMENT HORIZON</label>
-                        <input type="text" class="form-input" value="10 Years" />
-                      </div>
-                    </div>
-                    <div>
-                      <label class="form-label">TARGET # OF PORTFOLIO COMPANIES</label>
-                      <input type="number" class="form-input" style="max-width: 200px;" value="15" />
-                    </div>
-                  </div>
-                </div>
-
-                <!-- 03. Investment Focus & Sectors -->
-                <div class="thesis-card">
-                  <div class="thesis-card-head">
-                    <div class="thesis-card-title">
-                      <i data-lucide="tags" class="lucide-sm"></i>
-                      <span>3. Investment Focus Tags</span>
-                    </div>
-                  </div>
-                  <div class="thesis-card-body" style="display:flex; flex-direction:column; gap:12px;">
-                    <div>
-                      <label class="form-label">TARGET STAGES</label>
-                      <div class="tag-chips">
-                        <span class="tag-chip active" onclick="this.classList.toggle('active')">Seed</span>
-                        <span class="tag-chip active" onclick="this.classList.toggle('active')">Pre-Seed</span>
-                        <span class="tag-chip" onclick="this.classList.toggle('active')">Series A</span>
-                        <span class="tag-chip add-tag" onclick="addNewTag(this, 'Stage')">+ Add Stage</span>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label class="form-label">PRIMARY SECTORS</label>
-                      <div class="tag-chips">
-                        <span class="tag-chip active" onclick="this.classList.toggle('active')">B2B SaaS</span>
-                        <span class="tag-chip active" onclick="this.classList.toggle('active')">Vertical AI</span>
-                        <span class="tag-chip active" onclick="this.classList.toggle('active')">Enterprise Tech</span>
-                        <span class="tag-chip" onclick="this.classList.toggle('active')">FinTech</span>
-                        <span class="tag-chip add-tag" onclick="addNewTag(this, 'Sector')">+ Add Sector</span>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label class="form-label">GEOGRAPHIES</label>
-                      <div class="tag-chips">
-                        <span class="tag-chip active" onclick="this.classList.toggle('active')">India</span>
-                        <span class="tag-chip active" onclick="this.classList.toggle('active')">SEA</span>
-                        <span class="tag-chip" onclick="this.classList.toggle('active')">US / Global</span>
-                        <span class="tag-chip add-tag" onclick="addNewTag(this, 'Geography')">+ Add Region</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- 04. Target Founders & Profile -->
-                <div class="thesis-card">
-                  <div class="thesis-card-head">
-                    <div class="thesis-card-title">
-                      <i data-lucide="user-check" class="lucide-sm"></i>
-                      <span>4. Target Founders &amp; Founder Profile</span>
-                    </div>
-                  </div>
-                  <div class="thesis-card-body">
-                    <textarea class="form-input" style="min-height: 70px; line-height:1.5;">Second-time founders or domain experts with 5+ years building in enterprise software, demonstrating high speed of execution, strong product intuition, and clear GTM distribution leverage.</textarea>
-                    <div style="font-size:11.5px; color:var(--text-muted); cursor:pointer; text-decoration:underline; margin-top:6px;" onclick="alert('Founder Criteria Example:\nWe look for technical co-founders with deep domain expertise in B2B SaaS who have previously managed products with $1M+ ARR.')">
-                      ▸ See example guidance
-                    </div>
-                  </div>
-                </div>
-
-                <!-- 05. Portfolio Construction -->
-                <div class="thesis-card">
-                  <div class="thesis-card-head">
-                    <div class="thesis-card-title">
-                      <i data-lucide="pie-chart" class="lucide-sm"></i>
-                      <span>5. Portfolio Construction &amp; Reserves</span>
-                    </div>
-                  </div>
-                  <div class="thesis-card-body">
-                    <div class="form-row-2">
-                      <div>
-                        <label class="form-label">CHECK SIZE RANGE</label>
-                        <input type="text" class="form-input" value="₹1 Cr – ₹2.5 Cr" />
-                      </div>
-                      <div>
-                        <label class="form-label">TARGET OWNERSHIP</label>
-                        <input type="text" class="form-input" value="8% – 12%" />
-                      </div>
-                    </div>
-
-                    <div style="margin-top: 8px;">
-                      <label class="form-label">INITIAL VS. FOLLOW-ON RESERVE SPLIT</label>
-                      <div style="height: 8px; background: var(--bg-muted); border: 1px solid var(--border-main); border-radius: 4px; position: relative; margin: 8px 0;">
-                        <div style="position: absolute; left:0; top:0; bottom:0; width: 65%; background: var(--accent-graphite); border-radius: 3px;"></div>
-                      </div>
-                      <div style="display:flex; justify-content:space-between; font-size:11.5px; color:var(--text-muted); font-weight:600;">
-                        <span>Initial Deployment: 65% (₹13 Cr)</span>
-                        <span>Follow-on Reserves: 35% (₹7 Cr)</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- 06. Your Edge / Value Proposition (INTERACTIVE PROMPT CHIPS!) -->
-                <div class="thesis-card">
-                  <div class="thesis-card-head">
-                    <div class="thesis-card-title">
-                      <i data-lucide="zap" class="lucide-sm"></i>
-                      <span>6. Value Proposition &amp; Fund Edge</span>
-                    </div>
-                  </div>
-                  <div class="thesis-card-body">
-                    <label class="form-label">CLICK PROMPT CHIPS TO INSERT EDGE HELPERS</label>
-                    <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;">
-                      <span class="prompt-chip" onclick="appendPromptToEdge('+ Proprietary founder network')">+ Proprietary network</span>
-                      <span class="prompt-chip" onclick="appendPromptToEdge('+ Operational GTM expertise')">+ Operational expertise</span>
-                      <span class="prompt-chip" onclick="appendPromptToEdge('+ Enterprise buyer track record')">+ Track record</span>
-                      <span class="prompt-chip" onclick="appendPromptToEdge('+ Domain specialist access')">+ Domain focus</span>
-                    </div>
-                    <textarea class="form-input" id="thValuePropText" style="min-height: 64px;">Hands-on GTM support to help early portfolio companies close their first $100k ARR through direct warm introductions to enterprise buyer networks.</textarea>
-                  </div>
-                </div>
-
-                <!-- 07. Decision Criteria Checklist (Weighted Scoring) -->
-                <div class="thesis-card">
-                  <div class="thesis-card-head">
-                    <div class="thesis-card-title">
-                      <i data-lucide="check-square" class="lucide-sm"></i>
-                      <span>7. Decision Criteria &amp; Weighted Checklist</span>
-                    </div>
-                  </div>
-                  <div class="thesis-card-body" id="criteriaListContainer">
-                    <div class="criteria-list-row">
-                      <input type="checkbox" checked />
-                      <span style="font-weight: 600; font-size: 12.5px;">Team &amp; Founder Capability</span>
-                      <select class="form-input btn-sm"><option selected>High (40%)</option><option>Medium</option><option>Low</option></select>
-                    </div>
-                    <div class="criteria-list-row">
-                      <input type="checkbox" checked />
-                      <span style="font-weight: 600; font-size: 12.5px;">TAM &amp; Market Dynamics</span>
-                      <select class="form-input btn-sm"><option selected>High (30%)</option><option>Medium</option><option>Low</option></select>
-                    </div>
-                    <div class="criteria-list-row">
-                      <input type="checkbox" checked />
-                      <span style="font-weight: 600; font-size: 12.5px;">Early Traction &amp; Customer Signals</span>
-                      <select class="form-input btn-sm"><option selected>Medium (20%)</option><option>High</option><option>Low</option></select>
-                    </div>
-                    <div class="criteria-list-row">
-                      <input type="checkbox" checked />
-                      <span style="font-weight: 600; font-size: 12.5px;">Valuation Cap &amp; Deal Terms</span>
-                      <select class="form-input btn-sm"><option selected>Low (10%)</option><option>Medium</option><option>High</option></select>
-                    </div>
-                    <div class="criteria-list-row">
-                      <input type="checkbox" checked />
-                      <span style="font-weight: 600; font-size: 12.5px;">Timing &amp; Market Window</span>
-                      <select class="form-input btn-sm"><option selected>Low (10%)</option><option>Medium</option><option>High</option></select>
-                    </div>
-                    <button class="btn btn-outline btn-sm" style="margin-top: 10px;" onclick="addCustomCriteria()">+ Add Custom Criteria</button>
-                  </div>
-                </div>
-
-                <!-- 08. Track Record (Optional) -->
-                <div class="thesis-card">
-                  <div class="thesis-card-head">
-                    <div class="thesis-card-title">
-                      <i data-lucide="trending-up" class="lucide-sm"></i>
-                      <span>8. Track Record (Fund I Historical)</span>
-                    </div>
-                  </div>
-                  <div class="thesis-card-body">
-                    <div class="form-row-3">
-                      <div>
-                        <label class="form-label">INVESTMENTS TO DATE</label>
-                        <input type="number" class="form-input" value="12" />
-                      </div>
-                      <div>
-                        <label class="form-label">NOTABLE EXITS</label>
-                        <input type="number" class="form-input" value="2" />
-                      </div>
-                      <div>
-                        <label class="form-label">FOLLOW-ON RATE (%)</label>
-                        <input type="text" class="form-input" value="75%" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Save Changes Button Bar -->
-                <div style="display:flex; justify-content:flex-end; gap:8px;">
-                  <button class="btn btn-outline" onclick="toggleEditPreviewMode()">Cancel</button>
-                  <button class="btn btn-primary" onclick="toggleEditPreviewMode(); alert('Thesis changes saved! Switched to Preview Mode.');">Save Changes &amp; Switch to Preview</button>
-                </div>
-              </div>
-
-              <!-- Rail Column in Edit Mode -->
-              <div class="thesis-rail-col">
-                <!-- THESIS STRESS TEST CHECKPOINTS (MOVED TO RIGHT RAIL IN EDIT MODE TOO) -->
-                <div class="thesis-card">
-                  <div class="thesis-card-head">
-                    <div class="thesis-card-title">
-                      <i data-lucide="shield-alert" class="lucide-sm"></i>
-                      <span>Thesis Stress Test</span>
-                    </div>
-                  </div>
-                  <div class="thesis-card-body" style="display:flex; flex-direction:column; gap:10px;">
-                    <div style="display:flex; flex-direction:column; gap:4px; font-size:12px;">
-                      <span class="badge-pill neutral-soft" style="width:fit-content;">⚠ Notice</span>
-                      <span style="font-weight:600; color:var(--text-dark);">Too broad check</span>
-                      <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">"We invest in tech" is unmeasurable. Narrow sub-segments.</span>
-                    </div>
-                    <div style="height:1px; background:var(--border-main); margin:2px 0;"></div>
-                    <div style="display:flex; flex-direction:column; gap:4px; font-size:12px;">
-                      <span class="badge-pill neutral-dark" style="width:fit-content;">✓ Passed</span>
-                      <span style="font-weight:600; color:var(--text-dark);">Anyone-could-run test</span>
-                      <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">20+ operator network is specific and defensible.</span>
-                    </div>
-                    <div style="height:1px; background:var(--border-main); margin:2px 0;"></div>
-                    <div style="display:flex; flex-direction:column; gap:4px; font-size:12px;">
-                      <span class="badge-pill neutral-dark" style="width:fit-content;">✓ Passed</span>
-                      <span style="font-weight:600; color:var(--text-dark);">Portfolio math check</span>
-                      <span style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">Cheque size range fits ₹20 Cr fund corpus.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="thesis-card">
-                  <div class="thesis-card-head">
-                    <div class="thesis-card-title">
-                      <i data-lucide="heart-pulse" class="lucide-sm"></i>
-                      <span>Thesis Health</span>
-                    </div>
-                    <span class="badge-pill neutral-soft">5/8 Done</span>
-                  </div>
-                  <div class="thesis-card-body">
-                    <div style="height: 6px; background: var(--bg-muted); border-radius: 4px; overflow:hidden; margin-bottom: 12px;">
-                      <div style="width: 62%; height: 100%; background: var(--accent-graphite);"></div>
-                    </div>
-                    <div style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">
-                      Editing mode active. Update fields on the left to complete remaining sections.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- ====================================================================
              MODE 03: EMPTY CANVASES STATE (Toggled via Bottom Right FAB)
              ==================================================================== -->
-        <div id="emptyThesisView" style="display: none;">
-          <div class="empty-canvas-box">
-            <div class="empty-canvas-icon">
-              <i data-lucide="file-plus" class="lucide-lg"></i>
+          <div id="emptyThesisView" style="display: none;">
+            <div class="empty-canvas-box">
+              <div class="empty-canvas-icon">
+                <i data-lucide="file-plus" class="lucide-lg"></i>
+              </div>
+              <h2 class="empty-canvas-title">No investment thesis here</h2>
+              <p class="empty-canvas-sub">Get started by creating a new investment thesis for Seedicon Venture Fund I.
+              </p>
+              <button class="btn btn-primary" style="margin-top: 10px;" onclick="toggleEmptyState(false)">
+                <i data-lucide="plus"></i>
+                <span>Create Investment Thesis</span>
+              </button>
             </div>
-            <h2 class="empty-canvas-title">No investment thesis here</h2>
-            <p class="empty-canvas-sub">Get started by creating a new investment thesis for Seedicon Venture Fund I.</p>
-            <button class="btn btn-primary" style="margin-top: 10px;" onclick="toggleEmptyState(false)">
-              <i data-lucide="plus"></i>
-              <span>Create Investment Thesis</span>
-            </button>
           </div>
+
         </div>
+      </main>
 
-      </div>
-    </main>
-
+    </div>
   </div>
-</div>
 
-<!-- SUBTLE FLOATING FAB TOGGLE BUTTON (BOTTOM RIGHT CORNER) -->
-<button class="fab-toggle-btn" id="fabToggleState" title="Toggle between Populated Active Thesis and Empty State" onclick="toggleEmptyState()">
-  <i data-lucide="eye" class="lucide-sm"></i>
-  <span id="fabToggleText">Toggle Empty State</span>
-</button>
+  <!-- SUBTLE FLOATING FAB TOGGLE BUTTON (BOTTOM RIGHT CORNER) -->
+  <button class="fab-toggle-btn" id="fabToggleState" title="Toggle between Populated Active Thesis and Empty State" onclick="toggleEmptyState()">
+    <i data-lucide="eye" class="lucide-sm"></i>
+    <span id="fabToggleText">Toggle Empty State</span>
+  </button>
 
-<!-- Modal Dialog Container Slot -->
-<div id="modalSlot"></div>
+  <!-- Modal Dialog Container Slot -->
+  <div id="modalSlot"></div>
 
-<!-- ===================================================================== -->
-<!-- RIGHT DRAWER: SHARE WITH LPs (multi-select condensed LP registry)      -->
-<!-- ===================================================================== -->
-<div id="shareLPsOverlay" class="th-drawer-overlay" style="display:none;" onclick="closeShareLPsDrawer(event)">
-  <div class="th-drawer" onclick="event.stopPropagation()">
-    <!-- Drawer Header -->
-    <div class="th-drawer-header">
-      <div>
-        <div class="th-drawer-title">Share Investment Thesis</div>
-        <div class="th-drawer-sub" id="shareLPsSub">Select limited partners to send Seedicon Fund I thesis for LP approval.</div>
-      </div>
-      <button class="th-drawer-close" onclick="closeShareLPsDrawer()">
-        <i data-lucide="x" style="width:16px; height:16px;"></i>
-      </button>
-    </div>
-
-    <!-- Search / Filter + Select All -->
-    <div class="lp-filter-row">
-      <input type="search" id="shareLPsSearch" placeholder="Search name, type or PAN…" oninput="renderShareLPsList()" />
-      <select id="shareLPsTypeFilter" onchange="renderShareLPsList()">
-        <option value="all">All Types</option>
-        <option value="Family Office">Family Office</option>
-        <option value="Institutional">Institutional</option>
-        <option value="Trust">Trust</option>
-        <option value="Individual">Individual</option>
-        <option value="Corporate">Corporate</option>
-        <option value="NRI">NRI</option>
-        <option value="FPI">FPI</option>
-      </select>
-      <button class="lp-select-all" onclick="toggleSelectAllLPs()">
-        <i data-lucide="check-check" style="width:13px; height:13px;"></i>
-        <span id="shareSelectAllText">Select all</span>
-      </button>
-    </div>
-
-    <!-- Condensed LP Cards -->
-    <div class="th-drawer-body" id="shareLPsList" style="gap:8px; background:#F5F5F3;"></div>
-
-    <!-- Drawer Footer -->
-    <div class="th-drawer-footer">
-      <div style="font-size:11.5px; color:#8C8C88;">
-        <strong style="color:#1A1A18; font-size:13px;" id="shareLPsCountLabel">0</strong> of <span id="shareLPsTotalLabel">18</span> LPs selected
-      </div>
-      <div style="display:flex; gap:8px;">
-        <button class="btn btn-outline" onclick="closeShareLPsDrawer()">Cancel</button>
-        <button class="btn btn-primary" id="btnConfirmShare" onclick="confirmShareLPs()">
-          <i data-lucide="share-2" class="lucide-sm"></i>
-          <span id="btnConfirmShareText">Share with LPs</span>
+  <!-- ===================================================================== -->
+  <!-- RIGHT DRAWER: SHARE WITH LPs (multi-select condensed LP registry)      -->
+  <!-- ===================================================================== -->
+  <div id="shareLPsOverlay" class="th-drawer-overlay" style="display:none;" onclick="closeShareLPsDrawer(event)">
+    <div class="th-drawer" onclick="event.stopPropagation()">
+      <!-- Drawer Header -->
+      <div class="th-drawer-header">
+        <div>
+          <div class="th-drawer-title">Share Investment Thesis</div>
+          <div class="th-drawer-sub" id="shareLPsSub">Select limited partners to send Seedicon Fund I thesis for LP
+            approval.</div>
+        </div>
+        <button class="th-drawer-close" onclick="closeShareLPsDrawer()">
+          <i data-lucide="x" style="width:16px; height:16px;"></i>
         </button>
       </div>
-    </div>
-  </div>
-</div>
 
-<!-- ===================================================================== -->
-<!-- RIGHT DRAWER: COLLABORATION (Comments + Version History tabs)          -->
-<!-- ===================================================================== -->
-<div id="collabDrawerOverlay" class="th-drawer-overlay" style="display:none;" onclick="closeCollabDrawer(event)">
-  <div class="th-drawer" onclick="event.stopPropagation()">
-    <!-- Drawer Header -->
-    <div class="th-drawer-header">
-      <div>
-        <div class="th-drawer-title">Collaboration</div>
-        <div class="th-drawer-sub">Comments and revision history for this thesis. Team edits are tracked in place.</div>
+      <!-- Search / Filter + Select All -->
+      <div class="lp-filter-row">
+        <input type="search" id="shareLPsSearch" placeholder="Search name, type or PAN…" oninput="renderShareLPsList()">
+        <select id="shareLPsTypeFilter" onchange="renderShareLPsList()">
+          <option value="all">All Types</option>
+          <option value="Family Office">Family Office</option>
+          <option value="Institutional">Institutional</option>
+          <option value="Trust">Trust</option>
+          <option value="Individual">Individual</option>
+          <option value="Corporate">Corporate</option>
+          <option value="NRI">NRI</option>
+          <option value="FPI">FPI</option>
+        </select>
+        <button class="lp-select-all" onclick="toggleSelectAllLPs()">
+          <i data-lucide="check-check" style="width:13px; height:13px;"></i>
+          <span id="shareSelectAllText">Select all</span>
+        </button>
       </div>
-      <button class="th-drawer-close" onclick="closeCollabDrawer()">
-        <i data-lucide="x" style="width:16px; height:16px;"></i>
-      </button>
-    </div>
 
-    <!-- Drawer Tabs -->
-    <div class="th-drawer-tabs">
-      <button class="th-drawer-tab active" id="collabTabBtnComments" onclick="switchCollabTab('comments')">
-        <i data-lucide="message-square" style="width:13px; height:13px;"></i>
-        <span>Comments</span>
-        <span class="tab-count" id="collabCommentsCount">(3)</span>
-      </button>
-      <button class="th-drawer-tab" id="collabTabBtnHistory" onclick="switchCollabTab('history')">
-        <i data-lucide="history" style="width:13px; height:13px;"></i>
-        <span>Version History</span>
-        <span class="tab-count">(4)</span>
-      </button>
-    </div>
+      <!-- Condensed LP Cards -->
+      <div class="th-drawer-body" id="shareLPsList" style="gap:8px; background:#F5F5F3;"></div>
 
-    <!-- Drawer Body (dynamic) -->
-    <div class="th-drawer-body" id="collabDrawerBody"></div>
+      <!-- Drawer Footer -->
+      <div class="th-drawer-footer">
+        <div style="font-size:11.5px; color:#8C8C88;">
+          <strong style="color:#1A1A18; font-size:13px;" id="shareLPsCountLabel">0</strong> of <span id="shareLPsTotalLabel">18</span> LPs selected
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-outline" onclick="closeShareLPsDrawer()">Cancel</button>
+          <button class="btn btn-primary" id="btnConfirmShare" onclick="confirmShareLPs()">
+            <i data-lucide="share-2" class="lucide-sm"></i>
+            <span id="btnConfirmShareText">Share with LPs</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- Scripts -->
-<script src="./js/components.js"></script>
-<script src="./js/app.js"></script>
-<script>
-  // Automatically highlights 'investment-thesis' in the sidebar!
-  LayoutComponents.init({ activeNav: 'investment-thesis', activeApp: 'investor' });
+  <!-- ===================================================================== -->
+  <!-- RIGHT DRAWER: COLLABORATION (Comments + Thesis Approvals + History)   -->
+  <!-- ===================================================================== -->
+  <div id="collabDrawerOverlay" class="th-drawer-overlay" style="display:none;" onclick="closeCollabDrawer(event)">
+    <div class="th-drawer" onclick="event.stopPropagation()">
+      <!-- Drawer Header -->
+      <div class="th-drawer-header">
+        <div>
+          <div class="th-drawer-title" id="collabDrawerTitle">Collaboration &amp; LP Approvals</div>
+          <div class="th-drawer-sub" id="collabDrawerSub">Comments, LP sign-offs, and revision history for this thesis.
+          </div>
+        </div>
+        <button class="th-drawer-close" onclick="closeCollabDrawer()">
+          <i data-lucide="x" style="width:16px; height:16px;"></i>
+        </button>
+      </div>
 
-  // 01. Edit / Preview Mode Toggle Logic
-  let isPreviewMode = true;
-  function toggleEditPreviewMode() {
-    const previewView = document.getElementById('previewThesisView');
-    const editView = document.getElementById('editThesisView');
-    const btnText = document.getElementById('btnToggleModeText');
-    const modeBadge = document.getElementById('viewModeBadge');
+      <!-- Drawer Tabs -->
+      <div class="th-drawer-tabs">
+        <button class="th-drawer-tab active" id="collabTabBtnComments" onclick="switchCollabTab('comments')">
+          <i data-lucide="message-square" style="width:13px; height:13px;"></i>
+          <span>Comments</span>
+          <span class="tab-count" id="collabCommentsCount">(3)</span>
+        </button>
+        <button class="th-drawer-tab" id="collabTabBtnApprovals" onclick="switchCollabTab('approvals')">
+          <i data-lucide="check-circle-2" style="width:13px; height:13px;"></i>
+          <span>Thesis Approval</span>
+          <span class="tab-count" id="collabApprovalsCount">(18)</span>
+        </button>
+        <button class="th-drawer-tab" id="collabTabBtnHistory" onclick="switchCollabTab('history')">
+          <i data-lucide="history" style="width:13px; height:13px;"></i>
+          <span>Version History</span>
+          <span class="tab-count">(4)</span>
+        </button>
+      </div>
 
-    isPreviewMode = !isPreviewMode;
+      <!-- Drawer Body (dynamic) -->
+      <div class="th-drawer-body" id="collabDrawerBody"></div>
 
-    if (isPreviewMode) {
-      if (previewView) previewView.style.display = 'block';
-      if (editView) editView.style.display = 'none';
-      if (btnText) btnText.textContent = 'Edit Thesis';
-      if (modeBadge) modeBadge.textContent = 'Preview Mode · v3';
-    } else {
-      if (previewView) previewView.style.display = 'none';
-      if (editView) editView.style.display = 'block';
-      if (btnText) btnText.textContent = 'View Preview';
-      if (modeBadge) modeBadge.textContent = 'Editing Mode · v3';
+      <!-- Surface-Integrated Comment Composer (Docked at bottom, active on Comments tab) -->
+      <div id="collabDrawerComposerWrap" class="collab-surface-composer-wrap" style="display:flex;">
+        <div class="collab-surface-composer">
+          <div class="composer-avatar-pill">RS</div>
+          <div class="composer-input-box">
+            <textarea id="newCommentInput" placeholder="Add a comment… type @ to mention a teammate." onkeydown="handleCommentKey(event)"></textarea>
+            <div class="composer-bottom-bar">
+              <div class="composer-shortcuts-hint">
+                <span class="shortcut-tag">@ Mention</span>
+                <span class="shortcut-tag">Cmd+Enter to post</span>
+              </div>
+              <button class="btn-composer-post" onclick="postNewComment()">
+                <i data-lucide="send" style="width:12px; height:12px;"></i>
+                <span>Post</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./js/components.js"></script>
+  <script src="./js/app.js"></script>
+  <script>
+    // Automatically highlights 'investment-thesis' in the sidebar!
+    LayoutComponents.init({ activeNav: 'investment-thesis', activeApp: 'investor' });
+
+    // 01. Edit / Preview Mode Toggle Logic
+    let isPreviewMode = true;
+    function toggleEditPreviewMode() {
+      const previewView = document.getElementById('previewThesisView');
+      const editView = document.getElementById('editThesisView');
+      const btnText = document.getElementById('btnToggleModeText');
+      const modeBadge = document.getElementById('viewModeBadge');
+
+      isPreviewMode = !isPreviewMode;
+
+      if (isPreviewMode) {
+        if (previewView) previewView.style.display = 'block';
+        if (editView) editView.style.display = 'none';
+        if (btnText) btnText.textContent = 'Edit Thesis';
+        if (modeBadge) modeBadge.textContent = 'Preview Mode · v3';
+      } else {
+        if (previewView) previewView.style.display = 'none';
+        if (editView) editView.style.display = 'block';
+        if (btnText) btnText.textContent = 'View Preview';
+        if (modeBadge) modeBadge.textContent = 'Editing Mode · v3';
+      }
+
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
     }
 
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
+    // 02. Empty State FAB Toggle Logic
+    let isEmptyState = false;
+    function toggleEmptyState(forceState) {
+      const filledContainer = document.getElementById('filledThesisContainer');
+      const emptyView = document.getElementById('emptyThesisView');
+      const fabText = document.getElementById('fabToggleText');
+
+      isEmptyState = typeof forceState === 'boolean' ? forceState : !isEmptyState;
+
+      if (isEmptyState) {
+        if (filledContainer) filledContainer.style.display = 'none';
+        if (emptyView) emptyView.style.display = 'block';
+        if (fabText) fabText.textContent = 'Toggle Populated State';
+      } else {
+        if (filledContainer) filledContainer.style.display = 'block';
+        if (emptyView) emptyView.style.display = 'none';
+        if (fabText) fabText.textContent = 'Toggle Empty State';
+      }
+
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
     }
-  }
 
-  // 02. Empty State FAB Toggle Logic
-  let isEmptyState = false;
-  function toggleEmptyState(forceState) {
-    const filledContainer = document.getElementById('filledThesisContainer');
-    const emptyView = document.getElementById('emptyThesisView');
-    const fabText = document.getElementById('fabToggleText');
-
-    isEmptyState = typeof forceState === 'boolean' ? forceState : !isEmptyState;
-
-    if (isEmptyState) {
-      if (filledContainer) filledContainer.style.display = 'none';
-      if (emptyView) emptyView.style.display = 'block';
-      if (fabText) fabText.textContent = 'Toggle Populated State';
-    } else {
-      if (filledContainer) filledContainer.style.display = 'block';
-      if (emptyView) emptyView.style.display = 'none';
-      if (fabText) fabText.textContent = 'Toggle Empty State';
+    // Helper: Append Prompt Chips to Value Proposition Textarea
+    function appendPromptToEdge(chipText) {
+      const area = document.getElementById('thValuePropText');
+      if (area) {
+        area.value += (area.value ? ' ' : '') + chipText;
+      }
     }
 
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
-    }
-  }
-
-  // Helper: Append Prompt Chips to Value Proposition Textarea
-  function appendPromptToEdge(chipText) {
-    const area = document.getElementById('thValuePropText');
-    if (area) {
-      area.value += (area.value ? ' ' : '') + chipText;
-    }
-  }
-
-  // Helper: Add Custom Criteria to Decision Checklist
-  function addCustomCriteria() {
-    const title = prompt('Enter custom decision criteria (e.g. Technical Moat):');
-    if (title && title.trim()) {
-      const container = document.getElementById('criteriaListContainer');
-      const addBtn = container.querySelector('button');
-      const newRow = document.createElement('div');
-      newRow.className = 'criteria-list-row';
-      newRow.innerHTML = `
+    // Helper: Add Custom Criteria to Decision Checklist
+    function addCustomCriteria() {
+      const title = prompt('Enter custom decision criteria (e.g. Technical Moat):');
+      if (title && title.trim()) {
+        const container = document.getElementById('criteriaListContainer');
+        const addBtn = container.querySelector('button');
+        const newRow = document.createElement('div');
+        newRow.className = 'criteria-list-row';
+        newRow.innerHTML = `
         <input type="checkbox" checked />
         <span style="font-weight: 600; font-size: 12.5px;">${title.trim()}</span>
         <select class="form-input btn-sm"><option selected>Medium (20%)</option><option>High</option><option>Low</option></select>
       `;
-      container.insertBefore(newRow, addBtn);
+        container.insertBefore(newRow, addBtn);
+      }
     }
-  }
 
-  // Helper: Add New Tag Chip
-  function addNewTag(btnEl, promptLabel) {
-    const inputTag = prompt(`Enter ${promptLabel}:`);
-    if (inputTag && inputTag.trim()) {
-      const chipHtml = `<span class="tag-chip active" onclick="this.classList.toggle('active')">${inputTag.trim()}</span>`;
-      btnEl.parentElement.insertAdjacentHTML('afterbegin', chipHtml);
+    // Helper: Add New Tag Chip
+    function addNewTag(btnEl, promptLabel) {
+      const inputTag = prompt(`Enter ${promptLabel}:`);
+      if (inputTag && inputTag.trim()) {
+        const chipHtml = `<span class="tag-chip active" onclick="this.classList.toggle('active')">${inputTag.trim()}</span>`;
+        btnEl.parentElement.insertAdjacentHTML('afterbegin', chipHtml);
+      }
     }
-  }
 
-  // ---------------------------------------------------------------------
-  // SHARE WITH LPs — CONDENSED LP REGISTRY (mirrors lps-management store)
-  // ---------------------------------------------------------------------
-  const thesisLPs = [
-    { id: 'LP-001', name: 'Shikhar Kapoor', type: 'Family Office', comm: 2.50, kyc: 'Verified', status: 'Active', email: 'shikhar.k@kapoorholdings.com', pan: 'AAACK4910P' },
-    { id: 'LP-002', name: 'Horizon Capital Partners', type: 'Institutional', comm: 2.40, kyc: 'Verified', status: 'Active', email: 'd.sterling@horizoncap.com', pan: 'AAACH8192K' },
-    { id: 'LP-003', name: 'Ananya Raghunathan', type: 'Trust', comm: 2.00, kyc: 'Verified', status: 'Active', email: 'ananya@raghunathan.org', pan: 'AABTR9401R' },
-    { id: 'LP-004', name: 'Krish Kaul', type: 'Individual', comm: 1.80, kyc: 'Verified', status: 'Active', email: 'krish.kaul@alumni.stanford.edu', pan: 'ABCDE1234F' },
-    { id: 'LP-005', name: 'Meridian Family Office', type: 'Family Office', comm: 1.60, kyc: 'Pending', status: 'Active', email: 'invest@meridianfo.com', pan: 'AAECM4910M' },
-    { id: 'LP-006', name: 'Aurum Global Trust', type: 'Trust', comm: 1.40, kyc: 'Pending', status: 'Active', email: 'compliance@aurumtrust.org', pan: 'AABTA4910A' },
-    { id: 'LP-007', name: 'Vidhi Sharma', type: 'Individual', comm: 1.20, kyc: 'Verified', status: 'Active', email: 'vidhi@sharmaventures.com', pan: 'AZMPS4910D' },
-    { id: 'LP-008', name: 'Nishant Vohra', type: 'Family Office', comm: 1.10, kyc: 'Verified', status: 'Active', email: 'nishant@vohraholdings.com', pan: 'AABNV4910N' },
-    { id: 'LP-009', name: 'Tara Investment Office', type: 'Corporate', comm: 1.00, kyc: 'Verified', status: 'Active', email: 'allocations@taracorp.in', pan: 'AAACT4910T' },
-    { id: 'LP-010', name: 'FinCity Entrepreneurs Fund', type: 'Institutional', comm: 1.00, kyc: 'Verified', status: 'Active', email: 'treasury@fincityventures.in', pan: 'AAACF4910F' },
-    { id: 'LP-011', name: 'Bhanu Chandrasekhar', type: 'Individual', comm: 0.90, kyc: 'Verified', status: 'Active', email: 'bhanu.c@chandracapital.com', pan: 'ABCPC4910B' },
-    { id: 'LP-012', name: 'Rohan Mehta', type: 'Individual', comm: 0.80, kyc: 'Verified', status: 'Active', email: 'rohan@mehtaventures.in', pan: 'APMPM4910R' },
-    { id: 'LP-013', name: 'Surya Nair', type: 'Corporate', comm: 0.70, kyc: 'Verified', status: 'Active', email: 'surya.nair@nairtech.com', pan: 'AAACS4910N' },
-    { id: 'LP-014', name: 'Devanshi Patel', type: 'Individual', comm: 0.60, kyc: 'Verified', status: 'Active', email: 'devanshi@patelcapital.in', pan: 'ABDPP4910D' },
-    { id: 'LP-015', name: 'Arcus Capital', type: 'Trust', comm: 0.50, kyc: 'Verified', status: 'Exited', email: 'ir@arcuscapital.in', pan: 'AABTA9401C' },
-    { id: 'LP-016', name: 'Kenji Watanabe', type: 'NRI', comm: 0.50, kyc: 'Verified', status: 'Active', email: 'kenji.w@tokyo-invest.jp', pan: 'AWPNW4910K' },
-    { id: 'LP-017', name: 'Rajesh Jhunjhunwala', type: 'Individual', comm: 0.50, kyc: 'Verified', status: 'Active', email: 'rajesh@rareventures.in', pan: 'AZMPJ4910R' },
-    { id: 'LP-018', name: 'Alpha Edge Partners', type: 'FPI', comm: 0.50, kyc: 'Verified', status: 'Exited', email: 'compliance@alphaedge.sg', pan: 'AAACA4910A' }
-  ];
+    // ---------------------------------------------------------------------
+    // SHARE WITH LPs & THESIS APPROVALS STORE (18 LPs from fund registry)
+    // ---------------------------------------------------------------------
+    const thesisLPs = [
+      {
+        id: 'LP-001',
+        name: 'Shikhar Kapoor',
+        type: 'Family Office',
+        comm: 2.50,
+        kyc: 'Verified',
+        status: 'Active',
+        email: 'shikhar.k@kapoorholdings.com',
+        pan: 'AAACK4910P',
+        approvalStatus: 'Approved',
+        responseDate: '18 Aug 2026',
+        notes: 'Signed off on Fund I thesis and 65/35 reserve deployment ratio.',
+        signee: 'Shikhar Kapoor (Managing Trustee)'
+      },
+      {
+        id: 'LP-002',
+        name: 'Horizon Capital Partners',
+        type: 'Institutional',
+        comm: 2.40,
+        kyc: 'Verified',
+        status: 'Active',
+        email: 'd.sterling@horizoncap.com',
+        pan: 'AAACH8192K',
+        approvalStatus: 'Approved',
+        responseDate: '19 Aug 2026',
+        notes: 'Investment Committee formal resolution passed. Endorses B2B SaaS focus.',
+        signee: 'David Sterling (IC Chair)'
+      },
+      {
+        id: 'LP-003',
+        name: 'Ananya Raghunathan',
+        type: 'Trust',
+        comm: 2.00,
+        kyc: 'Verified',
+        status: 'Active',
+        email: 'ananya@raghunathan.org',
+        pan: 'AABTR9401R',
+        approvalStatus: 'Pending',
+        responseDate: 'Sent 2 days ago',
+        notes: 'Under review by personal wealth manager & trust legal counsel.',
+        signee: null
+      },
+      {
+        id: 'LP-004',
+        name: 'Krish Kaul',
+        type: 'Individual',
+        comm: 1.80,
+        kyc: 'Verified',
+        status: 'Active',
+        email: 'krish.kaul@alumni.stanford.edu',
+        pan: 'ABCDE1234F',
+        approvalStatus: 'Approved',
+        responseDate: '20 Aug 2026',
+        notes: 'Approved without objections. Appreciates operator network moat.',
+        signee: 'Krish Kaul'
+      },
+      {
+        id: 'LP-005',
+        name: 'Meridian Family Office',
+        type: 'Family Office',
+        comm: 1.60,
+        kyc: 'Pending',
+        status: 'Active',
+        email: 'invest@meridianfo.com',
+        pan: 'AAECM4910M',
+        approvalStatus: 'Denied',
+        responseDate: '20 Aug 2026',
+        notes: 'Denied: Requested 75/25 deployment split (instead of 65/35) before formal sign-off.',
+        signee: 'Vikram Singhania (CIO)'
+      },
+      {
+        id: 'LP-006',
+        name: 'Aurum Global Trust',
+        type: 'Trust',
+        comm: 1.40,
+        kyc: 'Pending',
+        status: 'Active',
+        email: 'compliance@aurumtrust.org',
+        pan: 'AABTA4910A',
+        approvalStatus: 'Pending',
+        responseDate: 'Sent 3 days ago',
+        notes: 'Awaiting scheduled monthly trustee board meeting.',
+        signee: null
+      },
+      {
+        id: 'LP-007',
+        name: 'Vidhi Sharma',
+        type: 'Individual',
+        comm: 1.20,
+        kyc: 'Verified',
+        status: 'Active',
+        email: 'vidhi@sharmaventures.com',
+        pan: 'AZMPS4910D',
+        approvalStatus: 'Pending',
+        responseDate: 'Sent yesterday',
+        notes: 'Thesis packet opened and reviewed; e-sign pending.',
+        signee: null
+      },
+      {
+        id: 'LP-008',
+        name: 'Nishant Vohra',
+        type: 'Family Office',
+        comm: 1.10,
+        kyc: 'Verified',
+        status: 'Active',
+        email: 'nishant@vohraholdings.com',
+        pan: 'AABNV4910N',
+        approvalStatus: 'Approved',
+        responseDate: '22 Aug 2026',
+        notes: 'Approved target ownership criteria (8%–12%) and cheque sizing.',
+        signee: 'Nishant Vohra'
+      },
+      {
+        id: 'LP-009',
+        name: 'Tara Investment Office',
+        type: 'Corporate',
+        comm: 1.00,
+        kyc: 'Verified',
+        status: 'Active',
+        email: 'allocations@taracorp.in',
+        pan: 'AAACT4910T',
+        approvalStatus: 'Approved',
+        responseDate: '21 Aug 2026',
+        notes: 'Approved. Corporate treasury committee signed digital resolution.',
+        signee: 'Kavita Menon (Treasury Lead)'
+      },
+      {
+        id: 'LP-010',
+        name: 'FinCity Entrepreneurs Fund',
+        type: 'Institutional',
+        comm: 1.00,
+        kyc: 'Verified',
+        status: 'Active',
+        email: 'treasury@fincityventures.in',
+        pan: 'AAACF4910F',
+        approvalStatus: 'Pending',
+        responseDate: 'Sent 2 days ago',
+        notes: 'Internal due diligence note submitted to IC.',
+        signee: null
+      },
+      {
+        id: 'LP-011',
+        name: 'Bhanu Chandrasekhar',
+        type: 'Individual',
+        comm: 0.90,
+        kyc: 'Verified',
+        status: 'Active',
+        email: 'bhanu.c@chandracapital.com',
+        pan: 'ABCPC4910B',
+        approvalStatus: 'Approved',
+        responseDate: '23 Aug 2026',
+        notes: 'Approved. Strongly supports vertical AI thesis.',
+        signee: 'Bhanu Chandrasekhar'
+      },
+      {
+        id: 'LP-012',
+        name: 'Rohan Mehta',
+        type: 'Individual',
+        comm: 0.80,
+        kyc: 'Verified',
+        status: 'Active',
+        email: 'rohan@mehtaventures.in',
+        pan: 'APMPM4910R',
+        approvalStatus: 'Pending',
+        responseDate: 'Sent yesterday',
+        notes: 'Reviewing average initial check size vs total target portfolio.',
+        signee: null
+      },
+      {
+        id: 'LP-013',
+        name: 'Surya Nair',
+        type: 'Corporate',
+        comm: 0.70,
+        kyc: 'Verified',
+        status: 'Active',
+        email: 'surya.nair@nairtech.com',
+        pan: 'AAACS4910N',
+        approvalStatus: 'Pending',
+        responseDate: 'Sent 3 days ago',
+        notes: 'Shared with co-directors for confirmation.',
+        signee: null
+      },
+      {
+        id: 'LP-014',
+        name: 'Devanshi Patel',
+        type: 'Individual',
+        comm: 0.60,
+        kyc: 'Verified',
+        status: 'Active',
+        email: 'devanshi@patelcapital.in',
+        pan: 'ABDPP4910D',
+        approvalStatus: 'Approved',
+        responseDate: '22 Aug 2026',
+        notes: 'Signed and approved digitally via Seedicon LP portal.',
+        signee: 'Devanshi Patel'
+      },
+      {
+        id: 'LP-015',
+        name: 'Arcus Capital',
+        type: 'Trust',
+        comm: 0.50,
+        kyc: 'Verified',
+        status: 'Exited',
+        email: 'ir@arcuscapital.in',
+        pan: 'AABTA9401C',
+        approvalStatus: 'Denied',
+        responseDate: '21 Aug 2026',
+        notes: 'Denied: Requires geographic scope restriction to India-only (excluding SEA).',
+        signee: 'Rameshwar Sen (Trustee)'
+      },
+      {
+        id: 'LP-016',
+        name: 'Kenji Watanabe',
+        type: 'NRI',
+        comm: 0.50,
+        kyc: 'Verified',
+        status: 'Active',
+        email: 'kenji.w@tokyo-invest.jp',
+        pan: 'AWPNW4910K',
+        approvalStatus: 'Pending',
+        responseDate: 'Sent 4 days ago',
+        notes: 'Awaiting cross-border tax opinion on Indian AIF Cat II.',
+        signee: null
+      },
+      {
+        id: 'LP-017',
+        name: 'Rajesh Jhunjhunwala',
+        type: 'Individual',
+        comm: 0.50,
+        kyc: 'Verified',
+        status: 'Active',
+        email: 'rajesh@rareventures.in',
+        pan: 'AZMPJ4910R',
+        approvalStatus: 'Pending',
+        responseDate: 'Sent 2 days ago',
+        notes: 'Awaiting signature.',
+        signee: null
+      },
+      {
+        id: 'LP-018',
+        name: 'Alpha Edge Partners',
+        type: 'FPI',
+        comm: 0.50,
+        kyc: 'Verified',
+        status: 'Exited',
+        email: 'compliance@alphaedge.sg',
+        pan: 'AAACA4910A',
+        approvalStatus: 'Pending',
+        responseDate: 'Sent 5 days ago',
+        notes: 'Pending compliance clearance.',
+        signee: null
+      }
+    ];
 
-  let selectedLPs = new Set();
-  let allSelected = false;
+    let selectedLPs = new Set();
+    let allSelected = false;
 
-  function openShareLPsDrawer() {
-    selectedLPs.clear();
-    allSelected = false;
-    document.getElementById('shareLPsOverlay').style.display = 'flex';
-    const searchEl = document.getElementById('shareLPsSearch');
-    if (searchEl) searchEl.value = '';
-    document.getElementById('shareLPsTypeFilter').value = 'all';
-    renderShareLPsList();
-    updateShareFooter();
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-  }
+    function openShareLPsDrawer() {
+      selectedLPs.clear();
+      allSelected = false;
+      document.getElementById('shareLPsOverlay').style.display = 'flex';
+      const searchEl = document.getElementById('shareLPsSearch');
+      if (searchEl) searchEl.value = '';
+      document.getElementById('shareLPsTypeFilter').value = 'all';
+      renderShareLPsList();
+      updateShareFooter();
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
 
-  function closeShareLPsDrawer(e) {
-    if (e && e.target !== document.getElementById('shareLPsOverlay') && e.target.tagName !== 'BUTTON') return;
-    document.getElementById('shareLPsOverlay').style.display = 'none';
-  }
+    function closeShareLPsDrawer(e) {
+      if (e && e.target !== document.getElementById('shareLPsOverlay') && e.target.tagName !== 'BUTTON') return;
+      document.getElementById('shareLPsOverlay').style.display = 'none';
+    }
 
-  function initialsOf(name) {
-    return name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
-  }
+    function initialsOf(name) {
+      return name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+    }
 
-  function renderShareLPsList() {
-    const listEl = document.getElementById('shareLPsList');
-    const q = (document.getElementById('shareLPsSearch')?.value || '').toLowerCase().trim();
-    const typeF = document.getElementById('shareLPsTypeFilter')?.value || 'all';
+    function renderShareLPsList() {
+      const listEl = document.getElementById('shareLPsList');
+      const q = (document.getElementById('shareLPsSearch')?.value || '').toLowerCase().trim();
+      const typeF = document.getElementById('shareLPsTypeFilter')?.value || 'all';
 
-    const filtered = thesisLPs.filter(lp => {
-      const mSearch = !q || lp.name.toLowerCase().includes(q) || lp.type.toLowerCase().includes(q) || lp.pan.toLowerCase().includes(q);
-      const mType = typeF === 'all' || lp.type === typeF;
-      return mSearch && mType;
-    });
+      const filtered = thesisLPs.filter(lp => {
+        const mSearch = !q || lp.name.toLowerCase().includes(q) || lp.type.toLowerCase().includes(q) || lp.pan.toLowerCase().includes(q);
+        const mType = typeF === 'all' || lp.type === typeF;
+        return mSearch && mType;
+      });
 
-    document.getElementById('shareLPsTotalLabel').textContent = thesisLPs.length;
+      document.getElementById('shareLPsTotalLabel').textContent = thesisLPs.length;
 
-    if (!filtered.length) {
-      listEl.innerHTML = `
+      if (!filtered.length) {
+        listEl.innerHTML = `
         <div style="padding:40px 16px; text-align:center; color:#8C8C88;">
           <i data-lucide="search" style="width:20px; height:20px; color:#B0B0AE; margin-bottom:6px;"></i>
           <div style="font-size:12.5px; font-weight:700; color:#1A1A18;">No matching LPs</div>
           <p style="font-size:11px; margin-top:2px;">Try a different search term or investor type.</p>
         </div>
       `;
-    } else {
-      listEl.innerHTML = filtered.map(lp => `
+      } else {
+        listEl.innerHTML = filtered.map(lp => `
         <div class="lp-share-card ${selectedLPs.has(lp.id) ? 'selected' : ''}" onclick="toggleShareLP('${lp.id}')">
-          <span class="lp-share-check"><i data-lucide="check" style="width:12px; height:12px;"></i></span>
+          <input type="checkbox" class="lp-share-checkbox" ${selectedLPs.has(lp.id) ? 'checked' : ''} onclick="event.stopPropagation(); toggleShareLP('${lp.id}')" />
           <span class="lp-share-avatar">${initialsOf(lp.name)}</span>
           <div class="lp-share-meta">
             <div class="lp-share-name">${lp.name}</div>
@@ -1316,268 +1356,422 @@
           <span class="pill ${lp.kyc === 'Verified' ? 'pill-verified' : 'pill-pending'}">${lp.kyc.toUpperCase()}</span>
         </div>
       `).join('');
+      }
+
+      // Reflect select-all state against the current filtered set
+      const allShownSelected = filtered.length > 0 && filtered.every(lp => selectedLPs.has(lp.id));
+      allSelected = allShownSelected;
+      document.getElementById('shareSelectAllText').textContent = allSelected ? 'Clear all' : 'Select all';
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 
-    // Reflect select-all state against the current filtered set
-    const allShownSelected = filtered.length > 0 && filtered.every(lp => selectedLPs.has(lp.id));
-    allSelected = allShownSelected;
-    document.getElementById('shareSelectAllText').textContent = allSelected ? 'Clear all' : 'Select all';
-
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-  }
-
-  function toggleShareLP(lpId) {
-    if (selectedLPs.has(lpId)) selectedLPs.delete(lpId); else selectedLPs.add(lpId);
-    renderShareLPsList();
-    updateShareFooter();
-  }
-
-  function toggleSelectAllLPs() {
-    const q = (document.getElementById('shareLPsSearch')?.value || '').toLowerCase().trim();
-    const typeF = document.getElementById('shareLPsTypeFilter')?.value || 'all';
-    const filtered = thesisLPs.filter(lp => {
-      const mSearch = !q || lp.name.toLowerCase().includes(q) || lp.type.toLowerCase().includes(q) || lp.pan.toLowerCase().includes(q);
-      return mSearch && (typeF === 'all' || lp.type === typeF);
-    });
-
-    if (allSelected) {
-      filtered.forEach(lp => selectedLPs.delete(lp.id));
-    } else {
-      filtered.forEach(lp => selectedLPs.add(lp.id));
+    function toggleShareLP(lpId) {
+      if (selectedLPs.has(lpId)) selectedLPs.delete(lpId); else selectedLPs.add(lpId);
+      renderShareLPsList();
+      updateShareFooter();
     }
-    renderShareLPsList();
-    updateShareFooter();
-  }
 
-  function updateShareFooter() {
-    const n = selectedLPs.size;
-    document.getElementById('shareLPsCountLabel').textContent = n;
-    const btn = document.getElementById('btnConfirmShare');
-    btn.disabled = n === 0;
-    document.getElementById('btnConfirmShareText').textContent = n ? `Share with ${n} LP${n > 1 ? 's' : ''}` : 'Share with LPs';
-  }
+    function toggleSelectAllLPs() {
+      const q = (document.getElementById('shareLPsSearch')?.value || '').toLowerCase().trim();
+      const typeF = document.getElementById('shareLPsTypeFilter')?.value || 'all';
+      const filtered = thesisLPs.filter(lp => {
+        const mSearch = !q || lp.name.toLowerCase().includes(q) || lp.type.toLowerCase().includes(q) || lp.pan.toLowerCase().includes(q);
+        return mSearch && (typeF === 'all' || lp.type === typeF);
+      });
 
-  function confirmShareLPs() {
-    if (!selectedLPs.size) {
-      showToast('Select at least one LP to share the thesis.', 'alert-circle');
-      return;
+      if (allSelected) {
+        filtered.forEach(lp => selectedLPs.delete(lp.id));
+      } else {
+        filtered.forEach(lp => selectedLPs.add(lp.id));
+      }
+      renderShareLPsList();
+      updateShareFooter();
     }
-    const names = thesisLPs.filter(lp => selectedLPs.has(lp.id)).map(lp => lp.name);
-    const shareBtn = document.getElementById('btnConfirmShare');
-    shareBtn.innerHTML = `<i data-lucide="check" class="lucide-sm"></i> Shared`;
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-    setTimeout(() => {
-      closeShareLPsDrawer();
-      showToast(`Investment Thesis shared with ${names.length} LP${names.length > 1 ? 's' : ''}.`);
-    }, 450);
-  }
 
-  // ---------------------------------------------------------------------
-  // COLLABORATION — COMMENTS + VERSION HISTORY (in-place, tabbed drawer)
-  // ---------------------------------------------------------------------
-  let activeCollabTab = 'comments';
-
-  const thesisComments = [
-    {
-      id: 'c1', author: 'Rahul Sharma', role: 'General Partner', initials: 'RS', time: '2h ago',
-      text: 'LPs on the committee have asked for a cleaner justification of the 65/35 reserve split. Can we add a worked example for a 15-company portfolio?',
-      section: 'Portfolio Construction', resolved: false
-    },
-    {
-      id: 'c2', author: 'Priya Mehta', role: 'VP Investor Relations', initials: 'PM', time: '5h ago',
-      text: '@Rahul — check size range of ₹1 Cr–₹2.5 Cr still fits within the ₹13 Cr initial deployment? 15 companies at avg ₹1.6 Cr = ₹24 Cr, that over-runs.',
-      section: 'Fund Parameters', resolved: false,
-      replies: [
-        { author: 'Rahul Sharma', role: 'General Partner', initials: 'RS', time: '4h ago', text: 'Good catch — avg cheque should be ~₹1.1 Cr at 65% deployment (₹13 Cr / 12 companies). I\'ll fix the range in the next edit.' }
-      ]
-    },
-    {
-      id: 'c3', author: 'Arjun Nair', role: 'Investment Analyst', initials: 'AN', time: '1d ago',
-      text: 'Thesis statement reads well. One tweak — "specialist network of 20+ enterprise tech operators" should stay, it\'s a real differentiator per the Stress Test.',
-      section: 'Thesis Statement', resolved: true
+    function updateShareFooter() {
+      const n = selectedLPs.size;
+      document.getElementById('shareLPsCountLabel').textContent = n;
+      const btn = document.getElementById('btnConfirmShare');
+      btn.disabled = n === 0;
+      document.getElementById('btnConfirmShareText').textContent = n ? `Share with ${n} LP${n > 1 ? 's' : ''}` : 'Share with LPs';
     }
-  ];
 
-  const thesisVersions = [
-    {
-      v: 'v3', label: 'v3', current: true, draft: false,
-      date: '15 Aug 2026 · 2 days ago', author: 'Rahul Sharma', role: 'General Partner',
-      desc: 'Narrowed cheque size range, added worked example for reserve split, tightened thesis to 37 words.',
-      changes: ['Cheque size updated', 'Reserve worked example added', 'Pitch tightened']
-    },
-    {
-      v: 'v2', label: 'v2', current: false, draft: false,
-      date: '06 Aug 2026', author: 'Priya Mehta', role: 'VP Investor Relations',
-      desc: 'Added fund overview parameters, investment horizon and portfolio count after LP committee feedback.',
-      changes: ['Fund overview added', 'Portfolio count set to 15']
-    },
-    {
-      v: 'v1', label: 'v1', current: false, draft: false,
-      date: '28 Jul 2026', author: 'Arjun Nair', role: 'Investment Analyst',
-      desc: 'Initial thesis draft from Formula Thesis Statement Builder. Core sectors B2B SaaS & Vertical AI.',
-      changes: ['Initial draft created']
-    },
-    {
-      v: 'draft', label: 'Unpublished draft', current: false, draft: true,
-      date: 'Editing now', author: 'Rahul Sharma', role: 'General Partner',
-      desc: 'Changes made while in Edit Mode. Publish to save as a new version.',
-      changes: ['2 unsaved edits']
+    function confirmShareLPs() {
+      if (!selectedLPs.size) {
+        showToast('Select at least one LP to share the thesis.', 'alert-circle');
+        return;
+      }
+      const names = thesisLPs.filter(lp => selectedLPs.has(lp.id)).map(lp => lp.name);
+      const shareBtn = document.getElementById('btnConfirmShare');
+      shareBtn.innerHTML = `<i data-lucide="check" class="lucide-sm"></i> Shared`;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      setTimeout(() => {
+        closeShareLPsDrawer();
+        showToast(`Investment Thesis shared with ${names.length} LP${names.length > 1 ? 's' : ''}.`);
+      }, 450);
     }
-  ];
 
-  function openCollabDrawer(tab) {
-    activeCollabTab = tab || 'comments';
-    document.getElementById('collabDrawerOverlay').style.display = 'flex';
-    switchCollabTab(activeCollabTab);
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-  }
+    // ---------------------------------------------------------------------
+    // COLLABORATION & LP APPROVALS DRAWER
+    // ---------------------------------------------------------------------
+    let activeCollabTab = 'comments';
 
-  function closeCollabDrawer(e) {
-    if (e && e.target !== document.getElementById('collabDrawerOverlay') && e.target.tagName !== 'BUTTON') return;
-    document.getElementById('collabDrawerOverlay').style.display = 'none';
-  }
+    const thesisComments = [
+      {
+        id: 'c1', author: 'Rahul Sharma', role: 'General Partner', initials: 'RS', time: '2h ago',
+        text: 'LPs on the committee have asked for a cleaner justification of the 65/35 reserve split. Can we add a worked example for a 15-company portfolio?',
+        section: 'Portfolio Construction', resolved: false
+      },
+      {
+        id: 'c2', author: 'Priya Mehta', role: 'VP Investor Relations', initials: 'PM', time: '5h ago',
+        text: '@Rahul — check size range of ₹1 Cr–₹2.5 Cr still fits within the ₹13 Cr initial deployment? 15 companies at avg ₹1.6 Cr = ₹24 Cr, that over-runs.',
+        section: 'Fund Parameters', resolved: false,
+        replies: [
+          { author: 'Rahul Sharma', role: 'General Partner', initials: 'RS', time: '4h ago', text: 'Good catch — avg cheque should be ~₹1.1 Cr at 65% deployment (₹13 Cr / 12 companies). I\'ll fix the range in the next edit.' }
+        ]
+      },
+      {
+        id: 'c3', author: 'Arjun Nair', role: 'Investment Analyst', initials: 'AN', time: '1d ago',
+        text: 'Thesis statement reads well. One tweak — "specialist network of 20+ enterprise tech operators" should stay, it\'s a real differentiator per the Stress Test.',
+        section: 'Thesis Statement', resolved: true
+      }
+    ];
 
-  function switchCollabTab(tab) {
-    activeCollabTab = tab;
-    document.querySelectorAll('#collabDrawerOverlay .th-drawer-tab').forEach(btn => btn.classList.remove('active'));
-    document.getElementById('collabTabBtn' + (tab === 'comments' ? 'Comments' : 'History')).classList.add('active');
-    const body = document.getElementById('collabDrawerBody');
-    if (tab === 'comments') {
-      renderCommentsTab(body);
-    } else {
-      renderHistoryTab(body);
+    const thesisVersions = [
+      {
+        v: 'v3', label: 'v3', current: true, draft: false,
+        date: '15 Aug 2026 · 2 days ago', author: 'Rahul Sharma', role: 'General Partner',
+        desc: 'Narrowed cheque size range, added worked example for reserve split, tightened thesis to 37 words.',
+        changes: ['Cheque size updated', 'Reserve worked example added', 'Pitch tightened']
+      },
+      {
+        v: 'v2', label: 'v2', current: false, draft: false,
+        date: '06 Aug 2026', author: 'Priya Mehta', role: 'VP Investor Relations',
+        desc: 'Added fund overview parameters, investment horizon and portfolio count after LP committee feedback.',
+        changes: ['Fund overview added', 'Portfolio count set to 15']
+      },
+      {
+        v: 'v1', label: 'v1', current: false, draft: false,
+        date: '28 Jul 2026', author: 'Arjun Nair', role: 'Investment Analyst',
+        desc: 'Initial thesis draft from Formula Thesis Statement Builder. Core sectors B2B SaaS & Vertical AI.',
+        changes: ['Initial draft created']
+      },
+      {
+        v: 'draft', label: 'Unpublished draft', current: false, draft: true,
+        date: 'Editing now', author: 'Rahul Sharma', role: 'General Partner',
+        desc: 'Changes made while in Edit Mode. Publish to save as a new version.',
+        changes: ['2 unsaved edits']
+      }
+    ];
+
+    function openCollabDrawer(tab) {
+      activeCollabTab = tab || 'comments';
+      document.getElementById('collabDrawerOverlay').style.display = 'flex';
+      switchCollabTab(activeCollabTab);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
     }
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-  }
 
-  function renderCommentsTab(body) {
-    document.getElementById('collabCommentsCount').textContent = `(${thesisComments.length})`;
+    function closeCollabDrawer(e) {
+      if (e && e.target !== document.getElementById('collabDrawerOverlay') && e.target.tagName !== 'BUTTON') return;
+      document.getElementById('collabDrawerOverlay').style.display = 'none';
+    }
 
-    body.innerHTML = `
-      <div style="font-size:10.5px; color:#8C8C88; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;">
-        All comments · ${thesisComments.length}
-      </div>
-      <div class="comment-list">
-        ${thesisComments.map(commentCardHTML).join('') || emptyComments('No comments yet — start the conversation.')}
-      </div>
-      <div class="comment-composer">
-        <span class="comment-avatar">RS</span>
-        <textarea id="newCommentInput" placeholder="Add a comment… type @ to mention a teammate."></textarea>
-        <button class="btn btn-primary" onclick="postNewComment()" style="align-self:flex-end; white-space:nowrap;">
-          <i data-lucide="send" class="lucide-sm"></i>
-          <span>Post</span>
-        </button>
-      </div>
-    `;
-  }
+    function switchCollabTab(tab) {
+      activeCollabTab = tab;
+      
+      // Update tab buttons
+      document.querySelectorAll('#collabDrawerOverlay .th-drawer-tab').forEach(btn => btn.classList.remove('active'));
+      const activeBtnId = tab === 'comments' ? 'collabTabBtnComments' : (tab === 'approvals' ? 'collabTabBtnApprovals' : 'collabTabBtnHistory');
+      const activeBtn = document.getElementById(activeBtnId);
+      if (activeBtn) activeBtn.classList.add('active');
 
-  function commentCardHTML(c) {
-    const replies = (c.replies || []).map(r => `
-      <div class="comment-item">
-        <span class="comment-avatar light">${r.initials}</span>
-        <div class="comment-body">
-          <div class="comment-head">
-            <span class="comment-author">${r.author}</span>
-            <span class="comment-role">${r.role}</span>
-            <span class="comment-time">${r.time}</span>
+      // Update drawer title & subtitle
+      const titleEl = document.getElementById('collabDrawerTitle');
+      const subEl = document.getElementById('collabDrawerSub');
+      if (tab === 'comments') {
+        if (titleEl) titleEl.textContent = 'Team Collaboration & Notes';
+        if (subEl) subEl.textContent = 'Discuss fund strategy and section revisions with GP & IR team.';
+      } else if (tab === 'approvals') {
+        if (titleEl) titleEl.textContent = 'LP Thesis Approvals';
+        if (subEl) subEl.textContent = 'Real-time sign-off status and feedback across all 18 limited partners.';
+      } else {
+        if (titleEl) titleEl.textContent = 'Thesis Version History';
+        if (subEl) subEl.textContent = 'Audit trail of published revisions, LP-approved baselines, and diffs.';
+      }
+
+      // Show surface-integrated composer only on comments tab
+      const composerWrap = document.getElementById('collabDrawerComposerWrap');
+      if (composerWrap) {
+        composerWrap.style.display = (tab === 'comments') ? 'flex' : 'none';
+      }
+
+      const body = document.getElementById('collabDrawerBody');
+      if (tab === 'comments') {
+        renderCommentsTab(body);
+      } else if (tab === 'approvals') {
+        renderApprovalsTab(body);
+      } else {
+        renderHistoryTab(body);
+      }
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // ── TAB 1: COMMENTS ──
+    function renderCommentsTab(body) {
+      document.getElementById('collabCommentsCount').textContent = `(${thesisComments.length})`;
+
+      body.innerHTML = `
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+          <div style="font-size:10.5px; color:#8C8C88; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;">
+            Team Threads · ${thesisComments.length}
           </div>
-          <div class="comment-text">${r.text}</div>
+          <span style="font-size:10.5px; color:#7A7A78;">${thesisComments.filter(c => !c.resolved).length} open</span>
         </div>
-      </div>
-    `).join('');
+        <div class="comment-list">
+          ${thesisComments.map(commentCardHTML).join('') || emptyComments('No comments yet — start the conversation below.')}
+        </div>
+      `;
+    }
 
-    return `
-      <div class="comment-item">
-        <span class="comment-avatar">${c.initials}</span>
-        <div class="comment-body">
-          <div class="comment-head">
-            <span class="comment-author">${c.author}</span>
-            <span class="comment-role">${c.role}</span>
-            <span class="comment-time">${c.time}</span>
-            ${c.resolved ? '<span class="comment-action resolved" style="cursor:default;"><i data-lucide="check-circle-2" style="width:12px; height:12px;"></i> Resolved</span>' : ''}
-          </div>
-          <div class="comment-text">${c.text}</div>
-          <div class="comment-actions">
-            <span class="pill pill-type" style="font-size:9.5px; text-transform:none;"># ${c.section}</span>
-            ${c.resolved
-              ? `<span class="comment-action resolved" style="cursor:default; margin-left:auto;">Resolved by ${c.resolvedBy || 'GP'}</span>`
-              : `<button class="comment-action" style="margin-left:auto;" onclick="resolveComment('${c.id}')"><i data-lucide="check-circle-2" style="width:12px; height:12px;"></i> Resolve</button>
-                 <button class="comment-action" onclick="openReplyBox('${c.id}')"><i data-lucide="corner-up-left" style="width:12px; height:12px;"></i> Reply</button>`}
-          </div>
-          ${(c.replies || []).length ? `
-            <div style="margin-top:8px;">
-              <button class="comment-action" onclick="toggleReplies('${c.id}')" style="font-size:10.5px; color:#6A6A68;">
-                <i data-lucide="${c.repliesShown ? 'chevron-up' : 'chevron-down'}" style="width:11px; height:11px;"></i>
-                <span>${c.replies.length} ${c.replies.length === 1 ? 'reply' : 'replies'}</span>
-              </button>
+    function commentCardHTML(c) {
+      const replies = (c.replies || []).map(r => `
+        <div style="display:flex; gap:10px; padding:8px 0; border-top:1px solid #EBEBEA;">
+          <span class="comment-avatar light" style="width:24px; height:24px; font-size:9.5px;">${r.initials}</span>
+          <div class="comment-body">
+            <div class="comment-head">
+              <span class="comment-author" style="font-size:11.5px;">${r.author}</span>
+              <span class="comment-role">${r.role}</span>
+              <span class="comment-time">${r.time}</span>
             </div>
-            <div class="comment-thread" id="thread_${c.id}" style="${c.repliesShown ? '' : 'display:none;'}">${replies}</div>
-          ` : ''}
+            <div class="comment-text" style="font-size:11.5px; margin-top:2px;">${r.text}</div>
+          </div>
         </div>
-      </div>
-    `;
-  }
+      `).join('');
 
-  function toggleReplies(id) {
-    const c = thesisComments.find(x => x.id === id);
-    if (!c) return;
-    c.repliesShown = !c.repliesShown;
-    renderCommentsTab(document.getElementById('collabDrawerBody'));
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-  }
+      return `
+        <div class="comment-item">
+          <span class="comment-avatar">${c.initials}</span>
+          <div class="comment-body">
+            <div class="comment-head">
+              <span class="comment-author">${c.author}</span>
+              <span class="comment-role">${c.role}</span>
+              <span class="comment-time">${c.time}</span>
+              ${c.resolved ? '<span class="comment-action resolved" style="cursor:default; margin-left:auto;"><i data-lucide="check-circle-2" style="width:12px; height:12px;"></i> Resolved</span>' : ''}
+            </div>
+            <div class="comment-text">${c.text}</div>
+            <div class="comment-actions">
+              <span class="pill pill-type" style="font-size:9.5px; text-transform:none;"># ${c.section}</span>
+              ${c.resolved
+                ? `<span class="comment-action resolved" style="cursor:default; margin-left:auto;">Resolved by ${c.resolvedBy || 'GP'}</span>`
+                : `<button class="comment-action" style="margin-left:auto;" onclick="resolveComment('${c.id}')"><i data-lucide="check-circle-2" style="width:12px; height:12px;"></i> Resolve</button>
+                   <button class="comment-action" onclick="openReplyBox('${c.id}')"><i data-lucide="corner-up-left" style="width:12px; height:12px;"></i> Reply</button>`}
+            </div>
+            ${(c.replies || []).length ? `
+              <div style="margin-top:6px;">
+                <button class="comment-action" onclick="toggleReplies('${c.id}')" style="font-size:10.5px; color:#6A6A68;">
+                  <i data-lucide="${c.repliesShown ? 'chevron-up' : 'chevron-down'}" style="width:11px; height:11px;"></i>
+                  <span>${c.replies.length} ${c.replies.length === 1 ? 'reply' : 'replies'}</span>
+                </button>
+              </div>
+              <div class="comment-thread" id="thread_${c.id}" style="${c.repliesShown ? '' : 'display:none;'}">${replies}</div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
 
-  function emptyComments(msg) {
-    return `
-      <div class="version-empty" style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:8px; padding:26px 16px;">
-        <i data-lucide="message-circle" style="width:18px; height:18px; color:#B0B0AE; margin-bottom:4px;"></i>
-        <div style="font-size:11.5px; color:#8C8C88;">${msg}</div>
-      </div>
-    `;
-  }
-
-  function resolveComment(id) {
-    const c = thesisComments.find(x => x.id === id);
-    if (c) { c.resolved = true; c.resolvedBy = 'Rahul Sharma'; }
-    renderCommentsTab(document.getElementById('collabDrawerBody'));
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-    showToast('Comment marked as resolved.');
-  }
-
-  function openReplyBox(id) {
-    const c = thesisComments.find(x => x.id === id);
-    if (!c) return;
-    if (!c.replies) c.replies = [];
-    c.repliesShown = true;
-    const replyText = prompt(`Reply to ${c.author}:`);
-    if (replyText && replyText.trim()) {
-      c.replies.push({ author: 'Rahul Sharma', role: 'General Partner', initials: 'RS', time: 'Just now', text: replyText.trim() });
+    function toggleReplies(id) {
+      const c = thesisComments.find(x => x.id === id);
+      if (!c) return;
+      c.repliesShown = !c.repliesShown;
       renderCommentsTab(document.getElementById('collabDrawerBody'));
       if (typeof lucide !== 'undefined') lucide.createIcons();
-      showToast('Reply posted.');
     }
-  }
 
-  function postNewComment() {
-    const input = document.getElementById('newCommentInput');
-    const text = input && input.value.trim();
-    if (!text) {
-      showToast('Write a comment before posting.', 'alert-circle');
-      return;
+    function emptyComments(msg) {
+      return `
+        <div class="version-empty" style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:8px; padding:26px 16px;">
+          <i data-lucide="message-circle" style="width:18px; height:18px; color:#B0B0AE; margin-bottom:4px;"></i>
+          <div style="font-size:11.5px; color:#8C8C88;">${msg}</div>
+        </div>
+      `;
     }
-    thesisComments.unshift({
-      id: 'c' + Date.now(), author: 'Rahul Sharma', role: 'General Partner', initials: 'RS',
-      time: 'Just now', text: text, section: 'General', resolved: false, replies: []
-    });
-    renderCommentsTab(document.getElementById('collabDrawerBody'));
-    document.getElementById('collabCommentsCount').textContent = `(${thesisComments.length})`;
-    document.getElementById('btnToggleMode')?.setAttribute('data-new-comment', '1');
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-    showToast('Comment posted.');
-  }
 
-  function renderHistoryTab(body) {
-    const currentV = thesisVersions.find(v => v.current);
-    body.innerHTML = `
+    function resolveComment(id) {
+      const c = thesisComments.find(x => x.id === id);
+      if (c) { c.resolved = true; c.resolvedBy = 'Rahul Sharma'; }
+      renderCommentsTab(document.getElementById('collabDrawerBody'));
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      showToast('Comment marked as resolved.');
+    }
+
+    function openReplyBox(id) {
+      const c = thesisComments.find(x => x.id === id);
+      if (!c) return;
+      if (!c.replies) c.replies = [];
+      c.repliesShown = true;
+      const replyText = prompt(`Reply to ${c.author}:`);
+      if (replyText && replyText.trim()) {
+        c.replies.push({ author: 'Rahul Sharma', role: 'General Partner', initials: 'RS', time: 'Just now', text: replyText.trim() });
+        renderCommentsTab(document.getElementById('collabDrawerBody'));
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        showToast('Reply posted.');
+      }
+    }
+
+    function handleCommentKey(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+        e.preventDefault();
+        postNewComment();
+      }
+    }
+
+    function postNewComment() {
+      const input = document.getElementById('newCommentInput');
+      const text = input && input.value.trim();
+      if (!text) {
+        showToast('Please type a comment before posting.', 'alert-circle');
+        return;
+      }
+      thesisComments.unshift({
+        id: 'c' + Date.now(), author: 'Rahul Sharma', role: 'General Partner', initials: 'RS',
+        time: 'Just now', text: text, section: 'General', resolved: false, replies: []
+      });
+      input.value = '';
+      renderCommentsTab(document.getElementById('collabDrawerBody'));
+      document.getElementById('collabCommentsCount').textContent = `(${thesisComments.length})`;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      showToast('Comment posted successfully.');
+    }
+
+    // ── TAB 2: THESIS APPROVALS (SMART LP REGISTRY & STATUS TRACKER) ──
+    function renderApprovalsTab(body) {
+      const totalCount = thesisLPs.length;
+      const approvedLPs = thesisLPs.filter(lp => lp.approvalStatus === 'Approved');
+      const deniedLPs = thesisLPs.filter(lp => lp.approvalStatus === 'Denied');
+      const pendingLPs = thesisLPs.filter(lp => lp.approvalStatus === 'Pending');
+
+      const approvedComm = approvedLPs.reduce((acc, lp) => acc + lp.comm, 0);
+      const deniedComm = deniedLPs.reduce((acc, lp) => acc + lp.comm, 0);
+      const pendingComm = pendingLPs.reduce((acc, lp) => acc + lp.comm, 0);
+      const totalComm = 20.00; // Fund I target corpus
+      const approvedPct = ((approvedComm / totalComm) * 100).toFixed(1);
+
+      document.getElementById('collabApprovalsCount').textContent = `(${totalCount})`;
+      const badge = document.getElementById('headerApprovalsBadge');
+      if (badge) badge.textContent = `${approvedLPs.length}/${totalCount}`;
+
+      body.innerHTML = `
+        <!-- KPI METRICS SUMMARY STRIP -->
+        <div class="approval-stat-strip">
+          <div class="approval-stat-card">
+            <div class="approval-stat-label">Approved</div>
+            <div class="approval-stat-val" style="color:#1A1A18;">${approvedLPs.length} LPs</div>
+            <div class="approval-stat-sub">₹${approvedComm.toFixed(2)} Cr committed</div>
+          </div>
+          <div class="approval-stat-card">
+            <div class="approval-stat-label">Denied / Changes</div>
+            <div class="approval-stat-val" style="color:#DC2626;">${deniedLPs.length} LPs</div>
+            <div class="approval-stat-sub">₹${deniedComm.toFixed(2)} Cr requested edit</div>
+          </div>
+          <div class="approval-stat-card">
+            <div class="approval-stat-label">Pending Review</div>
+            <div class="approval-stat-val" style="color:#8C8C88;">${pendingLPs.length} LPs</div>
+            <div class="approval-stat-sub">₹${pendingComm.toFixed(2)} Cr awaiting signoff</div>
+          </div>
+        </div>
+
+        <!-- PROGRESS BAR -->
+        <div class="approval-progress-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:11.5px; margin-bottom:6px;">
+            <strong style="color:#1A1A18;">Fund I Corpus Approval Progress</strong>
+            <span style="font-weight:700; color:#1A1A18;">${approvedPct}% (₹${approvedComm.toFixed(2)} / ₹${totalComm.toFixed(2)} Cr)</span>
+          </div>
+          <div style="height:7px; background:#F0F0EE; border-radius:4px; overflow:hidden; display:flex;">
+            <div style="width:${approvedPct}%; background:#1A1A18; transition:width 0.3s ease;"></div>
+            <div style="width:${((deniedComm / totalComm) * 100).toFixed(1)}%; background:#FECACA;"></div>
+          </div>
+        </div>
+
+        <!-- FILTER & SEARCH BAR (MATCHING SCREENSHOT TOP ROW) -->
+        <div class="lp-filter-row">
+          <input type="search" id="approvalSearchInput" placeholder="Search name, type or PAN…" oninput="filterApprovals()" />
+          <select id="approvalStatusFilter" onchange="filterApprovals()">
+            <option value="all">All Statuses (${totalCount})</option>
+            <option value="Approved">Approved (${approvedLPs.length})</option>
+            <option value="Denied">Denied (${deniedLPs.length})</option>
+            <option value="Pending">Pending (${pendingLPs.length})</option>
+          </select>
+          <select id="approvalTypeFilter" onchange="filterApprovals()">
+            <option value="all">All Types</option>
+            <option value="Family Office">Family Office</option>
+            <option value="Institutional">Institutional</option>
+            <option value="Trust">Trust</option>
+            <option value="Individual">Individual</option>
+            <option value="Corporate">Corporate</option>
+            <option value="NRI">NRI</option>
+            <option value="FPI">FPI</option>
+          </select>
+        </div>
+
+        <!-- LP LIST CONTAINER -->
+        <div id="approvalsListContainer" style="display:flex; flex-direction:column; gap:8px;"></div>
+      `;
+
+      filterApprovals();
+    }
+
+    function filterApprovals() {
+      const listContainer = document.getElementById('approvalsListContainer');
+      if (!listContainer) return;
+
+      const q = (document.getElementById('approvalSearchInput')?.value || '').toLowerCase().trim();
+      const statusFilter = document.getElementById('approvalStatusFilter')?.value || 'all';
+      const typeFilter = document.getElementById('approvalTypeFilter')?.value || 'all';
+
+      const filtered = thesisLPs.filter(lp => {
+        const matchQ = !q || lp.name.toLowerCase().includes(q) || lp.type.toLowerCase().includes(q) || lp.pan.toLowerCase().includes(q) || (lp.notes && lp.notes.toLowerCase().includes(q));
+        const matchStatus = statusFilter === 'all' || lp.approvalStatus === statusFilter;
+        const matchType = typeFilter === 'all' || lp.type === typeFilter;
+        return matchQ && matchStatus && matchType;
+      });
+
+      if (!filtered.length) {
+        listContainer.innerHTML = `
+          <div style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:32px 16px; text-align:center; color:#8C8C88;">
+            <i data-lucide="search" style="width:20px; height:20px; color:#B0B0AE; margin-bottom:6px;"></i>
+            <div style="font-size:12.5px; font-weight:700; color:#1A1A18;">No matching LP approval records</div>
+            <p style="font-size:11px; margin-top:2px;">Try adjusting your search query or status filter.</p>
+          </div>
+        `;
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        return;
+      }
+
+      listContainer.innerHTML = filtered.map(lp => {
+        let pillClass = lp.approvalStatus === 'Approved' ? 'pill-verified' : (lp.approvalStatus === 'Denied' ? 'pill-denied' : 'pill-pending');
+        let pillText = lp.approvalStatus === 'Approved' ? 'APPROVED' : (lp.approvalStatus === 'Denied' ? 'DENIED' : 'PENDING');
+
+        return `
+          <div class="lp-share-card" style="cursor:default;">
+            <span class="lp-share-avatar">${initialsOf(lp.name)}</span>
+            <div class="lp-share-meta">
+              <div class="lp-share-name">${lp.name}</div>
+              <div class="lp-share-sub">${lp.type} · Commitment <strong>₹${lp.comm.toFixed(2)} Cr</strong> · <span style="font-family:var(--font-mono); font-size:10.5px;">${lp.pan}</span></div>
+            </div>
+            <span class="pill ${pillClass}">${pillText}</span>
+          </div>
+        `;
+      }).join('');
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // ── TAB 3: VERSION HISTORY ──
+    function renderHistoryTab(body) {
+      const currentV = thesisVersions.find(v => v.current);
+      body.innerHTML = `
       <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:8px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between;">
         <div>
           <div style="font-size:10.5px; color:#8C8C88; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;">Currently Published</div>
@@ -1604,8 +1798,8 @@
             <div class="version-changes">${v.changes.map(ch => `<span class="version-change">${ch}</span>`).join('')}</div>
             <div class="version-actions">
               ${v.current
-                ? `<button class="btn btn-outline btn-sm" onclick="viewVersion('${v.v}')"><i data-lucide="eye" class="lucide-sm"></i> View</button>`
-                : `<button class="btn btn-outline btn-sm" onclick="viewVersion('${v.v}')"><i data-lucide="eye" class="lucide-sm"></i> View</button>
+          ? `<button class="btn btn-outline btn-sm" onclick="viewVersion('${v.v}')"><i data-lucide="eye" class="lucide-sm"></i> View</button>`
+          : `<button class="btn btn-outline btn-sm" onclick="viewVersion('${v.v}')"><i data-lucide="eye" class="lucide-sm"></i> View</button>
                    <button class="btn btn-outline btn-sm" onclick="showToast('Comparing ${v.v} against ${currentV.v}…')"><i data-lucide="git-compare" class="lucide-sm"></i> Compare</button>
                    <button class="btn btn-outline btn-sm" onclick="showToast('${v.v} set as working copy.')"><i data-lucide="rotate-ccw" class="lucide-sm"></i> Restore</button>`}
             </div>
@@ -1618,12 +1812,14 @@
         Every saved change is versioned. Compare shows a side-by-side diff against the current published version.
       </div>
     `;
-  }
+    }
 
-  function viewVersion(v) {
-    switchCollabTab('comments');
-    showToast(`Viewing ${v} content snapshot.`);
-  }
-</script>
-</body>
-</html>
+    function viewVersion(v) {
+      switchCollabTab('comments');
+      showToast(`Viewing ${v} content snapshot.`);
+    }
+  </script>
+
+
+
+</body></html>

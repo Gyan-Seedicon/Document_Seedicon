@@ -6,6 +6,280 @@
   <title>My Teams — Seedicon Investor Platform</title>
   <link rel="stylesheet" href="./css/styles.css">
   <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ---- Manage Roles Right-Slide Drawer ---- */
+    .roles-drawer-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(18, 18, 18, 0.45);
+      backdrop-filter: blur(3px);
+      z-index: 1200;
+      display: flex;
+      justify-content: flex-end;
+      animation: fadeInOverlay 0.15s ease-out;
+    }
+    .roles-drawer {
+      width: 100%;
+      max-width: 520px;
+      height: 100vh;
+      max-height: 100vh;
+      background: #FAFAF8;
+      box-shadow: -10px 0 40px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: slideInRight 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+    .roles-drawer-header {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FFFFFF;
+      flex-shrink: 0;
+    }
+    .roles-drawer-title { font-size: 15px; font-weight: 800; color: #1A1A18; letter-spacing: -0.02em; }
+    .roles-drawer-sub { font-size: 11.5px; color: #8C8C88; margin-top: 2px; }
+    .roles-drawer-close {
+      border: none; background: transparent; cursor: pointer; color: #7A7A78; padding: 5px; border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      transition: background 0.1s;
+    }
+    .roles-drawer-close:hover { background: #EFEFEA; color: #1A1A18; }
+
+    /* Clean Role Dropdown Selector Bar */
+    .drawer-role-select-wrap {
+      padding: 12px 22px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-main);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .drawer-select-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #8C8C86;
+    }
+    .drawer-select-box-wrap {
+      position: relative;
+      width: 100%;
+    }
+    .drawer-role-select {
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+      padding: 9px 36px 9px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #1A1A18;
+      background: #F6F6F3;
+      border: 1px solid #DCDCD6;
+      border-radius: 7px;
+      outline: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.12s ease;
+    }
+    .drawer-role-select:hover {
+      background: #EFEFEA;
+      border-color: #A0A09A;
+    }
+    .drawer-role-select:focus {
+      background: #FFFFFF;
+      border-color: #1A1A18;
+      box-shadow: 0 0 0 2px rgba(26, 26, 24, 0.08);
+    }
+    .drawer-select-chevron {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      width: 15px;
+      height: 15px;
+      color: #6A6A64;
+    }
+
+    /* Sub Control Banner */
+    .drawer-sub-bar {
+      padding: 9px 22px;
+      background: #F4F4F0;
+      border-bottom: 1px solid var(--border-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .drawer-sub-left {
+      font-size: 11.5px;
+      color: #555550;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .drawer-sub-badge {
+      background: #FFFFFF;
+      border: 1px solid #DCDCD4;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #1A1A18;
+    }
+    .drawer-quick-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .drawer-text-btn {
+      background: none;
+      border: none;
+      font-size: 11px;
+      font-weight: 600;
+      color: #666660;
+      cursor: pointer;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: color 0.1s;
+    }
+    .drawer-text-btn:hover {
+      color: #1A1A18;
+      text-decoration: underline;
+    }
+
+    /* Scrollable Drawer Body */
+    .roles-drawer-body {
+      flex: 1 1 0%;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 14px 22px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Clean Category Card Groups */
+    .drawer-cat-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .drawer-cat-header {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #8C8C86;
+      padding: 0 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .drawer-cat-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E2DC;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    .drawer-perm-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-bottom: 1px solid #F0F0EB;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.1s ease;
+    }
+    .drawer-perm-item:last-child {
+      border-bottom: none;
+    }
+    .drawer-perm-item:hover {
+      background: #F8F8F5;
+    }
+    .drawer-perm-item.active {
+      background: #FFFFFF;
+    }
+    .drawer-perm-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .drawer-perm-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      background: #F4F4F0;
+      color: #4A4A44;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.12s ease;
+    }
+    .drawer-perm-item.active .drawer-perm-icon {
+      background: #EFEFEA;
+      color: #1A1A18;
+    }
+    .drawer-perm-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #1A1A18;
+    }
+
+    /* Modern Pill Toggle Switch */
+    .perm-toggle-switch {
+      position: relative;
+      width: 32px;
+      height: 18px;
+      background: #E4E4DF;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .perm-toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 14px;
+      height: 14px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.22);
+      transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .perm-toggle-switch.active {
+      background: #1A1A18;
+    }
+    .perm-toggle-switch.active::after {
+      transform: translateX(14px);
+    }
+
+    /* Fixed Drawer Footer */
+    .roles-drawer-footer {
+      padding: 13px 22px;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+  </style>
 </head>
 <body>
 <div class="app-container">
@@ -22,16 +296,16 @@
         <!-- Page Header Container -->
         <div class="page-header-container">
           <div class="page-header-top-row">
-            <div class="header-titles">
+            <div class="header-titles" style="min-width:0; flex:1;">
               <div style="display:flex; align-items:center; gap:8px;">
                 <h1 class="page-title">My Teams</h1>
                 <span class="badge-pill neutral-soft" id="teamCountHeaderBadge">(8 Members)</span>
               </div>
-              <p class="page-subtitle">Seedicon Venture Fund I (₹20 Cr) — Manage workspace members, roles &amp; permissions, invite collaborators, and track team activity across the fund ecosystem.</p>
+              <p class="page-subtitle" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;">Seedicon Venture Fund I (₹20 Cr) — Manage workspace members, roles &amp; permissions, invite collaborators, and track team activity across the fund ecosystem.</p>
             </div>
 
-            <div class="header-action-group">
-              <button class="btn btn-outline" onclick="openRolesModal()" title="View role & permission matrix">
+            <div class="header-action-group" style="flex-shrink:0;">
+              <button class="btn btn-outline" onclick="openRolesDrawer()" title="Configure role & permission access">
                 <i data-lucide="shield-check" class="lucide-sm"></i>
                 <span>Manage Roles</span>
               </button>
@@ -49,54 +323,13 @@
         <!-- POPULATED WORKSPACE CONTAINER -->
         <div id="filledWorkspaceContainer">
 
-          <!-- 01. TOP SUMMARY METRIC CARDS -->
-          <div class="stats-grid" id="teamStatsGrid">
-            <div class="stat-card">
-              <div class="stat-card-header">
-                <span class="stat-card-label">Total Members</span>
-                <span class="stat-card-icon"><i data-lucide="users" style="width:12px; height:12px;"></i></span>
-              </div>
-              <div class="stat-card-value" id="statMembers">8</div>
-              <div class="stat-card-sub" id="statMembersSub">5 Active · 2 Pending · 1 Revoked</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-card-header">
-                <span class="stat-card-label">Pending Invites</span>
-                <span class="stat-card-icon"><i data-lucide="mail" style="width:12px; height:12px;"></i></span>
-              </div>
-              <div class="stat-card-value" id="statPending">2</div>
-              <div class="stat-card-sub">Awaiting acceptance</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-card-header">
-                <span class="stat-card-label">Roles Defined</span>
-                <span class="stat-card-icon"><i data-lucide="shield-check" style="width:12px; height:12px;"></i></span>
-              </div>
-              <div class="stat-card-value" id="statRoles">6</div>
-              <div class="stat-card-sub">Admin · Partner · Analyst · Finance · Investor · Viewer</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-card-header">
-                <span class="stat-card-label">Last Activity</span>
-                <span class="stat-card-icon"><i data-lucide="activity" style="width:12px; height:12px;"></i></span>
-              </div>
-              <div class="stat-card-value" id="statLastActivity">Aug 16</div>
-              <div class="stat-card-sub" id="statLastActivitySub">Invite sent to Marcus Reed</div>
-            </div>
-          </div>
-
-          <!-- 02. UNDERLINE STYLE PAGE TABS -->
+          <!-- 02. UNDERLINE STYLE PAGE TABS (TEXT ONLY, NO ICONS) -->
           <div class="cc-tabs" role="tablist">
             <button class="cc-tab active" id="tabNavTeam" onclick="switchPageTab('team')">
-              <i data-lucide="users" class="lucide-sm"></i>
               <span>Team</span>
               <span class="cc-tab-count">(<span id="tabCountTeam">8</span>)</span>
             </button>
             <button class="cc-tab" id="tabNavUpdates" onclick="switchPageTab('updates')">
-              <i data-lucide="activity" class="lucide-sm"></i>
               <span>Updates</span>
               <span class="cc-tab-count">(<span id="tabCountUpdates">12</span>)</span>
             </button>
@@ -117,12 +350,12 @@
                   <span>Role:</span>
                   <select id="filterRole" onchange="renderTeam()" style="border:1px solid #E0E0DE; border-radius:5px; padding:3px 8px; font-size:11px; font-family:Inter,sans-serif; background:#FAFAFA; color:#1A1A18; outline:none;">
                     <option value="all">All Roles</option>
-                    <option value="admin">Admin</option>
-                    <option value="partner">Partner</option>
+                    <option value="fund_manager">Fund Manager</option>
+                    <option value="investment_lead">Investment Lead</option>
                     <option value="analyst">Analyst</option>
-                    <option value="finance">Finance</option>
-                    <option value="investor">Investor</option>
-                    <option value="viewer">Viewer</option>
+                    <option value="finance_ops">Finance &amp; Fund Operations</option>
+                    <option value="portfolio_manager">Portfolio Manager</option>
+                    <option value="admin">Admin</option>
                   </select>
                 </div>
                 <div style="display:flex; align-items:center; gap:5px; font-size:11px; color:#7A7A78;">
@@ -227,30 +460,71 @@
   let isStateEmpty = false;
 
   const ROLE_DEFS = {
-    admin:    { label: 'Admin',    cls: 'admin',    scope: 'Full workspace, funds & settings access', perms: ['Workspace settings', 'Fund management', 'Manage members & roles', 'Approve capital calls & exits', 'Full deal & portfolio access', 'Full LP & reporting access'] },
-    partner:  { label: 'Partner',  cls: 'partner',  scope: 'Deal sourcing, IC decisions & thesis',    perms: ['Deal sourcing & CRM', 'Approve IC decisions', 'Edit investment thesis', 'VDR & DD review', 'Founder reporting', 'Invite members'] },
-    analyst:  { label: 'Analyst',  cls: 'analyst',  scope: 'Sourcing, pipeline, VDR & reports',       perms: ['Deal sourcing & CRM', 'Pipeline management', 'VDR & DD review', 'Startup pool management', 'Founder reports'] },
-    finance:  { label: 'Finance',  cls: 'finance',  scope: 'Capital calls, distributions & LP ledger', perms: ['Capital calls', 'Distributions', 'LP commitments & ledger', 'KYC & compliance', 'Export registers'] },
-    investor: { label: 'Investor', cls: 'investor', scope: 'Portfolio & LP reporting (read access)',   perms: ['Portfolio read-only', 'LP reporting', 'Distribution statements', 'NAV & valuation views'] },
-    viewer:   { label: 'Viewer',   cls: 'viewer',   scope: 'Read-only across all modules',            perms: ['Read-only all modules', 'View reports & documents', 'Download documents'] }
+    fund_manager:      { label: 'Fund Manager',              cls: 'partner',  scope: 'Full fund oversight & thesis execution', perms: ['Dashboard & Thesis', 'Pipeline & IC Approvals', 'Portfolio Oversight', 'LP Management', 'All Reports'] },
+    investment_lead:   { label: 'Investment Lead',           cls: 'partner',  scope: 'Deal sourcing, CRM & IC pipeline',       perms: ['Startups Pool', 'Deal CRM', 'VDR & DD Review', 'DD Partners', 'Term Sheets'] },
+    analyst:           { label: 'Analyst',                   cls: 'analyst',  scope: 'Research, deal vetting, VDR & reporting',perms: ['Startups Pools', 'Deal CRM (View/Edit)', 'VDR Review', 'Founder Reports MIS'] },
+    finance_ops:       { label: 'Finance & Fund Operations', cls: 'finance',  scope: 'Capital calls, distributions & LP ledger',perms: ['Capital Calls', 'Distribution Calls', 'LP Register & Commitments', 'Bank Allocations'] },
+    portfolio_manager: { label: 'Portfolio Manager',         cls: 'investor', scope: 'Portfolio metrics, founders & LP updates',perms: ['Portfolio Management', 'Founder Reporting MIS', 'Cap Tables', 'LP Updates'] },
+    admin:             { label: 'Admin',                     cls: 'admin',    scope: 'Full workspace & team administration',   perms: ['All Modules Access', 'Manage Members & Roles', 'Workspace Settings', 'Full Fund Controls'] }
   };
 
+  const MAIN_SIDEBAR_MODULES = [
+    {
+      section: 'Fund Overview',
+      items: [
+        { id: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard', desc: 'Fund performance overview, metrics & pipeline summary' },
+        { id: 'thesis', label: 'Investment Thesis', icon: 'file-text', desc: 'Core fund strategy, sector focus & stage criteria' }
+      ]
+    },
+    {
+      section: 'Deal Flow',
+      items: [
+        { id: 'startups_pool', label: 'Startups Pools', icon: 'inbox', desc: 'Inbound startup pool submissions & intake screening' },
+        { id: 'deal_crm', label: 'Potential Startups (Deal CRM)', icon: 'kanban', desc: 'Active pipeline stages, IC memos & deal stages' },
+        { id: 'vdr', label: 'VDR (Data Room)', icon: 'folder-lock', desc: 'Virtual data room folders, diligence files & sharing' },
+        { id: 'dd_partners', label: 'DD Partners', icon: 'file-search', desc: 'Due diligence partner registry, reports & agreements' }
+      ]
+    },
+    {
+      section: 'Portfolio & Capital',
+      items: [
+        { id: 'portfolio', label: 'Portfolio Management', icon: 'trending-up', desc: 'Portfolio companies, cap tables & investment records' },
+        { id: 'capital_calls', label: 'Capital Call', icon: 'coins', desc: 'Drawdown notices, tracking & banking allocations' },
+        { id: 'distribution_calls', label: 'Distribution Calls', icon: 'arrow-up-right', desc: 'Fund returns, payouts & investor disbursements' },
+        { id: 'lps_management', label: 'LPs Management', icon: 'users', desc: 'Limited partners register, commitments & POCs' }
+      ]
+    },
+    {
+      section: 'Reporting',
+      items: [
+        { id: 'founder_reports', label: 'Founders Reporting', icon: 'clipboard-check', desc: 'Monthly/quarterly founder MIS & KPI submissions' },
+        { id: 'lp_reporting', label: 'LP Reporting', icon: 'file-bar-chart', desc: 'LP quarterly statements, audit notes & performance packs' }
+      ]
+    },
+    {
+      section: 'Workspace',
+      items: [
+        { id: 'my_team', label: 'My Teams', icon: 'user-plus', desc: 'Workspace member administration & role access' }
+      ]
+    }
+  ];
+
   const INITIAL_MEMBERS = [
-    { id: 'm1', name: 'Aarav Mehta',      email: 'aarav.mehta@seedicon.app',      role: 'admin',    title: 'General Partner',          status: 'Active',  joined: 'Jan 2026' },
-    { id: 'm2', name: 'Priya Nair',       email: 'priya.nair@seedicon.app',       role: 'partner',  title: 'Investment Director',     status: 'Active',  joined: 'Jan 2026' },
-    { id: 'm3', name: 'Rohan Kapoor',     email: 'rohan.kapoor@seedicon.app',     role: 'analyst',  title: 'Deal Sourcing Lead',       status: 'Active',  joined: 'Feb 2026' },
-    { id: 'm4', name: 'Sneha Iyer',       email: 'sneha.iyer@seedicon.app',       role: 'finance',  title: 'Fund Administrator',      status: 'Active',  joined: 'Mar 2026' },
-    { id: 'm5', name: 'Daniel Chen',      email: 'daniel.chen@seedicon.app',      role: 'investor', title: 'LP Relations',            status: 'Active',  joined: 'Apr 2026' },
-    { id: 'm6', name: 'Ishita Verma',     email: 'ishita.verma@seedicon.app',     role: 'analyst',  title: 'Associate',               status: 'Pending', inviteSent: 'Aug 14, 2026' },
-    { id: 'm7', name: 'Marcus Reed',      email: 'marcus.reed@seedicon.app',      role: 'viewer',   title: 'External Observer',        status: 'Pending', inviteSent: 'Aug 16, 2026' },
-    { id: 'm8', name: 'Vikram Rao',       email: 'vikram.rao@seedicon.app',       role: 'analyst',  title: 'Contractor (Offboarded)', status: 'Revoked', revokedOn: 'Jul 28, 2026', reason: 'End of contract — access no longer required.' }
+    { id: 'm1', name: 'Aarav Mehta',      email: 'aarav.mehta@seedicon.app',      role: 'admin',             title: 'General Partner',          status: 'Active',  joined: 'Jan 2026' },
+    { id: 'm2', name: 'Priya Nair',       email: 'priya.nair@seedicon.app',       role: 'fund_manager',      title: 'Fund Manager',             status: 'Active',  joined: 'Jan 2026' },
+    { id: 'm3', name: 'Rohan Kapoor',     email: 'rohan.kapoor@seedicon.app',     role: 'investment_lead',   title: 'Investment Lead',          status: 'Active',  joined: 'Feb 2026' },
+    { id: 'm4', name: 'Sneha Iyer',       email: 'sneha.iyer@seedicon.app',       role: 'finance_ops',       title: 'Head of Finance & Ops',    status: 'Active',  joined: 'Mar 2026' },
+    { id: 'm5', name: 'Daniel Chen',      email: 'daniel.chen@seedicon.app',      role: 'portfolio_manager', title: 'Portfolio Manager',        status: 'Active',  joined: 'Apr 2026' },
+    { id: 'm6', name: 'Ishita Verma',     email: 'ishita.verma@seedicon.app',     role: 'analyst',           title: 'Investment Analyst',       status: 'Pending', inviteSent: 'Aug 14, 2026' },
+    { id: 'm7', name: 'Marcus Reed',      email: 'marcus.reed@seedicon.app',      role: 'analyst',           title: 'Research Associate',       status: 'Pending', inviteSent: 'Aug 16, 2026' },
+    { id: 'm8', name: 'Vikram Rao',       email: 'vikram.rao@seedicon.app',       role: 'analyst',           title: 'Contractor (Offboarded)',  status: 'Revoked', revokedOn: 'Jul 28, 2026', reason: 'End of contract — access no longer required.' }
   ];
 
   let membersStore = JSON.parse(JSON.stringify(INITIAL_MEMBERS));
 
   const INITIAL_UPDATES = [
-    { id: 'u1',  date: 'Aug 16', type: 'member',     actor: 'Aarav Mehta', icon: 'user-plus',     text: 'Invited <b>Marcus Reed</b> as <b>Viewer</b> — email invitation sent' },
-    { id: 'u2',  date: 'Aug 15', type: 'permission', actor: 'Priya Nair',  icon: 'shield-check',  text: 'Changed <b>Rohan Kapoor</b> role to <b>Analyst</b>' },
+    { id: 'u1',  date: 'Aug 16', type: 'member',     actor: 'Aarav Mehta', icon: 'user-plus',     text: 'Invited <b>Marcus Reed</b> as <b>Analyst</b> — email invitation sent' },
+    { id: 'u2',  date: 'Aug 15', type: 'permission', actor: 'Priya Nair',  icon: 'shield-check',  text: 'Changed <b>Rohan Kapoor</b> role to <b>Investment Lead</b>' },
     { id: 'u3',  date: 'Aug 14', type: 'capital',    actor: 'Sneha Iyer',  icon: 'coins',         text: 'Created <b>Capital Call CC-003</b> for <b>₹1.20 Cr</b>' },
     { id: 'u4',  date: 'Aug 13', type: 'member',     actor: 'Ishita Verma', icon: 'user-check',    text: 'Accepted invite and <b>joined the workspace</b>' },
     { id: 'u5',  date: 'Aug 12', type: 'deal',       actor: 'Rohan Kapoor', icon: 'kanban',        text: 'Moved <b>FinFlow Tech</b> to <b>Due Diligence</b> stage' },
@@ -266,13 +540,20 @@
   let updatesStore = JSON.parse(JSON.stringify(INITIAL_UPDATES));
   let activeUpdateFilter = 'all';
 
+  let pendingInvite = {
+    email: '',
+    role: 'fund_manager',
+    message: '',
+    modules: {}
+  };
+
   /* ── HELPERS ── */
   function initials(name) {
     return name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
   }
 
   function rolePill(role) {
-    const def = ROLE_DEFS[role] || ROLE_DEFS.viewer;
+    const def = ROLE_DEFS[role] || ROLE_DEFS.analyst;
     return `<span class="role-pill ${def.cls}">${def.label}</span>`;
   }
 
@@ -339,22 +620,20 @@
     const statusFilter = document.getElementById('filterStatus')?.value || 'all';
 
     const filtered = membersStore.filter(m => {
-      const mSearch = !q || m.name.toLowerCase().includes(q) || m.email.toLowerCase().includes(q) || ROLE_DEFS[m.role].label.toLowerCase().includes(q);
+      const roleDef = ROLE_DEFS[m.role] || { label: m.role };
+      const mSearch = !q || m.name.toLowerCase().includes(q) || m.email.toLowerCase().includes(q) || roleDef.label.toLowerCase().includes(q);
       const mRole = roleFilter === 'all' || m.role === roleFilter;
       const mStatus = statusFilter === 'all' || m.status === statusFilter;
       return mSearch && mRole && mStatus;
     });
 
-    // Update stats
-    const active = membersStore.filter(m => m.status === 'Active').length;
-    const pending = membersStore.filter(m => m.status === 'Pending').length;
-    const revoked = membersStore.filter(m => m.status === 'Revoked').length;
-    document.getElementById('teamCountHeaderBadge').textContent = `(${membersStore.length} Members)`;
-    document.getElementById('statMembers').textContent = membersStore.length;
-    document.getElementById('statMembersSub').textContent = `${active} Active · ${pending} Pending · ${revoked} Revoked`;
-    document.getElementById('statPending').textContent = pending;
-    document.getElementById('tabCountTeam').textContent = membersStore.length;
-    document.getElementById('tabCountUpdates').textContent = updatesStore.length;
+    // Update stats and counts
+    const badge = document.getElementById('teamCountHeaderBadge');
+    if (badge) badge.textContent = `(${membersStore.length} Members)`;
+    const tabTeam = document.getElementById('tabCountTeam');
+    if (tabTeam) tabTeam.textContent = membersStore.length;
+    const tabUpdates = document.getElementById('tabCountUpdates');
+    if (tabUpdates) tabUpdates.textContent = updatesStore.length;
 
     if (!filtered.length) {
       container.innerHTML = `
@@ -486,9 +765,11 @@
     renderUpdates(key);
   }
 
-  /* ── INVITE MEMBER MODAL ── */
+  /* ── SIMPLE INVITE MEMBER MODAL (SINGLE STEP) ── */
   function openInviteModal() {
-    const roleOptions = Object.keys(ROLE_DEFS).map(r => `<option value="${r}" ${r === 'analyst' ? 'selected' : ''}>${ROLE_DEFS[r].label} — ${ROLE_DEFS[r].scope}</option>`).join('');
+    const roleOptions = Object.keys(ROLE_DEFS).map(r => `
+      <option value="${r}" ${r === 'analyst' ? 'selected' : ''}>${ROLE_DEFS[r].label}</option>
+    `).join('');
 
     openModal('Invite Team Member', `
       <div style="display:flex; flex-direction:column; gap:14px;">
@@ -504,78 +785,39 @@
         </div>
 
         <div>
-          <label class="form-label">ROLE / PERMISSION</label>
-          <select id="inviteRole" class="form-input" onchange="updateRolePreview()" style="padding:9px 11px;">
+          <label class="form-label">ROLE</label>
+          <select id="inviteRole" class="form-input" style="padding:9px 11px;">
             ${roleOptions}
           </select>
-          <div class="form-hint">Defines what this member can view and do across the workspace.</div>
-        </div>
-
-        <div>
-          <label class="form-label">FUND ACCESS</label>
-          <select id="inviteFund" class="form-input" style="padding:9px 11px;">
-            <option>All Funds (Current &amp; Future)</option>
-            <option selected>Seedicon Fund I (₹20 Cr) only</option>
-            <option>No fund data — workspace only</option>
-          </select>
+          <div class="form-hint">Primary team functional classification. Permissions can be configured in Manage Roles.</div>
         </div>
 
         <div>
           <label class="form-label">INVITATION MESSAGE <span style="font-weight:500; color:var(--text-light);">(optional)</span></label>
-          <textarea id="inviteMessage" class="form-input" rows="2" placeholder="e.g. Hi Priya, welcome to the Seedicon team — please review the DD pipeline…" style="resize:vertical;"></textarea>
-        </div>
-
-        <div>
-          <label class="form-label">PERMISSIONS PREVIEW</label>
-          <div id="invitePermsPreview" style="background:var(--bg-subtle); border:1px solid var(--border-faint); border-radius:6px; padding:8px 10px;"></div>
+          <textarea id="inviteMessage" class="form-input" rows="2" placeholder="e.g. Welcome to the Seedicon team — please review the DD pipeline…" style="resize:vertical;"></textarea>
         </div>
 
         <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:6px;">
           <button onclick="closeModal()" class="btn">Cancel</button>
           <button onclick="submitInvite()" class="btn btn-primary">
             <i data-lucide="send" class="lucide-sm"></i>
-            Send Invitation
+            <span>Send Invitation</span>
           </button>
         </div>
       </div>
     `);
-    updateRolePreview();
     if (typeof lucide !== 'undefined') lucide.createIcons();
-  }
-
-  function updateRolePreview() {
-    const el = document.getElementById('invitePermsPreview');
-    const previewEl = document.getElementById('invitePermsPreview');
-    if (!el) return;
-    const role = document.getElementById('inviteRole')?.value || 'analyst';
-    const perms = ROLE_DEFS[role].perms;
-    el.innerHTML = `
-      <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
-        <span class="role-pill ${ROLE_DEFS[role].cls}" style="pointer-events:none;">${ROLE_DEFS[role].label}</span>
-        <span style="font-size:10.5px; color:var(--text-light);">${ROLE_DEFS[role].scope}</span>
-      </div>
-      <div class="perm-list">
-        ${perms.map(p => `<span class="perm-chip"><span class="dot"></span>${p}</span>`).join('')}
-      </div>
-    `;
-    if (previewEl && typeof lucide !== 'undefined') lucide.createIcons();
   }
 
   function submitInvite() {
     const email = (document.getElementById('inviteEmail')?.value || '').trim();
-    if (!email) {
-      if (window.showToast) window.showToast('Please enter a valid email address', 'alert-circle');
-      else alert('Please enter a valid email address');
-      return;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       if (window.showToast) window.showToast('Please enter a valid email address', 'alert-circle');
       else alert('Please enter a valid email address');
       return;
     }
     const role = document.getElementById('inviteRole')?.value || 'analyst';
-    const fund = document.getElementById('inviteFund')?.value || 'Seedicon Fund I only';
-    const message = document.getElementById('inviteMessage')?.value.trim() || 'Welcome to the Seedicon workspace.';
+    const message = (document.getElementById('inviteMessage')?.value || '').trim();
 
     const namePart = email.split('@')[0].split(/[._-]+/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     const newMember = {
@@ -583,10 +825,11 @@
       name: namePart,
       email,
       role,
-      title: 'Pending member',
+      title: ROLE_DEFS[role].label,
       status: 'Pending',
       inviteSent: 'Just now'
     };
+
     membersStore.unshift(newMember);
     updatesStore.unshift({
       id: 'un_' + Date.now(),
@@ -603,11 +846,13 @@
     if (window.showToast) window.showToast(`Invitation sent to ${email}`);
   }
 
-  /* ── EDIT MEMBER MODAL ── */
+  /* ── EDIT MEMBER MODAL (Role Selector) ── */
   function openEditMemberModal(id) {
     const m = membersStore.find(x => x.id === id);
     if (!m) return;
-    const roleOptions = Object.keys(ROLE_DEFS).map(r => `<option value="${r}" ${r === m.role ? 'selected' : ''}>${ROLE_DEFS[r].label} — ${ROLE_DEFS[r].scope}</option>`).join('');
+    const roleOptions = Object.keys(ROLE_DEFS).map(r => `
+      <option value="${r}" ${r === m.role ? 'selected' : ''}>${ROLE_DEFS[r].label}</option>
+    `).join('');
 
     openModal('Edit Member — ' + m.name, `
       <div style="display:flex; align-items:center; gap:12px; padding-bottom:12px; border-bottom:1px solid var(--border-main); margin-bottom:14px;">
@@ -620,29 +865,16 @@
 
       <div style="display:flex; flex-direction:column; gap:14px;">
         <div>
-          <label class="form-label">ROLE / PERMISSION</label>
-          <select id="editRole" class="form-input" onchange="updateEditRolePreview()" style="padding:9px 11px;">
+          <label class="form-label">ROLE</label>
+          <select id="editRole" class="form-input" style="padding:9px 11px;">
             ${roleOptions}
           </select>
+          <div class="form-hint">Assigning a new role updates this member's module permissions according to the role configuration matrix.</div>
         </div>
 
-        <div>
-          <label class="form-label">FUND ACCESS</label>
-          <select id="editFund" class="form-input" style="padding:9px 11px;">
-            <option ${m.role === 'admin' || m.role === 'investor' ? 'selected' : ''}>All Funds (Current &amp; Future)</option>
-            <option ${m.role === 'analyst' || m.role === 'partner' ? 'selected' : ''}>Seedicon Fund I (₹20 Cr) only</option>
-            <option>No fund data — workspace only</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="form-label">PERMISSIONS PREVIEW</label>
-          <div id="editPermsPreview" style="background:var(--bg-subtle); border:1px solid var(--border-faint); border-radius:6px; padding:8px 10px;"></div>
-        </div>
-
-        <div style="display:flex; align-items:center; gap:6px; background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:7px 11px; font-size:11px; color:var(--text-muted);">
+        <div style="display:flex; align-items:center; gap:6px; background:var(--bg-sidebar); border:1px solid var(--border-main); border-radius:6px; padding:8px 11px; font-size:11px; color:var(--text-muted);">
           <i data-lucide="info" class="lucide-sm"></i>
-          Changing this member's role will update their access across all modules immediately.
+          To customize module-level capabilities for this role, click <b>Manage Roles</b> in the header.
         </div>
 
         <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:6px;">
@@ -654,23 +886,7 @@
         </div>
       </div>
     `);
-    updateEditRolePreview();
     if (typeof lucide !== 'undefined') lucide.createIcons();
-  }
-
-  function updateEditRolePreview() {
-    const el = document.getElementById('editPermsPreview');
-    if (!el) return;
-    const role = document.getElementById('editRole')?.value || 'viewer';
-    el.innerHTML = `
-      <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
-        <span class="role-pill ${ROLE_DEFS[role].cls}" style="pointer-events:none;">${ROLE_DEFS[role].label}</span>
-        <span style="font-size:10.5px; color:var(--text-light);">${ROLE_DEFS[role].scope}</span>
-      </div>
-      <div class="perm-list">
-        ${ROLE_DEFS[role].perms.map(p => `<span class="perm-chip"><span class="dot"></span>${p}</span>`).join('')}
-      </div>
-    `;
   }
 
   function saveEditMember(id) {
@@ -679,6 +895,7 @@
     const oldRole = m.role;
     const newRole = document.getElementById('editRole')?.value || m.role;
     m.role = newRole;
+    m.title = ROLE_DEFS[newRole].label;
 
     updatesStore.unshift({
       id: 'ue_' + Date.now(),
@@ -687,14 +904,14 @@
       actor: 'You',
       icon: 'shield-check',
       text: oldRole === newRole
-        ? `Updated fund access for <b>${m.name}</b>`
+        ? `Confirmed role for <b>${m.name}</b> (${ROLE_DEFS[newRole].label})`
         : `Changed <b>${m.name}</b> role from <b>${ROLE_DEFS[oldRole].label}</b> to <b>${ROLE_DEFS[newRole].label}</b>`
     });
 
     closeModal();
     renderTeam();
     renderUpdates(activeUpdateFilter);
-    if (window.showToast) window.showToast(`${m.name}'s permissions updated`);
+    if (window.showToast) window.showToast(`${m.name}'s role updated to ${ROLE_DEFS[newRole].label}`);
   }
 
   /* ── REMOVE ACCESS FLOW (comment required) ── */
@@ -847,41 +1064,176 @@
     if (window.showToast) window.showToast(`${m.name}'s access restored`);
   }
 
-  /* ── MANAGE ROLES MODAL (role matrix) ── */
-  function openRolesModal() {
-    const rows = Object.values(ROLE_DEFS).map(r => `
-      <tr>
-        <td style="white-space:nowrap;"><span class="role-pill ${r.cls}">${r.label}</span></td>
-        <td style="white-space:nowrap; font-weight:600; color:#3A3A38;">${r.scope}</td>
-        <td>
-          <div class="perm-list">
-            ${r.perms.map(p => `<span class="perm-chip"><span class="dot"></span>${p}</span>`).join('')}
-          </div>
-        </td>
-      </tr>
-    `).join('');
+  /* ── MANAGE ROLES RIGHT-SIDE DRAWER LOGIC ── */
+  const DEFAULT_ROLE_PERMS = {
+    fund_manager:      ['dashboard', 'thesis', 'startups_pool', 'deal_crm', 'vdr', 'dd_partners', 'portfolio', 'capital_calls', 'distribution_calls', 'lps_management', 'founder_reports', 'lp_reporting', 'my_team'],
+    investment_lead:   ['dashboard', 'thesis', 'startups_pool', 'deal_crm', 'vdr', 'dd_partners', 'portfolio', 'founder_reports', 'lp_reporting'],
+    analyst:           ['dashboard', 'startups_pool', 'deal_crm', 'vdr', 'dd_partners', 'founder_reports'],
+    finance_ops:       ['dashboard', 'portfolio', 'capital_calls', 'distribution_calls', 'lps_management', 'lp_reporting'],
+    portfolio_manager: ['dashboard', 'portfolio', 'founder_reports', 'lp_reporting'],
+    admin:             ['dashboard', 'thesis', 'startups_pool', 'deal_crm', 'vdr', 'dd_partners', 'portfolio', 'capital_calls', 'distribution_calls', 'lps_management', 'founder_reports', 'lp_reporting', 'my_team']
+  };
 
-    openModal('Roles &amp; Permission Matrix', `
-      <p style="font-size:11.5px; color:var(--text-muted); line-height:1.5; margin-bottom:10px;">
-        Assign a role to each member to control what they can view and do. All roles are scoped to the active fund unless expanded in member settings.
-      </p>
-      <div style="max-height:340px; overflow-y:auto; border:1px solid var(--border-main); border-radius:7px;">
-        <table class="role-matrix-table">
-          <thead>
-            <tr>
-              <th style="position:sticky; top:0; z-index:1;">Role</th>
-              <th style="position:sticky; top:0; z-index:1;">Scope</th>
-              <th style="position:sticky; top:0; z-index:1;">Permissions</th>
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-      <div style="display:flex; justify-content:flex-end; margin-top:16px;">
-        <button onclick="closeModal()" class="btn btn-primary">Done</button>
-      </div>
-    `);
+  let rolePermissions = JSON.parse(JSON.stringify(DEFAULT_ROLE_PERMS));
+  let currentDrawerRole = 'analyst';
+
+  function openRolesDrawer(roleKey) {
+    if (roleKey && ROLE_DEFS[roleKey]) currentDrawerRole = roleKey;
+    const overlay = document.getElementById('rolesDrawerOverlay');
+    if (!overlay) return;
+
+    overlay.style.display = 'flex';
+    renderDrawerRoleDropdown();
+    renderDrawerPermissionsTable();
     if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function closeRolesDrawer(e) {
+    if (e && e.target !== document.getElementById('rolesDrawerOverlay') && e.target.tagName !== 'BUTTON' && !e.target.closest('button')) return;
+    const overlay = document.getElementById('rolesDrawerOverlay');
+    if (overlay) overlay.style.display = 'none';
+  }
+
+  function renderDrawerRoleDropdown() {
+    const select = document.getElementById('drawerRoleDropdown');
+    if (!select) return;
+
+    select.innerHTML = Object.keys(ROLE_DEFS).map(r => {
+      const isSelected = r === currentDrawerRole;
+      const count = membersStore.filter(m => m.role === r && m.status !== 'Revoked').length;
+      return `<option value="${r}" ${isSelected ? 'selected' : ''}>${ROLE_DEFS[r].label} (${count} ${count === 1 ? 'member' : 'members'})</option>`;
+    }).join('');
+  }
+
+  function onDrawerRoleSelect(roleKey) {
+    currentDrawerRole = roleKey;
+    renderDrawerPermissionsTable();
+  }
+
+  function toggleModulePerm(modId, rowEl) {
+    const currentPerms = rolePermissions[currentDrawerRole] || [];
+    const idx = currentPerms.indexOf(modId);
+    const toggleSwitch = document.getElementById('toggle_' + modId);
+    const row = rowEl || document.getElementById('perm_row_' + modId);
+
+    if (idx > -1) {
+      currentPerms.splice(idx, 1);
+      if (toggleSwitch) toggleSwitch.classList.remove('active');
+      if (row) row.classList.remove('active');
+    } else {
+      currentPerms.push(modId);
+      if (toggleSwitch) toggleSwitch.classList.add('active');
+      if (row) row.classList.add('active');
+    }
+    rolePermissions[currentDrawerRole] = currentPerms;
+    updateDrawerCounts();
+  }
+
+  function renderDrawerPermissionsTable() {
+    const body = document.getElementById('rolesDrawerBody');
+    if (!body) return;
+
+    const currentPerms = rolePermissions[currentDrawerRole] || DEFAULT_ROLE_PERMS[currentDrawerRole] || [];
+    const roleDef = ROLE_DEFS[currentDrawerRole] || { label: currentDrawerRole, scope: '' };
+    const totalModules = MAIN_SIDEBAR_MODULES.reduce((acc, sec) => acc + sec.items.length, 0);
+    const grantedCount = currentPerms.length;
+
+    // Fixed Sub-Bar
+    const subBar = document.getElementById('drawerSubBar');
+    if (subBar) {
+      subBar.innerHTML = `
+        <div class="drawer-sub-left">
+          <span>${roleDef.label}</span>
+          <span style="color:#A0A09C;">·</span>
+          <span class="drawer-sub-badge" id="drawerGrantedCountBadge">${grantedCount} of ${totalModules} active</span>
+        </div>
+        <div class="drawer-quick-actions">
+          <button type="button" class="drawer-text-btn" onclick="toggleAllRoleModules(true)">Select All</button>
+          <span style="color:#C8C8C2;">·</span>
+          <button type="button" class="drawer-text-btn" onclick="toggleAllRoleModules(false)">Deselect All</button>
+        </div>
+      `;
+    }
+
+    let categoriesHtml = MAIN_SIDEBAR_MODULES.map(sec => {
+      const activeInSec = sec.items.filter(item => currentPerms.includes(item.id)).length;
+      const rowsHtml = sec.items.map(item => {
+        const isChecked = currentPerms.includes(item.id);
+        return `
+          <div class="drawer-perm-item ${isChecked ? 'active' : ''}" id="perm_row_${item.id}" onclick="toggleModulePerm('${item.id}', this)">
+            <div class="drawer-perm-left">
+              <div class="drawer-perm-icon"><i data-lucide="${item.icon}" style="width:13px; height:13px;"></i></div>
+              <span class="drawer-perm-name">${item.label}</span>
+            </div>
+            <div class="perm-toggle-switch ${isChecked ? 'active' : ''}" id="toggle_${item.id}"></div>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div class="drawer-cat-group">
+          <div class="drawer-cat-header">
+            <span>${sec.section}</span>
+            <span id="cat_count_${sec.section.replace(/[^a-zA-Z0-9]/g, '_')}" style="font-weight:700; color:#9E9E98;">${activeInSec}/${sec.items.length}</span>
+          </div>
+          <div class="drawer-cat-card">
+            ${rowsHtml}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    body.innerHTML = categoriesHtml;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function updateDrawerCounts() {
+    const currentPerms = rolePermissions[currentDrawerRole] || [];
+    const totalModules = MAIN_SIDEBAR_MODULES.reduce((acc, sec) => acc + sec.items.length, 0);
+    const badge = document.getElementById('drawerGrantedCountBadge');
+    if (badge) badge.textContent = `${currentPerms.length} of ${totalModules} active`;
+
+    MAIN_SIDEBAR_MODULES.forEach(sec => {
+      const activeInSec = sec.items.filter(item => currentPerms.includes(item.id)).length;
+      const secCountEl = document.getElementById('cat_count_' + sec.section.replace(/[^a-zA-Z0-9]/g, '_'));
+      if (secCountEl) secCountEl.textContent = `${activeInSec}/${sec.items.length}`;
+    });
+  }
+
+  function toggleAllRoleModules(selectAll) {
+    if (selectAll) {
+      const allMods = MAIN_SIDEBAR_MODULES.flatMap(sec => sec.items.map(i => i.id));
+      rolePermissions[currentDrawerRole] = allMods;
+    } else {
+      rolePermissions[currentDrawerRole] = [];
+    }
+    renderDrawerPermissionsTable();
+  }
+
+  function saveRolePermissions() {
+    const roleLabel = ROLE_DEFS[currentDrawerRole].label;
+    const grantedCount = (rolePermissions[currentDrawerRole] || []).length;
+
+    updatesStore.unshift({
+      id: 'up_' + Date.now(),
+      date: 'Just now',
+      type: 'permission',
+      actor: 'You',
+      icon: 'shield-check',
+      text: `Configured permissions matrix for role <b>${roleLabel}</b> (${grantedCount} modules enabled)`
+    });
+
+    closeRolesDrawer();
+    renderTeam();
+    renderUpdates(activeUpdateFilter);
+    if (window.showToast) window.showToast(`Role permissions for "${roleLabel}" saved successfully`);
+  }
+
+  function resetRolePermissions() {
+    rolePermissions[currentDrawerRole] = JSON.parse(JSON.stringify(DEFAULT_ROLE_PERMS[currentDrawerRole] || []));
+    renderDrawerPermissionsTable();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    if (window.showToast) window.showToast(`Reset "${ROLE_DEFS[currentDrawerRole].label}" to default permissions`);
   }
 
   /* ── EMPTY STATE TOGGLE ── */
@@ -896,5 +1248,52 @@
     if (window.showToast) window.showToast(isStateEmpty ? 'Switched to Empty State' : 'Switched to Populated State');
   }
 </script>
+
+<!-- RIGHT-SIDE DRAWER: MANAGE ROLES & PERMISSIONS MATRIX -->
+<div id="rolesDrawerOverlay" class="roles-drawer-overlay" style="display:none;" onclick="closeRolesDrawer(event)">
+  <div class="roles-drawer" onclick="event.stopPropagation()">
+    <!-- Drawer Header -->
+    <div class="roles-drawer-header">
+      <div>
+        <div class="roles-drawer-title">Manage Roles &amp; Permissions</div>
+        <div class="roles-drawer-sub">Configure module access and capabilities across all fund ecosystem roles.</div>
+      </div>
+      <button class="roles-drawer-close" onclick="closeRolesDrawer()" title="Close Drawer">
+        <i data-lucide="x" style="width:16px; height:16px;"></i>
+      </button>
+    </div>
+
+    <!-- Role Selection Dropdown Bar -->
+    <div class="drawer-role-select-wrap">
+      <div class="drawer-select-label">Select Role to Configure</div>
+      <div class="drawer-select-box-wrap">
+        <select id="drawerRoleDropdown" class="drawer-role-select" onchange="onDrawerRoleSelect(this.value)"></select>
+        <i data-lucide="chevron-down" class="drawer-select-chevron"></i>
+      </div>
+    </div>
+
+    <!-- Fixed Sub-Bar (Active count & Quick actions) -->
+    <div class="drawer-sub-bar" id="drawerSubBar"></div>
+
+    <!-- Drawer Body (Modern Category Groups with Toggle Switches) -->
+    <div class="roles-drawer-body" id="rolesDrawerBody"></div>
+
+    <!-- Drawer Footer -->
+    <div class="roles-drawer-footer">
+      <button type="button" class="btn btn-outline" onclick="resetRolePermissions()">
+        <i data-lucide="rotate-ccw" class="lucide-sm"></i>
+        <span>Reset to Default</span>
+      </button>
+      <div style="display:flex; gap:8px;">
+        <button type="button" class="btn" onclick="closeRolesDrawer()">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="saveRolePermissions()">
+          <i data-lucide="check" class="lucide-sm"></i>
+          <span>Save Role Permissions</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
