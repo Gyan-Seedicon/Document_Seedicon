@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Term Sheet Generator & Builder — Seedicon Investor Platform</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Full-height Workspace Layout */
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: var(--font-inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+      color: #1A1A18;
+      background: #FFFFFF;
+    }
+
+    .app-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .main-workspace {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      height: calc(100vh - 48px);
+      overflow: hidden;
+    }
+
+    .content-scrollable {
+      flex: 1;
+      height: 100%;
+      overflow-y: auto;
+      background: #FFFFFF;
+    }
+
+    /* Surface Form Sections & Divider Separators */
+    .form-surface-section {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 24px 0;
+      box-shadow: none;
+      scroll-margin-top: 70px;
+      border-bottom: 1px solid var(--border-main, #E8E8E6);
+    }
+
+    .form-surface-section:first-child {
+      padding-top: 6px;
+    }
+
+    .form-surface-section:last-of-type {
+      border-bottom: none;
+      padding-bottom: 32px;
+    }
+
+    .form-section-header {
+      margin-bottom: 14px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .form-section-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--text-dark, #1A1A18);
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-section-desc {
+      font-size: 11.5px;
+      color: var(--text-muted, #7A7A78);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    /* Sticky TOC Rail Navigation */
+    .toc-sticky-rail {
+      width: 275px;
+      flex-shrink: 0;
+      background: #FAFAFA;
+      border-right: 1px solid var(--border-main, #E8E8E6);
+      padding: 20px 14px;
+      position: sticky;
+      top: 0;
+      height: calc(100vh - 58px);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      gap: 16px;
+    }
+
+    .preview-rail-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-muted, #6A6A68);
+      text-decoration: none;
+      transition: all 0.12s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .preview-rail-item:hover {
+      background: #F0F0EE;
+      color: var(--text-dark, #1A1A18);
+    }
+
+    .preview-rail-item.active {
+      background: #EBEBE9;
+      color: var(--text-dark, #1A1A18);
+      font-weight: 800;
+    }
+
+    /* Live Deal Summary Widget in Sidebar */
+    .deal-summary-card {
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+    }
+
+    .deal-summary-title {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #8A8A88;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .deal-metric-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px dashed #EBEBEA;
+      font-size: 11px;
+    }
+
+    .deal-metric-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .deal-metric-label {
+      color: #6A6A68;
+    }
+
+    .deal-metric-value {
+      font-weight: 700;
+      color: #1A1A18;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Drag & Drop Feedback Styling */
+    .dragging-row {
+      opacity: 0.35;
+      background: #F0F0EE !important;
+    }
+
+    .drag-over-row {
+      border-top: 2px solid #1A1A18 !important;
+      background: #F8F8F6 !important;
+    }
+
+    .drag-grip-icon {
+      cursor: grab;
+      color: #A0A09C;
+      transition: color 0.1s ease;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    .drag-grip-icon:hover {
+      color: #1A1A18;
+    }
+
+    /* Surface Builder Table UI */
+    .builder-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 12px;
+      border: 1px solid var(--border-main, #E8E8E6);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .builder-table th {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-muted, #8A8A88);
+      padding: 7px 12px;
+      border-bottom: 1px solid var(--border-main, #E8E8E6);
+      background: #FAFAFA;
+      text-align: left;
+    }
+
+    .builder-table td {
+      padding: 7px 12px;
+      border-bottom: 1px solid #F0F0EE;
+      vertical-align: middle;
+      background: #FFFFFF;
+    }
+
+    .builder-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .builder-table tr:hover td {
+      background: #FAFAF8;
+    }
+
+    .builder-input,
+    .builder-select,
+    .builder-textarea {
+      width: 100%;
+      padding: 5px 8px;
+      border: 1px solid var(--border-strong, #D8D8D6);
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 12px;
+      color: var(--text-dark, #1A1A18);
+      background: #FFFFFF;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .builder-input:focus,
+    .builder-select:focus,
+    .builder-textarea:focus {
+      border-color: #1A1A18;
+      box-shadow: 0 0 0 1px #1A1A18;
+    }
+
+    .builder-textarea {
+      resize: vertical;
+      min-height: 48px;
+      line-height: 1.4;
+    }
+
+    .pill-type {
+      background: #F4F4F2;
+      color: #3A3A36;
+      border: 1px solid #E2E2DF;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .calc-tag {
+      background: #ECFDF5;
+      color: #047857;
+      border: 1px solid #A7F3D0;
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* Segmented Mode Switch Control */
+    .mode-segmented-control {
+      display: inline-flex;
+      align-items: center;
+      background: #F4F4F2;
+      border: 1px solid #DFDEDE;
+      border-radius: 6px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .mode-seg-btn {
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      padding: 4.5px 11px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #6A6A68;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: inherit;
+      transition: all 0.12s ease;
+      user-select: none;
+    }
+
+    .mode-seg-btn:hover {
+      color: #1A1A18;
+    }
+
+    .mode-seg-btn.active {
+      background: #FFFFFF;
+      color: #1A1A18;
+      font-weight: 700;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Three Dots Dropdown */
+    .ts-dropdown-menu {
+      animation: fadeInDropdown 0.1s ease;
+    }
+
+    @keyframes fadeInDropdown {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .ts-dropdown-item {
+      transition: background 0.1s ease;
+    }
+
+    .ts-dropdown-item:hover {
+      background: #F4F4F2 !important;
+    }
+
+    /* PREVIEW MODE: Document Styling */
+    .ts-doc-wrapper {
+      background: #FAFAFA;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .ts-doc-paper {
+      background: #FFFFFF;
+      border: 1px solid #DCDCD8;
+      border-radius: 8px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+      max-width: 820px;
+      width: 100%;
+      padding: 48px 56px;
+      box-sizing: border-box;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #2A2A28;
+    }
+
+    .ts-doc-header {
+      border-bottom: 2px solid #1A1A18;
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .ts-doc-brand {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: #1A1A18;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ts-doc-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #1A1A18;
+      margin: 16px 0 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+
+    .ts-doc-subtitle {
+      font-size: 12px;
+      color: #6A6A68;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .ts-summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      border: 1px solid #DFDEDE;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .ts-summary-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #EBEBEA;
+      font-size: 12px;
+    }
+
+    .ts-summary-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .ts-summary-table td.ts-lbl {
+      width: 32%;
+      font-weight: 700;
+      color: #5A5A58;
+      background: #FAFAFA;
+      border-right: 1px solid #EBEBEA;
+    }
+
+    .ts-summary-table td.ts-val {
+      color: #1A1A18;
+      font-weight: 600;
+    }
+
+    .ts-clause-section {
+      margin-bottom: 20px;
+    }
+
+    .ts-clause-heading {
+      font-size: 13px;
+      font-weight: 800;
+      color: #1A1A18;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      border-bottom: 1px solid #EBEBEA;
+      padding-bottom: 5px;
+      margin-bottom: 8px;
+    }
+
+    .ts-clause-item {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .ts-clause-num {
+      font-weight: 700;
+      color: #6A6A68;
+      min-width: 24px;
+      flex-shrink: 0;
+    }
+
+    .ts-clause-text strong {
+      color: #1A1A18;
+    }
+
+    .ts-signatures-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid #DFDEDE;
+    }
+
+    .ts-sig-box {
+      border: 1px dashed #D0D0CE;
+      border-radius: 6px;
+      padding: 16px;
+      background: #FAFAFA;
+    }
+
+    .ts-sig-line {
+      height: 44px;
+      border-bottom: 1px solid #1A1A18;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 4px;
+      font-family: 'Brush Script MT', cursive, sans-serif;
+      font-size: 20px;
+      color: #1D4ED8;
+    }
+
+    /* Modal Backdrop */
+    .vdr-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 100005 !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInBd 0.12s ease;
+    }
+
+    @keyframes fadeInBd {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .vdr-modal-box {
+      background: #FFFFFF;
+      border-radius: 8px;
+      border: 1px solid #E0E0DE;
+      width: 520px;
+      max-width: 94vw;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.18);
+      position: relative;
+    }
+
+    .vdr-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #EBEBEA;
+      padding: 12px 16px;
+    }
+
+    .vdr-modal-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #1A1A18;
+    }
+
+    .vdr-modal-body {
+      padding: 16px;
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    .vdr-modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid #EBEBEA;
+      background: #FAFAFA;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+
+    .vdr-btn-primary {
+      background: #1A1A18 !important;
+      color: #FFFFFF !important;
+      border: 1px solid #1A1A18 !important;
+      padding: 6px 14px !important;
+      border-radius: 6px !important;
+      font-size: 11.5px !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      font-family: inherit !important;
+      transition: all 0.12s ease !important;
+      white-space: nowrap !important;
+    }
+
+    .vdr-btn-primary:hover {
+      background: #333330 !important;
+      border-color: #333330 !important;
+    }
+
+    .vdr-btn-outline {
+      background: #FFFFFF !important;
+      color: #3A3A38 !important;
+      border: 1px solid #D8D8D6 !important;
+      padding: 6px 12px !important;
+      border-radius: 6px !important;
+      font-size: 11.5px !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      font-family: inherit !important;
+      transition: all 0.12s ease !important;
+      white-space: nowrap !important;
+    }
+
+    .vdr-btn-outline:hover {
+      background: #F4F4F2 !important;
+      border-color: #B0B0AE !important;
+      color: #1A1A18 !important;
+    }
+
+    /* Print styling */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+
+      .ts-doc-paper,
+      .ts-doc-paper * {
+        visibility: visible;
+      }
+
+      .ts-doc-paper {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: none;
+        border: none;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- App Header Slot -->
+    <div id="appHeaderSlot"></div>
+
+    <div class="main-workspace" style="display:flex; flex-direction:row;">
+      <!-- Tiny Sidebar Slot -->
+      <div id="tinySidebarSlot"></div>
+
+      <!-- Main Navigation Sidebar Slot -->
+      <div id="mainSidebarSlot"></div>
+
+      <!-- Main Surface Content Area -->
+      <main class="content-scrollable"
+        style="padding:0; display:flex; flex-direction:column; background:#FFFFFF; overflow-y:auto;">
+
+        <!-- STICKY TOP EXECUTIVE BAR (CLEAN & MINIMAL) -->
+        <header
+          style="padding:11px 28px; background:#FFFFFF; border-bottom:1px solid var(--border-main, #E8E8E6); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; position:sticky; top:0; z-index:30;">
+          <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+            <a href="./deal-crm.html" id="btnBackLink" title="Back"
+              style="display:inline-flex; align-items:center; justify-content:center; color:#1A1A18; text-decoration:none; width:30px; height:30px; border-radius:6px; background:#FFFFFF; border:1px solid #D8D8D6; transition:all 0.12s ease; flex-shrink:0;">
+              <i data-lucide="arrow-left" style="width:15px; height:15px;"></i>
+            </a>
+            <div style="min-width:0;">
+              <h1
+                style="font-size:15px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
+                id="pageHeaderTitle">
+                Term Sheet Generator &amp; Builder
+              </h1>
+            </div>
+          </div>
+
+          <!-- Top Mode Switcher & Minimal Executive Actions -->
+          <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+
+            <!-- Mode Switcher (Segmented Control) -->
+            <div class="mode-segmented-control">
+              <button type="button" class="mode-seg-btn active" id="btnModeEdit" onclick="setTermSheetMode(false)">
+                <i data-lucide="edit-3" style="width:11px; height:11px;"></i>
+                <span>Edit Mode</span>
+              </button>
+              <button type="button" class="mode-seg-btn" id="btnModePreview" onclick="setTermSheetMode(true)">
+                <i data-lucide="eye" style="width:11px; height:11px;"></i>
+                <span>Preview Document</span>
+              </button>
+            </div>
+
+            <!-- More Actions Dropdown (Three Dots Menu for Reset & Export PDF) -->
+            <div class="ts-dropdown-wrapper" style="position:relative;">
+              <button type="button" class="vdr-btn-outline" id="btnMoreActions" onclick="toggleHeaderActionsMenu(event)" style="padding:6px 9px; font-size:11.5px; height:29px; display:inline-flex; align-items:center; justify-content:center;" title="More options">
+                <i data-lucide="more-horizontal" style="width:14px; height:14px;"></i>
+              </button>
+              <div class="ts-dropdown-menu" id="headerActionsMenu" style="display:none; position:absolute; right:0; top:calc(100% + 5px); background:#FFFFFF; border:1px solid #DFDEDE; border-radius:6px; box-shadow:0 8px 24px rgba(0,0,0,0.12); min-width:160px; z-index:100; padding:4px 0;">
+                <button type="button" onclick="exportTermSheetPDF(); closeHeaderActionsMenu();" class="ts-dropdown-item" style="width:100%; text-align:left; background:transparent; border:none; padding:7px 12px; font-size:11.5px; font-weight:600; color:#1A1A18; cursor:pointer; display:flex; align-items:center; gap:8px; font-family:inherit;">
+                  <i data-lucide="download" style="width:13px; height:13px; color:#6A6A68;"></i>
+                  <span>Export PDF</span>
+                </button>
+                <div style="height:1px; background:#EBEBEA; margin:3px 0;"></div>
+                <button type="button" onclick="resetTermSheetTemplate(); closeHeaderActionsMenu();" class="ts-dropdown-item" style="width:100%; text-align:left; background:transparent; border:none; padding:7px 12px; font-size:11.5px; font-weight:600; color:#DC2626; cursor:pointer; display:flex; align-items:center; gap:8px; font-family:inherit;">
+                  <i data-lucide="rotate-ccw" style="width:13px; height:13px; color:#DC2626;"></i>
+                  <span>Reset to Defaults</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Primary Action Button -->
+            <button type="button" class="vdr-btn-primary" onclick="openSendTermSheetModal()"
+              style="padding:6px 14px; font-size:11.5px; height:29px;">
+              <i data-lucide="send" style="width:12px; height:12px;"></i>
+              <span>Issue &amp; Send to Founder</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- 2-COLUMN BUILDER SURFACE -->
+        <div style="display:flex; flex-direction:row; align-items:stretch; flex:1;">
+
+          <!-- LEFT STICKY TOC NAVIGATION RAIL -->
+          <aside class="toc-sticky-rail" id="tocStickyRail">
+            <div>
+              <div
+                style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; color:#8A8A88; margin-bottom:8px;">
+                SECTIONS OUTLINE (<span id="tocCount">6</span>)
+              </div>
+              <nav id="tocNavContainer" style="display:flex; flex-direction:column; gap:2px;">
+                <!-- TOC Links rendered dynamically -->
+              </nav>
+            </div>
+
+            <!-- LIVE DEAL SUMMARY CARD -->
+            <div class="deal-summary-card">
+              <div class="deal-summary-title">
+                <span>Key Economics</span>
+                <i data-lucide="calculator" style="width:12px; height:12px; color:#1A1A18;"></i>
+              </div>
+              <div class="deal-metric-row">
+                <span class="deal-metric-label">Investment Amount:</span>
+                <span class="deal-metric-value" id="summaryInvestAmt">$3,000,000</span>
+              </div>
+              <div class="deal-metric-row">
+                <span class="deal-metric-label">Pre-Money Valuation:</span>
+                <span class="deal-metric-value" id="summaryPreMoney">$12,000,000</span>
+              </div>
+              <div class="deal-metric-row">
+                <span class="deal-metric-label">Post-Money Valuation:</span>
+                <span class="deal-metric-value" id="summaryPostMoney" style="color:#047857;">$15,000,000</span>
+              </div>
+              <div class="deal-metric-row">
+                <span class="deal-metric-label">Target Ownership:</span>
+                <span class="deal-metric-value" id="summaryOwnership"
+                  style="color:#1D4ED8; font-weight:800;">20.00%</span>
+              </div>
+              <div class="deal-metric-row">
+                <span class="deal-metric-label">Security:</span>
+                <span class="deal-metric-value" id="summarySecurity" style="font-size:10.5px;">Preferred Equity</span>
+              </div>
+              <div class="deal-metric-row">
+                <span class="deal-metric-label">Validity Window:</span>
+                <span class="deal-metric-value" id="summaryExpiry" style="color:#B45309;">14 Days</span>
+              </div>
+            </div>
+
+            <div
+              style="background:#F4F4F2; border-radius:6px; padding:10px; font-size:11px; color:#6A6A68; line-height:1.4;">
+              <div
+                style="font-weight:700; color:#1A1A18; margin-bottom:3px; display:flex; align-items:center; gap:4px;">
+                <i data-lucide="shield-check" style="width:12px; height:12px; color:#047857;"></i> NVCA Compliance
+              </div>
+              Terms conform to standard institutional venture capital financing frameworks and statutory reserved
+              matters.
+            </div>
+          </aside>
+
+          <!-- RIGHT SURFACE CONTENT AREA -->
+          <div id="surfaceContainer" style="flex:1; min-width:0; padding:12px 24px;max-width:960px;">
+            <!-- Sections rendered dynamically in Edit Mode or Document in Preview Mode -->
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Send Term Sheet Modal -->
+  <div id="vdrModalBackdrop" style="display:none;" class="vdr-modal-backdrop" onclick="handleModalBackdropClick(event)">
+    <div class="vdr-modal-box" onclick="event.stopPropagation()">
+      <div class="vdr-modal-header">
+        <span class="vdr-modal-title" id="vdrModalTitle">Modal Title</span>
+        <button type="button" style="background:transparent; border:none; cursor:pointer; color:#7A7A78;"
+          onclick="hideModal()">
+          <i data-lucide="x" style="width:16px; height:16px;"></i>
+        </button>
+      </div>
+      <div class="vdr-modal-body" id="vdrModalBody"></div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="./js/components.js"></script>
+  <script src="./js/app.js"></script>
+  <script>
+    // PREDEFINED INSTITUTIONAL TERM SHEET TEMPLATES DATA
+    const PRESETS = {
+      seed_preferred: [
+        {
+          id: 'sec_deal',
+          title: '1. Deal Details',
+          desc: 'Primary financing transaction parties, round stage, security instrument, and committed capital.',
+          fields: [
+            { id: 'startup_name', name: 'Startup Name', type: 'text', value: 'Alpha Health Technologies Inc.', req: true, placeholder: 'e.g. Acme AI Corp' },
+            { id: 'investor_name', name: 'Investor / Fund', type: 'text', value: 'Seedicon Venture Fund I, L.P.', req: true, placeholder: 'Lead Investor Fund Entity' },
+            { id: 'round_stage', name: 'Investment Round', type: 'select', value: 'Seed Round', options: ['Pre-Seed Round', 'Seed Round', 'Series A', 'Series B', 'Bridge Round'], req: true },
+            { id: 'security_type', name: 'Security Type', type: 'select', value: 'Series Seed Preferred Stock', options: ['Series Seed Preferred Stock', 'Convertible Preferred Equity', 'SAFE (Post-Money)', 'Convertible Promissory Note', 'Common Stock'], req: true },
+            { id: 'investment_amt', name: 'Investment Amount ($)', type: 'currency', value: '3,000,000', req: true, placeholder: '3,000,000', calc: false }
+          ]
+        },
+        {
+          id: 'sec_valuation',
+          title: '2. Valuation & Ownership',
+          desc: 'Capitalization pricing, pre/post-money valuation bounds, option pool allocation, and share price.',
+          fields: [
+            { id: 'pre_money_val', name: 'Pre-Money Valuation ($)', type: 'currency', value: '12,000,000', req: true, placeholder: '12,000,000' },
+            { id: 'post_money_val', name: 'Post-Money Valuation ($)', type: 'currency', value: '15,000,000', req: true, isCalc: true, desc: 'Calculated: Pre-Money + Investment Amount' },
+            { id: 'investor_ownership', name: 'Investor Ownership %', type: 'percentage', value: '20.00', req: true, isCalc: true, desc: 'Calculated: (Investment / Post-Money) * 100' },
+            { id: 'price_per_share', name: 'Price Per Share ($)', type: 'text', value: '$1.25 per Preferred Share', req: false, placeholder: 'e.g. $1.25 / share' },
+            { id: 'option_pool', name: 'Option Pool / ESOP %', type: 'select', value: '10.0% Unallocated Post-Financing Pool', options: ['10.0% Unallocated Post-Financing Pool', '15.0% Unallocated Post-Financing Pool', '7.5% Option Pool', 'Pre-existing ESOP only (no expansion)'], req: true }
+          ]
+        },
+        {
+          id: 'sec_key_terms',
+          title: '3. Key Investment Terms',
+          desc: 'Liquidation preference waterfall, participation terms, anti-dilution formula, and conversion mechanics.',
+          fields: [
+            { id: 'liq_pref', name: 'Liquidation Preference', type: 'select', value: '1.0x Non-Participating Preferred (Market Standard)', options: ['1.0x Non-Participating Preferred (Market Standard)', '1.0x Full Participating Preferred', '1.5x Senior Preferred', '2.0x Non-Participating'], req: true },
+            { id: 'liq_multiple', name: 'Liquidation Preference Multiple', type: 'select', value: '1.0x', options: ['1.0x', '1.25x', '1.5x', '2.0x'], req: true },
+            { id: 'participation', name: 'Participation', type: 'select', value: 'Non-Participating', options: ['Non-Participating', 'Full Participating', 'Capped Participating (2.0x Cap)'], req: true },
+            { id: 'anti_dilution', name: 'Anti-Dilution', type: 'select', value: 'Broad-based Weighted Average (Standard)', options: ['Broad-based Weighted Average (Standard)', 'Narrow-based Weighted Average', 'Full Ratchet', 'None'], req: true },
+            { id: 'dividends', name: 'Dividend Rights', type: 'select', value: '8.0% Non-Cumulative (When and if declared by Board)', options: ['8.0% Non-Cumulative (When and if declared by Board)', '6.0% Cumulative Preferred Dividends', 'Pari Passu with Common Stock', 'None'], req: false },
+            { id: 'conversion_rights', name: 'Conversion Rights', type: 'textarea', value: '1:1 conversion into Common Stock at the option of the holder at any time, and automatic conversion upon closing of a Qualified Public Offering ($50M+ proceeds).', req: true }
+          ]
+        },
+        {
+          id: 'sec_investor_rights',
+          title: '4. Investor Rights',
+          desc: 'Governance seats, observation privileges, pro-rata pre-emption, reserved matters, and founder vesting.',
+          fields: [
+            { id: 'board_seat', name: 'Board Seat / Board Observer', type: 'select', value: '1 Board Director Seat + 1 Observer designated by Lead Investor', options: ['1 Board Director Seat + 1 Observer designated by Lead Investor', '1 Board Director Seat only', '1 Board Observer only', '2 Board Director Seats', 'No Board Representation'], req: true },
+            { id: 'info_rights', name: 'Information Rights', type: 'select', value: 'Monthly flash KPIs (20d), Quarterly Financials (30d), Audited Annuals (90d)', options: ['Monthly flash KPIs (20d), Quarterly Financials (30d), Audited Annuals (90d)', 'Quarterly & Audited Annual Financials only', 'Standard Major Investor Inspection Rights'], req: true },
+            { id: 'pro_rata', name: 'Pro-Rata / Pre-emption Rights', type: 'select', value: 'Full Pro-Rata Right to maintain pro-rata ownership in all future equity rounds', options: ['Full Pro-Rata Right to maintain pro-rata ownership in all future equity rounds', 'Super Pro-Rata Right (Up to 2x)', 'Major Investors only', 'None'], req: true },
+            { id: 'protective_provisions', name: 'Protective Provisions / Reserved Matters', type: 'textarea', value: 'Investor Director / Majority Preferred approval required for: SHA/Articles amendment, creation of senior/pari-passu shares, M&A / sale / liquidation, new debt > $250,000, dividend distributions, changes to Board composition, and related-party contracts.', req: true },
+            { id: 'founder_vesting', name: 'Founder Lock-in / Vesting', type: 'select', value: '4-Year Monthly Vesting with 1-Year Cliff (100% subject to reverse vesting with credit for past service)', options: ['4-Year Monthly Vesting with 1-Year Cliff (100% subject to reverse vesting with credit for past service)', '3-Year Monthly Vesting (No Cliff)', 'Double-Trigger Acceleration on Change of Control', 'No Founder Lock-in required'], req: true }
+          ]
+        },
+        {
+          id: 'sec_closing_cond',
+          title: '5. Closing Conditions',
+          desc: 'Requirements for due diligence completion, definitive legal agreements, regulatory KYC, and target schedule.',
+          fields: [
+            { id: 'dd_completion', name: 'Due Diligence Completion', type: 'select', value: 'Satisfactory completion of commercial, financial, tax, tech code audit, and legal due diligence', options: ['Satisfactory completion of commercial, financial, tax, tech code audit, and legal due diligence', 'Confirmatory Due Diligence within 14 business days', 'Commercial & Legal Review only'], req: true },
+            { id: 'legal_docs', name: 'Legal Documentation', type: 'select', value: 'Execution of definitive Share Subscription & Shareholders Agreement (SHA/SSHA) and Amended Articles (AoA)', options: ['Execution of definitive Share Subscription & Shareholders Agreement (SHA/SSHA) and Amended Articles (AoA)', 'Standard NVCA Model Financing Agreements', 'Simple SAFE Instrument & Side Letter'], req: true },
+            { id: 'regulatory_kyc', name: 'Regulatory / KYC Conditions', type: 'select', value: 'Completion of standard AML/KYC verification on Founders, key shareholders, and compliance with foreign investment / exchange regulations', options: ['Completion of standard AML/KYC verification on Founders, key shareholders, and compliance with foreign investment / exchange regulations', 'Standard Accredited Investor verification only', 'FDI / Central Bank Approvals where applicable'], req: true },
+            { id: 'closing_date', name: 'Target Closing Date', type: 'text', value: 'March 31, 2026 (or 30 days post term sheet execution)', req: true, placeholder: 'e.g. March 31, 2026' },
+            { id: 'other_conditions', name: 'Other Conditions Precedent', type: 'textarea', value: 'Execution of comprehensive Proprietary Information and Inventions Assignment Agreements (PIIA) by all founders and key personnel; Key-person life insurance policy ($2.0M) for CEO.', req: false }
+          ]
+        },
+        {
+          id: 'sec_controls',
+          title: '6. Term Sheet Controls',
+          desc: 'Validity expiration, exclusivity no-shop commitments, confidentiality covenants, and binding clauses.',
+          fields: [
+            { id: 'expiry_date', name: 'Term Sheet Expiry Date', type: 'text', value: '14 business days from delivery (5:00 PM EST, March 12, 2026)', req: true, placeholder: 'e.g. 14 business days from issuance' },
+            { id: 'exclusivity_period', name: 'Exclusivity Period', type: 'select', value: '30-Day Exclusive No-Shop Period from mutual execution date', options: ['30-Day Exclusive No-Shop Period from mutual execution date', '45-Day Exclusive No-Shop Period', '15-Day Fast-Track Exclusivity', 'None / Non-Exclusive'], req: true },
+            { id: 'confidentiality', name: 'Confidentiality', type: 'select', value: 'Strict Mutual Confidentiality regarding existence, negotiations, and terms', options: ['Strict Mutual Confidentiality regarding existence, negotiations, and terms', 'Standard Non-Disclosure Agreement (NDA)', 'Public Announcement permitted upon mutual consent'], req: true },
+            { id: 'binding_status', name: 'Binding / Non-Binding Clauses', type: 'select', value: 'Non-Binding statement of intent, EXCEPT Section 6 (Exclusivity, Confidentiality, Governing Law, and Expenses) which are legally binding upon execution', options: ['Non-Binding statement of intent, EXCEPT Section 6 (Exclusivity, Confidentiality, Governing Law, and Expenses) which are legally binding upon execution', 'Entirely Non-Binding Expression of Interest', 'Fully Binding Definitive Term Sheet'], req: true }
+          ]
+        }
+      ],
+      safe_postmoney: [
+        {
+          id: 'sec_deal',
+          title: '1. Deal Details',
+          desc: 'SAFE instrument financing terms.',
+          fields: [
+            { id: 'startup_name', name: 'Startup Name', type: 'text', value: 'Alpha Health Technologies Inc.', req: true },
+            { id: 'investor_name', name: 'Investor / Fund', type: 'text', value: 'Seedicon Venture Fund I, L.P.', req: true },
+            { id: 'round_stage', name: 'Investment Round', type: 'select', value: 'Pre-Seed Round', options: ['Pre-Seed Round', 'Seed Round'], req: true },
+            { id: 'security_type', name: 'Security Type', type: 'select', value: 'SAFE (Post-Money)', options: ['SAFE (Post-Money)', 'SAFE (Pre-Money)'], req: true },
+            { id: 'investment_amt', name: 'Investment Amount ($)', type: 'currency', value: '1,000,000', req: true }
+          ]
+        },
+        {
+          id: 'sec_valuation',
+          title: '2. Valuation & Ownership',
+          desc: 'SAFE valuation cap and discount.',
+          fields: [
+            { id: 'pre_money_val', name: 'Valuation Cap ($)', type: 'currency', value: '8,000,000', req: true },
+            { id: 'post_money_val', name: 'Post-Money Valuation ($)', type: 'currency', value: '9,000,000', req: true, isCalc: true },
+            { id: 'investor_ownership', name: 'Investor Ownership %', type: 'percentage', value: '11.11', req: true, isCalc: true },
+            { id: 'price_per_share', name: 'Discount Rate', type: 'select', value: '20% Discount (or Valuation Cap, whichever is lower)', options: ['20% Discount (or Valuation Cap, whichever is lower)', 'None / Cap Only', '15% Discount'], req: true },
+            { id: 'option_pool', name: 'Option Pool / ESOP %', type: 'select', value: '10.0% Unallocated Post-Financing Pool', options: ['10.0% Unallocated Post-Financing Pool', 'Pre-existing ESOP only'], req: true }
+          ]
+        },
+        {
+          id: 'sec_key_terms',
+          title: '3. Key Investment Terms',
+          desc: 'SAFE conversion trigger mechanics.',
+          fields: [
+            { id: 'liq_pref', name: 'Liquidation Preference', type: 'select', value: '1.0x Non-Participating Preferred (Market Standard)', options: ['1.0x Non-Participating Preferred (Market Standard)'], req: true },
+            { id: 'liq_multiple', name: 'Liquidation Preference Multiple', type: 'select', value: '1.0x', options: ['1.0x'], req: true },
+            { id: 'participation', name: 'Participation', type: 'select', value: 'Non-Participating', options: ['Non-Participating'], req: true },
+            { id: 'anti_dilution', name: 'Anti-Dilution', type: 'select', value: 'Broad-based Weighted Average (Standard)', options: ['Broad-based Weighted Average (Standard)'], req: true },
+            { id: 'dividends', name: 'Dividend Rights', type: 'select', value: 'None', options: ['None'], req: false },
+            { id: 'conversion_rights', name: 'Conversion Rights', type: 'textarea', value: 'Automatically converts upon Equity Financing of at least $1,000,000 into Safe Preferred Stock.', req: true }
+          ]
+        },
+        {
+          id: 'sec_investor_rights',
+          title: '4. Investor Rights',
+          desc: 'Information & pro-rata rights.',
+          fields: [
+            { id: 'board_seat', name: 'Board Seat / Board Observer', type: 'select', value: '1 Board Observer only', options: ['1 Board Observer only', 'No Board Representation'], req: true },
+            { id: 'info_rights', name: 'Information Rights', type: 'select', value: 'Quarterly & Audited Annual Financials only', options: ['Quarterly & Audited Annual Financials only', 'Standard Major Investor Inspection Rights'], req: true },
+            { id: 'pro_rata', name: 'Pro-Rata / Pre-emption Rights', type: 'select', value: 'Full Pro-Rata Right to maintain pro-rata ownership in all future equity rounds', options: ['Full Pro-Rata Right to maintain pro-rata ownership in all future equity rounds'], req: true },
+            { id: 'protective_provisions', name: 'Protective Provisions / Reserved Matters', type: 'textarea', value: 'Standard Safe holder rights.', req: true },
+            { id: 'founder_vesting', name: 'Founder Lock-in / Vesting', type: 'select', value: '4-Year Monthly Vesting with 1-Year Cliff (100% subject to reverse vesting with credit for past service)', options: ['4-Year Monthly Vesting with 1-Year Cliff (100% subject to reverse vesting with credit for past service)'], req: true }
+          ]
+        },
+        {
+          id: 'sec_closing_cond',
+          title: '5. Closing Conditions',
+          desc: 'SAFE execution requirements.',
+          fields: [
+            { id: 'dd_completion', name: 'Due Diligence Completion', type: 'select', value: 'Confirmatory Due Diligence within 14 business days', options: ['Confirmatory Due Diligence within 14 business days'], req: true },
+            { id: 'legal_docs', name: 'Legal Documentation', type: 'select', value: 'Simple SAFE Instrument & Side Letter', options: ['Simple SAFE Instrument & Side Letter'], req: true },
+            { id: 'regulatory_kyc', name: 'Regulatory / KYC Conditions', type: 'select', value: 'Standard Accredited Investor verification only', options: ['Standard Accredited Investor verification only'], req: true },
+            { id: 'closing_date', name: 'Target Closing Date', type: 'text', value: 'Within 7 business days of signing', req: true },
+            { id: 'other_conditions', name: 'Other Conditions Precedent', type: 'textarea', value: 'Standard SAFE terms.', req: false }
+          ]
+        },
+        {
+          id: 'sec_controls',
+          title: '6. Term Sheet Controls',
+          desc: 'Timeline and legal bounds.',
+          fields: [
+            { id: 'expiry_date', name: 'Term Sheet Expiry Date', type: 'text', value: '7 business days from delivery', req: true },
+            { id: 'exclusivity_period', name: 'Exclusivity Period', type: 'select', value: '15-Day Fast-Track Exclusivity', options: ['15-Day Fast-Track Exclusivity', 'None / Non-Exclusive'], req: true },
+            { id: 'confidentiality', name: 'Confidentiality', type: 'select', value: 'Strict Mutual Confidentiality regarding existence, negotiations, and terms', options: ['Strict Mutual Confidentiality regarding existence, negotiations, and terms'], req: true },
+            { id: 'binding_status', name: 'Binding / Non-Binding Clauses', type: 'select', value: 'Non-Binding statement of intent, EXCEPT Section 6 (Exclusivity, Confidentiality, Governing Law, and Expenses) which are legally binding upon execution', options: ['Non-Binding statement of intent, EXCEPT Section 6 (Exclusivity, Confidentiality, Governing Law, and Expenses) which are legally binding upon execution'], req: true }
+          ]
+        }
+      ],
+      series_a: [
+        {
+          id: 'sec_deal',
+          title: '1. Deal Details',
+          desc: 'Series A Institutional Equity Round.',
+          fields: [
+            { id: 'startup_name', name: 'Startup Name', type: 'text', value: 'Apex AI Systems Inc.', req: true },
+            { id: 'investor_name', name: 'Investor / Fund', type: 'text', value: 'Seedicon Venture Fund I, L.P. (Lead)', req: true },
+            { id: 'round_stage', name: 'Investment Round', type: 'select', value: 'Series A', options: ['Series A', 'Series B'], req: true },
+            { id: 'security_type', name: 'Security Type', type: 'select', value: 'Series A Preferred Stock', options: ['Series A Preferred Stock'], req: true },
+            { id: 'investment_amt', name: 'Investment Amount ($)', type: 'currency', value: '6,000,000', req: true }
+          ]
+        },
+        {
+          id: 'sec_valuation',
+          title: '2. Valuation & Ownership',
+          desc: 'Series A pricing and cap table metrics.',
+          fields: [
+            { id: 'pre_money_val', name: 'Pre-Money Valuation ($)', type: 'currency', value: '24,000,000', req: true },
+            { id: 'post_money_val', name: 'Post-Money Valuation ($)', type: 'currency', value: '30,000,000', req: true, isCalc: true },
+            { id: 'investor_ownership', name: 'Investor Ownership %', type: 'percentage', value: '20.00', req: true, isCalc: true },
+            { id: 'price_per_share', name: 'Price Per Share ($)', type: 'text', value: '$3.75 per Series A Preferred Share', req: true },
+            { id: 'option_pool', name: 'Option Pool / ESOP %', type: 'select', value: '15.0% Unallocated Post-Financing Pool', options: ['15.0% Unallocated Post-Financing Pool', '10.0% Unallocated Post-Financing Pool'], req: true }
+          ]
+        },
+        {
+          id: 'sec_key_terms',
+          title: '3. Key Investment Terms',
+          desc: 'Series A Liquidation & Conversion terms.',
+          fields: [
+            { id: 'liq_pref', name: 'Liquidation Preference', type: 'select', value: '1.0x Non-Participating Preferred (Market Standard)', options: ['1.0x Non-Participating Preferred (Market Standard)'], req: true },
+            { id: 'liq_multiple', name: 'Liquidation Preference Multiple', type: 'select', value: '1.0x', options: ['1.0x'], req: true },
+            { id: 'participation', name: 'Participation', type: 'select', value: 'Non-Participating', options: ['Non-Participating'], req: true },
+            { id: 'anti_dilution', name: 'Anti-Dilution', type: 'select', value: 'Broad-based Weighted Average (Standard)', options: ['Broad-based Weighted Average (Standard)'], req: true },
+            { id: 'dividends', name: 'Dividend Rights', type: 'select', value: '8.0% Non-Cumulative (When and if declared by Board)', options: ['8.0% Non-Cumulative (When and if declared by Board)'], req: false },
+            { id: 'conversion_rights', name: 'Conversion Rights', type: 'textarea', value: '1:1 conversion into Common Stock at any time, automatic on Qualified IPO ($75M+ / 3x issue price).', req: true }
+          ]
+        },
+        {
+          id: 'sec_investor_rights',
+          title: '4. Investor Rights',
+          desc: 'Governance, Board & Reserved Matters.',
+          fields: [
+            { id: 'board_seat', name: 'Board Seat / Board Observer', type: 'select', value: '1 Board Director Seat + 1 Observer designated by Lead Investor', options: ['1 Board Director Seat + 1 Observer designated by Lead Investor'], req: true },
+            { id: 'info_rights', name: 'Information Rights', type: 'select', value: 'Monthly flash KPIs (20d), Quarterly Financials (30d), Audited Annuals (90d)', options: ['Monthly flash KPIs (20d), Quarterly Financials (30d), Audited Annuals (90d)'], req: true },
+            { id: 'pro_rata', name: 'Pro-Rata / Pre-emption Rights', type: 'select', value: 'Full Pro-Rata Right to maintain pro-rata ownership in all future equity rounds', options: ['Full Pro-Rata Right to maintain pro-rata ownership in all future equity rounds'], req: true },
+            { id: 'protective_provisions', name: 'Protective Provisions / Reserved Matters', type: 'textarea', value: 'Comprehensive 12-point Investor Director approval over corporate restructuring, debt issuance > $250k, SHA changes, and budget approval.', req: true },
+            { id: 'founder_vesting', name: 'Founder Lock-in / Vesting', type: 'select', value: '4-Year Monthly Vesting with 1-Year Cliff (100% subject to reverse vesting with credit for past service)', options: ['4-Year Monthly Vesting with 1-Year Cliff (100% subject to reverse vesting with credit for past service)'], req: true }
+          ]
+        },
+        {
+          id: 'sec_closing_cond',
+          title: '5. Closing Conditions',
+          desc: 'Closing requirements and schedule.',
+          fields: [
+            { id: 'dd_completion', name: 'Due Diligence Completion', type: 'select', value: 'Satisfactory completion of commercial, financial, tax, tech code audit, and legal due diligence', options: ['Satisfactory completion of commercial, financial, tax, tech code audit, and legal due diligence'], req: true },
+            { id: 'legal_docs', name: 'Legal Documentation', type: 'select', value: 'Standard NVCA Model Financing Agreements', options: ['Standard NVCA Model Financing Agreements'], req: true },
+            { id: 'regulatory_kyc', name: 'Regulatory / KYC Conditions', type: 'select', value: 'Completion of standard AML/KYC verification on Founders, key shareholders, and compliance with foreign investment / exchange regulations', options: ['Completion of standard AML/KYC verification on Founders, key shareholders, and compliance with foreign investment / exchange regulations'], req: true },
+            { id: 'closing_date', name: 'Target Closing Date', type: 'text', value: 'April 30, 2026', req: true },
+            { id: 'other_conditions', name: 'Other Conditions Precedent', type: 'textarea', value: 'Key-person life insurance ($3M) on CEO and CTO, assignment of all proprietary AI patents.', req: false }
+          ]
+        },
+        {
+          id: 'sec_controls',
+          title: '6. Term Sheet Controls',
+          desc: 'Term sheet controls and validity.',
+          fields: [
+            { id: 'expiry_date', name: 'Term Sheet Expiry Date', type: 'text', value: '14 business days from delivery', req: true },
+            { id: 'exclusivity_period', name: 'Exclusivity Period', type: 'select', value: '45-Day Exclusive No-Shop Period', options: ['45-Day Exclusive No-Shop Period', '30-Day Exclusive No-Shop Period from mutual execution date'], req: true },
+            { id: 'confidentiality', name: 'Confidentiality', type: 'select', value: 'Strict Mutual Confidentiality regarding existence, negotiations, and terms', options: ['Strict Mutual Confidentiality regarding existence, negotiations, and terms'], req: true },
+            { id: 'binding_status', name: 'Binding / Non-Binding Clauses', type: 'select', value: 'Non-Binding statement of intent, EXCEPT Section 6 (Exclusivity, Confidentiality, Governing Law, and Expenses) which are legally binding upon execution', options: ['Non-Binding statement of intent, EXCEPT Section 6 (Exclusivity, Confidentiality, Governing Law, and Expenses) which are legally binding upon execution'], req: true }
+          ]
+        }
+      ],
+      convertible_note: [
+        {
+          id: 'sec_deal',
+          title: '1. Deal Details',
+          desc: 'Convertible Promissory Note parameters.',
+          fields: [
+            { id: 'startup_name', name: 'Startup Name', type: 'text', value: 'FinFlow Tech Ltd.', req: true },
+            { id: 'investor_name', name: 'Investor / Fund', type: 'text', value: 'Seedicon Venture Fund I, L.P.', req: true },
+            { id: 'round_stage', name: 'Investment Round', type: 'select', value: 'Bridge Round', options: ['Bridge Round', 'Pre-Seed Round'], req: true },
+            { id: 'security_type', name: 'Security Type', type: 'select', value: 'Convertible Promissory Note', options: ['Convertible Promissory Note'], req: true },
+            { id: 'investment_amt', name: 'Investment Amount ($)', type: 'currency', value: '750,000', req: true }
+          ]
+        },
+        {
+          id: 'sec_valuation',
+          title: '2. Valuation & Ownership',
+          desc: 'Valuation Cap and Interest Rate.',
+          fields: [
+            { id: 'pre_money_val', name: 'Valuation Cap ($)', type: 'currency', value: '10,000,000', req: true },
+            { id: 'post_money_val', name: 'Post-Money Valuation ($)', type: 'currency', value: '10,750,000', req: true, isCalc: true },
+            { id: 'investor_ownership', name: 'Estimated Ownership %', type: 'percentage', value: '6.98', req: true, isCalc: true },
+            { id: 'price_per_share', name: 'Interest Rate & Discount', type: 'text', value: '6.0% Simple Interest p.a. · 20% Conversion Discount', req: true },
+            { id: 'option_pool', name: 'Option Pool / ESOP %', type: 'select', value: 'Pre-existing ESOP only (no expansion)', options: ['Pre-existing ESOP only (no expansion)', '10.0% Unallocated Post-Financing Pool'], req: true }
+          ]
+        },
+        {
+          id: 'sec_key_terms',
+          title: '3. Key Investment Terms',
+          desc: 'Maturity and conversion terms.',
+          fields: [
+            { id: 'liq_pref', name: 'Liquidation Preference', type: 'select', value: '1.0x Non-Participating Preferred (Market Standard)', options: ['1.0x Non-Participating Preferred (Market Standard)'], req: true },
+            { id: 'liq_multiple', name: 'Liquidation Preference Multiple', type: 'select', value: '1.0x', options: ['1.0x'], req: true },
+            { id: 'participation', name: 'Participation', type: 'select', value: 'Non-Participating', options: ['Non-Participating'], req: true },
+            { id: 'anti_dilution', name: 'Anti-Dilution', type: 'select', value: 'Broad-based Weighted Average (Standard)', options: ['Broad-based Weighted Average (Standard)'], req: true },
+            { id: 'dividends', name: 'Interest Rate', type: 'select', value: '6.0% Annual Simple Interest', options: ['6.0% Annual Simple Interest', '8.0% Annual Simple Interest', 'None'], req: false },
+            { id: 'conversion_rights', name: 'Conversion Rights', type: 'textarea', value: 'Maturity date 18 months from issuance; automatically converts upon qualified equity round of $2M+.', req: true }
+          ]
+        },
+        {
+          id: 'sec_investor_rights',
+          title: '4. Investor Rights',
+          desc: 'Investor Observer and Pro-rata rights.',
+          fields: [
+            { id: 'board_seat', name: 'Board Seat / Board Observer', type: 'select', value: '1 Board Observer only', options: ['1 Board Observer only', 'No Board Representation'], req: true },
+            { id: 'info_rights', name: 'Information Rights', type: 'select', value: 'Quarterly & Audited Annual Financials only', options: ['Quarterly & Audited Annual Financials only'], req: true },
+            { id: 'pro_rata', name: 'Pro-Rata / Pre-emption Rights', type: 'select', value: 'Full Pro-Rata Right to maintain pro-rata ownership in all future equity rounds', options: ['Full Pro-Rata Right to maintain pro-rata ownership in all future equity rounds'], req: true },
+            { id: 'protective_provisions', name: 'Protective Provisions / Reserved Matters', type: 'textarea', value: 'Noteholder majority approval required for any senior indebtedness or corporate change of control.', req: true },
+            { id: 'founder_vesting', name: 'Founder Lock-in / Vesting', type: 'select', value: '4-Year Monthly Vesting with 1-Year Cliff (100% subject to reverse vesting with credit for past service)', options: ['4-Year Monthly Vesting with 1-Year Cliff (100% subject to reverse vesting with credit for past service)'], req: true }
+          ]
+        },
+        {
+          id: 'sec_closing_cond',
+          title: '5. Closing Conditions',
+          desc: 'Note closing conditions.',
+          fields: [
+            { id: 'dd_completion', name: 'Due Diligence Completion', type: 'select', value: 'Confirmatory Due Diligence within 14 business days', options: ['Confirmatory Due Diligence within 14 business days'], req: true },
+            { id: 'legal_docs', name: 'Legal Documentation', type: 'select', value: 'Execution of definitive Note Purchase Agreement (NPA) & Promissory Note', options: ['Execution of definitive Note Purchase Agreement (NPA) & Promissory Note'], req: true },
+            { id: 'regulatory_kyc', name: 'Regulatory / KYC Conditions', type: 'select', value: 'Standard Accredited Investor verification only', options: ['Standard Accredited Investor verification only'], req: true },
+            { id: 'closing_date', name: 'Target Closing Date', type: 'text', value: 'Within 10 business days', req: true },
+            { id: 'other_conditions', name: 'Other Conditions Precedent', type: 'textarea', value: 'Standard legal sign-off and founder PIIA confirmation.', req: false }
+          ]
+        },
+        {
+          id: 'sec_controls',
+          title: '6. Term Sheet Controls',
+          desc: 'Note term sheet validity.',
+          fields: [
+            { id: 'expiry_date', name: 'Term Sheet Expiry Date', type: 'text', value: '10 business days from delivery', req: true },
+            { id: 'exclusivity_period', name: 'Exclusivity Period', type: 'select', value: '15-Day Fast-Track Exclusivity', options: ['15-Day Fast-Track Exclusivity'], req: true },
+            { id: 'confidentiality', name: 'Confidentiality', type: 'select', value: 'Strict Mutual Confidentiality regarding existence, negotiations, and terms', options: ['Strict Mutual Confidentiality regarding existence, negotiations, and terms'], req: true },
+            { id: 'binding_status', name: 'Binding / Non-Binding Clauses', type: 'select', value: 'Non-Binding statement of intent, EXCEPT Section 6 (Exclusivity, Confidentiality, Governing Law, and Expenses) which are legally binding upon execution', options: ['Non-Binding statement of intent, EXCEPT Section 6 (Exclusivity, Confidentiality, Governing Law, and Expenses) which are legally binding upon execution'], req: true }
+          ]
+        }
+      ]
+    };
+
+    let currentTemplateData = JSON.parse(JSON.stringify(PRESETS.seed_preferred));
+    let isPreviewMode = false;
+
+    // Helper to parse currency numbers
+    function parseNum(val) {
+      if (!val) return 0;
+      const clean = String(val).replace(/[^0-9.]/g, '');
+      return parseFloat(clean) || 0;
+    }
+
+    function formatCurrency(num) {
+      if (isNaN(num) || num === null) return '$0';
+      return '$' + num.toLocaleString('en-US', { maximumFractionDigits: 0 });
+    }
+
+    // Auto-calculate valuation and ownership %
+    function recomputeValuationMetrics() {
+      let investAmt = 0;
+      let preMoney = 0;
+
+      // Find fields
+      currentTemplateData.forEach(sec => {
+        sec.fields.forEach(f => {
+          if (f.id === 'investment_amt') investAmt = parseNum(f.value);
+          if (f.id === 'pre_money_val') preMoney = parseNum(f.value);
+        });
+      });
+
+      const postMoney = preMoney + investAmt;
+      const ownershipPct = postMoney > 0 ? (investAmt / postMoney) * 100 : 0;
+
+      // Update in data
+      currentTemplateData.forEach(sec => {
+        sec.fields.forEach(f => {
+          if (f.id === 'post_money_val') f.value = formatCurrency(postMoney).replace('$', '');
+          if (f.id === 'investor_ownership') f.value = ownershipPct.toFixed(2);
+        });
+      });
+
+      // Update summary card UI
+      const sumInvest = document.getElementById('summaryInvestAmt');
+      const sumPre = document.getElementById('summaryPreMoney');
+      const sumPost = document.getElementById('summaryPostMoney');
+      const sumOwner = document.getElementById('summaryOwnership');
+      const sumSec = document.getElementById('summarySecurity');
+
+      if (sumInvest) sumInvest.textContent = formatCurrency(investAmt);
+      if (sumPre) sumPre.textContent = formatCurrency(preMoney);
+      if (sumPost) sumPost.textContent = formatCurrency(postMoney);
+      if (sumOwner) sumOwner.textContent = ownershipPct.toFixed(2) + '%';
+
+      // Security type from deal details
+      let secTypeVal = 'Preferred Equity';
+      const dealSec = currentTemplateData.find(s => s.id === 'sec_deal');
+      if (dealSec) {
+        const fSec = dealSec.fields.find(f => f.id === 'security_type');
+        if (fSec) secTypeVal = fSec.value;
+      }
+      if (sumSec) sumSec.textContent = secTypeVal;
+    }
+
+    // Render TOC Navigation Rail
+    function renderTOC() {
+      const container = document.getElementById('tocNavContainer');
+      const countEl = document.getElementById('tocCount');
+      if (!container) return;
+
+      if (countEl) countEl.textContent = currentTemplateData.length;
+
+      container.innerHTML = currentTemplateData.map((sec, idx) => `
+        <a href="#${sec.id}" class="preview-rail-item ${idx === 0 ? 'active' : ''}" id="tocLink_${sec.id}" onclick="handleTOCClick(event, '${sec.id}')">
+          <div style="display:flex; align-items:center; gap:6px; min-width:0; overflow:hidden;">
+            <i data-lucide="file-text" style="width:12px; height:12px; flex-shrink:0; color:#8A8A88;"></i>
+            <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${sec.title}</span>
+          </div>
+          <span style="font-size:10px; color:#8A8A88; font-weight:700;">${sec.fields.length}</span>
+        </a>
+      `).join('');
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function handleTOCClick(e, secId) {
+      e.preventDefault();
+      document.querySelectorAll('.preview-rail-item').forEach(el => el.classList.remove('active'));
+      const activeLink = document.getElementById('tocLink_' + secId);
+      if (activeLink) activeLink.classList.add('active');
+
+      const targetSec = document.getElementById(secId);
+      if (targetSec) {
+        targetSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Render Main Surface Area
+    function renderSurface() {
+      const container = document.getElementById('surfaceContainer');
+      if (!container) return;
+
+      if (isPreviewMode) {
+        renderPreviewDocument(container);
+        return;
+      }
+
+      // Render Edit Mode Sections
+      container.innerHTML = currentTemplateData.map((sec, secIdx) => `
+        <section class="form-surface-section" id="${sec.id}">
+          <div class="form-section-header">
+            <div>
+              <div class="form-section-title">
+                <span class="drag-grip-icon" title="Section ${secIdx + 1}">⋮⋮</span>
+                <span>${sec.title}</span>
+                <span class="pill-type" style="font-size:9.5px; padding:1px 6px;">${sec.fields.length} Clauses</span>
+              </div>
+              <div class="form-section-desc">${sec.desc}</div>
+            </div>
+            <button type="button" class="vdr-btn-outline" onclick="addInlineClause('${sec.id}')" style="font-size:11px; padding:4px 10px; gap:4px;" title="Add new term clause directly in this section">
+              <i data-lucide="plus" style="width:11px; height:11px;"></i>
+              <span>Add Clause</span>
+            </button>
+          </div>
+
+          <table class="builder-table">
+            <thead>
+              <tr>
+                <th style="width:28px;"></th>
+                <th style="width:26%;">Term</th>
+                <th style="width:14%;">Field Type</th>
+                <th style="width:56%;">Proposed Value</th>
+                <th style="width:36px; text-align:right;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${sec.fields.map((f, fieldIdx) => {
+        const isLockedField = f.id === 'startup_name' || f.id === 'investor_name';
+        const displayType = f.type === 'select' ? 'Dropdown' : 'Input';
+
+        let inputHtml = '';
+        if (isLockedField) {
+          inputHtml = `
+            <input type="text" class="builder-input" value="${f.value || ''}" readonly style="background:#F5F5F3; color:#4A4A48; cursor:not-allowed; border-color:#DFDEDE; font-weight:600;" title="Fixed deal entity (pre-filled)" />
+          `;
+        } else if (f.type === 'select') {
+          inputHtml = `
+            <select class="builder-select" onchange="updateFieldValue('${sec.id}', '${f.id}', this.value)">
+              ${(f.options || []).map(opt => `
+                <option value="${opt}" ${opt === f.value ? 'selected' : ''}>${opt}</option>
+              `).join('')}
+            </select>
+          `;
+        } else if (f.type === 'textarea') {
+          inputHtml = `
+            <textarea class="builder-textarea" oninput="updateFieldValue('${sec.id}', '${f.id}', this.value)" rows="2">${f.value || ''}</textarea>
+          `;
+        } else if (f.type === 'currency') {
+          inputHtml = `
+            <div style="position:relative; display:flex; align-items:center;">
+              <span style="position:absolute; left:8px; font-weight:700; color:#8A8A88; font-size:11.5px;">$</span>
+              <input type="text" class="builder-input" style="padding-left:18px; font-weight:600;" value="${f.value || ''}" placeholder="${f.placeholder || '0'}" oninput="updateCurrencyFieldValue('${sec.id}', '${f.id}', this.value)" />
+              ${f.isCalc ? `<span class="calc-tag" style="position:absolute; right:8px;"><i data-lucide="sparkles" style="width:9px; height:9px;"></i> Auto</span>` : ''}
+            </div>
+          `;
+        } else if (f.type === 'percentage') {
+          inputHtml = `
+            <div style="position:relative; display:flex; align-items:center;">
+              <input type="text" class="builder-input" style="padding-right:22px; font-weight:700; color:#1D4ED8;" value="${f.value || ''}" oninput="updateFieldValue('${sec.id}', '${f.id}', this.value)" />
+              <span style="position:absolute; right:8px; font-weight:800; color:#8A8A88; font-size:11px;">%</span>
+              ${f.isCalc ? `<span class="calc-tag" style="position:absolute; right:28px;"><i data-lucide="sparkles" style="width:9px; height:9px;"></i> Auto</span>` : ''}
+            </div>
+          `;
+        } else {
+          inputHtml = `
+            <input type="text" class="builder-input" value="${f.value || ''}" placeholder="${f.placeholder || 'Enter value...'}" oninput="updateFieldValue('${sec.id}', '${f.id}', this.value)" />
+          `;
+        }
+
+        let termNameHtml = '';
+        if (f.isCustom) {
+          termNameHtml = `
+            <input type="text" class="builder-input" data-field-name="true" placeholder="Enter term name..." value="${f.name || ''}" oninput="updateCustomFieldName('${sec.id}', '${f.id}', this.value)" style="font-weight:700;" />
+          `;
+        } else {
+          termNameHtml = `
+            <div style="font-weight:700; color:#1A1A18; font-size:12px; display:inline-flex; align-items:center; gap:3px;">
+              <span>${f.name}</span>
+              ${f.req ? `<span style="color:#DC2626; font-weight:800; font-size:12px;" title="Required">*</span>` : ''}
+            </div>
+          `;
+        }
+
+        return `
+          <tr id="row_${sec.id}_${f.id}">
+            <td style="text-align:center;">
+              <i data-lucide="grip-vertical" class="drag-grip-icon" style="width:13px; height:13px;"></i>
+            </td>
+            <td>
+              ${termNameHtml}
+            </td>
+            <td>
+              <span class="pill-type">${displayType}</span>
+            </td>
+            <td>
+              ${inputHtml}
+              ${f.desc ? `<div style="font-size:10px; color:#8A8A88; margin-top:2px;">${f.desc}</div>` : ''}
+            </td>
+            <td style="text-align:right;">
+              ${isLockedField ? `
+                <i data-lucide="lock" style="width:12px; height:12px; color:#A0A09C;" title="Core field (pre-filled)"></i>
+              ` : `
+                <button type="button" onclick="deleteField('${sec.id}', '${f.id}')" title="Delete term" style="background:transparent; border:none; cursor:pointer; color:#A0A09C; padding:3px; border-radius:4px; transition:all 0.1s ease;">
+                  <i data-lucide="trash-2" style="width:13px; height:13px;"></i>
+                </button>
+              `}
+            </td>
+          </tr>
+        `;
+      }).join('')}
+            </tbody>
+          </table>
+        </section>
+      `).join('');
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // Render Clean Institutional Preview Document
+    function renderPreviewDocument(container) {
+      // Find key metrics for preview summary table
+      let startupName = 'Alpha Health Technologies Inc.';
+      let investorName = 'Seedicon Venture Fund I, L.P.';
+      let roundStage = 'Seed Round';
+      let securityType = 'Series Seed Preferred Stock';
+      let investAmt = '$3,000,000';
+      let preMoney = '$12,000,000';
+      let postMoney = '$15,000,000';
+      let ownership = '20.00%';
+      let expiryDate = 'March 12, 2026';
+
+      currentTemplateData.forEach(sec => {
+        sec.fields.forEach(f => {
+          if (f.id === 'startup_name' && f.value) startupName = f.value;
+          if (f.id === 'investor_name' && f.value) investorName = f.value;
+          if (f.id === 'round_stage' && f.value) roundStage = f.value;
+          if (f.id === 'security_type' && f.value) securityType = f.value;
+          if (f.id === 'investment_amt' && f.value) investAmt = formatCurrency(parseNum(f.value));
+          if (f.id === 'pre_money_val' && f.value) preMoney = formatCurrency(parseNum(f.value));
+          if (f.id === 'post_money_val' && f.value) postMoney = formatCurrency(parseNum(f.value));
+          if (f.id === 'investor_ownership' && f.value) ownership = f.value + '%';
+          if (f.id === 'expiry_date' && f.value) expiryDate = f.value;
+        });
+      });
+
+      container.innerHTML = `
+        <div class="ts-doc-wrapper">
+          <div class="ts-doc-paper">
+            
+            <!-- Document Header -->
+            <div class="ts-doc-header">
+              <div>
+                <div class="ts-doc-brand">
+                  <span style="display:inline-block; width:10px; height:10px; background:#1A1A18; border-radius:2px;"></span>
+                  <span>SEEDICON VENTURE PARTNERS</span>
+                </div>
+                <div style="font-size:10.5px; color:#7A7A78; margin-top:2px;">Institutional Venture Capital &amp; Strategic Growth Fund</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; color:#047857; background:#ECFDF5; padding:2px 7px; border-radius:4px; border:1px solid #A7F3D0; display:inline-block;">
+                  CONFIDENTIAL TERM SHEET
+                </div>
+                <div style="font-size:10.5px; color:#8A8A88; margin-top:4px;">Date: ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+              </div>
+            </div>
+
+            <!-- Title -->
+            <div class="ts-doc-title">SUMMARY OF TERMS FOR ${roundStage.toUpperCase()} FINANCING</div>
+            <div class="ts-doc-subtitle">
+              Memorandum of Terms for Investment in <strong>${startupName}</strong> by <strong>${investorName}</strong>
+            </div>
+
+            <!-- Executive Summary Table -->
+            <table class="ts-summary-table">
+              <tbody>
+                <tr>
+                  <td class="ts-lbl">Issuer / Company:</td>
+                  <td class="ts-val">${startupName}</td>
+                </tr>
+                <tr>
+                  <td class="ts-lbl">Lead Investor:</td>
+                  <td class="ts-val">${investorName}</td>
+                </tr>
+                <tr>
+                  <td class="ts-lbl">Financing Instrument:</td>
+                  <td class="ts-val">${securityType}</td>
+                </tr>
+                <tr>
+                  <td class="ts-lbl">Committed Investment:</td>
+                  <td class="ts-val" style="font-size:13.5px; font-weight:800; color:#1A1A18;">${investAmt}</td>
+                </tr>
+                <tr>
+                  <td class="ts-lbl">Pre-Money Valuation:</td>
+                  <td class="ts-val">${preMoney}</td>
+                </tr>
+                <tr>
+                  <td class="ts-lbl">Post-Money Valuation:</td>
+                  <td class="ts-val" style="font-weight:700; color:#047857;">${postMoney} (Target Ownership: ${ownership})</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Clauses by Section -->
+            ${currentTemplateData.map(sec => `
+              <div class="ts-clause-section">
+                <div class="ts-clause-heading">${sec.title}</div>
+                ${sec.fields.map((f, fIdx) => `
+                  <div class="ts-clause-item">
+                    <span class="ts-clause-num">${sec.title.split('.')[0]}.${fIdx + 1}</span>
+                    <div class="ts-clause-text">
+                      <strong>${f.name}:</strong>
+                      <span>${f.value || '<span style="color:#A0A09E; font-style:italic;">None specified</span>'}</span>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            `).join('')}
+
+            <!-- Signatures Section -->
+            <div class="ts-signatures-grid">
+              <div class="ts-sig-box">
+                <div style="font-size:10.5px; font-weight:800; text-transform:uppercase; color:#8A8A88; letter-spacing:0.04em;">ISSUED ON BEHALF OF INVESTOR</div>
+                <div class="ts-sig-line">Alexander Wright</div>
+                <div style="font-weight:800; color:#1A1A18; font-size:12px;">${investorName}</div>
+                <div style="font-size:10.5px; color:#7A7A78;">By: Alexander Wright, Managing Partner</div>
+                <div style="font-size:10.5px; color:#8A8A88; margin-top:2px;">Date: ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+              </div>
+
+              <div class="ts-sig-box">
+                <div style="font-size:10.5px; font-weight:800; text-transform:uppercase; color:#8A8A88; letter-spacing:0.04em;">ACCEPTED &amp; AGREED BY COMPANY</div>
+                <div class="ts-sig-line" style="color:#6A6A68; font-style:italic; font-size:13px; font-family:inherit; align-items:center;">
+                  [ Pending Founder Digital Signature ]
+                </div>
+                <div style="font-weight:800; color:#1A1A18; font-size:12px;">${startupName}</div>
+                <div style="font-size:10.5px; color:#7A7A78;">By: Chief Executive Officer &amp; Founder</div>
+                <div style="font-size:10.5px; color:#8A8A88; margin-top:2px;">Offer Valid Until: ${expiryDate}</div>
+              </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div style="font-size:10px; color:#9A9A96; line-height:1.4; margin-top:28px; text-align:justify; border-top:1px solid #EBEBEA; padding-top:12px;">
+              This Term Sheet summarizes the principal terms with respect to the proposed financing. Except for the sections explicitly identified as legally binding (including Exclusivity and Confidentiality), this document constitutes a non-binding statement of mutual intent and does not create an obligation on any party to enter into a definitive transaction.
+            </div>
+
+          </div>
+        </div>
+      `;
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // Interactive Field Value Handlers
+    window.updateFieldValue = function (secId, fieldId, newVal) {
+      const sec = currentTemplateData.find(s => s.id === secId);
+      if (!sec) return;
+      const field = sec.fields.find(f => f.id === fieldId);
+      if (!field) return;
+
+      field.value = newVal;
+
+      if (fieldId === 'security_type' || fieldId === 'round_stage' || fieldId === 'startup_name') {
+        const titleEl = document.getElementById('pageHeaderTitle');
+        const sName = currentTemplateData[0].fields[0].value || 'Startup';
+        if (titleEl) titleEl.textContent = `Term Sheet Builder · ${sName}`;
+      }
+
+      recomputeValuationMetrics();
+    };
+
+    window.updateCurrencyFieldValue = function (secId, fieldId, newVal) {
+      const sec = currentTemplateData.find(s => s.id === secId);
+      if (!sec) return;
+      const field = sec.fields.find(f => f.id === fieldId);
+      if (!field) return;
+
+      const num = parseNum(newVal);
+      field.value = num ? num.toLocaleString('en-US') : '';
+
+      recomputeValuationMetrics();
+
+      // Update the input field display for calculated values
+      const postField = currentTemplateData.find(s => s.id === 'sec_valuation')?.fields.find(f => f.id === 'post_money_val');
+      const ownerField = currentTemplateData.find(s => s.id === 'sec_valuation')?.fields.find(f => f.id === 'investor_ownership');
+
+      const postInput = document.querySelector('#row_sec_valuation_post_money_val input');
+      const ownerInput = document.querySelector('#row_sec_valuation_investor_ownership input');
+
+      if (postInput && postField) postInput.value = postField.value;
+      if (ownerInput && ownerField) ownerInput.value = ownerField.value;
+    };
+
+    // Mode Switcher Handler
+    window.setTermSheetMode = function (toPreview) {
+      isPreviewMode = Boolean(toPreview);
+
+      const btnEdit = document.getElementById('btnModeEdit');
+      const btnPrev = document.getElementById('btnModePreview');
+
+      if (btnEdit && btnPrev) {
+        btnEdit.classList.toggle('active', !isPreviewMode);
+        btnPrev.classList.toggle('active', isPreviewMode);
+      }
+
+      renderSurface();
+    };
+
+    window.resetTermSheetTemplate = function () {
+      currentTemplateData = JSON.parse(JSON.stringify(PRESETS.seed_preferred));
+      recomputeValuationMetrics();
+      renderTOC();
+      renderSurface();
+      if (window.showToast) window.showToast('Reset term sheet parameters to template defaults');
+    };
+
+    // Header More Actions Dropdown (Three Dots Menu)
+    window.toggleHeaderActionsMenu = function (e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('headerActionsMenu');
+      if (menu) {
+        const isOpen = menu.style.display === 'block';
+        menu.style.display = isOpen ? 'none' : 'block';
+      }
+    };
+
+    window.closeHeaderActionsMenu = function () {
+      const menu = document.getElementById('headerActionsMenu');
+      if (menu) menu.style.display = 'none';
+    };
+
+    document.addEventListener('click', function (e) {
+      const menu = document.getElementById('headerActionsMenu');
+      const btn = document.getElementById('btnMoreActions');
+      if (menu && menu.style.display === 'block') {
+        if (!menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
+          menu.style.display = 'none';
+        }
+      }
+    });
+
+    // Inline Add Custom Clause
+    window.addInlineClause = function (secId) {
+      const sec = currentTemplateData.find(s => s.id === secId);
+      if (!sec) return;
+
+      const newId = 'custom_' + Date.now();
+      sec.fields.push({
+        id: newId,
+        name: '',
+        type: 'text',
+        value: '',
+        req: false,
+        isCustom: true
+      });
+
+      renderSurface();
+      renderTOC();
+
+      setTimeout(() => {
+        const input = document.querySelector(`#row_${sec.id}_${newId} input[data-field-name]`);
+        if (input) input.focus();
+      }, 50);
+
+      if (window.showToast) window.showToast('Added new term row. Enter term name and value.');
+    };
+
+    window.updateCustomFieldName = function (secId, fieldId, newName) {
+      const sec = currentTemplateData.find(s => s.id === secId);
+      if (!sec) return;
+      const field = sec.fields.find(f => f.id === fieldId);
+      if (!field) return;
+      field.name = newName;
+    };
+
+    window.deleteField = function (secId, fieldId) {
+      const sec = currentTemplateData.find(s => s.id === secId);
+      if (!sec) return;
+      sec.fields = sec.fields.filter(f => f.id !== fieldId);
+      recomputeValuationMetrics();
+      renderSurface();
+      renderTOC();
+      if (window.showToast) window.showToast('Term clause removed');
+    };
+
+    // Send Term Sheet to Founder Modal
+    window.openSendTermSheetModal = function () {
+      let startupName = 'Alpha Health Technologies Inc.';
+      let investAmt = '$3,000,000';
+      let roundStage = 'Seed Round';
+
+      currentTemplateData.forEach(sec => {
+        sec.fields.forEach(f => {
+          if (f.id === 'startup_name' && f.value) startupName = f.value;
+          if (f.id === 'investment_amt' && f.value) investAmt = formatCurrency(parseNum(f.value));
+          if (f.id === 'round_stage' && f.value) roundStage = f.value;
+        });
+      });
+
+      showModal('Issue & Send Term Sheet', `
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="background:#F0FDF4; border:1px solid #BBF7D0; border-radius:6px; padding:10px 12px; display:flex; align-items:center; gap:10px;">
+            <div style="width:32px; height:32px; border-radius:6px; background:#047857; color:#FFFFFF; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <i data-lucide="file-check" style="width:16px; height:16px;"></i>
+            </div>
+            <div>
+              <div style="font-size:12.5px; font-weight:800; color:#14532D;">${startupName} — ${roundStage}</div>
+              <div style="font-size:11px; color:#15803D;">Committed Capital: <strong>${investAmt}</strong></div>
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size:11.5px; font-weight:700; color:#1A1A18; display:block; margin-bottom:4px;">Founder Signatory Email *</label>
+            <input type="email" id="recipientEmail" class="builder-input" value="founders@alphahealth.io" placeholder="founder@company.com" />
+          </div>
+
+          <div>
+            <label style="font-size:11.5px; font-weight:700; color:#1A1A18; display:block; margin-bottom:4px;">CC / Deal Counsel</label>
+            <input type="text" id="ccEmails" class="builder-input" value="legal@seedicon.com, deals@seedicon.com" />
+          </div>
+
+          <div>
+            <label style="font-size:11.5px; font-weight:700; color:#1A1A18; display:block; margin-bottom:4px;">Personalized Message to Founder</label>
+            <textarea class="builder-textarea" rows="3">Dear Sarah,\n\nWe are delighted to issue this official Term Sheet on behalf of Seedicon Venture Fund I for your ${roundStage} financing. Please review the attached terms and digitally sign to initiate the 30-day exclusivity period.\n\nBest regards,\nAlexander Wright</textarea>
+          </div>
+
+          <div style="background:#FAFAFA; border:1px solid #EBEBEA; border-radius:6px; padding:10px 12px; font-size:11px; color:#6A6A68;">
+            <i data-lucide="info" style="width:12px; height:12px; vertical-align:-1px; color:#1A1A18;"></i>
+            Sending will generate a DocuSign / HelloSign digital e-signature link sent directly to the founder with an automated 14-day expiry countdown.
+          </div>
+        </div>
+
+        <div class="vdr-modal-footer" style="margin:16px -16px -16px; border-bottom-left-radius:8px; border-bottom-right-radius:8px;">
+          <button type="button" class="vdr-btn-outline" onclick="hideModal()">Cancel</button>
+          <button type="button" class="vdr-btn-primary" onclick="executeSendTermSheet()">
+            <i data-lucide="send" style="width:12px; height:12px;"></i>
+            <span>Send Term Sheet via E-Sign</span>
+          </button>
+        </div>
+      `);
+    };
+
+    window.executeSendTermSheet = function () {
+      hideModal();
+      const badge = document.getElementById('statusBadge');
+      if (badge) {
+        badge.textContent = 'Issued & Awaiting Signature';
+        badge.style.background = '#FEF3C7';
+        badge.style.color = '#B45309';
+        badge.style.borderColor = '#FDE68A';
+      }
+      if (window.showToast) {
+        window.showToast('Term Sheet successfully issued and delivered to founder for digital signature!', 'check-circle');
+      }
+    };
+
+    window.exportTermSheetPDF = function () {
+      window.print();
+    };
+
+    // Modal System
+    function showModal(title, html) {
+      document.getElementById('vdrModalTitle').textContent = title;
+      document.getElementById('vdrModalBody').innerHTML = html;
+      document.getElementById('vdrModalBackdrop').style.display = 'flex';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function hideModal() {
+      document.getElementById('vdrModalBackdrop').style.display = 'none';
+    }
+
+    function handleModalBackdropClick(e) {
+      if (e.target === document.getElementById('vdrModalBackdrop')) hideModal();
+    }
+
+    // INITIALIZATION ON DOM READY
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize layout components
+      if (typeof SeediconComponents !== 'undefined') {
+        SeediconComponents.init({ activeNav: 'deal-crm', activeApp: 'investor' });
+      }
+
+      // Check query params for startup ID or preset
+      const params = new URLSearchParams(window.location.search);
+      const startupNameParam = params.get('name');
+      const startupIdParam = params.get('id');
+
+      if (startupNameParam) {
+        currentTemplateData[0].fields[0].value = decodeURIComponent(startupNameParam);
+      }
+
+      const backBtn = document.getElementById('btnBackLink');
+      if (backBtn && startupIdParam) {
+        backBtn.href = `./startup-detail.html?id=${startupIdParam}&tab=termsheet`;
+      }
+
+      recomputeValuationMetrics();
+      renderTOC();
+      renderSurface();
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+  </script>
+</body>
+
+</html>

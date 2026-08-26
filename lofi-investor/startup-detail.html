@@ -1310,12 +1310,20 @@
       left: 0 !important;
       right: 0 !important;
       bottom: 0 !important;
-      z-index: 99999 !important;
+      z-index: 9990 !important;
       height: 100vh !important;
       width: 100vw !important;
       border-radius: 0 !important;
       border: none !important;
       margin: 0 !important;
+    }
+
+    .drawer-overlay {
+      z-index: 100000 !important;
+    }
+
+    .vdr-modal-backdrop {
+      z-index: 100005 !important;
     }
 
     /* Row Highlight for Rejected Documents */
@@ -2418,6 +2426,10 @@
                 <div style="display:flex; align-items:center; gap:8px;">
                   <span
                     style="font-size:9.5px; font-weight:800; padding:3px 8px; background:#F0F0EE; color:#1A1A18; border:1px solid #DCDCDA; border-radius:4px; text-transform:uppercase; letter-spacing:0.04em;">Draft</span>
+                  <a href="./termsheet-builder.html" id="btnOpenTsBuilder" class="btn btn-primary" style="font-size:11px; padding:5px 12px; text-decoration:none; display:inline-flex; align-items:center; gap:5px;">
+                    <i data-lucide="edit-3" style="width:11px; height:11px;"></i>
+                    <span>Open in Term Sheet Builder</span>
+                  </a>
                   <button class="doc-btn" onclick="termSheetAction('Export Term Sheet')">
                     <i data-lucide="download" style="width:11px; height:11px;"></i> Export PDF
                   </button>
@@ -2789,10 +2801,12 @@
       const tsJurisdiction = document.getElementById('tsJurisdiction');
       const histTitle = document.getElementById('histTitle');
       if (tsAvatar) tsAvatar.textContent = s.avatar;
-      if (tsTitle) tsTitle.textContent = `${s.name} · ${s.stage} Round`;
-      if (tsAsk) tsAsk.textContent = s.ask;
-      if (tsJurisdiction) tsJurisdiction.textContent = s.jurisdiction;
       if (histTitle) histTitle.textContent = `${s.name} · Record Activity`;
+
+      const btnOpenTs = document.getElementById('btnOpenTsBuilder');
+      if (btnOpenTs) {
+        btnOpenTs.href = `./termsheet-builder.html?id=${id}&name=${encodeURIComponent(s.name)}`;
+      }
 
       // Auto-switch to initial tab if provided (e.g. ?tab=vdr)
       const tabParam = params.get('tab');

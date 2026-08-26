@@ -797,12 +797,16 @@
       background: #FEF2F2;
     }
 
-    /* Modal Backdrop & Box */
+    /* Drawer Overlay & Modal Backdrop */
+    .drawer-overlay {
+      z-index: 100000 !important;
+    }
+
     .vdr-modal-backdrop {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.45);
-      z-index: 99999;
+      z-index: 100005 !important;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1709,45 +1713,71 @@ Reach out to the investment team directly if you have any questions or require c
     updateFullscreenUI(Boolean(document.fullscreenElement));
   });
 
-  /* ── SHARE WITH DD TEAM MODAL ── */
+  const VDR_DD_PARTNERS = [
+    { id: 'ddp_1', name: 'PwC Advisory Legal', lead: 'Marcus Vance', email: 'm.vance@pwc.com', specialty: 'Corporate & IP', slaDays: '3 Days', avatar: 'PW' },
+    { id: 'ddp_2', name: 'Deloitte Financial Audit', lead: 'Elena Rostova', email: 'e.rostova@deloitte.com', specialty: 'Tax & P&L', slaDays: '4 Days', avatar: 'DL' },
+    { id: 'ddp_3', name: 'KPMG Tech Reviewers', lead: 'David Tanaka', email: 'd.tanaka@kpmg.com', specialty: 'Code & Tech Stack', slaDays: '2 Days', avatar: 'KP' }
+  ];
+
+  /* ── SHARE WITH DD TEAM DRAWER ── */
   window.openShareWithDDTeam = function() {
     closeAllContextMenus();
-    showVDRModal('Share Data Room with Due Diligence Team', `
-      <div style="padding:2px 0;">
-        <p style="font-size:11.5px; color:#6A6A68; margin:0 0 12px;">Grant external audit partners and diligence reviewers direct read access to <strong>${STARTUP_INFO.name}</strong>'s uploaded documents.</p>
+    const sName = STARTUP_INFO?.name || 'Alpha Health';
+    const bodyHtml = `
+      <p style="font-size:11.5px; color:#6A6A68; margin-bottom:14px; line-height:1.5;">
+        Select a <strong>DD Partner</strong> to give review access to <strong>${sName}</strong>'s submitted due diligence documents.
+      </p>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        ${VDR_DD_PARTNERS.map(p => `
+          <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:7px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+            <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+              <div style="width:34px; height:34px; border-radius:6px; background:#1A1A18; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; color:#FFFFFF; flex-shrink:0;">${p.avatar}</div>
+              <div style="flex:1; min-width:0;">
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <span style="font-size:12.5px; font-weight:800; color:#1A1A18; line-height:1.2;">${p.name}</span>
+                  <span class="vdr-type-tag" style="font-size:8.5px;">${p.specialty.toUpperCase()}</span>
+                </div>
+                <div style="font-size:11px; color:#6A6A68; margin-top:2px;">${p.lead} · <span style="color:#8A8A88;">${p.email}</span></div>
+                <div style="font-size:10px; color:#9A9A96; margin-top:2px;">Review SLA: <strong style="color:#5A5A58;">${p.slaDays}</strong></div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="window.confirmShareWithDDPartner('${p.id}')" style="font-size:11px; padding:5px 11px; flex-shrink:0;"><i data-lucide="send" style="width:11px; height:11px;"></i> Share VDR</button>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    const footerHtml = `<button type="button" class="btn-modal-cancel" onclick="window.closeDrawer()">Close</button>`;
+    if (window.openDrawer) {
+      window.openDrawer('Share with DD Team', `Due Diligence Partners`, bodyHtml, footerHtml);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  };
 
-        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px;">
-          <label style="display:flex; align-items:center; gap:10px; background:#FAFAFA; border:1px solid #E2E2E0; border-radius:6px; padding:10px 12px; cursor:pointer;">
-            <input type="checkbox" checked />
-            <div style="flex:1;">
-              <div style="font-size:12px; font-weight:700; color:#1A1A18;">PwC Advisory Legal (Marcus Vance)</div>
-              <div style="font-size:10.5px; color:#7A7A78;">Corporate, IP & SHA review · 3-day SLA</div>
-            </div>
-          </label>
-          <label style="display:flex; align-items:center; gap:10px; background:#FAFAFA; border:1px solid #E2E2E0; border-radius:6px; padding:10px 12px; cursor:pointer;">
-            <input type="checkbox" checked />
-            <div style="flex:1;">
-              <div style="font-size:12px; font-weight:700; color:#1A1A18;">Deloitte Financial Audit (Elena Rostova)</div>
-              <div style="font-size:10.5px; color:#7A7A78;">Tax filings, P&L models & MIS audit · 4-day SLA</div>
-            </div>
-          </label>
-          <label style="display:flex; align-items:center; gap:10px; background:#FAFAFA; border:1px solid #E2E2E0; border-radius:6px; padding:10px 12px; cursor:pointer;">
-            <input type="checkbox" />
-            <div style="flex:1;">
-              <div style="font-size:12px; font-weight:700; color:#1A1A18;">KPMG Code & Tech Reviewers (David Tanaka)</div>
-              <div style="font-size:10.5px; color:#7A7A78;">SOC2 audit & architecture stack · 2-day SLA</div>
-            </div>
-          </label>
+  window.confirmShareWithDDPartner = function(partnerId) {
+    const partner = VDR_DD_PARTNERS.find(p => p.id === partnerId);
+    if (!partner) return;
+    const sName = STARTUP_INFO?.name || 'Alpha Health';
+    showVDRModal('Confirm Share Data Room', `
+      <div style="text-align:center; padding:8px 0 4px;">
+        <div style="width:44px; height:44px; border-radius:50%; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+          <i data-lucide="users" style="width:20px; height:20px; color:#1A1A18;"></i>
         </div>
-
-        <div class="vdr-modal-footer" style="border-top:1px solid #EBEBEA; padding-top:12px;">
-          <button type="button" class="vdr-btn-outline" onclick="hideVDRModal()">Cancel</button>
-          <button type="button" class="vdr-btn-primary" onclick="hideVDRModal(); if(window.showToast) window.showToast('Diligence access granted to selected partners!', 'check-circle');">
-            Send Invites
-          </button>
-        </div>
+        <div style="font-size:13.5px; font-weight:800; color:#1A1A18; margin-bottom:6px;">Share ${sName}'s VDR with ${partner.name}?</div>
+        <p style="font-size:11.5px; color:#6A6A68; line-height:1.5;">
+          Review access will be granted to <strong>${partner.lead}</strong> (${partner.email}). They will be able to review submitted documents.
+        </p>
+      </div>
+      <div class="vdr-modal-footer">
+        <button class="btn-modal-cancel" onclick="hideVDRModal()">Cancel</button>
+        <button class="btn-modal-primary" onclick="window.executeShareWithDDPartner('${partner.name}')">Confirm &amp; Grant Access</button>
       </div>
     `);
+  };
+
+  window.executeShareWithDDPartner = function(partnerName) {
+    hideVDRModal();
+    if (window.closeDrawer) window.closeDrawer();
+    if (window.showToast) window.showToast(`Review access granted to ${partnerName}!`);
   };
 
   window.downloadSubmittedFile = function(fileName) {
