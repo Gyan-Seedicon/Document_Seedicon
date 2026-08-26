@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Startup Data Room Submissions — Seedicon Investor Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg-main: #FAFAFA;
+      --border-color: #E2E2E0;
+    }
+
+    body {
+      background: #FAFAFA;
+      color: #1A1A18;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* ── Split Workspace Layout ── */
+    .vdr-workspace-wrap {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 46px);
+      overflow: hidden;
+      background: #FFFFFF;
+    }
+
+    /* ── Left Folder Sidebar (VDR Category Rail) ── */
+    .vdr-folder-sidebar {
+      width: 240px;
+      min-width: 240px;
+      background: #F8F8F6;
+      border-right: 1px solid #E6E6E4;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      user-select: none;
+    }
+
+    .vdr-sidebar-header {
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .vdr-sidebar-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .vdr-sidebar-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: #1A1A18;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    .vdr-sidebar-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #1A1A18;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .vdr-sidebar-subtitle {
+      font-size: 10.5px;
+      color: #7A7A78;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .vdr-sidebar-search {
+      padding: 8px 10px;
+      border-bottom: 1px solid #EBEBEA;
+    }
+
+    .vdr-sidebar-search-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 5px;
+      padding: 5px 8px;
+      transition: border-color 0.1s ease;
+    }
+
+    .vdr-sidebar-search-box:focus-within {
+      border-color: #1A1A18;
+      box-shadow: 0 0 0 1px #1A1A18;
+    }
+
+    .vdr-sidebar-search-input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 11.5px;
+      font-family: inherit;
+      color: #1A1A18;
+      width: 100%;
+    }
+
+    .vdr-sidebar-search-input::placeholder {
+      color: #8C8C88;
+    }
+
+    .vdr-folder-nav-list {
+      padding: 8px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .vdr-nav-section-label {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: #8C8C88;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 8px 8px 3px;
+    }
+
+    .vdr-nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #4A4A48;
+      cursor: pointer;
+      transition: all 0.1s ease;
+      position: relative;
+    }
+
+    .vdr-nav-item:hover {
+      background: #EFEFED;
+      color: #1A1A18;
+    }
+
+    .vdr-nav-item.active {
+      background: #EAEAE8;
+      color: #1A1A18;
+      font-weight: 700;
+    }
+
+    .vdr-nav-item-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .vdr-nav-item-icon {
+      color: #7A7A78;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .vdr-nav-item.active .vdr-nav-item-icon {
+      color: #1A1A18;
+    }
+
+    .vdr-nav-item-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .vdr-nav-badge {
+      font-size: 10px;
+      font-weight: 700;
+      color: #7A7A78;
+      background: #E2E2E0;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    .vdr-nav-item.active .vdr-nav-badge {
+      background: #1A1A18;
+      color: #FFFFFF;
+    }
+
+    .vdr-sidebar-storage {
+      padding: 12px 14px;
+      border-top: 1px solid #EBEBEA;
+      background: #F4F4F2;
+      font-size: 11px;
+    }
+
+    .vdr-storage-bar-bg {
+      height: 4px;
+      background: #DFDEDE;
+      border-radius: 2px;
+      margin: 6px 0 4px;
+      overflow: hidden;
+    }
+
+    .vdr-storage-bar-fill {
+      height: 100%;
+      background: #1A1A18;
+      border-radius: 2px;
+      width: 75%;
+    }
+
+    /* ── Right Content Area ── */
+    .vdr-content-area {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      height: 100%;
+      overflow-y: auto;
+      background: #FFFFFF;
+      min-width: 0;
+    }
+
+    .vdr-top-header {
+      padding: 14px 24px;
+      border-bottom: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: #FFFFFF;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .vdr-breadcrumb-bar {
+      padding: 8px 24px;
+      background: #FAFAFA;
+      border-bottom: 1px solid #F0F0EE;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+      color: #7A7A78;
+      flex-shrink: 0;
+    }
+
+    .vdr-breadcrumb-link {
+      color: #4A4A48;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.1s;
+    }
+
+    .vdr-breadcrumb-link:hover {
+      color: #1A1A18;
+      text-decoration: underline;
+    }
+
+    .vdr-header-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1A1A18;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .vdr-header-meta {
+      font-size: 11.5px;
+      color: #7A7A78;
+      margin-top: 3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .vdr-header-meta strong {
+      color: #1A1A18;
+      font-weight: 700;
+    }
+
+    .vdr-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── Buttons ── */
+    .vdr-btn-primary {
+      background: #1A1A18 !important;
+      color: #FFFFFF !important;
+      border: 1px solid #1A1A18 !important;
+      padding: 6px 14px !important;
+      border-radius: 6px !important;
+      font-size: 11.5px !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      font-family: inherit !important;
+      transition: all 0.12s ease !important;
+      white-space: nowrap !important;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      line-height: 1.35 !important;
+    }
+
+    .vdr-btn-primary:hover {
+      background: #2E2E2C !important;
+      border-color: #2E2E2C !important;
+      color: #FFFFFF !important;
+    }
+
+    .vdr-btn-outline {
+      background: #FFFFFF !important;
+      color: #3A3A38 !important;
+      border: 1px solid #D8D8D6 !important;
+      padding: 6px 14px !important;
+      border-radius: 6px !important;
+      font-size: 11.5px !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      font-family: inherit !important;
+      transition: all 0.12s ease !important;
+      white-space: nowrap !important;
+      line-height: 1.35 !important;
+    }
+
+    .vdr-btn-outline:hover {
+      background: #F4F4F2 !important;
+      border-color: #B0B0AE !important;
+      color: #1A1A18 !important;
+    }
+
+    .vdr-btn-danger {
+      background: #DC2626 !important;
+      color: #FFFFFF !important;
+      border: 1px solid #DC2626 !important;
+      padding: 6px 14px !important;
+      border-radius: 6px !important;
+      font-size: 11.5px !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      font-family: inherit !important;
+      transition: all 0.12s ease !important;
+      white-space: nowrap !important;
+      line-height: 1.35 !important;
+    }
+
+    .vdr-btn-danger:hover {
+      background: #B91C1C !important;
+      border-color: #B91C1C !important;
+      color: #FFFFFF !important;
+    }
+
+    .vdr-btn-success {
+      background: #047857 !important;
+      color: #FFFFFF !important;
+      border: 1px solid #047857 !important;
+      padding: 6px 14px !important;
+      border-radius: 6px !important;
+      font-size: 11.5px !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      font-family: inherit !important;
+      transition: all 0.12s ease !important;
+      white-space: nowrap !important;
+      line-height: 1.35 !important;
+    }
+
+    .vdr-btn-success:hover {
+      background: #065F46 !important;
+      border-color: #065F46 !important;
+      color: #FFFFFF !important;
+    }
+
+    .vdr-btn-reject-outline {
+      background: #FEF2F2 !important;
+      color: #DC2626 !important;
+      border: 1px solid #FECACA !important;
+      padding: 6px 14px !important;
+      border-radius: 6px !important;
+      font-size: 11.5px !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      font-family: inherit !important;
+      transition: all 0.12s ease !important;
+      white-space: nowrap !important;
+      line-height: 1.35 !important;
+    }
+
+    .vdr-btn-reject-outline:hover {
+      background: #FEE2E2 !important;
+      border-color: #FCA5A5 !important;
+      color: #B91C1C !important;
+    }
+
+    /* Subtle Icon Button (Maximize / Minimize) */
+    .vdr-icon-btn {
+      background: #FFFFFF;
+      border: 1px solid #D8D8D6;
+      color: #5A5A58;
+      width: 29px;
+      height: 29px;
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .vdr-icon-btn:hover {
+      background: #F4F4F2;
+      color: #1A1A18;
+      border-color: #A8A8A6;
+    }
+
+    /* ── Condensed Files & Submissions Table with Horizontal Scroll ── */
+    .vdr-files-table-container {
+      padding: 0;
+      flex: 1;
+      width: 100%;
+      min-width: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .vdr-table {
+      width: 100%;
+      min-width: 1100px;
+      border-collapse: collapse;
+      table-layout: auto;
+    }
+
+    .vdr-table th {
+      text-align: left;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #8C8C88;
+      padding: 9px 16px;
+      border-bottom: 1px solid #EBEBEA;
+      background: #FAFAFA;
+      white-space: nowrap;
+      overflow: visible;
+      text-overflow: clip;
+    }
+
+    .vdr-table td {
+      padding: 9px 16px;
+      font-size: 12px;
+      color: #3A3A38;
+      border-bottom: 1px solid #F3F3F1;
+      vertical-align: middle;
+      white-space: nowrap;
+      overflow: visible;
+      text-overflow: clip;
+    }
+
+    .vdr-table tr:hover td {
+      background: #FAFAFA;
+    }
+
+    .vdr-file-name-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: #1A1A18;
+      white-space: nowrap;
+    }
+
+    .vdr-file-name-text {
+      white-space: nowrap;
+      overflow: visible;
+      text-overflow: clip;
+    }
+
+    .vdr-file-icon {
+      color: #6A6A68;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Template Chip */
+    .vdr-template-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #F4F4F2;
+      border: 1px solid #DFDEDE;
+      padding: 2.5px 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #1A1A18;
+      max-width: none;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      user-select: none;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .vdr-template-chip:hover {
+      background: #EAEAE8;
+      border-color: #B0B0AE;
+      color: #1D4ED8;
+    }
+
+    .vdr-template-chip-name {
+      white-space: nowrap;
+      overflow: visible;
+      text-overflow: clip;
+    }
+
+    /* Submitted File Cell with Eye Icon */
+    .vdr-submitted-file-cell {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .vdr-submitted-file-text {
+      font-weight: 600;
+      color: #1A1A18;
+      font-size: 11.5px;
+      white-space: nowrap;
+      overflow: visible;
+      text-overflow: clip;
+      transition: color 0.1s ease;
+    }
+
+    .vdr-submitted-file-text:hover {
+      color: #2563EB;
+      text-decoration: underline;
+    }
+
+    .vdr-eye-view-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #2563EB;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.1s ease;
+      padding: 0;
+    }
+
+    .vdr-eye-view-btn:hover {
+      background: #EFF6FF;
+      border-color: #BFDBFE;
+      color: #1D4ED8;
+    }
+
+    /* Status Pills */
+    .vdr-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+
+    .vdr-status-pill.approved {
+      background: #ECFDF5;
+      color: #047857;
+      border: 1px solid #A7F3D0;
+    }
+
+    .vdr-status-pill.review {
+      background: #FEF3C7;
+      color: #B45309;
+      border: 1px solid #FDE68A;
+    }
+
+    .vdr-status-pill.rejected {
+      background: #FEF2F2;
+      color: #DC2626;
+      border: 1px solid #FECACA;
+    }
+
+    .vdr-status-pill.pending {
+      background: #F3F4F6;
+      color: #6B7280;
+      border: 1px solid #E5E7EB;
+    }
+
+    /* Row Highlight for Rejected Documents */
+    .vdr-table tr.vdr-row-rejected td {
+      background: #FFF5F5 !important;
+      border-bottom-color: #FEE2E2 !important;
+    }
+
+    .vdr-table tr.vdr-row-rejected:hover td {
+      background: #FEEAEA !important;
+    }
+
+    .vdr-status-pill.rejected.clickable:hover {
+      background: #FEE2E2 !important;
+      border-color: #F87171 !important;
+    }
+
+    /* Header Dropdown Menu */
+    .vdr-dropdown-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
+    .vdr-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 4px);
+      right: 0;
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 7px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+      min-width: 190px;
+      z-index: 1000;
+      padding: 4px;
+      display: none;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .vdr-dropdown-menu.show {
+      display: flex;
+    }
+
+    /* Table Action Menu Column */
+    .vdr-table-actions-th {
+      width: 44px !important;
+      min-width: 44px !important;
+      max-width: 44px !important;
+      padding: 8px 16px 8px 0 !important;
+      text-align: right;
+    }
+
+    .vdr-table-actions-cell {
+      width: 44px !important;
+      min-width: 44px !important;
+      max-width: 44px !important;
+      padding: 6px 16px 6px 0 !important;
+      text-align: right;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      white-space: nowrap !important;
+    }
+
+    /* Three dots Context Menu */
+    .vdr-row-menu-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .vdr-nav-dot-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #8A8A88;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.1s ease;
+    }
+
+    .vdr-nav-dot-btn:hover {
+      color: #1A1A18;
+      background: rgba(0, 0, 0, 0.08);
+    }
+
+    .vdr-context-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 7px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+      min-width: 140px;
+      z-index: 1000;
+      padding: 4px;
+      display: none;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .vdr-context-menu.show {
+      display: flex;
+    }
+
+    .vdr-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 9px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #1A1A18;
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      transition: background 0.1s ease;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .vdr-menu-item:hover {
+      background: #F0F0EE;
+    }
+
+    .vdr-menu-item.approve-item {
+      color: #047857;
+    }
+
+    .vdr-menu-item.approve-item:hover {
+      background: #ECFDF5;
+    }
+
+    .vdr-menu-item.danger {
+      color: #DC2626;
+    }
+
+    .vdr-menu-item.danger:hover {
+      background: #FEF2F2;
+    }
+
+    /* Modal Backdrop & Box */
+    .vdr-modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInBd 0.12s ease;
+    }
+    @keyframes fadeInBd { from { opacity:0; } to { opacity:1; } }
+
+    .vdr-modal-box {
+      background: #FFFFFF;
+      border-radius: 8px;
+      border: 1px solid #E0E0DE;
+      width: 520px;
+      max-width: 94vw;
+      padding: 0;
+      box-shadow: 0 20px 48px rgba(0,0,0,0.18);
+      position: relative;
+    }
+
+    .vdr-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #EBEBEA;
+      padding: 12px 16px;
+    }
+
+    .vdr-modal-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #1A1A18;
+    }
+
+    .vdr-modal-close {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #7A7A78;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .vdr-modal-close:hover {
+      background: #F0F0EE;
+      color: #1A1A18;
+    }
+
+    .vdr-modal-body {
+      padding: 16px;
+    }
+
+    .vdr-modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      padding-top: 14px;
+    }
+
+    .field-group {
+      margin-bottom: 12px;
+    }
+
+    .field-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #4A4A48;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .field-input {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #D8D8D6;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-family: inherit;
+      color: #1A1A18;
+      background: #FFFFFF;
+      outline: none;
+    }
+
+    .field-input:focus {
+      border-color: #1A1A18;
+      box-shadow: 0 0 0 1px #1A1A18;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <!-- Main Top Navigation Slot (Mounts with collapsing sidebar toggle) -->
+  <div id="appHeaderSlot"></div>
+
+  <div class="main-workspace" style="display:flex; flex-direction:row;">
+    <!-- Main Collapsible Outer Sidebar Slots -->
+    <div id="tinySidebarSlot"></div>
+    <div id="mainSidebarSlot"></div>
+
+    <main class="content-scrollable" style="padding:0; display:flex; flex-direction:column; background:#FFFFFF; flex:1; min-width:0; overflow:hidden;">
+      
+      <!-- Top Breadcrumb Bar -->
+      <div class="vdr-breadcrumb-bar">
+        <a href="./startups.html" class="vdr-breadcrumb-link">
+          <i data-lucide="building-2" style="width:12px; height:12px;"></i> Startups
+        </a>
+        <span>/</span>
+        <a href="./startup-detail.html?id=s1" class="vdr-breadcrumb-link" id="vdrStartupLinkName">
+          Alpha Health
+        </a>
+        <span>/</span>
+        <span style="color:#1A1A18; font-weight:700;">Data Room Submissions</span>
+      </div>
+
+      <!-- Split Workspace: VDR Left Sidebar + Right Submissions Table -->
+      <div class="vdr-workspace-wrap" id="vdrWorkspaceWrap">
+        
+        <!-- LEFT SIDEBAR: FOLDERS RAIL -->
+        <aside class="vdr-folder-sidebar">
+          <div class="vdr-sidebar-header">
+            <div class="vdr-sidebar-title-wrap">
+              <div class="vdr-sidebar-avatar" id="sidebarAvatar">AH</div>
+              <div style="min-width:0;">
+                <div class="vdr-sidebar-title" id="sidebarStartupName">Alpha Health</div>
+                <div class="vdr-sidebar-subtitle">Seed Diligence Vault</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Search Folders -->
+          <div class="vdr-sidebar-search">
+            <div class="vdr-sidebar-search-box">
+              <i data-lucide="search" style="width:13px; height:13px; color:#8C8C88;"></i>
+              <input type="text" id="folderSearchInput" class="vdr-sidebar-search-input" placeholder="Search folders..." oninput="handleFolderSearch(this.value)" />
+            </div>
+          </div>
+
+          <!-- Folders Navigation List -->
+          <div class="vdr-folder-nav-list" id="vdrFolderNavList">
+            <!-- Rendered dynamically -->
+          </div>
+
+          <!-- Storage / Submissions Count Widget -->
+          <div class="vdr-sidebar-storage">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-weight:700; color:#1A1A18;">
+              <span>Diligence Progress</span>
+              <span id="vdrProgressPct">75%</span>
+            </div>
+            <div class="vdr-storage-bar-bg">
+              <div class="vdr-storage-bar-fill" id="vdrStorageBarFill" style="width:75%;"></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; color:#7A7A78; font-size:10px;">
+              <span id="vdrProgressDocs">18 of 24 submitted</span>
+              <span>100 MB Limit</span>
+            </div>
+          </div>
+        </aside>
+
+        <!-- RIGHT MAIN CONTENT WORKSPACE -->
+        <div class="vdr-content-area">
+          <div class="vdr-top-header">
+            <div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <h1 class="vdr-header-title" id="vdrFolderTitle">General</h1>
+                <span class="vdr-status-pill approved" id="vdrFolderStatusBadge">In Diligence Review</span>
+              </div>
+              <div class="vdr-header-meta">
+                <span><i data-lucide="calendar" style="width:12px; height:12px; color:#8A8A88; vertical-align:-1px;"></i> Vault Shared on: <strong id="vdrHeaderSharedDate">Jan 14, 2026</strong></span>
+                <span style="color:#D0D0CE;">•</span>
+                <span style="color:#5A5A58;" id="vdrHeaderDocsCount">3 requirements</span>
+              </div>
+            </div>
+
+            <div class="vdr-header-actions">
+              <button type="button" class="vdr-btn-primary" onclick="openShareWithDDTeam()" title="Grant diligence auditor access">
+                <i data-lucide="users" style="width:12px; height:12px;"></i>
+                <span>Share with DD Team</span>
+              </button>
+
+              <div class="vdr-dropdown-wrap">
+                <button type="button" class="vdr-icon-btn" id="btnVdrHeaderMore" onclick="window.toggleVdrHeaderDropdown(event)" title="More options">
+                  <i data-lucide="more-horizontal" style="width:14px; height:14px;"></i>
+                </button>
+                <div class="vdr-dropdown-menu" id="vdrHeaderDropdownMenu">
+                  <button type="button" class="vdr-menu-item" onclick="openRequestDocumentModal()">
+                    <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                    <span>Request Document</span>
+                  </button>
+                  <button type="button" class="vdr-menu-item" onclick="window.downloadVaultAsZip()">
+                    <i data-lucide="download" style="width:12px; height:12px;"></i>
+                    <span>Download Vault as Zip</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Subtle Maximize / Minimize Icon Button -->
+              <button type="button" class="vdr-icon-btn" id="btnToggleFullscreen" onclick="toggleFullscreenMode()" title="Maximize / Minimize Workspace">
+                <i data-lucide="maximize-2" id="fullscreenIcon" style="width:13px; height:13px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Main Table Container -->
+          <div class="vdr-files-table-container" id="vdrContentContainer">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Local Modal Backdrop -->
+<div id="vdrModalBackdrop" class="vdr-modal-backdrop" style="display:none;" onclick="hideVDRModal()">
+  <div class="vdr-modal-box" onclick="event.stopPropagation()">
+    <div class="vdr-modal-header">
+      <span class="vdr-modal-title" id="vdrModalTitle">Modal</span>
+      <button class="vdr-modal-close" onclick="hideVDRModal()" title="Close">&#x2715;</button>
+    </div>
+    <div class="vdr-modal-body" id="vdrModalBody"></div>
+  </div>
+</div>
+
+<div id="modalSlot"></div>
+
+<script src="./js/components.js"></script>
+<script src="./js/vdr-mock-data.js"></script>
+<script src="./js/app.js"></script>
+<script>
+  /* ── STARTUP VDR STATE & DATASET ── */
+  let activeNav = 'general';
+  let folderSearchQuery = '';
+
+  const STARTUP_INFO = {
+    id: 's1',
+    name: 'Alpha Health',
+    avatar: 'AH',
+    contact: 'Dr. Sarah Chen',
+    email: 'sarah@alphahealth.com',
+    sharedDate: 'Jan 14, 2026',
+    vaultName: 'Seed Round Due Diligence'
+  };
+
+  // Full Folders Dataset with Startup Submitted Files
+  const STARTUP_VDR_FOLDERS = [
+    {
+      id: 'general',
+      title: 'General',
+      docs: [
+        { id: 'doc_g1', name: 'crusource_prd', template: 'PRD_Spec_v2.pdf', submittedFile: 'AlphaHealth_PRD_v2_Signed.pdf', size: '1.20 MB', type: '.pdf', submittedOn: 'Feb 12, 2026', status: 'Approved', rejectionNote: '' },
+        { id: 'doc_g2', name: 'Executive_Summary_Deck', template: 'Exec_Summary_Template.pptx', submittedFile: 'AlphaHealth_ExecSummary_FY26.pptx', size: '4.20 MB', type: '.pptx', submittedOn: 'Feb 10, 2026', status: 'Approved', rejectionNote: '' },
+        { id: 'doc_g3', name: 'Company_One_Pager_Overview', template: '1Page_Teaser.pdf', submittedFile: 'AlphaHealth_1Pager_Teaser.pdf', size: '840.10 KB', type: '.pdf', submittedOn: 'Feb 11, 2026', status: 'Approved', rejectionNote: '' }
+      ]
+    },
+    {
+      id: 'corporate_legal',
+      title: 'Corporate & Legal',
+      docs: [
+        { id: 'doc_cl1', name: 'Certificate_of_Incorporation', template: 'Incorporation_Standard.pdf', submittedFile: 'AlphaHealth_Cert_Inc_Delaware.pdf', size: '1.15 MB', type: '.pdf', submittedOn: 'Feb 08, 2026', status: 'Approved', rejectionNote: '' },
+        { id: 'doc_cl2', name: 'Cap_Table_Summary_2026', template: 'CapTable_Model_v3.xlsx', submittedFile: 'AlphaHealth_CapTable_Final.xlsx', size: '248.10 KB', type: '.xlsx', submittedOn: 'Feb 12, 2026', status: 'Rejected', rejectionNote: 'Missing founder vesting breakdown on schedule 2. Please update model with cliff vesting details.' },
+        { id: 'doc_cl3', name: 'Shareholders_Agreement', template: 'SHA_Framework.docx', submittedFile: 'AlphaHealth_Executed_SHA.pdf', size: '890.40 KB', type: '.pdf', submittedOn: 'Feb 09, 2026', status: 'Approved', rejectionNote: '' },
+        { id: 'doc_cl4', name: 'MoA_and_AoA_Constituent_Docs', template: 'MOA_AOA_Draft.pdf', submittedFile: 'AlphaHealth_Constituent_Docs.pdf', size: '1.40 MB', type: '.pdf', submittedOn: 'Feb 10, 2026', status: 'Approved', rejectionNote: '' },
+        { id: 'doc_cl5', name: 'Board_Resolutions_and_Minutes_FY25', template: 'Board_Minutes_Archive.pdf', submittedFile: null, size: '—', type: '.pdf', submittedOn: '—', status: 'Not Submitted', rejectionNote: '' }
+      ]
+    },
+    {
+      id: 'financials',
+      title: 'Financials & Tax',
+      docs: [
+        { id: 'doc_fn1', name: 'Audited_Financial_Statements_2025', template: null, submittedFile: 'AlphaHealth_Audited_FS_FY25.pdf', size: '3.80 MB', type: '.pdf', submittedOn: 'Feb 12, 2026', status: 'Rejected', rejectionNote: 'Auditor signoff page is blurry on scanned copy. Please re-upload high-resolution scan.' },
+        { id: 'doc_fn2', name: '5Yr_Financial_Forecast_Model', template: 'SaaS_Financial_Model_Template.xlsx', submittedFile: 'AlphaHealth_5Yr_Model_v4.xlsx', size: '420.50 KB', type: '.xlsx', submittedOn: 'Feb 11, 2026', status: 'Approved', rejectionNote: '' },
+        { id: 'doc_fn3', name: 'Monthly_MIS_and_Burn_Rate_Q2', template: 'Monthly_MIS_Report.xlsx', submittedFile: 'AlphaHealth_Q2_MIS_CashFlow.xlsx', size: '310.20 KB', type: '.xlsx', submittedOn: 'Feb 13, 2026', status: 'Approved', rejectionNote: '' },
+        { id: 'doc_fn4', name: 'Tax_Clearance_and_GST_Filings_2025', template: null, submittedFile: null, size: '—', type: '.pdf', submittedOn: '—', status: 'Not Submitted', rejectionNote: '' }
+      ]
+    },
+    {
+      id: 'product_ip',
+      title: 'Product & IP',
+      docs: [
+        { id: 'doc_pip1', name: 'System_Architecture_Overview', template: 'Tech_Stack_Doc.docx', submittedFile: 'AlphaHealth_System_Architecture_v2.pdf', size: '1.45 MB', type: '.pdf', submittedOn: 'Feb 10, 2026', status: 'Approved', rejectionNote: '' },
+        { id: 'doc_pip2', name: 'IP_Assignment_and_Patents', template: 'IP_Assignment_Form.pdf', submittedFile: 'AlphaHealth_IP_Assignment_Bundle.pdf', size: '780.20 KB', type: '.pdf', submittedOn: 'Feb 09, 2026', status: 'Approved', rejectionNote: '' },
+        { id: 'doc_pip3', name: 'Product_Roadmap_2026_2027', template: 'Roadmap_Milestones.pdf', submittedFile: null, size: '—', type: '.pdf', submittedOn: '—', status: 'Not Submitted', rejectionNote: '' },
+        { id: 'doc_pip4', name: 'Security_and_SOC2_Compliance_Audit', template: 'SOC2_Type2_Report.pdf', submittedFile: 'AlphaHealth_SOC2_Type2_2025.pdf', size: '4.10 MB', type: '.pdf', submittedOn: 'Feb 08, 2026', status: 'Approved', rejectionNote: '' }
+      ]
+    },
+    {
+      id: 'team_hr',
+      title: 'Team & HR',
+      docs: [
+        { id: 'doc_hr1', name: 'Key_Personnel_Resumes_and_Org_Chart', template: 'Team_Org_Chart.pdf', submittedFile: 'AlphaHealth_OrgChart_Execs.pdf', size: '1.80 MB', type: '.pdf', submittedOn: 'Feb 11, 2026', status: 'Approved', rejectionNote: '' },
+        { id: 'doc_hr2', name: 'ESOP_Scheme_Policy_and_Grants', template: 'ESOP_Plan_Agreement.pdf', submittedFile: 'AlphaHealth_ESOP_Scheme_2026.pdf', size: '950.00 KB', type: '.pdf', submittedOn: 'Feb 12, 2026', status: 'Approved', rejectionNote: '' },
+        { id: 'doc_hr3', name: 'Founder_Employment_Agreements', template: 'Founder_Employment_Agreements.pdf', submittedFile: 'AlphaHealth_Founder_Agreements.pdf', size: '1.20 MB', type: '.pdf', submittedOn: 'Feb 10, 2026', status: 'Approved', rejectionNote: '' }
+      ]
+    },
+    {
+      id: 'commercial_sales',
+      title: 'Commercial & Customers',
+      docs: [
+        { id: 'doc_cs1', name: 'Customer_Contracts_Top10_Redacted', template: 'Master_Services_Agreement_Bundle.pdf', submittedFile: 'AlphaHealth_Top10_MSA_Redacted.pdf', size: '5.40 MB', type: '.pdf', submittedOn: 'Feb 11, 2026', status: 'Approved', rejectionNote: '' },
+        { id: 'doc_cs2', name: 'Pipeline_and_Cohort_Retention_Analysis', template: 'Sales_Funnel_Analysis.xlsx', submittedFile: null, size: '—', type: '.xlsx', submittedOn: '—', status: 'Not Submitted', rejectionNote: '' },
+        { id: 'doc_cs3', name: 'Enterprise_Case_Studies_and_NPS', template: 'Enterprise_Case_Studies.pdf', submittedFile: 'AlphaHealth_Case_Studies.pdf', size: '3.10 MB', type: '.pdf', submittedOn: 'Feb 12, 2026', status: 'Approved', rejectionNote: '' }
+      ]
+    },
+    {
+      id: 'compliance_esg',
+      title: 'Compliance & ESG',
+      docs: [
+        { id: 'doc_esg1', name: 'Regulatory_Licenses_and_Permits', template: 'Statutory_Approvals.pdf', submittedFile: 'AlphaHealth_HIPAA_Compliance_Cert.pdf', size: '1.35 MB', type: '.pdf', submittedOn: 'Feb 09, 2026', status: 'Approved', rejectionNote: '' },
+        { id: 'doc_esg2', name: 'Data_Privacy_GDPR_DPDP_Policy', template: 'Privacy_Policy_Compliance.pdf', submittedFile: null, size: '—', type: '.pdf', submittedOn: '—', status: 'Not Submitted', rejectionNote: '' }
+      ]
+    }
+  ];
+
+  let foldersData = JSON.parse(JSON.stringify(STARTUP_VDR_FOLDERS));
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const customName = params.get('name');
+    if (customName) {
+      STARTUP_INFO.name = customName;
+      STARTUP_INFO.avatar = customName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      const sName = document.getElementById('sidebarStartupName');
+      const sAvatar = document.getElementById('sidebarAvatar');
+      const sLink = document.getElementById('vdrStartupLinkName');
+      if (sName) sName.textContent = customName;
+      if (sAvatar) sAvatar.textContent = STARTUP_INFO.avatar;
+      if (sLink) sLink.textContent = customName;
+    }
+
+    renderSidebar();
+    renderActiveContent();
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.vdr-row-menu-wrap')) {
+        closeAllContextMenus();
+      }
+    });
+  });
+
+  /* ── RENDER SIDEBAR FOLDERS ── */
+  window.renderSidebar = function() {
+    const nav = document.getElementById('vdrFolderNavList');
+    if (!nav) return;
+
+    let filtered = foldersData;
+    if (folderSearchQuery.trim()) {
+      const q = folderSearchQuery.toLowerCase();
+      filtered = foldersData.filter(f => f.title.toLowerCase().includes(q) || (f.docs || []).some(d => d.name.toLowerCase().includes(q)));
+    }
+
+    // Calculate total submissions progress
+    let totalDocs = 0;
+    let submittedDocs = 0;
+    foldersData.forEach(f => {
+      (f.docs || []).forEach(d => {
+        totalDocs++;
+        if (d.submittedFile) submittedDocs++;
+      });
+    });
+    const pct = totalDocs > 0 ? Math.round((submittedDocs / totalDocs) * 100) : 0;
+    const progressPct = document.getElementById('vdrProgressPct');
+    const storageBarFill = document.getElementById('vdrStorageBarFill');
+    const progressDocs = document.getElementById('vdrProgressDocs');
+    if (progressPct) progressPct.textContent = `${pct}%`;
+    if (storageBarFill) storageBarFill.style.width = `${pct}%`;
+    if (progressDocs) progressDocs.textContent = `${submittedDocs} of ${totalDocs} submitted`;
+
+    let html = `
+      <div class="vdr-nav-section-label">Checklist Categories</div>
+      ${filtered.map(f => {
+        const count = (f.docs || []).length;
+        const submittedCount = (f.docs || []).filter(d => d.submittedFile).length;
+        const isActive = activeNav === f.id;
+        return `
+          <div class="vdr-nav-item ${isActive ? 'active' : ''}" onclick="window.selectNav('${f.id}')">
+            <div class="vdr-nav-item-left">
+              <span class="vdr-nav-item-icon"><i data-lucide="folder" style="width:14px; height:14px;"></i></span>
+              <span class="vdr-nav-item-text">${f.title}</span>
+            </div>
+            <span class="vdr-nav-badge">${submittedCount}/${count}</span>
+          </div>
+        `;
+      }).join('')}
+
+      <div class="vdr-nav-section-label" style="margin-top:8px;">General Info</div>
+      <div class="vdr-nav-item ${activeNav === 'cover-letter' ? 'active' : ''}" onclick="window.selectNav('cover-letter')">
+        <div class="vdr-nav-item-left">
+          <span class="vdr-nav-item-icon"><i data-lucide="mail" style="width:14px; height:14px;"></i></span>
+          <span class="vdr-nav-item-text">Cover Letter</span>
+        </div>
+      </div>
+      <div class="vdr-nav-item ${activeNav === 'all-docs' ? 'active' : ''}" onclick="window.selectNav('all-docs')">
+        <div class="vdr-nav-item-left">
+          <span class="vdr-nav-item-icon"><i data-lucide="layers" style="width:14px; height:14px;"></i></span>
+          <span class="vdr-nav-item-text">All Submissions</span>
+        </div>
+        <span class="vdr-nav-badge">${submittedDocs}/${totalDocs}</span>
+      </div>
+    `;
+
+    nav.innerHTML = html;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  };
+
+  window.handleFolderSearch = function(query) {
+    folderSearchQuery = query || '';
+    renderSidebar();
+  };
+
+  window.selectNav = function(navId) {
+    activeNav = navId;
+    closeAllContextMenus();
+    renderSidebar();
+    renderActiveContent();
+  };
+
+  /* ── RENDER ACTIVE MAIN CONTENT ── */
+  window.renderActiveContent = function() {
+    const container = document.getElementById('vdrContentContainer');
+    const headerTitle = document.getElementById('vdrFolderTitle');
+    const headerCount = document.getElementById('vdrHeaderDocsCount');
+    const headerSharedDate = document.getElementById('vdrHeaderSharedDate');
+    if (!container) return;
+
+    if (headerSharedDate) {
+      headerSharedDate.textContent = STARTUP_INFO.sharedDate;
+    }
+
+    // 1. COVER LETTER VIEW
+    if (activeNav === 'cover-letter') {
+      if (headerTitle) headerTitle.textContent = 'Diligence Instructions & Cover Letter';
+      if (headerCount) headerCount.textContent = 'Guidance for startup submissions';
+
+      container.innerHTML = `
+        <div style="padding:24px; max-width:820px;">
+          <div style="background:#FAFAFA; border:1px solid #E0E0DE; border-radius:8px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+              <div style="width:34px; height:34px; border-radius:6px; background:#1A1A18; color:#FFFFFF; display:flex; align-items:center; justify-content:center;">
+                <i data-lucide="file-text" style="width:16px; height:16px;"></i>
+              </div>
+              <div>
+                <div style="font-size:14px; font-weight:800; color:#1A1A18;">Diligence Checklist Instructions</div>
+                <div style="font-size:11px; color:#7A7A78;">Shared with ${STARTUP_INFO.name} on ${STARTUP_INFO.sharedDate}</div>
+              </div>
+            </div>
+            <div style="font-size:12.5px; line-height:1.65; color:#3A3A38; white-space:pre-wrap; background:#FFFFFF; padding:16px; border:1px solid #EBEBEA; border-radius:6px;">
+Welcome to the Virtual Data Room for ${STARTUP_INFO.name}.
+
+Please review the requested diligence checklist across all category folders (Corporate, Financials, Product, HR, Commercial, and Compliance) and upload the corresponding documents or download our reference templates.
+
+Custom Note from Investment Team:
+"Please ensure FY25 Audited Statements and cap table matrix are provided before the partner meeting."
+
+Reach out to the investment team directly if you have any questions or require custom NDA clearance.
+            </div>
+          </div>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    // 2. ALL SUBMISSIONS COMBINED VIEW
+    let docsToRender = [];
+    let currentFolderTitle = 'All Submissions';
+
+    if (activeNav === 'all-docs') {
+      currentFolderTitle = 'All Submissions Package';
+      foldersData.forEach(f => {
+        (f.docs || []).forEach(d => {
+          docsToRender.push({ ...d, folderTitle: f.title, folderId: f.id });
+        });
+      });
+    } else {
+      const folder = foldersData.find(f => f.id === activeNav) || foldersData[0];
+      if (folder) {
+        currentFolderTitle = folder.title;
+        docsToRender = (folder.docs || []).map(d => ({ ...d, folderTitle: folder.title, folderId: folder.id }));
+      }
+    }
+
+    if (headerTitle) headerTitle.textContent = currentFolderTitle;
+    if (headerCount) headerCount.textContent = `${docsToRender.length} requirements`;
+
+    // 3. CONDENSED TABLE VIEW (8 Columns: Name, Template, Submitted File, Type, File Size, Submitted on, Status, Actions)
+    container.innerHTML = `
+      <table class="vdr-table">
+        <thead>
+          <tr>
+            <th style="min-width:240px;">NAME</th>
+            <th style="min-width:200px;">TEMPLATE</th>
+            <th style="min-width:250px;">SUBMITTED FILE</th>
+            <th style="min-width:70px;">TYPE</th>
+            <th style="min-width:90px;">FILE SIZE</th>
+            <th style="min-width:110px;">SUBMITTED ON</th>
+            <th style="min-width:130px;">STATUS</th>
+            <th class="vdr-table-actions-th"></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${docsToRender.map(d => {
+            const hasSubmitted = Boolean(d.submittedFile);
+            
+            let statusHtml = '<span style="color:#A0A09E; font-size:12px;">—</span>';
+            if (hasSubmitted) {
+              if (d.status === 'Approved') {
+                statusHtml = `
+                  <span class="vdr-status-pill approved" style="background:#ECFDF5; color:#047857; border:1px solid #A7F3D0; font-size:9.5px; font-weight:700; padding:2.5px 8px; border-radius:4px; display:inline-flex; align-items:center; gap:3.5px;">
+                    <i data-lucide="check" style="width:10.5px; height:10.5px;"></i>
+                    <span>Approved</span>
+                  </span>
+                `;
+              } else if (d.status === 'Rejected') {
+                statusHtml = `
+                  <span class="vdr-status-pill rejected clickable" onclick="window.viewRejectionComment('${d.id}')" title="Click to view rejection feedback" style="background:#FEF2F2; color:#DC2626; border:1px solid #FECACA; font-size:9.5px; font-weight:700; padding:2.5px 8px; border-radius:4px; display:inline-flex; align-items:center; gap:4.5px; cursor:pointer; user-select:none; transition:all 0.12s ease;">
+                    <i data-lucide="x-circle" style="width:10.5px; height:10.5px; flex-shrink:0;"></i>
+                    <span>Rejected</span>
+                    <i data-lucide="message-square" style="width:10.5px; height:10.5px; opacity:0.85; margin-left:2px; flex-shrink:0;"></i>
+                  </span>
+                `;
+              } else {
+                statusHtml = `
+                  <span class="vdr-status-pill review" style="background:#FEF3C7; color:#B45309; border:1px solid #FDE68A; font-size:9.5px; font-weight:700; padding:2px 7px; border-radius:4px;">
+                    Pending Review
+                  </span>
+                `;
+              }
+            }
+
+            return `
+              <tr class="${d.status === 'Rejected' ? 'vdr-row-rejected' : ''}">
+                <td>
+                  <div class="vdr-file-name-cell">
+                    <span class="vdr-file-icon"><i data-lucide="file" style="width:14px; height:14px;"></i></span>
+                    <span class="vdr-file-name-text" title="${d.name}">${d.name}</span>
+                  </div>
+                </td>
+                <td>
+                  ${d.template ? `
+                    <div class="vdr-template-chip" onclick="window.openStartupTemplateViewer('${d.template.replace(/'/g, "\\'")}')" title="Click to view template: ${d.template}">
+                      <i data-lucide="file-check" style="width:12px; height:12px; color:#2563EB; flex-shrink:0;"></i>
+                      <span class="vdr-template-chip-name">${d.template}</span>
+                    </div>
+                  ` : `<span style="color:#A0A09E; font-size:11px;">—</span>`}
+                </td>
+                <td>
+                  ${hasSubmitted ? `
+                    <div class="vdr-submitted-file-cell">
+                      <span class="vdr-submitted-file-text" onclick="window.previewSubmittedDoc('${d.id}')" style="cursor:pointer;" title="Click to preview: ${d.submittedFile}">${d.submittedFile}</span>
+                      <button type="button" class="vdr-eye-view-btn" onclick="window.previewSubmittedDoc('${d.id}')" title="Preview submitted document">
+                        <i data-lucide="eye" style="width:12px; height:12px;"></i>
+                      </button>
+                    </div>
+                  ` : `<span style="color:#A8A8A4; font-size:11px; font-style:italic;">Pending upload</span>`}
+                </td>
+                <td style="color:#7A7A78; font-family:monospace; font-size:11px;">${d.type || '.pdf'}</td>
+                <td style="color:#5A5A58; font-variant-numeric:tabular-nums;">${hasSubmitted ? d.size : '—'}</td>
+                <td style="color:#5A5A58;">${hasSubmitted ? d.submittedOn : '—'}</td>
+                <td>${statusHtml}</td>
+                <td class="vdr-table-actions-cell">
+                  <div class="vdr-row-menu-wrap" onclick="event.stopPropagation()">
+                    <button class="vdr-nav-dot-btn" onclick="window.toggleStartupDocMenu('${d.id}', event)" title="Actions">
+                      <i data-lucide="more-horizontal" style="width:13px; height:13px;"></i>
+                    </button>
+                    <div class="vdr-context-menu" id="startupDocMenu-${d.id}">
+                      <button class="vdr-menu-item approve-item" onclick="window.approveDocument('${d.id}')" ${!hasSubmitted ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+                        <i data-lucide="check-circle" style="width:12px; height:12px;"></i>
+                        <span>Approve</span>
+                      </button>
+                      <button class="vdr-menu-item" onclick="window.downloadSubmittedFile('${d.submittedFile || d.name}')" ${!hasSubmitted ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+                        <i data-lucide="download" style="width:12px; height:12px;"></i>
+                        <span>Download</span>
+                      </button>
+                      <button class="vdr-menu-item danger" onclick="window.openRejectDocModal('${d.id}')" ${!hasSubmitted ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+                        <i data-lucide="x-circle" style="width:12px; height:12px;"></i>
+                        <span>Reject</span>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+    `;
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  };
+
+  /* ── CONTEXT MENU CONTROLS ── */
+  window.toggleStartupDocMenu = function(docId, e) {
+    if (e) e.stopPropagation();
+    const menu = document.getElementById(`startupDocMenu-${docId}`);
+    const isShowing = menu && menu.classList.contains('show');
+    closeAllContextMenus();
+    if (menu && !isShowing) {
+      menu.classList.add('show');
+    }
+  };
+
+  window.closeAllContextMenus = function() {
+    document.querySelectorAll('.vdr-context-menu').forEach(m => m.classList.remove('show'));
+  };
+
+  /* ── DOCUMENT VIEWER MODAL (WITH APPROVE / REJECT) ── */
+  window.previewSubmittedDoc = function(docId) {
+    closeAllContextMenus();
+    let foundDoc = null;
+    foldersData.forEach(f => {
+      const d = (f.docs || []).find(doc => doc.id === docId);
+      if (d) foundDoc = d;
+    });
+
+    if (!foundDoc || !foundDoc.submittedFile) return;
+
+    showVDRModal(`Document Preview: ${foundDoc.submittedFile}`, `
+      <div style="padding:2px 0;">
+        <div style="display:flex; align-items:center; gap:10px; background:#FAFAFA; border:1px solid #E2E2E0; border-radius:8px; padding:12px; margin-bottom:12px;">
+          <div style="width:34px; height:34px; border-radius:6px; background:#1A1A18; color:#FFFFFF; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <i data-lucide="file-text" style="width:16px; height:16px;"></i>
+          </div>
+          <div style="min-width:0; flex:1;">
+            <div style="font-weight:800; font-size:12.5px; color:#1A1A18; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${foundDoc.submittedFile}</div>
+            <div style="font-size:11px; color:#7A7A78; margin-top:2px;">
+              Requirement: <strong>${foundDoc.name}</strong> · Submitted by ${STARTUP_INFO.name} (${foundDoc.submittedOn})
+            </div>
+          </div>
+          <span class="vdr-status-pill ${foundDoc.status === 'Approved' ? 'approved' : (foundDoc.status === 'Rejected' ? 'rejected' : 'review')}">${foundDoc.status || 'Pending Review'}</span>
+        </div>
+
+        <div style="background:#F0F0EE; border:1px solid #E0E0DE; border-radius:6px; height:200px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#7A7A78; font-size:12px; margin-bottom:14px; padding:20px; text-align:center;">
+          <i data-lucide="shield-check" style="width:30px; height:30px; color:#2563EB; margin-bottom:8px;"></i>
+          <span style="font-weight:700; color:#1A1A18; margin-bottom:2px;">[ Verified Document Preview Engine ]</span>
+          <span style="font-size:11px; color:#7A7A78;">Watermarked secure viewer enabled for ${STARTUP_INFO.name} due diligence audit.</span>
+        </div>
+
+        <div class="vdr-modal-footer" style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #EBEBEA; padding-top:14px;">
+          <button type="button" class="vdr-btn-outline" onclick="hideVDRModal()">Close</button>
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="vdr-btn-outline" onclick="downloadSubmittedFile('${foundDoc.submittedFile}')">
+              <i data-lucide="download" style="width:12px; height:12px;"></i>
+              <span>Download</span>
+            </button>
+            <button type="button" class="vdr-btn-reject-outline" onclick="openRejectDocModal('${foundDoc.id}')">
+              <i data-lucide="x-circle" style="width:12px; height:12px;"></i>
+              <span>Reject</span>
+            </button>
+            <button type="button" class="vdr-btn-success" onclick="approveDocument('${foundDoc.id}')">
+              <i data-lucide="check" style="width:12px; height:12px;"></i>
+              <span>Approve</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    `);
+  };
+
+  window.approveDocument = function(docId) {
+    closeAllContextMenus();
+    foldersData.forEach(f => {
+      const d = (f.docs || []).find(doc => doc.id === docId);
+      if (d) d.status = 'Approved';
+    });
+    hideVDRModal();
+    renderActiveContent();
+    renderSidebar();
+    if (window.showToast) window.showToast('Document marked as Approved!', 'check-circle');
+  };
+
+  /* ── REJECT SUBMISSION MODAL ── */
+  window.openRejectDocModal = function(docId) {
+    closeAllContextMenus();
+    let foundDoc = null;
+    foldersData.forEach(f => {
+      const d = (f.docs || []).find(doc => doc.id === docId);
+      if (d) foundDoc = d;
+    });
+
+    showVDRModal(`Reject Submission: ${foundDoc ? (foundDoc.submittedFile || foundDoc.name) : 'Document'}`, `
+      <div style="padding:2px 0;">
+        <p style="font-size:11.5px; color:#6A6A68; margin:0 0 12px; line-height:1.45;">
+          Provide rejection feedback to <strong>${STARTUP_INFO.name}</strong> explaining what corrections or missing pages are needed.
+        </p>
+
+        <div class="field-group">
+          <label class="field-label">Rejection Reason / Diligence Feedback <span style="color:#DC2626;">*</span></label>
+          <textarea id="rejectionNotesInput" class="field-input" rows="3" placeholder="e.g. Missing founder signatures on Exhibit B. Please provide signed copy."></textarea>
+        </div>
+
+        <div class="vdr-modal-footer" style="border-top:1px solid #EBEBEA; padding-top:14px;">
+          <button type="button" class="vdr-btn-outline" onclick="hideVDRModal()">Cancel</button>
+          <button type="button" class="vdr-btn-danger" onclick="confirmRejectDocument('${docId}')">
+            <i data-lucide="x-circle" style="width:12px; height:12px;"></i>
+            <span>Confirm Rejection</span>
+          </button>
+        </div>
+      </div>
+    `);
+    setTimeout(() => document.getElementById('rejectionNotesInput')?.focus(), 60);
+  };
+
+  window.confirmRejectDocument = function(docId) {
+    const notes = document.getElementById('rejectionNotesInput')?.value?.trim();
+    if (!notes) {
+      if (window.showToast) window.showToast('Please enter a rejection reason.', 'alert-circle');
+      return;
+    }
+
+    foldersData.forEach(f => {
+      const d = (f.docs || []).find(doc => doc.id === docId);
+      if (d) {
+        d.status = 'Rejected';
+        d.rejectionNote = notes;
+      }
+    });
+
+    hideVDRModal();
+    renderActiveContent();
+    renderSidebar();
+    if (window.showToast) window.showToast(`Submission rejected with feedback sent to ${STARTUP_INFO.name}.`, 'alert-triangle');
+  };
+
+  /* ── VIEW REJECTION COMMENT POPUP ── */
+  window.viewRejectionComment = function(docId) {
+    closeAllContextMenus();
+    let foundDoc = null;
+    foldersData.forEach(f => {
+      const d = (f.docs || []).find(doc => doc.id === docId);
+      if (d) foundDoc = d;
+    });
+
+    const note = foundDoc?.rejectionNote || 'Missing required exhibits and founder signatures on the execution page. Please re-upload signed version.';
+
+    showVDRModal(`Rejection Feedback: ${foundDoc ? (foundDoc.submittedFile || foundDoc.name) : 'Document'}`, `
+      <div style="padding:4px 0;">
+        <div style="display:flex; align-items:center; gap:10px; background:#FEF2F2; border:1px solid #FECACA; border-radius:8px; padding:12px; margin-bottom:14px;">
+          <div style="width:34px; height:34px; border-radius:6px; background:#DC2626; color:#FFFFFF; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <i data-lucide="alert-circle" style="width:16px; height:16px;"></i>
+          </div>
+          <div style="min-width:0; flex:1;">
+            <div style="font-weight:800; font-size:12.5px; color:#1A1A18;">Document Submission Rejected</div>
+            <div style="font-size:11px; color:#7A7A78; margin-top:2px;">Feedback sent to ${STARTUP_INFO.name}</div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Reason / Comments for Founder</label>
+          <div style="background:#FAFAFA; border:1px solid #DFDEDE; border-radius:6px; padding:12px; font-size:12px; line-height:1.55; color:#1A1A18; white-space:pre-wrap;">${note}</div>
+        </div>
+
+        <div class="vdr-modal-footer" style="border-top:1px solid #EBEBEA; padding-top:14px;">
+          <button type="button" class="vdr-btn-outline" onclick="hideVDRModal()">Close</button>
+          <button type="button" class="vdr-btn-primary" onclick="window.openRejectDocModal('${docId}')">
+            <i data-lucide="edit-3" style="width:12px; height:12px;"></i>
+            <span>Edit Feedback</span>
+          </button>
+        </div>
+      </div>
+    `);
+  };
+
+  /* ── SIMPLIFIED REQUEST DOCUMENT MODAL (AUTO SELECTED FOLDER) ── */
+  let uploadedTemplateFile = null;
+
+  window.openRequestDocumentModal = function() {
+    closeAllContextMenus();
+    const activeFolder = foldersData.find(f => f.id === activeNav) || foldersData[0];
+
+    showVDRModal(`Request Document (${activeFolder.title})`, `
+      <div style="padding:2px 0;">
+        <p style="font-size:11.5px; color:#6A6A68; margin:0 0 14px; line-height:1.5;">
+          Add a new document requirement to <strong>${activeFolder.title}</strong> for <strong>${STARTUP_INFO.name}</strong> to fulfill.
+        </p>
+
+        <div class="field-group">
+          <label class="field-label">File / Document Name <span style="color:#DC2626;">*</span></label>
+          <input type="text" id="reqDocNameInput" class="field-input" placeholder="e.g. Audited Balance Sheet FY25 or Certificate of Good Standing" />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Upload Reference Template (Optional)</label>
+          <div style="border:1.5px dashed #DFDEDE; border-radius:6px; padding:14px; text-align:center; background:#FAFAFA; cursor:pointer;" onclick="document.getElementById('templateFileInput').click()">
+            <input type="file" id="templateFileInput" style="display:none;" onchange="window.handleTemplateSelected(this)" />
+            <i data-lucide="upload-cloud" style="width:22px; height:22px; color:#7A7A78; margin-bottom:4px;"></i>
+            <div style="font-size:11.5px; font-weight:700; color:#1A1A18;" id="templateUploadText">Drag template file here or click to browse</div>
+            <div style="font-size:10px; color:#8C8C88; margin-top:2px;">PDF, XLSX, DOCX up to 25 MB</div>
+          </div>
+        </div>
+
+        <div class="vdr-modal-footer" style="border-top:1px solid #EBEBEA; padding-top:12px;">
+          <button type="button" class="vdr-btn-outline" onclick="hideVDRModal()">Cancel</button>
+          <button type="button" class="vdr-btn-primary" onclick="confirmRequestDocument()">
+            <i data-lucide="send" style="width:12px; height:12px;"></i>
+            Request Document
+          </button>
+        </div>
+      </div>
+    `);
+    setTimeout(() => document.getElementById('reqDocNameInput')?.focus(), 60);
+  };
+
+  window.handleTemplateSelected = function(input) {
+    if (input.files && input.files[0]) {
+      uploadedTemplateFile = input.files[0].name;
+      const txt = document.getElementById('templateUploadText');
+      if (txt) txt.textContent = `Attached: ${uploadedTemplateFile}`;
+    }
+  };
+
+  window.confirmRequestDocument = function() {
+    const nameInput = document.getElementById('reqDocNameInput')?.value?.trim();
+    if (!nameInput) {
+      if (window.showToast) window.showToast('Please enter a document name.', 'alert-circle');
+      return;
+    }
+
+    const targetFolder = foldersData.find(f => f.id === activeNav) || foldersData[0];
+    if (targetFolder) {
+      const extMatch = nameInput.match(/\.[a-zA-Z0-9]+$/);
+      const ext = extMatch ? extMatch[0].toLowerCase() : '.pdf';
+      
+      const newDoc = {
+        id: 'doc_req_' + Date.now(),
+        name: nameInput.replace(/\.[a-zA-Z0-9]+$/, ''),
+        template: uploadedTemplateFile || null,
+        submittedFile: null,
+        size: '—',
+        type: ext,
+        submittedOn: '—',
+        status: 'Not Submitted',
+        rejectionNote: ''
+      };
+
+      targetFolder.docs.push(newDoc);
+      uploadedTemplateFile = null;
+
+      hideVDRModal();
+      renderSidebar();
+      renderActiveContent();
+      if (window.showToast) window.showToast(`Document requirement "${newDoc.name}" requested!`, 'check-circle');
+    }
+  };
+
+  /* ── TEMPLATE PREVIEW MODAL ── */
+  window.openStartupTemplateViewer = function(templateName) {
+    closeAllContextMenus();
+    showVDRModal(`Template: ${templateName}`, `
+      <div>
+        <div style="display:flex; align-items:center; gap:10px; background:#F8F8F6; border:1px solid #E2E2E0; border-radius:8px; padding:14px; margin-bottom:14px;">
+          <div style="width:36px; height:36px; border-radius:6px; background:#1A1A18; color:#FFFFFF; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <i data-lucide="file-text" style="width:18px; height:18px;"></i>
+          </div>
+          <div>
+            <div style="font-weight:800; font-size:13px; color:#1A1A18;">${templateName}</div>
+            <div style="font-size:11px; color:#7A7A78; margin-top:2px;">Standardized document template for Due Diligence submissions</div>
+          </div>
+        </div>
+        <p style="font-size:12px; color:#4A4A48; line-height:1.5;">Founders can download this pre-formatted reference document when completing their folder submission package.</p>
+        <div class="vdr-modal-footer">
+          <button class="vdr-btn-outline" onclick="hideVDRModal()">Close</button>
+          <button class="vdr-btn-primary" onclick="hideVDRModal(); downloadSubmittedFile('${templateName}');">
+            <i data-lucide="download" style="width:12px; height:12px;"></i> Download Template
+          </button>
+        </div>
+      </div>
+    `);
+  };
+
+  /* ── FULLSCREEN TOGGLE HELPER ── */
+  window.toggleFullscreenMode = function() {
+    const isFull = Boolean(document.fullscreenElement);
+    if (!isFull) {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+      updateFullscreenUI(true);
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+      updateFullscreenUI(false);
+    }
+  };
+
+  function updateFullscreenUI(isFull) {
+    const icon = document.getElementById('fullscreenIcon');
+    const btn = document.getElementById('btnToggleFullscreen');
+    if (icon) {
+      icon.setAttribute('data-lucide', isFull ? 'minimize-2' : 'maximize-2');
+    }
+    if (btn) {
+      btn.setAttribute('title', isFull ? 'Exit Full Screen' : 'Maximize Full Screen');
+    }
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  document.addEventListener('fullscreenchange', () => {
+    updateFullscreenUI(Boolean(document.fullscreenElement));
+  });
+
+  /* ── SHARE WITH DD TEAM MODAL ── */
+  window.openShareWithDDTeam = function() {
+    closeAllContextMenus();
+    showVDRModal('Share Data Room with Due Diligence Team', `
+      <div style="padding:2px 0;">
+        <p style="font-size:11.5px; color:#6A6A68; margin:0 0 12px;">Grant external audit partners and diligence reviewers direct read access to <strong>${STARTUP_INFO.name}</strong>'s uploaded documents.</p>
+
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px;">
+          <label style="display:flex; align-items:center; gap:10px; background:#FAFAFA; border:1px solid #E2E2E0; border-radius:6px; padding:10px 12px; cursor:pointer;">
+            <input type="checkbox" checked />
+            <div style="flex:1;">
+              <div style="font-size:12px; font-weight:700; color:#1A1A18;">PwC Advisory Legal (Marcus Vance)</div>
+              <div style="font-size:10.5px; color:#7A7A78;">Corporate, IP & SHA review · 3-day SLA</div>
+            </div>
+          </label>
+          <label style="display:flex; align-items:center; gap:10px; background:#FAFAFA; border:1px solid #E2E2E0; border-radius:6px; padding:10px 12px; cursor:pointer;">
+            <input type="checkbox" checked />
+            <div style="flex:1;">
+              <div style="font-size:12px; font-weight:700; color:#1A1A18;">Deloitte Financial Audit (Elena Rostova)</div>
+              <div style="font-size:10.5px; color:#7A7A78;">Tax filings, P&L models & MIS audit · 4-day SLA</div>
+            </div>
+          </label>
+          <label style="display:flex; align-items:center; gap:10px; background:#FAFAFA; border:1px solid #E2E2E0; border-radius:6px; padding:10px 12px; cursor:pointer;">
+            <input type="checkbox" />
+            <div style="flex:1;">
+              <div style="font-size:12px; font-weight:700; color:#1A1A18;">KPMG Code & Tech Reviewers (David Tanaka)</div>
+              <div style="font-size:10.5px; color:#7A7A78;">SOC2 audit & architecture stack · 2-day SLA</div>
+            </div>
+          </label>
+        </div>
+
+        <div class="vdr-modal-footer" style="border-top:1px solid #EBEBEA; padding-top:12px;">
+          <button type="button" class="vdr-btn-outline" onclick="hideVDRModal()">Cancel</button>
+          <button type="button" class="vdr-btn-primary" onclick="hideVDRModal(); if(window.showToast) window.showToast('Diligence access granted to selected partners!', 'check-circle');">
+            Send Invites
+          </button>
+        </div>
+      </div>
+    `);
+  };
+
+  window.downloadSubmittedFile = function(fileName) {
+    closeAllContextMenus();
+    if (window.showToast) window.showToast(`Downloading "${fileName}"...`, 'download');
+  };
+
+  window.toggleVdrHeaderDropdown = function(e) {
+    if (e) e.stopPropagation();
+    const menu = document.getElementById('vdrHeaderDropdownMenu');
+    const isShowing = menu && menu.classList.contains('show');
+    closeAllContextMenus();
+    if (menu && !isShowing) {
+      menu.classList.add('show');
+    }
+  };
+
+  window.downloadVaultAsZip = function() {
+    closeAllContextMenus();
+    const sName = STARTUP_INFO?.name || 'Startup';
+    if (window.showToast) {
+      window.showToast(`Compressing and downloading full diligence vault for ${sName} (.ZIP)...`, 'download');
+    }
+  };
+
+  window.closeAllContextMenus = function() {
+    document.querySelectorAll('.vdr-context-menu').forEach(m => m.classList.remove('show'));
+    document.querySelectorAll('.vdr-dropdown-menu').forEach(m => m.classList.remove('show'));
+  };
+
+  /* ── LOCAL MODAL HELPER ── */
+  window.showVDRModal = function(title, bodyHtml) {
+    closeAllContextMenus();
+    document.getElementById('vdrModalTitle').textContent = title;
+    document.getElementById('vdrModalBody').innerHTML = bodyHtml;
+    document.getElementById('vdrModalBackdrop').style.display = 'flex';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  };
+
+  window.hideVDRModal = function() {
+    document.getElementById('vdrModalBackdrop').style.display = 'none';
+  };
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.vdr-row-menu-wrap') && !e.target.closest('.vdr-dropdown-wrap')) {
+      closeAllContextMenus();
+    }
+  });
+</script>
+</body>
+</html>

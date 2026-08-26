@@ -346,6 +346,70 @@
       background: #2A2A28;
     }
 
+    .vdr-btn-danger {
+      background: #DC2626;
+      border: 1px solid #DC2626;
+      border-radius: 6px;
+      padding: 6px 13px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: inherit;
+      transition: all 0.1s;
+    }
+
+    .vdr-btn-danger:hover {
+      background: #B91C1C;
+      border-color: #B91C1C;
+    }
+
+    .vdr-btn-success {
+      background: #047857;
+      border: 1px solid #047857;
+      border-radius: 6px;
+      padding: 6px 13px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: inherit;
+      transition: all 0.1s;
+    }
+
+    .vdr-btn-success:hover {
+      background: #065F46;
+      border-color: #065F46;
+    }
+
+    .vdr-btn-reject-outline {
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      border-radius: 6px;
+      padding: 6px 13px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #DC2626;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: inherit;
+      transition: all 0.1s;
+    }
+
+    .vdr-btn-reject-outline:hover {
+      background: #FEE2E2;
+      border-color: #FCA5A5;
+      color: #B91C1C;
+    }
+
     /* Add New Dropdown Menu */
     .vdr-dropdown-wrap {
       position: relative;
@@ -372,43 +436,48 @@
       display: flex;
     }
 
-    /* ── Condensed Files & Shared Table (Zero outer padding) ── */
+    /* ── Condensed Files & Shared Table with Horizontal Scroll ── */
     .vdr-files-table-container {
       padding: 0;
       flex: 1;
       width: 100%;
+      min-width: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
     }
 
     .vdr-table {
       width: 100%;
+      min-width: 1050px;
       border-collapse: collapse;
-      table-layout: fixed;
+      table-layout: auto;
     }
 
     .vdr-table th {
       text-align: left;
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: #8C8C88;
-      padding: 8px 16px;
+      padding: 9px 16px;
       border-bottom: 1px solid #EBEBEA;
       background: #FAFAFA;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      overflow: visible;
+      text-overflow: clip;
     }
 
     .vdr-table td {
-      padding: 8px 16px;
+      padding: 9px 16px;
       font-size: 12px;
       color: #3A3A38;
       border-bottom: 1px solid #F3F3F1;
       vertical-align: middle;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      overflow: visible;
+      text-overflow: clip;
     }
 
     .vdr-table tr:hover td {
@@ -882,7 +951,28 @@
 
     .vdr-drawer-startup-card.is-shared {
       background: #FAFAFA;
-      border-color: #E6E6E4;
+      border-color: #E2E2E0;
+      cursor: pointer;
+      transition: all 0.12s ease;
+    }
+
+    .vdr-drawer-startup-card.is-shared:hover {
+      background: #FFFFFF;
+      border-color: #1A1A18;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .vdr-already-shared-link {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.1s ease;
+    }
+
+    .vdr-already-shared-link:hover .vdr-already-shared-text {
+      color: #047857;
+      text-decoration: underline;
     }
 
     .vdr-already-shared-text {
@@ -893,6 +983,7 @@
       align-items: center;
       gap: 3.5px;
       line-height: 1.2;
+      cursor: pointer;
     }
 
     .vdr-view-comment-link-btn {
@@ -1371,7 +1462,10 @@
                   <td>
                     <div style="display:flex; align-items:center; gap:8px;">
                       <div style="width:26px; height:26px; border-radius:5px; background:#1A1A18; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:9.5px; flex-shrink:0;">${s.avatar || s.name.slice(0,2).toUpperCase()}</div>
-                      <span style="font-weight:700; color:#1A1A18;">${s.name}</span>
+                      <a href="./startup-detail.html?id=${s.id || 'sup_1'}&name=${encodeURIComponent(s.name)}&tab=vdr" style="font-weight:700; color:#1A1A18; text-decoration:none; display:inline-flex; align-items:center; gap:4px;" title="Open ${s.name} Data Room (VDR)">
+                        ${s.name}
+                        <i data-lucide="arrow-up-right" style="width:11px; height:11px; color:#8C8C88;"></i>
+                      </a>
                     </div>
                   </td>
                   <td>
@@ -2101,7 +2195,7 @@
       const alreadyShared = !!sharedRecord;
       const sharedDate = sharedRecord ? (sharedRecord.date || 'Jan 14, 2026') : '';
       return `
-        <div class="vdr-drawer-startup-card ${alreadyShared ? 'is-shared' : ''}">
+        <div class="vdr-drawer-startup-card ${alreadyShared ? 'is-shared' : ''}" ${alreadyShared ? `onclick="window.location.href='./startup-detail.html?id=${s.id}&name=${encodeURIComponent(s.name)}&tab=vdr'"` : ''} title="${alreadyShared ? `Open ${s.name} Data Room (VDR)` : ''}">
           <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
             <div style="width:34px; height:34px; border-radius:6px; background:#1A1A18; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; flex-shrink:0;">
               ${s.avatar}
@@ -2119,13 +2213,15 @@
 
           <div style="display:flex; flex-direction:column; align-items:flex-end; justify-content:center; gap:3px; flex-shrink:0;">
             ${alreadyShared ? `
-              <span class="vdr-already-shared-text">
-                Already Shared
-              </span>
+              <a href="./startup-detail.html?id=${s.id}&name=${encodeURIComponent(s.name)}&tab=vdr" class="vdr-already-shared-link" onclick="event.stopPropagation()" title="Open ${s.name} Data Room (VDR)">
+                <span class="vdr-already-shared-text">
+                  Already Shared <i data-lucide="arrow-up-right" style="width:11px; height:11px;"></i>
+                </span>
+              </a>
               <div style="display:flex; align-items:center; gap:5px; font-size:10.5px; color:#7A7A78;">
                 <span>Shared on ${sharedDate}</span>
                 <span style="color:#D0D0CE; font-size:9px;">•</span>
-                <button type="button" class="vdr-view-comment-link-btn" onclick="openViewStartupCommentModal('${s.name.replace(/'/g, "\\'")}')" title="View or edit diligence comments">
+                <button type="button" class="vdr-view-comment-link-btn" onclick="event.stopPropagation(); openViewStartupCommentModal('${s.name.replace(/'/g, "\\'")}')" title="View or edit diligence comments">
                   View Comment
                 </button>
               </div>
