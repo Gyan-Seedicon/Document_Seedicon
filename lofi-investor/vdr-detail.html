@@ -786,10 +786,11 @@
 <div id="modalSlot"></div>
 
 <script src="./js/components.js"></script>
+<script src="./js/vdr-mock-data.js"></script>
 <script src="./js/app.js"></script>
 <script>
   // ── PIPELINE STARTUPS FOR SHARE DRAWER CARDS ──
-  const DUE_DILIGENCE_PIPELINE_STARTUPS = [
+  const DUE_DILIGENCE_PIPELINE_STARTUPS = window.VDR_PIPELINE_STARTUPS || [
     { id: 'dd_1', name: 'Alpha Health', avatar: 'AH', sector: 'Healthcare', founder: 'Dr. Sarah Chen', email: 'sarah@alphahealth.com' },
     { id: 'dd_2', name: 'NeuroPulse', avatar: 'NP', sector: 'MedTech', founder: 'Mark Evans', email: 'mark@neuropulse.io' },
     { id: 'dd_3', name: 'EcoPulse Energy', avatar: 'EP', sector: 'CleanTech', founder: 'Priya Sharma', email: 'priya@ecopulse.com' },
@@ -801,7 +802,7 @@
   ];
 
   // ── DEFAULT STORE & REALISTIC MOCK DATA ──
-  const SEED_VDR_DATA = {
+  const SEED_VDR_DATA = window.SEED_VDR_DATA || {
     vdr1: {
       id: 'vdr1',
       name: 'Seed Round Due Diligence',
@@ -1032,7 +1033,14 @@
     // 1. COVER LETTER VIEW
     if (activeNav === 'cover-letter') {
       if (headerTitle) headerTitle.textContent = 'Cover letter';
-      if (topActions) topActions.style.display = 'none';
+      if (topActions) {
+        topActions.style.display = 'flex';
+        topActions.innerHTML = `
+          <button class="vdr-btn-icon" onclick="autofillVdrData()" title="Auto-fill sample folders & files (Filled State)">
+            <i data-lucide="sparkles" style="width:13px; height:13px; color:#1A1A18;"></i>
+          </button>
+        `;
+      }
 
       container.innerHTML = `
         <div class="vdr-cover-letter-wrap">
@@ -1063,6 +1071,9 @@
       if (topActions) {
         topActions.style.display = 'flex';
         topActions.innerHTML = `
+          <button class="vdr-btn-icon" onclick="autofillVdrData()" title="Auto-fill sample folders & files (Filled State)">
+            <i data-lucide="sparkles" style="width:13px; height:13px; color:#1A1A18;"></i>
+          </button>
           <button class="vdr-btn-primary" onclick="openShareVdrDrawer()" style="font-size:11.5px; padding:6px 13px; gap:6px;">
             <i data-lucide="send" style="width:12px; height:12px;"></i>
             <span>Share Vault with Startup</span>
@@ -1080,9 +1091,14 @@
             </div>
             <div style="font-size:13px; font-weight:700; color:#1A1A18; margin-bottom:3px;">No startups shared yet</div>
             <p style="font-size:11.5px; color:#8C8C88; max-width:340px; margin:0 auto 14px;">Invite founders to access this Virtual Data Room and review or upload requested files.</p>
-            <button class="vdr-btn-primary" onclick="openShareVdrDrawer()" style="display:inline-flex;">
-              <i data-lucide="send" style="width:12px; height:12px;"></i> Share Room with Startup
-            </button>
+            <div style="display:flex; align-items:center; justify-content:center; gap:8px;">
+              <button class="vdr-btn-primary" onclick="openShareVdrDrawer()" style="display:inline-flex;">
+                <i data-lucide="send" style="width:12px; height:12px;"></i> Share Room with Startup
+              </button>
+              <button class="vdr-btn-outline" onclick="autofillVdrData()" style="display:inline-flex;">
+                <i data-lucide="sparkles" style="width:12px; height:12px;"></i> Auto-fill Sample Data
+              </button>
+            </div>
           </div>
         `;
         return;
@@ -1166,6 +1182,9 @@
     if (topActions) {
       topActions.style.display = 'flex';
       topActions.innerHTML = `
+        <button class="vdr-btn-icon" onclick="autofillVdrData()" title="Auto-fill sample folders & files (Filled State)">
+          <i data-lucide="sparkles" style="width:13px; height:13px; color:#1A1A18;"></i>
+        </button>
         <button class="vdr-btn-icon" onclick="exportFolder()" title="Download files">
           <i data-lucide="download" style="width:13px; height:13px;"></i>
         </button>
@@ -1230,9 +1249,14 @@
           </div>
           <div style="font-size:13px; font-weight:700; color:#1A1A18; margin-bottom:3px;">No files in this folder yet</div>
           <p style="font-size:11.5px; color:#8C8C88; max-width:320px; margin:0 auto 14px;">Upload documents or add file templates to this folder for startups to review.</p>
-          <button class="vdr-btn-primary" onclick="openAddFileModal()" style="display:inline-flex;">
-            <i data-lucide="plus" style="width:12px; height:12px;"></i> Add File to Folder
-          </button>
+          <div style="display:flex; align-items:center; justify-content:center; gap:8px;">
+            <button class="vdr-btn-primary" onclick="openAddFileModal()" style="display:inline-flex;">
+              <i data-lucide="plus" style="width:12px; height:12px;"></i> Add File to Folder
+            </button>
+            <button class="vdr-btn-outline" onclick="autofillVdrData()" style="display:inline-flex;">
+              <i data-lucide="sparkles" style="width:12px; height:12px;"></i> Auto-fill Sample Data
+            </button>
+          </div>
         </div>
       `;
       return;
@@ -1327,6 +1351,59 @@
         </div>
       </div>
     `);
+  }
+
+  /* ── AUTO-FILL SAMPLE DATA (Filled State Demonstration) ── */
+  function autofillVdrData() {
+    roomData.coverLetter = "Dear Founders,\n\nPlease review and upload the requested due diligence documents across the relevant folders (General, Financials, Legal, and Product). Make sure all files are in PDF or XLSX format.\n\nBest regards,\nInvestment Team";
+    roomData.folders = [
+      {
+        id: 'general',
+        title: 'General (Pitch, Cap Table)',
+        docs: [
+          { name: 'Investor Pitch Deck 2026.pdf', template: 'Standard Pitch Deck Template.pdf', size: '4.2 MB', type: 'PDF', date: '24 Aug 2026' },
+          { name: 'Executive Summary & Thesis.pdf', template: '', size: '1.1 MB', type: 'PDF', date: '22 Aug 2026' },
+          { name: 'Cap Table & Ownership Matrix.xlsx', template: 'Cap Table Matrix.xlsx', size: '2.8 MB', type: 'XLSX', date: '18 Aug 2026' }
+        ]
+      },
+      {
+        id: 'financials',
+        title: 'Financials & Tax Filings',
+        docs: [
+          { name: 'Historical P&L and Balance Sheet (FY24-FY26).xlsx', template: 'P&L Model Template.xlsx', size: '3.4 MB', type: 'XLSX', date: '15 Aug 2026' },
+          { name: '5-Year Financial Forecast Model.xlsx', template: '5-Year Forecast Template.xlsx', size: '5.1 MB', type: 'XLSX', date: '12 Aug 2026' },
+          { name: 'Audited Financial Statements FY25.pdf', template: '', size: '8.7 MB', type: 'PDF', date: '10 Aug 2026' }
+        ]
+      },
+      {
+        id: 'legal',
+        title: 'Legal & Incorporation',
+        docs: [
+          { name: 'Certificate of Incorporation.pdf', template: '', size: '950 KB', type: 'PDF', date: '05 Aug 2026' },
+          { name: 'Bylaws & Shareholder Agreement.pdf', template: 'Standard SHA Template.pdf', size: '2.3 MB', type: 'PDF', date: '04 Aug 2026' },
+          { name: 'IP Assignment & NDA Schedule.pdf', template: 'IP Assignment Schedule.pdf', size: '1.4 MB', type: 'PDF', date: '02 Aug 2026' }
+        ]
+      },
+      {
+        id: 'product',
+        title: 'Product & Tech Architecture',
+        docs: [
+          { name: 'Product Roadmap & Architecture Overview.pdf', template: 'Product Architecture Outline.pdf', size: '6.5 MB', type: 'PDF', date: '19 Aug 2026' },
+          { name: 'Security & Compliance SOC2 Report.pdf', template: '', size: '3.1 MB', type: 'PDF', date: '14 Aug 2026' }
+        ]
+      }
+    ];
+    roomData.sharedStartups = [
+      { id: 's1', name: 'NexusAI', avatar: 'NX', contact: 'Aarav Patel', email: 'aarav@nexusai.io', date: '22 Aug 2026', receivedOn: '24 Aug 2026', status: 'In Review', progress: 75 },
+      { id: 's2', name: 'KitePay', avatar: 'KP', contact: 'Priya Sharma', email: 'priya@kitepay.in', date: '18 Aug 2026', receivedOn: '23 Aug 2026', status: 'Completed', progress: 100 },
+      { id: 's3', name: 'ZetaHealth', avatar: 'ZH', contact: 'Rohan Mehra', email: 'rohan@zetahealth.com', date: '15 Aug 2026', receivedOn: '—', status: 'In Progress', progress: 40 },
+      { id: 's4', name: 'CleanGrid Tech', avatar: 'CG', contact: 'Vikram Joshi', email: 'vikram@cleangrid.tech', date: '10 Aug 2026', receivedOn: '—', status: 'Invited', progress: 0 }
+    ];
+
+    persistRoomData();
+    renderFolderNav();
+    renderActiveContent();
+    if (window.showToast) window.showToast('Sample folders, files & startups auto-filled!', 'sparkles');
   }
 
   /* ── COVER LETTER ACTIONS ── */
