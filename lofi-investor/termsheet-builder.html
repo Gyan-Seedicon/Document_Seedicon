@@ -341,8 +341,15 @@
     }
 
     @keyframes fadeInDropdown {
-      from { opacity: 0; transform: translateY(-4px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .ts-dropdown-item {
@@ -662,7 +669,7 @@
           style="padding:11px 28px; background:#FFFFFF; border-bottom:1px solid var(--border-main, #E8E8E6); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; position:sticky; top:0; z-index:30;">
           <div style="display:flex; align-items:center; gap:12px; min-width:0;">
             <a href="./deal-crm.html" id="btnBackLink" title="Back"
-              style="display:inline-flex; align-items:center; justify-content:center; color:#1A1A18; text-decoration:none; width:30px; height:30px; border-radius:6px; background:#FFFFFF; border:1px solid #D8D8D6; transition:all 0.12s ease; flex-shrink:0;">
+              style="display:inline-flex; align-items:center; justify-content:center; color:#1A1A18; text-decoration:none; transition:all 0.12s ease; flex-shrink:0;">
               <i data-lucide="arrow-left" style="width:15px; height:15px;"></i>
             </a>
             <div style="min-width:0;">
@@ -691,16 +698,22 @@
 
             <!-- More Actions Dropdown (Three Dots Menu for Reset & Export PDF) -->
             <div class="ts-dropdown-wrapper" style="position:relative;">
-              <button type="button" class="vdr-btn-outline" id="btnMoreActions" onclick="toggleHeaderActionsMenu(event)" style="padding:6px 9px; font-size:11.5px; height:29px; display:inline-flex; align-items:center; justify-content:center;" title="More options">
+              <button type="button" class="vdr-btn-outline" id="btnMoreActions" onclick="toggleHeaderActionsMenu(event)"
+                style="padding:6px 9px; font-size:11.5px; height:29px; display:inline-flex; align-items:center; justify-content:center;"
+                title="More options">
                 <i data-lucide="more-horizontal" style="width:14px; height:14px;"></i>
               </button>
-              <div class="ts-dropdown-menu" id="headerActionsMenu" style="display:none; position:absolute; right:0; top:calc(100% + 5px); background:#FFFFFF; border:1px solid #DFDEDE; border-radius:6px; box-shadow:0 8px 24px rgba(0,0,0,0.12); min-width:160px; z-index:100; padding:4px 0;">
-                <button type="button" onclick="exportTermSheetPDF(); closeHeaderActionsMenu();" class="ts-dropdown-item" style="width:100%; text-align:left; background:transparent; border:none; padding:7px 12px; font-size:11.5px; font-weight:600; color:#1A1A18; cursor:pointer; display:flex; align-items:center; gap:8px; font-family:inherit;">
+              <div class="ts-dropdown-menu" id="headerActionsMenu"
+                style="display:none; position:absolute; right:0; top:calc(100% + 5px); background:#FFFFFF; border:1px solid #DFDEDE; border-radius:6px; box-shadow:0 8px 24px rgba(0,0,0,0.12); min-width:160px; z-index:100; padding:4px 0;">
+                <button type="button" onclick="exportTermSheetPDF(); closeHeaderActionsMenu();" class="ts-dropdown-item"
+                  style="width:100%; text-align:left; background:transparent; border:none; padding:7px 12px; font-size:11.5px; font-weight:600; color:#1A1A18; cursor:pointer; display:flex; align-items:center; gap:8px; font-family:inherit;">
                   <i data-lucide="download" style="width:13px; height:13px; color:#6A6A68;"></i>
                   <span>Export PDF</span>
                 </button>
                 <div style="height:1px; background:#EBEBEA; margin:3px 0;"></div>
-                <button type="button" onclick="resetTermSheetTemplate(); closeHeaderActionsMenu();" class="ts-dropdown-item" style="width:100%; text-align:left; background:transparent; border:none; padding:7px 12px; font-size:11.5px; font-weight:600; color:#DC2626; cursor:pointer; display:flex; align-items:center; gap:8px; font-family:inherit;">
+                <button type="button" onclick="resetTermSheetTemplate(); closeHeaderActionsMenu();"
+                  class="ts-dropdown-item"
+                  style="width:100%; text-align:left; background:transparent; border:none; padding:7px 12px; font-size:11.5px; font-weight:600; color:#DC2626; cursor:pointer; display:flex; align-items:center; gap:8px; font-family:inherit;">
                   <i data-lucide="rotate-ccw" style="width:13px; height:13px; color:#DC2626;"></i>
                   <span>Reset to Defaults</span>
                 </button>

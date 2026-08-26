@@ -817,7 +817,7 @@
       border: 1px solid #DFDEDE;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
       min-height: 560px;
     }
 
@@ -1392,7 +1392,10 @@
     /* VDR Modal System & Action Buttons */
     .vdr-modal-backdrop {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background: rgba(0, 0, 0, 0.45);
       z-index: 99999;
       display: flex;
@@ -1456,7 +1459,8 @@
       padding-top: 14px;
     }
 
-    .vdr-btn-primary, .btn-modal-primary {
+    .vdr-btn-primary,
+    .btn-modal-primary {
       background: #1A1A18 !important;
       color: #FFFFFF !important;
       border: 1px solid #1A1A18 !important;
@@ -1477,13 +1481,15 @@
       text-decoration: none !important;
     }
 
-    .vdr-btn-primary:hover, .btn-modal-primary:hover {
+    .vdr-btn-primary:hover,
+    .btn-modal-primary:hover {
       background: #2E2E2C !important;
       border-color: #2E2E2C !important;
       color: #FFFFFF !important;
     }
 
-    .vdr-btn-outline, .btn-modal-cancel {
+    .vdr-btn-outline,
+    .btn-modal-cancel {
       background: #FFFFFF !important;
       color: #3A3A38 !important;
       border: 1px solid #D8D8D6 !important;
@@ -1503,13 +1509,15 @@
       text-decoration: none !important;
     }
 
-    .vdr-btn-outline:hover, .btn-modal-cancel:hover {
+    .vdr-btn-outline:hover,
+    .btn-modal-cancel:hover {
       background: #F4F4F2 !important;
       border-color: #B0B0AE !important;
       color: #1A1A18 !important;
     }
 
-    .vdr-btn-danger, .btn-modal-danger {
+    .vdr-btn-danger,
+    .btn-modal-danger {
       background: #DC2626 !important;
       color: #FFFFFF !important;
       border: 1px solid #DC2626 !important;
@@ -1529,7 +1537,8 @@
       text-decoration: none !important;
     }
 
-    .vdr-btn-danger:hover, .btn-modal-danger:hover {
+    .vdr-btn-danger:hover,
+    .btn-modal-danger:hover {
       background: #B91C1C !important;
       border-color: #B91C1C !important;
       color: #FFFFFF !important;
@@ -2328,7 +2337,8 @@
               <div class="vdr-sidebar-search">
                 <div class="vdr-sidebar-search-box">
                   <i data-lucide="search" style="width:12px; height:12px; color:#8C8C88;"></i>
-                  <input type="text" id="tabVdrFolderSearchInput" class="vdr-sidebar-search-input" placeholder="Search folders..." oninput="handleTabVdrFolderSearch(this.value)" />
+                  <input type="text" id="tabVdrFolderSearchInput" class="vdr-sidebar-search-input"
+                    placeholder="Search folders..." oninput="handleTabVdrFolderSearch(this.value)" />
                 </div>
               </div>
 
@@ -2339,7 +2349,8 @@
 
               <!-- Diligence Progress -->
               <div class="vdr-sidebar-storage">
-                <div style="display:flex; justify-content:space-between; align-items:center; font-weight:700; color:#1A1A18;">
+                <div
+                  style="display:flex; justify-content:space-between; align-items:center; font-weight:700; color:#1A1A18;">
                   <span>Diligence Progress</span>
                   <span id="tabVdrProgressPct">75%</span>
                 </div>
@@ -2362,20 +2373,24 @@
                     <span class="vdr-status-pill approved" id="tabVdrFolderStatusBadge">In Diligence Review</span>
                   </div>
                   <div class="vdr-header-meta">
-                    <span><i data-lucide="calendar" style="width:12px; height:12px; color:#8A8A88; vertical-align:-1px;"></i> Vault Shared on: <strong id="tabVdrSharedDateText">Jan 14, 2026</strong></span>
+                    <span><i data-lucide="calendar"
+                        style="width:12px; height:12px; color:#8A8A88; vertical-align:-1px;"></i> Vault Shared on:
+                      <strong id="tabVdrSharedDateText">Jan 14, 2026</strong></span>
                     <span style="color:#D0D0CE;">•</span>
                     <span style="color:#5A5A58;" id="tabVdrHeaderDocsCount">3 documents</span>
                   </div>
                 </div>
 
                 <div class="vdr-header-actions">
-                  <button type="button" class="vdr-btn-primary" onclick="window.openShareWithDDTeam()" title="Grant diligence auditor access">
+                  <button type="button" class="vdr-btn-primary" onclick="window.openShareWithDDTeam()"
+                    title="Grant diligence auditor access">
                     <i data-lucide="users" style="width:12px; height:12px;"></i>
                     <span>Share with DD Team</span>
                   </button>
 
                   <div class="vdr-dropdown-wrap">
-                    <button type="button" class="vdr-icon-btn" id="btnVdrHeaderMore" onclick="window.toggleVdrHeaderDropdown(event)" title="More options">
+                    <button type="button" class="vdr-icon-btn" id="btnVdrHeaderMore"
+                      onclick="window.toggleVdrHeaderDropdown(event)" title="More options">
                       <i data-lucide="more-horizontal" style="width:14px; height:14px;"></i>
                     </button>
                     <div class="vdr-dropdown-menu" id="vdrHeaderDropdownMenu">
@@ -2390,7 +2405,8 @@
                     </div>
                   </div>
 
-                  <button type="button" class="vdr-icon-btn" id="btnToggleVdrTabFullscreen" onclick="window.toggleVdrTabFullscreen()" title="Maximize / Minimize Workspace">
+                  <button type="button" class="vdr-icon-btn" id="btnToggleVdrTabFullscreen"
+                    onclick="window.toggleVdrTabFullscreen()" title="Maximize / Minimize Workspace">
                     <i data-lucide="maximize-2" id="vdrTabFullscreenIcon" style="width:13px; height:13px;"></i>
                   </button>
                 </div>
@@ -2406,152 +2422,20 @@
 
         <!-- TAB PANE: TERM SHEET -->
         <div id="tabPaneTermsheet" style="display:none;">
-          <div id="termSheetComponent" style="display:flex; flex-direction:column; gap:14px;">
-            <!-- TERM SHEET HEADER CARD -->
-            <div
-              style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:14px 18px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
-              <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
-                <div style="display:flex; align-items:center; gap:12px;">
-                  <div
-                    style="width:38px; height:38px; border-radius:7px; background:#1A1A18; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px;"
-                    id="tsAvatar">AH</div>
-                  <div>
-                    <div
-                      style="font-size:9px; font-weight:800; color:#8A8A88; text-transform:uppercase; letter-spacing:0.06em;">
-                      Term Sheet — Proposed Terms</div>
-                    <div style="font-size:15px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em;" id="tsTitle">
-                      Alpha Health 1 · Pre-Seed Round</div>
-                  </div>
-                </div>
-                <div style="display:flex; align-items:center; gap:8px;">
-                  <span
-                    style="font-size:9.5px; font-weight:800; padding:3px 8px; background:#F0F0EE; color:#1A1A18; border:1px solid #DCDCDA; border-radius:4px; text-transform:uppercase; letter-spacing:0.04em;">Draft</span>
-                  <a href="./termsheet-builder.html" id="btnOpenTsBuilder" class="btn btn-primary" style="font-size:11px; padding:5px 12px; text-decoration:none; display:inline-flex; align-items:center; gap:5px;">
-                    <i data-lucide="edit-3" style="width:11px; height:11px;"></i>
-                    <span>Open in Term Sheet Builder</span>
-                  </a>
-                  <button class="doc-btn" onclick="termSheetAction('Export Term Sheet')">
-                    <i data-lucide="download" style="width:11px; height:11px;"></i> Export PDF
-                  </button>
-                </div>
-              </div>
+          <div id="termSheetEmptyState" style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:64px 24px; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+            <div style="width:52px; height:52px; border-radius:12px; background:#F4F4F2; border:1px solid #E2E2DF; display:flex; align-items:center; justify-content:center; margin-bottom:16px; color:#1A1A18;">
+              <i data-lucide="file-text" style="width:24px; height:24px;"></i>
             </div>
-
-            <!-- ECONOMIC TERMS -->
-            <div class="detail-card">
-              <div class="detail-sec-header">Key Economic Terms</div>
-              <div class="kv-rows-container">
-                <div class="kv-row">
-                  <div class="kv-label">Security Type</div>
-                  <div class="kv-value">Series Seed Preferred Stock</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Total Investment</div>
-                  <div class="kv-value" style="font-weight:700;" id="tsAsk">$3.00M</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Pre-Money Valuation</div>
-                  <div class="kv-value">$12.00M</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Post-Money Valuation</div>
-                  <div class="kv-value">$15.00M</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Liquidation Preference</div>
-                  <div class="kv-value">1x Non-Participating</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Dividends</div>
-                  <div class="kv-value">None — Non-Cumulative</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Anti-Dilution</div>
-                  <div class="kv-value">Weighted Average (Broad-Based)</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Conversion</div>
-                  <div class="kv-value">1:1 Preferred → Common, at Qualified Financing or IPO</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- GOVERNANCE TERMS -->
-            <div class="detail-card">
-              <div class="detail-sec-header">Governance &amp; Control</div>
-              <div class="kv-rows-container">
-                <div class="kv-row">
-                  <div class="kv-label">Board Composition</div>
-                  <div class="kv-value">3 Seats — 1 Founder, 1 Investor, 1 Independent</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Protective Provisions</div>
-                  <div class="kv-value">Standard — Sale, Liquidation, Dilution, Indebtedness</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Information Rights</div>
-                  <div class="kv-value">Quarterly financials &amp; annual budget</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Observer Rights</div>
-                  <div class="kv-value">None</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- FOUNDER & VESTING TERMS -->
-            <div class="detail-card">
-              <div class="detail-sec-header">Founder &amp; Vesting Terms</div>
-              <div class="kv-rows-container">
-                <div class="kv-row">
-                  <div class="kv-label">Founder Vesting</div>
-                  <div class="kv-value">4-Year Monthly Vest, 1-Year Cliff</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Reverse Vesting</div>
-                  <div class="kv-value">Standard</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">IP Assignment</div>
-                  <div class="kv-value">Full assignment on closing</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Employee Option Pool</div>
-                  <div class="kv-value">10% post-money reserve</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- CONDITIONS & EXCLUSIVITY -->
-            <div class="detail-card">
-              <div class="detail-sec-header">Conditions &amp; Exclusivity</div>
-              <div class="kv-rows-container">
-                <div class="kv-row">
-                  <div class="kv-label">Exclusivity / No-Shop</div>
-                  <div class="kv-value">45 Days</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Due Diligence Period</div>
-                  <div class="kv-value">30 Days</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Governing Law</div>
-                  <div class="kv-value" id="tsJurisdiction">Delaware, USA</div>
-                </div>
-                <div class="kv-row">
-                  <div class="kv-label">Expiry Date</div>
-                  <div class="kv-value">30 days from date of issuance</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- FOOTER NOTE -->
-            <div
-              style="background:#FFFFFF; border:1px dashed #DCDCDA; border-radius:8px; padding:12px 16px; display:flex; align-items:center; gap:10px; font-size:11.5px; color:#6A6A68;">
-              <i data-lucide="info" style="width:14px; height:14px; color:#8A8A88; flex-shrink:0;"></i>
-              <span>Term sheet is non-binding except for the exclusivity and confidentiality provisions. Subject to
-                final legal review and customary closing conditions.</span>
-            </div>
+            <h3 style="font-size:16px; font-weight:800; color:#1A1A18; margin:0 0 6px 0; letter-spacing:-0.02em;" id="tsEmptyTitle">
+              Term Sheet
+            </h3>
+            <p style="font-size:12.5px; color:#7A7A78; max-width:440px; margin:0 0 20px 0; line-height:1.5;">
+              Create, configure, and issue standardized institutional financing terms, economic parameters, and investor covenants for this startup.
+            </p>
+            <a href="./termsheet-builder.html" id="btnOpenTsBuilder" class="vdr-btn-primary" style="padding:8px 18px; font-size:12px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+              <i data-lucide="edit-3" style="width:13px; height:13px;"></i>
+              <span>Edit Term Sheet</span>
+            </a>
           </div>
         </div>
 
@@ -3692,7 +3576,7 @@
       }
     ];
 
-    window.renderStartupVdrSidebar = function() {
+    window.renderStartupVdrSidebar = function () {
       const nav = document.getElementById('tabVdrFolderNavList');
       if (!nav) return;
 
@@ -3720,7 +3604,7 @@
         });
       });
       const pct = totalDocs > 0 ? Math.round((submittedDocs / totalDocs) * 100) : 0;
-      
+
       const pPct = document.getElementById('tabVdrProgressPct');
       const sFill = document.getElementById('tabVdrStorageBarFill');
       const pDocs = document.getElementById('tabVdrProgressDocs');
@@ -3731,10 +3615,10 @@
       let html = `
         <div class="vdr-nav-section-label">Checklist Categories</div>
         ${filtered.map(f => {
-          const count = (f.docs || []).length;
-          const submittedCount = (f.docs || []).filter(d => d.submittedFile).length;
-          const isActive = window.startupVdrActiveNav === f.id;
-          return `
+        const count = (f.docs || []).length;
+        const submittedCount = (f.docs || []).filter(d => d.submittedFile).length;
+        const isActive = window.startupVdrActiveNav === f.id;
+        return `
             <div class="vdr-nav-item ${isActive ? 'active' : ''}" onclick="window.selectStartupVdrNav('${f.id}')">
               <div class="vdr-nav-item-left">
                 <span class="vdr-nav-item-icon"><i data-lucide="folder" style="width:13px; height:13px;"></i></span>
@@ -3743,7 +3627,7 @@
               <span class="vdr-nav-badge">${submittedCount}/${count}</span>
             </div>
           `;
-        }).join('')}
+      }).join('')}
 
         <div class="vdr-nav-section-label" style="margin-top:6px;">General Info</div>
         <div class="vdr-nav-item ${window.startupVdrActiveNav === 'cover-letter' ? 'active' : ''}" onclick="window.selectStartupVdrNav('cover-letter')">
@@ -3765,19 +3649,19 @@
       if (typeof lucide !== 'undefined') lucide.createIcons();
     };
 
-    window.handleTabVdrFolderSearch = function(val) {
+    window.handleTabVdrFolderSearch = function (val) {
       window.startupVdrSearchQuery = val || '';
       window.renderStartupVdrSidebar();
     };
 
-    window.selectStartupVdrNav = function(folderId) {
+    window.selectStartupVdrNav = function (folderId) {
       window.startupVdrActiveNav = folderId;
       window.closeAllVdrContextMenus();
       window.renderStartupVdrSidebar();
       window.renderVdrSubmittedDocsTable();
     };
 
-    window.renderVdrSubmittedDocsTable = function() {
+    window.renderVdrSubmittedDocsTable = function () {
       const container = document.getElementById('tabVdrTableContainer');
       const headerTitle = document.getElementById('tabVdrFolderTitle');
       const headerCount = document.getElementById('tabVdrHeaderDocsCount');
@@ -3863,35 +3747,35 @@ Reach out to the investment team directly if you have any questions or require c
           </thead>
           <tbody>
             ${docsToRender.map(d => {
-              const hasSubmitted = Boolean(d.submittedFile);
-              
-              let statusHtml = '<span style="color:#A0A09E; font-size:12px;">—</span>';
-              if (hasSubmitted) {
-                if (d.status === 'Approved') {
-                  statusHtml = `
+        const hasSubmitted = Boolean(d.submittedFile);
+
+        let statusHtml = '<span style="color:#A0A09E; font-size:12px;">—</span>';
+        if (hasSubmitted) {
+          if (d.status === 'Approved') {
+            statusHtml = `
                     <span class="vdr-status-pill approved" style="background:#ECFDF5; color:#047857; border:1px solid #A7F3D0; font-size:9.5px; font-weight:700; padding:2.5px 8px; border-radius:4px; display:inline-flex; align-items:center; gap:3.5px;">
                       <i data-lucide="check" style="width:10.5px; height:10.5px;"></i>
                       <span>Approved</span>
                     </span>
                   `;
-                } else if (d.status === 'Rejected') {
-                  statusHtml = `
+          } else if (d.status === 'Rejected') {
+            statusHtml = `
                     <span class="vdr-status-pill rejected clickable" onclick="window.viewRejectionComment('${d.id}')" title="Click to view rejection feedback" style="background:#FEF2F2; color:#DC2626; border:1px solid #FECACA; font-size:9.5px; font-weight:700; padding:2.5px 8px; border-radius:4px; display:inline-flex; align-items:center; gap:4.5px; cursor:pointer; user-select:none; transition:all 0.12s ease;">
                       <i data-lucide="x-circle" style="width:10.5px; height:10.5px; flex-shrink:0;"></i>
                       <span>Rejected</span>
                       <i data-lucide="message-square" style="width:10.5px; height:10.5px; opacity:0.85; margin-left:2px; flex-shrink:0;"></i>
                     </span>
                   `;
-                } else {
-                  statusHtml = `
+          } else {
+            statusHtml = `
                     <span class="vdr-status-pill review" style="background:#FEF3C7; color:#B45309; border:1px solid #FDE68A; font-size:9.5px; font-weight:700; padding:2.5px 8px; border-radius:4px;">
                       Pending Review
                     </span>
                   `;
-                }
-              }
+          }
+        }
 
-              return `
+        return `
                 <tr class="${d.status === 'Rejected' ? 'vdr-row-rejected' : ''}">
                   <td>
                     <div class="vdr-file-name-cell">
@@ -3944,7 +3828,7 @@ Reach out to the investment team directly if you have any questions or require c
                   </td>
                 </tr>
               `;
-            }).join('')}
+      }).join('')}
           </tbody>
         </table>
       `;
@@ -3952,7 +3836,7 @@ Reach out to the investment team directly if you have any questions or require c
       if (typeof lucide !== 'undefined') lucide.createIcons();
     };
 
-    window.toggleStartupTabDocMenu = function(docId, e) {
+    window.toggleStartupTabDocMenu = function (docId, e) {
       if (e) e.stopPropagation();
       const menu = document.getElementById(`tabDocMenu-${docId}`);
       const isShowing = menu && menu.classList.contains('show');
@@ -3962,16 +3846,16 @@ Reach out to the investment team directly if you have any questions or require c
       }
     };
 
-    window.closeAllVdrContextMenus = function() {
+    window.closeAllVdrContextMenus = function () {
       document.querySelectorAll('.vdr-context-menu').forEach(m => m.classList.remove('show'));
     };
 
-    window.downloadVdrFile = function(fileName) {
+    window.downloadVdrFile = function (fileName) {
       window.closeAllVdrContextMenus();
       if (window.showToast) window.showToast(`Downloading "${fileName}"...`, 'download');
     };
 
-    window.previewVdrDocDirect = function(docId) {
+    window.previewVdrDocDirect = function (docId) {
       window.closeAllVdrContextMenus();
       let foundDoc = null;
       window.STARTUP_VDR_DATA.forEach(f => {
@@ -4024,7 +3908,7 @@ Reach out to the investment team directly if you have any questions or require c
       `);
     };
 
-    window.approveDocDirect = function(docId) {
+    window.approveDocDirect = function (docId) {
       window.closeAllVdrContextMenus();
       window.STARTUP_VDR_DATA.forEach(f => {
         const d = (f.docs || []).find(doc => doc.id === docId);
@@ -4035,7 +3919,7 @@ Reach out to the investment team directly if you have any questions or require c
       if (window.showToast) window.showToast('Document marked as Approved!', 'check-circle');
     };
 
-    window.promptRejectDocDirect = function(docId) {
+    window.promptRejectDocDirect = function (docId) {
       window.closeAllVdrContextMenus();
       let foundDoc = null;
       window.STARTUP_VDR_DATA.forEach(f => {
@@ -4067,7 +3951,7 @@ Reach out to the investment team directly if you have any questions or require c
       setTimeout(() => document.getElementById('tabRejectionNotesInput')?.focus(), 60);
     };
 
-    window.confirmRejectDocDirect = function(docId) {
+    window.confirmRejectDocDirect = function (docId) {
       const comment = document.getElementById('tabRejectionNotesInput')?.value?.trim();
       if (!comment) {
         if (window.showToast) window.showToast('Please enter a rejection reason.', 'alert-circle');
@@ -4087,7 +3971,7 @@ Reach out to the investment team directly if you have any questions or require c
       if (window.showToast) window.showToast('Submission marked as Rejected with feedback', 'alert-triangle');
     };
 
-    window.viewRejectionComment = function(docId) {
+    window.viewRejectionComment = function (docId) {
       window.closeAllVdrContextMenus();
       let foundDoc = null;
       window.STARTUP_VDR_DATA.forEach(f => {
@@ -4126,7 +4010,7 @@ Reach out to the investment team directly if you have any questions or require c
       `);
     };
 
-    window.openStartupTemplateViewer = function(templateName) {
+    window.openStartupTemplateViewer = function (templateName) {
       window.closeAllVdrContextMenus();
       showVDRModal(`Template: ${templateName}`, `
         <div>
@@ -4152,7 +4036,7 @@ Reach out to the investment team directly if you have any questions or require c
 
     /* ── SIMPLIFIED REQUEST DOCUMENT MODAL (AUTO SELECTED FOLDER) ── */
     let tabUploadedTemplateFile = null;
-    window.openRequestDocumentModal = function() {
+    window.openRequestDocumentModal = function () {
       window.closeAllVdrContextMenus();
       const sName = (typeof currentStartup !== 'undefined' && currentStartup) ? currentStartup.name : 'Alpha Health';
       const activeFolder = window.STARTUP_VDR_DATA.find(f => f.id === window.startupVdrActiveNav) || window.STARTUP_VDR_DATA[0];
@@ -4190,7 +4074,7 @@ Reach out to the investment team directly if you have any questions or require c
       setTimeout(() => document.getElementById('tabReqDocNameInput')?.focus(), 60);
     };
 
-    window.handleTabTemplateSelected = function(input) {
+    window.handleTabTemplateSelected = function (input) {
       if (input.files && input.files[0]) {
         tabUploadedTemplateFile = input.files[0].name;
         const txt = document.getElementById('tabTemplateUploadText');
@@ -4198,7 +4082,7 @@ Reach out to the investment team directly if you have any questions or require c
       }
     };
 
-    window.confirmTabRequestDocument = function() {
+    window.confirmTabRequestDocument = function () {
       const nameInput = document.getElementById('tabReqDocNameInput')?.value?.trim();
       if (!nameInput) {
         if (window.showToast) window.showToast('Please enter a document name.', 'alert-circle');
@@ -4209,7 +4093,7 @@ Reach out to the investment team directly if you have any questions or require c
       if (targetFolder) {
         const extMatch = nameInput.match(/\.[a-zA-Z0-9]+$/);
         const ext = extMatch ? extMatch[0].toLowerCase() : '.pdf';
-        
+
         const newDoc = {
           id: 'doc_req_' + Date.now(),
           name: nameInput.replace(/\.[a-zA-Z0-9]+$/, ''),
@@ -4233,7 +4117,7 @@ Reach out to the investment team directly if you have any questions or require c
     };
 
     /* ── FULLSCREEN TOGGLE FOR TAB VIEW ── */
-    window.toggleVdrTabFullscreen = function() {
+    window.toggleVdrTabFullscreen = function () {
       const tabWrap = document.querySelector('#tabPaneVdr .vdr-workspace-tab');
       const icon = document.getElementById('vdrTabFullscreenIcon');
       const btn = document.getElementById('btnToggleVdrTabFullscreen');
@@ -4249,7 +4133,7 @@ Reach out to the investment team directly if you have any questions or require c
       if (typeof lucide !== 'undefined') lucide.createIcons();
     };
 
-    window.openShareWithDDTeam = function() {
+    window.openShareWithDDTeam = function () {
       window.closeAllVdrContextMenus();
       const sName = (typeof currentStartup !== 'undefined' && currentStartup?.name) ? currentStartup.name : 'Alpha Health';
       const bodyHtml = `
@@ -4282,7 +4166,7 @@ Reach out to the investment team directly if you have any questions or require c
       }
     };
 
-    window.confirmShareWithDDPartner = function(partnerId) {
+    window.confirmShareWithDDPartner = function (partnerId) {
       const partner = VDR_DD_PARTNERS.find(p => p.id === partnerId);
       if (!partner) return;
       const sName = (typeof currentStartup !== 'undefined' && currentStartup?.name) ? currentStartup.name : 'Alpha Health';
@@ -4303,14 +4187,14 @@ Reach out to the investment team directly if you have any questions or require c
       `);
     };
 
-    window.executeShareWithDDPartner = function(partnerName) {
+    window.executeShareWithDDPartner = function (partnerName) {
       hideVDRModal();
       if (window.closeDrawer) window.closeDrawer();
       if (window.showToast) window.showToast(`Review access granted to ${partnerName}!`);
     };
 
     // ── VDR LOCAL MODAL SYSTEM ──
-    window.showVDRModal = function(title, bodyHtml) {
+    window.showVDRModal = function (title, bodyHtml) {
       window.closeAllVdrContextMenus();
       const titleEl = document.getElementById('vdrModalTitle');
       const bodyEl = document.getElementById('vdrModalBody');
@@ -4321,14 +4205,14 @@ Reach out to the investment team directly if you have any questions or require c
       if (typeof lucide !== 'undefined') lucide.createIcons();
     };
 
-    window.hideVDRModal = function() {
+    window.hideVDRModal = function () {
       const backdropEl = document.getElementById('vdrModalBackdrop');
       const bodyEl = document.getElementById('vdrModalBody');
       if (backdropEl) backdropEl.style.display = 'none';
       if (bodyEl) bodyEl.innerHTML = '';
     };
 
-    window.toggleVdrHeaderDropdown = function(e) {
+    window.toggleVdrHeaderDropdown = function (e) {
       if (e) e.stopPropagation();
       const menu = document.getElementById('vdrHeaderDropdownMenu');
       const isShowing = menu && menu.classList.contains('show');
@@ -4338,7 +4222,7 @@ Reach out to the investment team directly if you have any questions or require c
       }
     };
 
-    window.downloadVaultAsZip = function() {
+    window.downloadVaultAsZip = function () {
       window.closeAllVdrContextMenus();
       const sName = (typeof currentStartup !== 'undefined' && currentStartup?.name) ? currentStartup.name : 'Alpha Health';
       if (window.showToast) {
@@ -4346,7 +4230,7 @@ Reach out to the investment team directly if you have any questions or require c
       }
     };
 
-    window.closeAllVdrContextMenus = function() {
+    window.closeAllVdrContextMenus = function () {
       document.querySelectorAll('.vdr-context-menu').forEach(m => m.classList.remove('show'));
       document.querySelectorAll('.vdr-dropdown-menu').forEach(m => m.classList.remove('show'));
     };
