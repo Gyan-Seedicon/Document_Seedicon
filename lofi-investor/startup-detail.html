@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,11 +15,13 @@
       border: 1px solid var(--border-main);
       border-radius: 6px;
       padding: 14px 18px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     }
+
     .detail-card:last-child {
       margin-bottom: 0;
     }
+
     .detail-sec-header {
       display: flex;
       align-items: center;
@@ -36,7 +39,8 @@
       font-size: 10.5px;
       font-weight: 600;
       padding: 2px 6px;
-      border-radius: 4px; /* Rounded square */
+      border-radius: 4px;
+      /* Rounded square */
       background: #F4F4F2;
       color: #2A2A28;
       border: 1px solid #DFDFDC;
@@ -57,10 +61,12 @@
       flex-direction: column;
       transition: border-color 0.12s, box-shadow 0.12s;
     }
+
     .media-preview-card:hover {
       border-color: #1A1A18;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
+
     .media-aspect-16-9 {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -70,6 +76,7 @@
       align-items: center;
       justify-content: center;
     }
+
     .media-play-btn {
       width: 44px;
       height: 44px;
@@ -81,8 +88,9 @@
       justify-content: center;
       cursor: pointer;
       transition: transform 0.15s, background 0.15s;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
     }
+
     .media-play-btn:hover {
       transform: scale(1.08);
       background: #FFFFFF;
@@ -95,6 +103,7 @@
       gap: 4px;
       margin-top: 6px;
     }
+
     .kv-row {
       display: grid;
       grid-template-columns: 200px 1fr;
@@ -102,14 +111,17 @@
       font-size: 13px;
       padding: 2.5px 0;
     }
+
     .kv-label {
       font-weight: 700;
       color: var(--text-dark);
     }
+
     .kv-value {
       color: var(--text-main);
       word-break: break-word;
     }
+
     .kv-value a {
       color: var(--text-dark);
       text-decoration: underline;
@@ -125,11 +137,13 @@
       border-radius: 6px;
       padding: 12px 10px;
     }
+
     .nav-rail-list {
       display: flex;
       flex-direction: column;
       position: relative;
     }
+
     /* Vertical connecting line */
     .nav-rail-list::before {
       content: '';
@@ -141,6 +155,7 @@
       background: var(--border-main);
       z-index: 1;
     }
+
     .rail-item {
       display: flex;
       align-items: center;
@@ -154,13 +169,16 @@
       z-index: 2;
       transition: color 0.12s ease;
     }
+
     .rail-item:hover {
       color: var(--text-dark);
     }
+
     .rail-item.active {
       color: var(--text-dark);
       font-weight: 700;
     }
+
     .rail-dot-indicator {
       width: 8px;
       height: 8px;
@@ -170,12 +188,15 @@
       flex-shrink: 0;
       transition: background 0.12s ease;
     }
+
     .rail-item.active .rail-dot-indicator {
       background: var(--accent-graphite);
     }
 
     /* ─── Tab Table Views ─── */
-    .table-scroll { overflow-x: auto; }
+    .table-scroll {
+      overflow-x: auto;
+    }
 
     /* ─── Shared Component Tables (matching founder-reports / portfolio-management) ─── */
     .table-card {
@@ -183,8 +204,9 @@
       border: 1px solid #DFDEDE;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     }
+
     .table-toolbar {
       padding: 9px 14px;
       background: #FFFFFF;
@@ -195,16 +217,19 @@
       gap: 10px;
       flex-wrap: wrap;
     }
+
     .table-toolbar-left {
       display: flex;
       align-items: center;
       gap: 8px;
     }
+
     .data-table {
       width: 100%;
       border-collapse: collapse;
       min-width: 1180px;
     }
+
     .data-table th {
       text-align: left;
       font-size: 9.5px;
@@ -217,7 +242,11 @@
       background: #FAFAFA;
       white-space: nowrap;
     }
-    .data-table th.num { text-align: right; }
+
+    .data-table th.num {
+      text-align: right;
+    }
+
     .data-table td {
       padding: 6px 12px;
       font-size: 11.5px;
@@ -227,10 +256,23 @@
       white-space: nowrap;
       height: 38px;
     }
-    .data-table td.num { text-align: right; }
-    .data-table tr { cursor: pointer; }
-    .data-table tr:hover td { background: #FAFAFA; }
-    .data-table tr:last-child td { border-bottom: none; }
+
+    .data-table td.num {
+      text-align: right;
+    }
+
+    .data-table tr {
+      cursor: pointer;
+    }
+
+    .data-table tr:hover td {
+      background: #FAFAFA;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
     .table-footer {
       padding: 9px 14px;
       background: #FAFAFA;
@@ -241,84 +283,250 @@
       font-size: 11px;
       color: #8C8C88;
     }
-    .company-cell { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
-    .company-logo {
-      width: 24px; height: 24px; border-radius: 5px;
-      background: #1A1A18; color: #FFFFFF;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 9.5px; flex-shrink: 0;
+
+    .company-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
     }
-    .company-name { font-weight: 700; color: #1A1A18; white-space: nowrap; }
+
+    .company-logo {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      background: #1A1A18;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 9.5px;
+      flex-shrink: 0;
+    }
+
+    .company-name {
+      font-weight: 700;
+      color: #1A1A18;
+      white-space: nowrap;
+    }
+
     .template-badge {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 10px; font-weight: 600; color: #3A3A38;
-      background: #F0F0EE; border: 1px solid #DCDCDA; border-radius: 4px;
-      padding: 2px 6px; white-space: nowrap; text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #3A3A38;
+      background: #F0F0EE;
+      border: 1px solid #DCDCDA;
+      border-radius: 4px;
+      padding: 2px 6px;
+      white-space: nowrap;
+      text-decoration: none;
       transition: background 0.1s;
     }
-    .template-badge:hover { background: #E5E5E3; color: #1A1A18; }
+
+    .template-badge:hover {
+      background: #E5E5E3;
+      color: #1A1A18;
+    }
+
     .pill {
-      font-size: 8.5px; font-weight: 800; padding: 2px 7px;
-      border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em;
-      white-space: nowrap; border: 1px solid #DCDCDA; display: inline-block;
+      font-size: 8.5px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      border: 1px solid #DCDCDA;
+      display: inline-block;
     }
-    .pill-approved { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; }
-    .pill-received { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; font-weight: 800; }
-    .pill-rejected { background: #F5F5F3; color: #6A6A68; border-color: #DCDCDA; }
-    .pill-requested { background: #FAFAFA; color: #7A7A78; border-color: #E0E0DE; }
-    .pill-overdue { background: #F0F0EE; color: #1A1A18; border-color: #DCDCDA; }
-    .pill-active { background: #F0F0EE; color: #1A1A18; }
-    .pill-exited { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
-    .pill-distributed { background: #F5F5F3; color: #7A7A78; border-color: #E0E0DE; }
+
+    .pill-approved {
+      background: #F0F0EE;
+      color: #1A1A18;
+      border-color: #DCDCDA;
+    }
+
+    .pill-received {
+      background: #F0F0EE;
+      color: #1A1A18;
+      border-color: #DCDCDA;
+      font-weight: 800;
+    }
+
+    .pill-rejected {
+      background: #F5F5F3;
+      color: #6A6A68;
+      border-color: #DCDCDA;
+    }
+
+    .pill-requested {
+      background: #FAFAFA;
+      color: #7A7A78;
+      border-color: #E0E0DE;
+    }
+
+    .pill-overdue {
+      background: #F0F0EE;
+      color: #1A1A18;
+      border-color: #DCDCDA;
+    }
+
+    .pill-active {
+      background: #F0F0EE;
+      color: #1A1A18;
+    }
+
+    .pill-exited {
+      background: #1A1A18;
+      color: #FFFFFF;
+      border-color: #1A1A18;
+    }
+
+    .pill-distributed {
+      background: #F5F5F3;
+      color: #7A7A78;
+      border-color: #E0E0DE;
+    }
+
     .freq-badge {
-      font-size: 9px; font-weight: 700; padding: 1.5px 6px;
-      border-radius: 3px; background: #F0F0EE; color: #4A4A48;
-      border: 1px solid #DCDCDA; text-transform: uppercase;
-      letter-spacing: 0.04em; white-space: nowrap;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1.5px 6px;
+      border-radius: 3px;
+      background: #F0F0EE;
+      color: #4A4A48;
+      border: 1px solid #DCDCDA;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
     }
+
     .vdr-action-btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 24px; height: 24px; border-radius: 5px;
-      border: 1px solid #E0E0DE; background: #FFFFFF;
-      cursor: pointer; color: #7A7A78;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      border: 1px solid #E0E0DE;
+      background: #FFFFFF;
+      cursor: pointer;
+      color: #7A7A78;
       transition: background 0.1s, color 0.1s, border-color 0.1s;
     }
-    .vdr-action-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
-    .vdr-action-btn.danger { color: #DC2626; border-color: #FECACA; }
-    .vdr-action-btn.danger:hover { background: #DC2626; border-color: #DC2626; color: #FFFFFF; }
+
+    .vdr-action-btn:hover {
+      background: #1A1A18;
+      color: #FFFFFF;
+      border-color: #1A1A18;
+    }
+
+    .vdr-action-btn.danger {
+      color: #DC2626;
+      border-color: #FECACA;
+    }
+
+    .vdr-action-btn.danger:hover {
+      background: #DC2626;
+      border-color: #DC2626;
+      color: #FFFFFF;
+    }
+
     .doc-btn {
-      display: inline-flex; align-items: center; gap: 4px;
-      padding: 3px 8px; font-size: 11px; font-weight: 600;
-      color: #5A5A58; background: #FFFFFF; border: 1px solid #E0E0DE;
-      border-radius: 5px; cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #5A5A58;
+      background: #FFFFFF;
+      border: 1px solid #E0E0DE;
+      border-radius: 5px;
+      cursor: pointer;
       transition: background 0.1s, color 0.1s, border-color 0.1s;
-      font-family: Inter, sans-serif; white-space: nowrap;
+      font-family: Inter, sans-serif;
+      white-space: nowrap;
     }
-    .doc-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
-    .action-dropdown-wrap { position: relative; display: inline-block; }
+
+    .doc-btn:hover {
+      background: #1A1A18;
+      color: #FFFFFF;
+      border-color: #1A1A18;
+    }
+
+    .action-dropdown-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
     .action-dropdown-menu {
-      position: absolute; top: 100%; right: 0; margin-top: 4px;
-      background: #FFFFFF; border: 1px solid #DFDEDE; border-radius: 6px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1); width: 190px; z-index: 100;
-      padding: 4px 0; display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 4px;
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 6px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      width: 190px;
+      z-index: 100;
+      padding: 4px 0;
+      display: none;
     }
+
     .action-dropdown-item {
-      padding: 6px 12px; font-size: 11.5px; font-weight: 600;
-      color: #3A3A38; cursor: pointer; display: flex; align-items: center;
-      gap: 8px; transition: background 0.1s; white-space: nowrap;
+      padding: 6px 12px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #3A3A38;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.1s;
+      white-space: nowrap;
     }
-    .action-dropdown-item:hover { background: #F5F5F3; color: #1A1A18; }
-    .action-dropdown-item.danger { color: #DC2626; }
-    .action-dropdown-item.danger:hover { background: #FEF2F2; }
+
+    .action-dropdown-item:hover {
+      background: #F5F5F3;
+      color: #1A1A18;
+    }
+
+    .action-dropdown-item.danger {
+      color: #DC2626;
+    }
+
+    .action-dropdown-item.danger:hover {
+      background: #FEF2F2;
+    }
+
     .sector-pill {
-      font-size: 8.5px; font-weight: 700; padding: 1.5px 6px;
-      border-radius: 3px; border: 1px solid #DCDCDA; text-transform: uppercase;
-      letter-spacing: 0.04em; color: #5A5A58; background: #F0F0EE; white-space: nowrap;
+      font-size: 8.5px;
+      font-weight: 700;
+      padding: 1.5px 6px;
+      border-radius: 3px;
+      border: 1px solid #DCDCDA;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #5A5A58;
+      background: #F0F0EE;
+      white-space: nowrap;
     }
+
     .stage-tag {
-      font-size: 9px; font-weight: 700; padding: 2px 7px;
-      border-radius: 12px; background: #F0F0EE; border: 1px solid #DCDCDA;
-      color: #2A2A28; white-space: nowrap;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 12px;
+      background: #F0F0EE;
+      border: 1px solid #DCDCDA;
+      color: #2A2A28;
+      white-space: nowrap;
     }
 
     /* ════════════════════════════════════════════════════════════════
@@ -327,136 +535,402 @@
 
     /* Preset + popover dropdowns (unique names, unscoped ok) */
     .preset-dropdown-menu {
-      position: absolute; top: calc(100% + 6px); right: 0;
-      background: #FFFFFF; border: 1px solid #E0E0DE; border-radius: 8px;
-      box-shadow: 0 16px 38px rgba(0,0,0,0.18); width: 240px; z-index: 999;
-      display: none; padding: 6px;
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      background: #FFFFFF;
+      border: 1px solid #E0E0DE;
+      border-radius: 8px;
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.18);
+      width: 240px;
+      z-index: 999;
+      display: none;
+      padding: 6px;
     }
-    .preset-dropdown-menu.show { display: block; }
+
+    .preset-dropdown-menu.show {
+      display: block;
+    }
+
     .preset-item {
-      padding: 7px 10px; font-size: 11.5px; font-weight: 600; color: #3A3A38;
-      border-radius: 4px; cursor: pointer; display: flex; align-items: center;
-      justify-content: space-between; transition: background 0.1s;
+      padding: 7px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #3A3A38;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.1s;
     }
-    .preset-item:hover { background: #F5F5F3; color: #1A1A18; }
+
+    .preset-item:hover {
+      background: #F5F5F3;
+      color: #1A1A18;
+    }
+
     .doc-popover-menu {
-      position: fixed; width: 190px; background: #FFFFFF; border: 1px solid #E0E0DE;
-      border-radius: 7px; box-shadow: 0 10px 24px rgba(0,0,0,0.12); z-index: 9999;
-      padding: 4px; animation: fadeInPop 0.1s ease;
+      position: fixed;
+      width: 190px;
+      background: #FFFFFF;
+      border: 1px solid #E0E0DE;
+      border-radius: 7px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+      z-index: 9999;
+      padding: 4px;
+      animation: fadeInPop 0.1s ease;
     }
-    @keyframes fadeInPop { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
+
+    @keyframes fadeInPop {
+      from {
+        opacity: 0;
+        transform: translateY(-3px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .popover-item {
-      padding: 7px 10px; font-size: 11.5px; font-weight: 600; color: #3A3A38;
-      border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 7px;
+      padding: 7px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #3A3A38;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
       transition: background 0.1s, color 0.1s;
     }
-    .popover-item:hover { background: #F5F5F3; color: #1A1A18; }
-    .popover-item.danger { color: #DC2626; }
-    .popover-item.danger:hover { background: #FEF2F2; color: #DC2626; }
+
+    .popover-item:hover {
+      background: #F5F5F3;
+      color: #1A1A18;
+    }
+
+    .popover-item.danger {
+      color: #DC2626;
+    }
+
+    .popover-item.danger:hover {
+      background: #FEF2F2;
+      color: #DC2626;
+    }
 
     /* Local VDR modal */
     .vdr-modal-backdrop {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.35); z-index: 99999;
-      display: flex; align-items: center; justify-content: center; animation: fadeInBd 0.12s ease;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.35);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInBd 0.12s ease;
     }
-    @keyframes fadeInBd { from { opacity:0; } to { opacity:1; } }
+
+    @keyframes fadeInBd {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
     .vdr-modal-box {
-      background: #FFFFFF; border-radius: 8px; border: 1px solid #E0E0DE;
-      width: 440px; max-width: 94vw; padding: 0; box-shadow: 0 16px 40px rgba(0,0,0,0.14);
+      background: #FFFFFF;
+      border-radius: 8px;
+      border: 1px solid #E0E0DE;
+      width: 440px;
+      max-width: 94vw;
+      padding: 0;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
       animation: slideUpMd 0.14s ease;
     }
-    @keyframes slideUpMd { from { transform: translateY(12px); opacity:0; } to { transform: translateY(0); opacity:1; } }
-    .vdr-modal-header {
-      display: flex; align-items: center; justify-content: space-between;
-      border-bottom: 1px solid #EBEBEA; padding: 14px 18px;
-    }
-    .vdr-modal-title { font-size: 14px; font-weight: 800; color: #1A1A18; }
-    .vdr-modal-close {
-      background: transparent; border: none; cursor: pointer; color: #7A7A78;
-      display: flex; align-items: center; justify-content: center; width: 28px; height: 28px;
-      border-radius: 5px; transition: background 0.1s; font-size: 18px; line-height: 1;
-    }
-    .vdr-modal-close:hover { background: #F0F0EE; color: #1A1A18; }
-    .vdr-modal-body { padding: 18px; }
-    .vdr-modal-footer { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 18px; border-top: 1px solid #EBEBEA; }
 
-    .field-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
-    .field-group:last-child { margin-bottom: 0; }
-    .field-label { font-size: 10.5px; font-weight: 700; color: #4A4A48; text-transform: uppercase; letter-spacing: 0.05em; }
-    .field-input {
-      border: 1px solid #E0E0DE; border-radius: 6px; padding: 8px 10px;
-      font-size: 12px; font-family: Inter, sans-serif; color: #1A1A18;
-      background: #FAFAFA; outline: none; transition: border-color 0.12s;
-      width: 100%; box-sizing: border-box;
+    @keyframes slideUpMd {
+      from {
+        transform: translateY(12px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
-    .field-input:focus { border-color: #1A1A18; background: #FFFFFF; }
-    .field-select { cursor: pointer; }
+
+    .vdr-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #EBEBEA;
+      padding: 14px 18px;
+    }
+
+    .vdr-modal-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #1A1A18;
+    }
+
+    .vdr-modal-close {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #7A7A78;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 5px;
+      transition: background 0.1s;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .vdr-modal-close:hover {
+      background: #F0F0EE;
+      color: #1A1A18;
+    }
+
+    .vdr-modal-body {
+      padding: 18px;
+    }
+
+    .vdr-modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      padding: 12px 18px;
+      border-top: 1px solid #EBEBEA;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 14px;
+    }
+
+    .field-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .field-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #4A4A48;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .field-input {
+      border: 1px solid #E0E0DE;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 12px;
+      font-family: Inter, sans-serif;
+      color: #1A1A18;
+      background: #FAFAFA;
+      outline: none;
+      transition: border-color 0.12s;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .field-input:focus {
+      border-color: #1A1A18;
+      background: #FFFFFF;
+    }
+
+    .field-select {
+      cursor: pointer;
+    }
 
     .btn-modal-cancel {
-      font-size: 11.5px; font-weight: 700; border: 1px solid #DCDCDA; border-radius: 6px;
-      padding: 7px 14px; cursor: pointer; background: #F5F5F3; color: #3A3A38;
-      font-family: Inter, sans-serif; transition: background 0.1s;
+      font-size: 11.5px;
+      font-weight: 700;
+      border: 1px solid #DCDCDA;
+      border-radius: 6px;
+      padding: 7px 14px;
+      cursor: pointer;
+      background: #F5F5F3;
+      color: #3A3A38;
+      font-family: Inter, sans-serif;
+      transition: background 0.1s;
     }
-    .btn-modal-cancel:hover { background: #EBEBEA; }
+
+    .btn-modal-cancel:hover {
+      background: #EBEBEA;
+    }
+
     .btn-modal-primary {
-      font-size: 11.5px; font-weight: 700; border: 1px solid #1A1A18; border-radius: 6px;
-      padding: 7px 14px; cursor: pointer; background: #1A1A18; color: #FFFFFF;
-      font-family: Inter, sans-serif; transition: background 0.1s;
+      font-size: 11.5px;
+      font-weight: 700;
+      border: 1px solid #1A1A18;
+      border-radius: 6px;
+      padding: 7px 14px;
+      cursor: pointer;
+      background: #1A1A18;
+      color: #FFFFFF;
+      font-family: Inter, sans-serif;
+      transition: background 0.1s;
     }
-    .btn-modal-primary:hover { background: #2A2A28; }
+
+    .btn-modal-primary:hover {
+      background: #2A2A28;
+    }
+
     .btn-modal-danger {
-      font-size: 11.5px; font-weight: 700; border: 1px solid #FECACA; border-radius: 6px;
-      padding: 7px 14px; cursor: pointer; background: #FEF2F2; color: #DC2626;
-      font-family: Inter, sans-serif; transition: background 0.1s;
+      font-size: 11.5px;
+      font-weight: 700;
+      border: 1px solid #FECACA;
+      border-radius: 6px;
+      padding: 7px 14px;
+      cursor: pointer;
+      background: #FEF2F2;
+      color: #DC2626;
+      font-family: Inter, sans-serif;
+      transition: background 0.1s;
     }
-    .btn-modal-danger:hover { background: #FEE2E2; }
+
+    .btn-modal-danger:hover {
+      background: #FEE2E2;
+    }
 
     /* VDR scoped shared table */
     #vdrReplicaMount .table-card {
-      background: #FFFFFF; border: 1px solid #DFDEDE; border-radius: 8px;
-      overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      background: #FFFFFF;
+      border: 1px solid #DFDEDE;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
     }
+
     #vdrReplicaMount .table-toolbar {
-      padding: 10px 16px; background: #FFFFFF; border-bottom: 1px solid #EBEBEA;
-      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #EBEBEA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    #vdrReplicaMount .table-toolbar-left { display: flex; align-items: center; gap: 8px; }
-    #vdrReplicaMount .data-table { width: 100%; border-collapse: collapse; min-width: 0; }
+
+    #vdrReplicaMount .table-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #vdrReplicaMount .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 0;
+    }
+
     #vdrReplicaMount .data-table th {
-      text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.06em; color: #8C8C88; padding: 9px 14px;
-      border-bottom: 1px solid #EBEBEA; background: #FAFAFA;
+      text-align: left;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #8C8C88;
+      padding: 9px 14px;
+      border-bottom: 1px solid #EBEBEA;
+      background: #FAFAFA;
     }
+
     #vdrReplicaMount .data-table td {
-      padding: 10px 14px; font-size: 12px; color: #3A3A38;
-      border-bottom: 1px solid #F3F3F1; vertical-align: middle;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #3A3A38;
+      border-bottom: 1px solid #F3F3F1;
+      vertical-align: middle;
     }
-    #vdrReplicaMount .data-table tr:last-child td { border-bottom: none; }
-    #vdrReplicaMount .data-table tr:hover td { background: #FAFAFA; }
+
+    #vdrReplicaMount .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    #vdrReplicaMount .data-table tr:hover td {
+      background: #FAFAFA;
+    }
+
     #vdrReplicaMount .table-footer {
-      padding: 10px 16px; background: #FAFAFA; border-top: 1px solid #EBEBEA;
-      font-size: 11px; color: #8C8C88;
+      padding: 10px 16px;
+      background: #FAFAFA;
+      border-top: 1px solid #EBEBEA;
+      font-size: 11px;
+      color: #8C8C88;
     }
+
     #vdrReplicaMount .vdr-action-btn {
-      display: flex; align-items: center; justify-content: center;
-      width: 26px; height: 26px; border-radius: 5px;
-      border: 1px solid #E0E0DE; background: #FFFFFF; cursor: pointer; color: #7A7A78;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 5px;
+      border: 1px solid #E0E0DE;
+      background: #FFFFFF;
+      cursor: pointer;
+      color: #7A7A78;
       transition: background 0.1s, color 0.1s, border-color 0.1s;
     }
-    #vdrReplicaMount .vdr-action-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
-    #vdrReplicaMount .vdr-action-btn.danger { color: #DC2626; border-color: #FECACA; }
-    #vdrReplicaMount .vdr-action-btn.danger:hover { background: #DC2626; border-color: #DC2626; color: #FFFFFF; }
+
+    #vdrReplicaMount .vdr-action-btn:hover {
+      background: #1A1A18;
+      color: #FFFFFF;
+      border-color: #1A1A18;
+    }
+
+    #vdrReplicaMount .vdr-action-btn.danger {
+      color: #DC2626;
+      border-color: #FECACA;
+    }
+
+    #vdrReplicaMount .vdr-action-btn.danger:hover {
+      background: #DC2626;
+      border-color: #DC2626;
+      color: #FFFFFF;
+    }
+
     #vdrReplicaMount .doc-btn {
-      display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px;
-      font-size: 11px; font-weight: 600; color: #5A5A58; background: #FFFFFF;
-      border: 1px solid #E0E0DE; border-radius: 5px; cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 9px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #5A5A58;
+      background: #FFFFFF;
+      border: 1px solid #E0E0DE;
+      border-radius: 5px;
+      cursor: pointer;
       transition: background 0.1s, color 0.1s, border-color 0.1s;
-      font-family: Inter, sans-serif; white-space: nowrap;
+      font-family: Inter, sans-serif;
+      white-space: nowrap;
     }
-    #vdrReplicaMount .doc-btn:hover { background: #1A1A18; color: #FFFFFF; border-color: #1A1A18; }
+
+    #vdrReplicaMount .doc-btn:hover {
+      background: #1A1A18;
+      color: #FFFFFF;
+      border-color: #1A1A18;
+    }
   </style>
 </head>
+
 <body>
   <div class="app-container">
     <!-- App Header Navbar Slot -->
@@ -470,10 +944,12 @@
       <div id="mainSidebarSlot"></div>
 
       <!-- Main Canvas -->
-      <main class="content-scrollable" style="padding:14px 20px; display:flex; flex-direction:column; gap:10px; background:#F8F8F6; overflow-y:auto;">
-        
+      <main class="content-scrollable"
+        style="padding:14px 20px; display:flex; flex-direction:column; gap:10px; background:#F8F8F6; overflow-y:auto;">
+
         <!-- BREADCRUMBS (2 ROUTES ONLY, NO BACK ARROW) -->
-        <div style="display:flex; align-items:center; gap:8px; font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">
+        <div
+          style="display:flex; align-items:center; gap:8px; font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">
           <a href="./startups-pool.html" style="color:var(--text-muted); text-decoration:none;">
             <span>Startups Pools</span>
           </a>
@@ -482,18 +958,24 @@
         </div>
 
         <!-- TOP EXECUTIVE HEADER CARD (DYNAMIC SUBTLE GOLDEN GRADIENT ON POTENTIAL ADDITION) -->
-        <div id="headerCard" style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; padding:12px 18px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 1px 3px rgba(0,0,0,0.02); transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;">
-          
+        <div id="headerCard"
+          style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:6px; padding:12px 18px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 1px 3px rgba(0,0,0,0.02); transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;">
+
           <!-- LEFT: LOGO, TITLE, LINKS & METADATA BADGES -->
           <div style="display:flex; align-items:center; gap:14px;">
-            <div style="width:42px; height:42px; background:var(--accent-graphite); color:#FFFFFF; border-radius:4px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px;" id="headerAvatar">
+            <div
+              style="width:42px; height:42px; background:var(--accent-graphite); color:#FFFFFF; border-radius:4px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px;"
+              id="headerAvatar">
               AH
             </div>
             <div>
               <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                <h1 style="font-size:18px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em; margin:0;" id="headerTitle">Alpha Health 1</h1>
-                <a href="#" style="color:var(--text-muted); font-size:13px;" id="headerWebLink" title="Company Website"><i data-lucide="globe" class="lucide-sm"></i></a>
-                <a href="#" style="color:var(--text-muted); font-size:13px;" id="headerLinkedInLink" title="Company LinkedIn"><i data-lucide="linkedin" class="lucide-sm"></i></a>
+                <h1 style="font-size:18px; font-weight:800; color:var(--text-dark); letter-spacing:-0.02em; margin:0;"
+                  id="headerTitle">Alpha Health 1</h1>
+                <a href="#" style="color:var(--text-muted); font-size:13px;" id="headerWebLink"
+                  title="Company Website"><i data-lucide="globe" class="lucide-sm"></i></a>
+                <a href="#" style="color:var(--text-muted); font-size:13px;" id="headerLinkedInLink"
+                  title="Company LinkedIn"><i data-lucide="linkedin" class="lucide-sm"></i></a>
               </div>
 
               <div style="display:flex; align-items:center; gap:8px; font-size:12px; color:var(--text-muted);">
@@ -502,7 +984,8 @@
                   <span>San Francisco, CA</span>
                 </span>
                 <span>•</span>
-                <span id="headerIncorp" style="display:inline-flex; align-items:center; gap:4px; font-size:11.5px; color:var(--text-muted);">
+                <span id="headerIncorp"
+                  style="display:inline-flex; align-items:center; gap:4px; font-size:11.5px; color:var(--text-muted);">
                   <i data-lucide="building-2" style="width:12px; height:12px;"></i>
                   <span id="headerIncorpText">Inc: Jan 12, 2023</span>
                 </span>
@@ -523,12 +1006,16 @@
 
               <!-- Add as Potential Button with Dropdown (Dropdown -> Confirmation Modal -> Golden Header Gradient) -->
               <div style="position:relative;">
-                <button class="btn btn-outline" id="btnAddPotential" style="font-size:12px; transition:all 0.25s ease;" onclick="toggleAddPotentialDropdown(event)">
+                <button class="btn btn-outline" id="btnAddPotential" style="font-size:12px; transition:all 0.25s ease;"
+                  onclick="toggleAddPotentialDropdown(event)">
                   <i data-lucide="star" class="lucide-sm" id="starIcon"></i>
                   <span id="btnPotentialText">Add as Potential</span>
                 </button>
-                <div id="addPotentialMenu" class="action-dropdown-menu" style="display:none; width:235px; right:0; left:auto; z-index:50;">
-                  <div style="font-size:9.5px; font-weight:800; color:#9A9A96; text-transform:uppercase; padding:7px 12px 4px; letter-spacing:0.05em;">Select Potential Pipeline Group</div>
+                <div id="addPotentialMenu" class="action-dropdown-menu"
+                  style="display:none; width:235px; right:0; left:auto; z-index:50;">
+                  <div
+                    style="font-size:9.5px; font-weight:800; color:#9A9A96; text-transform:uppercase; padding:7px 12px 4px; letter-spacing:0.05em;">
+                    Select Potential Pipeline Group</div>
                   <div class="action-dropdown-item" onclick="selectPotentialGroupAndConfirm('B2B SaaS &amp; AI')">
                     <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
                     <span>B2B SaaS &amp; AI</span>
@@ -545,7 +1032,8 @@
                     <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
                     <span>Climate &amp; Agri</span>
                   </div>
-                  <div class="action-dropdown-item" onclick="selectPotentialGroupAndConfirm('Mobility &amp; Logistics')">
+                  <div class="action-dropdown-item"
+                    onclick="selectPotentialGroupAndConfirm('Mobility &amp; Logistics')">
                     <i data-lucide="folder" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
                     <span>Mobility &amp; Logistics</span>
                   </div>
@@ -553,8 +1041,10 @@
                     <i data-lucide="bookmark" style="width:12px; height:12px; color:#5A5A58; flex-shrink:0;"></i>
                     <span>General Watchlist</span>
                   </div>
-                  <div id="removePotentialOption" style="display:none; border-top:1px solid #E4E4E7; margin-top:4px; padding-top:4px;">
-                    <div class="action-dropdown-item" style="color:#DC2626;" onclick="removeFromPotential(); hideReportMenus();">
+                  <div id="removePotentialOption"
+                    style="display:none; border-top:1px solid #E4E4E7; margin-top:4px; padding-top:4px;">
+                    <div class="action-dropdown-item" style="color:#DC2626;"
+                      onclick="removeFromPotential(); hideReportMenus();">
                       <i data-lucide="trash-2" style="width:12px; height:12px; color:#DC2626; flex-shrink:0;"></i>
                       <span>Remove from Potential</span>
                     </div>
@@ -564,10 +1054,13 @@
 
               <!-- Three Dots Dropdown (History & Download in Enabled Mode) -->
               <div style="position:relative;">
-                <button class="btn btn-outline" id="btnMoreHeader" style="padding:6px 9px; font-size:12px; display:inline-flex; align-items:center; justify-content:center;" onclick="toggleMoreHeaderMenu(event)" title="More Options (History, Download)">
+                <button class="btn btn-outline" id="btnMoreHeader"
+                  style="padding:6px 9px; font-size:12px; display:inline-flex; align-items:center; justify-content:center;"
+                  onclick="toggleMoreHeaderMenu(event)" title="More Options (History, Download)">
                   <i data-lucide="more-horizontal" class="lucide-sm"></i>
                 </button>
-                <div id="moreHeaderMenu" class="action-dropdown-menu" style="display:none; width:180px; right:0; left:auto; z-index:50;">
+                <div id="moreHeaderMenu" class="action-dropdown-menu"
+                  style="display:none; width:180px; right:0; left:auto; z-index:50;">
                   <div class="action-dropdown-item" onclick="openHistoryDrawer(); hideMoreHeaderMenu();">
                     <i data-lucide="history" style="width:13px; height:13px; color:#5A5A58; flex-shrink:0;"></i>
                     <span>History</span>
@@ -616,7 +1109,7 @@
 
         <!-- MAIN CONTENT WORKSPACE GRID (LEFT RAIL + RIGHT SECTIONS - CONDENSED GAP) -->
         <div id="tabPaneCompany" style="display:grid; grid-template-columns:220px 1fr; gap:14px; align-items:start;">
-          
+
           <!-- LEFT CONNECTED NAVIGATION RAIL -->
           <div class="nav-rail-wrapper">
             <div class="nav-rail-list" id="navRailList">
@@ -685,12 +1178,14 @@
 
           <!-- RIGHT SECTION CONTENT CARDS (EACH INFO IN SEPARATE ROW) -->
           <div style="display:flex; flex-direction:column; gap:12px;">
-            
+
             <!-- SECTION 1: OVERVIEW -->
             <div id="sec_overview" class="detail-card">
               <div class="detail-sec-header">Overview</div>
               <p style="font-size:13px; color:var(--text-main); line-height:1.55; margin-bottom:16px;" id="secPitch">
-                Next-gen predictive diagnostics for early disease detection. Our proprietary AI analyzes multi-modal biometric data to identify patterns invisible to the human eye, enabling preventative care at scale across global healthcare systems.
+                Next-gen predictive diagnostics for early disease detection. Our proprietary AI analyzes multi-modal
+                biometric data to identify patterns invisible to the human eye, enabling preventative care at scale
+                across global healthcare systems.
               </p>
 
               <div class="kv-rows-container">
@@ -704,7 +1199,8 @@
                 </div>
                 <div class="kv-row">
                   <div class="kv-label">Company LinkedIn</div>
-                  <div class="kv-value"><a href="#" id="valLinkedIn" target="_blank">linkedin.com/company/alpha-health</a></div>
+                  <div class="kv-value"><a href="#" id="valLinkedIn"
+                      target="_blank">linkedin.com/company/alpha-health</a></div>
                 </div>
                 <div class="kv-row">
                   <div class="kv-label">Social</div>
@@ -770,41 +1266,57 @@
               </div>
 
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px;">
-                
+
                 <!-- 16:9 Pitch Deck Thumbnail Card -->
                 <div class="media-preview-card">
-                  <div class="media-aspect-16-9" style="background: linear-gradient(135deg, #1A1A18 0%, #2E2E2C 100%); cursor:pointer;" onclick="openDeckPreviewModal()">
+                  <div class="media-aspect-16-9"
+                    style="background: linear-gradient(135deg, #1A1A18 0%, #2E2E2C 100%); cursor:pointer;"
+                    onclick="openDeckPreviewModal()">
                     <!-- Slide Preview Mock Graphic -->
-                    <div style="position:absolute; inset:0; padding:16px 18px; display:flex; flex-direction:column; justify-content:space-between; color:#FFFFFF;">
+                    <div
+                      style="position:absolute; inset:0; padding:16px 18px; display:flex; flex-direction:column; justify-content:space-between; color:#FFFFFF;">
                       <div style="display:flex; align-items:center; justify-content:space-between;">
                         <div style="display:flex; align-items:center; gap:6px;">
-                          <div style="width:20px; height:20px; background:#FFFFFF; color:#1A1A18; border-radius:3px; font-weight:800; font-size:10px; display:flex; align-items:center; justify-content:center;" id="deckCoverLogo">AH</div>
-                          <span style="font-size:11px; font-weight:700; letter-spacing:0.02em;" id="deckCoverTitle">AlphaHealth AI</span>
+                          <div
+                            style="width:20px; height:20px; background:#FFFFFF; color:#1A1A18; border-radius:3px; font-weight:800; font-size:10px; display:flex; align-items:center; justify-content:center;"
+                            id="deckCoverLogo">AH</div>
+                          <span style="font-size:11px; font-weight:700; letter-spacing:0.02em;"
+                            id="deckCoverTitle">AlphaHealth AI</span>
                         </div>
-                        <span style="font-size:9px; font-weight:700; background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.3); border-radius:4px; padding:1.5px 6px;">18 SLIDES · PDF</span>
+                        <span
+                          style="font-size:9px; font-weight:700; background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.3); border-radius:4px; padding:1.5px 6px;">18
+                          SLIDES · PDF</span>
                       </div>
 
                       <div style="text-align:left; max-width:88%;">
-                        <div style="font-size:13.5px; font-weight:800; line-height:1.25; margin-bottom:3px;" id="deckSlideHeadline">Diagnostic Neural Platform for Clinical Early Disease Detection</div>
-                        <div style="font-size:10px; color:rgba(255,255,255,0.7);">Investor Due Diligence Presentation — Seed Stage</div>
+                        <div style="font-size:13.5px; font-weight:800; line-height:1.25; margin-bottom:3px;"
+                          id="deckSlideHeadline">Diagnostic Neural Platform for Clinical Early Disease Detection</div>
+                        <div style="font-size:10px; color:rgba(255,255,255,0.7);">Investor Due Diligence Presentation —
+                          Seed Stage</div>
                       </div>
 
-                      <div style="display:flex; align-items:center; justify-content:space-between; font-size:9.5px; color:rgba(255,255,255,0.6); border-top:1px solid rgba(255,255,255,0.15); padding-top:6px;">
+                      <div
+                        style="display:flex; align-items:center; justify-content:space-between; font-size:9.5px; color:rgba(255,255,255,0.6); border-top:1px solid rgba(255,255,255,0.15); padding-top:6px;">
                         <span>Seedicon Venture Fund I</span>
-                        <span style="display:flex; align-items:center; gap:3px;"><i data-lucide="maximize-2" style="width:10px; height:10px;"></i> Click to preview</span>
+                        <span style="display:flex; align-items:center; gap:3px;"><i data-lucide="maximize-2"
+                            style="width:10px; height:10px;"></i> Click to preview</span>
                       </div>
                     </div>
                   </div>
 
-                  <div style="padding:9px 12px; background:#FAFAFA; border-top:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between;">
+                  <div
+                    style="padding:9px 12px; background:#FAFAFA; border-top:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between;">
                     <div style="display:flex; align-items:center; gap:8px; min-width:0;">
                       <i data-lucide="file-text" style="width:15px; height:15px; color:#5A5A58; flex-shrink:0;"></i>
                       <div style="min-width:0;">
-                        <div style="font-size:11.5px; font-weight:700; color:var(--text-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="valDeck">AlphaHealth_PitchDeck_2026.pdf</div>
+                        <div
+                          style="font-size:11.5px; font-weight:700; color:var(--text-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
+                          id="valDeck">AlphaHealth_PitchDeck_2026.pdf</div>
                         <div style="font-size:10px; color:var(--text-muted);">14.2 MB · Verified Submission</div>
                       </div>
                     </div>
-                    <button class="btn btn-outline btn-sm" onclick="downloadDeck()" style="padding:3px 9px; font-size:11px; gap:4px;">
+                    <button class="btn btn-outline btn-sm" onclick="downloadDeck()"
+                      style="padding:3px 9px; font-size:11px; gap:4px;">
                       <i data-lucide="download" style="width:11px; height:11px;"></i>
                       <span>Download</span>
                     </button>
@@ -813,36 +1325,51 @@
 
                 <!-- 16:9 Product Demo Video Thumbnail Card -->
                 <div class="media-preview-card">
-                  <div class="media-aspect-16-9" style="background: linear-gradient(135deg, #18181B 0%, #27272A 100%); cursor:pointer;" onclick="openVideoDemoModal()">
+                  <div class="media-aspect-16-9"
+                    style="background: linear-gradient(135deg, #18181B 0%, #27272A 100%); cursor:pointer;"
+                    onclick="openVideoDemoModal()">
                     <!-- Video Vignette Pattern -->
-                    <div style="position:absolute; inset:0; opacity:0.18; background: repeating-linear-gradient(45deg, #3F3F46, #3F3F46 10px, #27272A 10px, #27272A 20px);"></div>
-                    
-                    <div style="position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:6px;">
+                    <div
+                      style="position:absolute; inset:0; opacity:0.18; background: repeating-linear-gradient(45deg, #3F3F46, #3F3F46 10px, #27272A 10px, #27272A 20px);">
+                    </div>
+
+                    <div
+                      style="position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:6px;">
                       <div class="media-play-btn">
                         <i data-lucide="play" style="width:18px; height:18px; margin-left:2px; fill:#1A1A18;"></i>
                       </div>
-                      <span style="font-size:11px; font-weight:700; color:#FFFFFF; text-shadow:0 1px 3px rgba(0,0,0,0.6);">Watch Product Demo</span>
+                      <span
+                        style="font-size:11px; font-weight:700; color:#FFFFFF; text-shadow:0 1px 3px rgba(0,0,0,0.6);">Watch
+                        Product Demo</span>
                     </div>
 
-                    <div style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.65); color:#FFFFFF; border:1px solid rgba(255,255,255,0.25); border-radius:4px; font-size:9.5px; font-weight:700; padding:1.5px 6px;">
+                    <div
+                      style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.65); color:#FFFFFF; border:1px solid rgba(255,255,255,0.25); border-radius:4px; font-size:9.5px; font-weight:700; padding:1.5px 6px;">
                       3:24 MIN
                     </div>
 
-                    <div style="position:absolute; bottom:10px; left:12px; font-size:10px; color:rgba(255,255,255,0.8); display:flex; align-items:center; gap:4px;">
+                    <div
+                      style="position:absolute; bottom:10px; left:12px; font-size:10px; color:rgba(255,255,255,0.8); display:flex; align-items:center; gap:4px;">
                       <i data-lucide="video" style="width:11px; height:11px;"></i>
                       <span>Interactive Clinical Workflow Walkthrough</span>
                     </div>
                   </div>
 
-                  <div style="padding:9px 12px; background:#FAFAFA; border-top:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between;">
+                  <div
+                    style="padding:9px 12px; background:#FAFAFA; border-top:1px solid var(--border-main); display:flex; align-items:center; justify-content:space-between;">
                     <div style="display:flex; align-items:center; gap:8px; min-width:0;">
                       <i data-lucide="video" style="width:15px; height:15px; color:#5A5A58; flex-shrink:0;"></i>
                       <div style="min-width:0;">
-                        <div style="font-size:11.5px; font-weight:700; color:var(--text-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="valVideoTitle">AlphaHealth_Platform_Demo.mp4</div>
-                        <div style="font-size:10px; color:var(--text-muted);"><a href="https://loom.com" target="_blank" style="color:var(--text-muted); text-decoration:underline;" id="valVideoLink">loom.com/share/demo-alphahealth</a></div>
+                        <div
+                          style="font-size:11.5px; font-weight:700; color:var(--text-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
+                          id="valVideoTitle">AlphaHealth_Platform_Demo.mp4</div>
+                        <div style="font-size:10px; color:var(--text-muted);"><a href="https://loom.com" target="_blank"
+                            style="color:var(--text-muted); text-decoration:underline;"
+                            id="valVideoLink">loom.com/share/demo-alphahealth</a></div>
                       </div>
                     </div>
-                    <button class="btn btn-outline btn-sm" onclick="openVideoDemoModal()" style="padding:3px 9px; font-size:11px; gap:4px;">
+                    <button class="btn btn-outline btn-sm" onclick="openVideoDemoModal()"
+                      style="padding:3px 9px; font-size:11px; gap:4px;">
                       <i data-lucide="play" style="width:11px; height:11px;"></i>
                       <span>Play</span>
                     </button>
@@ -1046,12 +1573,15 @@
                 <span>Cap Table &amp; Ownership Breakdown</span>
               </div>
 
-              <div style="display:grid; grid-template-columns:260px 1fr; gap:20px; align-items:center; margin-top:10px;">
-                
+              <div
+                style="display:grid; grid-template-columns:260px 1fr; gap:20px; align-items:center; margin-top:10px;">
+
                 <!-- Neutral ApexChart Donut Chart Container -->
-                <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:#FAFAFA; border:1px solid var(--border-main); border-radius:6px; padding:12px;">
+                <div
+                  style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:#FAFAFA; border:1px solid var(--border-main); border-radius:6px; padding:12px;">
                   <div id="capTableDonutChart" style="width:100%; min-height:200px;"></div>
-                  <div style="font-size:10px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em; margin-top:4px;">
+                  <div
+                    style="font-size:10px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em; margin-top:4px;">
                     TOTAL ISSUED SHARES: 10,000,000
                   </div>
                 </div>
@@ -1123,19 +1653,26 @@
 
         <!-- TAB PANE: VDR (STARTUP SUBMITTED DOCUMENTS & DUE DILIGENCE REVIEW) -->
         <div id="tabPaneVdr" style="display:none;">
-          <div class="table-card" style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+          <div class="table-card"
+            style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
             <!-- TOOLBAR -->
-            <div class="table-toolbar" style="padding:12px 18px; background:#FFFFFF; border-bottom:1px solid #EBEBEA; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+            <div class="table-toolbar"
+              style="padding:12px 18px; background:#FFFFFF; border-bottom:1px solid #EBEBEA; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
               <div class="table-toolbar-left" style="display:flex; align-items:center; gap:10px;">
-                <strong style="font-size:13px; font-weight:800; color:#1A1A18; letter-spacing:-0.01em;">Submitted Documents &amp; Due Diligence Review</strong>
-                <span class="badge-pill neutral-soft" id="vdrStartupBadge" style="font-size:10.5px; font-weight:600; padding:2px 8px; background:#F0F0EE; color:#5A5A58; border-radius:4px;">Alpha Health Submissions</span>
+                <strong style="font-size:13px; font-weight:800; color:#1A1A18; letter-spacing:-0.01em;">Submitted
+                  Documents &amp; Due Diligence Review</strong>
+                <span class="badge-pill neutral-soft" id="vdrStartupBadge"
+                  style="font-size:10.5px; font-weight:600; padding:2px 8px; background:#F0F0EE; color:#5A5A58; border-radius:4px;">Alpha
+                  Health Submissions</span>
               </div>
               <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                <button class="btn btn-primary" onclick="openShareWithDDTeam()" style="font-size:11.5px; padding:6px 12px; display:inline-flex; align-items:center; gap:6px; background:#1A1A18; color:#FFFFFF; border-radius:5px; font-weight:700;">
+                <button class="btn btn-primary" onclick="openShareWithDDTeam()"
+                  style="font-size:11.5px; padding:6px 12px; display:inline-flex; align-items:center; gap:6px; background:#1A1A18; color:#FFFFFF; border-radius:5px; font-weight:700;">
                   <i data-lucide="users" style="width:13px; height:13px;"></i>
                   <span>Share with DD Team</span>
                 </button>
-                <button class="btn btn-outline" onclick="resendAccessLink()" style="font-size:11.5px; padding:6px 12px; display:inline-flex; align-items:center; gap:6px; background:#FFFFFF; border:1px solid #E0E0DE; border-radius:5px; color:#3A3A38; font-weight:600;">
+                <button class="btn btn-outline" onclick="resendAccessLink()"
+                  style="font-size:11.5px; padding:6px 12px; display:inline-flex; align-items:center; gap:6px; background:#FFFFFF; border:1px solid #E0E0DE; border-radius:5px; color:#3A3A38; font-weight:600;">
                   <i data-lucide="send" style="width:13px; height:13px;"></i>
                   <span>Resend Access Link</span>
                 </button>
@@ -1147,13 +1684,27 @@
               <table class="data-table" style="width:100%; border-collapse:collapse; min-width:980px;">
                 <thead>
                   <tr style="background:#FAFAFA; border-bottom:1px solid #EBEBEA;">
-                    <th style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">DOCUMENT NAME</th>
-                    <th style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">TYPE</th>
-                    <th style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">LAST UPDATED ON</th>
-                    <th style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">SUBMITTED DOCUMENT FILE</th>
-                    <th style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">TEMPLATE</th>
-                    <th style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">STATUS</th>
-                    <th style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:right;">ACTION</th>
+                    <th
+                      style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">
+                      DOCUMENT NAME</th>
+                    <th
+                      style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">
+                      TYPE</th>
+                    <th
+                      style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">
+                      LAST UPDATED ON</th>
+                    <th
+                      style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">
+                      SUBMITTED DOCUMENT FILE</th>
+                    <th
+                      style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">
+                      TEMPLATE</th>
+                    <th
+                      style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:left;">
+                      STATUS</th>
+                    <th
+                      style="font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8C8C88; padding:9px 14px; text-align:right;">
+                      ACTION</th>
                   </tr>
                 </thead>
                 <tbody id="vdrStartupSubmissionsTableBody">
@@ -1163,7 +1714,8 @@
             </div>
 
             <!-- FOOTER -->
-            <div class="table-footer" style="padding:10px 18px; background:#FAFAFA; border-top:1px solid #EBEBEA; font-size:11.5px; color:#8C8C88;">
+            <div class="table-footer"
+              style="padding:10px 18px; background:#FAFAFA; border-top:1px solid #EBEBEA; font-size:11.5px; color:#8C8C88;">
               Review submitted files and approve or reject with comments for founder re-uploading
             </div>
           </div>
@@ -1173,17 +1725,24 @@
         <div id="tabPaneTermsheet" style="display:none;">
           <div id="termSheetComponent" style="display:flex; flex-direction:column; gap:14px;">
             <!-- TERM SHEET HEADER CARD -->
-            <div style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:14px 18px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+            <div
+              style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:14px 18px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
               <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
                 <div style="display:flex; align-items:center; gap:12px;">
-                  <div style="width:38px; height:38px; border-radius:7px; background:#1A1A18; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px;" id="tsAvatar">AH</div>
+                  <div
+                    style="width:38px; height:38px; border-radius:7px; background:#1A1A18; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px;"
+                    id="tsAvatar">AH</div>
                   <div>
-                    <div style="font-size:9px; font-weight:800; color:#8A8A88; text-transform:uppercase; letter-spacing:0.06em;">Term Sheet — Proposed Terms</div>
-                    <div style="font-size:15px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em;" id="tsTitle">Alpha Health 1 · Pre-Seed Round</div>
+                    <div
+                      style="font-size:9px; font-weight:800; color:#8A8A88; text-transform:uppercase; letter-spacing:0.06em;">
+                      Term Sheet — Proposed Terms</div>
+                    <div style="font-size:15px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em;" id="tsTitle">
+                      Alpha Health 1 · Pre-Seed Round</div>
                   </div>
                 </div>
                 <div style="display:flex; align-items:center; gap:8px;">
-                  <span style="font-size:9.5px; font-weight:800; padding:3px 8px; background:#F0F0EE; color:#1A1A18; border:1px solid #DCDCDA; border-radius:4px; text-transform:uppercase; letter-spacing:0.04em;">Draft</span>
+                  <span
+                    style="font-size:9.5px; font-weight:800; padding:3px 8px; background:#F0F0EE; color:#1A1A18; border:1px solid #DCDCDA; border-radius:4px; text-transform:uppercase; letter-spacing:0.04em;">Draft</span>
                   <button class="doc-btn" onclick="termSheetAction('Export Term Sheet')">
                     <i data-lucide="download" style="width:11px; height:11px;"></i> Export PDF
                   </button>
@@ -1195,14 +1754,38 @@
             <div class="detail-card">
               <div class="detail-sec-header">Key Economic Terms</div>
               <div class="kv-rows-container">
-                <div class="kv-row"><div class="kv-label">Security Type</div><div class="kv-value">Series Seed Preferred Stock</div></div>
-                <div class="kv-row"><div class="kv-label">Total Investment</div><div class="kv-value" style="font-weight:700;" id="tsAsk">$3.00M</div></div>
-                <div class="kv-row"><div class="kv-label">Pre-Money Valuation</div><div class="kv-value">$12.00M</div></div>
-                <div class="kv-row"><div class="kv-label">Post-Money Valuation</div><div class="kv-value">$15.00M</div></div>
-                <div class="kv-row"><div class="kv-label">Liquidation Preference</div><div class="kv-value">1x Non-Participating</div></div>
-                <div class="kv-row"><div class="kv-label">Dividends</div><div class="kv-value">None — Non-Cumulative</div></div>
-                <div class="kv-row"><div class="kv-label">Anti-Dilution</div><div class="kv-value">Weighted Average (Broad-Based)</div></div>
-                <div class="kv-row"><div class="kv-label">Conversion</div><div class="kv-value">1:1 Preferred → Common, at Qualified Financing or IPO</div></div>
+                <div class="kv-row">
+                  <div class="kv-label">Security Type</div>
+                  <div class="kv-value">Series Seed Preferred Stock</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Total Investment</div>
+                  <div class="kv-value" style="font-weight:700;" id="tsAsk">$3.00M</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Pre-Money Valuation</div>
+                  <div class="kv-value">$12.00M</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Post-Money Valuation</div>
+                  <div class="kv-value">$15.00M</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Liquidation Preference</div>
+                  <div class="kv-value">1x Non-Participating</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Dividends</div>
+                  <div class="kv-value">None — Non-Cumulative</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Anti-Dilution</div>
+                  <div class="kv-value">Weighted Average (Broad-Based)</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Conversion</div>
+                  <div class="kv-value">1:1 Preferred → Common, at Qualified Financing or IPO</div>
+                </div>
               </div>
             </div>
 
@@ -1210,10 +1793,22 @@
             <div class="detail-card">
               <div class="detail-sec-header">Governance &amp; Control</div>
               <div class="kv-rows-container">
-                <div class="kv-row"><div class="kv-label">Board Composition</div><div class="kv-value">3 Seats — 1 Founder, 1 Investor, 1 Independent</div></div>
-                <div class="kv-row"><div class="kv-label">Protective Provisions</div><div class="kv-value">Standard — Sale, Liquidation, Dilution, Indebtedness</div></div>
-                <div class="kv-row"><div class="kv-label">Information Rights</div><div class="kv-value">Quarterly financials &amp; annual budget</div></div>
-                <div class="kv-row"><div class="kv-label">Observer Rights</div><div class="kv-value">None</div></div>
+                <div class="kv-row">
+                  <div class="kv-label">Board Composition</div>
+                  <div class="kv-value">3 Seats — 1 Founder, 1 Investor, 1 Independent</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Protective Provisions</div>
+                  <div class="kv-value">Standard — Sale, Liquidation, Dilution, Indebtedness</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Information Rights</div>
+                  <div class="kv-value">Quarterly financials &amp; annual budget</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Observer Rights</div>
+                  <div class="kv-value">None</div>
+                </div>
               </div>
             </div>
 
@@ -1221,10 +1816,22 @@
             <div class="detail-card">
               <div class="detail-sec-header">Founder &amp; Vesting Terms</div>
               <div class="kv-rows-container">
-                <div class="kv-row"><div class="kv-label">Founder Vesting</div><div class="kv-value">4-Year Monthly Vest, 1-Year Cliff</div></div>
-                <div class="kv-row"><div class="kv-label">Reverse Vesting</div><div class="kv-value">Standard</div></div>
-                <div class="kv-row"><div class="kv-label">IP Assignment</div><div class="kv-value">Full assignment on closing</div></div>
-                <div class="kv-row"><div class="kv-label">Employee Option Pool</div><div class="kv-value">10% post-money reserve</div></div>
+                <div class="kv-row">
+                  <div class="kv-label">Founder Vesting</div>
+                  <div class="kv-value">4-Year Monthly Vest, 1-Year Cliff</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Reverse Vesting</div>
+                  <div class="kv-value">Standard</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">IP Assignment</div>
+                  <div class="kv-value">Full assignment on closing</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Employee Option Pool</div>
+                  <div class="kv-value">10% post-money reserve</div>
+                </div>
               </div>
             </div>
 
@@ -1232,17 +1839,31 @@
             <div class="detail-card">
               <div class="detail-sec-header">Conditions &amp; Exclusivity</div>
               <div class="kv-rows-container">
-                <div class="kv-row"><div class="kv-label">Exclusivity / No-Shop</div><div class="kv-value">45 Days</div></div>
-                <div class="kv-row"><div class="kv-label">Due Diligence Period</div><div class="kv-value">30 Days</div></div>
-                <div class="kv-row"><div class="kv-label">Governing Law</div><div class="kv-value" id="tsJurisdiction">Delaware, USA</div></div>
-                <div class="kv-row"><div class="kv-label">Expiry Date</div><div class="kv-value">30 days from date of issuance</div></div>
+                <div class="kv-row">
+                  <div class="kv-label">Exclusivity / No-Shop</div>
+                  <div class="kv-value">45 Days</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Due Diligence Period</div>
+                  <div class="kv-value">30 Days</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Governing Law</div>
+                  <div class="kv-value" id="tsJurisdiction">Delaware, USA</div>
+                </div>
+                <div class="kv-row">
+                  <div class="kv-label">Expiry Date</div>
+                  <div class="kv-value">30 days from date of issuance</div>
+                </div>
               </div>
             </div>
 
             <!-- FOOTER NOTE -->
-            <div style="background:#FFFFFF; border:1px dashed #DCDCDA; border-radius:8px; padding:12px 16px; display:flex; align-items:center; gap:10px; font-size:11.5px; color:#6A6A68;">
+            <div
+              style="background:#FFFFFF; border:1px dashed #DCDCDA; border-radius:8px; padding:12px 16px; display:flex; align-items:center; gap:10px; font-size:11.5px; color:#6A6A68;">
               <i data-lucide="info" style="width:14px; height:14px; color:#8A8A88; flex-shrink:0;"></i>
-              <span>Term sheet is non-binding except for the exclusivity and confidentiality provisions. Subject to final legal review and customary closing conditions.</span>
+              <span>Term sheet is non-binding except for the exclusivity and confidentiality provisions. Subject to
+                final legal review and customary closing conditions.</span>
             </div>
           </div>
         </div>
@@ -1250,39 +1871,54 @@
         <!-- TAB PANE: HISTORY (SAME CONTENT AS HEADER HISTORY DRAWER) -->
         <div id="tabPaneHistory" style="display:none;">
           <div id="historyTabComponent" style="display:flex; flex-direction:column; gap:14px;">
-            <div style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:14px 18px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+            <div
+              style="background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:14px 18px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
               <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
                 <div>
-                  <div style="font-size:9px; font-weight:800; color:#8A8A88; text-transform:uppercase; letter-spacing:0.06em;">Submission History &amp; Audit Trail</div>
-                  <div style="font-size:15px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em;" id="histTitle">Alpha Health 1 · Record Activity</div>
+                  <div
+                    style="font-size:9px; font-weight:800; color:#8A8A88; text-transform:uppercase; letter-spacing:0.06em;">
+                    Submission History &amp; Audit Trail</div>
+                  <div style="font-size:15px; font-weight:800; color:#1A1A18; letter-spacing:-0.02em;" id="histTitle">
+                    Alpha Health 1 · Record Activity</div>
                 </div>
                 <span class="badge-pill neutral-soft">4 Events</span>
               </div>
             </div>
 
-            <div style="display:flex; flex-direction:column; gap:16px; position:relative; padding-left:18px; background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:16px 18px 16px 34px;">
-              <div style="position:absolute; left:10px; top:18px; bottom:18px; width:1.5px; background:var(--border-main);"></div>
+            <div
+              style="display:flex; flex-direction:column; gap:16px; position:relative; padding-left:18px; background:#FFFFFF; border:1px solid #DFDEDE; border-radius:8px; padding:16px 18px 16px 34px;">
+              <div
+                style="position:absolute; left:10px; top:18px; bottom:18px; width:1.5px; background:var(--border-main);">
+              </div>
 
               <div style="position:relative; font-size:12px;">
-                <div style="position:absolute; left:-27px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--accent-graphite);"></div>
+                <div
+                  style="position:absolute; left:-27px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--accent-graphite);">
+                </div>
                 <div style="font-weight:700; color:var(--text-dark);">Submitted Inbound Application</div>
                 <div style="font-size:11px; color:var(--text-muted);">Feb 28, 2026 10:14 AM via Public Intake Link</div>
               </div>
 
               <div style="position:relative; font-size:12px;">
-                <div style="position:absolute; left:-27px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--border-strong);"></div>
+                <div
+                  style="position:absolute; left:-27px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--border-strong);">
+                </div>
                 <div style="font-weight:700; color:var(--text-dark);">Automated Compliance Verification</div>
                 <div style="font-size:11px; color:var(--text-muted);">Feb 28, 2026 10:15 AM · 13 sections verified</div>
               </div>
 
               <div style="position:relative; font-size:12px;">
-                <div style="position:absolute; left:-27px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--border-strong);"></div>
+                <div
+                  style="position:absolute; left:-27px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--border-strong);">
+                </div>
                 <div style="font-weight:700; color:var(--text-dark);">Assigned to Investment Team</div>
                 <div style="font-size:11px; color:var(--text-muted);">Mar 01, 2026 09:30 AM · Lead: Ananya Roy</div>
               </div>
 
               <div style="position:relative; font-size:12px;">
-                <div style="position:absolute; left:-27px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--border-strong);"></div>
+                <div
+                  style="position:absolute; left:-27px; top:3px; width:8px; height:8px; border-radius:50%; background:var(--border-strong);">
+                </div>
                 <div style="font-weight:700; color:var(--text-dark);">Pitch Deck Downloaded</div>
                 <div style="font-size:11px; color:var(--text-muted);">Mar 02, 2026 02:15 PM by Shikhar Kapoor</div>
               </div>
@@ -1523,7 +2159,7 @@
         tooltip: {
           theme: 'dark',
           y: {
-            formatter: function(val) {
+            formatter: function (val) {
               return val + '% Ownership';
             }
           }
@@ -1759,10 +2395,10 @@
     function openAddPotentialConfirmationModal(targetGroup) {
       const selectedGroup = targetGroup || (currentPotentialGroup || (
         currentStartup.sector.includes('Health') ? 'Healthcare & Bio' :
-        (currentStartup.sector.includes('AI') ? 'B2B SaaS & AI' :
-        (currentStartup.sector.includes('Fin') ? 'FinTech & Payments' :
-        (currentStartup.sector.includes('Clean') ? 'Climate & Agri' :
-        (currentStartup.sector.includes('Log') ? 'Mobility & Logistics' : 'General Watchlist'))))
+          (currentStartup.sector.includes('AI') ? 'B2B SaaS & AI' :
+            (currentStartup.sector.includes('Fin') ? 'FinTech & Payments' :
+              (currentStartup.sector.includes('Clean') ? 'Climate & Agri' :
+                (currentStartup.sector.includes('Log') ? 'Mobility & Logistics' : 'General Watchlist'))))
       ));
 
       openModal('Add to Potential Startups', `
@@ -1960,16 +2596,16 @@
               </thead>
               <tbody>
                 ${rows.map(r => {
-                  const subDateDisplay = r.submittedDate
-                    ? `<span style="font-weight:700; color:#1A1A18;">${r.submittedDate}</span>`
-                    : `<span style="color:#8C8C88;">— Pending</span>`;
-                  const fileDisplay = r.file
-                    ? `<a href="#" onclick="event.stopPropagation(); downloadReportFile('${r.file}'); return false;" class="template-badge" title="Download ${r.file}">
+        const subDateDisplay = r.submittedDate
+          ? `<span style="font-weight:700; color:#1A1A18;">${r.submittedDate}</span>`
+          : `<span style="color:#8C8C88;">— Pending</span>`;
+        const fileDisplay = r.file
+          ? `<a href="#" onclick="event.stopPropagation(); downloadReportFile('${r.file}'); return false;" class="template-badge" title="Download ${r.file}">
                         <i data-lucide="paperclip" style="width:10px; height:10px; flex-shrink:0;"></i>
                         <span>${r.file}</span>
                       </a>`
-                    : `<span style="color:#A8A8A4; font-size:11px;">—</span>`;
-                  return `
+          : `<span style="color:#A8A8A4; font-size:11px;">—</span>`;
+        return `
                     <tr onclick="openReportPreview('${r.id}')">
                       <td style="white-space:nowrap;">
                         <div class="company-cell">
@@ -2025,7 +2661,7 @@
                       </td>
                     </tr>
                   `;
-                }).join('')}
+      }).join('')}
               </tbody>
             </table>
           </div>
@@ -3076,7 +3712,7 @@
       }
 
       tbody.innerHTML = vdrRoomData.sharedStartups.map(s => {
-        const avatar = s.avatar || s.name.substring(0,2).toUpperCase();
+        const avatar = s.avatar || s.name.substring(0, 2).toUpperCase();
         const progressVal = parseInt(s.progress || 0);
         const statusTagHtml = vdrGetStatusTagHtml(s.status);
         const emailStr = s.email || 'founder@startup.com';
@@ -3233,7 +3869,7 @@
         });
       });
 
-      const avatar = startup.avatar || startup.name.substring(0,2).toUpperCase();
+      const avatar = startup.avatar || startup.name.substring(0, 2).toUpperCase();
       const emailStr = startup.email || 'founder@startup.com';
 
       container.innerHTML = `
@@ -3295,25 +3931,25 @@
             </thead>
             <tbody>
               ${allDocRequirements.map(item => {
-                const sub = item.submitted;
-                const hasFile = sub && sub.file;
-                let fileIcon = 'file-text';
-                if (hasFile) {
-                  if (sub.file.endsWith('.xlsx') || sub.file.endsWith('.csv')) fileIcon = 'file-spreadsheet';
-                  else if (sub.file.endsWith('.pdf')) fileIcon = 'file-text';
-                  else if (sub.file.endsWith('.docx')) fileIcon = 'file';
-                }
-                let statusTagHtml = '';
-                if (!hasFile) {
-                  statusTagHtml = `<span style="font-size:10.5px; color:#9A9A96; font-style:italic; white-space:nowrap;">Not Submitted</span>`;
-                } else if (sub.status === 'Approved') {
-                  statusTagHtml = `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#ECFDF5; color:#047857; border:1px solid #A7F3D0; border-radius:3px; display:inline-flex; align-items:center; gap:3px; white-space:nowrap;"><i data-lucide="check-circle" style="width:10px; height:10px;"></i> APPROVED</span>`;
-                } else if (sub.status === 'Rejected') {
-                  statusTagHtml = `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#FEF2F2; color:#DC2626; border:1px solid #FECACA; border-radius:3px; display:inline-flex; align-items:center; gap:3px; white-space:nowrap;" title="${sub.comment || 'Rejected'}"><i data-lucide="alert-circle" style="width:10px; height:10px;"></i> REJECTED</span>`;
-                } else {
-                  statusTagHtml = `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#F0F0EE; color:#5A5A58; border:1px solid #DCDCDA; border-radius:3px; display:inline-flex; align-items:center; gap:3px; white-space:nowrap;"><i data-lucide="clock" style="width:10px; height:10px;"></i> PENDING REVIEW</span>`;
-                }
-                return `
+        const sub = item.submitted;
+        const hasFile = sub && sub.file;
+        let fileIcon = 'file-text';
+        if (hasFile) {
+          if (sub.file.endsWith('.xlsx') || sub.file.endsWith('.csv')) fileIcon = 'file-spreadsheet';
+          else if (sub.file.endsWith('.pdf')) fileIcon = 'file-text';
+          else if (sub.file.endsWith('.docx')) fileIcon = 'file';
+        }
+        let statusTagHtml = '';
+        if (!hasFile) {
+          statusTagHtml = `<span style="font-size:10.5px; color:#9A9A96; font-style:italic; white-space:nowrap;">Not Submitted</span>`;
+        } else if (sub.status === 'Approved') {
+          statusTagHtml = `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#ECFDF5; color:#047857; border:1px solid #A7F3D0; border-radius:3px; display:inline-flex; align-items:center; gap:3px; white-space:nowrap;"><i data-lucide="check-circle" style="width:10px; height:10px;"></i> APPROVED</span>`;
+        } else if (sub.status === 'Rejected') {
+          statusTagHtml = `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#FEF2F2; color:#DC2626; border:1px solid #FECACA; border-radius:3px; display:inline-flex; align-items:center; gap:3px; white-space:nowrap;" title="${sub.comment || 'Rejected'}"><i data-lucide="alert-circle" style="width:10px; height:10px;"></i> REJECTED</span>`;
+        } else {
+          statusTagHtml = `<span style="font-size:9.5px; font-weight:800; padding:2px 7px; background:#F0F0EE; color:#5A5A58; border:1px solid #DCDCDA; border-radius:3px; display:inline-flex; align-items:center; gap:3px; white-space:nowrap;"><i data-lucide="clock" style="width:10px; height:10px;"></i> PENDING REVIEW</span>`;
+        }
+        return `
                   <tr>
                     <td style="white-space:nowrap;">
                       <div style="font-weight:700; color:#1A1A18; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:240px; display:inline-block; vertical-align:middle;" title="${item.title}">${item.title}</div>
@@ -3338,7 +3974,7 @@
                     </td>
                   </tr>
                 `;
-              }).join('')}
+      }).join('')}
             </tbody>
           </table>
           <div class="table-footer">Review submitted files and approve or reject with comments for founder re-uploading</div>
@@ -3456,8 +4092,8 @@
         </p>
         <div style="display:flex; flex-direction:column; gap:10px;">
           ${VDR_DUE_DILIGENCE_STARTUPS.map(s => {
-            const alreadyShared = vdrRoomData.sharedStartups.some(ss => ss.name === s.name);
-            return `
+        const alreadyShared = vdrRoomData.sharedStartups.some(ss => ss.name === s.name);
+        return `
               <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:7px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:12px; transition:border-color 0.12s, box-shadow 0.12s;">
                 <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
                   <div style="width:34px; height:34px; border-radius:6px; background:#F0F0EE; border:1px solid #E0E0DE; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; color:#1A1A18; flex-shrink:0;">${s.avatar}</div>
@@ -3472,7 +4108,7 @@
                 ${alreadyShared ? `<span style="font-size:10px; font-weight:700; color:#047857; background:#ECFDF5; padding:4px 8px; border-radius:4px; border:1px solid #A7F3D0;">Already Shared</span>` : `<button type="button" class="btn btn-primary" onclick="confirmShareVDRWithStartup('${s.id}')" style="font-size:11px; padding:5px 11px; flex-shrink:0;"><i data-lucide="send" style="width:11px; height:11px;"></i> Share VDR</button>`}
               </div>
             `;
-          }).join('')}
+      }).join('')}
         </div>
       `;
       const footerHtml = `<button type="button" class="btn-modal-cancel" onclick="window.closeDrawer()">Close</button>`;
@@ -3504,7 +4140,7 @@
     function executeShareVDRWithStartup(dealId) {
       const startup = VDR_DUE_DILIGENCE_STARTUPS.find(s => s.id === dealId);
       if (!startup) return;
-      const today = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+      const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
       vdrRoomData.sharedStartups.unshift({
         id: 's_' + Date.now(), name: startup.name, avatar: startup.avatar, contact: startup.founder,
         email: startup.email, date: today, receivedOn: 'Pending', status: 'Share to Startup', progress: 0, submittedDocs: []
@@ -3530,8 +4166,8 @@
         </p>
         <div style="display:flex; flex-direction:column; gap:10px;">
           ${VDR_DD_PARTNERS.map(p => {
-            const alreadyShared = (vdrRoomData.sharedPartners || []).some(sp => sp.name === p.name);
-            return `
+        const alreadyShared = (vdrRoomData.sharedPartners || []).some(sp => sp.name === p.name);
+        return `
               <div style="background:#FFFFFF; border:1px solid #E0E0DE; border-radius:7px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:12px;">
                 <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
                   <div style="width:34px; height:34px; border-radius:6px; background:#1A1A18; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; color:#FFFFFF; flex-shrink:0;">${p.avatar}</div>
@@ -3547,7 +4183,7 @@
                 ${alreadyShared ? `<span style="font-size:10px; font-weight:700; color:#047857; background:#ECFDF5; padding:4px 8px; border-radius:4px; border:1px solid #A7F3D0; flex-shrink:0;">Already Shared</span>` : `<button type="button" class="btn btn-primary" onclick="confirmShareWithDDTeam('${p.id}')" style="font-size:11px; padding:5px 11px; flex-shrink:0;"><i data-lucide="send" style="width:11px; height:11px;"></i> Share VDR</button>`}
               </div>
             `;
-          }).join('')}
+      }).join('')}
         </div>
       `;
       const footerHtml = `<button type="button" class="btn-modal-cancel" onclick="window.closeDrawer()">Close</button>`;
@@ -3641,4 +4277,5 @@
     }
   </script>
 </body>
+
 </html>

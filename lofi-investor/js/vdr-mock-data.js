@@ -84,14 +84,7 @@ const VDR_FULL_FOLDERS_PRESET = [
 ];
 
 const VDR_FULL_SHARED_STARTUPS = [
-  { id: 's1', name: 'Alpha Health', avatar: 'AH', contact: 'Dr. Sarah Chen', email: 'sarah@alphahealth.com', date: 'Jan 14, 2026', receivedOn: 'Feb 12, 2026', status: 'In Review', progress: 75, docsCount: '18 / 24 docs' },
-  { id: 's2', name: 'NeuroPulse', avatar: 'NP', contact: 'Mark Evans', email: 'mark@neuropulse.io', date: 'Jan 18, 2026', receivedOn: 'Feb 10, 2026', status: 'Completed', progress: 100, docsCount: '24 / 24 docs' },
-  { id: 's3', name: 'EcoPulse Energy', avatar: 'EP', contact: 'Priya Sharma', email: 'priya@ecopulse.com', date: 'Feb 01, 2026', receivedOn: 'Pending', status: 'Invited', progress: 0, docsCount: '0 / 24 docs' },
-  { id: 's4', name: 'Apex AI', avatar: 'AA', contact: 'Vikram Mehta', email: 'vikram@apexai.io', date: 'Feb 05, 2026', receivedOn: 'Feb 11, 2026', status: 'In Progress', progress: 45, docsCount: '11 / 24 docs' },
-  { id: 's5', name: 'FinFlow Tech', avatar: 'FF', contact: 'Alexandre Dubois', email: 'alex@finflow.io', date: 'Feb 10, 2026', receivedOn: 'Feb 14, 2026', status: 'Completed', progress: 100, docsCount: '24 / 24 docs' },
-  { id: 's6', name: 'LogiChain Labs', avatar: 'LC', contact: 'Rajan Menon', email: 'rajan@logichain.io', date: 'Feb 14, 2026', receivedOn: 'Feb 18, 2026', status: 'In Progress', progress: 60, docsCount: '14 / 24 docs' },
-  { id: 's7', name: 'BioCore Diagnostics', avatar: 'BC', contact: 'James Whitfield', email: 'james@biocore.com', date: 'Feb 16, 2026', receivedOn: 'Feb 20, 2026', status: 'In Review', progress: 85, docsCount: '20 / 24 docs' },
-  { id: 's8', name: 'SkyTrack Mobility', avatar: 'ST', contact: 'Helen Cruz', email: 'helen@skytrack.io', date: 'Feb 18, 2026', receivedOn: 'Pending', status: 'Invited', progress: 10, docsCount: '2 / 24 docs' }
+  { id: 's1', name: 'Alpha Health', avatar: 'AH', contact: 'Dr. Sarah Chen', email: 'sarah@alphahealth.com', date: 'Jan 14, 2026', receivedOn: 'Feb 12, 2026', status: 'In Review', progress: 75, docsCount: '18 / 24 docs', comment: 'Please ensure FY25 Audited Statements and cap table matrix are provided before the partner meeting.' }
 ];
 
 const VDR_DEFAULT_COVER_LETTER = `Welcome to our Virtual Data Room.
@@ -114,23 +107,81 @@ const SEED_VDR_DATA = {
     folders: [
       {
         id: 'general',
-        title: 'General',
+        title: 'General (Pitch, Cap Table)',
         docs: [
-          { id: 'doc_s1', name: 'SeriesA_Overview_Deck', template: 'SeriesA_Deck_Template.pptx', size: '2.40 MB', type: '.pdf', date: 'August 15, 2026' }
+          { id: 'doc_s1', name: 'SeriesA_Overview_Deck', template: 'SeriesA_Deck_Template.pptx', size: '2.40 MB', type: '.pdf', date: 'August 15, 2026' },
+          { id: 'doc_s1b', name: 'Executive_Summary_Teaser', template: '1Page_Teaser.pdf', size: '840.10 KB', type: '.pdf', date: 'August 16, 2026' }
         ]
       },
       {
         id: 'financial_models',
-        title: 'Financial Models',
+        title: 'Financial Models & Metrics',
         docs: [
-          { id: 'doc_s2', name: 'Cohort_Retention_and_Unit_Economics', template: 'SaaS_Cohort_Model.xlsx', size: '1.10 MB', type: '.xlsx', date: 'August 18, 2026' }
+          { id: 'doc_s2', name: 'Cohort_Retention_and_Unit_Economics', template: 'SaaS_Cohort_Model.xlsx', size: '1.10 MB', type: '.xlsx', date: 'August 18, 2026' },
+          { id: 'doc_s3', name: '5Yr_Revenue_Projections', template: 'SaaS_Financial_Model_Template.xlsx', size: '520.40 KB', type: '.xlsx', date: 'August 19, 2026' }
+        ]
+      },
+      {
+        id: 'legal_governance',
+        title: 'Legal & Governance',
+        docs: [
+          { id: 'doc_s4', name: 'Shareholders_Agreement_SeriesA', template: 'SHA_Framework.docx', size: '890.40 KB', type: '.pdf', date: 'August 18, 2026' },
+          { id: 'doc_s5', name: 'Cap_Table_Fully_Diluted', template: 'CapTable_Model_v3.xlsx', size: '248.10 KB', type: '.xlsx', date: 'August 20, 2026' }
+        ]
+      },
+      {
+        id: 'product_security',
+        title: 'Product & Security Audits',
+        docs: [
+          { id: 'doc_s6', name: 'SOC2_Type2_Report_2026', template: 'SOC2_Type2_Report.pdf', size: '4.10 MB', type: '.pdf', date: 'August 21, 2026' }
         ]
       }
     ],
-    coverLetter: "Welcome to the Series A due diligence package.\n\nAll historical metrics, cap tables, and compliance items are organized by folder.",
-    sharedStartups: [
-      { id: 's3', name: 'LogiChain Labs', avatar: 'LC', contact: 'Rajan Menon', email: 'rajan@logichain.io', date: 'Feb 14, 2026', receivedOn: 'Feb 18, 2026', status: 'In Progress', progress: 50, docsCount: '2 / 4 docs' }
-    ]
+    coverLetter: "Welcome to the Series A due diligence package.\n\nAll historical metrics, cap tables, and compliance items are organized by folder. Please upload your audited materials.",
+    sharedStartups: JSON.parse(JSON.stringify(VDR_FULL_SHARED_STARTUPS))
+  },
+  vdr3: {
+    id: 'vdr3',
+    name: 'Compliance Checklist',
+    folders: [
+      {
+        id: 'general',
+        title: 'Corporate Governance',
+        docs: [
+          { id: 'doc_c1', name: 'Regulatory_Licenses_and_Permits', template: 'Statutory_Approvals.pdf', size: '1.35 MB', type: '.pdf', date: 'August 12, 2026' },
+          { id: 'doc_c2', name: 'Data_Privacy_GDPR_DPDP_Policy', template: 'Privacy_Policy_Compliance.pdf', size: '890.00 KB', type: '.pdf', date: 'August 15, 2026' },
+          { id: 'doc_c3', name: 'Board_Resolutions_and_Minutes_FY25', template: 'Board_Minutes_Archive.pdf', size: '2.10 MB', type: '.pdf', date: 'August 19, 2026' }
+        ]
+      },
+      {
+        id: 'ip_security',
+        title: 'IP & Security Compliance',
+        docs: [
+          { id: 'doc_c4', name: 'IP_Assignment_and_Patents', template: 'IP_Assignment_Form.pdf', size: '780.20 KB', type: '.pdf', date: 'August 15, 2026' },
+          { id: 'doc_c5', name: 'SOC2_Type2_Compliance_Audit', template: 'SOC2_Type2_Report.pdf', size: '4.10 MB', type: '.pdf', date: 'August 18, 2026' }
+        ]
+      }
+    ],
+    coverLetter: "Please review this compliance checklist and upload the required governance, regulatory licenses, and IP assignment schedules.",
+    sharedStartups: JSON.parse(JSON.stringify(VDR_FULL_SHARED_STARTUPS))
+  },
+  vdr4: {
+    id: 'vdr4',
+    name: 'Financial Health Review',
+    folders: [
+      {
+        id: 'general',
+        title: 'Financial Statements',
+        docs: [
+          { id: 'doc_fn1', name: 'Audited_Financial_Statements_2025', template: null, size: '3.80 MB', type: '.pdf', date: 'August 10, 2026' },
+          { id: 'doc_fn2', name: '5Yr_Financial_Forecast_Model', template: 'SaaS_Financial_Model_Template.xlsx', size: '420.50 KB', type: '.xlsx', date: 'August 12, 2026' },
+          { id: 'doc_fn3', name: 'Monthly_MIS_and_Burn_Rate_Q2', template: 'Monthly_MIS_Report.xlsx', size: '310.20 KB', type: '.xlsx', date: 'August 14, 2026' },
+          { id: 'doc_fn4', name: 'Tax_Clearance_and_GST_Filings_2025', template: null, size: '1.65 MB', type: '.pdf', date: 'August 15, 2026' }
+        ]
+      }
+    ],
+    coverLetter: "Welcome to the Financial Health Review data room. Please upload audited statements, tax clearances, and monthly MIS reports.",
+    sharedStartups: JSON.parse(JSON.stringify(VDR_FULL_SHARED_STARTUPS))
   }
 };
 
@@ -138,6 +189,9 @@ const SEED_VDR_DATA = {
  * Returns a full filled VDR object
  */
 function getFilledVdrPreset(roomId = 'vdr1', roomName = 'Seed Round Due Diligence') {
+  if (SEED_VDR_DATA[roomId]) {
+    return JSON.parse(JSON.stringify(SEED_VDR_DATA[roomId]));
+  }
   return {
     id: roomId,
     name: roomName,
