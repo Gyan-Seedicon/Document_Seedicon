@@ -274,5 +274,18 @@ document.addEventListener('keydown', (e) => {
   }
   if (e.key === 'Escape') {
     window.closeModal();
+    if (typeof window.closeProductAnalyticsDrawer === 'function') {
+      window.closeProductAnalyticsDrawer();
+    }
   }
 });
+
+/* ──────────────────────────────────────────────────────────────────────────
+   10. GLOBAL PRODUCT ANALYTICS DRAWER COMPONENT
+   ────────────────────────────────────────────────────────────────────────── */
+window.openProductAnalyticsDrawer = window.openProductAnalyticsDrawer || function(productId = 'junify') {
+  if (typeof window.ensureProductAnalyticsDrawerInDOM === 'function') {
+    window.ensureProductAnalyticsDrawerInDOM();
+  }
+};
+

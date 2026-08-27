@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Funding Application Review — Junify Inc. | Seedicon</title>
+  <meta name="description" content="Status and overview of your submitted venture funding application on Seedicon." />
+
+  <!-- Google Font: Outfit ONLY -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Funding Requests Stylesheet -->
+  <link rel="stylesheet" href="./css/funding-requests.css" />
+</head>
+
+<body>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       01. EXACT NAVIGATION HEADER
+       ────────────────────────────────────────────────────────────────────────── -->
+  <header class="pub-header">
+    <div class="pub-header-inner">
+      
+      <!-- Left: Brand Logo & Navigation Links Grouped Together -->
+      <div class="pub-header-left">
+        <a href="./index.html" class="pub-brand" title="Seedicon Home">
+          <div class="pub-brand-logo">
+            <i data-lucide="asterisk" style="width:17px; height:17px; stroke-width:2.8;"></i>
+          </div>
+          <span class="pub-brand-title">Seedicon</span>
+        </a>
+
+        <!-- Center: Nav Items List -->
+        <nav>
+          <ul class="pub-nav-center">
+            
+            <!-- 1. Capital -->
+            <li class="pub-nav-item">
+              <a href="./index.html" class="pub-nav-link" title="Seedicon Capital Solutions">
+                <span>Capital</span>
+              </a>
+            </li>
+
+            <!-- 2. Products -->
+            <li class="pub-nav-item">
+              <a href="./public-product-listing.html" class="pub-nav-link" title="Seedicon Product Ecosystem">
+                <span>Products</span>
+                <i data-lucide="chevron-down" class="pub-nav-chevron"></i>
+              </a>
+
+              <!-- Popover Dropdown Menu -->
+              <div class="products-dropdown-menu">
+                <div class="dropdown-menu-head">
+                  <span class="dropdown-menu-label">Seedicon products</span>
+                  <span class="dropdown-menu-count">4 Modules</span>
+                </div>
+                
+                <a href="../lofi-founder/deckwale.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="sparkles" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Deckwale</span>
+                      <span class="badge-tag-pill">PRO</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Expert pitch storytelling, visual decks &amp; venture models.</div>
+                  </div>
+                </a>
+
+                <a href="../lofi-founder/watch-data-rooms.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="folder-lock" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Watch</span>
+                      <span class="badge-tag-pill">VDR</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Secure virtual data rooms &amp; diligence audit monitoring.</div>
+                  </div>
+                </a>
+
+                <a href="../lofi-founder/founder-network.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="users" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Allbuddy</span>
+                      <span class="badge-tag-pill">NETWORK</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Verified founder, advisor &amp; angel network directory.</div>
+                  </div>
+                </a>
+
+                <div class="dropdown-product-row coming-soon-row" title="Crusrource is currently in active private preview">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="compass" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Crusrource</span>
+                      <span class="badge-tag-pill">SOON</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Curated startup scouting, talent &amp; deal syndication.</div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- 3. Trade -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/real-market-problems.html" class="pub-nav-link" title="Secondary &amp; Asset Trading">
+                <span>Trade</span>
+              </a>
+            </li>
+
+            <!-- 4. Partner with us -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/investor-tracking.html" class="pub-nav-link" title="Syndicate &amp; Venture Partners">
+                <span>Partner with us</span>
+              </a>
+            </li>
+
+            <!-- 5. Insights -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/startup-news.html" class="pub-nav-link" title="Venture Intelligence &amp; Market Research">
+                <span>Insights</span>
+              </a>
+            </li>
+
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Right: Search + Apply for funding + List your product + Avatar -->
+      <div class="pub-header-right">
+        
+        <div class="pub-header-search-wrap">
+          <i data-lucide="search" class="pub-header-search-icon"></i>
+          <input type="text" class="pub-header-search-input" placeholder="Search..." onkeydown="if(event.key==='Enter') window.location.href='./public-product-listing.html'" />
+        </div>
+
+        <a href="./apply-funding.html" class="pub-btn-funding" title="Apply for venture funding">
+          <i data-lucide="banknote" style="width:13.5px; height:13.5px;"></i>
+          <span>Apply for funding</span>
+        </a>
+
+        <a href="./list-product.html" class="pub-btn-list-product" title="List your product">
+          <i data-lucide="plus" style="width:14px; height:14px;"></i>
+          <span>List your product</span>
+        </a>
+
+        <!-- User Avatar Dropdown -->
+        <div class="pub-avatar-container">
+          <button type="button" class="pub-avatar-btn" id="pubUserAvatarBtn" onclick="toggleUserDropdown(event)" title="User Account">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="Gyan Sharma" class="pub-avatar-img" />
+          </button>
+
+          <div class="pub-user-menu" id="pubUserMenu">
+            <div class="pub-user-menu-head" onclick="window.location.href='./profile.html'" style="cursor:pointer;" title="View Gyan Sharma's profile">
+              <div class="pub-user-menu-user-row">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="Gyan Sharma" class="pub-user-menu-avatar" />
+                <div class="pub-user-menu-info">
+                  <div class="pub-user-menu-name" id="pubUserNameDisplay">Gyan Sharma</div>
+                  <div class="pub-user-menu-email" id="pubUserEmailDisplay" style="font-size:11.5px; color:var(--fr-text-muted);">gyan.sharma@seedicon.com</div>
+                </div>
+              </div>
+
+              <div class="pub-profile-progress-wrap" style="margin-top:10px;">
+                <div class="pub-profile-progress-label" style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:700; color:var(--fr-text-dark); margin-bottom:4px;">
+                  <span>Profile completion</span>
+                  <span style="font-weight:800;">100%</span>
+                </div>
+                <div class="pub-profile-progress-bar" style="height:5px; background:#E5E7EB; border-radius:9999px; overflow:hidden;">
+                  <div class="pub-profile-progress-fill" style="width:100%; height:100%; background:#111827;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Menu Options -->
+            <a href="./profile.html" class="pub-user-menu-link" onclick="window.location.href='./profile.html'">
+              <i data-lucide="user" style="width:14px; height:14px;"></i>
+              <span>Profile</span>
+            </a>
+            <a href="./network.html" class="pub-user-menu-link" onclick="window.location.href='./network.html'">
+              <i data-lucide="settings" style="width:14px; height:14px;"></i>
+              <span>Settings</span>
+            </a>
+            <a href="./my-products.html" class="pub-user-menu-link" onclick="window.location.href='./my-products.html'">
+              <i data-lucide="package" style="width:14px; height:14px;"></i>
+              <span>My products</span>
+            </a>
+            <a href="./funding-requests.html" class="pub-user-menu-link active" onclick="window.location.href='./funding-requests.html'">
+              <i data-lucide="banknote" style="width:14px; height:14px;"></i>
+              <span>Funding requests</span>
+            </a>
+
+            <div style="height:1px; background:var(--fr-border-subtle); margin:4px 0;"></div>
+
+            <!-- Workspaces -->
+            <a href="./network.html" class="pub-user-menu-link" onclick="window.location.href='./network.html'">
+              <i data-lucide="layout-dashboard" style="width:14px; height:14px;"></i>
+              <span>Founder Workspace</span>
+            </a>
+            <a href="../lofi-investor/index.html" class="pub-user-menu-link" onclick="window.location.href='../lofi-investor/index.html'">
+              <i data-lucide="trending-up" style="width:14px; height:14px;"></i>
+              <span>Investor Workspace</span>
+            </a>
+
+            <div style="height:1px; background:var(--fr-border-subtle); margin:4px 0;"></div>
+
+            <a href="./index.html" class="pub-user-menu-link" style="color:#DC2626;" onclick="handleLogout()">
+              <i data-lucide="log-out" style="width:14px; height:14px;"></i>
+              <span>Sign out</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       02. MAIN FUNDING REQUESTS CONTAINER (SURFACE LAYOUT)
+       ────────────────────────────────────────────────────────────────────────── -->
+  <main class="fr-page-container">
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         TOP SURFACE HEADER (IDENTITY, REVIEW STATUS & SNAPSHOT METRICS)
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <div class="fr-surface-header-block">
+      
+      <!-- Top Row: Identity + Status Badge + Action Buttons -->
+      <div class="fr-header-main-row">
+        
+        <div class="fr-header-left-identity">
+          <img src="https://www.google.com/s2/favicons?domain=junify.io&sz=128" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=Junify'" alt="Junify Inc." class="fr-company-logo" />
+          <div class="fr-company-title-block">
+            <div class="fr-title-badge-row">
+              <h1 class="fr-company-name">Junify Inc.</h1>
+              <span class="fr-status-pill-pulse">
+                <span class="fr-pulse-dot"></span>
+                <span>Under investment committee review</span>
+              </span>
+            </div>
+            <p class="fr-company-meta-sub">Application #FR-2026-8910 • Submitted on 22 Aug 2026 by <strong>Gyan Sharma (CEO)</strong></p>
+          </div>
+        </div>
+
+        <div class="fr-header-actions">
+          <button type="button" class="fr-btn-secondary" onclick="showToast('Downloading verified funding application PDF...')">
+            <i data-lucide="download" style="width:14px; height:14px;"></i>
+            <span>Export application PDF</span>
+          </button>
+          
+          <button type="button" class="fr-btn-secondary" onclick="showToast('Opening deal manager communication channel...')">
+            <i data-lucide="message-circle" style="width:14px; height:14px;"></i>
+            <span>Contact deal manager</span>
+          </button>
+
+          <a href="./apply-funding.html" class="fr-btn-primary">
+            <i data-lucide="edit-3" style="width:14px; height:14px;"></i>
+            <span>Edit application</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Committee Status Notice Box (Minimal & Direct) -->
+      <div class="fr-surface-notice-box">
+        <i data-lucide="info" class="fr-notice-icon" style="width:16px; height:16px;"></i>
+        <div>
+          Our investment committee is reviewing your application. We will reach out to <strong>gyan.sharma@seedicon.com</strong> within <strong>3–5 business days</strong> with next steps.
+        </div>
+      </div>
+
+      <!-- Key Fundraising Metrics Snapshot Row (Sentence Case & Clean Surface) -->
+      <div class="fr-surface-metrics-row">
+        <div class="fr-metric-item">
+          <span class="fr-metric-label">Target round</span>
+          <span class="fr-metric-val">$1,500,000</span>
+          <span class="fr-metric-sub">Seed round (SAFE)</span>
+        </div>
+
+        <div class="fr-metric-item">
+          <span class="fr-metric-label">Pre-money valuation</span>
+          <span class="fr-metric-val">$8,000,000</span>
+          <span class="fr-metric-sub">20% valuation cap</span>
+        </div>
+
+        <div class="fr-metric-item">
+          <span class="fr-metric-label">Annual recurring revenue</span>
+          <span class="fr-metric-val">$1,200,000</span>
+          <span class="fr-metric-sub">ARR ($100K MRR)</span>
+        </div>
+
+        <div class="fr-metric-item">
+          <span class="fr-metric-label">YoY growth</span>
+          <span class="fr-metric-val">+142%</span>
+          <span class="fr-metric-sub">128% net retention</span>
+        </div>
+
+        <div class="fr-metric-item">
+          <span class="fr-metric-label">Committed so far</span>
+          <span class="fr-metric-val">$450,000</span>
+          <span class="fr-metric-sub">30% of target filled</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         03. 2-COLUMN APPLICATION DATA (ALL 14 SECTIONS ON SURFACE)
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <div class="fr-content-layout">
+      
+      <!-- Minimal Sticky Left Index Sidebar -->
+      <aside class="fr-nav-sidebar" aria-label="Application sections">
+        <div class="fr-nav-sidebar-title">Application sections</div>
+        
+        <button type="button" class="fr-nav-link-btn active" onclick="scrollToSection('sec-1', this)">
+          <span>1. Company overview</span>
+          <i data-lucide="check" class="fr-nav-step-check"></i>
+        </button>
+
+        <button type="button" class="fr-nav-link-btn" onclick="scrollToSection('sec-2', this)">
+          <span>2. Founding team</span>
+          <i data-lucide="check" class="fr-nav-step-check"></i>
+        </button>
+
+        <button type="button" class="fr-nav-link-btn" onclick="scrollToSection('sec-3', this)">
+          <span>3. Problem &amp; solution</span>
+          <i data-lucide="check" class="fr-nav-step-check"></i>
+        </button>
+
+        <button type="button" class="fr-nav-link-btn" onclick="scrollToSection('sec-4', this)">
+          <span>4. Product &amp; tech</span>
+          <i data-lucide="check" class="fr-nav-step-check"></i>
+        </button>
+
+        <button type="button" class="fr-nav-link-btn" onclick="scrollToSection('sec-5', this)">
+          <span>5. Traction &amp; metrics</span>
+          <i data-lucide="check" class="fr-nav-step-check"></i>
+        </button>
+
+        <button type="button" class="fr-nav-link-btn" onclick="scrollToSection('sec-6', this)">
+          <span>6. Financials</span>
+          <i data-lucide="check" class="fr-nav-step-check"></i>
+        </button>
+
+        <button type="button" class="fr-nav-link-btn" onclick="scrollToSection('sec-7', this)">
+          <span>7. Market opportunity</span>
+          <i data-lucide="check" class="fr-nav-step-check"></i>
+        </button>
+
+        <button type="button" class="fr-nav-link-btn" onclick="scrollToSection('sec-8', this)">
+          <span>8. Competition &amp; moat</span>
+          <i data-lucide="check" class="fr-nav-step-check"></i>
+        </button>
+
+        <button type="button" class="fr-nav-link-btn" onclick="scrollToSection('sec-9', this)">
+          <span>9. Fundraising details</span>
+          <i data-lucide="check" class="fr-nav-step-check"></i>
+        </button>
+
+        <button type="button" class="fr-nav-link-btn" onclick="scrollToSection('sec-10', this)">
+          <span>10. Use of funds</span>
+          <i data-lucide="check" class="fr-nav-step-check"></i>
+        </button>
+
+        <button type="button" class="fr-nav-link-btn" onclick="scrollToSection('sec-11', this)">
+          <span>11. Ownership &amp; legal</span>
+          <i data-lucide="check" class="fr-nav-step-check"></i>
+        </button>
+
+        <button type="button" class="fr-nav-link-btn" onclick="scrollToSection('sec-12', this)">
+          <span>12. Documents &amp; VDR</span>
+          <i data-lucide="check" class="fr-nav-step-check"></i>
+        </button>
+
+        <button type="button" class="fr-nav-link-btn" onclick="scrollToSection('sec-13', this)">
+          <span>13. Contact &amp; prefs</span>
+          <i data-lucide="check" class="fr-nav-step-check"></i>
+        </button>
+
+        <button type="button" class="fr-nav-link-btn" onclick="scrollToSection('sec-14', this)">
+          <span>14. Declaration</span>
+          <i data-lucide="check" class="fr-nav-step-check"></i>
+        </button>
+      </aside>
+
+      <!-- Right Application Sections (Surface Blocks) -->
+      <div class="fr-sections-main">
+        
+        <!-- SECTION 1: COMPANY OVERVIEW -->
+        <section class="fr-section-surface-block" id="sec-1">
+          <div class="fr-section-head">
+            <div class="fr-section-title-wrap">
+              <span class="fr-section-num">1.</span>
+              <h2 class="fr-section-title">Company overview</h2>
+            </div>
+            <span class="fr-section-status-tag"><i data-lucide="check" style="width:12px; height:12px;"></i> Verified</span>
+          </div>
+
+          <div class="fr-data-grid">
+            <div class="fr-data-item">
+              <span class="fr-data-label">Legal registered entity</span>
+              <span class="fr-data-value">Junify Inc.</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Incorporation &amp; domicile</span>
+              <span class="fr-data-value">Delaware C-Corporation (United States)</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Headquarters</span>
+              <span class="fr-data-value">San Francisco, California</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Official website</span>
+              <span class="fr-data-value"><a href="https://junify.io" target="_blank">https://junify.io ↗</a></span>
+            </div>
+
+            <div class="fr-data-item full-width">
+              <span class="fr-data-label">One-line pitch</span>
+              <div class="fr-data-box">
+                Next-generation multi-tenant e-commerce SaaS helping global consumer brands scale cross-border storefronts and checkout workflows with unified ledger infrastructure.
+              </div>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Primary sector</span>
+              <span class="fr-data-value">B2B SaaS · Enterprise Commerce</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Business model</span>
+              <span class="fr-data-value">SaaS Tiered Subscription + 1.2% GMV Processing Take-Rate</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 2: FOUNDING TEAM -->
+        <section class="fr-section-surface-block" id="sec-2">
+          <div class="fr-section-head">
+            <div class="fr-section-title-wrap">
+              <span class="fr-section-num">2.</span>
+              <h2 class="fr-section-title">Founding team &amp; leadership</h2>
+            </div>
+            <span class="fr-section-status-tag"><i data-lucide="check" style="width:12px; height:12px;"></i> Verified</span>
+          </div>
+
+          <div class="fr-team-grid">
+            <div class="fr-team-card">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" class="fr-team-avatar" alt="Gyan Sharma" />
+              <div class="fr-team-info">
+                <span class="fr-team-name">Gyan Sharma</span>
+                <span class="fr-team-role">Founder &amp; CEO (Ex-Stripe Architect)</span>
+                <span style="font-size:11.5px; color:var(--fr-text-muted);"><a href="https://linkedin.com/in/gyansharma" target="_blank">LinkedIn Profile ↗</a></span>
+              </div>
+            </div>
+
+            <div class="fr-team-card">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=96&h=96&fit=crop&crop=faces" class="fr-team-avatar" alt="Sarah Jenkins" />
+              <div class="fr-team-info">
+                <span class="fr-team-name">Sarah Jenkins</span>
+                <span class="fr-team-role">Co-Founder &amp; CTO (Ex-Shopify Staff Eng)</span>
+                <span style="font-size:11.5px; color:var(--fr-text-muted);"><a href="https://linkedin.com/in/sarahjenkins" target="_blank">LinkedIn Profile ↗</a></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fr-data-grid" style="margin-top:8px;">
+            <div class="fr-data-item">
+              <span class="fr-data-label">Total full-time headcount</span>
+              <span class="fr-data-value">12 Full-Time Employees (8 Engineers)</span>
+            </div>
+            <div class="fr-data-item">
+              <span class="fr-data-label">Team prior exits</span>
+              <span class="fr-data-value">2 Prior Startup Acquisitions</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 3: PROBLEM & SOLUTION -->
+        <section class="fr-section-surface-block" id="sec-3">
+          <div class="fr-section-head">
+            <div class="fr-section-title-wrap">
+              <span class="fr-section-num">3.</span>
+              <h2 class="fr-section-title">Problem &amp; solution</h2>
+            </div>
+            <span class="fr-section-status-tag"><i data-lucide="check" style="width:12px; height:12px;"></i> Verified</span>
+          </div>
+
+          <div class="fr-data-grid">
+            <div class="fr-data-item full-width">
+              <span class="fr-data-label">Core market problem</span>
+              <div class="fr-data-box">
+                Legacy enterprise commerce platforms suffer from high latency (>2.4s page load), fragmented regional inventories, and brittle custom middleware that costs brands over $250K annually in maintenance.
+              </div>
+            </div>
+
+            <div class="fr-data-item full-width">
+              <span class="fr-data-label">Proprietary solution</span>
+              <div class="fr-data-box">
+                Junify delivers an edge-native multi-tenant commerce engine with sub-50ms global response times, automated tax compliance across 140 countries, and unified real-time ledger accounting.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 4: PRODUCT & TECHNOLOGY -->
+        <section class="fr-section-surface-block" id="sec-4">
+          <div class="fr-section-head">
+            <div class="fr-section-title-wrap">
+              <span class="fr-section-num">4.</span>
+              <h2 class="fr-section-title">Product &amp; technology stack</h2>
+            </div>
+            <span class="fr-section-status-tag"><i data-lucide="check" style="width:12px; height:12px;"></i> Verified</span>
+          </div>
+
+          <div class="fr-data-grid">
+            <div class="fr-data-item">
+              <span class="fr-data-label">Core tech stack</span>
+              <span class="fr-data-value">Rust, Next.js, Cloudflare Workers, PostgreSQL, Kafka</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">IP &amp; patents</span>
+              <span class="fr-data-value">Patent Pending (#US-2026-0182) Distributed Ledger Sync</span>
+            </div>
+
+            <div class="fr-data-item full-width">
+              <span class="fr-data-label">Deployment architecture</span>
+              <span class="fr-data-value">SOC-2 Type II Certified, Multi-Region Active-Active High Availability (99.99% SLA)</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 5: TRACTION & METRICS -->
+        <section class="fr-section-surface-block" id="sec-5">
+          <div class="fr-section-head">
+            <div class="fr-section-title-wrap">
+              <span class="fr-section-num">5.</span>
+              <h2 class="fr-section-title">Traction &amp; performance metrics</h2>
+            </div>
+            <span class="fr-section-status-tag"><i data-lucide="check" style="width:12px; height:12px;"></i> Verified</span>
+          </div>
+
+          <div class="fr-data-grid">
+            <div class="fr-data-item">
+              <span class="fr-data-label">Annual recurring revenue</span>
+              <span class="fr-data-value">$1,200,000 ($100,000 MRR)</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">YoY revenue growth rate</span>
+              <span class="fr-data-value">+142% Year-over-Year</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Active paying enterprise brands</span>
+              <span class="fr-data-value">64 Customers (including 3 Fortune 500 pilots)</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Net revenue retention</span>
+              <span class="fr-data-value">128% (Negative Churn)</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Gross margin</span>
+              <span class="fr-data-value">82%</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Gross merchandise value (GMV)</span>
+              <span class="fr-data-value">$48M Processed LTM</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 6: FINANCIALS & UNIT ECONOMICS -->
+        <section class="fr-section-surface-block" id="sec-6">
+          <div class="fr-section-head">
+            <div class="fr-section-title-wrap">
+              <span class="fr-section-num">6.</span>
+              <h2 class="fr-section-title">Financials &amp; unit economics</h2>
+            </div>
+            <span class="fr-section-status-tag"><i data-lucide="check" style="width:12px; height:12px;"></i> Verified</span>
+          </div>
+
+          <div class="fr-data-grid">
+            <div class="fr-data-item">
+              <span class="fr-data-label">Customer acquisition cost (CAC)</span>
+              <span class="fr-data-value">$4,200 (Blended)</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Customer lifetime value (LTV)</span>
+              <span class="fr-data-value">$48,000 (LTV / CAC = 11.4x)</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Monthly net burn rate</span>
+              <span class="fr-data-value">$42,000 / month</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Current cash runway</span>
+              <span class="fr-data-value">14 Months ($588,000 in bank)</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 7: MARKET OPPORTUNITY -->
+        <section class="fr-section-surface-block" id="sec-7">
+          <div class="fr-section-head">
+            <div class="fr-section-title-wrap">
+              <span class="fr-section-num">7.</span>
+              <h2 class="fr-section-title">Market opportunity (TAM / SAM / SOM)</h2>
+            </div>
+            <span class="fr-section-status-tag"><i data-lucide="check" style="width:12px; height:12px;"></i> Verified</span>
+          </div>
+
+          <div class="fr-data-grid">
+            <div class="fr-data-item">
+              <span class="fr-data-label">Total addressable market (TAM)</span>
+              <span class="fr-data-value">$42.8B Global Headless &amp; Multi-Tenant Commerce</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Serviceable available market (SAM)</span>
+              <span class="fr-data-value">$12.4B Mid-Market &amp; Enterprise Cross-Border SaaS</span>
+            </div>
+
+            <div class="fr-data-item full-width">
+              <span class="fr-data-label">Serviceable obtainable market (SOM)</span>
+              <span class="fr-data-value">$1.2B (Targeting 10% market share in 4 years)</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 8: COMPETITION & DEFENSIVE MOATS -->
+        <section class="fr-section-surface-block" id="sec-8">
+          <div class="fr-section-head">
+            <div class="fr-section-title-wrap">
+              <span class="fr-section-num">8.</span>
+              <h2 class="fr-section-title">Competition &amp; defensible moats</h2>
+            </div>
+            <span class="fr-section-status-tag"><i data-lucide="check" style="width:12px; height:12px;"></i> Verified</span>
+          </div>
+
+          <div class="fr-data-grid">
+            <div class="fr-data-item full-width">
+              <span class="fr-data-label">Direct competitors</span>
+              <span class="fr-data-value">Shopify Plus, commercetools, BigCommerce Enterprise</span>
+            </div>
+
+            <div class="fr-data-item full-width">
+              <span class="fr-data-label">Unfair advantages &amp; moats</span>
+              <div class="fr-data-box">
+                1. 4x faster page-speed rendering via serverless edge ledger.<br />
+                2. 50% lower implementation cost with zero required middleware.<br />
+                3. Native automated FX &amp; tax settlements without third-party vendor markups.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 9: FUNDRAISING ASK & TERMS -->
+        <section class="fr-section-surface-block" id="sec-9">
+          <div class="fr-section-head">
+            <div class="fr-section-title-wrap">
+              <span class="fr-section-num">9.</span>
+              <h2 class="fr-section-title">Fundraising round &amp; terms</h2>
+            </div>
+            <span class="fr-section-status-tag"><i data-lucide="check" style="width:12px; height:12px;"></i> Verified</span>
+          </div>
+
+          <div class="fr-data-grid">
+            <div class="fr-data-item">
+              <span class="fr-data-label">Round size</span>
+              <span class="fr-data-value">$1,500,000 USD</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Investment instrument</span>
+              <span class="fr-data-value">Post-Money Y-Combinator SAFE</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Valuation cap</span>
+              <span class="fr-data-value">$10,000,000 ($8M Pre-Money)</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Minimum allocation</span>
+              <span class="fr-data-value">$25,000 Ticket Size</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Capital committed</span>
+              <span class="fr-data-value">$450,000 (Lead syndicate terms agreed)</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Target close date</span>
+              <span class="fr-data-value">30 October 2026</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 10: USE OF FUNDS -->
+        <section class="fr-section-surface-block" id="sec-10">
+          <div class="fr-section-head">
+            <div class="fr-section-title-wrap">
+              <span class="fr-section-num">10.</span>
+              <h2 class="fr-section-title">Use of funds plan</h2>
+            </div>
+            <span class="fr-section-status-tag"><i data-lucide="check" style="width:12px; height:12px;"></i> Verified</span>
+          </div>
+
+          <div class="fr-data-grid">
+            <div class="fr-data-item">
+              <span class="fr-data-label">Product &amp; AI engineering (50%)</span>
+              <span class="fr-data-value">$750,000 — Scale distributed Rust edge team</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Go-to-market &amp; enterprise sales (30%)</span>
+              <span class="fr-data-value">$450,000 — Expand US enterprise GTM pipeline</span>
+            </div>
+
+            <div class="fr-data-item full-width">
+              <span class="fr-data-label">Security, diligence &amp; working capital (20%)</span>
+              <span class="fr-data-value">$300,000 — Global compliance, regulatory licenses, and buffer</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 11: OWNERSHIP, CAP TABLE & LEGAL -->
+        <section class="fr-section-surface-block" id="sec-11">
+          <div class="fr-section-head">
+            <div class="fr-section-title-wrap">
+              <span class="fr-section-num">11.</span>
+              <h2 class="fr-section-title">Ownership &amp; cap table</h2>
+            </div>
+            <span class="fr-section-status-tag"><i data-lucide="check" style="width:12px; height:12px;"></i> Verified</span>
+          </div>
+
+          <div class="fr-data-grid">
+            <div class="fr-data-item">
+              <span class="fr-data-label">Founders equity</span>
+              <span class="fr-data-value">72% (Gyan Sharma 42%, Sarah Jenkins 30%)</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Employee option pool (ESOP)</span>
+              <span class="fr-data-value">15% Fully Allocated Pool</span>
+            </div>
+
+            <div class="fr-data-item full-width">
+              <span class="fr-data-label">Previous angel / pre-seed investors</span>
+              <span class="fr-data-value">13% ($350K raised in 2025 from Stripe Alumni Angels)</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 12: DOCUMENTS & VDR -->
+        <section class="fr-section-surface-block" id="sec-12">
+          <div class="fr-section-head">
+            <div class="fr-section-title-wrap">
+              <span class="fr-section-num">12.</span>
+              <h2 class="fr-section-title">Documents &amp; Virtual Data Room (VDR)</h2>
+            </div>
+            <span class="fr-section-status-tag"><i data-lucide="check" style="width:12px; height:12px;"></i> Verified</span>
+          </div>
+
+          <div class="fr-docs-list">
+            <div class="fr-doc-row">
+              <div class="fr-doc-left">
+                <i data-lucide="file-text" class="fr-doc-icon" style="width:16px; height:16px;"></i>
+                <div>
+                  <div class="fr-doc-name">Junify_PitchDeck_SeriesSeed_v4.pdf</div>
+                  <div class="fr-doc-size">PDF Document • 4.2 MB • Updated Aug 2026</div>
+                </div>
+              </div>
+              <span class="fr-doc-btn" onclick="showToast('Viewing Junify Pitch Deck preview...')">View deck</span>
+            </div>
+
+            <div class="fr-doc-row">
+              <div class="fr-doc-left">
+                <i data-lucide="file-spreadsheet" class="fr-doc-icon" style="color:#059669; width:16px; height:16px;"></i>
+                <div>
+                  <div class="fr-doc-name">Junify_Financial_Model_2026_Projections.xlsx</div>
+                  <div class="fr-doc-size">Financial Spreadsheet • 1.8 MB</div>
+                </div>
+              </div>
+              <span class="fr-doc-btn" onclick="showToast('Downloading financial projections model...')">Download</span>
+            </div>
+
+            <div class="fr-doc-row">
+              <div class="fr-doc-left">
+                <i data-lucide="lock" class="fr-doc-icon" style="color:#2563EB; width:16px; height:16px;"></i>
+                <div>
+                  <div class="fr-doc-name">Seedicon Watch Virtual Data Room (VDR)</div>
+                  <div class="fr-doc-size">14 Diligence Folders Connected &bull; Audit Trail Enabled</div>
+                </div>
+              </div>
+              <span class="fr-doc-btn" onclick="showToast('Opening Watch VDR diligence room...')">Open VDR</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 13: CONTACT & PREFERENCES -->
+        <section class="fr-section-surface-block" id="sec-13">
+          <div class="fr-section-head">
+            <div class="fr-section-title-wrap">
+              <span class="fr-section-num">13.</span>
+              <h2 class="fr-section-title">Investor preferences &amp; value-add</h2>
+            </div>
+            <span class="fr-section-status-tag"><i data-lucide="check" style="width:12px; height:12px;"></i> Verified</span>
+          </div>
+
+          <div class="fr-data-grid">
+            <div class="fr-data-item">
+              <span class="fr-data-label">Preferred investor types</span>
+              <span class="fr-data-value">SaaS VCs, Fintech Angels, Enterprise Operators</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Target geographies</span>
+              <span class="fr-data-value">United States, Europe, Singapore</span>
+            </div>
+
+            <div class="fr-data-item full-width">
+              <span class="fr-data-label">Desired strategic support</span>
+              <span class="fr-data-value">Enterprise GTM Introductions, Cross-Border Payments Strategy, Series A Prep</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 14: DECLARATION & SUBMIT -->
+        <section class="fr-section-surface-block" id="sec-14">
+          <div class="fr-section-head">
+            <div class="fr-section-title-wrap">
+              <span class="fr-section-num">14.</span>
+              <h2 class="fr-section-title">Legal declaration &amp; sign-off</h2>
+            </div>
+            <span class="fr-section-status-tag"><i data-lucide="shield-check" style="width:12px; height:12px;"></i> Certified</span>
+          </div>
+
+          <div class="fr-data-grid">
+            <div class="fr-data-item">
+              <span class="fr-data-label">Authorized signatory</span>
+              <span class="fr-data-value">Gyan Sharma, Chief Executive Officer</span>
+            </div>
+
+            <div class="fr-data-item">
+              <span class="fr-data-label">Signature timestamp</span>
+              <span class="fr-data-value">22 Aug 2026 at 14:32:08 PST</span>
+            </div>
+
+            <div class="fr-data-item full-width">
+              <span class="fr-data-label">Compliance certification</span>
+              <div class="fr-data-box" style="font-size:12.5px; color:var(--fr-text-muted);">
+                The authorized signatory certifies under penalty of perjury that all financial information, cap table disclosures, and product representations submitted in this fundraising application are true, accurate, and complete.
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast-alert" id="pubToast"></div>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       04. JAVASCRIPT LOGIC
+       ────────────────────────────────────────────────────────────────────────── -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      loadUserProfileHeader();
+    });
+
+    // Smooth scroll to section and update active sidebar button
+    function scrollToSection(secId, btnEl) {
+      const target = document.getElementById(secId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        document.querySelectorAll('.fr-nav-link-btn').forEach(b => b.classList.remove('active'));
+        if (btnEl) btnEl.classList.add('active');
+      }
+    }
+
+    // Scroll spy for sidebar links
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('.fr-section-surface-block');
+      let currentSecId = '';
+
+      sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if (top <= 120) {
+          currentSecId = sec.id;
+        }
+      });
+
+      if (currentSecId) {
+        const allBtns = document.querySelectorAll('.fr-nav-link-btn');
+        allBtns.forEach(btn => {
+          const isMatch = btn.getAttribute('onclick')?.includes(currentSecId);
+          btn.classList.toggle('active', isMatch);
+        });
+      }
+    });
+
+    // User Profile Data
+    function loadUserProfileHeader() {
+      try {
+        const stored = localStorage.getItem('seedicon_user');
+        if (stored) {
+          const user = JSON.parse(stored);
+          if (user.name) {
+            document.getElementById('pubUserNameDisplay').textContent = user.name;
+          }
+          if (user.email) {
+            document.getElementById('pubUserEmailDisplay').textContent = user.email;
+          }
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
+    // Dropdown Handlers
+    function toggleUserDropdown(e) {
+      e.stopPropagation();
+      const menu = document.getElementById('pubUserMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('pubUserMenu');
+      const btn = document.getElementById('pubUserAvatarBtn');
+      if (menu && menu.classList.contains('show')) {
+        if (!menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
+          menu.classList.remove('show');
+        }
+      }
+    });
+
+    function handleLogout() {
+      localStorage.removeItem('seedicon_user');
+      showToast('Signed out of Seedicon');
+    }
+
+    // Toast
+    function showToast(msg) {
+      const toast = document.getElementById('pubToast');
+      if (toast) {
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 3000);
+      }
+    }
+  </script>
+</body>
+</html>

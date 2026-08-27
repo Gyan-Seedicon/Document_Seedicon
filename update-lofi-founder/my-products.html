@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Products — Seedicon</title>
+  <meta name="description" content="Manage your startup listings, review submissions, and draft products on Seedicon." />
+
+  <!-- Google Font: Outfit ONLY -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- ApexCharts CDN for Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+  <!-- My Products Stylesheet -->
+  <link rel="stylesheet" href="./css/my-products.css" />
+
+  <!-- Reusable Product Analytics Drawer Stylesheet -->
+  <link rel="stylesheet" href="./css/product-analytics-drawer.css" />
+</head>
+
+<body>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       01. EXACT NAVIGATION HEADER
+       ────────────────────────────────────────────────────────────────────────── -->
+  <header class="pub-header">
+    <div class="pub-header-inner">
+      
+      <!-- Left: Brand Logo & Navigation Links Grouped Together -->
+      <div class="pub-header-left">
+        <a href="./index.html" class="pub-brand" title="Seedicon Home">
+          <div class="pub-brand-logo">
+            <i data-lucide="asterisk" style="width:17px; height:17px; stroke-width:2.8;"></i>
+          </div>
+          <span class="pub-brand-title">Seedicon</span>
+        </a>
+
+        <!-- Center: Nav Items List -->
+        <nav>
+          <ul class="pub-nav-center">
+            
+            <!-- 1. Capital -->
+            <li class="pub-nav-item">
+              <a href="./index.html" class="pub-nav-link" title="Seedicon Capital Solutions">
+                <span>Capital</span>
+              </a>
+            </li>
+
+            <!-- 2. Products -->
+            <li class="pub-nav-item">
+              <a href="./public-product-listing.html" class="pub-nav-link" title="Seedicon Product Ecosystem">
+                <span>Products</span>
+                <i data-lucide="chevron-down" class="pub-nav-chevron"></i>
+              </a>
+
+              <!-- Popover Dropdown Menu -->
+              <div class="products-dropdown-menu">
+                <div class="dropdown-menu-head">
+                  <span class="dropdown-menu-label">Seedicon Products</span>
+                  <span class="dropdown-menu-count">4 Modules</span>
+                </div>
+                
+                <a href="../lofi-founder/deckwale.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="sparkles" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Deckwale</span>
+                      <span class="badge-tag-pill">PRO</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Expert pitch storytelling, visual decks &amp; venture models.</div>
+                  </div>
+                </a>
+
+                <a href="../lofi-founder/watch-data-rooms.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="folder-lock" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Watch</span>
+                      <span class="badge-tag-pill">VDR</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Secure virtual data rooms &amp; diligence audit monitoring.</div>
+                  </div>
+                </a>
+
+                <a href="../lofi-founder/founder-network.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="users" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Allbuddy</span>
+                      <span class="badge-tag-pill">NETWORK</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Verified founder, advisor &amp; angel network directory.</div>
+                  </div>
+                </a>
+
+                <div class="dropdown-product-row coming-soon-row" title="Crusrource is currently in active private preview">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="compass" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Crusrource</span>
+                      <span class="badge-tag-pill">SOON</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Curated startup scouting, talent &amp; deal syndication.</div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- 3. Trade -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/real-market-problems.html" class="pub-nav-link" title="Secondary &amp; Asset Trading">
+                <span>Trade</span>
+              </a>
+            </li>
+
+            <!-- 4. Partner with us -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/investor-tracking.html" class="pub-nav-link" title="Syndicate &amp; Venture Partners">
+                <span>Partner with us</span>
+              </a>
+            </li>
+
+            <!-- 5. Insights -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/startup-news.html" class="pub-nav-link" title="Venture Intelligence &amp; Market Research">
+                <span>Insights</span>
+              </a>
+            </li>
+
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Right: Search + Apply for funding + List your product + Avatar -->
+      <div class="pub-header-right">
+        
+        <div class="pub-header-search-wrap">
+          <i data-lucide="search" class="pub-header-search-icon"></i>
+          <input type="text" id="pubNavSearchInput" class="pub-header-search-input" placeholder="Search..." onkeydown="if(event.key==='Enter') window.location.href='./public-product-listing.html'" />
+        </div>
+
+        <a href="./apply-funding.html" class="pub-btn-funding" title="Apply for venture funding">
+          <i data-lucide="banknote" style="width:13.5px; height:13.5px;"></i>
+          <span>Apply for funding</span>
+        </a>
+
+        <a href="./list-product.html" class="pub-btn-list-product" title="List your product">
+          <i data-lucide="plus" style="width:14px; height:14px;"></i>
+          <span>List your product</span>
+        </a>
+
+        <!-- User Avatar Dropdown -->
+        <div class="pub-avatar-container">
+          <button type="button" class="pub-avatar-btn" id="pubUserAvatarBtn" onclick="toggleUserDropdown(event)" title="User Account">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="Gyan Sharma" class="pub-avatar-img" id="pubNavAvatarImg" />
+          </button>
+
+          <div class="pub-user-menu" id="pubUserMenu">
+            <div class="pub-user-menu-head" onclick="window.location.href='./profile.html'" style="cursor:pointer;" title="View Gyan Sharma's profile">
+              <div class="pub-user-menu-user-row">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="Gyan Sharma" class="pub-user-menu-avatar" id="pubMenuAvatarImg" />
+                <div class="pub-user-menu-info">
+                  <div class="pub-user-menu-name" id="pubUserNameDisplay">Gyan Sharma</div>
+                  <div class="pub-user-email" id="pubUserEmailDisplay" style="font-size:11.5px; color:var(--pub-text-muted);">gyan.sharma@seedicon.com</div>
+                </div>
+              </div>
+
+              <!-- Profile Completion Progress Meter (inside dropdown) -->
+              <div class="pub-profile-progress-wrap" style="margin-top:10px;">
+                <div class="pub-profile-progress-label" style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:700; color:var(--pub-text-dark); margin-bottom:4px;">
+                  <span>Profile Completion</span>
+                  <span style="font-weight:800;">50%</span>
+                </div>
+                <div class="pub-profile-progress-bar" style="height:5px; background:#E5E7EB; border-radius:9999px; overflow:hidden;">
+                  <div class="pub-profile-progress-fill" style="width:50%; height:100%; background:#111827;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Menu Options: Profile, Settings, My Products, Funding requests -->
+            <a href="./profile.html" class="pub-user-menu-link">
+              <i data-lucide="user" style="width:14px; height:14px;"></i>
+              <span>Profile</span>
+            </a>
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="settings" style="width:14px; height:14px;"></i>
+              <span>Settings</span>
+            </a>
+            <a href="./my-products.html" class="pub-user-menu-link active">
+              <i data-lucide="package" style="width:14px; height:14px;"></i>
+              <span>My products</span>
+            </a>
+            <a href="./funding-requests.html" class="pub-user-menu-link" onclick="window.location.href='./funding-requests.html'">
+              <i data-lucide="banknote" style="width:14px; height:14px;"></i>
+              <span>Funding requests</span>
+            </a>
+
+            <div style="height:1px; background:var(--pub-border-subtle); margin:4px 0;"></div>
+
+            <!-- Workspaces: Founder & Investor -->
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="layout-dashboard" style="width:14px; height:14px;"></i>
+              <span>Founder Workspace</span>
+            </a>
+            <a href="../lofi-investor/index.html" class="pub-user-menu-link">
+              <i data-lucide="trending-up" style="width:14px; height:14px;"></i>
+              <span>Investor Workspace</span>
+            </a>
+
+            <div style="height:1px; background:var(--pub-border-subtle); margin:4px 0;"></div>
+
+            <a href="./index.html" class="pub-user-menu-link" style="color:#DC2626;" onclick="handleLogout()">
+              <i data-lucide="log-out" style="width:14px; height:14px;"></i>
+              <span>Sign out</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       02. MY PRODUCTS SURFACE CANVAS
+       ────────────────────────────────────────────────────────────────────────── -->
+  <main class="myproducts-page-container">
+
+    <!-- Header Title & Action Row -->
+    <div class="myproducts-header-row">
+      <div class="myproducts-title-group">
+        <h1 class="myproducts-title">My Products</h1>
+        <p class="myproducts-subtitle">Manage your startup listings, review submissions, and draft products.</p>
+      </div>
+
+      <a href="./list-product.html" class="myproducts-action-btn">
+        <i data-lucide="plus" style="width:15px; height:15px;"></i>
+        <span>List new product</span>
+      </a>
+    </div>
+
+    <!-- ──────────────────────────────────────────────────────────────────────────
+         03. NAVIGATION PILL TABS (DRAFT, UNDER REVIEW, POSTED)
+         ────────────────────────────────────────────────────────────────────────── -->
+    <nav class="myproducts-nav-tabs" aria-label="Products Status Filter">
+      <button type="button" class="myproducts-tab-btn active" onclick="switchProductTab('draft', this)">
+        <span>Draft</span>
+        <span class="tab-badge-count" id="badgeDraftCount">2</span>
+      </button>
+
+      <button type="button" class="myproducts-tab-btn" onclick="switchProductTab('review', this)">
+        <span>Under review</span>
+        <span class="tab-badge-count" id="badgeReviewCount">1</span>
+      </button>
+
+      <button type="button" class="myproducts-tab-btn" onclick="switchProductTab('posted', this)">
+        <span>Posted</span>
+        <span class="tab-badge-count" id="badgePostedCount">2</span>
+      </button>
+
+      <button type="button" class="myproducts-tab-btn" onclick="switchProductTab('rejected', this)">
+        <span>Rejected</span>
+        <span class="tab-badge-count" id="badgeRejectedCount">1</span>
+      </button>
+    </nav>
+
+    <!-- ──────────────────────────────────────────────────────────────────────────
+         TAB 1: DRAFT PRODUCTS (CARD UI: LOGO, NAME, CREATED ON, LAST EDITED ON, ACTIONS)
+         ────────────────────────────────────────────────────────────────────────── -->
+    <div class="myproducts-tab-pane active" id="pane-draft">
+      
+      <!-- Draft Card 1 -->
+      <div class="prod-card-item" id="draft-card-1">
+        <div class="prod-card-left">
+          <div class="prod-card-logo-wrap">
+            <img src="https://www.google.com/s2/favicons?domain=omnimail.ai&sz=128" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=OmniMail'" alt="OmniMail AI" class="prod-card-logo-img" />
+          </div>
+          <div class="prod-card-details">
+            <div class="prod-card-title-row">
+              <span class="prod-card-name">OmniMail AI</span>
+              <span class="prod-card-category">B2B SaaS · AI/ML</span>
+              <span class="status-pill draft">Draft • Step 4 of 9</span>
+            </div>
+            <p class="prod-card-tagline">Autonomous cold outreach agent with live CRM bidirectional sync.</p>
+            <div class="prod-card-meta-row">
+              <span class="prod-card-meta-item">
+                <i data-lucide="calendar" style="width:12px; height:12px;"></i>
+                <span>Created on: <strong>14 Aug 2026</strong></span>
+              </span>
+              <span>&bull;</span>
+              <span class="prod-card-meta-item">
+                <i data-lucide="clock" style="width:12px; height:12px;"></i>
+                <span>Last edited on: <strong>Yesterday, 4:20 PM</strong></span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card-actions">
+          <a href="./list-product.html" class="prod-btn-continue" title="Continue editing product draft">
+            <i data-lucide="edit-3" style="width:13px; height:13px;"></i>
+            <span>Continue editing</span>
+          </a>
+          <button type="button" class="prod-btn-delete" onclick="deleteProductCard('draft-card-1', 'draft')" title="Delete draft">
+            <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Draft Card 2 -->
+      <div class="prod-card-item" id="draft-card-2">
+        <div class="prod-card-left">
+          <div class="prod-card-logo-wrap">
+            <img src="https://www.google.com/s2/favicons?domain=ragflow.io&sz=128" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=RagFlow'" alt="RagFlow" class="prod-card-logo-img" />
+          </div>
+          <div class="prod-card-details">
+            <div class="prod-card-title-row">
+              <span class="prod-card-name">RagFlow Workspace</span>
+              <span class="prod-card-category">Developer Tools</span>
+              <span class="status-pill draft">Draft • Step 2 of 9</span>
+            </div>
+            <p class="prod-card-tagline">Deep-document indexing engine for enterprise knowledge discovery.</p>
+            <div class="prod-card-meta-row">
+              <span class="prod-card-meta-item">
+                <i data-lucide="calendar" style="width:12px; height:12px;"></i>
+                <span>Created on: <strong>21 Aug 2026</strong></span>
+              </span>
+              <span>&bull;</span>
+              <span class="prod-card-meta-item">
+                <i data-lucide="clock" style="width:12px; height:12px;"></i>
+                <span>Last edited on: <strong>3 hours ago</strong></span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card-actions">
+          <a href="./list-product.html" class="prod-btn-continue" title="Continue editing product draft">
+            <i data-lucide="edit-3" style="width:13px; height:13px;"></i>
+            <span>Continue editing</span>
+          </a>
+          <button type="button" class="prod-btn-delete" onclick="deleteProductCard('draft-card-2', 'draft')" title="Delete draft">
+            <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ──────────────────────────────────────────────────────────────────────────
+         TAB 2: UNDER REVIEW PRODUCTS (CARD UI: LOGO, NAME, STATUS, THREE DOTS EDIT/DELETE)
+         ────────────────────────────────────────────────────────────────────────── -->
+    <div class="myproducts-tab-pane" id="pane-review">
+      
+      <!-- Under Review Card 1 -->
+      <div class="prod-card-item" id="review-card-1">
+        <div class="prod-card-left">
+          <div class="prod-card-logo-wrap">
+            <img src="https://www.google.com/s2/favicons?domain=datasphere.tech&sz=128" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=DataSphere'" alt="DataSphere Vault" class="prod-card-logo-img" />
+          </div>
+          <div class="prod-card-details">
+            <div class="prod-card-title-row">
+              <span class="prod-card-name">DataSphere Vault</span>
+              <span class="prod-card-category">Security &amp; Privacy</span>
+              <span class="status-pill review">Product under review</span>
+            </div>
+            <p class="prod-card-tagline">Automated virtual data room with real-time audit trails &amp; NDA compliance.</p>
+            <div class="prod-card-meta-row">
+              <span class="prod-card-meta-item">
+                <i data-lucide="send" style="width:12px; height:12px;"></i>
+                <span>Submitted on: <strong>24 Aug 2026</strong></span>
+              </span>
+              <span>&bull;</span>
+              <span class="prod-card-meta-item">
+                <i data-lucide="clock" style="width:12px; height:12px;"></i>
+                <span>Estimated review time: <strong>~24 hours</strong></span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card-actions">
+          <button type="button" class="prod-dots-btn" onclick="toggleActionMenu(event, 'menu-review-1')" title="Submission Options">
+            <i data-lucide="more-vertical" style="width:15px; height:15px;"></i>
+          </button>
+
+          <!-- Dropdown Action Menu -->
+          <div class="prod-action-menu" id="menu-review-1">
+            <button type="button" class="prod-menu-item" onclick="window.location.href='./list-product.html'">
+              <i data-lucide="edit" style="width:13px; height:13px;"></i>
+              <span>Edit submission</span>
+            </button>
+            <button type="button" class="prod-menu-item" onclick="showToast('Diligence compliance review is in progress by the Seedicon Team.')">
+              <i data-lucide="info" style="width:13px; height:13px;"></i>
+              <span>View status details</span>
+            </button>
+            <div style="height:1px; background:#F3F4F6; margin:2px 0;"></div>
+            <button type="button" class="prod-menu-item danger" onclick="deleteProductCard('review-card-1', 'review')">
+              <i data-lucide="trash-2" style="width:13px; height:13px;"></i>
+              <span>Withdraw / Delete</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ──────────────────────────────────────────────────────────────────────────
+         TAB 3: POSTED / LIVE PRODUCTS (CARD UI: LOGO, NAME, TAGLINE, UPVOTES, THREE DOTS EDIT/DELETE)
+         ────────────────────────────────────────────────────────────────────────── -->
+    <div class="myproducts-tab-pane" id="pane-posted">
+      
+      <!-- Posted Card 1: Junify -->
+      <div class="prod-card-item" id="posted-card-1">
+        <div class="prod-card-left">
+          <div class="prod-card-logo-wrap">
+            <img src="https://www.google.com/s2/favicons?domain=junify.io&sz=128" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=Junify'" alt="Junify" class="prod-card-logo-img" />
+          </div>
+          <div class="prod-card-details">
+            <div class="prod-card-title-row">
+              <span class="prod-card-name">Junify</span>
+              <span class="prod-card-category">B2B SaaS</span>
+              <span class="status-pill published">🟢 Live on Marketplace</span>
+            </div>
+            <p class="prod-card-tagline">Multi-tenant e-commerce SaaS platform helping brands scale cross-border sales.</p>
+            <div class="prod-card-meta-row">
+              <span class="prod-card-meta-item">
+                <i data-lucide="trending-up" style="width:12px; height:12px;"></i>
+                <span>ARR: <strong>$1.2M</strong></span>
+              </span>
+              <span>&bull;</span>
+              <span class="prod-card-meta-item">
+                <i data-lucide="calendar" style="width:12px; height:12px;"></i>
+                <span>Published: <strong>12 Jun 2026</strong></span>
+              </span>
+              <span>&bull;</span>
+              <span class="prod-card-meta-item" style="color:var(--pub-text-dark); font-weight:700;">
+                <span>▲ 48 Upvotes</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card-actions">
+          <button type="button" class="prod-btn-analytics" onclick="openProductAnalyticsDrawer('junify')" title="View detailed traction analytics">
+            <i data-lucide="bar-chart-2" style="width:13px; height:13px;"></i>
+            <span>Analytics</span>
+          </button>
+          <a href="./product-detail.html" class="pub-btn-funding" style="height:34px; font-size:12px; text-decoration:none;" title="View Live Page">
+            <span>View page</span>
+          </a>
+          <button type="button" class="prod-dots-btn" onclick="toggleActionMenu(event, 'menu-posted-1')" title="Listing Actions">
+            <i data-lucide="more-vertical" style="width:15px; height:15px;"></i>
+          </button>
+
+          <!-- Dropdown Action Menu -->
+          <div class="prod-action-menu" id="menu-posted-1">
+            <button type="button" class="prod-menu-item" onclick="openProductAnalyticsDrawer('junify')">
+              <i data-lucide="bar-chart-2" style="width:13px; height:13px;"></i>
+              <span>View analytics</span>
+            </button>
+            <button type="button" class="prod-menu-item" onclick="window.location.href='./product-detail.html'">
+              <i data-lucide="external-link" style="width:13px; height:13px;"></i>
+              <span>View live page</span>
+            </button>
+            <button type="button" class="prod-menu-item" onclick="window.location.href='./list-product.html'">
+              <i data-lucide="edit" style="width:13px; height:13px;"></i>
+              <span>Edit product</span>
+            </button>
+            <div style="height:1px; background:#F3F4F6; margin:2px 0;"></div>
+            <button type="button" class="prod-menu-item danger" onclick="deleteProductCard('posted-card-1', 'posted')">
+              <i data-lucide="trash-2" style="width:13px; height:13px;"></i>
+              <span>Delete / Unpublish</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Posted Card 2: Viktor.com -->
+      <div class="prod-card-item" id="posted-card-2">
+        <div class="prod-card-left">
+          <div class="prod-card-logo-wrap">
+            <img src="https://www.google.com/s2/favicons?domain=viktor.ai&sz=128" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=Viktor'" alt="Viktor.com" class="prod-card-logo-img" />
+          </div>
+          <div class="prod-card-details">
+            <div class="prod-card-title-row">
+              <span class="prod-card-name">Viktor.com</span>
+              <span class="prod-card-category">AI / Coworker</span>
+              <span class="status-pill published">🟢 Live on Marketplace</span>
+            </div>
+            <p class="prod-card-tagline">An AI coworker that actually completes complex multi-app operational tasks.</p>
+            <div class="prod-card-meta-row">
+              <span class="prod-card-meta-item">
+                <i data-lucide="trending-up" style="width:12px; height:12px;"></i>
+                <span>ARR: <strong>$840K</strong></span>
+              </span>
+              <span>&bull;</span>
+              <span class="prod-card-meta-item">
+                <i data-lucide="calendar" style="width:12px; height:12px;"></i>
+                <span>Published: <strong>18 Jul 2026</strong></span>
+              </span>
+              <span>&bull;</span>
+              <span class="prod-card-meta-item" style="color:var(--pub-text-dark); font-weight:700;">
+                <span>▲ 696 Upvotes</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card-actions">
+          <button type="button" class="prod-btn-analytics" onclick="openProductAnalyticsDrawer('viktor')" title="View detailed traction analytics">
+            <i data-lucide="bar-chart-2" style="width:13px; height:13px;"></i>
+            <span>Analytics</span>
+          </button>
+          <a href="./product-detail.html" class="pub-btn-funding" style="height:34px; font-size:12px; text-decoration:none;" title="View Live Page">
+            <span>View page</span>
+          </a>
+          <button type="button" class="prod-dots-btn" onclick="toggleActionMenu(event, 'menu-posted-2')" title="Listing Actions">
+            <i data-lucide="more-vertical" style="width:15px; height:15px;"></i>
+          </button>
+
+          <!-- Dropdown Action Menu -->
+          <div class="prod-action-menu" id="menu-posted-2">
+            <button type="button" class="prod-menu-item" onclick="openProductAnalyticsDrawer('viktor')">
+              <i data-lucide="bar-chart-2" style="width:13px; height:13px;"></i>
+              <span>View analytics</span>
+            </button>
+            <button type="button" class="prod-menu-item" onclick="window.location.href='./product-detail.html'">
+              <i data-lucide="external-link" style="width:13px; height:13px;"></i>
+              <span>View live page</span>
+            </button>
+            <button type="button" class="prod-menu-item" onclick="window.location.href='./list-product.html'">
+              <i data-lucide="edit" style="width:13px; height:13px;"></i>
+              <span>Edit product</span>
+            </button>
+            <div style="height:1px; background:#F3F4F6; margin:2px 0;"></div>
+            <button type="button" class="prod-menu-item danger" onclick="deleteProductCard('posted-card-2', 'posted')">
+              <i data-lucide="trash-2" style="width:13px; height:13px;"></i>
+              <span>Delete / Unpublish</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ──────────────────────────────────────────────────────────────────────────
+         TAB 4: REJECTED PRODUCTS (CARD UI: LOGO, NAME, REJECTION REASON, GHOST CTA, THREE DOTS)
+         ────────────────────────────────────────────────────────────────────────── -->
+    <div class="myproducts-tab-pane" id="pane-rejected">
+      
+      <!-- Rejected Card 1: NovaSync AI -->
+      <div class="prod-card-item" id="rejected-card-1">
+        <div class="prod-card-left">
+          <div class="prod-card-logo-wrap">
+            <img src="https://www.google.com/s2/favicons?domain=novasync.io&sz=128" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=NovaSync'" alt="NovaSync AI" class="prod-card-logo-img" />
+          </div>
+          <div class="prod-card-details">
+            <div class="prod-card-title-row">
+              <span class="prod-card-name">NovaSync AI</span>
+              <span class="prod-card-category">Workflow Automation</span>
+              <span class="status-pill rejected">Product rejected</span>
+            </div>
+            <p class="prod-card-tagline">Autonomous database sync &amp; multi-cloud webhook dispatcher.</p>
+            <div class="prod-card-meta-row">
+              <span class="prod-card-meta-item">
+                <i data-lucide="alert-circle" style="width:12px; height:12px; color:#DC2626;"></i>
+                <span>Feedback sent via email</span>
+              </span>
+              <span>&bull;</span>
+              <span class="prod-card-meta-item">
+                <i data-lucide="calendar" style="width:12px; height:12px;"></i>
+                <span>Reviewed on: <strong>19 Aug 2026</strong></span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card-actions">
+          <!-- Ghost CTA to check rejection points on mail -->
+          <a href="mailto:gyan.sharma@seedicon.com?subject=Rejection%20Feedback%20-%20NovaSync%20AI" class="prod-btn-ghost" onclick="showToast('Opening rejection feedback email summary...')" title="Check feedback on mail">
+            <i data-lucide="mail" style="width:13.5px; height:13.5px;"></i>
+            <span>Check feedback on mail</span>
+          </a>
+
+          <button type="button" class="prod-dots-btn" onclick="toggleActionMenu(event, 'menu-rejected-1')" title="Listing Actions">
+            <i data-lucide="more-vertical" style="width:15px; height:15px;"></i>
+          </button>
+
+          <!-- Dropdown Action Menu -->
+          <div class="prod-action-menu" id="menu-rejected-1">
+            <button type="button" class="prod-menu-item" onclick="window.location.href='./list-product.html'">
+              <i data-lucide="refresh-cw" style="width:13px; height:13px;"></i>
+              <span>Edit &amp; resubmit</span>
+            </button>
+            <div style="height:1px; background:#F3F4F6; margin:2px 0;"></div>
+            <button type="button" class="prod-menu-item danger" onclick="deleteProductCard('rejected-card-1', 'rejected')">
+              <i data-lucide="trash-2" style="width:13px; height:13px;"></i>
+              <span>Delete listing</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast-alert" id="pubToast"></div>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       04. JAVASCRIPT LOGIC
+       ────────────────────────────────────────────────────────────────────────── -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      loadUserProfileHeader();
+    });
+
+    // Tab Switcher
+    function switchProductTab(tabKey, btnEl) {
+      const allBtns = document.querySelectorAll('.myproducts-tab-btn');
+      allBtns.forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+
+      const allPanes = document.querySelectorAll('.myproducts-tab-pane');
+      allPanes.forEach(p => p.classList.remove('active'));
+
+      const activePane = document.getElementById(`pane-${tabKey}`);
+      if (activePane) activePane.classList.add('active');
+
+      closeAllActionMenus();
+    }
+
+    // Toggle Three-Dots Action Menu
+    function toggleActionMenu(e, menuId) {
+      e.stopPropagation();
+      const menu = document.getElementById(menuId);
+      const isShowing = menu && menu.classList.contains('show');
+      closeAllActionMenus();
+      if (menu && !isShowing) {
+        menu.classList.add('show');
+      }
+    }
+
+    function closeAllActionMenus() {
+      document.querySelectorAll('.prod-action-menu').forEach(m => m.classList.remove('show'));
+    }
+
+    document.addEventListener('click', () => {
+      closeAllActionMenus();
+    });
+
+    // Delete Product Card Handler
+    function deleteProductCard(cardId, tabKey) {
+      const card = document.getElementById(cardId);
+      if (card) {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(-6px)';
+        card.style.transition = 'all 0.2s ease';
+        setTimeout(() => {
+          card.remove();
+          updateTabCounts();
+          showToast('Product listing removed');
+        }, 200);
+      }
+    }
+
+    // Update Counts per Tab
+    function updateTabCounts() {
+      const draftCount = document.querySelectorAll('#pane-draft .prod-card-item').length;
+      const reviewCount = document.querySelectorAll('#pane-review .prod-card-item').length;
+      const postedCount = document.querySelectorAll('#pane-posted .prod-card-item').length;
+      const rejectedCount = document.querySelectorAll('#pane-rejected .prod-card-item').length;
+
+      document.getElementById('badgeDraftCount').textContent = draftCount;
+      document.getElementById('badgeReviewCount').textContent = reviewCount;
+      document.getElementById('badgePostedCount').textContent = postedCount;
+      const badgeRej = document.getElementById('badgeRejectedCount');
+      if (badgeRej) badgeRej.textContent = rejectedCount;
+
+      // Empty states if 0
+      checkEmptyState('pane-draft', draftCount, 'No draft products', 'Drafts in progress will appear here.');
+      checkEmptyState('pane-review', reviewCount, 'No products under review', 'Submitted products undergoing diligence verification will appear here.');
+      checkEmptyState('pane-posted', postedCount, 'No published products', 'Your live published products on the Seedicon marketplace will appear here.');
+      checkEmptyState('pane-rejected', rejectedCount, 'No rejected products', 'Products requiring compliance or diligence revisions will appear here.');
+    }
+
+    function checkEmptyState(paneId, count, title, desc) {
+      const pane = document.getElementById(paneId);
+      if (count === 0 && pane && !pane.querySelector('.prod-empty-state')) {
+        pane.innerHTML = `
+          <div class="prod-empty-state">
+            <div class="prod-empty-icon"><i data-lucide="package" style="width:20px; height:20px;"></i></div>
+            <div class="prod-empty-title">${title}</div>
+            <div class="prod-empty-desc">${desc}</div>
+            <a href="./list-product.html" class="myproducts-action-btn" style="margin-top:6px;">
+              <i data-lucide="plus" style="width:14px; height:14px;"></i>
+              <span>List your product</span>
+            </a>
+          </div>
+        `;
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+    }
+
+    // Load User Profile Data
+    function loadUserProfileHeader() {
+      try {
+        const stored = localStorage.getItem('seedicon_user');
+        if (stored) {
+          const user = JSON.parse(stored);
+          if (user.name) {
+            document.getElementById('pubUserNameDisplay').textContent = user.name;
+          }
+          if (user.email) {
+            document.getElementById('pubUserEmailDisplay').textContent = user.email;
+          }
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
+    // User Dropdown Handlers
+    function toggleUserDropdown(e) {
+      e.stopPropagation();
+      const menu = document.getElementById('pubUserMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('pubUserMenu');
+      const btn = document.getElementById('pubUserAvatarBtn');
+      if (menu && menu.classList.contains('show')) {
+        if (!menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
+          menu.classList.remove('show');
+        }
+      }
+    });
+
+    function handleLogout() {
+      localStorage.removeItem('seedicon_user');
+      showToast('Signed out of Seedicon');
+    }
+
+    // Toast
+    function showToast(msg) {
+      const toast = document.getElementById('pubToast');
+      if (toast) {
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 3000);
+      }
+    }
+  </script>
+
+  <!-- Reusable Product Analytics Drawer Component -->
+  <script src="./js/product-analytics-drawer.js"></script>
+</body>
+</html>

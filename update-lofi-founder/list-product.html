@@ -197,19 +197,19 @@
             </div>
 
             <!-- Menu Options -->
-            <a href="./profile.html" class="pub-user-menu-link">
+            <a href="./profile.html" class="pub-user-menu-link" onclick="window.location.href='./profile.html'">
               <i data-lucide="user" style="width:14px; height:14px;"></i>
-              <span>My profile</span>
+              <span>Profile</span>
             </a>
-            <a href="./network.html" class="pub-user-menu-link">
+            <a href="./network.html" class="pub-user-menu-link" onclick="window.location.href='./network.html'">
               <i data-lucide="settings" style="width:14px; height:14px;"></i>
               <span>Settings</span>
             </a>
-            <a href="./network.html" class="pub-user-menu-link">
+            <a href="./my-products.html" class="pub-user-menu-link" onclick="window.location.href='./my-products.html'">
               <i data-lucide="package" style="width:14px; height:14px;"></i>
               <span>My products</span>
             </a>
-            <a href="./apply-funding.html" class="pub-user-menu-link">
+            <a href="./funding-requests.html" class="pub-user-menu-link" onclick="window.location.href='./funding-requests.html'">
               <i data-lucide="banknote" style="width:14px; height:14px;"></i>
               <span>Funding requests</span>
             </a>
@@ -217,11 +217,11 @@
             <div style="height:1px; background:var(--pub-border-subtle); margin:4px 0;"></div>
 
             <!-- Workspaces: Founder & Investor -->
-            <a href="./network.html" class="pub-user-menu-link">
+            <a href="./network.html" class="pub-user-menu-link" onclick="window.location.href='./network.html'">
               <i data-lucide="layout-dashboard" style="width:14px; height:14px;"></i>
               <span>Founder Workspace</span>
             </a>
-            <a href="../lofi-investor/index.html" class="pub-user-menu-link">
+            <a href="../lofi-investor/index.html" class="pub-user-menu-link" onclick="window.location.href='../lofi-investor/index.html'">
               <i data-lucide="trending-up" style="width:14px; height:14px;"></i>
               <span>Investor Workspace</span>
             </a>
@@ -317,10 +317,17 @@
             <h1 class="lp-panel-title" id="lpHeaderTitle">Product Description</h1>
           </div>
 
-          <!-- Autofill Flash Icon Button -->
-          <button type="button" class="lp-autofill-btn" onclick="autofillAllSteps()" title="Autofill with demo data" id="lpAutofillBtn">
-            <i data-lucide="zap" style="width:15px; height:15px;"></i>
-          </button>
+          <!-- Header Action Buttons: PH Import + Flash Autofill -->
+          <div class="lp-header-actions-group">
+            <button type="button" class="lp-btn-ph-import" onclick="openPhImportModal()" title="Import details from Product Hunt">
+              <span class="lp-ph-icon-mini">P</span>
+              <span>Import from Product Hunt</span>
+            </button>
+
+            <button type="button" class="lp-autofill-btn" onclick="autofillAllSteps()" title="Autofill with demo data" id="lpAutofillBtn">
+              <i data-lucide="zap" style="width:15px; height:15px;"></i>
+            </button>
+          </div>
         </div>
 
         <!-- Form Card Container -->
@@ -1008,6 +1015,11 @@
       if (typeof lucide !== 'undefined') lucide.createIcons();
       loadUserProfile();
       updateValidationAndSummary();
+
+      // Automatically show the Product Hunt import prompt when landing on the page
+      setTimeout(() => {
+        openPhImportModal();
+      }, 350);
     });
 
     // Step Switcher
@@ -1590,6 +1602,267 @@
     }
 
     // Toast
+    // ──────────────────────────────────────────────────────────────────────────
+    // Product Hunt Import Handlers
+    // ──────────────────────────────────────────────────────────────────────────
+    function openPhImportModal() {
+      const modal = document.getElementById('lpPhImportModal');
+      if (modal) modal.classList.add('show');
+    }
+
+    function closePhImportModal() {
+      const modal = document.getElementById('lpPhImportModal');
+      if (modal) modal.classList.remove('show');
+    }
+
+    function setPhPreset(name, url) {
+      const input = document.getElementById('lpPhUrlInput');
+      if (input) input.value = url;
+    }
+
+    function handleImportFromPH() {
+      const btn = document.getElementById('lpBtnPhConfirm');
+      const inputVal = document.getElementById('lpPhUrlInput')?.value?.trim() || 'https://www.producthunt.com/products/junify';
+      
+      // Loading state on button
+      if (btn) {
+        btn.innerHTML = `<i data-lucide="loader-2" class="spin" style="width:16px; height:16px; animation: spin 0.8s linear infinite;"></i> <span>Importing from Product Hunt...</span>`;
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+
+      setTimeout(() => {
+        // Step 1: Product Description (Junify from PH)
+        const nameEl = document.getElementById('lpProductName');
+        const shortEl = document.getElementById('lpShortDesc');
+        const detailEl = document.getElementById('lpDetailedDesc');
+
+        if (nameEl) {
+          nameEl.value = 'Junify';
+          handleCharCounter(nameEl, 'lpNameCounter', 50);
+        }
+        if (shortEl) {
+          shortEl.value = 'Multi-tenant e-commerce SaaS for launching scalable online storefronts';
+          handleCharCounter(shortEl, 'lpPitchCounter', 80);
+        }
+        if (detailEl) {
+          detailEl.value = 'Junify is an enterprise-grade multi-tenant e-commerce platform that enables high-growth consumer brands to scale localized cross-border stores with instant 50ms checkout, automatic tax compliance, and synchronized ledger infrastructure.';
+        }
+
+        // Logo
+        const preview = document.getElementById('lpLogoPreview');
+        const plus = document.getElementById('lpLogoPlus');
+        if (preview) {
+          preview.src = 'https://www.google.com/s2/favicons?domain=junify.io&sz=128';
+          preview.style.display = 'block';
+        }
+        if (plus) plus.style.display = 'none';
+
+        // Step 2: Details & Socials
+        const webEl = document.getElementById('lpWebsite');
+        const addrEl = document.getElementById('lpAddress');
+        const twEl = document.getElementById('lpSocialTwitter');
+        const fbEl = document.getElementById('lpSocialFacebook');
+        const liEl = document.getElementById('lpSocialLinkedIn');
+        const igEl = document.getElementById('lpSocialInstagram');
+        const ytEl = document.getElementById('lpSocialYouTube');
+
+        if (webEl) webEl.value = 'https://junify.io';
+        if (addrEl) addrEl.value = 'San Francisco, California, United States';
+        if (twEl) twEl.value = '@junifyhq';
+        if (fbEl) fbEl.value = '@junifycommerce';
+        if (liEl) liEl.value = 'junify';
+        if (igEl) igEl.value = '@junify.io';
+        if (ytEl) ytEl.value = '@junifyhq';
+
+        // Features
+        const featList = document.getElementById('lpFeaturesList');
+        if (featList) {
+          featList.innerHTML = `
+            <div class="lp-repeater-item">
+              <div class="lp-repeater-row">
+                <input type="text" class="lp-input feat-title" value="Edge-Native Multi-Tenant Architecture" />
+                <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove feature">
+                  <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                </button>
+              </div>
+              <input type="text" class="lp-input feat-desc" value="Sub-50ms worldwide checkout page rendering with serverless distributed ledger sync." />
+            </div>
+            <div class="lp-repeater-item">
+              <div class="lp-repeater-row">
+                <input type="text" class="lp-input feat-title" value="Automated Multi-Currency &amp; Tax Engine" />
+                <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove feature">
+                  <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                </button>
+              </div>
+              <input type="text" class="lp-input feat-desc" value="Compliant localized tax calculation, automatic FX settlement, and payouts across 140+ countries." />
+            </div>
+          `;
+        }
+
+        // Step 3: Media
+        const vidEl = document.getElementById('lpDemoVideo');
+        if (vidEl) vidEl.value = 'https://youtube.com/watch?v=dQw4w9WgXcQ';
+
+        const mockImages = [
+          'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=400&fit=crop&q=80'
+        ];
+        for (let i = 1; i <= 3; i++) {
+          const img = document.getElementById(`galImg${i}`);
+          const p = document.getElementById(`galPlus${i}`);
+          const lbl = document.getElementById(`galLabel${i}`);
+          const rem = document.getElementById(`galRem${i}`);
+          if (img) {
+            img.src = mockImages[i - 1];
+            img.style.display = 'block';
+          }
+          if (p) p.style.display = 'none';
+          if (lbl) lbl.style.display = 'none';
+          if (rem) rem.style.display = 'flex';
+        }
+
+        // Step 4: Integrations
+        const chips = document.querySelectorAll('#lpIntegrationsChipGroup .lp-chip');
+        chips.forEach((c, idx) => {
+          if ([0, 1, 2, 7, 9, 10, 11].includes(idx)) c.classList.add('selected');
+        });
+        const custInt = document.getElementById('lpCustomIntegrations');
+        if (custInt) custInt.value = 'Shopify, Webflow, BigCommerce, Cloudflare Workers';
+
+        // Step 5: Industry
+        const otherInd = document.getElementById('lpOtherIndustry');
+        if (otherInd) otherInd.value = 'Headless Enterprise Commerce & Payment Ledgers';
+
+        // Step 6: FAQs
+        const devStage = document.getElementById('lpDevStage');
+        if (devStage) devStage.value = 'Early Traction / Live in Production';
+
+        const f1 = document.getElementById('lpFaqProblem');
+        const f2 = document.getElementById('lpFaqAudience');
+        const f3 = document.getElementById('lpFaqUniqueness');
+        const f4 = document.getElementById('lpFaqBusinessModel');
+        const f5 = document.getElementById('lpFaqFuturePlans');
+        const f6 = document.getElementById('lpFaqUsage');
+
+        if (f1) f1.value = 'Legacy commerce platforms suffer from severe latency (>2.4s) and brittle custom middleware costing $250K+ annually.';
+        if (f2) f2.value = 'Fast-growing D2C brands, omnichannel retailers, and cross-border enterprise commerce teams.';
+        if (f3) f3.value = 'Proprietary edge ledger engine with 4x faster checkout rendering and automated multi-currency reconciliation.';
+        if (f4) f4.value = 'Tiered SaaS subscription ($99/mo Starter, $499/mo Enterprise) + 1.2% processing take-rate.';
+        if (f5) f5.value = 'Headless Mobile SDKs, AI dynamic localization for 40+ languages, and automated fulfillment routing.';
+        if (f6) f6.value = 'One-click self-serve signup, instant Stripe connection, and live storefront deployment in under 10 minutes.';
+
+        // Step 7: Pricing & Competitors
+        const plansList = document.getElementById('lpPlansList');
+        if (plansList) {
+          plansList.innerHTML = `
+            <div class="lp-repeater-item">
+              <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 140px 140px 32px; gap:10px; align-items:center;">
+                <input type="text" class="lp-input plan-name" value="Starter Storefront" />
+                <input type="text" class="lp-input plan-price" value="$99" />
+                <select class="lp-select plan-interval" style="height:40px;">
+                  <option value="/ month" selected>/ month</option>
+                  <option value="/ year">/ year</option>
+                  <option value="one-time">one-time</option>
+                  <option value="usage-based">usage-based</option>
+                  <option value="Free">Free</option>
+                </select>
+                <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove plan">
+                  <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                </button>
+              </div>
+              <input type="text" class="lp-input plan-features" value="Up to 3 Storefronts, 10,000 orders/mo, Standard Stripe checkout, 24/7 Support" />
+            </div>
+            <div class="lp-repeater-item">
+              <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 140px 140px 32px; gap:10px; align-items:center;">
+                <input type="text" class="lp-input plan-name" value="Enterprise Scale" />
+                <input type="text" class="lp-input plan-price" value="$499" />
+                <select class="lp-select plan-interval" style="height:40px;">
+                  <option value="/ month" selected>/ month</option>
+                  <option value="/ year">/ year</option>
+                  <option value="one-time">one-time</option>
+                  <option value="usage-based">usage-based</option>
+                  <option value="Free">Free</option>
+                </select>
+                <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove plan">
+                  <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                </button>
+              </div>
+              <input type="text" class="lp-input plan-features" value="Unlimited Storefronts, Dedicated Edge Nodes, SLA, Multi-currency settlements" />
+            </div>
+          `;
+        }
+
+        const compsList = document.getElementById('lpCompetitorsList');
+        if (compsList) {
+          compsList.innerHTML = `
+            <div class="lp-repeater-item">
+              <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 1.2fr 32px; gap:10px; align-items:center;">
+                <input type="text" class="lp-input comp-name" value="Shopify Plus" />
+                <input type="url" class="lp-input comp-url" value="https://shopify.com/plus" />
+                <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove competitor">
+                  <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                </button>
+              </div>
+            </div>
+            <div class="lp-repeater-item">
+              <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 1.2fr 32px; gap:10px; align-items:center;">
+                <input type="text" class="lp-input comp-name" value="commercetools" />
+                <input type="url" class="lp-input comp-url" value="https://commercetools.com" />
+                <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove competitor">
+                  <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        }
+
+        // Step 8: Links
+        const linksList = document.getElementById('lpLinksList');
+        if (linksList) {
+          linksList.innerHTML = `
+            <div class="lp-repeater-item">
+              <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 1.4fr 32px; gap:10px; align-items:center;">
+                <input type="text" class="lp-input link-name" value="Documentation" />
+                <input type="url" class="lp-input link-url" value="https://docs.junify.io" />
+                <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove link">
+                  <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                </button>
+              </div>
+            </div>
+            <div class="lp-repeater-item">
+              <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 1.4fr 32px; gap:10px; align-items:center;">
+                <input type="text" class="lp-input link-name" value="Product Hunt Launch" />
+                <input type="url" class="lp-input link-url" value="https://www.producthunt.com/products/junify" />
+                <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove link">
+                  <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        }
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        updateValidationAndSummary();
+
+        // Close Modal & Reset Button
+        closePhImportModal();
+        if (btn) {
+          btn.innerHTML = `<span class="lp-ph-icon-mini" style="width:18px; height:18px; font-size:11px;">P</span> <span>Import from Product Hunt</span>`;
+        }
+
+        showLpToast('✨ Successfully imported Junify details from Product Hunt!');
+
+        if (typeof confetti === 'function') {
+          confetti({
+            particleCount: 50,
+            spread: 65,
+            origin: { y: 0.25 }
+          });
+        }
+      }, 550);
+    }
+
     function showLpToast(msg) {
       const toast = document.getElementById('lpToast');
       if (toast) {
@@ -1601,6 +1874,49 @@
       }
     }
   </script>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       03b. PRODUCT HUNT IMPORT PROMPT MODAL
+       ────────────────────────────────────────────────────────────────────────── -->
+  <div class="lp-modal-overlay" id="lpPhImportModal">
+    <div class="lp-modal-card" style="max-width: 520px;">
+      
+      <div class="lp-modal-head">
+        <div>
+          <div class="lp-ph-badge">
+            <span class="lp-ph-icon-mini" style="background:#DA552F; width:14px; height:14px; font-size:9px;">P</span>
+            <span>Product Hunt 1-Click Import</span>
+          </div>
+          <h2 class="lp-modal-title" style="margin-top:8px;">Already launched on Product Hunt?</h2>
+          <p class="lp-modal-sub">
+            Save time by instantly importing your product name, taglines, HD media, integrations, and pricing plans directly from Product Hunt.
+          </p>
+        </div>
+      </div>
+
+      <!-- Product Hunt Input -->
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label class="lp-label" for="lpPhUrlInput" style="font-size:12px;">Product Hunt Link or Product Slug</label>
+        <div class="lp-ph-input-wrap">
+          <span class="lp-ph-input-icon">P</span>
+          <input type="text" id="lpPhUrlInput" class="lp-input" placeholder="e.g. https://www.producthunt.com/products/junify or 'junify'" value="https://www.producthunt.com/products/junify" />
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="lp-modal-actions" style="margin-top:8px;">
+        <button type="button" class="lp-btn-ph-confirm" id="lpBtnPhConfirm" onclick="handleImportFromPH()">
+          <span class="lp-ph-icon-mini" style="width:18px; height:18px; font-size:11px;">P</span>
+          <span>Import from Product Hunt</span>
+        </button>
+
+        <button type="button" class="lp-btn-skip-free" onclick="closePhImportModal()">
+          <span>Start from scratch (Manual entry)</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
 
   <!-- ──────────────────────────────────────────────────────────────────────────
        04. BOOST OFFER MODAL ($5 for 24h Top Placement)

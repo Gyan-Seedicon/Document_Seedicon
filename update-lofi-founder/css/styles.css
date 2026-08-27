@@ -448,3 +448,391 @@ html, body {
   color: var(--text-dark);
   border: 1px solid var(--border-main);
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   09. REUSABLE PRODUCT ANALYTICS RIGHT DRAWER COMPONENT
+   ────────────────────────────────────────────────────────────────────────── */
+.pad-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 99990;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.24s;
+}
+
+.pad-drawer-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.pad-drawer-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 580px;
+  max-width: 92vw;
+  background: #FFFFFF;
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.08), -2px 0 6px rgba(0, 0, 0, 0.03);
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--font-outfit) !important;
+}
+
+.pad-drawer-overlay.show .pad-drawer-panel {
+  transform: translateX(0);
+}
+
+.pad-drawer-head {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #F0F0EB;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  background: #FFFFFF;
+  flex-shrink: 0;
+}
+
+.pad-product-info-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.pad-product-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid #F0F0EB;
+  background: #FAFAF9;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.pad-product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.pad-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pad-product-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+.pad-status-live {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: #ECFDF5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pad-product-category {
+  font-size: 12px;
+  color: #6B7280;
+}
+
+.pad-btn-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #E5E5DF;
+  background: #FFFFFF;
+  color: #6B7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  flex-shrink: 0;
+}
+
+.pad-btn-close:hover {
+  background: #F4F4F2;
+  color: #111827;
+  border-color: #111827;
+}
+
+.pad-drawer-body {
+  padding: 20px 24px 40px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.pad-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pad-filter-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.pad-time-pills {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 9999px;
+  background: #F3F4F6;
+  border: 1px solid #F0F0EB;
+}
+
+.pad-time-btn {
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: none;
+  background: transparent;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.pad-time-btn.active {
+  background: #FFFFFF;
+  color: #111827;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.pad-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.pad-kpi-card {
+  background: #FAFAF9;
+  border: 1px solid #F0F0EB;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.pad-kpi-label {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #6B7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pad-kpi-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.pad-kpi-sub {
+  font-size: 11.5px;
+  color: #059669;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pad-kpi-sub.neutral {
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.pad-chart-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pad-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pad-section-heading {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.pad-chart-card {
+  background: #FAFAF9;
+  border: 1px solid #F0F0EB;
+  border-radius: 10px;
+  padding: 16px 14px 10px;
+}
+
+.pad-chart-legend-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  padding: 0 4px;
+}
+
+.pad-chart-legend-label {
+  font-size: 11.5px;
+  color: #6B7280;
+}
+
+.pad-chart-peak-pill {
+  font-size: 11px;
+  font-weight: 700;
+  color: #111827;
+  background: #E5E5DF;
+  padding: 2px 7px;
+  border-radius: 9999px;
+}
+
+#padApexChartMount {
+  min-height: 200px;
+}
+
+.pad-viewers-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pad-viewers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pad-viewer-item {
+  background: #FAFAF9;
+  border: 1px solid #F0F0EB;
+  border-radius: 10px;
+  padding: 11px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: all 0.12s ease;
+}
+
+.pad-viewer-item:hover {
+  background: #F4F4F2;
+}
+
+.pad-viewer-left {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.pad-viewer-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid #F0F0EB;
+}
+
+.pad-viewer-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.pad-viewer-name-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pad-viewer-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.pad-viewer-firm {
+  font-size: 12px;
+  color: #6B7280;
+}
+
+.pad-viewer-action {
+  font-size: 11.5px;
+  color: #6B7280;
+}
+
+.pad-viewer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.pad-viewer-time {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.pad-viewer-ago {
+  font-size: 11px;
+  color: #9CA3AF;
+}
+
+.prod-btn-analytics {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  background: #111827;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+
+.prod-btn-analytics:hover {
+  background: #000000;
+}
