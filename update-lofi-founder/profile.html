@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gyan Sharma — Profile | Seedicon</title>
-  <meta name="description" content="Gyan Sharma's profile on Seedicon — Product Design Engineer · AI Builder." />
+  <meta name="description" content="Gyan Sharma's profile on Seedicon — Founder." />
 
   <!-- Google Font: Outfit ONLY -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -164,7 +164,6 @@
             <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="Gyan Sharma" class="pub-avatar-img" id="pubNavAvatarImg" />
           </button>
 
-          <!-- User Menu Dropdown -->
           <div class="pub-user-menu" id="pubUserMenu">
             <div class="pub-user-menu-head" onclick="window.location.href='./profile.html'" style="cursor:pointer;" title="View Gyan Sharma's profile">
               <div class="pub-user-menu-user-row">
@@ -175,14 +174,14 @@
                 </div>
               </div>
 
-              <!-- Profile Completion Progress Meter -->
+              <!-- Profile Completion Progress Meter (inside dropdown) -->
               <div class="pub-profile-progress-wrap" style="margin-top:10px;">
                 <div class="pub-profile-progress-label" style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:700; color:var(--pub-text-dark); margin-bottom:4px;">
                   <span>Profile Completion</span>
-                  <span style="font-weight:800;">50%</span>
+                  <span style="font-weight:800;" id="pubDropdownProgressText">50%</span>
                 </div>
                 <div class="pub-profile-progress-bar" style="height:5px; background:#E5E7EB; border-radius:9999px; overflow:hidden;">
-                  <div class="pub-profile-progress-fill" style="width:50%; height:100%; background:#111827;"></div>
+                  <div class="pub-profile-progress-fill" id="pubDropdownProgressBarFill" style="width:50%; height:100%; background:#111827;"></div>
                 </div>
               </div>
             </div>
@@ -232,263 +231,522 @@
   </header>
 
   <!-- ──────────────────────────────────────────────────────────────────────────
-       02. MY PROFILE CONTENT CANVAS (EXACT MATCH TO REFERENCE SCREENSHOT)
+       02. MY PROFILE SURFACE CANVAS
        ────────────────────────────────────────────────────────────────────────── -->
   <main class="profile-page-container">
 
     <!-- ══════════════════════════════════════════════════════════════════════════
-         TOP PROFILE HEADER SECTION
+         TOP PROFILE IDENTITY HEADER (CLEAN SURFACE LAYOUT)
          ══════════════════════════════════════════════════════════════════════════ -->
     <div class="profile-header-card">
       
-      <!-- Left: Big Avatar + Info Block -->
+      <!-- Left: Large Round Avatar + Identity Info -->
       <div class="profile-header-left">
         
         <!-- Large Round Avatar Frame -->
-        <div class="profile-avatar-wrap">
+        <div class="profile-avatar-wrap" onclick="if(isEditMode) document.getElementById('profileAvatarFileInput').click()" title="Profile Photo">
           <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&h=240&fit=crop&crop=faces" alt="Gyan Sharma" class="profile-avatar-img" id="profileMainAvatar" />
+          <div class="profile-avatar-edit-overlay">
+            <i data-lucide="camera" style="width:16px; height:16px;"></i>
+          </div>
+          <input type="file" id="profileAvatarFileInput" accept="image/*" style="display:none;" onchange="handleAvatarUpload(this)" />
         </div>
 
-        <!-- Name, Headline, Stats, Streak, KP Card -->
+        <!-- Identity & Role Block -->
         <div class="profile-info-block">
           
-          <h1 class="profile-name" id="profileNameText">Gyan Sharma</h1>
-          
-          <p class="profile-headline" id="profileHeadlineText">Product Design Engineer · AI Builder</p>
-          
-          <div class="profile-meta-row">
-            <span class="profile-meta-item" id="profileUserIdText">#10152220</span>
-            <span class="profile-meta-item">0 followers</span>
-            <span class="profile-meta-item">0 following</span>
+          <!-- Full Name (Clean compact text in view & edit mode) -->
+          <div>
+            <h1 class="profile-name" id="profileNameDisplay">Gyan Sharma</h1>
+            <input type="text" id="profileNameInput" class="profile-name-edit-input" value="Gyan Sharma" placeholder="Full Name" />
           </div>
 
-          <div class="profile-streak-row">
-            <span class="profile-streak-icon">☀️</span>
-            <span>2 day streak</span>
+          <!-- Role as Normal Text Below Name -->
+          <div>
+            <div class="profile-role-text" id="profileRoleText">Founder</div>
+            <select class="profile-role-select" id="profileRoleSelect" onchange="handleRoleChange(this.value)">
+              <option value="Founder" selected>Founder</option>
+              <option value="Investor">Investor</option>
+              <option value="Explorer">Explorer</option>
+            </select>
           </div>
 
-          <div class="profile-kp-card">
-            <div class="profile-kp-top">&gt;10,000 <span>All time</span></div>
-            <div class="profile-kp-bottom">0 KP</div>
+          <!-- Profile Completion Meter Card (Smartly placed right here) -->
+          <div class="profile-completion-meter-card">
+            <div class="profile-completion-head">
+              <span>Profile Completion</span>
+              <span class="profile-completion-percent" id="profileCompletionPercentText">50%</span>
+            </div>
+            <div class="profile-completion-bar-track">
+              <div class="profile-completion-bar-fill" id="profileCompletionFill" style="width: 50%;"></div>
+            </div>
           </div>
 
         </div>
 
       </div>
 
-      <!-- Right: Edit My Profile Button -->
-      <div class="profile-header-right">
-        <button type="button" class="profile-edit-btn" onclick="openEditProfileModal()">
+      <!-- Right: Action Controls (In-Place Edit Toggle + Subtle Flash Auto-Fill Icon) -->
+      <div class="profile-header-actions">
+        
+        <!-- Subtle Flash Auto-Fill Icon Button (Visible in Edit Mode) -->
+        <button type="button" class="profile-flash-autofill-btn" id="btnAutoFillIcon" onclick="triggerOneClickAutoFill()" title="⚡ Auto-fill profile from LinkedIn">
+          <i data-lucide="zap" style="width:16px; height:16px;"></i>
+        </button>
+
+        <!-- View Mode: Edit Button -->
+        <button type="button" class="profile-edit-btn" id="btnEnterEditMode" onclick="toggleEditMode(true)">
           <span>Edit my profile</span>
         </button>
+
+        <!-- Edit Mode: Cancel & Save Buttons -->
+        <button type="button" class="profile-cancel-btn" id="btnCancelEditMode" onclick="toggleEditMode(false)">
+          <span>Cancel</span>
+        </button>
+
+        <button type="button" class="profile-save-btn" id="btnSaveProfile" onclick="saveProfileInline()">
+          <i data-lucide="check" style="width:13.5px; height:13.5px;"></i>
+          <span>Save Changes</span>
+        </button>
+
       </div>
 
     </div>
 
     <!-- ══════════════════════════════════════════════════════════════════════════
-         NAVIGATION PILL TABS
+         NAVIGATION PILL TABS (ABOUT, SAVED, SETTING ONLY)
          ══════════════════════════════════════════════════════════════════════════ -->
     <nav class="profile-nav-tabs" aria-label="Profile navigation">
       <button type="button" class="profile-tab-btn active" onclick="switchProfileTab('about', this)">About</button>
-      <button type="button" class="profile-tab-btn" onclick="switchProfileTab('forums', this)">Forums</button>
-      <button type="button" class="profile-tab-btn" onclick="switchProfileTab('activity', this)">Activity</button>
-      <button type="button" class="profile-tab-btn" onclick="switchProfileTab('upvotes', this)">Upvotes</button>
-      <button type="button" class="profile-tab-btn" onclick="switchProfileTab('collections', this)">Collections</button>
-      <button type="button" class="profile-tab-btn" onclick="switchProfileTab('stacks', this)">Stacks</button>
-      <button type="button" class="profile-tab-btn" onclick="switchProfileTab('reviews', this)">Reviews</button>
+      <button type="button" class="profile-tab-btn" onclick="switchProfileTab('saved', this)">Saved</button>
+      <button type="button" class="profile-tab-btn" onclick="switchProfileTab('setting', this)">Setting</button>
     </nav>
 
     <!-- ══════════════════════════════════════════════════════════════════════════
-         TAB 1: ABOUT (DEFAULT ACTIVE TAB)
+         TAB 1: ABOUT (INCLUDES ALL REFER.MD DETAILS ON SURFACE)
          ══════════════════════════════════════════════════════════════════════════ -->
     <div class="profile-tab-pane active" id="pane-about">
       
-      <!-- Section 1: About -->
+      <!-- 1. ABOUT BIO SECTION -->
       <div class="profile-section-block">
         <h2 class="profile-section-title">About</h2>
-        <div class="profile-empty-bio-box" id="profileBioBox">
-          <a href="javascript:void(0)" onclick="openEditProfileModal()" class="profile-add-bio-link">Add a bio</a> to help people get a better idea of you, your skills, history, and talents.
+        
+        <!-- View Mode: Surface Bio -->
+        <div id="viewModeBio">
+          <p class="profile-add-bio-prompt" id="profileBioText">
+            <a href="javascript:void(0)" onclick="toggleEditMode(true)" class="profile-add-bio-link">Add a bio</a> to help people get a better idea of you, your skills, history, and talents.
+          </p>
+        </div>
+
+        <!-- Edit Mode: Bio Textarea -->
+        <div id="editModeBio" style="display:none;">
+          <textarea id="profileBioInput" class="profile-form-textarea" rows="3" placeholder="Write a short summary about your background, skills, and projects..." oninput="updateCompletionMeter()"></textarea>
         </div>
       </div>
 
-      <!-- Section 2: Links -->
+      <!-- 2. FOUNDER DETAILS & CONTACT (CLEAN SURFACE 2-COLUMN GRID) -->
       <div class="profile-section-block">
-        <h2 class="profile-section-title">Links</h2>
-        <div class="profile-links-row" id="profileLinksRow">
-          <a href="https://linkedin.com" target="_blank" class="profile-link-item">
-            <span class="profile-social-icon-box linkedin">
-              <i data-lucide="linkedin" style="width:16px; height:16px;"></i>
+        <h2 class="profile-section-title">Founder Details</h2>
+        
+        <!-- View Mode: Surface Details Grid (No box enclosure) -->
+        <div class="profile-surface-details-grid" id="profileDetailsViewGrid">
+          
+          <div class="profile-detail-item">
+            <span class="profile-detail-label">LINKEDIN PROFILE URL</span>
+            <span class="profile-detail-value" id="viewLinkedIn">
+              <a href="https://linkedin.com/in/gyansharma" target="_blank" style="color:#0A66C2; text-decoration:underline;">https://linkedin.com/in/gyansharma ↗</a>
             </span>
-            <span>LinkedIn</span>
-          </a>
-          <a href="https://twitter.com" target="_blank" class="profile-link-item">
-            <span class="profile-social-icon-box twitter">𝕏</span>
-            <span>Twitter</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Section 3: Badges -->
-      <div class="profile-section-block">
-        <h2 class="profile-section-title">Badges</h2>
-        <div class="profile-badges-list">
-          <div class="profile-badge-card">
-            <div class="profile-badge-hex" title="2-Day Streak Achieved">
-              <span class="profile-badge-fire">🔥</span>
-              <span class="profile-badge-num">2</span>
-            </div>
-            <span class="profile-badge-name">Gone streaking</span>
           </div>
+
+          <div class="profile-detail-item">
+            <span class="profile-detail-label">OFFICIAL EMAIL</span>
+            <span class="profile-detail-value" id="viewEmail">gyan.sharma@seedicon.com</span>
+          </div>
+
+          <div class="profile-detail-item">
+            <span class="profile-detail-label">CONTACT NUMBER</span>
+            <span class="profile-detail-value placeholder" id="viewPhone">Add contact number</span>
+          </div>
+
+          <div class="profile-detail-item">
+            <span class="profile-detail-label">COUNTRY</span>
+            <span class="profile-detail-value placeholder" id="viewCountry">Add country</span>
+          </div>
+
+          <div class="profile-detail-item">
+            <span class="profile-detail-label">CITY</span>
+            <span class="profile-detail-value placeholder" id="viewCity">Add city</span>
+          </div>
+
         </div>
-        <a href="javascript:void(0)" class="profile-view-all-badges-btn" onclick="showToast('You currently have 1 active badge.')">View all badges</a>
+
+        <!-- Edit Mode: Details Inputs Grid -->
+        <div class="profile-edit-details-grid" id="profileDetailsEditGrid" style="display:none;">
+          
+          <div class="profile-detail-item" style="grid-column: 1 / -1;">
+            <label class="profile-detail-label" for="inputLinkedIn">LINKEDIN PROFILE URL</label>
+            <input type="url" id="inputLinkedIn" class="profile-form-input" value="https://linkedin.com/in/gyansharma" placeholder="https://linkedin.com/in/username" oninput="updateCompletionMeter()" />
+          </div>
+
+          <div class="profile-detail-item">
+            <label class="profile-detail-label" for="inputEmail">OFFICIAL EMAIL</label>
+            <input type="email" id="inputEmail" class="profile-form-input" value="gyan.sharma@seedicon.com" placeholder="official@company.com" oninput="updateCompletionMeter()" />
+          </div>
+
+          <div class="profile-detail-item">
+            <label class="profile-detail-label" for="inputPhone">CONTACT NUMBER</label>
+            <input type="tel" id="inputPhone" class="profile-form-input" placeholder="e.g. +1 (555) 019-2834" oninput="updateCompletionMeter()" />
+          </div>
+
+          <div class="profile-detail-item">
+            <label class="profile-detail-label" for="inputCountry">COUNTRY</label>
+            <input type="text" id="inputCountry" class="profile-form-input" placeholder="e.g. United States" oninput="updateCompletionMeter()" />
+          </div>
+
+          <div class="profile-detail-item">
+            <label class="profile-detail-label" for="inputCity">CITY</label>
+            <input type="text" id="inputCity" class="profile-form-input" placeholder="e.g. San Francisco" oninput="updateCompletionMeter()" />
+          </div>
+
+        </div>
       </div>
 
-    </div>
-
-    <!-- ══════════════════════════════════════════════════════════════════════════
-         TAB 2: FORUMS
-         ══════════════════════════════════════════════════════════════════════════ -->
-    <div class="profile-tab-pane" id="pane-forums">
-      <div class="profile-tab-empty-state">
-        <div class="profile-tab-empty-icon"><i data-lucide="message-square" style="width:18px; height:18px;"></i></div>
-        <div class="profile-tab-empty-title">No discussions started</div>
-        <div class="profile-tab-empty-desc">When Gyan starts or participates in founder forum threads, they will appear here.</div>
-      </div>
-    </div>
-
-    <!-- ══════════════════════════════════════════════════════════════════════════
-         TAB 3: ACTIVITY
-         ══════════════════════════════════════════════════════════════════════════ -->
-    <div class="profile-tab-pane" id="pane-activity">
-      <div class="profile-tab-empty-state">
-        <div class="profile-tab-empty-icon"><i data-lucide="activity" style="width:18px; height:18px;"></i></div>
-        <div class="profile-tab-empty-title">Recent Activity</div>
-        <div class="profile-tab-empty-desc">Logged in to Seedicon and explored trending SaaS products today.</div>
-      </div>
-    </div>
-
-    <!-- ══════════════════════════════════════════════════════════════════════════
-         TAB 4: UPVOTES
-         ══════════════════════════════════════════════════════════════════════════ -->
-    <div class="profile-tab-pane" id="pane-upvotes">
+      <!-- 3. FOUNDING TEAM (CLEAN SURFACE LAYOUT) -->
       <div class="profile-section-block">
-        <h2 class="profile-section-title">Upvoted Products (3)</h2>
+        <div class="profile-section-head">
+          <h2 class="profile-section-title">Founding Team</h2>
+          <button type="button" class="profile-add-team-btn" onclick="addTeamMemberRow()">
+            <i data-lucide="plus" style="width:13px; height:13px;"></i>
+            <span>Add Team Member</span>
+          </button>
+        </div>
+
+        <!-- Team List Container (Surface Rows in View Mode, Cards in Edit Mode) -->
+        <div class="profile-team-list" id="profileTeamContainer">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         TAB 2: SAVED
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <div class="profile-tab-pane" id="pane-saved">
+      <div class="profile-section-block">
+        <h2 class="profile-section-title">Saved Products &amp; Startups</h2>
         <div style="display:flex; flex-direction:column; gap:10px; margin-top:4px;">
-          <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border:1px solid #E5E5DF; border-radius:10px; background:#FAFAF9; cursor:pointer;" onclick="window.location.href='./product-detail.html'">
-            <div style="display:flex; align-items:center; gap:12px;">
-              <img src="https://www.google.com/s2/favicons?domain=junify.io&sz=128" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=Junify'" style="width:28px; height:28px; border-radius:6px;" alt="Junify" />
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border:1px solid #E5E5DF; border-radius:10px; background:#FAFAF9; cursor:pointer;" onclick="window.location.href='./product-detail.html'">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <img src="https://www.google.com/s2/favicons?domain=junify.io&sz=128" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=Junify'" style="width:32px; height:32px; border-radius:8px;" alt="Junify" />
               <div>
                 <div style="font-weight:700; font-size:14px; color:#111827;">Junify</div>
                 <div style="font-size:12px; color:#6B7280;">Multi-tenant e-commerce SaaS platform</div>
               </div>
             </div>
-            <span style="font-size:12px; font-weight:700; color:#111827;">▲ 48</span>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span style="font-size:12.5px; font-weight:700; color:#111827;">▲ 48</span>
+              <i data-lucide="bookmark" style="width:16px; height:16px; color:#111827; fill:#111827;"></i>
+            </div>
           </div>
 
-          <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border:1px solid #E5E5DF; border-radius:10px; background:#FAFAF9; cursor:pointer;" onclick="window.location.href='./product-detail.html'">
-            <div style="display:flex; align-items:center; gap:12px;">
-              <img src="https://www.google.com/s2/favicons?domain=viktor.ai&sz=128" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=Viktor'" style="width:28px; height:28px; border-radius:6px;" alt="Viktor" />
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border:1px solid #E5E5DF; border-radius:10px; background:#FAFAF9; cursor:pointer;" onclick="window.location.href='./product-detail.html'">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <img src="https://www.google.com/s2/favicons?domain=viktor.ai&sz=128" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=Viktor'" style="width:32px; height:32px; border-radius:8px;" alt="Viktor" />
               <div>
                 <div style="font-weight:700; font-size:14px; color:#111827;">Viktor.com</div>
                 <div style="font-size:12px; color:#6B7280;">An AI coworker that actually does the work</div>
               </div>
             </div>
-            <span style="font-size:12px; font-weight:700; color:#111827;">▲ 696</span>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span style="font-size:12.5px; font-weight:700; color:#111827;">▲ 696</span>
+              <i data-lucide="bookmark" style="width:16px; height:16px; color:#111827; fill:#111827;"></i>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- ══════════════════════════════════════════════════════════════════════════
-         TAB 5: COLLECTIONS
+         TAB 3: SETTING
          ══════════════════════════════════════════════════════════════════════════ -->
-    <div class="profile-tab-pane" id="pane-collections">
-      <div class="profile-tab-empty-state">
-        <div class="profile-tab-empty-icon"><i data-lucide="bookmark" style="width:18px; height:18px;"></i></div>
-        <div class="profile-tab-empty-title">No public collections</div>
-        <div class="profile-tab-empty-desc">Save favorite startups, products, and deal rooms into collections.</div>
+    <div class="profile-tab-pane" id="pane-setting">
+      <div class="profile-section-block">
+        <h2 class="profile-section-title">Account Settings</h2>
+        
+        <div class="profile-surface-details-grid" style="margin-top:8px;">
+          <div class="profile-detail-item">
+            <span class="profile-detail-label">ACCOUNT EMAIL</span>
+            <span class="profile-detail-value">gyan.sharma@seedicon.com</span>
+          </div>
+
+          <div class="profile-detail-item">
+            <span class="profile-detail-label">PROFILE VISIBILITY</span>
+            <span class="profile-detail-value">Public (Marketplace &amp; Investors)</span>
+          </div>
+
+          <div class="profile-detail-item">
+            <span class="profile-detail-label">EMAIL NOTIFICATIONS</span>
+            <span class="profile-detail-value">Investor Inquiries, Product Upvotes</span>
+          </div>
+
+          <div class="profile-detail-item">
+            <span class="profile-detail-label">TWO-FACTOR AUTHENTICATION</span>
+            <span class="profile-detail-value" style="color:#059669;">Enabled (Authenticator App)</span>
+          </div>
+        </div>
+
+        <div style="margin-top:16px; display:flex; gap:10px;">
+          <button type="button" class="profile-edit-btn" onclick="showToast('Settings saved')">Save Preferences</button>
+        </div>
       </div>
     </div>
-
-    <!-- ══════════════════════════════════════════════════════════════════════════
-         TAB 6: STACKS
-         ══════════════════════════════════════════════════════════════════════════ -->
-    <div class="profile-tab-pane" id="pane-stacks">
-      <div class="profile-tab-empty-state">
-        <div class="profile-tab-empty-icon"><i data-lucide="layers" style="width:18px; height:18px;"></i></div>
-        <div class="profile-tab-empty-title">Tools &amp; Tech Stack</div>
-        <div class="profile-tab-empty-desc">Figma, Next.js, Cursor, Tailwind CSS, Vercel, Supabase.</div>
-      </div>
-    </div>
-
-    <!-- ══════════════════════════════════════════════════════════════════════════
-         TAB 7: REVIEWS
-         ══════════════════════════════════════════════════════════════════════════ -->
-    <div class="profile-tab-pane" id="pane-reviews">
-      <div class="profile-tab-empty-state">
-        <div class="profile-tab-empty-icon"><i data-lucide="star" style="width:18px; height:18px;"></i></div>
-        <div class="profile-tab-empty-title">No reviews yet</div>
-        <div class="profile-tab-empty-desc">Product reviews and peer recommendations will be listed here.</div>
-      </div>
     </div>
 
   </main>
-
-  <!-- ──────────────────────────────────────────────────────────────────────────
-       03. EDIT PROFILE MODAL
-       ────────────────────────────────────────────────────────────────────────── -->
-  <div class="profile-modal-backdrop" id="profileEditModal">
-    <div class="profile-modal-box">
-      <div class="profile-modal-head">
-        <h3 class="profile-modal-title">Edit Profile</h3>
-        <button type="button" class="profile-modal-close-btn" onclick="closeEditProfileModal()">
-          <i data-lucide="x" style="width:16px; height:16px;"></i>
-        </button>
-      </div>
-
-      <div class="profile-form-group">
-        <label class="profile-form-label" for="editNameInput">Full Name</label>
-        <input type="text" id="editNameInput" class="profile-form-input" value="Gyan Sharma" />
-      </div>
-
-      <div class="profile-form-group">
-        <label class="profile-form-label" for="editHeadlineInput">Headline</label>
-        <input type="text" id="editHeadlineInput" class="profile-form-input" value="Product Design Engineer · AI Builder" />
-      </div>
-
-      <div class="profile-form-group">
-        <label class="profile-form-label" for="editBioInput">About Bio</label>
-        <textarea id="editBioInput" class="profile-form-textarea" rows="3" placeholder="Write a short summary about your background, skills, and projects..."></textarea>
-      </div>
-
-      <div class="profile-form-group">
-        <label class="profile-form-label" for="editLinkedInInput">LinkedIn Handle or URL</label>
-        <input type="text" id="editLinkedInInput" class="profile-form-input" placeholder="linkedin.com/in/username" />
-      </div>
-
-      <div class="profile-form-group">
-        <label class="profile-form-label" for="editTwitterInput">Twitter / 𝕏 Handle</label>
-        <input type="text" id="editTwitterInput" class="profile-form-input" placeholder="@username" />
-      </div>
-
-      <div class="profile-modal-foot">
-        <button type="button" class="profile-edit-btn" onclick="closeEditProfileModal()">Cancel</button>
-        <button type="button" class="pub-btn-list-product" onclick="saveProfileChanges()">Save Changes</button>
-      </div>
-    </div>
-  </div>
 
   <!-- Toast Notification -->
   <div class="toast-alert" id="pubToast"></div>
 
   <!-- ──────────────────────────────────────────────────────────────────────────
-       04. JAVASCRIPT LOGIC
+       03. JAVASCRIPT LOGIC
        ────────────────────────────────────────────────────────────────────────── -->
   <script>
+    let isEditMode = false;
+
+    // Profile Data Model (Strictly structured from refer.md)
+    let profileData = {
+      name: 'Gyan Sharma',
+      role: 'Founder',
+      email: 'gyan.sharma@seedicon.com',
+      linkedIn: 'https://linkedin.com/in/gyansharma',
+      phone: '',
+      country: '',
+      city: '',
+      about: '',
+      teamMembers: []
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
+      loadProfileData();
+      renderProfileUI();
       if (typeof lucide !== 'undefined') lucide.createIcons();
-      loadUserProfile();
     });
+
+    // Load from localStorage
+    function loadProfileData() {
+      try {
+        const stored = localStorage.getItem('seedicon_profile_data');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          profileData = { ...profileData, ...parsed };
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
+    // Save to localStorage
+    function persistProfileData() {
+      localStorage.setItem('seedicon_profile_data', JSON.stringify(profileData));
+      localStorage.setItem('seedicon_user', JSON.stringify({
+        name: profileData.name,
+        role: profileData.role,
+        email: profileData.email
+      }));
+    }
+
+    // Dynamic Profile Completion Meter Calculation
+    function updateCompletionMeter() {
+      let temp = { ...profileData };
+      if (isEditMode) {
+        temp.name = document.getElementById('profileNameInput')?.value || '';
+        temp.email = document.getElementById('inputEmail')?.value || '';
+        temp.linkedIn = document.getElementById('inputLinkedIn')?.value || '';
+        temp.phone = document.getElementById('inputPhone')?.value || '';
+        temp.country = document.getElementById('inputCountry')?.value || '';
+        temp.city = document.getElementById('inputCity')?.value || '';
+        temp.about = document.getElementById('profileBioInput')?.value || '';
+      }
+      
+      let score = 0;
+      if (temp.name && temp.name.trim()) score += 15;
+      if (temp.role && temp.role.trim()) score += 10;
+      if (temp.email && temp.email.trim()) score += 15;
+      if (temp.linkedIn && temp.linkedIn.trim()) score += 10;
+      if (temp.phone && temp.phone.trim()) score += 10;
+      if (temp.country && temp.country.trim()) score += 10;
+      if (temp.city && temp.city.trim()) score += 10;
+      if (temp.about && temp.about.trim()) score += 10;
+      if (temp.teamMembers && temp.teamMembers.length > 0) score += 10;
+      score = Math.min(100, Math.max(0, score));
+
+      const pctStr = `${score}%`;
+      const fillEl = document.getElementById('profileCompletionFill');
+      const textEl = document.getElementById('profileCompletionPercentText');
+      const dropFillEl = document.getElementById('pubDropdownProgressBarFill');
+      const dropTextEl = document.getElementById('pubDropdownProgressText');
+
+      if (fillEl) fillEl.style.width = pctStr;
+      if (textEl) textEl.textContent = pctStr;
+      if (dropFillEl) dropFillEl.style.width = pctStr;
+      if (dropTextEl) dropTextEl.textContent = pctStr;
+    }
+
+    // Render Clean Surface UI in View Mode
+    function renderProfileUI() {
+      // Full Name
+      document.getElementById('profileNameDisplay').textContent = profileData.name;
+      document.getElementById('profileNameInput').value = profileData.name;
+      document.getElementById('pubUserNameDisplay').textContent = profileData.name;
+
+      // Role
+      document.getElementById('profileRoleText').textContent = profileData.role;
+      document.getElementById('profileRoleSelect').value = profileData.role;
+
+      // About Bio
+      const bioEl = document.getElementById('profileBioText');
+      if (profileData.about && profileData.about.trim()) {
+        bioEl.className = 'profile-surface-bio';
+        bioEl.textContent = profileData.about;
+      } else {
+        bioEl.className = 'profile-add-bio-prompt';
+        bioEl.innerHTML = `<a href="javascript:void(0)" onclick="toggleEditMode(true)" class="profile-add-bio-link">Add a bio</a> to help people get a better idea of you, your skills, history, and talents.`;
+      }
+      document.getElementById('profileBioInput').value = profileData.about || '';
+
+      // Contact & Location Surface Fields
+      const linkedInEl = document.getElementById('viewLinkedIn');
+      if (profileData.linkedIn && profileData.linkedIn.trim()) {
+        linkedInEl.innerHTML = `<a href="${profileData.linkedIn}" target="_blank" style="color:#0A66C2; text-decoration:underline;">${profileData.linkedIn} ↗</a>`;
+        linkedInEl.classList.remove('placeholder');
+      } else {
+        linkedInEl.textContent = 'Add LinkedIn profile URL';
+        linkedInEl.classList.add('placeholder');
+      }
+      document.getElementById('inputLinkedIn').value = profileData.linkedIn || '';
+
+      const emailEl = document.getElementById('viewEmail');
+      emailEl.textContent = profileData.email || 'gyan.sharma@seedicon.com';
+      document.getElementById('inputEmail').value = profileData.email || '';
+
+      const phoneEl = document.getElementById('viewPhone');
+      if (profileData.phone && profileData.phone.trim()) {
+        phoneEl.textContent = profileData.phone;
+        phoneEl.classList.remove('placeholder');
+      } else {
+        phoneEl.textContent = 'Add contact number';
+        phoneEl.classList.add('placeholder');
+      }
+      document.getElementById('inputPhone').value = profileData.phone || '';
+
+      const countryEl = document.getElementById('viewCountry');
+      if (profileData.country && profileData.country.trim()) {
+        countryEl.textContent = profileData.country;
+        countryEl.classList.remove('placeholder');
+      } else {
+        countryEl.textContent = 'Add country';
+        countryEl.classList.add('placeholder');
+      }
+      document.getElementById('inputCountry').value = profileData.country || '';
+
+      const cityEl = document.getElementById('viewCity');
+      if (profileData.city && profileData.city.trim()) {
+        cityEl.textContent = profileData.city;
+        cityEl.classList.remove('placeholder');
+      } else {
+        cityEl.textContent = 'Add city';
+        cityEl.classList.add('placeholder');
+      }
+      document.getElementById('inputCity').value = profileData.city || '';
+
+      // Render Team
+      renderTeamMembersList();
+
+      // Update Meter
+      updateCompletionMeter();
+    }
+
+    // Toggle In-Place Edit Mode
+    function toggleEditMode(enable) {
+      isEditMode = enable;
+      document.body.classList.toggle('edit-mode', enable);
+
+      // Section Views vs Form Inputs
+      document.getElementById('viewModeBio').style.display = enable ? 'none' : 'block';
+      document.getElementById('editModeBio').style.display = enable ? 'block' : 'none';
+
+      document.getElementById('profileDetailsViewGrid').style.display = enable ? 'none' : 'grid';
+      document.getElementById('profileDetailsEditGrid').style.display = enable ? 'grid' : 'none';
+
+      renderTeamMembersList();
+
+      if (enable) {
+        const aboutBtn = document.querySelector('.profile-tab-btn');
+        switchProfileTab('about', aboutBtn);
+        showToast('Switched to Edit Mode. Click ⚡ to auto-fill.');
+      }
+    }
+
+    // Save Profile Inline
+    function saveProfileInline() {
+      profileData.name = document.getElementById('profileNameInput').value.trim() || 'Gyan Sharma';
+      profileData.role = document.getElementById('profileRoleSelect').value;
+      profileData.about = document.getElementById('profileBioInput').value.trim();
+      profileData.linkedIn = document.getElementById('inputLinkedIn').value.trim();
+      profileData.email = document.getElementById('inputEmail').value.trim();
+      profileData.phone = document.getElementById('inputPhone').value.trim();
+      profileData.country = document.getElementById('inputCountry').value.trim();
+      profileData.city = document.getElementById('inputCity').value.trim();
+
+      // Collect team members
+      const teamCards = document.querySelectorAll('.team-member-edit-card');
+      profileData.teamMembers = Array.from(teamCards).map(card => ({
+        name: card.querySelector('.team-name-input')?.value || '',
+        role: card.querySelector('.team-role-input')?.value || '',
+        email: card.querySelector('.team-email-input')?.value || '',
+        linkedIn: card.querySelector('.team-linkedin-input')?.value || ''
+      })).filter(t => t.name || t.email);
+
+      persistProfileData();
+      toggleEditMode(false);
+      renderProfileUI();
+      showToast('Profile updated successfully!');
+    }
+
+    // One-Click Flash Auto-Fill Icon Handler (⚡)
+    function triggerOneClickAutoFill() {
+      const btn = document.getElementById('btnAutoFillIcon');
+      btn.innerHTML = `<i data-lucide="loader" class="spin" style="width:15px; height:15px;"></i>`;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+
+      setTimeout(() => {
+        document.getElementById('profileBioInput').value = 'Founder & Product Engineer building scalable AI applications and unified venture infrastructure for startups. Ex-Stripe ecosystem partner with 8+ years of engineering leadership.';
+        document.getElementById('inputPhone').value = '+1 (555) 382-9102';
+        document.getElementById('inputCountry').value = 'United States';
+        document.getElementById('inputCity').value = 'San Francisco';
+
+        if (!profileData.teamMembers || profileData.teamMembers.length === 0) {
+          profileData.teamMembers = [
+            { name: 'Sarah Jenkins', role: 'Co-Founder & CTO', email: 'sarah@seedicon.com', linkedIn: 'https://linkedin.com/in/sarahjenkins' }
+          ];
+        }
+
+        renderTeamMembersList();
+        updateCompletionMeter();
+
+        btn.innerHTML = `<i data-lucide="zap" style="width:16px; height:16px;"></i>`;
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        showToast('⚡ Auto-filled all founder details from LinkedIn!');
+      }, 400);
+    }
+
+    // Role Switching
+    function handleRoleChange(newRole) {
+      profileData.role = newRole;
+      document.getElementById('profileRoleText').textContent = newRole;
+      showToast(`Role set to ${newRole}`);
+    }
 
     // Tab Switcher
     function switchProfileTab(tabKey, btnEl) {
@@ -503,72 +761,94 @@
       if (activePane) activePane.classList.add('active');
     }
 
-    // Load User Profile Data
-    function loadUserProfile() {
-      try {
-        const stored = localStorage.getItem('seedicon_user');
-        if (stored) {
-          const user = JSON.parse(stored);
-          if (user.name) {
-            document.getElementById('profileNameText').textContent = user.name;
-            document.getElementById('pubUserNameDisplay').textContent = user.name;
-          }
-          if (user.headline) {
-            document.getElementById('profileHeadlineText').textContent = user.headline;
-          }
-          if (user.bio) {
-            document.getElementById('profileBioBox').innerHTML = `<p>${user.bio}</p>`;
-          }
-          if (user.email) {
-            document.getElementById('pubUserEmailDisplay').textContent = user.email;
-          }
+    // ──────────────────────────────────────────────────────────────────────────
+    // FOUNDING TEAM (CO-FOUNDERS)
+    // ──────────────────────────────────────────────────────────────────────────
+    function renderTeamMembersList() {
+      const container = document.getElementById('profileTeamContainer');
+      if (!container) return;
+
+      if (profileData.teamMembers.length === 0) {
+        if (!isEditMode) {
+          container.innerHTML = `
+            <p class="profile-add-bio-prompt">
+              <a href="javascript:void(0)" onclick="toggleEditMode(true)" class="profile-add-bio-link">Add co-founders</a> to showcase your full founding team to investors.
+            </p>
+          `;
+          return;
         }
-      } catch (err) {
-        console.warn(err);
-      }
-    }
-
-    // Modal Handlers
-    function openEditProfileModal() {
-      const name = document.getElementById('profileNameText').textContent;
-      const headline = document.getElementById('profileHeadlineText').textContent;
-      
-      document.getElementById('editNameInput').value = name;
-      document.getElementById('editHeadlineInput').value = headline;
-
-      const modal = document.getElementById('profileEditModal');
-      if (modal) modal.classList.add('show');
-    }
-
-    function closeEditProfileModal() {
-      const modal = document.getElementById('profileEditModal');
-      if (modal) modal.classList.remove('show');
-    }
-
-    function saveProfileChanges() {
-      const name = document.getElementById('editNameInput').value.trim() || 'Gyan Sharma';
-      const headline = document.getElementById('editHeadlineInput').value.trim() || 'Product Design Engineer · AI Builder';
-      const bio = document.getElementById('editBioInput').value.trim();
-
-      document.getElementById('profileNameText').textContent = name;
-      document.getElementById('pubUserNameDisplay').textContent = name;
-      document.getElementById('profileHeadlineText').textContent = headline;
-
-      if (bio) {
-        document.getElementById('profileBioBox').innerHTML = `<p>${bio}</p>`;
       }
 
-      // Save to localStorage
-      const userObj = {
-        name: name,
-        headline: headline,
-        bio: bio,
-        email: 'gyan.sharma@seedicon.com'
-      };
-      localStorage.setItem('seedicon_user', JSON.stringify(userObj));
+      container.innerHTML = profileData.teamMembers.map((member, idx) => {
+        if (isEditMode) {
+          return `
+            <div class="profile-team-edit-card team-member-edit-card" data-index="${idx}">
+              <button type="button" class="profile-team-delete-btn" onclick="removeTeamMemberRow(${idx})" title="Remove member">
+                <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+              </button>
+              <div class="profile-edit-details-grid">
+                <div class="profile-detail-item">
+                  <label class="profile-detail-label">CO-FOUNDER FULL NAME</label>
+                  <input type="text" class="profile-form-input team-name-input" value="${member.name || ''}" placeholder="e.g. Sarah Jenkins" oninput="updateCompletionMeter()" />
+                </div>
+                <div class="profile-detail-item">
+                  <label class="profile-detail-label">ROLE</label>
+                  <input type="text" class="profile-form-input team-role-input" value="${member.role || ''}" placeholder="e.g. Co-Founder & CTO" oninput="updateCompletionMeter()" />
+                </div>
+                <div class="profile-detail-item">
+                  <label class="profile-detail-label">OFFICIAL EMAIL</label>
+                  <input type="email" class="profile-form-input team-email-input" value="${member.email || ''}" placeholder="sarah@seedicon.com" oninput="updateCompletionMeter()" />
+                </div>
+                <div class="profile-detail-item">
+                  <label class="profile-detail-label">LINKEDIN PROFILE URL</label>
+                  <input type="url" class="profile-form-input team-linkedin-input" value="${member.linkedIn || ''}" placeholder="https://linkedin.com/in/username" oninput="updateCompletionMeter()" />
+                </div>
+              </div>
+            </div>
+          `;
+        } else {
+          return `
+            <div class="profile-team-surface-row">
+              <div>
+                <span class="profile-team-name">${member.name}</span>
+                <span class="profile-team-role">&bull; ${member.role || 'Co-Founder'}</span>
+              </div>
+              <div class="profile-team-meta">
+                <span>${member.email || '—'}</span>
+                ${member.linkedIn ? `&bull; <a href="${member.linkedIn}" target="_blank" style="color:#0A66C2; text-decoration:underline;">LinkedIn ↗</a>` : ''}
+              </div>
+            </div>
+          `;
+        }
+      }).join('');
 
-      closeEditProfileModal();
-      showToast('Profile updated successfully!');
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function addTeamMemberRow() {
+      profileData.teamMembers.push({ name: '', role: '', email: '', linkedIn: '' });
+      renderTeamMembersList();
+      updateCompletionMeter();
+    }
+
+    function removeTeamMemberRow(idx) {
+      profileData.teamMembers.splice(idx, 1);
+      renderTeamMembersList();
+      updateCompletionMeter();
+    }
+
+    // Avatar Upload
+    function handleAvatarUpload(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          document.getElementById('profileMainAvatar').src = e.target.result;
+          document.getElementById('pubNavAvatarImg').src = e.target.result;
+          document.getElementById('pubMenuAvatarImg').src = e.target.result;
+          showToast('Profile photo updated');
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
     }
 
     // User Dropdown Handlers
@@ -590,6 +870,7 @@
 
     function handleLogout() {
       localStorage.removeItem('seedicon_user');
+      localStorage.removeItem('seedicon_profile_data');
       showToast('Signed out of Seedicon');
     }
 
