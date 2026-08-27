@@ -1,0 +1,448 @@
+/* ==========================================================================
+   SEEDICON FOUNDER PLATFORM — DESIGN SYSTEM & CORE STYLES (FROM SCRATCH)
+   Clean, institutional, high-performance lo-fi aesthetic
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Surface Tokens */
+  --bg-viewport: #EBEBE8;
+  --bg-app: #FFFFFF;
+  --bg-sidebar: #F6F6F6;
+  --bg-surface: #FFFFFF;
+  --bg-muted: #EDEDED;
+  --bg-subtle: #F9F9F8;
+  --bg-hover: #E4E4E2;
+  --bg-card: #FFFFFF;
+
+  /* Border Tokens */
+  --border-frame: #DCDCD6;
+  --border-main: #E5E5E0;
+  --border-faint: #EFEFEA;
+  --border-dark: #141413;
+
+  /* Text Tokens */
+  --text-dark: #141413;
+  --text-main: #2C2C2A;
+  --text-muted: #666662;
+  --text-light: #8A8A85;
+  --text-inverse: #FFFFFF;
+
+  /* Accent & Status Tokens */
+  --accent-primary: #141413;
+  --status-success: #16A34A;
+  --status-success-bg: #ECFDF5;
+  --status-success-border: #A7F3D0;
+  --status-warning: #D97706;
+  --status-warning-bg: #FFFBEB;
+  --status-warning-border: #FDE68A;
+  --status-danger: #DC2626;
+  --status-danger-bg: #FEF2F2;
+  --status-danger-border: #FECACA;
+  --status-info: #2563EB;
+  --status-info-bg: #EFF6FF;
+  --status-info-border: #BFDBFE;
+
+  /* Layout Variables */
+  --sidebar-width: 248px;
+  --sidebar-collapsed-width: 58px;
+  --topbar-height: 52px;
+  --app-radius: 14px;
+  --card-radius: 8px;
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   01. RESET & BASE
+   ────────────────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-inter);
+  background-color: var(--bg-viewport);
+  color: var(--text-main);
+  font-size: 13px;
+  line-height: 1.45;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   02. FLOATING APP FRAME & VIEWPORT
+   ────────────────────────────────────────────────────────────────────────── */
+.app-viewport {
+  width: 100vw;
+  height: 100vh;
+  padding: 12px;
+  display: flex;
+  overflow: hidden;
+}
+
+.app-frame {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-app);
+  border-radius: var(--app-radius);
+  border: 1px solid var(--border-frame);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.founder-workspace-canvas {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  background: var(--bg-app);
+  overflow: hidden;
+}
+
+.workspace-scroll-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   03. SIDEBAR NAVIGATION
+   ────────────────────────────────────────────────────────────────────────── */
+.founder-sidebar {
+  width: var(--sidebar-width);
+  height: 100%;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-faint);
+  display: flex;
+  flex-direction: column;
+  padding: 14px 12px;
+  gap: 12px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.founder-sidebar.collapsed {
+  width: var(--sidebar-collapsed-width);
+  padding: 14px 8px;
+  align-items: center;
+}
+
+.founder-sidebar.collapsed .brand-name,
+.founder-sidebar.collapsed .nav-group-label,
+.founder-sidebar.collapsed .sidebar-nav-item span,
+.founder-sidebar.collapsed .sidebar-nav-count {
+  display: none !important;
+}
+
+.founder-sidebar.collapsed .sidebar-nav-item {
+  justify-content: center;
+  padding: 7px;
+}
+
+.sidebar-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.brand-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--text-dark);
+}
+
+.brand-icon-box {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--text-dark);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.brand-name {
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
+  white-space: nowrap;
+}
+
+.sidebar-collapse-btn {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s ease;
+}
+
+.sidebar-collapse-btn:hover {
+  background: var(--bg-muted);
+  color: var(--text-dark);
+}
+
+/* Navigation Groups */
+.nav-group-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-group-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 6px 6px 4px 6px;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 6px;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  transition: background 0.1s ease, color 0.1s ease;
+}
+
+.sidebar-nav-item:hover {
+  background: var(--bg-muted);
+  color: var(--text-dark);
+}
+
+.sidebar-nav-item.active {
+  background: #E5E5E0;
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
+.sidebar-nav-item-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.sidebar-nav-count {
+  font-size: 11px;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   04. TOP NAVIGATION HEADER
+   ────────────────────────────────────────────────────────────────────────── */
+.workspace-top-nav {
+  height: var(--topbar-height);
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--border-main);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.workspace-top-nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.workspace-search-pill-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-main);
+  border-radius: 20px;
+  padding: 4px 12px;
+  width: 320px;
+  cursor: pointer;
+  transition: border-color 0.12s ease;
+}
+
+.workspace-search-pill-wrap:hover {
+  border-color: #141413;
+}
+
+.workspace-search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--text-dark);
+  width: 100%;
+  cursor: pointer;
+}
+
+.workspace-search-icon {
+  width: 13px;
+  height: 13px;
+  color: var(--text-light);
+}
+
+.workspace-search-kbd {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-light);
+  background: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+.workspace-top-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-ghost-icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-main);
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s ease;
+}
+
+.nav-ghost-icon-btn:hover {
+  background: var(--bg-muted);
+  color: var(--text-dark);
+}
+
+.nav-invite-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.avatar-gradient-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #141413;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   05. SHARED UI ATOMS (Buttons, Badges)
+   ────────────────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: #141413;
+  color: #FFFFFF;
+  border-color: #141413;
+}
+
+.btn-primary:hover {
+  background: #2C2C2A;
+  border-color: #2C2C2A;
+}
+
+.btn-secondary {
+  background: #FFFFFF;
+  color: var(--text-dark);
+  border-color: var(--border-main);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-muted);
+  border-color: #141413;
+}
+
+.badge-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.badge-pill.success {
+  background: var(--status-success-bg);
+  color: var(--status-success);
+  border: 1px solid var(--status-success-border);
+}
+
+.badge-pill.warning {
+  background: var(--status-warning-bg);
+  color: var(--status-warning);
+  border: 1px solid var(--status-warning-border);
+}
+
+.badge-pill.neutral {
+  background: #F4F4F2;
+  color: var(--text-dark);
+  border: 1px solid var(--border-main);
+}

@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedicon — Unified Capital & Startup Operating System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+  :root {
+    --bg-page: #FAFAF9;
+    --bg-surface: #FFFFFF;
+    --bg-muted: #F4F4F2;
+    --bg-hover: #EBEBE8;
+    --bg-card: #FFFFFF;
+    
+    --text-dark: #121211;
+    --text-main: #2C2C2A;
+    --text-muted: #666662;
+    --text-light: #8E8E89;
+    --text-faint: #B5B5AF;
+    
+    --border-main: #E5E5DF;
+    --border-faint: #EFEFEA;
+    --border-dark: #121211;
+    
+    --accent-amber-bg: #FEF3C7;
+    --accent-amber-border: #FDE68A;
+    
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-pill: 9999px;
+    
+    --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 14px 36px rgba(0, 0, 0, 0.07);
+    --shadow-dropdown: 0 18px 42px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body {
+    font-family: var(--font-inter);
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Ambient background light gradients */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 540px;
+    background: 
+      radial-gradient(ellipse 65% 50% at 50% -10%, rgba(20, 20, 19, 0.045) 0%, transparent 70%),
+      radial-gradient(ellipse 35% 25% at 90% 12%, rgba(20, 20, 19, 0.025) 0%, transparent 60%),
+      radial-gradient(ellipse 35% 25% at 10% 12%, rgba(20, 20, 19, 0.025) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ──────────────────────────────────────────────────────────────────────────
+     01. TOP NAVIGATION BAR (CLEAN & EXACT SPECIFICATION)
+     ────────────────────────────────────────────────────────────────────────── */
+  .landing-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-main);
+    height: 66px;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-container {
+    max-width: 1240px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Left: Seedicon Brand Logo */
+  .brand-logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-dark);
+    flex-shrink: 0;
+  }
+
+  .brand-logo-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--text-dark);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
+    transition: transform 0.15s ease;
+  }
+
+  .brand-logo-wrap:hover .brand-logo-mark {
+    transform: scale(1.04);
+  }
+
+  .brand-logo-title {
+    font-size: 17.5px;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    color: var(--text-dark);
+    line-height: 1;
+  }
+
+  /* Center: Nav Items */
+  .nav-center-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-anchor {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.14s ease;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+  }
+
+  .nav-anchor:hover {
+    color: var(--text-dark);
+    background: var(--bg-muted);
+  }
+
+  .nav-anchor.active {
+    color: var(--text-dark);
+    background: var(--bg-muted);
+    font-weight: 700;
+  }
+
+  .nav-chevron {
+    width: 12px;
+    height: 12px;
+    color: var(--text-light);
+    transition: transform 0.15s ease;
+  }
+
+  .nav-item:hover .nav-chevron {
+    transform: rotate(180deg);
+    color: var(--text-dark);
+  }
+
+  /* Products Dropdown Popover (Hover Triggered) */
+  .products-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    width: 350px;
+    background: #FFFFFF;
+    border: 1px solid var(--border-main);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-dropdown);
+    padding: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    z-index: 1200;
+  }
+
+  .products-dropdown-menu::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 0;
+    right: 0;
+    height: 12px;
+  }
+
+  .nav-item:hover .products-dropdown-menu,
+  .nav-item:focus-within .products-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+  }
+
+  .dropdown-menu-head {
+    padding: 6px 10px 8px;
+    border-bottom: 1px solid var(--border-faint);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .dropdown-menu-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+  }
+
+  .dropdown-menu-count {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: var(--radius-pill);
+    background: var(--bg-muted);
+    color: var(--text-muted);
+  }
+
+  .dropdown-product-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 10px;
+    border-radius: 9px;
+    text-decoration: none;
+    color: var(--text-dark);
+    transition: all 0.12s ease;
+    position: relative;
+  }
+
+  .dropdown-product-row:hover {
+    background: var(--bg-muted);
+    transform: translateX(2px);
+  }
+
+  .dropdown-product-row.coming-soon-row {
+    cursor: default;
+  }
+
+  .dropdown-product-row.coming-soon-row:hover {
+    background: #FAF9F6;
+    transform: none;
+  }
+
+  .dropdown-prod-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--bg-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dark);
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: all 0.15s ease;
+  }
+
+  .dropdown-product-row:hover:not(.coming-soon-row) .dropdown-prod-icon {
+    background: var(--text-dark);
+    color: #FFFFFF;
+  }
+
+  .dropdown-prod-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .dropdown-prod-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .dropdown-prod-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.2;
+  }
+
+  .badge-tag-pill {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .badge-tag-pill.pro {
+    background: #F4F4F0;
+    color: var(--text-muted);
+    border: 1px solid var(--border-main);
+  }
+
+  .badge-tag-pill.soon {
+    background: var(--accent-amber-bg);
+    color: #92400E;
+    border: 1px solid var(--accent-amber-border);
+  }
+
+  .dropdown-prod-desc {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-top: 3px;
+    line-height: 1.35;
+  }
+
+  /* Right Nav Actions (Log in & Sign up) */
+  .nav-auth-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .login-popover-anchor {
+    position: relative;
+    display: inline-block;
+  }
+
+  .btn-nav-login {
+    background: transparent;
+    border: 1px solid var(--border-main);
+    border-radius: var(--radius-pill);
+    padding: 7px 16px;
+    font-family: var(--font-inter);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.14s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-nav-login:hover {
+    background: var(--bg-muted);
+    border-color: var(--border-dark);
+  }
+
+  /* Login Context Dropdown */
+  .login-portal-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 290px;
+    background: #FFFFFF;
+    border: 1px solid var(--border-main);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-dropdown);
+    padding: 8px;
+    z-index: 1300;
+    display: none;
+    transform-origin: top right;
+    animation: popMenu 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .login-portal-menu.show {
+    display: block;
+  }
+
+  @keyframes popMenu {
+    from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .login-menu-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 10px 7px;
+    border-bottom: 1px solid var(--border-faint);
+    margin-bottom: 6px;
+  }
+
+  .login-menu-head-title {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+  }
+
+  .login-portal-card {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 10px;
+    border-radius: 9px;
+    text-decoration: none;
+    color: var(--text-dark);
+    transition: all 0.12s ease;
+  }
+
+  .login-portal-card:hover {
+    background: var(--bg-muted);
+    transform: translateX(2px);
+  }
+
+  .login-portal-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .login-portal-info {
+    flex: 1;
+  }
+
+  .login-portal-name {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.2;
+  }
+
+  .login-portal-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .btn-nav-signup {
+    background: var(--text-dark);
+    color: #FFFFFF;
+    border: 1px solid var(--text-dark);
+    border-radius: var(--radius-pill);
+    padding: 7px 20px;
+    font-family: var(--font-inter);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.14s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-nav-signup:hover {
+    background: #000000;
+    border-color: #000000;
+    transform: translateY(-0.5px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.16);
+  }
+
+  /* ──────────────────────────────────────────────────────────────────────────
+     02. HERO SECTION & CLEAN HEADLINE
+     ────────────────────────────────────────────────────────────────────────── */
+  .hero-wrapper {
+    position: relative;
+    padding: 72px 24px 80px;
+    max-width: 1120px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    z-index: 1;
+  }
+
+  .hero-main-heading {
+    font-size: 46px;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+    color: var(--text-dark);
+    max-width: 860px;
+    margin-bottom: 16px;
+  }
+
+  .hero-main-subtext {
+    font-size: 16.5px;
+    font-weight: 400;
+    color: var(--text-muted);
+    max-width: 680px;
+    line-height: 1.55;
+    margin-bottom: 36px;
+  }
+
+  .hero-button-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 56px;
+  }
+
+  .btn-hero-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--text-dark);
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 11px 24px;
+    border-radius: var(--radius-pill);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  }
+
+  .btn-hero-primary:hover {
+    background: #000000;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  }
+
+  .btn-hero-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #FFFFFF;
+    color: var(--text-dark);
+    border: 1px solid var(--border-main);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 11px 22px;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn-hero-secondary:hover {
+    background: var(--bg-muted);
+    border-color: var(--border-dark);
+  }
+
+  /* ──────────────────────────────────────────────────────────────────────────
+     03. STATIC SKELETON WIREFRAME CANVAS (CLEAN & TO THE POINT)
+     ────────────────────────────────────────────────────────────────────────── */
+  .skeleton-preview-box {
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .static-block {
+    background: #EFEFEA;
+    border-radius: var(--radius-sm);
+  }
+
+  .metrics-skeleton-row {
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid var(--border-main);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .metric-skeleton-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 0 10px;
+  }
+
+  .metric-skeleton-cell:not(:first-child) {
+    border-left: 1px solid var(--border-faint);
+  }
+
+  .static-kpi-val {
+    height: 18px;
+    width: 60%;
+    border-radius: 4px;
+  }
+
+  .static-kpi-lbl {
+    height: 10px;
+    width: 85%;
+    border-radius: 3px;
+  }
+
+  .skeleton-viewport-card {
+    background: #FFFFFF;
+    border: 1px solid var(--border-main);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .viewport-header-strip {
+    background: #FAF9F8;
+    border-bottom: 1px solid var(--border-main);
+    padding: 11px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .viewport-traffic-lights {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .traffic-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #E5E5DF;
+  }
+
+  .viewport-body-split {
+    display: grid;
+    grid-template-columns: 210px 1fr;
+    min-height: 280px;
+  }
+
+  .viewport-sidebar-col {
+    background: #FAFAF9;
+    border-right: 1px solid var(--border-main);
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .viewport-content-col {
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #FFFFFF;
+  }
+
+  .skeleton-tiles-3col {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .skeleton-tile-item {
+    border: 1px solid var(--border-faint);
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .skeleton-table-mockup {
+    border: 1px solid var(--border-faint);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* ──────────────────────────────────────────────────────────────────────────
+     04. SEEDICON MULTI-STEP NEUTRAL AUTH MODAL & MARKETING FLOW
+     ────────────────────────────────────────────────────────────────────────── */
+  .auth-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(18, 18, 17, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .auth-modal-backdrop.open {
+    display: flex;
+    opacity: 1;
+  }
+
+  .auth-modal-card {
+    background: #FFFFFF;
+    border: 1px solid var(--border-main);
+    border-radius: 22px;
+    width: 100%;
+    max-width: 450px;
+    padding: 32px 28px 28px;
+    box-shadow: 0 24px 52px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.04);
+    position: relative;
+    animation: authModalSlide 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  @keyframes authModalSlide {
+    from { opacity: 0; transform: translateY(16px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Confetti Canvas Overlay */
+  #confettiCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .auth-modal-top-actions {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    right: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    pointer-events: none;
+    z-index: 20;
+  }
+
+  .auth-nav-icon-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    transition: all 0.12s ease;
+  }
+
+  .auth-nav-icon-btn:hover {
+    color: var(--text-dark);
+    background: var(--bg-muted);
+    border-color: var(--border-faint);
+  }
+
+  /* Step Panes */
+  .auth-step-pane {
+    display: none;
+    animation: fadeInStep 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .auth-step-pane.active {
+    display: block;
+  }
+
+  @keyframes fadeInStep {
+    from { opacity: 0; transform: translateX(6px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* STEP 1: Method Picker */
+  .auth-header-step1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 24px;
+    padding-top: 6px;
+  }
+
+  .auth-brand-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--text-dark);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  .auth-title {
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-dark);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .auth-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.45;
+    max-width: 330px;
+  }
+
+  .auth-buttons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .auth-method-btn {
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid var(--border-main);
+    border-radius: 10px;
+    padding: 11px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-family: var(--font-inter);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+    transition: all 0.14s ease;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .auth-method-btn:hover {
+    background: var(--bg-muted);
+    border-color: var(--text-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .auth-btn-icon-slot {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--text-dark);
+  }
+
+  .auth-btn-text {
+    flex: 1;
+    text-align: left;
+  }
+
+  .auth-footer-notice {
+    font-size: 11px;
+    color: var(--text-light);
+    text-align: center;
+    line-height: 1.4;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-faint);
+  }
+
+  /* STEP 2: Profile Form */
+  .auth-header-step2 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-top: 6px;
+    text-align: left;
+  }
+
+  .auth-autofill-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--bg-muted);
+    border: 1px solid var(--border-main);
+    border-radius: 8px;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.14s ease;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .auth-autofill-icon-btn:hover {
+    background: var(--text-dark);
+    color: #FFFFFF;
+    border-color: var(--text-dark);
+    transform: scale(1.06);
+  }
+
+  .auth-form-field {
+    margin-bottom: 12px;
+    text-align: left;
+  }
+
+  .auth-field-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+  }
+
+  .auth-field-label .required-mark {
+    color: var(--text-dark);
+    font-size: 10.5px;
+    font-weight: 500;
+    opacity: 0.6;
+  }
+
+  .auth-field-label .recommended-mark {
+    color: var(--text-muted);
+    font-size: 10.5px;
+    font-weight: 600;
+    background: var(--bg-muted);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  .auth-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .auth-text-input {
+    width: 100%;
+    padding: 9px 12px;
+    background: #FAFAF9;
+    border: 1px solid var(--border-main);
+    border-radius: 8px;
+    font-family: var(--font-inter);
+    font-size: 12.5px;
+    color: var(--text-dark);
+    outline: none;
+    transition: all 0.12s ease;
+  }
+
+  .auth-text-input:focus {
+    background: #FFFFFF;
+    border-color: var(--text-dark);
+    box-shadow: 0 0 0 3px rgba(18, 18, 17, 0.06);
+  }
+
+  .auth-select-input {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 32px;
+  }
+
+  .select-chevron-icon {
+    position: absolute;
+    right: 12px;
+    width: 14px;
+    height: 14px;
+    color: var(--text-light);
+    pointer-events: none;
+  }
+
+  .password-toggle-btn {
+    position: absolute;
+    right: 8px;
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .password-toggle-btn:hover {
+    color: var(--text-dark);
+  }
+
+  .auth-submit-btn {
+    width: 100%;
+    background: var(--text-dark);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 9px;
+    padding: 11px;
+    font-family: var(--font-inter);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 6px;
+    transition: all 0.14s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .auth-submit-btn:hover {
+    background: #000000;
+    transform: translateY(-0.5px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.16);
+  }
+
+  /* STEP 3: Celebration & Marketing Follow Screen */
+  .auth-step3-container {
+    text-align: center;
+    padding-top: 10px;
+  }
+
+  .celebration-success-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--text-dark);
+    color: #FFFFFF;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+    animation: bounceIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes bounceIn {
+    0% { transform: scale(0.6); opacity: 0; }
+    80% { transform: scale(1.08); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .social-follow-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 18px 0 20px;
+    text-align: left;
+  }
+
+  .social-follow-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FAF9F8;
+    border: 1px solid var(--border-main);
+    border-radius: 10px;
+    padding: 9px 12px;
+    transition: all 0.12s ease;
+  }
+
+  .social-follow-item:hover {
+    background: #FFFFFF;
+    border-color: var(--text-dark);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .social-item-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .social-icon-box {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    background: #FFFFFF;
+    border: 1px solid var(--border-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dark);
+    flex-shrink: 0;
+  }
+
+  .social-item-name {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.2;
+  }
+
+  .social-item-desc {
+    font-size: 10.5px;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+
+  .social-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 11px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-inter);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dark);
+    background: #FFFFFF;
+    border: 1px solid var(--border-main);
+    text-decoration: none;
+    transition: all 0.12s ease;
+    cursor: pointer;
+  }
+
+  .social-action-btn:hover {
+    background: var(--text-dark);
+    color: #FFFFFF;
+    border-color: var(--text-dark);
+  }
+
+  .social-action-btn.followed {
+    background: var(--bg-muted);
+    color: var(--text-muted);
+    border-color: var(--border-main);
+  }
+
+  .auth-ghost-btn {
+    width: 100%;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    padding: 11px 16px;
+    font-family: var(--font-inter);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: all 0.14s ease;
+  }
+
+  .auth-ghost-btn:hover {
+    color: var(--text-dark);
+    background: var(--bg-muted);
+  }
+
+  /* Toast Notification */
+  .toast-alert {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--text-dark);
+    color: #FFFFFF;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    z-index: 20000;
+    display: none;
+    animation: toastPop 0.2s ease;
+  }
+
+  @keyframes toastPop {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive Rules */
+  @media (max-width: 880px) {
+    .nav-center-group { display: none; }
+    .hero-main-heading { font-size: 34px; }
+    .metrics-skeleton-row { grid-template-columns: repeat(2, 1fr); }
+    .viewport-body-split { grid-template-columns: 1fr; }
+    .viewport-sidebar-col { display: none; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       01. TOP NAVIGATION BAR (SHOWCASE FOCUS)
+       Left: Seedicon Logo
+       Center: Capital, Products (Hover: Deckwale, Watch, Allbuddy, Crusrource [Coming Soon]),
+               Trade, Partner with us, Insights
+       Right: Log in, Sign up
+       ────────────────────────────────────────────────────────────────────────── -->
+  <header class="landing-header">
+    <div class="nav-container">
+      
+      <!-- Left: Seedicon Brand Logo -->
+      <a href="./index.html" class="brand-logo-wrap" title="Seedicon Home">
+        <div class="brand-logo-mark">
+          <i data-lucide="asterisk" style="width:18px; height:18px; stroke-width:2.6;"></i>
+        </div>
+        <span class="brand-logo-title">Seedicon</span>
+      </a>
+
+      <!-- Center: Nav Items List -->
+      <nav>
+        <ul class="nav-center-group">
+          
+          <!-- 1. Capital (Active) -->
+          <li class="nav-item">
+            <a href="./index.html" class="nav-anchor active" title="Seedicon Capital Solutions">
+              <span>Capital</span>
+            </a>
+          </li>
+
+          <!-- 2. Products (Dropdown on Hover: Deckwale, Watch, Allbuddy, Crusrource [Coming Soon]) -->
+          <li class="nav-item">
+            <a href="#" class="nav-anchor" onclick="event.preventDefault();" title="Seedicon Product Ecosystem">
+              <span>Products</span>
+              <i data-lucide="chevron-down" class="nav-chevron"></i>
+            </a>
+
+            <!-- Popover Dropdown Menu -->
+            <div class="products-dropdown-menu">
+              <div class="dropdown-menu-head">
+                <span class="dropdown-menu-label">Seedicon Products</span>
+                <span class="dropdown-menu-count">4 Modules</span>
+              </div>
+              
+              <!-- Product 1: Deckwale -->
+              <a href="../lofi-founder/deckwale.html" class="dropdown-product-row">
+                <div class="dropdown-prod-icon">
+                  <i data-lucide="sparkles" style="width:15px; height:15px;"></i>
+                </div>
+                <div class="dropdown-prod-content">
+                  <div class="dropdown-prod-top">
+                    <span class="dropdown-prod-title">Deckwale</span>
+                    <span class="badge-tag-pill pro">PRO</span>
+                  </div>
+                  <div class="dropdown-prod-desc">Expert pitch storytelling, visual decks &amp; venture models.</div>
+                </div>
+              </a>
+
+              <!-- Product 2: Watch -->
+              <a href="../lofi-founder/watch-data-rooms.html" class="dropdown-product-row">
+                <div class="dropdown-prod-icon">
+                  <i data-lucide="folder-lock" style="width:15px; height:15px;"></i>
+                </div>
+                <div class="dropdown-prod-content">
+                  <div class="dropdown-prod-top">
+                    <span class="dropdown-prod-title">Watch</span>
+                    <span class="badge-tag-pill pro">VDR</span>
+                  </div>
+                  <div class="dropdown-prod-desc">Secure virtual data rooms &amp; diligence audit monitoring.</div>
+                </div>
+              </a>
+
+              <!-- Product 3: Allbuddy -->
+              <a href="../lofi-founder/founder-network.html" class="dropdown-product-row">
+                <div class="dropdown-prod-icon">
+                  <i data-lucide="users" style="width:15px; height:15px;"></i>
+                </div>
+                <div class="dropdown-prod-content">
+                  <div class="dropdown-prod-top">
+                    <span class="dropdown-prod-title">Allbuddy</span>
+                    <span class="badge-tag-pill pro">NETWORK</span>
+                  </div>
+                  <div class="dropdown-prod-desc">Verified founder, advisor &amp; angel network directory.</div>
+                </div>
+              </a>
+
+              <!-- Product 4: Crusrource [Coming Soon] -->
+              <div class="dropdown-product-row coming-soon-row" title="Crusrource is currently in active private preview">
+                <div class="dropdown-prod-icon">
+                  <i data-lucide="compass" style="width:15px; height:15px;"></i>
+                </div>
+                <div class="dropdown-prod-content">
+                  <div class="dropdown-prod-top">
+                    <span class="dropdown-prod-title">Crusrource</span>
+                    <span class="badge-tag-pill soon">Coming Soon</span>
+                  </div>
+                  <div class="dropdown-prod-desc">Curated startup scouting, talent &amp; deal syndication.</div>
+                </div>
+              </div>
+
+            </div>
+          </li>
+
+          <!-- 3. Trade -->
+          <li class="nav-item">
+            <a href="../lofi-founder/real-market-problems.html" class="nav-anchor" title="Secondary &amp; Asset Trading">
+              <span>Trade</span>
+            </a>
+          </li>
+
+          <!-- 4. Partner with us -->
+          <li class="nav-item">
+            <a href="../lofi-founder/investor-tracking.html" class="nav-anchor" title="Syndicate &amp; Venture Partners">
+              <span>Partner with us</span>
+            </a>
+          </li>
+
+          <!-- 5. Insights -->
+          <li class="nav-item">
+            <a href="../lofi-founder/startup-news.html" class="nav-anchor" title="Venture Intelligence &amp; Market Research">
+              <span>Insights</span>
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+
+      <!-- Right: Log in & Sign up -->
+      <div class="nav-auth-actions">
+        
+        <!-- Login Selector -->
+        <div class="login-popover-anchor">
+          <button class="btn-nav-login" id="btnLoginTrigger" onclick="toggleLoginPopover(event)">
+            <span>Log in</span>
+            <i data-lucide="chevron-down" style="width:12px; height:12px;"></i>
+          </button>
+
+          <!-- Context Dropdown for Choosing Portal -->
+          <div class="login-portal-menu" id="loginPortalMenu">
+            <div class="login-menu-head">
+              <span class="login-menu-head-title">Select Workspace</span>
+              <span style="font-size:10px; font-weight:700; color:var(--text-dark); background:var(--bg-muted); padding:1px 5px; border-radius:3px;">Sign in</span>
+            </div>
+
+            <!-- Founder Option -> Redirects to network.html -->
+            <a href="./network.html" class="login-portal-card">
+              <div class="login-portal-icon" style="background:#121211; color:#FFFFFF;">
+                <i data-lucide="rocket" style="width:15px; height:15px;"></i>
+              </div>
+              <div class="login-portal-info">
+                <div class="login-portal-name">Founder Portal</div>
+                <div class="login-portal-desc">Manage startup, decks &amp; data rooms</div>
+              </div>
+              <i data-lucide="arrow-up-right" style="width:13px; height:13px; color:var(--text-light);"></i>
+            </a>
+
+            <!-- Investor Option -> Redirects to lofi-investor/index.html -->
+            <a href="../lofi-investor/index.html" class="login-portal-card">
+              <div class="login-portal-icon" style="background:#2C2C2A; color:#FFFFFF;">
+                <i data-lucide="trending-up" style="width:15px; height:15px;"></i>
+              </div>
+              <div class="login-portal-info">
+                <div class="login-portal-name">Investor Portal</div>
+                <div class="login-portal-desc">Deal pipeline &amp; fund analytics</div>
+              </div>
+              <i data-lucide="arrow-up-right" style="width:13px; height:13px; color:var(--text-light);"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Sign Up Action (Triggers Neutral Multi-Step Auth Flow) -->
+        <button class="btn-nav-signup" onclick="openAuthModal()">
+          <span>Sign up</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+     02. HERO SECTION & STATIC SKELETON
+     ────────────────────────────────────────────────────────────────────────── -->
+  <main>
+    <section class="hero-wrapper">
+
+      <!-- Main Headline -->
+      <h1 class="hero-main-heading">
+        The unified operating system for early-stage capital &amp; innovation.
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="hero-main-subtext">
+        Seedicon brings together high-conviction founders, verified capital partners, pitch infrastructure, and secure diligence vaults in a single ecosystem.
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="hero-button-row">
+        <button class="btn-hero-primary" onclick="openAuthModal()">
+          <i data-lucide="plus-circle" style="width:15px; height:15px;"></i>
+          <span>List your products</span>
+        </button>
+
+        <a href="../lofi-founder/public-product-listing.html" class="btn-hero-secondary">
+          <i data-lucide="compass" style="width:15px; height:15px;"></i>
+          <span>Explore products</span>
+        </a>
+      </div>
+
+      <!-- ──────────────────────────────────────────────────────────────────
+           03. STATIC SKELETON WIREFRAME VIEW (SIMPLE, MINIMAL, TO THE POINT)
+           ────────────────────────────────────────────────────────────────── -->
+      <div class="skeleton-preview-box">
+
+        <!-- Static Metrics Strip -->
+        <div class="metrics-skeleton-row">
+          <div class="metric-skeleton-cell">
+            <div class="static-block static-kpi-val"></div>
+            <div class="static-block static-kpi-lbl"></div>
+          </div>
+          <div class="metric-skeleton-cell">
+            <div class="static-block static-kpi-val" style="width:65%;"></div>
+            <div class="static-block static-kpi-lbl" style="width:75%;"></div>
+          </div>
+          <div class="metric-skeleton-cell">
+            <div class="static-block static-kpi-val" style="width:50%;"></div>
+            <div class="static-block static-kpi-lbl" style="width:85%;"></div>
+          </div>
+          <div class="metric-skeleton-cell">
+            <div class="static-block static-kpi-val" style="width:70%;"></div>
+            <div class="static-block static-kpi-lbl" style="width:60%;"></div>
+          </div>
+        </div>
+
+        <!-- Static Dashboard Viewport Skeleton Canvas -->
+        <div class="skeleton-viewport-card">
+          <!-- Top Window Header -->
+          <div class="viewport-header-strip">
+            <div class="viewport-traffic-lights">
+              <span class="traffic-dot"></span>
+              <span class="traffic-dot"></span>
+              <span class="traffic-dot"></span>
+            </div>
+            <div class="static-block" style="height:20px; width:240px; border-radius:var(--radius-pill);"></div>
+            <div class="static-block" style="width:50px; height:16px; border-radius:4px;"></div>
+          </div>
+
+          <!-- Body with Sidebar and Main Content Area -->
+          <div class="viewport-body-split">
+            <!-- Sidebar Skeleton -->
+            <div class="viewport-sidebar-col">
+              <div class="static-block" style="height:12px; width:45%; margin-bottom:6px;"></div>
+              <div class="static-block" style="height:14px; width:85%;"></div>
+              <div class="static-block" style="height:14px; width:90%;"></div>
+              <div class="static-block" style="height:14px; width:75%;"></div>
+              <div class="static-block" style="height:12px; width:40%; margin-top:10px; margin-bottom:6px;"></div>
+              <div class="static-block" style="height:14px; width:80%;"></div>
+              <div class="static-block" style="height:14px; width:70%;"></div>
+            </div>
+
+            <!-- Main Content Area Skeleton -->
+            <div class="viewport-content-col">
+              <!-- Top Grid Cards -->
+              <div class="skeleton-tiles-3col">
+                <div class="skeleton-tile-item">
+                  <div class="static-block" style="height:12px; width:45%;"></div>
+                  <div class="static-block" style="height:20px; width:65%;"></div>
+                  <div class="static-block" style="height:10px; width:80%;"></div>
+                </div>
+                <div class="skeleton-tile-item">
+                  <div class="static-block" style="height:12px; width:40%;"></div>
+                  <div class="static-block" style="height:20px; width:55%;"></div>
+                  <div class="static-block" style="height:10px; width:75%;"></div>
+                </div>
+                <div class="skeleton-tile-item">
+                  <div class="static-block" style="height:12px; width:50%;"></div>
+                  <div class="static-block" style="height:20px; width:70%;"></div>
+                  <div class="static-block" style="height:10px; width:60%;"></div>
+                </div>
+              </div>
+
+              <!-- Data Table Wireframe -->
+              <div class="skeleton-table-mockup">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <div class="static-block" style="height:13px; width:28%;"></div>
+                  <div class="static-block" style="height:13px; width:15%;"></div>
+                </div>
+                <div class="static-block" style="height:24px; width:100%; border-radius:6px;"></div>
+                <div class="static-block" style="height:24px; width:100%; border-radius:6px;"></div>
+                <div class="static-block" style="height:24px; width:100%; border-radius:6px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       04. SEEDICON MULTI-STEP NEUTRAL AUTH MODAL
+       Step 1: Sign in with Google / LinkedIn / Email
+       Step 2: Name, Email, Password, Role (dropdown), LinkedIn (Recommended) with Autofill Flash
+       Step 3: Confetti Celebration + Social Follow Marketing Screen (X, LinkedIn, Instagram) + Skip/Explore
+       ────────────────────────────────────────────────────────────────────────── -->
+  <div class="auth-modal-backdrop" id="authModal" onclick="handleAuthBackdropClick(event)">
+    <div class="auth-modal-card">
+      
+      <!-- Canvas for celebration confetti -->
+      <canvas id="confettiCanvas"></canvas>
+
+      <!-- Top Action Controls (Close Only) -->
+      <div class="auth-modal-top-actions">
+        <button class="auth-nav-icon-btn" onclick="closeAuthModal()" title="Close dialog">
+          <i data-lucide="x" style="width:16px; height:16px;"></i>
+        </button>
+      </div>
+
+      <!-- ═════════════════════════════════════════════════════════════════════
+           STEP 1: METHOD SELECTION
+           ═════════════════════════════════════════════════════════════════════ -->
+      <div class="auth-step-pane active" id="authStep1">
+        <div class="auth-header-step1">
+          <div class="auth-brand-badge">
+            <i data-lucide="asterisk" style="width:28px; height:28px; stroke-width:2.6;"></i>
+          </div>
+          <h2 class="auth-title">Sign up on Seedicon</h2>
+          <p class="auth-subtitle">Join the verified community of founders, innovators, and early-stage capital partners.</p>
+        </div>
+
+        <div class="auth-buttons-list">
+          <!-- 1. Sign in with LinkedIn -->
+          <button class="auth-method-btn" onclick="selectAuthMethod('LinkedIn')">
+            <div class="auth-btn-icon-slot">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v7.6h2.78V10.9H6.46M7.85 6.64a1.64 1.64 0 1 0 0 3.28 1.64 1.64 0 0 0 0-3.28Z"/>
+              </svg>
+            </div>
+            <span class="auth-btn-text">Sign in with LinkedIn</span>
+          </button>
+
+          <!-- 2. Sign in with Google -->
+          <button class="auth-method-btn" onclick="selectAuthMethod('Google')">
+            <div class="auth-btn-icon-slot">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M21.35 11.1h-9.17v2.98h5.33c-.23 1.25-.94 2.31-2 3.02l3.23 2.51c1.89-1.74 2.98-4.31 2.98-7.39 0-.71-.06-1.4-.17-2.02l-.2-.1z"/>
+                <path d="M12.18 21c2.7 0 4.96-.89 6.61-2.42l-3.23-2.51c-.89.6-2.03.95-3.38.95-2.6 0-4.8-1.76-5.59-4.12l-3.33 2.58C4.89 18.73 8.27 21 12.18 21z"/>
+                <path d="M6.59 12.9c-.2-.6-.31-1.24-.31-1.9s.11-1.3.31-1.9L3.26 6.52C2.45 8.13 2 9.94 2 12s.45 3.87 1.26 5.48l3.33-2.58z"/>
+                <path d="M12.18 5.98c1.47 0 2.79.51 3.83 1.5l2.87-2.87C17.14 3.01 14.88 2 12.18 2 8.27 2 4.89 4.27 3.26 6.52l3.33 2.58c.79-2.36 2.99-4.12 5.59-4.12z"/>
+              </svg>
+            </div>
+            <span class="auth-btn-text">Sign in with Google</span>
+          </button>
+
+          <!-- 3. Sign in with Email -->
+          <button class="auth-method-btn" onclick="selectAuthMethod('Email')">
+            <div class="auth-btn-icon-slot">
+              <i data-lucide="mail" style="width:17px; height:17px;"></i>
+            </div>
+            <span class="auth-btn-text">Sign in with Email</span>
+          </button>
+        </div>
+
+        <div class="auth-footer-notice">
+          <span>We'll never post to any of your accounts without your permission.</span>
+        </div>
+      </div>
+
+      <!-- ═════════════════════════════════════════════════════════════════════
+           STEP 2: DETAILS INPUT SCREEN (Clean Header, Icon-Only Flash Autofill, Role Dropdown, Recommended tag)
+           ═════════════════════════════════════════════════════════════════════ -->
+      <div class="auth-step-pane" id="authStep2">
+        <div class="auth-header-step2">
+          <div>
+            <h2 class="auth-title" style="margin-bottom:3px;">Complete your profile</h2>
+            <p class="auth-subtitle">Provide your credentials to activate your founder workspace.</p>
+          </div>
+          <!-- Autofill Flash Button (Icon Only) -->
+          <button type="button" class="auth-autofill-icon-btn" onclick="autofillDemoProfile()" title="Auto-fill sample data">
+            <i data-lucide="zap" style="width:15px; height:15px;"></i>
+          </button>
+        </div>
+
+        <form id="authProfileForm" onsubmit="handleAuthProfileSubmit(event)">
+          
+          <!-- 1. Full Name -->
+          <div class="auth-form-field">
+            <label class="auth-field-label" for="userFullName">
+              <span>Full Name</span>
+              <span class="required-mark">*</span>
+            </label>
+            <div class="auth-input-wrapper">
+              <input type="text" id="userFullName" class="auth-text-input" placeholder="e.g. Alex Thorne" required />
+            </div>
+          </div>
+
+          <!-- 2. Email Address -->
+          <div class="auth-form-field">
+            <label class="auth-field-label" for="userEmail">
+              <span>Email Address</span>
+              <span class="required-mark">*</span>
+            </label>
+            <div class="auth-input-wrapper">
+              <input type="email" id="userEmail" class="auth-text-input" placeholder="alex@venture.com" required />
+            </div>
+          </div>
+
+          <!-- 3. Password -->
+          <div class="auth-form-field">
+            <label class="auth-field-label" for="userPassword">
+              <span>Password</span>
+              <span class="required-mark">*</span>
+            </label>
+            <div class="auth-input-wrapper">
+              <input type="password" id="userPassword" class="auth-text-input" placeholder="Create a secure password" required />
+              <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('userPassword', this)" title="Toggle password visibility">
+                <i data-lucide="eye" style="width:15px; height:15px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- 4. Role (Dropdown: Founder, Investor, Explorer) -->
+          <div class="auth-form-field">
+            <label class="auth-field-label" for="userRole">
+              <span>Role</span>
+              <span class="required-mark">*</span>
+            </label>
+            <div class="auth-input-wrapper">
+              <select id="userRole" class="auth-text-input auth-select-input" required>
+                <option value="founder" selected>Founder</option>
+                <option value="investor">Investor</option>
+                <option value="explorer">Explorer</option>
+              </select>
+              <i data-lucide="chevron-down" class="select-chevron-icon"></i>
+            </div>
+          </div>
+
+          <!-- 5. LinkedIn Profile (Recommended) -->
+          <div class="auth-form-field">
+            <label class="auth-field-label" for="userLinkedin">
+              <span>LinkedIn Profile</span>
+              <span class="recommended-mark">Recommended</span>
+            </label>
+            <div class="auth-input-wrapper">
+              <input type="url" id="userLinkedin" class="auth-text-input" placeholder="https://linkedin.com/in/username" />
+            </div>
+          </div>
+
+          <!-- Final Submit Button -->
+          <button type="submit" class="auth-submit-btn" id="authSubmitBtn">
+            <span>Create Account &amp; Continue</span>
+            <i data-lucide="arrow-right" style="width:14px; height:14px;"></i>
+          </button>
+
+          <div style="font-size:11px; color:var(--text-light); text-align:center; margin-top:10px; line-height:1.4;">
+            By joining, you agree to Seedicon's Terms and Privacy Policy.
+          </div>
+
+        </form>
+      </div>
+
+      <!-- ═════════════════════════════════════════════════════════════════════
+           STEP 3: CELEBRATION & SOCIAL MEDIA FOLLOW MARKETING SCREEN
+           ═════════════════════════════════════════════════════════════════════ -->
+      <div class="auth-step-pane" id="authStep3">
+        <div class="auth-step3-container">
+          
+          <div class="celebration-success-icon">
+            <i data-lucide="check" style="width:24px; height:24px; stroke-width:3;"></i>
+          </div>
+
+          <h2 class="auth-title">Profile Completed!</h2>
+          <p class="auth-subtitle">Welcome to Seedicon. Follow our official channels for the latest venture intelligence, batch news &amp; capital deals:</p>
+
+          <!-- Social Follow Channels List -->
+          <div class="social-follow-list">
+            
+            <!-- 1. Follow on X -->
+            <div class="social-follow-item">
+              <div class="social-item-left">
+                <div class="social-icon-box">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="social-item-name">Seedicon on X</div>
+                  <div class="social-item-desc">@SeediconHQ · Breaking updates &amp; alerts</div>
+                </div>
+              </div>
+              <button type="button" class="social-action-btn" onclick="toggleFollowSocial(this, 'X')">
+                <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                <span>Follow</span>
+              </button>
+            </div>
+
+            <!-- 2. Follow on LinkedIn -->
+            <div class="social-follow-item">
+              <div class="social-item-left">
+                <div class="social-icon-box">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v7.6h2.78V10.9H6.46M7.85 6.64a1.64 1.64 0 1 0 0 3.28 1.64 1.64 0 0 0 0-3.28Z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="social-item-name">Seedicon LinkedIn</div>
+                  <div class="social-item-desc">Seedicon Ecosystem · Deal flows &amp; reports</div>
+                </div>
+              </div>
+              <button type="button" class="social-action-btn" onclick="toggleFollowSocial(this, 'LinkedIn')">
+                <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                <span>Follow</span>
+              </button>
+            </div>
+
+            <!-- 3. Follow on Instagram -->
+            <div class="social-follow-item">
+              <div class="social-item-left">
+                <div class="social-icon-box">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="social-item-name">Seedicon Instagram</div>
+                  <div class="social-item-desc">@seedicon.hq · Founder stories &amp; culture</div>
+                </div>
+              </div>
+              <button type="button" class="social-action-btn" onclick="toggleFollowSocial(this, 'Instagram')">
+                <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                <span>Follow</span>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Skip and Explore Products Ghost Action Only (Center Aligned, No Arrow) -->
+          <button type="button" class="auth-ghost-btn" onclick="finishSignupFlow('products')">
+            Skip and explore products
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-alert" id="landingToast"></div>
+
+  <script>
+    // Initialize Lucide Icons
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+
+    // Toggle Login Context Menu Popover
+    function toggleLoginPopover(event) {
+      if (event) event.stopPropagation();
+      const menu = document.getElementById('loginPortalMenu');
+      if (!menu) return;
+      const isShown = menu.classList.contains('show');
+      
+      if (!isShown) {
+        menu.classList.add('show');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      } else {
+        menu.classList.remove('show');
+      }
+    }
+
+    function closeLoginPopover() {
+      const menu = document.getElementById('loginPortalMenu');
+      if (menu) menu.classList.remove('show');
+    }
+
+    // Dismiss popover on outside click
+    document.addEventListener('click', function(e) {
+      const menu = document.getElementById('loginPortalMenu');
+      const btn = document.getElementById('btnLoginTrigger');
+      if (menu && menu.classList.contains('show')) {
+        if (!menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
+          menu.classList.remove('show');
+        }
+      }
+    });
+
+    // ────────────────────────────────────────────────────────────────────────
+    // MULTI-STEP AUTH CONTROLLER & CONFETTI ENGINE
+    // ────────────────────────────────────────────────────────────────────────
+    let chosenAuthMethod = 'Email';
+
+    function openAuthModal() {
+      const modal = document.getElementById('authModal');
+      if (!modal) return;
+      closeLoginPopover();
+      goToAuthStep(1);
+      modal.classList.add('open');
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function closeAuthModal() {
+      const modal = document.getElementById('authModal');
+      if (modal) {
+        modal.classList.remove('open');
+        stopConfetti();
+      }
+    }
+
+    function handleAuthBackdropClick(e) {
+      if (e.target.id === 'authModal') {
+        closeAuthModal();
+      }
+    }
+
+    // Escape key closes modal
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeAuthModal();
+      }
+    });
+
+    function selectAuthMethod(method) {
+      chosenAuthMethod = method;
+
+      const emailInput = document.getElementById('userEmail');
+      if (method === 'Google' && emailInput && !emailInput.value) {
+        emailInput.placeholder = 'yourname@gmail.com';
+      } else if (method === 'LinkedIn' && emailInput && !emailInput.value) {
+        emailInput.placeholder = 'yourname@company.com';
+      }
+
+      goToAuthStep(2);
+    }
+
+    function goToAuthStep(stepNumber) {
+      const step1 = document.getElementById('authStep1');
+      const step2 = document.getElementById('authStep2');
+      const step3 = document.getElementById('authStep3');
+
+      if (step1) step1.classList.remove('active');
+      if (step2) step2.classList.remove('active');
+      if (step3) step3.classList.remove('active');
+
+      if (stepNumber === 1) {
+        if (step1) step1.classList.add('active');
+        stopConfetti();
+      } else if (stepNumber === 2) {
+        if (step2) step2.classList.add('active');
+        stopConfetti();
+        setTimeout(() => {
+          const nameInput = document.getElementById('userFullName');
+          if (nameInput) nameInput.focus();
+        }, 100);
+      } else if (stepNumber === 3) {
+        if (step3) step3.classList.add('active');
+        launchConfetti();
+      }
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function autofillDemoProfile() {
+      const nameInput = document.getElementById('userFullName');
+      const emailInput = document.getElementById('userEmail');
+      const passwordInput = document.getElementById('userPassword');
+      const roleSelect = document.getElementById('userRole');
+      const linkedinInput = document.getElementById('userLinkedin');
+
+      if (nameInput) nameInput.value = 'Alex Thorne';
+      if (emailInput) emailInput.value = 'alex.thorne@seedicon.com';
+      if (passwordInput) passwordInput.value = 'Seedicon2026!';
+      if (roleSelect) roleSelect.value = 'founder';
+      if (linkedinInput) linkedinInput.value = 'https://linkedin.com/in/alexthorne';
+
+      showToast('⚡ Profile auto-filled with demo credentials');
+    }
+
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+      btn.innerHTML = isPassword 
+        ? '<i data-lucide="eye-off" style="width:15px; height:15px;"></i>' 
+        : '<i data-lucide="eye" style="width:15px; height:15px;"></i>';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function handleAuthProfileSubmit(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('userFullName').value.trim();
+      const email = document.getElementById('userEmail').value.trim();
+      const password = document.getElementById('userPassword').value;
+      const role = document.getElementById('userRole').value;
+      const linkedin = document.getElementById('userLinkedin').value.trim();
+
+      if (!name || !email || !password || !role) {
+        showToast('Please fill in all required fields.');
+        return;
+      }
+
+      const userData = {
+        name: name,
+        email: email,
+        role: role,
+        linkedin: linkedin,
+        authMethod: chosenAuthMethod,
+        createdAt: new Date().toISOString()
+      };
+
+      try {
+        localStorage.setItem('seedicon_user', JSON.stringify(userData));
+      } catch (err) {
+        console.warn('localStorage access error', err);
+      }
+
+      // Transition to Step 3: Celebration Confetti & Marketing Follow
+      goToAuthStep(3);
+    }
+
+    function toggleFollowSocial(btn, platform) {
+      const isFollowed = btn.classList.contains('followed');
+      if (!isFollowed) {
+        btn.classList.add('followed');
+        btn.innerHTML = '<i data-lucide="check" style="width:12px; height:12px;"></i><span>Following</span>';
+        showToast(`✨ You are now following Seedicon on ${platform}!`);
+      } else {
+        btn.classList.remove('followed');
+        btn.innerHTML = '<i data-lucide="plus" style="width:12px; height:12px;"></i><span>Follow</span>';
+      }
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function finishSignupFlow(destination) {
+      closeAuthModal();
+      if (destination === 'products') {
+        showToast('Redirecting to public products directory...');
+        setTimeout(() => {
+          window.location.href = '../lofi-founder/public-product-listing.html';
+        }, 400);
+      } else {
+        showToast('Entering founder workspace...');
+        setTimeout(() => {
+          window.location.href = './network.html';
+        }, 400);
+      }
+    }
+
+    // ────────────────────────────────────────────────────────────────────────
+    // LIGHTWEIGHT CANVAS CONFETTI ENGINE
+    // ────────────────────────────────────────────────────────────────────────
+    let confettiAnimationId = null;
+    const confettiColors = ['#121211', '#52525B', '#71717A', '#A1A1AA', '#D4D4D8', '#E4E4E7'];
+
+    function launchConfetti() {
+      const canvas = document.getElementById('confettiCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.parentElement.offsetWidth;
+      canvas.height = canvas.parentElement.offsetHeight;
+
+      const particles = [];
+      const particleCount = 75;
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: canvas.width / 2 + (Math.random() - 0.5) * 40,
+          y: canvas.height / 3 + (Math.random() - 0.5) * 20,
+          vx: (Math.random() - 0.5) * 8,
+          vy: (Math.random() - 1.2) * 7 - 2,
+          size: Math.random() * 6 + 3,
+          color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+          rotation: Math.random() * 360,
+          rotationSpeed: (Math.random() - 0.5) * 10,
+          gravity: 0.22,
+          drag: 0.98,
+          opacity: 1
+        });
+      }
+
+      let frame = 0;
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        frame++;
+
+        particles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += p.gravity;
+          p.vx *= p.drag;
+          p.vy *= p.drag;
+          p.rotation += p.rotationSpeed;
+          if (frame > 40) p.opacity -= 0.015;
+
+          if (p.opacity > 0) {
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rotation * Math.PI) / 180);
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = Math.max(0, p.opacity);
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.7);
+            ctx.restore();
+          }
+        });
+
+        if (frame < 120) {
+          confettiAnimationId = requestAnimationFrame(render);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+
+      if (confettiAnimationId) cancelAnimationFrame(confettiAnimationId);
+      render();
+    }
+
+    function stopConfetti() {
+      if (confettiAnimationId) {
+        cancelAnimationFrame(confettiAnimationId);
+        confettiAnimationId = null;
+      }
+      const canvas = document.getElementById('confettiCanvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('landingToast');
+      if (toast) {
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 3200);
+      }
+    }
+  </script>
+</body>
+</html>
