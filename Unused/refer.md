@@ -1,163 +1,521 @@
-SaaS & Software Startup Due Diligence: Complete Investor Readiness Guide
-A comprehensive due diligence guide for saas & software founders covering regulatory requirements, financial validation, market analysis, and investor expectations. Includes stage-wise checklist, process flow, and required documents.
+Yes. Based on the **Raise Funding Form** and the **Investor/DD fields** you shared, I would structure the founder fundraising form so that it captures everything an investor needs to understand the company, evaluate the opportunity, and start diligence—without asking founders for heavy legal/DD information too early.
 
-Due diligence at a glance
-Timeline
-3-6 months
-Average duration
-Deal Size
-$2M - $10M
-Typical range
-Focus Areas
-3
-Key categories
-What is SaaS & Software Due Diligence?
-Due diligence is not just a checklist — it's the moment where investors verify everything you've claimed about your startup before committing capital.
+The key principle should be:
 
-In saas & software, this process becomes even more critical. SaaS requires deep analysis of recurring revenue models, churn rates, and customer lifetime value.
+**Founder provides business + fundraising + core financial + basic legal information → Investor/DD team later verifies and enriches the detailed diligence information.**
 
-A weak due diligence process doesn't just delay funding — it can completely kill the deal.
+# Founder Fundraising Form
 
-The 6 Pillars of Due Diligence
-Team
-Product
-Regulatory
-Financials
-Market
-Legal & IP
-Stage-wise Due Diligence
-Due diligence depth and focus evolves with your startup stage
+## 1. Company Overview
 
-🚀
-Pre-Seed / Idea
-25% depth
-MVP validation, early customer feedback, product-market fit indicators
+Basic information needed to identify and understand the company.
 
-🌱
-Seed Stage
-50% depth
-MRR growth trajectory, customer acquisition costs, initial retention metrics
+**Company Name***
+e.g. Alpha Health Technologies
 
-📈
-Series A
-75% depth
-ARR benchmarks, unit economics, scalability proof, enterprise customer validation
+**Company Tagline***
+A one-line description of what the company does.
 
-🏆
-Series B+
-100% depth
-Market leadership, profitability path, global expansion readiness
+**Company Website***
+e.g. [https://alphahealth.io](https://alphahealth.io)
 
-Complete Due Diligence Checklist
-1. SaaS Metrics & KPIs
-Revenue Metrics
-Key revenue and growth indicators
+**Industry / Sector***
+FinTech, SaaS, AI/ML, Healthcare, EdTech, ClimateTech, etc.
 
-Monthly Recurring Revenue (MRR) - Last 24 months
-Required
-Annual Recurring Revenue (ARR)
-Required
-Month-over-Month Growth Rate
-Required
-Revenue Mix by Plan/Tier
-Required
-Customer Health Metrics
-Customer acquisition and retention
+**Sub-Sector**
+e.g. Payments, Diagnostics, Cybersecurity, D2C, Robotics.
 
-Customer Acquisition Cost (CAC)
-Required
-Lifetime Value (LTV)
-Required
-LTV:CAC Ratio
-Required
-Monthly & Annual Churn Rate
-Required
-Net Revenue Retention (NRR)
-Required
-Daily/Monthly Active Users (DAU/MAU)
-Required
-2. Technology & Infrastructure
-Technology Stack
-Software architecture and dependencies
+**Business Model***
+B2B / B2C / B2B2C / D2C / Marketplace / SaaS / Other
 
-System Architecture Documentation
-Required
-Third-Party Dependencies & APIs
-Required
-Scalability Assessment
-Required
-Uptime Statistics & SLA Reports
-Required
-Security Audit Reports
-Required
-3. Customer Portfolio
-Customer Base Analysis
-Customer concentration and contracts
+**Founded / Incorporation Year***
+e.g. 2023
 
-Complete Customer List with Contract Values
-Required
-Top 10 Customer Revenue Breakdown
-Required
-Sample Customer Contracts
-Required
-Payment Terms & Collections
-Required
-Documents Required (Data Room)
-Investors expect a well-structured data room with these critical documents
+**Company Structure***
+Private Limited / LLP / Partnership / Other
 
-Customer contracts
-SaaS metrics (MRR, ARR)
-Technology stack documentation
-Due Diligence Process (Step-by-step)
-1
-Term Sheet Signed
-Initial agreement on key terms
+**Headquarters***
+City, State, Country
 
-2
-Data Room Shared
-Structured document repository
+**Operating Markets**
+Countries or regions where the company currently operates.
 
-3
-Investor Analysis
-Deep dive into all materials
+**Company LinkedIn**
+LinkedIn company profile.
 
-4
-Expert Interviews
-Team and advisor validation
+---
 
-5
-Risk Assessment
-Identification of red flags
+# 2. Founding Team
 
-6
-Final Decision
-Invest / Reject / Renegotiate
+Investors need to understand **who is building the company and why this team can win**.
 
-Top Deal Killers (Red Flags)
-These are the fastest ways to kill a deal
+For each founder:
 
-High churn rate
-Customer concentration risk
-Weak product differentiation
-Unclear pricing strategy
-Poor technical documentation
-Critical Risk Factors
-Our analysis identifies these key risk areas specific to saas & software investments
+**Full Name***
+**Role / Designation***
+**LinkedIn Profile**
+**Email**
+**Previous Experience**
+**Education**
+**Previous Startup / Exit**
+**Key Expertise / Strengths**
 
-Churn rate
-Customer concentration
-Technology obsolescence
-Founder DD Readiness Checklist
-Start DD preparation 2-3 months before fundraising
-Organize a well-structured digital data room
-Fix all compliance gaps and regulatory issues
-Prepare clear, honest responses to tough questions
-Have your financials audit-ready
-Document all IP ownership and assignments
-Clean up your cap table and shareholder agreements
-Pro Tip
+Also:
 
-Think like an investor: "What would make me NOT invest?" — Then fix those issues before anyone asks.
+**Founder Video Introduction**
+Optional 1–2 minute introduction.
 
-Ready to Prepare for Due Diligence?
-SaaS & Software due diligence is not just about passing checks — it's about building trust, credibility, and investor confidence. The founders who win are not the ones with the best pitch — but the ones with the best preparation.
+**Why This Team?**
+Why the founders are particularly suited to solve this problem.
+
+---
+
+# 3. Problem & Solution
+
+This should explain the business very quickly.
+
+**Problem Statement***
+What problem are you solving?
+
+**Target Customer***
+Who experiences this problem?
+
+**Current Alternatives / Competitors**
+How customers solve the problem today.
+
+**Solution***
+What exactly have you built?
+
+**Key Product / Service***
+What does the product actually do?
+
+**Why Now?**
+Why is this the right time for this company?
+
+**Key Differentiator**
+What makes your solution meaningfully different?
+
+---
+
+# 4. Product & Technology
+
+Useful for understanding the actual product and its maturity.
+
+**Product Type***
+SaaS / Mobile App / Marketplace / Hardware / API / Platform / Other
+
+**Product Stage***
+Idea / MVP / Beta / Live / Scaling
+
+**Product Description***
+Short description of the current product.
+
+**Product / Demo URL**
+Live product, sandbox, or demo link.
+
+**Demo Video**
+Loom / YouTube / uploaded video.
+
+**Technology / Key IP**
+Brief description of core technology or proprietary capability.
+
+**Technology Dependencies**
+Important third-party infrastructure, APIs, platforms, etc.
+
+---
+
+# 5. Traction & Business Metrics
+
+This is one of the most important sections for investors.
+
+**Current Customers / Users***
+e.g. 5,200
+
+**Paying Customers**
+e.g. 420
+
+**Current MRR**
+e.g. ₹35 Lakhs
+
+**Current ARR**
+e.g. ₹4.2 Cr
+
+**Revenue Growth Rate**
+e.g. 25%
+
+**Growth Period**
+MoM / QoQ / YoY
+
+**Gross Margin**
+e.g. 68%
+
+**Customer Retention / Churn**
+Relevant depending on business model.
+
+### Conditional metrics
+
+For SaaS:
+
+* CAC
+* LTV
+* Churn
+* LTV:CAC
+* Payback Period
+
+For Marketplace:
+
+* GMV
+* Take Rate
+* Buyers
+* Sellers
+
+For Consumer / D2C:
+
+* DAU
+* MAU
+* Repeat Purchase Rate
+* AOV
+
+For Enterprise:
+
+* Number of Enterprise Customers
+* Average Contract Value
+* Renewal Rate
+
+**Key Milestones**
+Major achievements, launches, partnerships, revenue milestones.
+
+**Key Customers / Partnerships**
+Important customers, distribution partners, or strategic partnerships.
+
+---
+
+# 6. Financials
+
+Keep this founder-friendly. Detailed financial verification can happen later during DD.
+
+**Current Revenue***
+Monthly or annual.
+
+**Last 12 Months Revenue**
+Actual revenue for the last 12 months.
+
+**Previous Financial Year Revenue**
+Useful for growth comparison.
+
+**Gross Profit**
+Optional.
+
+**Gross Margin**
+Optional.
+
+**Monthly Burn Rate***
+e.g. ₹25 Lakhs/month
+
+**Cash in Bank**
+Current available cash.
+
+**Runway***
+e.g. 14 months.
+
+**EBITDA / Operating Profit**
+Optional, depending on stage.
+
+**Unit Economics**
+CAC, LTV, contribution margin, payback period, etc.
+
+**Financial Statements**
+Upload recent financial statements.
+
+**Financial Model**
+Optional Excel/PDF upload.
+
+---
+
+# 7. Market Opportunity
+
+Investors need to understand whether the opportunity is large enough.
+
+**Target Market***
+Who exactly is the initial target segment?
+
+**TAM***
+Total Addressable Market.
+
+**SAM***
+Serviceable Addressable Market.
+
+**SOM***
+Serviceable Obtainable Market.
+
+**Market Growth / CAGR**
+Optional but useful.
+
+**Key Market Trends**
+What is driving market growth?
+
+**Geographic Opportunity**
+India / US / Europe / Global etc.
+
+**Why This Market?**
+Why the company is entering this segment.
+
+---
+
+# 8. Competition & Moat
+
+Don't make this unnecessarily complicated.
+
+**Primary Competitors***
+Competitor name + website.
+
+**Alternative Solutions**
+What customers use instead.
+
+**Your Differentiation***
+How the company is different.
+
+**Competitive Advantage / Moat***
+What makes it difficult to replicate.
+
+**Current Market Position**
+Optional: emerging / challenger / market leader / niche.
+
+---
+
+# 9. Fundraising Details
+
+This is one of the most important sections because this is the actual purpose of the form.
+
+**Current Round***
+Pre-Seed / Seed / Series A / Series B / Bridge / Convertible Note etc.
+
+**Target Round Size***
+e.g. ₹10 Cr
+
+**Amount Raising***
+e.g. ₹7 Cr
+
+**Minimum / Maximum Ticket**
+Optional.
+
+**Pre-Money Valuation**
+e.g. ₹40 Cr
+
+**Target Equity / Dilution**
+e.g. 15%
+
+**Security Type***
+Equity / Preferred Equity / SAFE / Convertible Note
+
+**Use of Funds***
+What the capital will be used for.
+
+**Fundraising Deadline**
+Expected closing date.
+
+### Previous Funding
+
+For each previous round:
+
+**Round**
+**Amount Raised**
+**Date**
+**Valuation**
+**Lead Investor**
+**Other Investors**
+
+**Existing Investors**
+Current investors/advisors.
+
+**Strategic Investor Preference**
+Optional—what type of investor the founder is looking for.
+
+---
+
+# 10. Use of Funds & Milestones
+
+Investors need to know **what their money will accomplish**.
+
+**Fund Allocation***
+
+* Product / Technology %
+* Hiring %
+* Sales & Marketing %
+* Operations %
+* Other %
+
+Total should equal **100%**.
+
+**Key Milestones From This Raise**
+
+For each milestone:
+
+**Milestone**
+**Target Date**
+**Expected Outcome**
+
+Example:
+
+`₹3 Cr ARR → Q4 2027`
+
+`Expand to US → Q2 2027`
+
+`Launch Enterprise Product → Q1 2027`
+
+---
+
+# 11. Ownership & Basic Legal Information
+
+This should be **basic founder-provided information**, not full legal diligence.
+
+**Legal Entity Name**
+e.g. Alpha Health Technologies Pvt. Ltd.
+
+**Company Registration Number / CIN**
+Optional initially.
+
+**PAN / Tax ID**
+Optional depending on onboarding stage.
+
+**GSTIN**
+If applicable.
+
+**Current Cap Table**
+Upload or provide basic ownership information.
+
+### Simple ownership table
+
+| Holder    | Type     | Ownership % |
+| --------- | -------- | ----------: |
+| Founder 1 | Founder  |         42% |
+| Founder 2 | Founder  |         38% |
+| ESOP Pool | ESOP     |         10% |
+| Investors | Investor |         10% |
+
+**Outstanding Debt**
+Yes / No + approximate amount.
+
+**Pending Litigation**
+Yes / No + short description.
+
+This is enough at the fundraising stage. Detailed MCA charges, legal agreements, vesting, share classes, etc. can be collected during DD.
+
+---
+
+# 12. Documents & Data Room
+
+This should be separated into **Essential** and **Optional**.
+
+### Required
+
+**Pitch Deck***
+PDF/PPT
+
+### Recommended
+
+**Financial Model**
+Excel/PDF
+
+**Cap Table**
+Excel/PDF
+
+**Financial Statements**
+
+**Certificate of Incorporation**
+
+**Product / Demo Material**
+
+### Optional / Later-stage DD
+
+**MOA / AOA**
+
+**Customer Contracts**
+
+**IP / Trademark Documents**
+
+**Legal / Compliance Documents**
+
+**Other Supporting Documents**
+
+### Data Room Settings
+
+**Create / Link Data Room**
+
+**NDA Required Before Access**
+Yes / No
+
+---
+
+# 13. Contact & Investor Availability
+
+**Primary Founder / Contact Name***
+**Email***
+**Phone Number**
+
+**Meeting Link**
+Calendly / Cal.com.
+
+**Best Time to Contact**
+
+**Preferred Investor Type**
+Angel / VC / Family Office / CVC / Strategic Investor / Accelerator etc.
+
+**Preferred Investment Geography**
+India / US / Global.
+
+**Fundraising Status***
+Not Started / Raising Now / Raising Soon / Already Raised / Exploring.
+
+---
+
+# 14. Founder Declaration & Submission
+
+A final lightweight confirmation.
+
+**Information Accuracy Confirmation***
+“I confirm that the information provided is accurate and up to date.”
+
+**Authorization to Share Information***
+Permission for Seedicon to share the submitted information with relevant investors.
+
+**Submit for Investor Review**
+
+---
+
+# What I would NOT ask the founder initially
+
+I would leave these for the **DD process after an investor shows serious interest**:
+
+* Detailed shareholder vesting terms
+* Board resolutions
+* Detailed legal agreements
+* MCA/UCC charge details
+* Detailed litigation documents
+* Detailed IP ownership documents
+* Regulatory certificates
+* Full employee-level information
+* Detailed debt schedules
+* Detailed customer contracts
+* Full legal DD questionnaire
+
+Those belong in the **VDR / Due Diligence stage**, not the initial fundraising form.
+
+## Final recommended structure
+
+**1. Company Overview**
+**2. Founding Team**
+**3. Problem & Solution**
+**4. Product & Technology**
+**5. Traction & Business Metrics**
+**6. Financials**
+**7. Market Opportunity**
+**8. Competition & Moat**
+**9. Fundraising Details**
+**10. Use of Funds & Milestones**
+**11. Ownership & Basic Legal**
+**12. Documents & Data Room**
+**13. Contact & Investor Preferences**
+**14. Declaration & Submission**
+
+This gives the investor enough to answer **“What is the company, who is building it, is it working, how big can it become, how much are they raising, and what will they do with the money?”** without turning the founder's first interaction into a full due-diligence questionnaire.

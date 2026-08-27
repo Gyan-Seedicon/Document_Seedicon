@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>List Your Product — Product Submission — Seedicon</title>
+  <meta name="description" content="Submit and list your startup, SaaS, or software product on Seedicon." />
+
+  <!-- Google Font: Outfit ONLY -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons & Canvas Confetti -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- Global & Component Stylesheets -->
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="stylesheet" href="./css/public-directory.css" />
+  <link rel="stylesheet" href="./css/list-product.css" />
+</head>
+<body>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       01. STICKY NAVIGATION HEADER
+       ────────────────────────────────────────────────────────────────────────── -->
+  <header class="pub-header">
+    <div class="pub-header-inner">
+      
+      <!-- Left: Brand Logo & Navigation Links Grouped Together -->
+      <div class="pub-header-left">
+        <a href="./index.html" class="pub-brand" title="Seedicon Home">
+          <div class="pub-brand-logo">
+            <i data-lucide="asterisk" style="width:17px; height:17px; stroke-width:2.8;"></i>
+          </div>
+          <span class="pub-brand-title">Seedicon</span>
+        </a>
+
+        <!-- Center: Nav Items List -->
+        <nav>
+          <ul class="pub-nav-center">
+            
+            <!-- 1. Capital -->
+            <li class="pub-nav-item">
+              <a href="./index.html" class="pub-nav-link" title="Seedicon Capital Solutions">
+                <span>Capital</span>
+              </a>
+            </li>
+
+            <!-- 2. Products -->
+            <li class="pub-nav-item">
+              <a href="./public-product-listing.html" class="pub-nav-link" title="Seedicon Product Ecosystem">
+                <span>Products</span>
+                <i data-lucide="chevron-down" class="pub-nav-chevron"></i>
+              </a>
+
+              <!-- Popover Dropdown Menu -->
+              <div class="products-dropdown-menu">
+                <div class="dropdown-menu-head">
+                  <span class="dropdown-menu-label">Seedicon Products</span>
+                  <span class="dropdown-menu-count">4 Modules</span>
+                </div>
+                
+                <!-- Product 1: Deckwale -->
+                <a href="../lofi-founder/deckwale.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="sparkles" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Deckwale</span>
+                      <span class="badge-tag-pill pro">PRO</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Expert pitch storytelling, visual decks &amp; venture models.</div>
+                  </div>
+                </a>
+
+                <!-- Product 2: Watch -->
+                <a href="../lofi-founder/watch-data-rooms.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="folder-lock" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Watch</span>
+                      <span class="badge-tag-pill pro">VDR</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Secure virtual data rooms &amp; diligence audit monitoring.</div>
+                  </div>
+                </a>
+
+                <!-- Product 3: Allbuddy -->
+                <a href="../lofi-founder/founder-network.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="users" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Allbuddy</span>
+                      <span class="badge-tag-pill pro">NETWORK</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Verified founder, advisor &amp; angel network directory.</div>
+                  </div>
+                </a>
+
+                <!-- Product 4: Crusrource [Coming Soon] -->
+                <div class="dropdown-product-row coming-soon-row" title="Crusrource is currently in active private preview">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="compass" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Crusrource</span>
+                      <span class="badge-tag-pill soon">Coming Soon</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Curated startup scouting, talent &amp; deal syndication.</div>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+
+            <!-- 3. Trade -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/real-market-problems.html" class="pub-nav-link" title="Secondary &amp; Asset Trading">
+                <span>Trade</span>
+              </a>
+            </li>
+
+            <!-- 4. Partner with us -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/investor-tracking.html" class="pub-nav-link" title="Syndicate &amp; Venture Partners">
+                <span>Partner with us</span>
+              </a>
+            </li>
+
+            <!-- 5. Insights -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/startup-news.html" class="pub-nav-link" title="Venture Intelligence &amp; Market Research">
+                <span>Insights</span>
+              </a>
+            </li>
+
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Right: Small Search + Apply for funding + List your product (Active) + Face Avatar -->
+      <div class="pub-header-right">
+        
+        <!-- Small Width Search Bar -->
+        <div class="pub-header-search-wrap">
+          <i data-lucide="search" class="pub-header-search-icon"></i>
+          <input type="text" id="pubNavSearchInput" class="pub-header-search-input" placeholder="Search..." />
+        </div>
+
+        <!-- Apply for Funding Button -->
+        <a href="./apply-funding.html" class="pub-btn-funding" title="Apply for venture funding">
+          <i data-lucide="banknote" style="width:13.5px; height:13.5px;"></i>
+          <span>Apply for funding</span>
+        </a>
+
+        <!-- List Your Product Button (Active) -->
+        <a href="./list-product.html" class="pub-btn-list-product" style="background:#000000; box-shadow:0 0 0 2px rgba(18,18,17,0.15);" title="List your product">
+          <i data-lucide="plus" style="width:14px; height:14px;"></i>
+          <span>List your product</span>
+        </a>
+
+        <!-- User Avatar with Face Portrait Photo -->
+        <div class="pub-avatar-container">
+          <button type="button" class="pub-avatar-btn" id="pubUserAvatarBtn" onclick="toggleUserDropdown(event)" title="User Account">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="User Profile" class="pub-avatar-img" />
+          </button>
+
+          <!-- User Menu Dropdown -->
+          <div class="pub-user-menu" id="pubUserMenu">
+            <div class="pub-user-menu-head">
+              <div class="pub-user-menu-user-row">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="User Profile" class="pub-user-menu-avatar" />
+                <div class="pub-user-menu-info">
+                  <div class="pub-user-menu-name" id="pubUserNameDisplay">Gyan Sharma</div>
+                  <div class="pub-user-menu-email" id="pubUserEmailDisplay">gyan.sharma@seedicon.com</div>
+                </div>
+              </div>
+
+              <!-- Profile Completion Progress Meter -->
+              <div class="pub-profile-progress-wrap">
+                <div class="pub-profile-progress-label">
+                  <span>Profile Completion</span>
+                  <span style="font-weight:800;">50%</span>
+                </div>
+                <div class="pub-profile-progress-bar">
+                  <div class="pub-profile-progress-fill"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Menu Options -->
+            <a href="./profile.html" class="pub-user-menu-link">
+              <i data-lucide="user" style="width:14px; height:14px;"></i>
+              <span>My profile</span>
+            </a>
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="settings" style="width:14px; height:14px;"></i>
+              <span>Settings</span>
+            </a>
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="package" style="width:14px; height:14px;"></i>
+              <span>My products</span>
+            </a>
+            <a href="./apply-funding.html" class="pub-user-menu-link">
+              <i data-lucide="banknote" style="width:14px; height:14px;"></i>
+              <span>Funding requests</span>
+            </a>
+
+            <div style="height:1px; background:var(--pub-border-subtle); margin:4px 0;"></div>
+
+            <!-- Workspaces: Founder & Investor -->
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="layout-dashboard" style="width:14px; height:14px;"></i>
+              <span>Founder Workspace</span>
+            </a>
+            <a href="../lofi-investor/index.html" class="pub-user-menu-link">
+              <i data-lucide="trending-up" style="width:14px; height:14px;"></i>
+              <span>Investor Workspace</span>
+            </a>
+
+            <div style="height:1px; background:var(--pub-border-subtle); margin:4px 0;"></div>
+
+            <a href="./index.html" class="pub-user-menu-link" style="color:#DC2626;" onclick="handleLogout()">
+              <i data-lucide="log-out" style="width:14px; height:14px;"></i>
+              <span>Sign out</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       02. MAIN PRODUCT SUBMISSION CANVAS (9 STEPS)
+       ────────────────────────────────────────────────────────────────────────── -->
+  <main class="lp-page-container">
+    <div class="lp-layout-grid">
+
+      <!-- Left Sidebar: 9-Step Navigation List -->
+      <aside class="lp-sidebar">
+        <div class="lp-sidebar-heading">PRODUCT</div>
+        <ul class="lp-step-list">
+          <li class="lp-step-item">
+            <button type="button" class="lp-step-btn active" id="lp-step-btn-1" onclick="switchStep(1)">
+              <span class="lp-step-num">1.</span>
+              <span>Product Description</span>
+            </button>
+          </li>
+          <li class="lp-step-item">
+            <button type="button" class="lp-step-btn" id="lp-step-btn-2" onclick="switchStep(2)">
+              <span class="lp-step-num">2.</span>
+              <span>Product Details</span>
+            </button>
+          </li>
+          <li class="lp-step-item">
+            <button type="button" class="lp-step-btn" id="lp-step-btn-3" onclick="switchStep(3)">
+              <span class="lp-step-num">3.</span>
+              <span>Product Media</span>
+            </button>
+          </li>
+          <li class="lp-step-item">
+            <button type="button" class="lp-step-btn" id="lp-step-btn-4" onclick="switchStep(4)">
+              <span class="lp-step-num">4.</span>
+              <span>Product Integrations</span>
+            </button>
+          </li>
+          <li class="lp-step-item">
+            <button type="button" class="lp-step-btn" id="lp-step-btn-5" onclick="switchStep(5)">
+              <span class="lp-step-num">5.</span>
+              <span>Product Category</span>
+            </button>
+          </li>
+          <li class="lp-step-item">
+            <button type="button" class="lp-step-btn" id="lp-step-btn-6" onclick="switchStep(6)">
+              <span class="lp-step-num">6.</span>
+              <span>Target Market &amp; Stage</span>
+            </button>
+          </li>
+          <li class="lp-step-item">
+            <button type="button" class="lp-step-btn" id="lp-step-btn-7" onclick="switchStep(7)">
+              <span class="lp-step-num">7.</span>
+              <span>Pricing &amp; Competitors</span>
+            </button>
+          </li>
+          <li class="lp-step-item">
+            <button type="button" class="lp-step-btn" id="lp-step-btn-8" onclick="switchStep(8)">
+              <span class="lp-step-num">8.</span>
+              <span>Important Links</span>
+            </button>
+          </li>
+          <li class="lp-step-item">
+            <button type="button" class="lp-step-btn" id="lp-step-btn-9" onclick="switchStep(9)">
+              <span class="lp-step-num">9.</span>
+              <span>Submit for Review</span>
+            </button>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Right Main Panel -->
+      <div class="lp-main-panel">
+        
+        <!-- Step Header: Clean Badge + Title + Flash Autofill (No emojis) -->
+        <div class="lp-panel-header">
+          <div class="lp-panel-title-wrap">
+            <div class="lp-info-icon-badge" id="lpHeaderIcon">1</div>
+            <h1 class="lp-panel-title" id="lpHeaderTitle">Product Description</h1>
+          </div>
+
+          <!-- Autofill Flash Icon Button -->
+          <button type="button" class="lp-autofill-btn" onclick="autofillAllSteps()" title="Autofill with demo data" id="lpAutofillBtn">
+            <i data-lucide="zap" style="width:15px; height:15px;"></i>
+          </button>
+        </div>
+
+        <!-- Form Card Container -->
+        <div class="lp-card">
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 1: PRODUCT DESCRIPTION
+               Product Logo, Product Name, Short Description, Detailed Description
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="lp-step-pane active" id="lp-pane-1">
+
+            <!-- Field 1: Product Logo -->
+            <div class="lp-form-group">
+              <label class="lp-label">
+                Product Logo <span class="lp-sublabel">Recommended minimum size: 256x256</span>
+              </label>
+              <div class="lp-logo-box" onclick="document.getElementById('lpLogoFile').click()" title="Upload logo">
+                <input type="file" id="lpLogoFile" accept="image/*" style="display:none;" onchange="onLogoSelected(this)" />
+                <span class="lp-logo-plus" id="lpLogoPlus">+</span>
+                <img id="lpLogoPreview" class="lp-logo-preview" alt="Uploaded Logo" />
+              </div>
+            </div>
+
+            <!-- Field 2: Product Name -->
+            <div class="lp-form-group">
+              <label class="lp-label" for="lpProductName">
+                Product Name <span class="lp-required-star">*</span>
+              </label>
+              <input type="text" id="lpProductName" class="lp-input" placeholder="e.g. CloudVector" maxlength="50" oninput="handleCharCounter(this, 'lpNameCounter', 50)" />
+              <div class="lp-char-hint" id="lpNameCounter">50 characters remaining</div>
+            </div>
+
+            <!-- Field 3: Short Description -->
+            <div class="lp-form-group">
+              <label class="lp-label" for="lpShortDesc">
+                Short Description <span class="lp-required-star">*</span>
+              </label>
+              <input type="text" id="lpShortDesc" class="lp-input" placeholder="e.g. Real-time automated financial diligence & venture intelligence workspace" maxlength="80" oninput="handleCharCounter(this, 'lpPitchCounter', 80)" />
+              <div class="lp-char-hint" id="lpPitchCounter">80 characters remaining</div>
+            </div>
+
+            <!-- Field 4: Detailed Description -->
+            <div class="lp-form-group">
+              <label class="lp-label" for="lpDetailedDesc">
+                Detailed Description <span class="lp-required-star">*</span>
+              </label>
+              <textarea id="lpDetailedDesc" class="lp-textarea" style="height:120px;" placeholder="Provide an in-depth breakdown of your product's architecture, value proposition, workflow, and customer benefits..."></textarea>
+            </div>
+
+            <!-- Action Button -->
+            <div class="lp-card-footer">
+              <button type="button" class="lp-btn-next" onclick="switchStep(2)">
+                <span>Next: Product Details</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 2: PRODUCT DETAILS
+               Website (One Row), Company Address (One Row), Social Links (Grid), Key Features
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="lp-step-pane" id="lp-pane-2">
+            
+            <!-- Website (In One Full Row) -->
+            <div class="lp-form-group">
+              <label class="lp-label" for="lpWebsite">
+                Website <span class="lp-required-star">*</span>
+              </label>
+              <input type="url" id="lpWebsite" class="lp-input" placeholder="https://yourproduct.io" />
+            </div>
+
+            <!-- Company Address (In One Full Row) -->
+            <div class="lp-form-group">
+              <label class="lp-label" for="lpAddress">Company Address</label>
+              <input type="text" id="lpAddress" class="lp-input" placeholder="e.g. 548 Market St, Suite 300, San Francisco, CA 94104" />
+            </div>
+
+            <!-- Project Social Profile Links (2-Column Grid Matching Reference UI) -->
+            <div class="lp-form-group">
+              <label class="lp-label" style="margin-bottom: 4px;">Social Links</label>
+              
+              <div class="lp-social-grid">
+                <!-- X (Twitter) handle -->
+                <div class="lp-social-item">
+                  <label class="lp-social-label" for="lpSocialTwitter">
+                    <span class="lp-social-icon" style="font-weight:900; font-size:14px;">𝕏</span>
+                    <span>X (Twitter) handle</span>
+                  </label>
+                  <input type="text" id="lpSocialTwitter" class="lp-input" placeholder="@ username" />
+                </div>
+
+                <!-- Facebook handle -->
+                <div class="lp-social-item">
+                  <label class="lp-social-label" for="lpSocialFacebook">
+                    <span class="lp-social-icon" style="color:#1877F2;"><i data-lucide="facebook" style="width:14px; height:14px;"></i></span>
+                    <span>Facebook handle</span>
+                  </label>
+                  <input type="text" id="lpSocialFacebook" class="lp-input" placeholder="@ username" />
+                </div>
+
+                <!-- LinkedIn username -->
+                <div class="lp-social-item">
+                  <label class="lp-social-label" for="lpSocialLinkedIn">
+                    <span class="lp-social-icon" style="color:#0A66C2;"><i data-lucide="linkedin" style="width:14px; height:14px;"></i></span>
+                    <span>LinkedIn username</span>
+                  </label>
+                  <input type="text" id="lpSocialLinkedIn" class="lp-input" placeholder="username" />
+                </div>
+
+                <!-- Instagram handle -->
+                <div class="lp-social-item">
+                  <label class="lp-social-label" for="lpSocialInstagram">
+                    <span class="lp-social-icon" style="color:#E4405F;"><i data-lucide="instagram" style="width:14px; height:14px;"></i></span>
+                    <span>Instagram handle</span>
+                  </label>
+                  <input type="text" id="lpSocialInstagram" class="lp-input" placeholder="@ username" />
+                </div>
+
+                <!-- YouTube handle -->
+                <div class="lp-social-item">
+                  <label class="lp-social-label" for="lpSocialYouTube">
+                    <span class="lp-social-icon" style="color:#FF0000;"><i data-lucide="youtube" style="width:14px; height:14px;"></i></span>
+                    <span>YouTube handle</span>
+                  </label>
+                  <input type="text" id="lpSocialYouTube" class="lp-input" placeholder="@ channel_or_user" />
+                </div>
+
+                <!-- TikTok handle -->
+                <div class="lp-social-item">
+                  <label class="lp-social-label" for="lpSocialTikTok">
+                    <span class="lp-social-icon" style="color:#000000;"><i data-lucide="music-2" style="width:14px; height:14px;"></i></span>
+                    <span>TikTok handle</span>
+                  </label>
+                  <input type="text" id="lpSocialTikTok" class="lp-input" placeholder="@ username" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Key Features (Repeatable) -->
+            <div class="lp-form-group" style="margin-top: 6px;">
+              <label class="lp-label">
+                Key Features (Multiple) <span class="lp-required-star">*</span>
+              </label>
+              <div class="lp-repeater-list" id="lpFeaturesList">
+                <!-- Dynamic Feature Item 1 -->
+                <div class="lp-repeater-item">
+                  <div class="lp-repeater-row">
+                    <input type="text" class="lp-input feat-title" placeholder="Feature Title (e.g. Automated Diligence Engine)" />
+                    <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove feature">
+                      <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                    </button>
+                  </div>
+                  <input type="text" class="lp-input feat-desc" placeholder="Feature description / user benefit" />
+                </div>
+              </div>
+              <button type="button" class="lp-btn-add" onclick="addFeatureItem()">
+                <i data-lucide="plus" style="width:13px; height:13px;"></i>
+                <span>Add Feature</span>
+              </button>
+            </div>
+
+            <div class="lp-card-footer">
+              <button type="button" class="lp-btn-back" onclick="switchStep(1)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="lp-btn-next" onclick="switchStep(3)">
+                <span>Next: Product Media</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 3: PRODUCT MEDIA
+               Product Demo Video, Product Images (up to 6)
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="lp-step-pane" id="lp-pane-3">
+            
+            <div class="lp-form-group">
+              <label class="lp-label" for="lpDemoVideo">Product Demo Video (URL)</label>
+              <input type="url" id="lpDemoVideo" class="lp-input" placeholder="https://youtube.com/watch?v=... or https://loom.com/share/..." />
+            </div>
+
+            <div class="lp-form-group">
+              <label class="lp-label">
+                Product Images <span class="lp-required-star">*</span> <span class="lp-sublabel">(Upload up to 6 screenshots)</span>
+              </label>
+              
+              <!-- 6 Image Slots Gallery Grid -->
+              <div class="lp-gallery-grid" id="lpGalleryGrid">
+                <!-- Slot 1 -->
+                <div class="lp-gallery-slot" onclick="triggerGalleryUpload(1)">
+                  <input type="file" id="galFile1" accept="image/*" style="display:none;" onchange="onGalleryImgSelected(1, this)" />
+                  <span id="galPlus1" style="font-size:18px; color:var(--lp-text-light); font-weight:300;">+</span>
+                  <span id="galLabel1" style="font-size:11px; color:var(--lp-text-muted);">Main Screen</span>
+                  <img id="galImg1" class="lp-gallery-img" alt="Gallery 1" />
+                  <button type="button" class="lp-gallery-slot-remove" id="galRem1" onclick="removeGalleryImg(1, event)"><i data-lucide="x" style="width:12px; height:12px;"></i></button>
+                </div>
+
+                <!-- Slot 2 -->
+                <div class="lp-gallery-slot" onclick="triggerGalleryUpload(2)">
+                  <input type="file" id="galFile2" accept="image/*" style="display:none;" onchange="onGalleryImgSelected(2, this)" />
+                  <span id="galPlus2" style="font-size:18px; color:var(--lp-text-light); font-weight:300;">+</span>
+                  <span id="galLabel2" style="font-size:11px; color:var(--lp-text-muted);">Dashboard</span>
+                  <img id="galImg2" class="lp-gallery-img" alt="Gallery 2" />
+                  <button type="button" class="lp-gallery-slot-remove" id="galRem2" onclick="removeGalleryImg(2, event)"><i data-lucide="x" style="width:12px; height:12px;"></i></button>
+                </div>
+
+                <!-- Slot 3 -->
+                <div class="lp-gallery-slot" onclick="triggerGalleryUpload(3)">
+                  <input type="file" id="galFile3" accept="image/*" style="display:none;" onchange="onGalleryImgSelected(3, this)" />
+                  <span id="galPlus3" style="font-size:18px; color:var(--lp-text-light); font-weight:300;">+</span>
+                  <span id="galLabel3" style="font-size:11px; color:var(--lp-text-muted);">Analytics</span>
+                  <img id="galImg3" class="lp-gallery-img" alt="Gallery 3" />
+                  <button type="button" class="lp-gallery-slot-remove" id="galRem3" onclick="removeGalleryImg(3, event)"><i data-lucide="x" style="width:12px; height:12px;"></i></button>
+                </div>
+
+                <!-- Slot 4 -->
+                <div class="lp-gallery-slot" onclick="triggerGalleryUpload(4)">
+                  <input type="file" id="galFile4" accept="image/*" style="display:none;" onchange="onGalleryImgSelected(4, this)" />
+                  <span id="galPlus4" style="font-size:18px; color:var(--lp-text-light); font-weight:300;">+</span>
+                  <span id="galLabel4" style="font-size:11px; color:var(--lp-text-muted);">Workflow</span>
+                  <img id="galImg4" class="lp-gallery-img" alt="Gallery 4" />
+                  <button type="button" class="lp-gallery-slot-remove" id="galRem4" onclick="removeGalleryImg(4, event)"><i data-lucide="x" style="width:12px; height:12px;"></i></button>
+                </div>
+
+                <!-- Slot 5 -->
+                <div class="lp-gallery-slot" onclick="triggerGalleryUpload(5)">
+                  <input type="file" id="galFile5" accept="image/*" style="display:none;" onchange="onGalleryImgSelected(5, this)" />
+                  <span id="galPlus5" style="font-size:18px; color:var(--lp-text-light); font-weight:300;">+</span>
+                  <span id="galLabel5" style="font-size:11px; color:var(--lp-text-muted);">Integration</span>
+                  <img id="galImg5" class="lp-gallery-img" alt="Gallery 5" />
+                  <button type="button" class="lp-gallery-slot-remove" id="galRem5" onclick="removeGalleryImg(5, event)"><i data-lucide="x" style="width:12px; height:12px;"></i></button>
+                </div>
+
+                <!-- Slot 6 -->
+                <div class="lp-gallery-slot" onclick="triggerGalleryUpload(6)">
+                  <input type="file" id="galFile6" accept="image/*" style="display:none;" onchange="onGalleryImgSelected(6, this)" />
+                  <span id="galPlus6" style="font-size:18px; color:var(--lp-text-light); font-weight:300;">+</span>
+                  <span id="galLabel6" style="font-size:11px; color:var(--lp-text-muted);">Settings</span>
+                  <img id="galImg6" class="lp-gallery-img" alt="Gallery 6" />
+                  <button type="button" class="lp-gallery-slot-remove" id="galRem6" onclick="removeGalleryImg(6, event)"><i data-lucide="x" style="width:12px; height:12px;"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="lp-card-footer">
+              <button type="button" class="lp-btn-back" onclick="switchStep(2)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="lp-btn-next" onclick="switchStep(4)">
+                <span>Next: Integrations</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 4: PRODUCT INTEGRATIONS
+               Integrations (Multiple)
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="lp-step-pane" id="lp-pane-4">
+            
+            <div class="lp-form-group">
+              <label class="lp-label">Supported Integrations <span class="lp-sublabel">(Click to select all that apply)</span></label>
+              <div class="lp-chip-group" id="lpIntegrationsChipGroup">
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">Slack</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">Zapier</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">Stripe</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">GitHub</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">Notion</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">HubSpot</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">Figma</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">OpenAI</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">Google Workspace</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">PostgreSQL</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">AWS</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">Cloudflare</button>
+              </div>
+            </div>
+
+            <div class="lp-form-group">
+              <label class="lp-label" for="lpCustomIntegrations">Additional / Custom Integrations</label>
+              <input type="text" id="lpCustomIntegrations" class="lp-input" placeholder="e.g. Linear, Jira, Salesforce, Segment (comma-separated)" />
+            </div>
+
+            <div class="lp-card-footer">
+              <button type="button" class="lp-btn-back" onclick="switchStep(3)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="lp-btn-next" onclick="switchStep(5)">
+                <span>Next: Category</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 5: PRODUCT CATEGORY
+               Industries (Multi-select), Other Industry
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="lp-step-pane" id="lp-pane-5">
+            
+            <div class="lp-form-group">
+              <label class="lp-label">
+                Industries <span class="lp-required-star">*</span> <span class="lp-sublabel">(Select primary industry verticals)</span>
+              </label>
+              <div class="lp-chip-group" id="lpIndustriesChipGroup">
+                <button type="button" class="lp-chip selected" onclick="toggleChip(this)">SaaS</button>
+                <button type="button" class="lp-chip selected" onclick="toggleChip(this)">AI &amp; Machine Learning</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">Developer Tools</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">B2B Enterprise</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">Fintech</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">Healthcare</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">E-Commerce</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">Marketing &amp; Sales</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">Cybersecurity</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">Design &amp; Creative</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">EdTech</button>
+                <button type="button" class="lp-chip" onclick="toggleChip(this)">Crypto &amp; Web3</button>
+              </div>
+            </div>
+
+            <div class="lp-form-group">
+              <label class="lp-label" for="lpOtherIndustry">Other Industry (if not listed above)</label>
+              <input type="text" id="lpOtherIndustry" class="lp-input" placeholder="e.g. LegalTech, CleanTech, SpaceTech" />
+            </div>
+
+            <div class="lp-card-footer">
+              <button type="button" class="lp-btn-back" onclick="switchStep(4)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="lp-btn-next" onclick="switchStep(6)">
+                <span>Next: Target Market &amp; Stage</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 6: TARGET MARKET AND STAGE
+               Development Stage, FAQ set
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="lp-step-pane" id="lp-pane-6">
+            
+            <div class="lp-form-group">
+              <label class="lp-label" for="lpDevStage">
+                Development Stage <span class="lp-required-star">*</span>
+              </label>
+              <select id="lpDevStage" class="lp-select">
+                <option value="Idea / Concept">Idea / Concept</option>
+                <option value="MVP / Beta">MVP / Private Beta</option>
+                <option value="Early Traction / Live" selected>Early Traction / Live in Production</option>
+                <option value="Growth / Scaling">Growth / Scaling ARR</option>
+                <option value="Mature / Profitable">Mature / Profitable Enterprise</option>
+              </select>
+            </div>
+
+            <!-- Standardized FAQ Set (6 Essential Questions) -->
+            <div class="lp-form-group">
+              <label class="lp-label">
+                Product FAQ Set <span class="lp-required-star">*</span>
+              </label>
+
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <!-- FAQ 1: Problem Solved -->
+                <div class="lp-faq-card">
+                  <div class="lp-faq-q">
+                    <span class="lp-faq-q-num">1</span>
+                    <span>What specific problem does your product solve?</span>
+                  </div>
+                  <textarea id="lpFaqProblem" class="lp-textarea" placeholder="Explain the core customer pain point and why legacy solutions fail..."></textarea>
+                </div>
+
+                <!-- FAQ 2: Target Audience -->
+                <div class="lp-faq-card">
+                  <div class="lp-faq-q">
+                    <span class="lp-faq-q-num">2</span>
+                    <span>Who is your primary target audience / customer profile?</span>
+                  </div>
+                  <textarea id="lpFaqAudience" class="lp-textarea" placeholder="Describe ideal customer profiles (ICPs), team sizes, job roles, or industry verticals..."></textarea>
+                </div>
+
+                <!-- FAQ 3: Uniqueness / Moat -->
+                <div class="lp-faq-card">
+                  <div class="lp-faq-q">
+                    <span class="lp-faq-q-num">3</span>
+                    <span>What makes your product unique and defensible?</span>
+                  </div>
+                  <textarea id="lpFaqUniqueness" class="lp-textarea" placeholder="Highlight your competitive advantage, proprietary technology, data moat, or speed..."></textarea>
+                </div>
+
+                <!-- FAQ 4: Business Model -->
+                <div class="lp-faq-card">
+                  <div class="lp-faq-q">
+                    <span class="lp-faq-q-num">4</span>
+                    <span>What is your business and monetization model?</span>
+                  </div>
+                  <textarea id="lpFaqBusinessModel" class="lp-textarea" placeholder="Explain subscription tiers, usage fees, enterprise contracts, or marketplace take rates..."></textarea>
+                </div>
+
+                <!-- FAQ 5: Future Plans -->
+                <div class="lp-faq-card">
+                  <div class="lp-faq-q">
+                    <span class="lp-faq-q-num">5</span>
+                    <span>What are your key roadmap milestones for the next 12 months?</span>
+                  </div>
+                  <textarea id="lpFaqFuturePlans" class="lp-textarea" placeholder="Upcoming major features, integrations, market expansions, or mobile apps..."></textarea>
+                </div>
+
+                <!-- FAQ 6: Usage & Onboarding -->
+                <div class="lp-faq-card">
+                  <div class="lp-faq-q">
+                    <span class="lp-faq-q-num">6</span>
+                    <span>How do new users get started and onboard?</span>
+                  </div>
+                  <textarea id="lpFaqUsage" class="lp-textarea" placeholder="Describe the self-serve signup flow, API setup, or customer onboarding timeline..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="lp-card-footer">
+              <button type="button" class="lp-btn-back" onclick="switchStep(5)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="lp-btn-next" onclick="switchStep(7)">
+                <span>Next: Pricing &amp; Competitors</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 7: PRICING AND COMPETITORS (ENHANCED POLISHED UI)
+               Pricing Plans (Plan Name, Price, Frequency, Features, Remove), Competitors (Name, URL, Diff)
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="lp-step-pane" id="lp-pane-7">
+            
+            <!-- Pricing Plans -->
+            <div class="lp-form-group">
+              <label class="lp-label">
+                Pricing Plans (Multiple) <span class="lp-required-star">*</span>
+              </label>
+              
+              <div class="lp-repeater-list" id="lpPlansList">
+                <!-- Plan 1 -->
+                <div class="lp-repeater-item">
+                  <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 140px 140px 32px; gap:10px; align-items:center;">
+                    <input type="text" class="lp-input plan-name" placeholder="Plan Name (e.g. Starter Tier)" />
+                    <input type="text" class="lp-input plan-price" placeholder="Price (e.g. $49)" />
+                    <select class="lp-select plan-interval" style="height:40px;">
+                      <option value="/ month" selected>/ month</option>
+                      <option value="/ year">/ year</option>
+                      <option value="one-time">one-time</option>
+                      <option value="usage-based">usage-based</option>
+                      <option value="Free">Free</option>
+                    </select>
+                    <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove plan">
+                      <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                    </button>
+                  </div>
+                  <input type="text" class="lp-input plan-features" placeholder="Features included (e.g. 5 Team seats, Unlimited data rooms, 24/7 Support)" />
+                </div>
+              </div>
+              
+              <button type="button" class="lp-btn-add" onclick="addPlanItem()">
+                <i data-lucide="plus" style="width:13px; height:13px;"></i>
+                <span>Add Pricing Plan</span>
+              </button>
+            </div>
+
+            <!-- Competitor Links -->
+            <div class="lp-form-group" style="margin-top: 10px;">
+              <label class="lp-label">Competitor Links (Multiple)</label>
+              
+              <div class="lp-repeater-list" id="lpCompetitorsList">
+                <div class="lp-repeater-item">
+                  <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 1.2fr 32px; gap:10px; align-items:center;">
+                    <input type="text" class="lp-input comp-name" placeholder="Competitor Name (e.g. DocSend)" />
+                    <input type="url" class="lp-input comp-url" placeholder="Competitor Website URL (e.g. https://docsend.com)" />
+                    <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove competitor">
+                      <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <button type="button" class="lp-btn-add" onclick="addCompetitorItem()">
+                <i data-lucide="plus" style="width:13px; height:13px;"></i>
+                <span>Add Competitor</span>
+              </button>
+            </div>
+
+            <div class="lp-card-footer">
+              <button type="button" class="lp-btn-back" onclick="switchStep(6)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="lp-btn-next" onclick="switchStep(8)">
+                <span>Next: Important Links</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 8: IMPORTANT LINKS
+               Link Name and Link URL (Multiple)
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="lp-step-pane" id="lp-pane-8">
+            
+            <div class="lp-form-group">
+              <label class="lp-label">
+                Important Links (Multiple) <span class="lp-sublabel">(Documentation, Changelog, GitHub, Pitch Deck, API)</span>
+              </label>
+              
+              <div class="lp-repeater-list" id="lpLinksList">
+                <!-- Link Row 1 -->
+                <div class="lp-repeater-item">
+                  <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 1.4fr 32px; gap:10px; align-items:center;">
+                    <input type="text" class="lp-input link-name" placeholder="Link Name (e.g. Documentation)" />
+                    <input type="url" class="lp-input link-url" placeholder="URL (e.g. https://docs.yourproduct.io)" />
+                    <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove link">
+                      <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <button type="button" class="lp-btn-add" onclick="addLinkItem()">
+                <i data-lucide="plus" style="width:13px; height:13px;"></i>
+                <span>Add Important Link</span>
+              </button>
+            </div>
+
+            <div class="lp-card-footer">
+              <button type="button" class="lp-btn-back" onclick="switchStep(7)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="lp-btn-next" onclick="switchStep(9)">
+                <span>Next: Submit for Review</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 9: SUBMIT FOR REVIEW
+               Final validation of required fields before submission
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="lp-step-pane" id="lp-pane-9">
+            
+            <div class="lp-review-section">
+              <div style="font-size:13px; color:var(--lp-text-muted); line-height:1.45;">
+                Please review your listing submission checklist. All required sections must pass validation before final publication on Seedicon.
+              </div>
+
+              <!-- Required Fields Validation Grid -->
+              <div class="lp-check-grid" id="lpValidationGrid">
+                <div class="lp-check-item">
+                  <span class="lp-check-name">1. Product Description</span>
+                  <span class="lp-check-badge" id="valCheck1">Completed</span>
+                </div>
+                <div class="lp-check-item">
+                  <span class="lp-check-name">2. Product Details &amp; Features</span>
+                  <span class="lp-check-badge" id="valCheck2">Completed</span>
+                </div>
+                <div class="lp-check-item">
+                  <span class="lp-check-name">3. Product Media</span>
+                  <span class="lp-check-badge" id="valCheck3">Completed</span>
+                </div>
+                <div class="lp-check-item">
+                  <span class="lp-check-name">4. Integrations</span>
+                  <span class="lp-check-badge" id="valCheck4">Completed</span>
+                </div>
+                <div class="lp-check-item">
+                  <span class="lp-check-name">5. Product Category</span>
+                  <span class="lp-check-badge" id="valCheck5">Completed</span>
+                </div>
+                <div class="lp-check-item">
+                  <span class="lp-check-name">6. Target Market &amp; FAQs</span>
+                  <span class="lp-check-badge" id="valCheck6">Completed</span>
+                </div>
+                <div class="lp-check-item">
+                  <span class="lp-check-name">7. Pricing &amp; Competitors</span>
+                  <span class="lp-check-badge" id="valCheck7">Completed</span>
+                </div>
+                <div class="lp-check-item">
+                  <span class="lp-check-name">8. Important Links</span>
+                  <span class="lp-check-badge" id="valCheck8">Completed</span>
+                </div>
+              </div>
+
+              <!-- Live Summary Box -->
+              <div class="lp-review-box">
+                <div class="lp-review-row">
+                  <span class="lp-review-k">Product Name</span>
+                  <span class="lp-review-v" id="revName">CloudVector</span>
+                </div>
+                <div class="lp-review-row">
+                  <span class="lp-review-k">Tagline</span>
+                  <span class="lp-review-v" id="revShortDesc">Real-time automated financial diligence &amp; intelligence engine</span>
+                </div>
+                <div class="lp-review-row">
+                  <span class="lp-review-k">Website</span>
+                  <span class="lp-review-v" id="revWebsite">https://cloudvector.io</span>
+                </div>
+                <div class="lp-review-row">
+                  <span class="lp-review-k">Stage</span>
+                  <span class="lp-review-v" id="revStage">Early Traction / Live in Production</span>
+                </div>
+                <div class="lp-review-row">
+                  <span class="lp-review-k">Pricing</span>
+                  <span class="lp-review-v" id="revPricing">From $49/mo (Starter)</span>
+                </div>
+              </div>
+
+              <!-- Verification Checkbox -->
+              <div style="display:flex; align-items:flex-start; gap:10px; padding:12px 14px; background:#F9FAFB; border:1px solid var(--lp-border); border-radius:6px;">
+                <input type="checkbox" id="lpFinalCheckbox" style="margin-top:2px; cursor:pointer;" checked />
+                <label for="lpFinalCheckbox" style="font-size:12.5px; color:var(--lp-text-dark); cursor:pointer; line-height:1.4;">
+                  I verify that all product information, features, media assets, and intellectual property ownership claims are accurate and authorized for publication.
+                </label>
+              </div>
+            </div>
+
+            <div class="lp-card-footer">
+              <button type="button" class="lp-btn-back" onclick="switchStep(8)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="lp-btn-next" style="background:#111827;" onclick="submitProductForReview()">
+                <i data-lucide="check-circle-2" style="width:15px; height:15px;"></i>
+                <span>Submit for Review</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="lp-toast" id="lpToast"></div>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       03. JAVASCRIPT LOGIC
+       ────────────────────────────────────────────────────────────────────────── -->
+  <script>
+    let activeStep = 1;
+    const totalSteps = 9;
+
+    const STEP_NAMES = {
+      1: { icon: '1', title: 'Product Description' },
+      2: { icon: '2', title: 'Product Details' },
+      3: { icon: '3', title: 'Product Media' },
+      4: { icon: '4', title: 'Product Integrations' },
+      5: { icon: '5', title: 'Product Category' },
+      6: { icon: '6', title: 'Target Market and Stage' },
+      7: { icon: '7', title: 'Pricing and Competitors' },
+      8: { icon: '8', title: 'Important Links' },
+      9: { icon: '9', title: 'Submit for Review' }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      loadUserProfile();
+      updateValidationAndSummary();
+    });
+
+    // Step Switcher
+    function switchStep(num) {
+      if (num < 1 || num > totalSteps) return;
+      activeStep = num;
+
+      for (let i = 1; i <= totalSteps; i++) {
+        const btn = document.getElementById(`lp-step-btn-${i}`);
+        const pane = document.getElementById(`lp-pane-${i}`);
+
+        if (btn) {
+          btn.classList.toggle('active', i === activeStep);
+          btn.classList.toggle('completed', i < activeStep);
+        }
+        if (pane) {
+          pane.classList.toggle('active', i === activeStep);
+        }
+      }
+
+      const meta = STEP_NAMES[activeStep] || STEP_NAMES[1];
+      const iconEl = document.getElementById('lpHeaderIcon');
+      const titleEl = document.getElementById('lpHeaderTitle');
+
+      if (iconEl) iconEl.textContent = meta.icon;
+      if (titleEl) titleEl.textContent = meta.title;
+
+      if (activeStep === 9) {
+        updateValidationAndSummary();
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Live Character Counter
+    function handleCharCounter(input, counterId, limit) {
+      const remaining = limit - input.value.length;
+      const el = document.getElementById(counterId);
+      if (el) {
+        el.textContent = `${Math.max(0, remaining)} characters remaining`;
+      }
+    }
+
+    // Logo Upload
+    function onLogoSelected(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const preview = document.getElementById('lpLogoPreview');
+          const plus = document.getElementById('lpLogoPlus');
+          if (preview) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+          }
+          if (plus) plus.style.display = 'none';
+          showLpToast('Logo uploaded successfully');
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    // Gallery Upload (Up to 6 images)
+    function triggerGalleryUpload(idx) {
+      const input = document.getElementById(`galFile${idx}`);
+      if (input) input.click();
+    }
+
+    function onGalleryImgSelected(idx, input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.getElementById(`galImg${idx}`);
+          const plus = document.getElementById(`galPlus${idx}`);
+          const label = document.getElementById(`galLabel${idx}`);
+          const rem = document.getElementById(`galRem${idx}`);
+
+          if (img) {
+            img.src = e.target.result;
+            img.style.display = 'block';
+          }
+          if (plus) plus.style.display = 'none';
+          if (label) label.style.display = 'none';
+          if (rem) rem.style.display = 'flex';
+          showLpToast(`Screenshot ${idx} uploaded`);
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function removeGalleryImg(idx, e) {
+      e.stopPropagation();
+      const img = document.getElementById(`galImg${idx}`);
+      const plus = document.getElementById(`galPlus${idx}`);
+      const label = document.getElementById(`galLabel${idx}`);
+      const rem = document.getElementById(`galRem${idx}`);
+      const file = document.getElementById(`galFile${idx}`);
+
+      if (img) img.style.display = 'none';
+      if (plus) plus.style.display = 'block';
+      if (label) label.style.display = 'block';
+      if (rem) rem.style.display = 'none';
+      if (file) file.value = '';
+    }
+
+    // Toggle Chip Selection
+    function toggleChip(btn) {
+      btn.classList.toggle('selected');
+    }
+
+    // Repeater: Key Features
+    function addFeatureItem() {
+      const list = document.getElementById('lpFeaturesList');
+      const item = document.createElement('div');
+      item.className = 'lp-repeater-item';
+      item.innerHTML = `
+        <div class="lp-repeater-row">
+          <input type="text" class="lp-input feat-title" placeholder="Feature Title" />
+          <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove feature">
+            <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+          </button>
+        </div>
+        <input type="text" class="lp-input feat-desc" placeholder="Feature description / user benefit" />
+      `;
+      list.appendChild(item);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // Repeater: Pricing Plans (Enhanced)
+    function addPlanItem() {
+      const list = document.getElementById('lpPlansList');
+      const item = document.createElement('div');
+      item.className = 'lp-repeater-item';
+      item.innerHTML = `
+        <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 140px 140px 32px; gap:10px; align-items:center;">
+          <input type="text" class="lp-input plan-name" placeholder="Plan Name" />
+          <input type="text" class="lp-input plan-price" placeholder="Price (e.g. $99)" />
+          <select class="lp-select plan-interval" style="height:40px;">
+            <option value="/ month">/ month</option>
+            <option value="/ year">/ year</option>
+            <option value="one-time">one-time</option>
+            <option value="usage-based">usage-based</option>
+            <option value="Free">Free</option>
+          </select>
+          <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove plan">
+            <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+          </button>
+        </div>
+        <input type="text" class="lp-input plan-features" placeholder="Features included (comma-separated)" />
+      `;
+      list.appendChild(item);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // Repeater: Competitors (Enhanced)
+    function addCompetitorItem() {
+      const list = document.getElementById('lpCompetitorsList');
+      const item = document.createElement('div');
+      item.className = 'lp-repeater-item';
+      item.innerHTML = `
+        <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 1.2fr 32px; gap:10px; align-items:center;">
+          <input type="text" class="lp-input comp-name" placeholder="Competitor Name" />
+          <input type="url" class="lp-input comp-url" placeholder="Competitor Website URL" />
+          <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove competitor">
+            <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+          </button>
+        </div>
+      `;
+      list.appendChild(item);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // Repeater: Important Links
+    function addLinkItem() {
+      const list = document.getElementById('lpLinksList');
+      const item = document.createElement('div');
+      item.className = 'lp-repeater-item';
+      item.innerHTML = `
+        <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 1.4fr 32px; gap:10px; align-items:center;">
+          <input type="text" class="lp-input link-name" placeholder="Link Name" />
+          <input type="url" class="lp-input link-url" placeholder="URL" />
+          <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove link">
+            <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+          </button>
+        </div>
+      `;
+      list.appendChild(item);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function removeRepeaterItem(btn) {
+      const item = btn.closest('.lp-repeater-item');
+      if (item) item.remove();
+    }
+
+    // Flash Autofill Feature (⚡)
+    function autofillAllSteps() {
+      // Step 1: Product Description
+      const nameEl = document.getElementById('lpProductName');
+      const shortEl = document.getElementById('lpShortDesc');
+      const detailEl = document.getElementById('lpDetailedDesc');
+
+      if (nameEl) {
+        nameEl.value = 'CloudVector';
+        handleCharCounter(nameEl, 'lpNameCounter', 50);
+      }
+      if (shortEl) {
+        shortEl.value = 'Real-time automated financial diligence & venture intelligence workspace';
+        handleCharCounter(shortEl, 'lpPitchCounter', 80);
+      }
+      if (detailEl) {
+        detailEl.value = 'CloudVector is an institutional SaaS operating system that connects founders with verified capital, automates virtual data rooms (VDRs), and benchmarks real-time financial metrics for seed and venture growth.';
+      }
+
+      // Logo Preview
+      const preview = document.getElementById('lpLogoPreview');
+      const plus = document.getElementById('lpLogoPlus');
+      if (preview) {
+        preview.src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80';
+        preview.style.display = 'block';
+      }
+      if (plus) plus.style.display = 'none';
+
+      // Step 2: Product Details
+      const webEl = document.getElementById('lpWebsite');
+      const addrEl = document.getElementById('lpAddress');
+      const twEl = document.getElementById('lpSocialTwitter');
+      const fbEl = document.getElementById('lpSocialFacebook');
+      const liEl = document.getElementById('lpSocialLinkedIn');
+      const igEl = document.getElementById('lpSocialInstagram');
+      const ytEl = document.getElementById('lpSocialYouTube');
+      const ttEl = document.getElementById('lpSocialTikTok');
+
+      if (webEl) webEl.value = 'https://cloudvector.io';
+      if (addrEl) addrEl.value = '548 Market St, Suite 300, San Francisco, CA 94104';
+      if (twEl) twEl.value = '@cloudvector';
+      if (fbEl) fbEl.value = '@cloudvectorhq';
+      if (liEl) liEl.value = 'cloudvector';
+      if (igEl) igEl.value = '@cloudvector.ai';
+      if (ytEl) ytEl.value = '@cloudvectordev';
+      if (ttEl) ttEl.value = '@cloudvector';
+
+      // Add 2 realistic features
+      const featList = document.getElementById('lpFeaturesList');
+      if (featList) {
+        featList.innerHTML = `
+          <div class="lp-repeater-item">
+            <div class="lp-repeater-row">
+              <input type="text" class="lp-input feat-title" value="Automated Virtual Data Room (VDR)" />
+              <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove feature">
+                <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+            <input type="text" class="lp-input feat-desc" value="Dynamic document watermarking, investor audit logs, and granular access control." />
+          </div>
+          <div class="lp-repeater-item">
+            <div class="lp-repeater-row">
+              <input type="text" class="lp-input feat-title" value="Real-time Diligence Health Benchmarks" />
+              <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove feature">
+                <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+            <input type="text" class="lp-input feat-desc" value="Live MRR, LTV:CAC, Churn, and NRR telemetry with automated red-flag alerts." />
+          </div>
+        `;
+      }
+
+      // Step 3: Product Media
+      const vidEl = document.getElementById('lpDemoVideo');
+      if (vidEl) vidEl.value = 'https://youtube.com/watch?v=dQw4w9WgXcQ';
+
+      // Set mock gallery thumbnails
+      const mockImages = [
+        'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&fit=crop&q=80',
+        'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&fit=crop&q=80',
+        'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=400&fit=crop&q=80'
+      ];
+      for (let i = 1; i <= 3; i++) {
+        const img = document.getElementById(`galImg${i}`);
+        const p = document.getElementById(`galPlus${i}`);
+        const lbl = document.getElementById(`galLabel${i}`);
+        const r = document.getElementById(`galRem${i}`);
+        if (img) {
+          img.src = mockImages[i - 1];
+          img.style.display = 'block';
+        }
+        if (p) p.style.display = 'none';
+        if (lbl) lbl.style.display = 'none';
+        if (r) r.style.display = 'flex';
+      }
+
+      // Step 4: Integrations (Activate chips)
+      const chips = document.querySelectorAll('#lpIntegrationsChipGroup .lp-chip');
+      chips.forEach((c, idx) => {
+        if ([0, 1, 2, 3, 7, 9].includes(idx)) c.classList.add('selected');
+      });
+      const custInt = document.getElementById('lpCustomIntegrations');
+      if (custInt) custInt.value = 'Linear, Supabase, ClickHouse, AWS S3';
+
+      // Step 5: Category
+      const otherInd = document.getElementById('lpOtherIndustry');
+      if (otherInd) otherInd.value = 'Financial Technology & Diligence Automation';
+
+      // Step 6: Target Market & Stage FAQs
+      const devStage = document.getElementById('lpDevStage');
+      if (devStage) devStage.value = 'Early Traction / Live in Production';
+
+      const f1 = document.getElementById('lpFaqProblem');
+      const f2 = document.getElementById('lpFaqAudience');
+      const f3 = document.getElementById('lpFaqUniqueness');
+      const f4 = document.getElementById('lpFaqBusinessModel');
+      const f5 = document.getElementById('lpFaqFuturePlans');
+      const f6 = document.getElementById('lpFaqUsage');
+
+      if (f1) f1.value = 'Founders waste 3-6 months gathering fragmented diligence records, risking stalled deals and data leakage.';
+      if (f2) f2.value = 'Early-stage to Series B founders, CFOs, and venture studios raising seed and venture capital rounds.';
+      if (f3) f3.value = 'Automated AI audit verification, live investor tracking heatmaps, and standardized institutional reporting.';
+      if (f4) f4.value = 'Tiered B2B SaaS subscription ($49/mo Starter, $199/mo Growth) with enterprise volume licensing.';
+      if (f5) f5.value = 'Full automated cap-table sync, AI conversational data room Q&A, and mobile executive audit dashboard.';
+      if (f6) f6.value = 'Instant self-serve signup, one-click QuickBooks/Stripe connection, and ready-to-share data room in under 5 minutes.';
+
+      // Step 7: Pricing & Competitors (Enhanced)
+      const plansList = document.getElementById('lpPlansList');
+      if (plansList) {
+        plansList.innerHTML = `
+          <div class="lp-repeater-item">
+            <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 140px 140px 32px; gap:10px; align-items:center;">
+              <input type="text" class="lp-input plan-name" value="Starter Tier" />
+              <input type="text" class="lp-input plan-price" value="$49" />
+              <select class="lp-select plan-interval" style="height:40px;">
+                <option value="/ month" selected>/ month</option>
+                <option value="/ year">/ year</option>
+                <option value="one-time">one-time</option>
+                <option value="usage-based">usage-based</option>
+                <option value="Free">Free</option>
+              </select>
+              <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove plan">
+                <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+            <input type="text" class="lp-input plan-features" value="1 Active VDR, Up to 25 Investor seats, Real-time analytics, Standard watermarking" />
+          </div>
+          <div class="lp-repeater-item">
+            <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 140px 140px 32px; gap:10px; align-items:center;">
+              <input type="text" class="lp-input plan-name" value="Growth Pro" />
+              <input type="text" class="lp-input plan-price" value="$199" />
+              <select class="lp-select plan-interval" style="height:40px;">
+                <option value="/ month" selected>/ month</option>
+                <option value="/ year">/ year</option>
+                <option value="one-time">one-time</option>
+                <option value="usage-based">usage-based</option>
+                <option value="Free">Free</option>
+              </select>
+              <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove plan">
+                <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+            <input type="text" class="lp-input plan-features" value="Unlimited VDRs, Unlimited investors, AI audit checker, Priority 24/7 advisory" />
+          </div>
+        `;
+      }
+
+      const compsList = document.getElementById('lpCompetitorsList');
+      if (compsList) {
+        compsList.innerHTML = `
+          <div class="lp-repeater-item">
+            <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 1.2fr 32px; gap:10px; align-items:center;">
+              <input type="text" class="lp-input comp-name" value="DocSend (Dropbox)" />
+              <input type="url" class="lp-input comp-url" value="https://docsend.com" />
+              <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove competitor">
+                <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+          <div class="lp-repeater-item">
+            <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 1.2fr 32px; gap:10px; align-items:center;">
+              <input type="text" class="lp-input comp-name" value="Carta VDR" />
+              <input type="url" class="lp-input comp-url" value="https://carta.com" />
+              <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove competitor">
+                <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      // Step 8: Important Links
+      const linksList = document.getElementById('lpLinksList');
+      if (linksList) {
+        linksList.innerHTML = `
+          <div class="lp-repeater-item">
+            <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 1.4fr 32px; gap:10px; align-items:center;">
+              <input type="text" class="lp-input link-name" value="Documentation" />
+              <input type="url" class="lp-input link-url" value="https://docs.cloudvector.io" />
+              <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove link">
+                <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+          <div class="lp-repeater-item">
+            <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 1.4fr 32px; gap:10px; align-items:center;">
+              <input type="text" class="lp-input link-name" value="API Reference" />
+              <input type="url" class="lp-input link-url" value="https://api.cloudvector.io" />
+              <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove link">
+                <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+          <div class="lp-repeater-item">
+            <div class="lp-repeater-row" style="display:grid; grid-template-columns:1fr 1.4fr 32px; gap:10px; align-items:center;">
+              <input type="text" class="lp-input link-name" value="Public Changelog" />
+              <input type="url" class="lp-input link-url" value="https://cloudvector.io/changelog" />
+              <button type="button" class="lp-btn-remove" onclick="removeRepeaterItem(this)" title="Remove link">
+                <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      updateValidationAndSummary();
+      showLpToast('Autofilled complete 9-step submission with demo data');
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 35,
+          spread: 50,
+          origin: { y: 0.2 }
+        });
+      }
+    }
+
+    // Update Step 9 Validation & Summary Display
+    function updateValidationAndSummary() {
+      const name = document.getElementById('lpProductName')?.value || 'CloudVector';
+      const shortDesc = document.getElementById('lpShortDesc')?.value || 'Real-time automated financial diligence & intelligence engine';
+      const website = document.getElementById('lpWebsite')?.value || 'https://cloudvector.io';
+      const stage = document.getElementById('lpDevStage')?.value || 'Early Traction / Live in Production';
+
+      const sName = document.getElementById('revName');
+      const sDesc = document.getElementById('revShortDesc');
+      const sWeb = document.getElementById('revWebsite');
+      const sStage = document.getElementById('revStage');
+
+      if (sName) sName.textContent = name;
+      if (sDesc) sDesc.textContent = shortDesc;
+      if (sWeb) sWeb.textContent = website;
+      if (sStage) sStage.textContent = stage;
+    }
+
+    // Submit for Review -> Opens $5 Boost Modal
+    function submitProductForReview() {
+      const check = document.getElementById('lpFinalCheckbox')?.checked;
+      if (!check) {
+        showLpToast('Please verify the declaration checkbox');
+        return;
+      }
+
+      const prodName = document.getElementById('lpProductName')?.value || 'Your Product';
+      const targetNameEl = document.getElementById('lpSubmittedProdName');
+      if (targetNameEl) targetNameEl.textContent = prodName;
+
+      // Open the $5 Boost Modal
+      const boostModal = document.getElementById('lpBoostModal');
+      if (boostModal) {
+        boostModal.classList.add('show');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+    }
+
+    let redirectTimer = null;
+
+    // Option 1: Pay $5 for 24h Top Placement
+    function handleBoostPayment() {
+      const boostModal = document.getElementById('lpBoostModal');
+      if (boostModal) boostModal.classList.remove('show');
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.5 }
+        });
+      }
+
+      showLpToast('Payment Verified ($5.00) — Featured 24h Boost Activated!');
+
+      const refId = `#SD-${Math.floor(10000 + Math.random() * 90000)}`;
+      document.getElementById('lpRefId').textContent = refId;
+      document.getElementById('lpPlacementType').textContent = 'Featured 24h Top Placement ($5 Paid)';
+      document.getElementById('lpModalStatusBadge').textContent = 'Fast-Track Review In Progress • Est. <1 Hour';
+      document.getElementById('lpModalStatusBadge').style.color = '#059669';
+
+      showReviewStatusModal();
+    }
+
+    // Option 2: Skip Boost (Free Submission)
+    function handleSkipBoost() {
+      const boostModal = document.getElementById('lpBoostModal');
+      if (boostModal) boostModal.classList.remove('show');
+
+      const refId = `#SD-${Math.floor(10000 + Math.random() * 90000)}`;
+      document.getElementById('lpRefId').textContent = refId;
+      document.getElementById('lpPlacementType').textContent = 'Standard Listing (Free)';
+      document.getElementById('lpModalStatusBadge').textContent = 'Review In Progress • Est. 2-4 Hours';
+      document.getElementById('lpModalStatusBadge').style.color = '#059669';
+
+      showReviewStatusModal();
+    }
+
+    // Show Confirmation Modal & Start Countdown
+    function showReviewStatusModal() {
+      const statusModal = document.getElementById('lpReviewStatusModal');
+      if (statusModal) {
+        statusModal.classList.add('show');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+
+      let seconds = 4;
+      const countdownEl = document.getElementById('lpRedirectCountdown');
+      if (countdownEl) countdownEl.textContent = `Redirecting to public directory in ${seconds}s...`;
+
+      if (redirectTimer) clearInterval(redirectTimer);
+      redirectTimer = setInterval(() => {
+        seconds--;
+        if (seconds > 0) {
+          if (countdownEl) countdownEl.textContent = `Redirecting to public directory in ${seconds}s...`;
+        } else {
+          clearInterval(redirectTimer);
+          redirectToPublicDirectory();
+        }
+      }, 1000);
+    }
+
+    function redirectToPublicDirectory() {
+      if (redirectTimer) clearInterval(redirectTimer);
+      window.location.href = './public-product-listing.html';
+    }
+
+    // User Dropdown & Profile Loader
+    function loadUserProfile() {
+      try {
+        const stored = localStorage.getItem('seedicon_user');
+        if (stored) {
+          const user = JSON.parse(stored);
+          const nameEl = document.getElementById('pubUserNameDisplay');
+          const emailEl = document.getElementById('pubUserEmailDisplay');
+          if (nameEl && user.name) nameEl.textContent = user.name;
+          if (emailEl && user.email) emailEl.textContent = user.email;
+        }
+      } catch (err) {
+        console.warn('Profile error', err);
+      }
+    }
+
+    function toggleUserDropdown(e) {
+      e.stopPropagation();
+      const menu = document.getElementById('pubUserMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    function closeUserDropdown() {
+      const menu = document.getElementById('pubUserMenu');
+      if (menu) menu.classList.remove('show');
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('pubUserMenu');
+      const btn = document.getElementById('pubUserAvatarBtn');
+      if (menu && menu.classList.contains('show')) {
+        if (!menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
+          menu.classList.remove('show');
+        }
+      }
+    });
+
+    function handleLogout() {
+      localStorage.removeItem('seedicon_user');
+      showLpToast('Signed out of Seedicon');
+    }
+
+    // Toast
+    function showLpToast(msg) {
+      const toast = document.getElementById('lpToast');
+      if (toast) {
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 3200);
+      }
+    }
+  </script>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       04. BOOST OFFER MODAL ($5 for 24h Top Placement)
+       ────────────────────────────────────────────────────────────────────────── -->
+  <div class="lp-modal-overlay" id="lpBoostModal">
+    <div class="lp-modal-card">
+      <div class="lp-modal-head">
+        <div>
+          <div class="lp-modal-badge">
+            <i data-lucide="zap" style="width:12px; height:12px;"></i>
+            <span>Featured Launch Boost</span>
+          </div>
+          <h2 class="lp-modal-title">Feature Your Product on Seedicon</h2>
+          <p class="lp-modal-sub">Get 10x more eyes on your product with a guaranteed 24-hour top banner placement.</p>
+        </div>
+      </div>
+
+      <!-- Option Card ($5) -->
+      <div class="lp-boost-option-card">
+        <div class="lp-boost-price-tag">
+          <div>
+            <span class="lp-boost-price">$5</span>
+            <span class="lp-boost-price-sub">/ one-time (24h)</span>
+          </div>
+          <span style="font-size:11px; font-weight:700; background:var(--lp-text-dark); color:#FFFFFF; padding:3px 8px; border-radius:4px;">RECOMMENDED</span>
+        </div>
+
+        <ul class="lp-boost-perks">
+          <li class="lp-boost-perk-item">
+            <span class="lp-boost-perk-icon">✓</span>
+            <span>Guaranteed #1 Featured spot on Seedicon for 24 hours</span>
+          </li>
+          <li class="lp-boost-perk-item">
+            <span class="lp-boost-perk-icon">✓</span>
+            <span>Featured Launch badge highlighting verified status</span>
+          </li>
+          <li class="lp-boost-perk-item">
+            <span class="lp-boost-perk-icon">✓</span>
+            <span>Included in the daily digest sent to 12,000+ active investors</span>
+          </li>
+          <li class="lp-boost-perk-item">
+            <span class="lp-boost-perk-icon">✓</span>
+            <span>Priority fast-track diligence review (under 1 hour)</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Actions -->
+      <div class="lp-modal-actions">
+        <button type="button" class="lp-btn-boost-pay" onclick="handleBoostPayment()">
+          <i data-lucide="zap" style="width:15px; height:15px;"></i>
+          <span>Pay $5 &amp; Boost to #1</span>
+        </button>
+        <button type="button" class="lp-btn-skip-free" onclick="handleSkipBoost()">
+          <span>Skip &amp; Submit Standard Listing (Free)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       05. SUBMISSION CONFIRMATION & REVIEW IN-PROGRESS MODAL
+       ────────────────────────────────────────────────────────────────────────── -->
+  <div class="lp-modal-overlay" id="lpReviewStatusModal">
+    <div class="lp-modal-card" style="max-width: 480px;">
+      <div class="lp-review-status-wrap">
+        <div class="lp-status-icon-circle">
+          <i data-lucide="check-check" style="width:28px; height:28px;"></i>
+        </div>
+
+        <div>
+          <div style="font-size:11.5px; font-weight:700; color:#059669; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px;" id="lpModalStatusBadge">
+            Review In Progress • Est. 2-4 Hours
+          </div>
+          <h2 class="lp-modal-title" style="font-size:21px; margin-top:0;">We've received your product!</h2>
+          <p class="lp-modal-sub" style="margin-top:8px;" id="lpModalSuccessMsg">
+            Thank you for submitting <strong id="lpSubmittedProdName">CloudVector</strong>. Our curation team is currently reviewing your product details and media assets. Once approved, your product will be hosted live on the public directory.
+          </p>
+        </div>
+
+        <!-- Animated Progress Bar -->
+        <div class="lp-status-progress-bar">
+          <div class="lp-status-progress-fill"></div>
+        </div>
+
+        <!-- Submission Details Summary -->
+        <div class="lp-review-box" style="width:100%; text-align:left; margin:6px 0;">
+          <div class="lp-review-row">
+            <span class="lp-review-k">Reference ID</span>
+            <span class="lp-review-v" id="lpRefId">#SD-84920</span>
+          </div>
+          <div class="lp-review-row">
+            <span class="lp-review-k">Placement Type</span>
+            <span class="lp-review-v" id="lpPlacementType">Featured 24h Placement ($5)</span>
+          </div>
+          <div class="lp-review-row">
+            <span class="lp-review-k">Status</span>
+            <span class="lp-review-v" style="color:#D97706;">Under Diligence Review</span>
+          </div>
+        </div>
+
+        <!-- Action Button & Auto-redirect Countdown -->
+        <div style="width:100%; display:flex; flex-direction:column; gap:10px;">
+          <button type="button" class="lp-btn-boost-pay" style="background:#111827;" onclick="redirectToPublicDirectory()">
+            <span>Go to Public Product Directory</span>
+            <i data-lucide="arrow-right" style="width:15px; height:15px;"></i>
+          </button>
+          <div style="font-size:12px; color:var(--lp-text-muted);" id="lpRedirectCountdown">
+            Redirecting to public directory in 4s...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

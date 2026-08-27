@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Public Product Directory &amp; Marketplace — Seedicon</title>
+  <meta name="description" content="Discover, buy, sell, and showcase verified startup products, SaaS, and digital assets on Seedicon." />
+
+  <!-- Google Font: Outfit ONLY -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Global & Component Stylesheets -->
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="stylesheet" href="./css/public-directory.css" />
+</head>
+<body>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       01. STICKY NAVIGATION HEADER
+       ────────────────────────────────────────────────────────────────────────── -->
+  <header class="pub-header">
+    <div class="pub-header-inner">
+      
+      <!-- Left: Brand Logo & Navigation Links Grouped Together -->
+      <div class="pub-header-left">
+        <a href="./index.html" class="pub-brand" title="Seedicon Home">
+          <div class="pub-brand-logo">
+            <i data-lucide="asterisk" style="width:17px; height:17px; stroke-width:2.8;"></i>
+          </div>
+          <span class="pub-brand-title">Seedicon</span>
+        </a>
+
+        <!-- Center: Nav Items List -->
+        <nav>
+          <ul class="pub-nav-center">
+            
+            <!-- 1. Capital -->
+            <li class="pub-nav-item">
+              <a href="./index.html" class="pub-nav-link" title="Seedicon Capital Solutions">
+                <span>Capital</span>
+              </a>
+            </li>
+
+            <!-- 2. Products -->
+            <li class="pub-nav-item">
+              <a href="./public-product-listing.html" class="pub-nav-link" style="color:var(--pub-text-dark); font-weight:700;" title="Seedicon Product Ecosystem">
+                <span>Products</span>
+                <i data-lucide="chevron-down" class="pub-nav-chevron"></i>
+              </a>
+
+              <!-- Popover Dropdown Menu -->
+              <div class="products-dropdown-menu">
+                <div class="dropdown-menu-head">
+                  <span class="dropdown-menu-label">Seedicon Products</span>
+                  <span class="dropdown-menu-count">4 Modules</span>
+                </div>
+                
+                <!-- Product 1: Deckwale -->
+                <a href="../lofi-founder/deckwale.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="sparkles" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Deckwale</span>
+                      <span class="badge-tag-pill pro">PRO</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Expert pitch storytelling, visual decks &amp; venture models.</div>
+                  </div>
+                </a>
+
+                <!-- Product 2: Watch -->
+                <a href="../lofi-founder/watch-data-rooms.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="folder-lock" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Watch</span>
+                      <span class="badge-tag-pill pro">VDR</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Secure virtual data rooms &amp; diligence audit monitoring.</div>
+                  </div>
+                </a>
+
+                <!-- Product 3: Allbuddy -->
+                <a href="../lofi-founder/founder-network.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="users" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Allbuddy</span>
+                      <span class="badge-tag-pill pro">NETWORK</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Verified founder, advisor &amp; angel network directory.</div>
+                  </div>
+                </a>
+
+                <!-- Product 4: Crusrource [Coming Soon] -->
+                <div class="dropdown-product-row coming-soon-row" title="Crusrource is currently in active private preview">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="compass" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Crusrource</span>
+                      <span class="badge-tag-pill soon">Coming Soon</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Curated startup scouting, talent &amp; deal syndication.</div>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+
+            <!-- 3. Trade -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/real-market-problems.html" class="pub-nav-link" title="Secondary &amp; Asset Trading">
+                <span>Trade</span>
+              </a>
+            </li>
+
+            <!-- 4. Partner with us -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/investor-tracking.html" class="pub-nav-link" title="Syndicate &amp; Venture Partners">
+                <span>Partner with us</span>
+              </a>
+            </li>
+
+            <!-- 5. Insights -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/startup-news.html" class="pub-nav-link" title="Venture Intelligence &amp; Market Research">
+                <span>Insights</span>
+              </a>
+            </li>
+
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Right: Small Search + Apply for funding + List your product + Face Avatar -->
+      <div class="pub-header-right">
+        
+        <!-- Small Width Search Bar -->
+        <div class="pub-header-search-wrap">
+          <i data-lucide="search" class="pub-header-search-icon"></i>
+          <input type="text" id="pubNavSearchInput" class="pub-header-search-input" placeholder="Search products..." oninput="handlePublicSearch(this.value)" />
+        </div>
+
+        <!-- Apply for Funding Button -->
+        <a href="./apply-funding.html" class="pub-btn-funding" title="Apply for seed / venture funding">
+          <i data-lucide="banknote" style="width:13.5px; height:13.5px;"></i>
+          <span>Apply for funding</span>
+        </a>
+
+        <!-- List Your Product Button -->
+        <a href="./list-product.html" class="pub-btn-list-product" title="List your product">
+          <i data-lucide="plus" style="width:14px; height:14px;"></i>
+          <span>List your product</span>
+        </a>
+
+        <!-- User Avatar with Face Portrait Photo -->
+        <div class="pub-avatar-container">
+          <button type="button" class="pub-avatar-btn" id="pubUserAvatarBtn" onclick="toggleUserDropdown(event)" title="User Account">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="User Profile" class="pub-avatar-img" />
+          </button>
+
+          <!-- User Menu Dropdown -->
+          <div class="pub-user-menu" id="pubUserMenu">
+            <div class="pub-user-menu-head" onclick="window.location.href='./profile.html'" style="cursor:pointer;" title="View Gyan Sharma's profile">
+              <div class="pub-user-menu-user-row">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="User Profile" class="pub-user-menu-avatar" />
+                <div class="pub-user-menu-info">
+                  <div class="pub-user-menu-name" id="pubUserNameDisplay">Gyan Sharma</div>
+                  <div class="pub-user-email" id="pubUserEmailDisplay" style="font-size:11.5px; color:var(--pub-text-muted);">gyan.sharma@seedicon.com</div>
+                </div>
+              </div>
+
+              <!-- Profile Completion Progress Meter (inside dropdown only) -->
+              <div class="pub-profile-progress-wrap">
+                <div class="pub-profile-progress-label">
+                  <span>Profile Completion</span>
+                  <span style="font-weight:800;">50%</span>
+                </div>
+                <div class="pub-profile-progress-bar">
+                  <div class="pub-profile-progress-fill"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Menu Options: Profile, Settings, My Products, Funding requests -->
+            <a href="./profile.html" class="pub-user-menu-link">
+              <i data-lucide="user" style="width:14px; height:14px;"></i>
+              <span>Profile</span>
+            </a>
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="settings" style="width:14px; height:14px;"></i>
+              <span>Settings</span>
+            </a>
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="package" style="width:14px; height:14px;"></i>
+              <span>My products</span>
+            </a>
+            <a href="./apply-funding.html" class="pub-user-menu-link">
+              <i data-lucide="banknote" style="width:14px; height:14px;"></i>
+              <span>Funding requests</span>
+            </a>
+
+            <div style="height:1px; background:var(--pub-border-subtle); margin:4px 0;"></div>
+
+            <!-- Workspaces: Founder & Investor -->
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="layout-dashboard" style="width:14px; height:14px;"></i>
+              <span>Founder Workspace</span>
+            </a>
+            <a href="../lofi-investor/index.html" class="pub-user-menu-link">
+              <i data-lucide="trending-up" style="width:14px; height:14px;"></i>
+              <span>Investor Workspace</span>
+            </a>
+
+            <div style="height:1px; background:var(--pub-border-subtle); margin:4px 0;"></div>
+
+            <a href="./index.html" class="pub-user-menu-link" style="color:#DC2626;" onclick="handleLogout()">
+              <i data-lucide="log-out" style="width:14px; height:14px;"></i>
+              <span>Sign out</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       02. 3-COLUMN DIRECTORY MARKETPLACE LAYOUT
+       ────────────────────────────────────────────────────────────────────────── -->
+  <main class="pd-directory-container">
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         LEFT COLUMN: FILTERS SIDEBAR (EXACT 4 FILTERS)
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <aside class="pd-filter-sidebar">
+
+      <!-- 1. Product types (Dropdown + Removable Chips Outside) -->
+      <div class="pd-filter-section">
+        <div class="pd-filter-heading">
+          <i data-lucide="layers" style="width:14px; height:14px;"></i>
+          <span>Product types</span>
+        </div>
+        <div class="pd-type-dropdown-box" id="pdTypeDropdownBox">
+          <button type="button" class="pd-type-dropdown-trigger" onclick="toggleTypeDropdown(event)" id="pdTypeDropdownTrigger">
+            <span id="pdTypeSelectedText">All Types (9 selected)</span>
+            <i data-lucide="chevron-down" id="pdTypeChevron" style="width:14px; height:14px; transition:transform 0.15s ease;"></i>
+          </button>
+          <div class="pd-type-dropdown-panel" id="pdTypeDropdownPanel">
+            <label class="pd-type-check-option">
+              <input type="checkbox" checked value="saas" onchange="handleTypeCheckbox(this)" />
+              <span>SaaS</span>
+            </label>
+            <label class="pd-type-check-option">
+              <input type="checkbox" checked value="ai" onchange="handleTypeCheckbox(this)" />
+              <span>AI &amp; ML</span>
+            </label>
+            <label class="pd-type-check-option">
+              <input type="checkbox" checked value="devtools" onchange="handleTypeCheckbox(this)" />
+              <span>DevTools</span>
+            </label>
+            <label class="pd-type-check-option">
+              <input type="checkbox" checked value="opensource" onchange="handleTypeCheckbox(this)" />
+              <span>Open Source</span>
+            </label>
+            <label class="pd-type-check-option">
+              <input type="checkbox" checked value="social" onchange="handleTypeCheckbox(this)" />
+              <span>Social</span>
+            </label>
+            <label class="pd-type-check-option">
+              <input type="checkbox" checked value="mobile" onchange="handleTypeCheckbox(this)" />
+              <span>Mobile</span>
+            </label>
+            <label class="pd-type-check-option">
+              <input type="checkbox" checked value="desktop" onchange="handleTypeCheckbox(this)" />
+              <span>Desktop</span>
+            </label>
+            <label class="pd-type-check-option">
+              <input type="checkbox" checked value="ecommerce" onchange="handleTypeCheckbox(this)" />
+              <span>E-Commerce</span>
+            </label>
+            <label class="pd-type-check-option">
+              <input type="checkbox" checked value="other" onchange="handleTypeCheckbox(this)" />
+              <span>Other</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Outside Filter Chips with Close ('x') Action -->
+        <div class="pd-type-chips-container" id="pdTypeChipsWrap"></div>
+      </div>
+
+      <!-- 2. Product Price -->
+      <div class="pd-filter-section">
+        <div class="pd-filter-heading">
+          <i data-lucide="tag" style="width:14px; height:14px;"></i>
+          <span>Product Price</span>
+        </div>
+        <select class="pd-filter-select" id="pdPriceSelect" onchange="filterProducts()">
+          <option value="all">Any Price</option>
+          <option value="free">Free / Open Source</option>
+          <option value="under-1k">&lt; $1,000</option>
+          <option value="1k-5k">$1,000 – $5,000</option>
+          <option value="5k-25k">$5,000 – $25,000</option>
+          <option value="25k-plus">$25,000+</option>
+        </select>
+      </div>
+
+      <!-- 3. ARR -->
+      <div class="pd-filter-section">
+        <div class="pd-filter-heading">
+          <i data-lucide="trending-up" style="width:14px; height:14px;"></i>
+          <span>ARR</span>
+        </div>
+        <select class="pd-filter-select" id="pdArrSelect" onchange="filterProducts()">
+          <option value="all">Any ARR</option>
+          <option value="pre-rev">$0 (Pre-revenue / Launch)</option>
+          <option value="under-10k">&lt; $10K ARR</option>
+          <option value="10k-50k">$10K – $50K ARR</option>
+          <option value="50k-250k">$50K – $250K ARR</option>
+          <option value="250k-plus">$250K+ ARR</option>
+        </select>
+      </div>
+
+      <!-- 4. Submitted on -->
+      <div class="pd-filter-section">
+        <div class="pd-filter-heading">
+          <i data-lucide="calendar" style="width:14px; height:14px;"></i>
+          <span>Submitted on</span>
+        </div>
+        <select class="pd-filter-select" id="pdDateSelect" onchange="filterProducts()">
+          <option value="all">All Time</option>
+          <option value="today">Today / Last 24 Hours</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+          <option value="3months">Last 3 Months</option>
+        </select>
+      </div>
+
+    </aside>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         CENTER COLUMN: SPONSORS HERO GRID + PRODUCTS FEED
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <section class="pd-feed-column" id="pdFeedContainer">
+      
+      <!-- ────────────────────────────────────────────────────────────────────────
+           NEW SPONSORS HERO SECTION (3-Card Grid Matching Reference UI)
+           ──────────────────────────────────────────────────────────────────────── -->
+      <section class="pd-sponsors-section">
+        <div class="pd-sponsors-head">
+          <h2 class="pd-sponsors-title">Sponsors</h2>
+          <a href="../lofi-founder/deckwale.html" class="pd-sponsors-learn-more" title="Advertise your product on Seedicon">Learn More</a>
+        </div>
+
+        <div class="pd-sponsors-grid">
+          
+          <!-- Sponsor 1: Tickclip -->
+          <div class="pd-sponsor-card-v2" onclick="window.open('https://tickclip.com', '_blank')">
+            <div class="pd-sponsor-banner-wrap">
+              <img src="./assets/sponsed-1.avif" alt="Tickclip Preview" class="pd-sponsor-banner-img" />
+              <span class="pd-sponsor-badge">Sponsor</span>
+              <div class="pd-sponsor-logo-overlap">
+                <span style="font-weight:900; font-size:10px; color:#FFFFFF; background:#111827; padding:4px 7px; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.25); letter-spacing:-0.02em;">tickcl</span>
+              </div>
+            </div>
+            <div class="pd-sponsor-body">
+              <h3 class="pd-sponsor-name">Tickclip</h3>
+              <p class="pd-sponsor-tagline">The Fiduciary AI Trust Layer for Smarter, Unbiased Shopping</p>
+              <a href="https://tickclip.com" target="_blank" class="pd-sponsor-link" onclick="event.stopPropagation()">
+                <span>Visit website</span>
+                <i data-lucide="arrow-up-right" style="width:13px; height:13px;"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Sponsor 2: Chloros Agent -->
+          <div class="pd-sponsor-card-v2" onclick="window.open('https://chloros.ai', '_blank')">
+            <div class="pd-sponsor-banner-wrap">
+              <img src="./assets/sponsored-2.avif" alt="Chloros Agent Preview" class="pd-sponsor-banner-img" />
+              <span class="pd-sponsor-badge">Sponsor</span>
+              <div class="pd-sponsor-logo-overlap">
+                <div style="width:26px; height:26px; background:#111827; border:1.5px solid #374151; border-radius:7px; display:flex; align-items:center; justify-content:center; color:#FFFFFF; box-shadow:0 2px 6px rgba(0,0,0,0.25);">
+                  <i data-lucide="shield-check" style="width:13px; height:13px;"></i>
+                </div>
+              </div>
+            </div>
+            <div class="pd-sponsor-body">
+              <h3 class="pd-sponsor-name">Chloros Agent</h3>
+              <p class="pd-sponsor-tagline">The runtime security gate for your AI agents</p>
+              <a href="https://chloros.ai" target="_blank" class="pd-sponsor-link" onclick="event.stopPropagation()">
+                <span>Visit website</span>
+                <i data-lucide="arrow-up-right" style="width:13px; height:13px;"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Sponsor 3: Nuvoha -->
+          <div class="pd-sponsor-card-v2" onclick="window.open('https://nuvoha.com', '_blank')">
+            <div class="pd-sponsor-banner-wrap">
+              <img src="./assets/sponsed-3.avif" alt="Nuvoha Preview" class="pd-sponsor-banner-img" />
+              <span class="pd-sponsor-badge">Sponsor</span>
+              <div class="pd-sponsor-logo-overlap">
+                <div style="width:26px; height:26px; background:#111827; border:1.5px solid #374151; border-radius:7px; display:flex; align-items:center; justify-content:center; color:#FFFFFF; box-shadow:0 2px 6px rgba(0,0,0,0.25);">
+                  <i data-lucide="palmtree" style="width:13px; height:13px;"></i>
+                </div>
+              </div>
+            </div>
+            <div class="pd-sponsor-body">
+              <h3 class="pd-sponsor-name">Nuvoha</h3>
+              <p class="pd-sponsor-tagline">Discover complete trips, personalised around you.</p>
+              <a href="https://nuvoha.com" target="_blank" class="pd-sponsor-link" onclick="event.stopPropagation()">
+                <span>Visit website</span>
+                <i data-lucide="arrow-up-right" style="width:13px; height:13px;"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ────────────────────────────────────────────────────────────────────────
+           PRODUCTS FEED LIST (EXACT MATCH TO REFERENCE SCREENSHOT)
+           ──────────────────────────────────────────────────────────────────────── -->
+      <div class="pd-products-list-wrap" id="pdProductsList">
+        
+        <!-- Product 1: Kira Community -->
+        <div class="pd-product-row-item" data-title="Kira Community" data-type="social" data-status="for-sale" onclick="window.location.href='./product-detail.html'">
+          <div class="pd-product-row-left">
+            <div class="pd-product-row-logo">
+              <img src="https://www.google.com/s2/favicons?domain=kira.network&sz=128" alt="Kira Community" onerror="this.src='https://api.dicebear.com/7.x/shapes/svg?seed=KiraCommunity'" />
+            </div>
+            <div class="pd-product-row-info">
+              <div class="pd-product-row-title-line">
+                <span class="pd-product-row-title">Kira Community</span>
+              </div>
+              <div class="pd-product-row-tagline">Curate moments with #hashtag</div>
+              <div class="pd-product-row-tags">
+                <i data-lucide="tag" style="width:11.5px; height:11.5px; color:#9CA3AF;"></i>
+                <div class="pd-product-row-tag-list">
+                  <span>Social Media</span>
+                  <span>·</span>
+                  <span>Artificial Intelligence</span>
+                  <span>·</span>
+                  <span>Community</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pd-product-row-actions">
+            <button type="button" class="pd-action-btn-box" onclick="event.stopPropagation(); window.location.href='./product-detail.html#comments'" title="View discussion">
+              <i data-lucide="message-square" class="pd-action-btn-icon"></i>
+              <span class="pd-action-btn-count">2</span>
+            </button>
+            <button type="button" class="pd-action-btn-box" onclick="event.stopPropagation(); toggleProductUpvote(this, 19)" title="Upvote Kira Community">
+              <i data-lucide="triangle" class="pd-action-btn-icon" style="transform:rotate(0deg);"></i>
+              <span class="pd-action-btn-count">—</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 2: Qwen3.8-Flash-Next (Highlighted) -->
+        <div class="pd-product-row-item highlighted" data-title="Qwen3.8-Flash-Next" data-type="ai" data-status="for-sale" onclick="window.location.href='./product-detail.html'">
+          <div class="pd-product-row-left">
+            <div class="pd-product-row-logo">
+              <img src="https://www.google.com/s2/favicons?domain=qwenlm.github.io&sz=128" alt="Qwen3.8-Flash-Next" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=Qwen'" />
+            </div>
+            <div class="pd-product-row-info">
+              <div class="pd-product-row-title-line">
+                <span class="pd-product-row-title" style="color:var(--pub-text-dark);">Qwen3.8-Flash-Next</span>
+                <i data-lucide="arrow-up-right" class="pd-product-row-link-icon"></i>
+              </div>
+              <div class="pd-product-row-tagline">The open-weight preview of Qwen4</div>
+              <div class="pd-product-row-tags">
+                <i data-lucide="tag" style="width:11.5px; height:11.5px; color:#9CA3AF;"></i>
+                <div class="pd-product-row-tag-list">
+                  <span>Open Source</span>
+                  <span>·</span>
+                  <span>Artificial Intelligence</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pd-product-row-actions">
+            <button type="button" class="pd-action-btn-box" onclick="event.stopPropagation(); window.location.href='./product-detail.html#comments'" title="View discussion">
+              <i data-lucide="message-square" class="pd-action-btn-icon"></i>
+              <span class="pd-action-btn-count">1</span>
+            </button>
+            <button type="button" class="pd-action-btn-box" onclick="event.stopPropagation(); toggleProductUpvote(this, 42)" title="Upvote Qwen3.8-Flash-Next">
+              <i data-lucide="triangle" class="pd-action-btn-icon"></i>
+              <span class="pd-action-btn-count">—</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 3: Speko -->
+        <div class="pd-product-row-item" data-title="Speko" data-type="devtools" data-status="for-sale" onclick="window.location.href='./product-detail.html'">
+          <div class="pd-product-row-left">
+            <div class="pd-product-row-logo">
+              <img src="https://www.google.com/s2/favicons?domain=speko.ai&sz=128" alt="Speko" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=Speko'" />
+            </div>
+            <div class="pd-product-row-info">
+              <div class="pd-product-row-title-line">
+                <span class="pd-product-row-title">Speko</span>
+              </div>
+              <div class="pd-product-row-tagline">OpenRouter for Voice</div>
+              <div class="pd-product-row-tags">
+                <i data-lucide="tag" style="width:11.5px; height:11.5px; color:#9CA3AF;"></i>
+                <div class="pd-product-row-tag-list">
+                  <span>Developer Tools</span>
+                  <span>·</span>
+                  <span>Artificial Intelligence</span>
+                  <span>·</span>
+                  <span>Audio</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pd-product-row-actions">
+            <button type="button" class="pd-action-btn-box" onclick="event.stopPropagation(); window.location.href='./product-detail.html#comments'" title="View discussion">
+              <i data-lucide="message-square" class="pd-action-btn-icon"></i>
+              <span class="pd-action-btn-count">3</span>
+            </button>
+            <button type="button" class="pd-action-btn-box" onclick="event.stopPropagation(); toggleProductUpvote(this, 29)" title="Upvote Speko">
+              <i data-lucide="triangle" class="pd-action-btn-icon"></i>
+              <span class="pd-action-btn-count">—</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 4: Yomi -->
+        <div class="pd-product-row-item" data-title="Yomi" data-type="mobile" data-status="showcase" onclick="window.location.href='./product-detail.html'">
+          <div class="pd-product-row-left">
+            <div class="pd-product-row-logo">
+              <img src="https://www.google.com/s2/favicons?domain=yomiapp.com&sz=128" alt="Yomi" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=YomiCat'" />
+            </div>
+            <div class="pd-product-row-info">
+              <div class="pd-product-row-title-line">
+                <span class="pd-product-row-title">Yomi</span>
+              </div>
+              <div class="pd-product-row-tagline">A little cat who loves being read to</div>
+              <div class="pd-product-row-tags">
+                <i data-lucide="tag" style="width:11.5px; height:11.5px; color:#9CA3AF;"></i>
+                <div class="pd-product-row-tag-list">
+                  <span>Kids</span>
+                  <span>·</span>
+                  <span>Education</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pd-product-row-actions">
+            <button type="button" class="pd-action-btn-box" onclick="event.stopPropagation(); window.location.href='./product-detail.html#comments'" title="View discussion">
+              <i data-lucide="message-square" class="pd-action-btn-icon"></i>
+              <span class="pd-action-btn-count">3</span>
+            </button>
+            <button type="button" class="pd-action-btn-box" onclick="event.stopPropagation(); toggleProductUpvote(this, 35)" title="Upvote Yomi">
+              <i data-lucide="triangle" class="pd-action-btn-icon"></i>
+              <span class="pd-action-btn-count">—</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 5: Traccia -->
+        <div class="pd-product-row-item" data-title="Traccia" data-type="opensource" data-status="seeking" onclick="window.location.href='./product-detail.html'">
+          <div class="pd-product-row-left">
+            <div class="pd-product-row-logo">
+              <img src="https://www.google.com/s2/favicons?domain=traccia.io&sz=128" alt="Traccia" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=Traccia'" />
+            </div>
+            <div class="pd-product-row-info">
+              <div class="pd-product-row-title-line">
+                <span class="pd-product-row-title">Traccia</span>
+              </div>
+              <div class="pd-product-row-tagline">Finally, a vendor-neutral AI Agent Control Plane.</div>
+              <div class="pd-product-row-tags">
+                <i data-lucide="tag" style="width:11.5px; height:11.5px; color:#9CA3AF;"></i>
+                <div class="pd-product-row-tag-list">
+                  <span>Open Source</span>
+                  <span>·</span>
+                  <span>SaaS</span>
+                  <span>·</span>
+                  <span>Artificial Intelligence</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pd-product-row-actions">
+            <button type="button" class="pd-action-btn-box" onclick="event.stopPropagation(); window.location.href='./product-detail.html#comments'" title="View discussion">
+              <i data-lucide="message-square" class="pd-action-btn-icon"></i>
+              <span class="pd-action-btn-count">2</span>
+            </button>
+            <button type="button" class="pd-action-btn-box" onclick="event.stopPropagation(); toggleProductUpvote(this, 51)" title="Upvote Traccia">
+              <i data-lucide="triangle" class="pd-action-btn-icon"></i>
+              <span class="pd-action-btn-count">—</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 6: Viktor.com (Promoted) -->
+        <div class="pd-product-row-item" data-title="Viktor.com" data-type="saas" data-status="for-sale" onclick="window.location.href='./product-detail.html'">
+          <div class="pd-product-row-left">
+            <div class="pd-product-row-logo">
+              <img src="https://www.google.com/s2/favicons?domain=viktor.ai&sz=128" alt="Viktor.com" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=Viktor'" />
+            </div>
+            <div class="pd-product-row-info">
+              <div class="pd-product-row-title-line">
+                <span class="pd-product-row-title">Viktor.com</span>
+              </div>
+              <div class="pd-product-row-tagline">An AI coworker that actually does the work</div>
+              <div class="pd-product-row-tags">
+                <span class="pd-product-row-promoted">Promoted</span>
+                <i data-lucide="tag" style="width:11.5px; height:11.5px; color:#9CA3AF;"></i>
+                <div class="pd-product-row-tag-list">
+                  <span>Productivity</span>
+                  <span>·</span>
+                  <span>Artificial Intelligence</span>
+                  <span>·</span>
+                  <span>Business</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pd-product-row-actions">
+            <button type="button" class="pd-action-btn-box" onclick="event.stopPropagation(); window.location.href='./product-detail.html#comments'" title="View discussion">
+              <i data-lucide="message-square" class="pd-action-btn-icon"></i>
+              <span class="pd-action-btn-count">126</span>
+            </button>
+            <button type="button" class="pd-action-btn-box upvoted" onclick="event.stopPropagation(); toggleProductUpvote(this, 696)" title="Upvote Viktor.com">
+              <i data-lucide="triangle" class="pd-action-btn-icon"></i>
+              <span class="pd-action-btn-count">696</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         RIGHT COLUMN: QUICK LINKS, NEWSLETTER & TRENDING PRODUCTS (SUBTLE & IMPRESSIVE)
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <aside class="pd-right-sidebar">
+
+      <!-- 1. Quick Links -->
+      <div class="pd-quick-links-wrap">
+        <div class="pd-filter-heading">
+          <i data-lucide="link-2" style="width:14px; height:14px;"></i>
+          <span>Quick Links</span>
+        </div>
+        <ul class="pd-quick-links-list">
+          <li class="pd-quick-link-item">
+            <a href="./network.html">My products</a>
+          </li>
+          <li class="pd-quick-link-item">
+            <a href="./network.html" style="display:flex; justify-content:space-between; align-items:center;">
+              <span>Products under review</span>
+              <span style="font-size:10px; font-weight:700; background:#F3F4F6; color:#6B7280; padding:1px 6px; border-radius:4px;">2</span>
+            </a>
+          </li>
+          <li class="pd-quick-link-item">
+            <a href="./network.html">My liked products</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 2. Newsletter Card (Subtle & Impressive White Card) -->
+      <div class="pd-newsletter-card">
+        <div class="pd-newsletter-head">
+          <i data-lucide="mail" style="width:16px; height:16px;"></i>
+          <span>Get amazing products in your inbox!</span>
+        </div>
+        <p class="pd-newsletter-desc">Subscribe to our newsletter to discover the latest products for sale and more!</p>
+        <div class="pd-newsletter-input-row">
+          <input type="email" class="pd-newsletter-input" placeholder="founder@company.com" id="nlEmailInput" />
+          <button type="button" class="pd-newsletter-btn" onclick="subscribeNewsletter()">Join</button>
+        </div>
+      </div>
+
+      <!-- 3. Trending Products with Subtle Logos -->
+      <div class="pd-trending-wrap">
+        <div class="pd-filter-heading">
+          <i data-lucide="trending-up" style="width:14px; height:14px;"></i>
+          <span>Trending Products</span>
+        </div>
+        
+        <div class="pd-trending-list">
+          
+          <!-- Trending 1: raggedai -->
+          <div class="pd-trending-item" onclick="filterProductsBySearch('raggedai')">
+            <div class="pd-trending-thumb">
+              <img src="https://www.google.com/s2/favicons?domain=ragged.ai&sz=64" alt="raggedai" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=ragged'" />
+            </div>
+            <div class="pd-trending-info">
+              <div class="pd-trending-title">raggedai</div>
+              <div class="pd-trending-desc">turn documents into chatbot that is integratable in any webs..</div>
+            </div>
+          </div>
+
+          <!-- Trending 2: legacy -->
+          <div class="pd-trending-item" onclick="filterProductsBySearch('legacy')">
+            <div class="pd-trending-thumb">
+              <img src="https://www.google.com/s2/favicons?domain=legacy.com&sz=64" alt="legacy" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=legacy'" />
+            </div>
+            <div class="pd-trending-info">
+              <div class="pd-trending-title">legacy</div>
+              <div class="pd-trending-desc">Never forget a voice — speak again with those you love.</div>
+            </div>
+          </div>
+
+          <!-- Trending 3: Solveya -->
+          <div class="pd-trending-item" onclick="filterProductsBySearch('Solveya')">
+            <div class="pd-trending-thumb">
+              <img src="https://www.google.com/s2/favicons?domain=solveya.com&sz=64" alt="Solveya" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=solveya'" />
+            </div>
+            <div class="pd-trending-info">
+              <div class="pd-trending-title">Solveya - Learn Without Limits</div>
+              <div class="pd-trending-desc">Solveya is a modern educational platform</div>
+            </div>
+          </div>
+
+          <!-- Trending 4: PAPES US LLC -->
+          <div class="pd-trending-item" onclick="filterProductsBySearch('PAPES')">
+            <div class="pd-trending-thumb">
+              <img src="https://www.google.com/s2/favicons?domain=papes.com&sz=64" alt="PAPES US LLC" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=papes'" />
+            </div>
+            <div class="pd-trending-info">
+              <div class="pd-trending-title">PAPES US LLC</div>
+              <div class="pd-trending-desc">2+ Year Aged US Corporate Asset with Clean Banking &amp; High Cr..</div>
+            </div>
+          </div>
+
+          <!-- Trending 5: LinkedIn context miner -->
+          <div class="pd-trending-item" onclick="filterProductsBySearch('LinkedIn')">
+            <div class="pd-trending-thumb">
+              <img src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=64" alt="LinkedIn" />
+            </div>
+            <div class="pd-trending-info">
+              <div class="pd-trending-title">LinkedIn context miner</div>
+              <div class="pd-trending-desc">Extract B2B client intelligence directly from profiles.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast-alert" id="pubToast"></div>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       03. JAVASCRIPT LOGIC
+       ────────────────────────────────────────────────────────────────────────── -->
+  <script>
+    const productTypeLabels = {
+      'saas': 'SaaS',
+      'ai': 'AI & ML',
+      'devtools': 'DevTools',
+      'opensource': 'Open Source',
+      'social': 'Social',
+      'mobile': 'Mobile',
+      'desktop': 'Desktop',
+      'ecommerce': 'E-Commerce',
+      'other': 'Other'
+    };
+
+    let activeTypeFilters = new Set(['saas', 'ai', 'devtools', 'opensource', 'social', 'mobile', 'desktop', 'ecommerce', 'other']);
+
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      loadUserProfile();
+      renderTypeChips();
+    });
+
+    // Load User Profile from localStorage
+    function loadUserProfile() {
+      try {
+        const stored = localStorage.getItem('seedicon_user');
+        if (stored) {
+          const user = JSON.parse(stored);
+          const nameEl = document.getElementById('pubUserNameDisplay');
+          const emailEl = document.getElementById('pubUserEmailDisplay');
+
+          if (nameEl && user.name) nameEl.textContent = user.name;
+          if (emailEl && user.email) emailEl.textContent = user.email;
+        }
+      } catch (err) {
+        console.warn('Profile read error', err);
+      }
+    }
+
+    // Toggle Product Types Dropdown
+    function toggleTypeDropdown(e) {
+      if (e) e.stopPropagation();
+      const panel = document.getElementById('pdTypeDropdownPanel');
+      const chevron = document.getElementById('pdTypeChevron');
+      if (panel) {
+        panel.classList.toggle('show');
+        if (chevron) {
+          chevron.style.transform = panel.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+      }
+    }
+
+    // Render Type Chips Outside with Close 'x' Action
+    function renderTypeChips() {
+      const container = document.getElementById('pdTypeChipsWrap');
+      if (!container) return;
+
+      if (activeTypeFilters.size === 0) {
+        container.innerHTML = `<span style="font-size:11.5px; color:var(--pub-text-light); font-style:italic;">No types selected (showing all)</span>`;
+        return;
+      }
+
+      container.innerHTML = Array.from(activeTypeFilters).map(typeKey => {
+        const label = productTypeLabels[typeKey] || typeKey;
+        return `
+          <div class="pd-filter-chip" data-type="${typeKey}">
+            <span>${label}</span>
+            <button type="button" class="pd-chip-remove-btn" onclick="removeTypeFilter('${typeKey}')" title="Remove ${label}">
+              <i data-lucide="x" style="width:11px; height:11px;"></i>
+            </button>
+          </div>
+        `;
+      }).join('');
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // Remove Type Filter (Triggered by Chip 'x' Button)
+    function removeTypeFilter(typeKey) {
+      activeTypeFilters.delete(typeKey);
+
+      // Uncheck corresponding checkbox in dropdown panel
+      const chk = document.querySelector(`.pd-type-check-option input[value="${typeKey}"]`);
+      if (chk) chk.checked = false;
+
+      updateTypeTriggerLabel();
+      renderTypeChips();
+      filterProducts();
+    }
+
+    function handleTypeCheckbox(chk) {
+      const val = chk.value;
+      if (chk.checked) {
+        activeTypeFilters.add(val);
+      } else {
+        activeTypeFilters.delete(val);
+      }
+
+      updateTypeTriggerLabel();
+      renderTypeChips();
+      filterProducts();
+    }
+
+    function updateTypeTriggerLabel() {
+      const selectedCount = activeTypeFilters.size;
+      const textEl = document.getElementById('pdTypeSelectedText');
+      if (textEl) {
+        if (selectedCount === 9) {
+          textEl.textContent = 'All Types (9 selected)';
+        } else if (selectedCount === 0) {
+          textEl.textContent = 'None Selected (0)';
+        } else {
+          textEl.textContent = `${selectedCount} Type${selectedCount > 1 ? 's' : ''} Selected`;
+        }
+      }
+    }
+
+    // Toggle Upvote Function
+    function toggleProductUpvote(btn, baseCount) {
+      const countEl = btn.querySelector('.pd-action-btn-count');
+      const isUpvoted = btn.classList.contains('upvoted');
+
+      if (isUpvoted) {
+        btn.classList.remove('upvoted');
+        if (countEl) countEl.textContent = baseCount > 0 ? (baseCount - 1) : '—';
+        showToast('Upvote removed');
+      } else {
+        btn.classList.add('upvoted');
+        if (countEl) countEl.textContent = baseCount > 0 ? (baseCount + 1) : 1;
+        showToast('Upvoted product!');
+      }
+    }
+
+    // Search and Filter Products
+    function handlePublicSearch(query) {
+      const leftInput = document.getElementById('pdLeftSearchInput');
+      if (leftInput) leftInput.value = query;
+      filterProductsBySearch(query);
+    }
+
+    function filterProductsBySearch(query) {
+      const q = (query || '').toLowerCase().trim();
+      const items = document.querySelectorAll('.pd-product-row-item');
+      
+      items.forEach(item => {
+        const title = item.getAttribute('data-title')?.toLowerCase() || '';
+        const desc = item.querySelector('.pd-product-row-tagline')?.textContent.toLowerCase() || '';
+        const tags = item.querySelector('.pd-product-row-tags')?.textContent.toLowerCase() || '';
+        const match = !q || title.includes(q) || desc.includes(q) || tags.includes(q);
+        item.style.display = match ? 'flex' : 'none';
+      });
+    }
+
+    function filterProducts() {
+      const items = document.querySelectorAll('.pd-product-row-item');
+
+      items.forEach(item => {
+        const type = item.getAttribute('data-type');
+        const typeMatch = activeTypeFilters.has(type) || !type;
+        item.style.display = typeMatch ? 'flex' : 'none';
+      });
+    }
+
+    function subscribeNewsletter() {
+      const email = document.getElementById('nlEmailInput')?.value;
+      if (!email || !email.includes('@')) {
+        showToast('Please enter a valid email address');
+        return;
+      }
+      showToast('Subscribed to Seedicon product digest!');
+      document.getElementById('nlEmailInput').value = '';
+    }
+
+    // User Dropdown Handlers
+    function toggleUserDropdown(e) {
+      e.stopPropagation();
+      const menu = document.getElementById('pubUserMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    function closeUserDropdown() {
+      const menu = document.getElementById('pubUserMenu');
+      if (menu) menu.classList.remove('show');
+    }
+
+    document.addEventListener('click', (e) => {
+      // User Profile Menu
+      const menu = document.getElementById('pubUserMenu');
+      const btn = document.getElementById('pubUserAvatarBtn');
+      if (menu && menu.classList.contains('show')) {
+        if (!menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
+          menu.classList.remove('show');
+        }
+      }
+
+      // Type Dropdown Panel
+      const typeBox = document.getElementById('pdTypeDropdownBox');
+      const typePanel = document.getElementById('pdTypeDropdownPanel');
+      const chevron = document.getElementById('pdTypeChevron');
+      if (typePanel && typePanel.classList.contains('show')) {
+        if (typeBox && !typeBox.contains(e.target)) {
+          typePanel.classList.remove('show');
+          if (chevron) chevron.style.transform = 'rotate(0deg)';
+        }
+      }
+    });
+
+    function handleLogout() {
+      localStorage.removeItem('seedicon_user');
+      showToast('Signed out of Seedicon');
+    }
+
+    // Toast
+    function showToast(msg) {
+      const toast = document.getElementById('pubToast');
+      if (toast) {
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 3000);
+      }
+    }
+  </script>
+</body>
+</html>

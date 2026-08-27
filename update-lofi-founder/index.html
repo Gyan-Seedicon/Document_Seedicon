@@ -6,7 +6,7 @@
 <title>Seedicon — Unified Capital & Startup Operating System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <!-- Lucide Icons CDN -->
 <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -38,7 +38,8 @@
     --radius-xl: 20px;
     --radius-pill: 9999px;
     
-    --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-outfit: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-inter: var(--font-outfit);
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
     --shadow-lg: 0 14px 36px rgba(0, 0, 0, 0.07);
@@ -94,7 +95,7 @@
   }
 
   .nav-container {
-    max-width: 1240px;
+    max-width: 1320px;
     width: 100%;
     margin: 0 auto;
     padding: 0 24px;
@@ -1416,7 +1417,7 @@
           <span>List your products</span>
         </button>
 
-        <a href="../lofi-founder/public-product-listing.html" class="btn-hero-secondary">
+        <a href="./public-product-listing.html" class="btn-hero-secondary">
           <i data-lucide="compass" style="width:15px; height:15px;"></i>
           <span>Explore products</span>
         </a>
@@ -1950,17 +1951,10 @@
 
     function finishSignupFlow(destination) {
       closeAuthModal();
-      if (destination === 'products') {
-        showToast('Redirecting to public products directory...');
-        setTimeout(() => {
-          window.location.href = '../lofi-founder/public-product-listing.html';
-        }, 400);
-      } else {
-        showToast('Entering founder workspace...');
-        setTimeout(() => {
-          window.location.href = './network.html';
-        }, 400);
-      }
+      showToast('Redirecting to Seedicon product directory...');
+      setTimeout(() => {
+        window.location.href = './public-product-listing.html';
+      }, 400);
     }
 
     // ────────────────────────────────────────────────────────────────────────

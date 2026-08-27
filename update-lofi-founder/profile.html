@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gyan Sharma — Profile | Seedicon</title>
+  <meta name="description" content="Gyan Sharma's profile on Seedicon — Product Design Engineer · AI Builder." />
+
+  <!-- Google Font: Outfit ONLY -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Profile Stylesheet -->
+  <link rel="stylesheet" href="./css/profile.css" />
+</head>
+
+<body>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       01. EXACT NAVIGATION HEADER
+       ────────────────────────────────────────────────────────────────────────── -->
+  <header class="pub-header">
+    <div class="pub-header-inner">
+      
+      <!-- Left: Brand Logo & Navigation Links Grouped Together -->
+      <div class="pub-header-left">
+        <a href="./index.html" class="pub-brand" title="Seedicon Home">
+          <div class="pub-brand-logo">
+            <i data-lucide="asterisk" style="width:17px; height:17px; stroke-width:2.8;"></i>
+          </div>
+          <span class="pub-brand-title">Seedicon</span>
+        </a>
+
+        <!-- Center: Nav Items List -->
+        <nav>
+          <ul class="pub-nav-center">
+            
+            <!-- 1. Capital -->
+            <li class="pub-nav-item">
+              <a href="./index.html" class="pub-nav-link" title="Seedicon Capital Solutions">
+                <span>Capital</span>
+              </a>
+            </li>
+
+            <!-- 2. Products -->
+            <li class="pub-nav-item">
+              <a href="./public-product-listing.html" class="pub-nav-link" title="Seedicon Product Ecosystem">
+                <span>Products</span>
+                <i data-lucide="chevron-down" class="pub-nav-chevron"></i>
+              </a>
+
+              <!-- Popover Dropdown Menu -->
+              <div class="products-dropdown-menu">
+                <div class="dropdown-menu-head">
+                  <span class="dropdown-menu-label">Seedicon Products</span>
+                  <span class="dropdown-menu-count">4 Modules</span>
+                </div>
+                
+                <a href="../lofi-founder/deckwale.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="sparkles" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Deckwale</span>
+                      <span class="badge-tag-pill">PRO</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Expert pitch storytelling, visual decks &amp; venture models.</div>
+                  </div>
+                </a>
+
+                <a href="../lofi-founder/watch-data-rooms.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="folder-lock" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Watch</span>
+                      <span class="badge-tag-pill">VDR</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Secure virtual data rooms &amp; diligence audit monitoring.</div>
+                  </div>
+                </a>
+
+                <a href="../lofi-founder/founder-network.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="users" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Allbuddy</span>
+                      <span class="badge-tag-pill">NETWORK</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Verified founder, advisor &amp; angel network directory.</div>
+                  </div>
+                </a>
+
+                <div class="dropdown-product-row coming-soon-row" title="Crusrource is currently in active private preview">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="compass" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Crusrource</span>
+                      <span class="badge-tag-pill">SOON</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Curated startup scouting, talent &amp; deal syndication.</div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- 3. Trade -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/real-market-problems.html" class="pub-nav-link" title="Secondary &amp; Asset Trading">
+                <span>Trade</span>
+              </a>
+            </li>
+
+            <!-- 4. Partner with us -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/investor-tracking.html" class="pub-nav-link" title="Syndicate &amp; Venture Partners">
+                <span>Partner with us</span>
+              </a>
+            </li>
+
+            <!-- 5. Insights -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/startup-news.html" class="pub-nav-link" title="Venture Intelligence &amp; Market Research">
+                <span>Insights</span>
+              </a>
+            </li>
+
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Right: Search + Apply for funding + List your product + Avatar -->
+      <div class="pub-header-right">
+        
+        <div class="pub-header-search-wrap">
+          <i data-lucide="search" class="pub-header-search-icon"></i>
+          <input type="text" id="pubNavSearchInput" class="pub-header-search-input" placeholder="Search..." onkeydown="if(event.key==='Enter') window.location.href='./public-product-listing.html'" />
+        </div>
+
+        <a href="./apply-funding.html" class="pub-btn-funding" title="Apply for venture funding">
+          <i data-lucide="banknote" style="width:13.5px; height:13.5px;"></i>
+          <span>Apply for funding</span>
+        </a>
+
+        <a href="./list-product.html" class="pub-btn-list-product" title="List your product">
+          <i data-lucide="plus" style="width:14px; height:14px;"></i>
+          <span>List your product</span>
+        </a>
+
+        <!-- User Avatar Dropdown -->
+        <div class="pub-avatar-container">
+          <button type="button" class="pub-avatar-btn" id="pubUserAvatarBtn" onclick="toggleUserDropdown(event)" title="User Account">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="Gyan Sharma" class="pub-avatar-img" id="pubNavAvatarImg" />
+          </button>
+
+          <!-- User Menu Dropdown -->
+          <div class="pub-user-menu" id="pubUserMenu">
+            <div class="pub-user-menu-head" onclick="window.location.href='./profile.html'" style="cursor:pointer;" title="View Gyan Sharma's profile">
+              <div class="pub-user-menu-user-row">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="Gyan Sharma" class="pub-user-menu-avatar" id="pubMenuAvatarImg" />
+                <div class="pub-user-menu-info">
+                  <div class="pub-user-menu-name" id="pubUserNameDisplay">Gyan Sharma</div>
+                  <div class="pub-user-email" id="pubUserEmailDisplay" style="font-size:11.5px; color:var(--pub-text-muted);">gyan.sharma@seedicon.com</div>
+                </div>
+              </div>
+
+              <!-- Profile Completion Progress Meter -->
+              <div class="pub-profile-progress-wrap" style="margin-top:10px;">
+                <div class="pub-profile-progress-label" style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:700; color:var(--pub-text-dark); margin-bottom:4px;">
+                  <span>Profile Completion</span>
+                  <span style="font-weight:800;">50%</span>
+                </div>
+                <div class="pub-profile-progress-bar" style="height:5px; background:#E5E7EB; border-radius:9999px; overflow:hidden;">
+                  <div class="pub-profile-progress-fill" style="width:50%; height:100%; background:#111827;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Menu Options: Profile, Settings, My Products, Funding requests -->
+            <a href="./profile.html" class="pub-user-menu-link active">
+              <i data-lucide="user" style="width:14px; height:14px;"></i>
+              <span>Profile</span>
+            </a>
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="settings" style="width:14px; height:14px;"></i>
+              <span>Settings</span>
+            </a>
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="package" style="width:14px; height:14px;"></i>
+              <span>My products</span>
+            </a>
+            <a href="./apply-funding.html" class="pub-user-menu-link">
+              <i data-lucide="banknote" style="width:14px; height:14px;"></i>
+              <span>Funding requests</span>
+            </a>
+
+            <div style="height:1px; background:var(--pub-border-subtle); margin:4px 0;"></div>
+
+            <!-- Workspaces: Founder & Investor -->
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="layout-dashboard" style="width:14px; height:14px;"></i>
+              <span>Founder Workspace</span>
+            </a>
+            <a href="../lofi-investor/index.html" class="pub-user-menu-link">
+              <i data-lucide="trending-up" style="width:14px; height:14px;"></i>
+              <span>Investor Workspace</span>
+            </a>
+
+            <div style="height:1px; background:var(--pub-border-subtle); margin:4px 0;"></div>
+
+            <a href="./index.html" class="pub-user-menu-link" style="color:#DC2626;" onclick="handleLogout()">
+              <i data-lucide="log-out" style="width:14px; height:14px;"></i>
+              <span>Sign out</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       02. MY PROFILE CONTENT CANVAS (EXACT MATCH TO REFERENCE SCREENSHOT)
+       ────────────────────────────────────────────────────────────────────────── -->
+  <main class="profile-page-container">
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         TOP PROFILE HEADER SECTION
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <div class="profile-header-card">
+      
+      <!-- Left: Big Avatar + Info Block -->
+      <div class="profile-header-left">
+        
+        <!-- Large Round Avatar Frame -->
+        <div class="profile-avatar-wrap">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&h=240&fit=crop&crop=faces" alt="Gyan Sharma" class="profile-avatar-img" id="profileMainAvatar" />
+        </div>
+
+        <!-- Name, Headline, Stats, Streak, KP Card -->
+        <div class="profile-info-block">
+          
+          <h1 class="profile-name" id="profileNameText">Gyan Sharma</h1>
+          
+          <p class="profile-headline" id="profileHeadlineText">Product Design Engineer · AI Builder</p>
+          
+          <div class="profile-meta-row">
+            <span class="profile-meta-item" id="profileUserIdText">#10152220</span>
+            <span class="profile-meta-item">0 followers</span>
+            <span class="profile-meta-item">0 following</span>
+          </div>
+
+          <div class="profile-streak-row">
+            <span class="profile-streak-icon">☀️</span>
+            <span>2 day streak</span>
+          </div>
+
+          <div class="profile-kp-card">
+            <div class="profile-kp-top">&gt;10,000 <span>All time</span></div>
+            <div class="profile-kp-bottom">0 KP</div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Right: Edit My Profile Button -->
+      <div class="profile-header-right">
+        <button type="button" class="profile-edit-btn" onclick="openEditProfileModal()">
+          <span>Edit my profile</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         NAVIGATION PILL TABS
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <nav class="profile-nav-tabs" aria-label="Profile navigation">
+      <button type="button" class="profile-tab-btn active" onclick="switchProfileTab('about', this)">About</button>
+      <button type="button" class="profile-tab-btn" onclick="switchProfileTab('forums', this)">Forums</button>
+      <button type="button" class="profile-tab-btn" onclick="switchProfileTab('activity', this)">Activity</button>
+      <button type="button" class="profile-tab-btn" onclick="switchProfileTab('upvotes', this)">Upvotes</button>
+      <button type="button" class="profile-tab-btn" onclick="switchProfileTab('collections', this)">Collections</button>
+      <button type="button" class="profile-tab-btn" onclick="switchProfileTab('stacks', this)">Stacks</button>
+      <button type="button" class="profile-tab-btn" onclick="switchProfileTab('reviews', this)">Reviews</button>
+    </nav>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         TAB 1: ABOUT (DEFAULT ACTIVE TAB)
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <div class="profile-tab-pane active" id="pane-about">
+      
+      <!-- Section 1: About -->
+      <div class="profile-section-block">
+        <h2 class="profile-section-title">About</h2>
+        <div class="profile-empty-bio-box" id="profileBioBox">
+          <a href="javascript:void(0)" onclick="openEditProfileModal()" class="profile-add-bio-link">Add a bio</a> to help people get a better idea of you, your skills, history, and talents.
+        </div>
+      </div>
+
+      <!-- Section 2: Links -->
+      <div class="profile-section-block">
+        <h2 class="profile-section-title">Links</h2>
+        <div class="profile-links-row" id="profileLinksRow">
+          <a href="https://linkedin.com" target="_blank" class="profile-link-item">
+            <span class="profile-social-icon-box linkedin">
+              <i data-lucide="linkedin" style="width:16px; height:16px;"></i>
+            </span>
+            <span>LinkedIn</span>
+          </a>
+          <a href="https://twitter.com" target="_blank" class="profile-link-item">
+            <span class="profile-social-icon-box twitter">𝕏</span>
+            <span>Twitter</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section 3: Badges -->
+      <div class="profile-section-block">
+        <h2 class="profile-section-title">Badges</h2>
+        <div class="profile-badges-list">
+          <div class="profile-badge-card">
+            <div class="profile-badge-hex" title="2-Day Streak Achieved">
+              <span class="profile-badge-fire">🔥</span>
+              <span class="profile-badge-num">2</span>
+            </div>
+            <span class="profile-badge-name">Gone streaking</span>
+          </div>
+        </div>
+        <a href="javascript:void(0)" class="profile-view-all-badges-btn" onclick="showToast('You currently have 1 active badge.')">View all badges</a>
+      </div>
+
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         TAB 2: FORUMS
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <div class="profile-tab-pane" id="pane-forums">
+      <div class="profile-tab-empty-state">
+        <div class="profile-tab-empty-icon"><i data-lucide="message-square" style="width:18px; height:18px;"></i></div>
+        <div class="profile-tab-empty-title">No discussions started</div>
+        <div class="profile-tab-empty-desc">When Gyan starts or participates in founder forum threads, they will appear here.</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         TAB 3: ACTIVITY
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <div class="profile-tab-pane" id="pane-activity">
+      <div class="profile-tab-empty-state">
+        <div class="profile-tab-empty-icon"><i data-lucide="activity" style="width:18px; height:18px;"></i></div>
+        <div class="profile-tab-empty-title">Recent Activity</div>
+        <div class="profile-tab-empty-desc">Logged in to Seedicon and explored trending SaaS products today.</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         TAB 4: UPVOTES
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <div class="profile-tab-pane" id="pane-upvotes">
+      <div class="profile-section-block">
+        <h2 class="profile-section-title">Upvoted Products (3)</h2>
+        <div style="display:flex; flex-direction:column; gap:10px; margin-top:4px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border:1px solid #E5E5DF; border-radius:10px; background:#FAFAF9; cursor:pointer;" onclick="window.location.href='./product-detail.html'">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <img src="https://www.google.com/s2/favicons?domain=junify.io&sz=128" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=Junify'" style="width:28px; height:28px; border-radius:6px;" alt="Junify" />
+              <div>
+                <div style="font-weight:700; font-size:14px; color:#111827;">Junify</div>
+                <div style="font-size:12px; color:#6B7280;">Multi-tenant e-commerce SaaS platform</div>
+              </div>
+            </div>
+            <span style="font-size:12px; font-weight:700; color:#111827;">▲ 48</span>
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border:1px solid #E5E5DF; border-radius:10px; background:#FAFAF9; cursor:pointer;" onclick="window.location.href='./product-detail.html'">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <img src="https://www.google.com/s2/favicons?domain=viktor.ai&sz=128" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=Viktor'" style="width:28px; height:28px; border-radius:6px;" alt="Viktor" />
+              <div>
+                <div style="font-weight:700; font-size:14px; color:#111827;">Viktor.com</div>
+                <div style="font-size:12px; color:#6B7280;">An AI coworker that actually does the work</div>
+              </div>
+            </div>
+            <span style="font-size:12px; font-weight:700; color:#111827;">▲ 696</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         TAB 5: COLLECTIONS
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <div class="profile-tab-pane" id="pane-collections">
+      <div class="profile-tab-empty-state">
+        <div class="profile-tab-empty-icon"><i data-lucide="bookmark" style="width:18px; height:18px;"></i></div>
+        <div class="profile-tab-empty-title">No public collections</div>
+        <div class="profile-tab-empty-desc">Save favorite startups, products, and deal rooms into collections.</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         TAB 6: STACKS
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <div class="profile-tab-pane" id="pane-stacks">
+      <div class="profile-tab-empty-state">
+        <div class="profile-tab-empty-icon"><i data-lucide="layers" style="width:18px; height:18px;"></i></div>
+        <div class="profile-tab-empty-title">Tools &amp; Tech Stack</div>
+        <div class="profile-tab-empty-desc">Figma, Next.js, Cursor, Tailwind CSS, Vercel, Supabase.</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         TAB 7: REVIEWS
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <div class="profile-tab-pane" id="pane-reviews">
+      <div class="profile-tab-empty-state">
+        <div class="profile-tab-empty-icon"><i data-lucide="star" style="width:18px; height:18px;"></i></div>
+        <div class="profile-tab-empty-title">No reviews yet</div>
+        <div class="profile-tab-empty-desc">Product reviews and peer recommendations will be listed here.</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       03. EDIT PROFILE MODAL
+       ────────────────────────────────────────────────────────────────────────── -->
+  <div class="profile-modal-backdrop" id="profileEditModal">
+    <div class="profile-modal-box">
+      <div class="profile-modal-head">
+        <h3 class="profile-modal-title">Edit Profile</h3>
+        <button type="button" class="profile-modal-close-btn" onclick="closeEditProfileModal()">
+          <i data-lucide="x" style="width:16px; height:16px;"></i>
+        </button>
+      </div>
+
+      <div class="profile-form-group">
+        <label class="profile-form-label" for="editNameInput">Full Name</label>
+        <input type="text" id="editNameInput" class="profile-form-input" value="Gyan Sharma" />
+      </div>
+
+      <div class="profile-form-group">
+        <label class="profile-form-label" for="editHeadlineInput">Headline</label>
+        <input type="text" id="editHeadlineInput" class="profile-form-input" value="Product Design Engineer · AI Builder" />
+      </div>
+
+      <div class="profile-form-group">
+        <label class="profile-form-label" for="editBioInput">About Bio</label>
+        <textarea id="editBioInput" class="profile-form-textarea" rows="3" placeholder="Write a short summary about your background, skills, and projects..."></textarea>
+      </div>
+
+      <div class="profile-form-group">
+        <label class="profile-form-label" for="editLinkedInInput">LinkedIn Handle or URL</label>
+        <input type="text" id="editLinkedInInput" class="profile-form-input" placeholder="linkedin.com/in/username" />
+      </div>
+
+      <div class="profile-form-group">
+        <label class="profile-form-label" for="editTwitterInput">Twitter / 𝕏 Handle</label>
+        <input type="text" id="editTwitterInput" class="profile-form-input" placeholder="@username" />
+      </div>
+
+      <div class="profile-modal-foot">
+        <button type="button" class="profile-edit-btn" onclick="closeEditProfileModal()">Cancel</button>
+        <button type="button" class="pub-btn-list-product" onclick="saveProfileChanges()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-alert" id="pubToast"></div>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       04. JAVASCRIPT LOGIC
+       ────────────────────────────────────────────────────────────────────────── -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      loadUserProfile();
+    });
+
+    // Tab Switcher
+    function switchProfileTab(tabKey, btnEl) {
+      const allBtns = document.querySelectorAll('.profile-tab-btn');
+      allBtns.forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+
+      const allPanes = document.querySelectorAll('.profile-tab-pane');
+      allPanes.forEach(p => p.classList.remove('active'));
+
+      const activePane = document.getElementById(`pane-${tabKey}`);
+      if (activePane) activePane.classList.add('active');
+    }
+
+    // Load User Profile Data
+    function loadUserProfile() {
+      try {
+        const stored = localStorage.getItem('seedicon_user');
+        if (stored) {
+          const user = JSON.parse(stored);
+          if (user.name) {
+            document.getElementById('profileNameText').textContent = user.name;
+            document.getElementById('pubUserNameDisplay').textContent = user.name;
+          }
+          if (user.headline) {
+            document.getElementById('profileHeadlineText').textContent = user.headline;
+          }
+          if (user.bio) {
+            document.getElementById('profileBioBox').innerHTML = `<p>${user.bio}</p>`;
+          }
+          if (user.email) {
+            document.getElementById('pubUserEmailDisplay').textContent = user.email;
+          }
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
+    // Modal Handlers
+    function openEditProfileModal() {
+      const name = document.getElementById('profileNameText').textContent;
+      const headline = document.getElementById('profileHeadlineText').textContent;
+      
+      document.getElementById('editNameInput').value = name;
+      document.getElementById('editHeadlineInput').value = headline;
+
+      const modal = document.getElementById('profileEditModal');
+      if (modal) modal.classList.add('show');
+    }
+
+    function closeEditProfileModal() {
+      const modal = document.getElementById('profileEditModal');
+      if (modal) modal.classList.remove('show');
+    }
+
+    function saveProfileChanges() {
+      const name = document.getElementById('editNameInput').value.trim() || 'Gyan Sharma';
+      const headline = document.getElementById('editHeadlineInput').value.trim() || 'Product Design Engineer · AI Builder';
+      const bio = document.getElementById('editBioInput').value.trim();
+
+      document.getElementById('profileNameText').textContent = name;
+      document.getElementById('pubUserNameDisplay').textContent = name;
+      document.getElementById('profileHeadlineText').textContent = headline;
+
+      if (bio) {
+        document.getElementById('profileBioBox').innerHTML = `<p>${bio}</p>`;
+      }
+
+      // Save to localStorage
+      const userObj = {
+        name: name,
+        headline: headline,
+        bio: bio,
+        email: 'gyan.sharma@seedicon.com'
+      };
+      localStorage.setItem('seedicon_user', JSON.stringify(userObj));
+
+      closeEditProfileModal();
+      showToast('Profile updated successfully!');
+    }
+
+    // User Dropdown Handlers
+    function toggleUserDropdown(e) {
+      e.stopPropagation();
+      const menu = document.getElementById('pubUserMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('pubUserMenu');
+      const btn = document.getElementById('pubUserAvatarBtn');
+      if (menu && menu.classList.contains('show')) {
+        if (!menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
+          menu.classList.remove('show');
+        }
+      }
+    });
+
+    function handleLogout() {
+      localStorage.removeItem('seedicon_user');
+      showToast('Signed out of Seedicon');
+    }
+
+    // Toast
+    function showToast(msg) {
+      const toast = document.getElementById('pubToast');
+      if (toast) {
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 3000);
+      }
+    }
+  </script>
+</body>
+</html>

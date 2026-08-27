@@ -1,0 +1,833 @@
+/* ==========================================================================
+   Seedicon — Founder Fundraising Application Flow CSS
+   Strictly Outfit Sans Font, Clean 14-Step Institutional Multi-Step Form
+   Neutral Executive Color Palette, Live ApexCharts, Interactive Repeaters
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --af-font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --af-bg-page: #F3F4F6;
+  --af-bg-card: #FFFFFF;
+  --af-bg-subtle: #F9FAFB;
+  --af-text-dark: #111827;
+  --af-text-main: #1F2937;
+  --af-text-muted: #6B7280;
+  --af-text-light: #9CA3AF;
+  --af-border: #E5E7EB;
+  --af-border-subtle: #F3F4F6;
+  --af-border-input: #D1D5DB;
+  --af-border-focus: #111827;
+  --af-required: #EF4444;
+  --af-success: #10B981;
+  --af-radius-xs: 4px;
+  --af-radius-sm: 6px;
+  --af-radius-md: 10px;
+  --af-radius-lg: 12px;
+  --af-radius-pill: 9999px;
+  --af-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --af-shadow-modal: 0 20px 50px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   01. Base & Reset
+   ────────────────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--af-font);
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  height: auto !important;
+  font-family: var(--af-font);
+  background-color: var(--af-bg-page);
+  color: var(--af-text-main);
+  line-height: 1.5;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   02. Page Layout (Centered & Balanced 2-Column Grid)
+   ────────────────────────────────────────────────────────────────────────── */
+.af-page-container {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 44px 24px 100px;
+  min-height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
+}
+
+.af-layout-grid {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 720px);
+  gap: 56px;
+  align-items: start;
+  width: 100%;
+  max-width: 996px;
+  margin: 0 auto;
+}
+
+/* Left Sidebar */
+.af-sidebar {
+  position: sticky;
+  top: 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.af-sidebar-heading {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--af-text-light);
+  padding-left: 2px;
+}
+
+.af-step-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.af-step-item {
+  width: 100%;
+}
+
+.af-step-btn {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 5px 4px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--af-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.12s ease;
+  user-select: none;
+}
+
+.af-step-btn:hover {
+  color: var(--af-text-dark);
+}
+
+.af-step-btn.active {
+  color: var(--af-text-dark);
+  font-weight: 700;
+}
+
+.af-step-btn.completed {
+  color: var(--af-text-dark);
+}
+
+.af-step-btn.completed .af-step-num {
+  color: var(--af-success);
+}
+
+.af-step-num {
+  font-weight: 700;
+  color: var(--af-text-light);
+  min-width: 20px;
+  font-size: 11.5px;
+}
+
+.af-step-btn.active .af-step-num {
+  color: var(--af-text-dark);
+}
+
+/* Right Main Area */
+.af-main-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+/* Header: Clean Icon Badge + Title (No emojis) */
+.af-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.af-panel-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.af-info-icon-badge {
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  background: var(--af-text-dark);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.af-panel-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--af-text-dark);
+  letter-spacing: -0.01em;
+}
+
+/* Flash Autofill Icon Button */
+.af-autofill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--af-radius-pill);
+  background: #FFFFFF;
+  border: 1px solid var(--af-border-input);
+  color: var(--af-text-dark);
+  transition: all 0.14s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  position: relative;
+}
+
+.af-autofill-btn:hover {
+  background: var(--af-text-dark);
+  color: #FFFFFF;
+  border-color: var(--af-text-dark);
+  transform: scale(1.05);
+}
+
+.af-autofill-btn::after {
+  content: "Autofill funding application";
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  background: var(--af-text-dark);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.15s ease;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.af-autofill-btn:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Main Form Card */
+.af-card {
+  background: var(--af-bg-card);
+  border: 1px solid var(--af-border);
+  border-radius: var(--af-radius-lg);
+  padding: 32px 36px 36px;
+  box-shadow: var(--af-shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   03. Form Fields & Controls
+   ────────────────────────────────────────────────────────────────────────── */
+.af-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.af-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.af-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--af-text-dark);
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.af-sublabel {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--af-text-muted);
+  margin-left: 6px;
+}
+
+/* Clean Red Required Star Indicator */
+.af-required-star {
+  color: var(--af-required);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.af-input,
+.af-select,
+.af-textarea {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  background: #FFFFFF;
+  border: 1px solid var(--af-border-input);
+  border-radius: var(--af-radius-sm);
+  font-family: var(--af-font);
+  font-size: 13.5px;
+  color: var(--af-text-dark);
+  outline: none;
+  transition: all 0.14s ease;
+}
+
+.af-input::placeholder,
+.af-textarea::placeholder {
+  color: #9CA3AF;
+  font-weight: 400;
+}
+
+.af-input:focus,
+.af-select:focus,
+.af-textarea:focus {
+  border-color: var(--af-border-focus);
+  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.06);
+}
+
+.af-textarea {
+  height: 90px;
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+.af-select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234B5563' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  appearance: none;
+}
+
+.af-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.af-three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.af-char-hint {
+  font-size: 11.5px;
+  color: var(--af-text-muted);
+  margin-top: 2px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   04. Dynamic Repeater Cards (Founders, Milestones, Previous Rounds, Competitors)
+   ────────────────────────────────────────────────────────────────────────── */
+.af-repeater-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.af-repeater-item {
+  background: var(--af-bg-subtle);
+  border: 1px solid var(--af-border);
+  border-radius: var(--af-radius-sm);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  transition: all 0.12s ease;
+}
+
+.af-repeater-item:hover {
+  border-color: #D1D5DB;
+  background: #FFFFFF;
+}
+
+.af-repeater-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.af-btn-remove {
+  background: transparent;
+  border: none;
+  color: var(--af-text-light);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s ease;
+}
+
+.af-btn-remove:hover {
+  color: #DC2626;
+  background: #FEE2E2;
+}
+
+.af-btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1.5px dashed var(--af-border-input);
+  border-radius: var(--af-radius-sm);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--af-text-dark);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  width: fit-content;
+}
+
+.af-btn-add:hover {
+  border-color: var(--af-text-dark);
+  background: #F9FAFB;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   05. Pill Chips & Selection Groups
+   ────────────────────────────────────────────────────────────────────────── */
+.af-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.af-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px;
+  background: #FFFFFF;
+  border: 1px solid var(--af-border-input);
+  border-radius: var(--af-radius-pill);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--af-text-muted);
+  cursor: pointer;
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+.af-chip:hover {
+  border-color: var(--af-text-dark);
+  color: var(--af-text-dark);
+}
+
+.af-chip.selected {
+  background: var(--af-text-dark);
+  color: #FFFFFF;
+  border-color: var(--af-text-dark);
+  font-weight: 600;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   06. File Upload Dropzone
+   ────────────────────────────────────────────────────────────────────────── */
+.af-dropzone {
+  border: 1.5px dashed var(--af-border-input);
+  border-radius: var(--af-radius-sm);
+  background: var(--af-bg-subtle);
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.af-dropzone:hover {
+  border-color: var(--af-text-dark);
+  background: #FFFFFF;
+}
+
+.af-dropzone-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid var(--af-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--af-text-dark);
+}
+
+.af-dropzone-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--af-text-dark);
+}
+
+.af-dropzone-sub {
+  font-size: 11.5px;
+  color: var(--af-text-muted);
+}
+
+.af-uploaded-file-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #FFFFFF;
+  border: 1px solid var(--af-border);
+  border-radius: var(--af-radius-sm);
+  margin-top: 6px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   07. Model-Specific Conditional Tabs & Allocation Grid
+   ────────────────────────────────────────────────────────────────────────── */
+.af-tab-pills {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--af-border);
+  padding-bottom: 8px;
+}
+
+.af-tab-pill-btn {
+  padding: 5px 12px;
+  border-radius: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--af-text-muted);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.af-tab-pill-btn:hover {
+  color: var(--af-text-dark);
+}
+
+.af-tab-pill-btn.active {
+  background: var(--af-text-dark);
+  color: #FFFFFF;
+}
+
+/* Allocation Sliders */
+.af-alloc-row {
+  display: grid;
+  grid-template-columns: 180px 1fr 70px;
+  gap: 12px;
+  align-items: center;
+  font-size: 12.5px;
+}
+
+.af-alloc-slider {
+  accent-color: var(--af-text-dark);
+  cursor: pointer;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   08. Step Panes & Navigation Footer
+   ────────────────────────────────────────────────────────────────────────── */
+.af-step-pane {
+  display: none;
+}
+
+.af-step-pane.active {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  animation: paneIn 0.15s ease;
+}
+
+@keyframes paneIn {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.af-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 18px;
+  border-top: 1px solid var(--af-border);
+  margin-top: 6px;
+}
+
+.af-btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--af-text-muted);
+  padding: 8px 14px;
+  border-radius: var(--af-radius-sm);
+  cursor: pointer;
+  transition: all 0.12s ease;
+  border: 1px solid var(--af-border);
+  background: #FFFFFF;
+}
+
+.af-btn-back:hover {
+  color: var(--af-text-dark);
+  background: #F9FAFB;
+}
+
+.af-btn-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--af-text-dark);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 20px;
+  border-radius: var(--af-radius-sm);
+  transition: all 0.12s ease;
+  cursor: pointer;
+  border: none;
+  margin-left: auto;
+}
+
+.af-btn-next:hover {
+  background: #000000;
+  transform: translateY(-0.5px);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   09. Step 14 Declaration, Validation & Summary
+   ────────────────────────────────────────────────────────────────────────── */
+.af-check-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.af-check-item {
+  background: var(--af-bg-subtle);
+  border: 1px solid var(--af-border);
+  border-radius: var(--af-radius-sm);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.af-check-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--af-text-dark);
+}
+
+.af-check-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 1.5px 6px;
+  border-radius: 4px;
+  background: #ECFDF5;
+  color: #065F46;
+}
+
+.af-review-box {
+  background: var(--af-bg-subtle);
+  border: 1px solid var(--af-border);
+  border-radius: var(--af-radius-sm);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.af-review-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--af-border);
+}
+
+.af-review-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.af-review-k {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--af-text-muted);
+}
+
+.af-review-v {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--af-text-dark);
+  text-align: right;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   10. Modal Dialogs (Submission Status)
+   ────────────────────────────────────────────────────────────────────────── */
+.af-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(18, 18, 17, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.af-modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.af-modal-card {
+  background: #FFFFFF;
+  border: 1px solid var(--af-border);
+  border-radius: 16px;
+  max-width: 500px;
+  width: 100%;
+  padding: 32px;
+  box-shadow: var(--af-shadow-modal);
+  transform: translateY(12px) scale(0.97);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  text-align: center;
+  align-items: center;
+}
+
+.af-modal-overlay.show .af-modal-card {
+  transform: translateY(0) scale(1);
+}
+
+.af-status-icon-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #ECFDF5;
+  color: #059669;
+  border: 1.5px solid #A7F3D0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.af-status-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #E5E7EB;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.af-status-progress-fill {
+  width: 60%;
+  height: 100%;
+  background: var(--af-text-dark);
+  border-radius: 2px;
+  animation: pulseBar 1.6s infinite ease-in-out;
+}
+
+@keyframes pulseBar {
+  0% { transform: translateX(-100%); width: 40%; }
+  50% { width: 70%; }
+  100% { transform: translateX(200%); width: 40%; }
+}
+
+/* Toast */
+.af-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--af-text-dark);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: var(--af-radius-pill);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  z-index: 100000;
+  display: none;
+  animation: toastPop 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes toastPop {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   11. Responsive Breakpoints
+   ────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .af-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .af-sidebar {
+    position: static;
+  }
+  .af-two-col,
+  .af-three-col,
+  .af-check-grid {
+    grid-template-columns: 1fr;
+  }
+  .af-card {
+    padding: 24px 20px;
+  }
+  .af-modal-card {
+    padding: 24px 20px;
+  }
+}

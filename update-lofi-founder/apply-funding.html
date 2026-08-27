@@ -1,0 +1,2223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apply for Venture Funding — Founder Fundraising Application — Seedicon</title>
+  <meta name="description" content="Apply for venture capital, angel investment, and institutional funding on Seedicon." />
+
+  <!-- Google Font: Outfit ONLY -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons, ApexCharts & Canvas Confetti -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- Global & Component Stylesheets -->
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="stylesheet" href="./css/public-directory.css" />
+  <link rel="stylesheet" href="./css/apply-funding.css" />
+</head>
+<body>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       01. STICKY NAVIGATION HEADER
+       ────────────────────────────────────────────────────────────────────────── -->
+  <header class="pub-header">
+    <div class="pub-header-inner">
+      
+      <!-- Left: Brand Logo & Navigation Links -->
+      <div class="pub-header-left">
+        <a href="./index.html" class="pub-brand" title="Seedicon Home">
+          <div class="pub-brand-logo">
+            <i data-lucide="asterisk" style="width:17px; height:17px; stroke-width:2.8;"></i>
+          </div>
+          <span class="pub-brand-title">Seedicon</span>
+        </a>
+
+        <!-- Center: Nav Items List -->
+        <nav>
+          <ul class="pub-nav-center">
+            <li class="pub-nav-item">
+              <a href="./index.html" class="pub-nav-link" title="Seedicon Capital Solutions">
+                <span>Capital</span>
+              </a>
+            </li>
+
+            <li class="pub-nav-item">
+              <a href="./public-product-listing.html" class="pub-nav-link" title="Seedicon Product Ecosystem">
+                <span>Products</span>
+                <i data-lucide="chevron-down" class="pub-nav-chevron"></i>
+              </a>
+
+              <div class="products-dropdown-menu">
+                <div class="dropdown-menu-head">
+                  <span class="dropdown-menu-label">Seedicon Products</span>
+                  <span class="dropdown-menu-count">4 Modules</span>
+                </div>
+                
+                <a href="../lofi-founder/deckwale.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="sparkles" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Deckwale</span>
+                      <span class="badge-tag-pill pro">PRO</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Expert pitch storytelling, visual decks &amp; venture models.</div>
+                  </div>
+                </a>
+
+                <a href="../lofi-founder/watch-data-rooms.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="folder-lock" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Watch</span>
+                      <span class="badge-tag-pill pro">VDR</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Secure virtual data rooms &amp; diligence audit monitoring.</div>
+                  </div>
+                </a>
+
+                <a href="../lofi-founder/founder-network.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="users" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Allbuddy</span>
+                      <span class="badge-tag-pill pro">NETWORK</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Verified founder, advisor &amp; angel network directory.</div>
+                  </div>
+                </a>
+
+                <div class="dropdown-product-row coming-soon-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="compass" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Crusrource</span>
+                      <span class="badge-tag-pill soon">Coming Soon</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Curated startup scouting, talent &amp; deal syndication.</div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/real-market-problems.html" class="pub-nav-link" title="Secondary &amp; Asset Trading">
+                <span>Trade</span>
+              </a>
+            </li>
+
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/investor-tracking.html" class="pub-nav-link" title="Syndicate &amp; Venture Partners">
+                <span>Partner with us</span>
+              </a>
+            </li>
+
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/startup-news.html" class="pub-nav-link" title="Venture Intelligence &amp; Market Research">
+                <span>Insights</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Right: Small Search + Apply for funding (Active) + List your product + Face Avatar -->
+      <div class="pub-header-right">
+        
+        <div class="pub-header-search-wrap">
+          <i data-lucide="search" class="pub-header-search-icon"></i>
+          <input type="text" class="pub-header-search-input" placeholder="Search..." />
+        </div>
+
+        <!-- Active Apply for Funding Button -->
+        <a href="./apply-funding.html" class="pub-btn-funding" style="background:#000000; color:#FFFFFF; border-color:#000000; box-shadow:0 0 0 2px rgba(18,18,17,0.15);" title="Apply for venture funding">
+          <i data-lucide="banknote" style="width:13.5px; height:13.5px;"></i>
+          <span>Apply for funding</span>
+        </a>
+
+        <!-- List Your Product Button -->
+        <a href="./list-product.html" class="pub-btn-list-product" title="List your product">
+          <i data-lucide="plus" style="width:14px; height:14px;"></i>
+          <span>List your product</span>
+        </a>
+
+        <!-- User Avatar with Face Portrait -->
+        <div class="pub-avatar-container">
+          <button type="button" class="pub-avatar-btn" id="pubUserAvatarBtn" onclick="toggleUserDropdown(event)" title="User Account">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="User Profile" class="pub-avatar-img" />
+          </button>
+
+          <div class="pub-user-menu" id="pubUserMenu">
+            <div class="pub-user-menu-head">
+              <div class="pub-user-menu-user-row">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="User Profile" class="pub-user-menu-avatar" />
+                <div class="pub-user-menu-info">
+                  <div class="pub-user-menu-name" id="pubUserNameDisplay">Gyan Sharma</div>
+                  <div class="pub-user-menu-email" id="pubUserEmailDisplay">gyan.sharma@seedicon.com</div>
+                </div>
+              </div>
+
+              <div class="pub-profile-progress-wrap">
+                <div class="pub-profile-progress-label">
+                  <span>Profile Completion</span>
+                  <span style="font-weight:800;">50%</span>
+                </div>
+                <div class="pub-profile-progress-bar">
+                  <div class="pub-profile-progress-fill"></div>
+                </div>
+              </div>
+            </div>
+
+            <a href="./profile.html" class="pub-user-menu-link">
+              <i data-lucide="user" style="width:14px; height:14px;"></i>
+              <span>My profile</span>
+            </a>
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="settings" style="width:14px; height:14px;"></i>
+              <span>Settings</span>
+            </a>
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="package" style="width:14px; height:14px;"></i>
+              <span>My products</span>
+            </a>
+            <a href="./apply-funding.html" class="pub-user-menu-link">
+              <i data-lucide="banknote" style="width:14px; height:14px;"></i>
+              <span>Funding requests</span>
+            </a>
+
+            <div style="height:1px; background:var(--pub-border-subtle); margin:4px 0;"></div>
+
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="layout-dashboard" style="width:14px; height:14px;"></i>
+              <span>Founder Workspace</span>
+            </a>
+            <a href="../lofi-investor/index.html" class="pub-user-menu-link">
+              <i data-lucide="trending-up" style="width:14px; height:14px;"></i>
+              <span>Investor Workspace</span>
+            </a>
+
+            <div style="height:1px; background:var(--pub-border-subtle); margin:4px 0;"></div>
+
+            <a href="./index.html" class="pub-user-menu-link" style="color:#DC2626;" onclick="handleLogout()">
+              <i data-lucide="log-out" style="width:14px; height:14px;"></i>
+              <span>Sign out</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       02. MAIN FUNDING APPLICATION CANVAS (14 STEPS ACCORDING TO REFER.MD)
+       ────────────────────────────────────────────────────────────────────────── -->
+  <main class="af-page-container">
+    <div class="af-layout-grid">
+
+      <!-- Left Sidebar: 14-Step Navigation List -->
+      <aside class="af-sidebar">
+        <div class="af-sidebar-heading">FUNDING APPLICATION</div>
+        <ul class="af-step-list">
+          <li class="af-step-item">
+            <button type="button" class="af-step-btn active" id="af-step-btn-1" onclick="switchStep(1)">
+              <span class="af-step-num">1.</span>
+              <span>Company Overview</span>
+            </button>
+          </li>
+          <li class="af-step-item">
+            <button type="button" class="af-step-btn" id="af-step-btn-2" onclick="switchStep(2)">
+              <span class="af-step-num">2.</span>
+              <span>Founding Team</span>
+            </button>
+          </li>
+          <li class="af-step-item">
+            <button type="button" class="af-step-btn" id="af-step-btn-3" onclick="switchStep(3)">
+              <span class="af-step-num">3.</span>
+              <span>Problem &amp; Solution</span>
+            </button>
+          </li>
+          <li class="af-step-item">
+            <button type="button" class="af-step-btn" id="af-step-btn-4" onclick="switchStep(4)">
+              <span class="af-step-num">4.</span>
+              <span>Product &amp; Tech</span>
+            </button>
+          </li>
+          <li class="af-step-item">
+            <button type="button" class="af-step-btn" id="af-step-btn-5" onclick="switchStep(5)">
+              <span class="af-step-num">5.</span>
+              <span>Traction &amp; Metrics</span>
+            </button>
+          </li>
+          <li class="af-step-item">
+            <button type="button" class="af-step-btn" id="af-step-btn-6" onclick="switchStep(6)">
+              <span class="af-step-num">6.</span>
+              <span>Financials</span>
+            </button>
+          </li>
+          <li class="af-step-item">
+            <button type="button" class="af-step-btn" id="af-step-btn-7" onclick="switchStep(7)">
+              <span class="af-step-num">7.</span>
+              <span>Market Opportunity</span>
+            </button>
+          </li>
+          <li class="af-step-item">
+            <button type="button" class="af-step-btn" id="af-step-btn-8" onclick="switchStep(8)">
+              <span class="af-step-num">8.</span>
+              <span>Competition &amp; Moat</span>
+            </button>
+          </li>
+          <li class="af-step-item">
+            <button type="button" class="af-step-btn" id="af-step-btn-9" onclick="switchStep(9)">
+              <span class="af-step-num">9.</span>
+              <span>Fundraising Details</span>
+            </button>
+          </li>
+          <li class="af-step-item">
+            <button type="button" class="af-step-btn" id="af-step-btn-10" onclick="switchStep(10)">
+              <span class="af-step-num">10.</span>
+              <span>Use of Funds</span>
+            </button>
+          </li>
+          <li class="af-step-item">
+            <button type="button" class="af-step-btn" id="af-step-btn-11" onclick="switchStep(11)">
+              <span class="af-step-num">11.</span>
+              <span>Ownership &amp; Legal</span>
+            </button>
+          </li>
+          <li class="af-step-item">
+            <button type="button" class="af-step-btn" id="af-step-btn-12" onclick="switchStep(12)">
+              <span class="af-step-num">12.</span>
+              <span>Documents &amp; VDR</span>
+            </button>
+          </li>
+          <li class="af-step-item">
+            <button type="button" class="af-step-btn" id="af-step-btn-13" onclick="switchStep(13)">
+              <span class="af-step-num">13.</span>
+              <span>Contact &amp; Prefs</span>
+            </button>
+          </li>
+          <li class="af-step-item">
+            <button type="button" class="af-step-btn" id="af-step-btn-14" onclick="switchStep(14)">
+              <span class="af-step-num">14.</span>
+              <span>Declaration &amp; Submit</span>
+            </button>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Right Main Panel -->
+      <div class="af-main-panel">
+        
+        <!-- Step Header -->
+        <div class="af-panel-header">
+          <div class="af-panel-title-wrap">
+            <div class="af-info-icon-badge" id="afHeaderIcon">1</div>
+            <h1 class="af-panel-title" id="afHeaderTitle">Company Overview</h1>
+          </div>
+
+          <!-- Autofill ⚡ Button -->
+          <button type="button" class="af-autofill-btn" onclick="autofillFundingApp()" title="Autofill funding application" id="afAutofillBtn">
+            <i data-lucide="zap" style="width:15px; height:15px;"></i>
+          </button>
+        </div>
+
+        <!-- Form Card Container -->
+        <div class="af-card">
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 1: COMPANY OVERVIEW
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="af-step-pane active" id="af-pane-1">
+            <div class="af-form-group">
+              <label class="af-label" for="afCompName">Company Name <span class="af-required-star">*</span></label>
+              <input type="text" id="afCompName" class="af-input" placeholder="e.g. Alpha Health Technologies" />
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afCompTagline">Company Tagline <span class="af-required-star">*</span></label>
+              <input type="text" id="afCompTagline" class="af-input" placeholder="A one-line description of what the company does" />
+            </div>
+
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afCompWebsite">Company Website <span class="af-required-star">*</span></label>
+                <input type="url" id="afCompWebsite" class="af-input" placeholder="https://alphahealth.io" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afCompLinkedIn">Company LinkedIn</label>
+                <input type="text" id="afCompLinkedIn" class="af-input" placeholder="linkedin.com/company/alpha-health" />
+              </div>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label">Industry / Sector <span class="af-required-star">*</span></label>
+              <div class="af-chip-group" id="afSectorChips">
+                <button type="button" class="af-chip selected" onclick="toggleAfChip(this)">Healthcare</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">FinTech</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">SaaS</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">AI / Machine Learning</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">EdTech</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">ClimateTech</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">Developer Tools</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">Cybersecurity</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">D2C / E-Commerce</button>
+              </div>
+            </div>
+
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afSubSector">Sub-Sector</label>
+                <input type="text" id="afSubSector" class="af-input" placeholder="e.g. Diagnostics, Payments, Robotics" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afBusinessModel">Business Model <span class="af-required-star">*</span></label>
+                <select id="afBusinessModel" class="af-select">
+                  <option value="B2B Enterprise" selected>B2B Enterprise</option>
+                  <option value="B2B SaaS">B2B SaaS</option>
+                  <option value="B2C">B2C</option>
+                  <option value="B2B2C">B2B2C</option>
+                  <option value="D2C">D2C</option>
+                  <option value="Marketplace">Marketplace</option>
+                  <option value="Usage-Based / API">Usage-Based / API</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="af-three-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afFoundedYear">Founded / Incorp Year <span class="af-required-star">*</span></label>
+                <input type="number" id="afFoundedYear" class="af-input" placeholder="2023" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afCompStructure">Company Structure <span class="af-required-star">*</span></label>
+                <select id="afCompStructure" class="af-select">
+                  <option value="Private Limited" selected>Private Limited</option>
+                  <option value="Delaware C-Corp">Delaware C-Corp</option>
+                  <option value="LLP">LLP</option>
+                  <option value="Partnership">Partnership</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afHeadquarters">Headquarters <span class="af-required-star">*</span></label>
+                <input type="text" id="afHeadquarters" class="af-input" placeholder="San Francisco, CA, USA" />
+              </div>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afOperatingMarkets">Operating Markets</label>
+              <input type="text" id="afOperatingMarkets" class="af-input" placeholder="Countries or regions (e.g. United States, India, Singapore)" />
+            </div>
+
+            <div class="af-card-footer">
+              <button type="button" class="af-btn-next" onclick="switchStep(2)">
+                <span>Next: Founding Team</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 2: FOUNDING TEAM
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="af-step-pane" id="af-pane-2">
+            <div class="af-form-group">
+              <label class="af-label">Founders &amp; Leadership Team <span class="af-required-star">*</span></label>
+              
+              <div class="af-repeater-list" id="afFoundersList">
+                <div class="af-repeater-item">
+                  <div class="af-two-col">
+                    <div class="af-form-group">
+                      <label class="af-label">Full Name <span class="af-required-star">*</span></label>
+                      <input type="text" class="af-input f-name" placeholder="e.g. Dr. Sarah Jenkins" />
+                    </div>
+                    <div class="af-form-group">
+                      <label class="af-label">Role / Designation <span class="af-required-star">*</span></label>
+                      <input type="text" class="af-input f-role" placeholder="e.g. Co-Founder &amp; CEO" />
+                    </div>
+                  </div>
+                  <div class="af-two-col">
+                    <div class="af-form-group">
+                      <label class="af-label">LinkedIn Profile</label>
+                      <input type="text" class="af-input f-linkedin" placeholder="linkedin.com/in/sarahjenkins" />
+                    </div>
+                    <div class="af-form-group">
+                      <label class="af-label">Email</label>
+                      <input type="email" class="af-input f-email" placeholder="sarah@alphahealth.io" />
+                    </div>
+                  </div>
+                  <div class="af-two-col">
+                    <div class="af-form-group">
+                      <label class="af-label">Previous Experience</label>
+                      <input type="text" class="af-input f-exp" placeholder="e.g. Ex-Lead AI Researcher at Stanford Health" />
+                    </div>
+                    <div class="af-form-group">
+                      <label class="af-label">Education</label>
+                      <input type="text" class="af-input f-edu" placeholder="e.g. Ph.D. in Computational Biology, MIT" />
+                    </div>
+                  </div>
+                  <div class="af-two-col">
+                    <div class="af-form-group">
+                      <label class="af-label">Previous Startup / Exit</label>
+                      <input type="text" class="af-input f-exit" placeholder="e.g. Co-Founded BioSense (Acquired 2021)" />
+                    </div>
+                    <div class="af-form-group">
+                      <label class="af-label">Key Expertise / Strengths</label>
+                      <input type="text" class="af-input f-skills" placeholder="e.g. Clinical Diagnostics, Deep Learning" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button type="button" class="af-btn-add" onclick="addFounderItem()">
+                <i data-lucide="plus" style="width:13px; height:13px;"></i>
+                <span>Add Co-Founder</span>
+              </button>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afFounderVideo">Founder Video Introduction (Optional)</label>
+              <input type="url" id="afFounderVideo" class="af-input" placeholder="Loom or YouTube link (1–2 minute intro)" />
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afWhyTeam">Why This Team? <span class="af-required-star">*</span></label>
+              <textarea id="afWhyTeam" class="af-textarea" placeholder="Why are the founders uniquely suited to solve this specific problem? Highlight technical edge, domain mastery, and past achievements..."></textarea>
+            </div>
+
+            <div class="af-card-footer">
+              <button type="button" class="af-btn-back" onclick="switchStep(1)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="af-btn-next" onclick="switchStep(3)">
+                <span>Next: Problem &amp; Solution</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 3: PROBLEM & SOLUTION
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="af-step-pane" id="af-pane-3">
+            <div class="af-form-group">
+              <label class="af-label" for="afProblemStmt">Problem Statement <span class="af-required-star">*</span></label>
+              <textarea id="afProblemStmt" class="af-textarea" placeholder="What core problem are you solving? Explain why legacy approaches fail and quantify the pain point..."></textarea>
+            </div>
+
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afTargetCust">Target Customer <span class="af-required-star">*</span></label>
+                <input type="text" id="afTargetCust" class="af-input" placeholder="Who experiences this problem? (ICPs, job titles, enterprise tier)" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afAlternatives">Current Alternatives / Competitors</label>
+                <input type="text" id="afAlternatives" class="af-input" placeholder="How customers solve the problem today (manual spreadsheets, legacy vendors)" />
+              </div>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afSolution">Solution <span class="af-required-star">*</span></label>
+              <textarea id="afSolution" class="af-textarea" placeholder="What exactly have you built? Explain how your solution fundamentally eliminates the customer pain..."></textarea>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afKeyProduct">Key Product / Service <span class="af-required-star">*</span></label>
+              <input type="text" id="afKeyProduct" class="af-input" placeholder="What does the product actually do on a day-to-day operational level?" />
+            </div>
+
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afWhyNow">Why Now?</label>
+                <input type="text" id="afWhyNow" class="af-input" placeholder="Why is this the perfect timing? (Regulatory tailwinds, AI inflections, market shifts)" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afKeyDiff">Key Differentiator</label>
+                <input type="text" id="afKeyDiff" class="af-input" placeholder="What makes your solution meaningfully different and 10x better?" />
+              </div>
+            </div>
+
+            <div class="af-card-footer">
+              <button type="button" class="af-btn-back" onclick="switchStep(2)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="af-btn-next" onclick="switchStep(4)">
+                <span>Next: Product &amp; Tech</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 4: PRODUCT & TECHNOLOGY
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="af-step-pane" id="af-pane-4">
+            <div class="af-form-group">
+              <label class="af-label">Product Type <span class="af-required-star">*</span></label>
+              <div class="af-chip-group" id="afProdTypeChips">
+                <button type="button" class="af-chip selected" onclick="toggleAfChip(this)">SaaS</button>
+                <button type="button" class="af-chip selected" onclick="toggleAfChip(this)">API / Platform</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">Mobile App</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">Marketplace</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">Hardware</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">Other</button>
+              </div>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label">Product Stage <span class="af-required-star">*</span></label>
+              <div class="af-chip-group" id="afProdStageChips">
+                <button type="button" class="af-chip" onclick="selectSingleChip(this, 'afProdStageChips')">Idea</button>
+                <button type="button" class="af-chip" onclick="selectSingleChip(this, 'afProdStageChips')">MVP</button>
+                <button type="button" class="af-chip" onclick="selectSingleChip(this, 'afProdStageChips')">Private Beta</button>
+                <button type="button" class="af-chip selected" onclick="selectSingleChip(this, 'afProdStageChips')">Live in Production</button>
+                <button type="button" class="af-chip" onclick="selectSingleChip(this, 'afProdStageChips')">Scaling ARR</button>
+              </div>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afProdDesc">Product Description <span class="af-required-star">*</span></label>
+              <textarea id="afProdDesc" class="af-textarea" placeholder="Detailed architectural and functional breakdown of the current product..."></textarea>
+            </div>
+
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afProdDemoUrl">Product / Demo URL</label>
+                <input type="url" id="afProdDemoUrl" class="af-input" placeholder="https://app.alphahealth.io/demo" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afDemoVideoUrl">Demo Video URL</label>
+                <input type="url" id="afDemoVideoUrl" class="af-input" placeholder="Loom / YouTube / Vimeo walkthrough" />
+              </div>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afTechIP">Technology &amp; Key IP</label>
+              <input type="text" id="afTechIP" class="af-input" placeholder="Proprietary neural architectures, patent-pending algorithms, or unique data pipelines" />
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afTechDeps">Technology Dependencies</label>
+              <input type="text" id="afTechDeps" class="af-input" placeholder="e.g. AWS Bedrock, OpenAI GPT-4, Supabase, Stripe, ClickHouse" />
+            </div>
+
+            <div class="af-card-footer">
+              <button type="button" class="af-btn-back" onclick="switchStep(3)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="af-btn-next" onclick="switchStep(5)">
+                <span>Next: Traction &amp; Metrics</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 5: TRACTION & BUSINESS METRICS
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="af-step-pane" id="af-pane-5">
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afTotalUsers">Current Customers / Users <span class="af-required-star">*</span></label>
+                <input type="text" id="afTotalUsers" class="af-input" placeholder="e.g. 5,200" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afPayingUsers">Paying Customers</label>
+                <input type="text" id="afPayingUsers" class="af-input" placeholder="e.g. 420" />
+              </div>
+            </div>
+
+            <div class="af-three-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afMrr">Current MRR</label>
+                <input type="text" id="afMrr" class="af-input" placeholder="e.g. $71,000 / mo" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afArr">Current ARR</label>
+                <input type="text" id="afArr" class="af-input" placeholder="e.g. $850,000 ARR" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afGrowthRate">Revenue Growth Rate</label>
+                <input type="text" id="afGrowthRate" class="af-input" placeholder="e.g. 25% MoM" />
+              </div>
+            </div>
+
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afGrossMargin">Gross Margin (%)</label>
+                <input type="text" id="afGrossMargin" class="af-input" placeholder="e.g. 68%" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afChurn">Customer Retention / Churn</label>
+                <input type="text" id="afChurn" class="af-input" placeholder="e.g. 96% NRR / 1.2% Monthly Churn" />
+              </div>
+            </div>
+
+            <!-- Model Specific Conditional Metrics Tabs -->
+            <div class="af-form-group" style="background:#FAF9F6; border:1px solid var(--af-border); border-radius:8px; padding:14px;">
+              <label class="af-label" style="margin-bottom:8px;">Model-Specific Unit Metrics</label>
+              
+              <div class="af-tab-pills">
+                <button type="button" class="af-tab-pill-btn active" onclick="switchMetricsTab('saas', this)">SaaS</button>
+                <button type="button" class="af-tab-pill-btn" onclick="switchMetricsTab('market', this)">Marketplace</button>
+                <button type="button" class="af-tab-pill-btn" onclick="switchMetricsTab('d2c', this)">Consumer / D2C</button>
+                <button type="button" class="af-tab-pill-btn" onclick="switchMetricsTab('ent', this)">Enterprise</button>
+              </div>
+
+              <!-- SaaS Tab -->
+              <div id="mTab-saas" class="af-three-col" style="margin-top:12px;">
+                <div class="af-form-group">
+                  <label class="af-label">CAC ($)</label>
+                  <input type="text" class="af-input" id="afCac" placeholder="$420" />
+                </div>
+                <div class="af-form-group">
+                  <label class="af-label">LTV ($)</label>
+                  <input type="text" class="af-input" id="afLtv" placeholder="$3,800" />
+                </div>
+                <div class="af-form-group">
+                  <label class="af-label">Payback Period</label>
+                  <input type="text" class="af-input" id="afPayback" placeholder="5 Months" />
+                </div>
+              </div>
+
+              <!-- Marketplace Tab -->
+              <div id="mTab-market" class="af-two-col" style="display:none; margin-top:12px;">
+                <div class="af-form-group">
+                  <label class="af-label">GMV ($)</label>
+                  <input type="text" class="af-input" placeholder="e.g. $1.2M GMV" />
+                </div>
+                <div class="af-form-group">
+                  <label class="af-label">Take Rate (%)</label>
+                  <input type="text" class="af-input" placeholder="e.g. 12%" />
+                </div>
+              </div>
+
+              <!-- D2C Tab -->
+              <div id="mTab-d2c" class="af-two-col" style="display:none; margin-top:12px;">
+                <div class="af-form-group">
+                  <label class="af-label">DAU / MAU</label>
+                  <input type="text" class="af-input" placeholder="e.g. 45,000 MAU" />
+                </div>
+                <div class="af-form-group">
+                  <label class="af-label">Average Order Value (AOV)</label>
+                  <input type="text" class="af-input" placeholder="e.g. $85" />
+                </div>
+              </div>
+
+              <!-- Enterprise Tab -->
+              <div id="mTab-ent" class="af-two-col" style="display:none; margin-top:12px;">
+                <div class="af-form-group">
+                  <label class="af-label">Enterprise Customers</label>
+                  <input type="text" class="af-input" placeholder="e.g. 14 Fortune 500s" />
+                </div>
+                <div class="af-form-group">
+                  <label class="af-label">Average Contract Value (ACV)</label>
+                  <input type="text" class="af-input" placeholder="e.g. $65,000 / yr" />
+                </div>
+              </div>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afMilestones">Key Milestones Achieved</label>
+              <textarea id="afMilestones" class="af-textarea" placeholder="Major revenue milestones, key product releases, SOC2 compliance, patent filings..."></textarea>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afPartners">Key Customers / Strategic Partnerships</label>
+              <input type="text" id="afPartners" class="af-input" placeholder="e.g. Mayo Clinic, Stanford Health, Mount Sinai Health System" />
+            </div>
+
+            <div class="af-card-footer">
+              <button type="button" class="af-btn-back" onclick="switchStep(4)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="af-btn-next" onclick="switchStep(6)">
+                <span>Next: Financials</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 6: FINANCIALS
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="af-step-pane" id="af-pane-6">
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afCurrentRev">Current Revenue <span class="af-required-star">*</span></label>
+                <input type="text" id="afCurrentRev" class="af-input" placeholder="e.g. $850,000 ARR" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afL12mRev">Last 12 Months Revenue</label>
+                <input type="text" id="afL12mRev" class="af-input" placeholder="e.g. $620,000" />
+              </div>
+            </div>
+
+            <div class="af-three-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afBurnRate">Monthly Burn Rate <span class="af-required-star">*</span></label>
+                <input type="text" id="afBurnRate" class="af-input" placeholder="e.g. $40,000 / mo" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afCashInBank">Cash in Bank</label>
+                <input type="text" id="afCashInBank" class="af-input" placeholder="e.g. $560,000" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afRunwayMonths">Runway Remaining <span class="af-required-star">*</span></label>
+                <input type="text" id="afRunwayMonths" class="af-input" placeholder="e.g. 14 Months" />
+              </div>
+            </div>
+
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afEbitda">EBITDA / Operating Profit</label>
+                <input type="text" id="afEbitda" class="af-input" placeholder="e.g. -$280,000" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afUnitEcon">Unit Economics Breakdown</label>
+                <input type="text" id="afUnitEcon" class="af-input" placeholder="Contribution margin, payback period, gross margin" />
+              </div>
+            </div>
+
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label">Financial Statements (.pdf/.xlsx)</label>
+                <div class="af-dropzone" onclick="document.getElementById('afFinStmtFile').click()">
+                  <input type="file" id="afFinStmtFile" accept=".pdf,.xlsx,.xls" style="display:none;" onchange="handleFileSelect(this, 'afFinStmtStatus')" />
+                  <i data-lucide="upload-cloud" style="width:20px; height:20px; color:var(--af-text-muted);"></i>
+                  <span class="af-dropzone-title" id="afFinStmtStatus">Upload Recent Financial Statements</span>
+                </div>
+              </div>
+              <div class="af-form-group">
+                <label class="af-label">Financial Model (Optional)</label>
+                <div class="af-dropzone" onclick="document.getElementById('afFinModelFile').click()">
+                  <input type="file" id="afFinModelFile" accept=".xlsx,.xls,.pdf" style="display:none;" onchange="handleFileSelect(this, 'afFinModelStatus')" />
+                  <i data-lucide="file-spreadsheet" style="width:20px; height:20px; color:var(--af-text-muted);"></i>
+                  <span class="af-dropzone-title" id="afFinModelStatus">Upload 3-Year Projections Model</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="af-card-footer">
+              <button type="button" class="af-btn-back" onclick="switchStep(5)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="af-btn-next" onclick="switchStep(7)">
+                <span>Next: Market Opportunity</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 7: MARKET OPPORTUNITY
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="af-step-pane" id="af-pane-7">
+            <div class="af-form-group">
+              <label class="af-label" for="afTargetMkt">Target Market Segment <span class="af-required-star">*</span></label>
+              <input type="text" id="afTargetMkt" class="af-input" placeholder="Who exactly is the initial target beachhead segment?" />
+            </div>
+
+            <div class="af-three-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afTam">TAM (Total Addressable) <span class="af-required-star">*</span></label>
+                <input type="text" id="afTam" class="af-input" placeholder="e.g. $48 Billion" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afSam">SAM (Serviceable) <span class="af-required-star">*</span></label>
+                <input type="text" id="afSam" class="af-input" placeholder="e.g. $9.2 Billion" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afSom">SOM (Obtainable) <span class="af-required-star">*</span></label>
+                <input type="text" id="afSom" class="af-input" placeholder="e.g. $650 Million" />
+              </div>
+            </div>
+
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afMarketCagr">Market Growth / CAGR</label>
+                <input type="text" id="afMarketCagr" class="af-input" placeholder="e.g. 21.4% CAGR (2024-2030)" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afGeoOpp">Geographic Opportunity</label>
+                <input type="text" id="afGeoOpp" class="af-input" placeholder="e.g. United States, Western Europe, APAC" />
+              </div>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afKeyTrends">Key Market Trends</label>
+              <textarea id="afKeyTrends" class="af-textarea" placeholder="What macro trends or regulatory tailwinds are fueling growth in this sector?"></textarea>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afWhyMkt">Why This Market?</label>
+              <input type="text" id="afWhyMkt" class="af-input" placeholder="Why is your company entering this specific market now?" />
+            </div>
+
+            <div class="af-card-footer">
+              <button type="button" class="af-btn-back" onclick="switchStep(6)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="af-btn-next" onclick="switchStep(8)">
+                <span>Next: Competition &amp; Moat</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 8: COMPETITION & MOAT
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="af-step-pane" id="af-pane-8">
+            <div class="af-form-group">
+              <label class="af-label">Primary Competitors <span class="af-required-star">*</span></label>
+              <div class="af-repeater-list" id="afCompetitorsList">
+                <div class="af-repeater-item">
+                  <div class="af-repeater-row" style="display:grid; grid-template-columns:1fr 1.2fr 32px; gap:10px; align-items:center;">
+                    <input type="text" class="af-input comp-name" placeholder="Competitor Name (e.g. HealthAI Corp)" />
+                    <input type="url" class="af-input comp-url" placeholder="Website URL (e.g. https://healthai.io)" />
+                    <button type="button" class="af-btn-remove" onclick="removeRepeaterItem(this)" title="Remove competitor">
+                      <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="af-btn-add" onclick="addCompetitorItem()">
+                <i data-lucide="plus" style="width:13px; height:13px;"></i>
+                <span>Add Competitor</span>
+              </button>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afAltSolutions">Alternative Solutions</label>
+              <input type="text" id="afAltSolutions" class="af-input" placeholder="What customers use instead (e.g. manual spreadsheets, in-house custom scripts)" />
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afYourDiff">Your Differentiation <span class="af-required-star">*</span></label>
+              <textarea id="afYourDiff" class="af-textarea" placeholder="How is your solution fundamentally differentiated from incumbents and direct competitors?"></textarea>
+            </div>
+
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afMoat">Competitive Advantage / Moat <span class="af-required-star">*</span></label>
+                <input type="text" id="afMoat" class="af-input" placeholder="Proprietary data, network effects, high switching costs, or IP" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afMarketPos">Current Market Position</label>
+                <select id="afMarketPos" class="af-select">
+                  <option value="Emerging Contender" selected>Emerging Contender</option>
+                  <option value="Challenger">Challenger</option>
+                  <option value="Category Leader">Category Leader</option>
+                  <option value="High-Value Niche">High-Value Niche</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="af-card-footer">
+              <button type="button" class="af-btn-back" onclick="switchStep(7)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="af-btn-next" onclick="switchStep(9)">
+                <span>Next: Fundraising Details</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 9: FUNDRAISING DETAILS
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="af-step-pane" id="af-pane-9">
+            <div class="af-form-group">
+              <label class="af-label">Current Round <span class="af-required-star">*</span></label>
+              <div class="af-chip-group" id="afRoundChips">
+                <button type="button" class="af-chip" onclick="selectSingleChip(this, 'afRoundChips')">Pre-Seed</button>
+                <button type="button" class="af-chip selected" onclick="selectSingleChip(this, 'afRoundChips')">Seed</button>
+                <button type="button" class="af-chip" onclick="selectSingleChip(this, 'afRoundChips')">Series A</button>
+                <button type="button" class="af-chip" onclick="selectSingleChip(this, 'afRoundChips')">Series B</button>
+                <button type="button" class="af-chip" onclick="selectSingleChip(this, 'afRoundChips')">Bridge</button>
+                <button type="button" class="af-chip" onclick="selectSingleChip(this, 'afRoundChips')">Convertible / SAFE</button>
+              </div>
+            </div>
+
+            <div class="af-three-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afTargetRoundSize">Target Round Size <span class="af-required-star">*</span></label>
+                <input type="text" id="afTargetRoundSize" class="af-input" placeholder="e.g. $5,000,000" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afAmountRaising">Amount Raising Now <span class="af-required-star">*</span></label>
+                <input type="text" id="afAmountRaising" class="af-input" placeholder="e.g. $3,000,000" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afPreMoneyVal">Pre-Money Valuation</label>
+                <input type="text" id="afPreMoneyVal" class="af-input" placeholder="e.g. $17,000,000" />
+              </div>
+            </div>
+
+            <div class="af-three-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afTargetDilution">Target Dilution (%)</label>
+                <input type="text" id="afTargetDilution" class="af-input" placeholder="e.g. 15%" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afSecurityType">Security Type <span class="af-required-star">*</span></label>
+                <select id="afSecurityType" class="af-select">
+                  <option value="Priced Equity (Preferred)" selected>Priced Equity (Preferred)</option>
+                  <option value="SAFE (Post-Money)">SAFE (Post-Money)</option>
+                  <option value="Convertible Note">Convertible Note</option>
+                  <option value="Common Equity">Common Equity</option>
+                </select>
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afCloseDeadline">Target Close Date</label>
+                <input type="text" id="afCloseDeadline" class="af-input" placeholder="e.g. Q3 2026 / Oct 2026" />
+              </div>
+            </div>
+
+            <!-- Previous Funding Repeater -->
+            <div class="af-form-group" style="margin-top:8px;">
+              <label class="af-label">Previous Funding Rounds (if any)</label>
+              <div class="af-repeater-list" id="afPrevRoundsList">
+                <div class="af-repeater-item">
+                  <div class="af-repeater-row" style="display:grid; grid-template-columns:140px 140px 140px 1fr 32px; gap:10px; align-items:center;">
+                    <input type="text" class="af-input r-name" placeholder="Round (e.g. Pre-Seed)" />
+                    <input type="text" class="af-input r-amount" placeholder="Amount ($500K)" />
+                    <input type="text" class="af-input r-date" placeholder="Date (Jan 2023)" />
+                    <input type="text" class="af-input r-investor" placeholder="Lead Investor (Nexus Syndicate)" />
+                    <button type="button" class="af-btn-remove" onclick="removeRepeaterItem(this)" title="Remove round">
+                      <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="af-btn-add" onclick="addPrevRoundItem()">
+                <i data-lucide="plus" style="width:13px; height:13px;"></i>
+                <span>Add Previous Round</span>
+              </button>
+            </div>
+
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afExistingInvestors">Existing Investors &amp; Advisors</label>
+                <input type="text" id="afExistingInvestors" class="af-input" placeholder="e.g. Y Combinator Alumni Fund, AngelList Syndicate" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afStrategicPref">Strategic Investor Preference</label>
+                <input type="text" id="afStrategicPref" class="af-input" placeholder="e.g. HealthTech VCs, clinical distribution partners" />
+              </div>
+            </div>
+
+            <div class="af-card-footer">
+              <button type="button" class="af-btn-back" onclick="switchStep(8)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="af-btn-next" onclick="switchStep(10)">
+                <span>Next: Use of Funds</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 10: USE OF FUNDS & MILESTONES
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="af-step-pane" id="af-pane-10">
+            <div class="af-form-group">
+              <label class="af-label">Fund Allocation Breakdown <span class="af-required-star">*</span> (Total must equal 100%)</label>
+              
+              <div style="display:grid; grid-template-columns:1fr 220px; gap:24px; align-items:center; background:#FAF9F6; border:1px solid var(--af-border); border-radius:8px; padding:18px;">
+                <div style="display:flex; flex-direction:column; gap:12px;">
+                  <div class="af-alloc-row">
+                    <span>Product &amp; Engineering</span>
+                    <input type="range" class="af-alloc-slider" id="allocProd" min="0" max="100" value="40" oninput="updateAllocations()" />
+                    <span id="allocProdVal" style="font-weight:700;">40%</span>
+                  </div>
+                  <div class="af-alloc-row">
+                    <span>Sales &amp; Marketing</span>
+                    <input type="range" class="af-alloc-slider" id="allocSales" min="0" max="100" value="30" oninput="updateAllocations()" />
+                    <span id="allocSalesVal" style="font-weight:700;">30%</span>
+                  </div>
+                  <div class="af-alloc-row">
+                    <span>Key Hiring &amp; Talent</span>
+                    <input type="range" class="af-alloc-slider" id="allocHire" min="0" max="100" value="15" oninput="updateAllocations()" />
+                    <span id="allocHireVal" style="font-weight:700;">15%</span>
+                  </div>
+                  <div class="af-alloc-row">
+                    <span>Operations &amp; Compliance</span>
+                    <input type="range" class="af-alloc-slider" id="allocOps" min="0" max="100" value="10" oninput="updateAllocations()" />
+                    <span id="allocOpsVal" style="font-weight:700;">10%</span>
+                  </div>
+                  <div class="af-alloc-row">
+                    <span>Working Capital &amp; Reserve</span>
+                    <input type="range" class="af-alloc-slider" id="allocReserve" min="0" max="100" value="5" oninput="updateAllocations()" />
+                    <span id="allocReserveVal" style="font-weight:700;">5%</span>
+                  </div>
+                  <div style="font-size:12px; font-weight:700; color:#059669; border-top:1px solid var(--af-border); padding-top:6px; display:flex; justify-content:space-between;">
+                    <span>Total Allocation:</span>
+                    <span id="allocTotalVal">100% ✓</span>
+                  </div>
+                </div>
+
+                <!-- Live Apex Donut Chart for Fund Allocation -->
+                <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                  <div id="allocDonutChart" style="width:100%; min-height:180px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Key Milestones Repeater -->
+            <div class="af-form-group" style="margin-top:10px;">
+              <label class="af-label">Key Milestones From This Raise <span class="af-required-star">*</span></label>
+              
+              <div class="af-repeater-list" id="afMilestonesList">
+                <div class="af-repeater-item">
+                  <div class="af-repeater-row" style="display:grid; grid-template-columns:1.2fr 130px 1.5fr 32px; gap:10px; align-items:center;">
+                    <input type="text" class="af-input m-title" placeholder="Milestone (e.g. Reach $3M ARR)" />
+                    <input type="text" class="af-input m-date" placeholder="Target (Q4 2027)" />
+                    <input type="text" class="af-input m-outcome" placeholder="Expected Outcome (e.g. 50 Enterprise Deployments)" />
+                    <button type="button" class="af-btn-remove" onclick="removeRepeaterItem(this)" title="Remove milestone">
+                      <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <button type="button" class="af-btn-add" onclick="addMilestoneItem()">
+                <i data-lucide="plus" style="width:13px; height:13px;"></i>
+                <span>Add Milestone</span>
+              </button>
+            </div>
+
+            <div class="af-card-footer">
+              <button type="button" class="af-btn-back" onclick="switchStep(9)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="af-btn-next" onclick="switchStep(11)">
+                <span>Next: Ownership &amp; Legal</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 11: OWNERSHIP & BASIC LEGAL
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="af-step-pane" id="af-pane-11">
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afLegalEntity">Legal Entity Name</label>
+                <input type="text" id="afLegalEntity" class="af-input" placeholder="e.g. Alpha Health Technologies Inc." />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afCin">Company Registration / CIN</label>
+                <input type="text" id="afCin" class="af-input" placeholder="e.g. DE-7891234 or U72900KA2023PTC17482" />
+              </div>
+            </div>
+
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afPan">PAN / Tax ID</label>
+                <input type="text" id="afPan" class="af-input" placeholder="e.g. EIN / Tax Identifier" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afGstin">GSTIN / VAT (if applicable)</label>
+                <input type="text" id="afGstin" class="af-input" placeholder="e.g. 29AAAAA0000A1Z5" />
+              </div>
+            </div>
+
+            <!-- Current Cap Table Ownership Breakdown & Live Donut -->
+            <div class="af-form-group">
+              <label class="af-label">Current Cap Table Breakdown <span class="af-required-star">*</span></label>
+              
+              <div style="display:grid; grid-template-columns:1fr 220px; gap:20px; align-items:center; background:#FAF9F6; border:1px solid var(--af-border); border-radius:8px; padding:16px;">
+                <div class="af-repeater-list" id="afCapTableList">
+                  <div class="af-repeater-item" style="padding:10px;">
+                    <div class="af-repeater-row" style="display:grid; grid-template-columns:1.2fr 120px 80px 32px; gap:8px; align-items:center;">
+                      <input type="text" class="af-input cap-name" value="Dr. Sarah Jenkins (Founder)" oninput="updateCapTableChart()" />
+                      <select class="af-select cap-type">
+                        <option value="Founder" selected>Founder</option>
+                        <option value="Investor">Investor</option>
+                        <option value="ESOP">ESOP</option>
+                        <option value="Advisor">Advisor</option>
+                      </select>
+                      <input type="number" class="af-input cap-pct" value="48" oninput="updateCapTableChart()" />
+                      <button type="button" class="af-btn-remove" onclick="removeRepeaterItem(this); updateCapTableChart();"><i data-lucide="trash-2" style="width:13px; height:13px;"></i></button>
+                    </div>
+                  </div>
+                  <div class="af-repeater-item" style="padding:10px;">
+                    <div class="af-repeater-row" style="display:grid; grid-template-columns:1.2fr 120px 80px 32px; gap:8px; align-items:center;">
+                      <input type="text" class="af-input cap-name" value="Markus Vance (Co-Founder)" oninput="updateCapTableChart()" />
+                      <select class="af-select cap-type">
+                        <option value="Founder" selected>Founder</option>
+                        <option value="Investor">Investor</option>
+                        <option value="ESOP">ESOP</option>
+                        <option value="Advisor">Advisor</option>
+                      </select>
+                      <input type="number" class="af-input cap-pct" value="32" oninput="updateCapTableChart()" />
+                      <button type="button" class="af-btn-remove" onclick="removeRepeaterItem(this); updateCapTableChart();"><i data-lucide="trash-2" style="width:13px; height:13px;"></i></button>
+                    </div>
+                  </div>
+                  <div class="af-repeater-item" style="padding:10px;">
+                    <div class="af-repeater-row" style="display:grid; grid-template-columns:1.2fr 120px 80px 32px; gap:8px; align-items:center;">
+                      <input type="text" class="af-input cap-name" value="ESOP Pool (Reserved)" oninput="updateCapTableChart()" />
+                      <select class="af-select cap-type">
+                        <option value="Founder">Founder</option>
+                        <option value="Investor">Investor</option>
+                        <option value="ESOP" selected>ESOP</option>
+                        <option value="Advisor">Advisor</option>
+                      </select>
+                      <input type="number" class="af-input cap-pct" value="10" oninput="updateCapTableChart()" />
+                      <button type="button" class="af-btn-remove" onclick="removeRepeaterItem(this); updateCapTableChart();"><i data-lucide="trash-2" style="width:13px; height:13px;"></i></button>
+                    </div>
+                  </div>
+                  <div class="af-repeater-item" style="padding:10px;">
+                    <div class="af-repeater-row" style="display:grid; grid-template-columns:1.2fr 120px 80px 32px; gap:8px; align-items:center;">
+                      <input type="text" class="af-input cap-name" value="Nexus Angel Syndicate" oninput="updateCapTableChart()" />
+                      <select class="af-select cap-type">
+                        <option value="Founder">Founder</option>
+                        <option value="Investor" selected>Investor</option>
+                        <option value="ESOP">ESOP</option>
+                        <option value="Advisor">Advisor</option>
+                      </select>
+                      <input type="number" class="af-input cap-pct" value="10" oninput="updateCapTableChart()" />
+                      <button type="button" class="af-btn-remove" onclick="removeRepeaterItem(this); updateCapTableChart();"><i data-lucide="trash-2" style="width:13px; height:13px;"></i></button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Cap Table Apex Donut Chart -->
+                <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                  <div id="capTableDonutChart" style="width:100%; min-height:180px;"></div>
+                </div>
+              </div>
+
+              <button type="button" class="af-btn-add" onclick="addCapTableItem()" style="margin-top:6px;">
+                <i data-lucide="plus" style="width:13px; height:13px;"></i>
+                <span>Add Shareholder</span>
+              </button>
+            </div>
+
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label">Outstanding Debt</label>
+                <div class="af-two-col" style="gap:8px;">
+                  <select id="afHasDebt" class="af-select">
+                    <option value="No" selected>No Debt</option>
+                    <option value="Yes">Yes (Has Debt)</option>
+                  </select>
+                  <input type="text" id="afDebtAmount" class="af-input" placeholder="Amount / Details (if any)" />
+                </div>
+              </div>
+              <div class="af-form-group">
+                <label class="af-label">Pending Litigation</label>
+                <div class="af-two-col" style="gap:8px;">
+                  <select id="afHasLitigation" class="af-select">
+                    <option value="No" selected>No Litigation</option>
+                    <option value="Yes">Yes (Pending Claims)</option>
+                  </select>
+                  <input type="text" id="afLitigationDesc" class="af-input" placeholder="Description (if any)" />
+                </div>
+              </div>
+            </div>
+
+            <div class="af-card-footer">
+              <button type="button" class="af-btn-back" onclick="switchStep(10)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="af-btn-next" onclick="switchStep(12)">
+                <span>Next: Documents &amp; VDR</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 12: DOCUMENTS & DATA ROOM
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="af-step-pane" id="af-pane-12">
+            <!-- Required Documents -->
+            <div class="af-form-group">
+              <label class="af-label">Pitch Deck (Required) <span class="af-required-star">*</span></label>
+              <div class="af-dropzone" onclick="document.getElementById('afPitchDeckFile').click()">
+                <input type="file" id="afPitchDeckFile" accept=".pdf,.ppt,.pptx" style="display:none;" onchange="handleFileSelect(this, 'afPitchDeckStatus')" />
+                <i data-lucide="presentation" style="width:24px; height:24px; color:var(--af-text-dark);"></i>
+                <span class="af-dropzone-title" id="afPitchDeckStatus">Upload Pitch Deck (.PDF or .PPTX)</span>
+                <span class="af-dropzone-sub">Maximum file size 50 MB</span>
+              </div>
+            </div>
+
+            <!-- Recommended Documents -->
+            <div class="af-form-group">
+              <label class="af-label">Recommended Supporting Materials</label>
+              <div class="af-two-col">
+                <div class="af-dropzone" onclick="document.getElementById('afCapTableDoc').click()">
+                  <input type="file" id="afCapTableDoc" accept=".pdf,.xlsx,.xls" style="display:none;" onchange="handleFileSelect(this, 'afCapTableDocStatus')" />
+                  <i data-lucide="pie-chart" style="width:18px; height:18px; color:var(--af-text-muted);"></i>
+                  <span class="af-dropzone-title" id="afCapTableDocStatus">Upload Cap Table Sheet</span>
+                </div>
+                <div class="af-dropzone" onclick="document.getElementById('afIncorpDoc').click()">
+                  <input type="file" id="afIncorpDoc" accept=".pdf" style="display:none;" onchange="handleFileSelect(this, 'afIncorpDocStatus')" />
+                  <i data-lucide="shield-check" style="width:18px; height:18px; color:var(--af-text-muted);"></i>
+                  <span class="af-dropzone-title" id="afIncorpDocStatus">Certificate of Incorporation</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Data Room & Diligence Settings -->
+            <div class="af-form-group" style="background:#FAF9F6; border:1px solid var(--af-border); border-radius:8px; padding:16px; display:flex; flex-direction:column; gap:12px;">
+              <label class="af-label">Virtual Data Room (Watch VDR) Settings</label>
+              
+              <div style="display:flex; align-items:center; justify-content:space-between;">
+                <div>
+                  <div style="font-size:13px; font-weight:600; color:var(--af-text-dark);">Automatically Provision Watch VDR</div>
+                  <div style="font-size:11.5px; color:var(--af-text-muted);">Creates an encrypted, watermarked diligence vault for investor reviews.</div>
+                </div>
+                <input type="checkbox" id="afAutoVdr" checked style="width:16px; height:16px; cursor:pointer;" />
+              </div>
+
+              <div style="display:flex; align-items:center; justify-content:space-between; border-top:1px dashed var(--af-border); padding-top:10px;">
+                <div>
+                  <div style="font-size:13px; font-weight:600; color:var(--af-text-dark);">Require Mutual NDA Before Full Access</div>
+                  <div style="font-size:11.5px; color:var(--af-text-muted);">Investors must digitally sign Seedicon standard NDA to view confidential financials.</div>
+                </div>
+                <input type="checkbox" id="afRequireNda" checked style="width:16px; height:16px; cursor:pointer;" />
+              </div>
+            </div>
+
+            <div class="af-card-footer">
+              <button type="button" class="af-btn-back" onclick="switchStep(11)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="af-btn-next" onclick="switchStep(13)">
+                <span>Next: Contact &amp; Preferences</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 13: CONTACT & INVESTOR PREFERENCES
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="af-step-pane" id="af-pane-13">
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afContactName">Primary Founder / Contact Name <span class="af-required-star">*</span></label>
+                <input type="text" id="afContactName" class="af-input" placeholder="Dr. Sarah Jenkins" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afContactEmail">Direct Email <span class="af-required-star">*</span></label>
+                <input type="email" id="afContactEmail" class="af-input" placeholder="sarah@alphahealth.io" />
+              </div>
+            </div>
+
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label" for="afContactPhone">Phone Number</label>
+                <input type="tel" id="afContactPhone" class="af-input" placeholder="+1 (415) 890-2341" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label" for="afMeetingLink">Meeting Link (Calendly / Cal.com)</label>
+                <input type="url" id="afMeetingLink" class="af-input" placeholder="https://calendly.com/sarah-alphahealth/intro" />
+              </div>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label">Fundraising Status <span class="af-required-star">*</span></label>
+              <div class="af-chip-group" id="afFundStatusChips">
+                <button type="button" class="af-chip selected" onclick="selectSingleChip(this, 'afFundStatusChips')">Actively Raising Now</button>
+                <button type="button" class="af-chip" onclick="selectSingleChip(this, 'afFundStatusChips')">Opening Round Soon</button>
+                <button type="button" class="af-chip" onclick="selectSingleChip(this, 'afFundStatusChips')">Exploring / Pre-Marketing</button>
+                <button type="button" class="af-chip" onclick="selectSingleChip(this, 'afFundStatusChips')">Round Closed</button>
+              </div>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label">Preferred Investor Type</label>
+              <div class="af-chip-group" id="afInvestorTypeChips">
+                <button type="button" class="af-chip selected" onclick="toggleAfChip(this)">Venture Capital (Lead / Co-Lead)</button>
+                <button type="button" class="af-chip selected" onclick="toggleAfChip(this)">Angel Syndicates</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">Family Offices</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">Corporate VCs (Strategic)</button>
+                <button type="button" class="af-chip" onclick="toggleAfChip(this)">Accelerators</button>
+              </div>
+            </div>
+
+            <div class="af-form-group">
+              <label class="af-label" for="afBestTime">Best Time to Contact</label>
+              <input type="text" id="afBestTime" class="af-input" placeholder="e.g. Weekdays 9:00 AM - 1:00 PM PST" />
+            </div>
+
+            <div class="af-card-footer">
+              <button type="button" class="af-btn-back" onclick="switchStep(12)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="af-btn-next" onclick="switchStep(14)">
+                <span>Next: Declaration &amp; Submit</span>
+                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════
+               STEP 14: DECLARATION & SUBMISSION
+               ══════════════════════════════════════════════════════════════════ -->
+          <div class="af-step-pane" id="af-pane-14">
+            <div style="font-size:13px; color:var(--af-text-muted); line-height:1.45;">
+              Please review your fundraising submission checklist. All sections will be verified by Seedicon's venture committee before syndicate circulation.
+            </div>
+
+            <!-- Validation Grid -->
+            <div class="af-check-grid" id="afValidationGrid">
+              <div class="af-check-item">
+                <span class="af-check-name">1. Company Overview</span>
+                <span class="af-check-badge">Verified</span>
+              </div>
+              <div class="af-check-item">
+                <span class="af-check-name">2. Founding Team</span>
+                <span class="af-check-badge">Verified</span>
+              </div>
+              <div class="af-check-item">
+                <span class="af-check-name">3. Problem &amp; Solution</span>
+                <span class="af-check-badge">Verified</span>
+              </div>
+              <div class="af-check-item">
+                <span class="af-check-name">4. Product &amp; Technology</span>
+                <span class="af-check-badge">Verified</span>
+              </div>
+              <div class="af-check-item">
+                <span class="af-check-name">5. Traction &amp; Metrics</span>
+                <span class="af-check-badge">Verified</span>
+              </div>
+              <div class="af-check-item">
+                <span class="af-check-name">6. Financials</span>
+                <span class="af-check-badge">Verified</span>
+              </div>
+              <div class="af-check-item">
+                <span class="af-check-name">7. Market Opportunity</span>
+                <span class="af-check-badge">Verified</span>
+              </div>
+              <div class="af-check-item">
+                <span class="af-check-name">8. Competition &amp; Moat</span>
+                <span class="af-check-badge">Verified</span>
+              </div>
+              <div class="af-check-item">
+                <span class="af-check-name">9. Fundraising Details</span>
+                <span class="af-check-badge">Verified</span>
+              </div>
+              <div class="af-check-item">
+                <span class="af-check-name">10. Use of Funds</span>
+                <span class="af-check-badge">Verified</span>
+              </div>
+              <div class="af-check-item">
+                <span class="af-check-name">11. Ownership &amp; Legal</span>
+                <span class="af-check-badge">Verified</span>
+              </div>
+              <div class="af-check-item">
+                <span class="af-check-name">12. Documents &amp; VDR</span>
+                <span class="af-check-badge">Verified</span>
+              </div>
+              <div class="af-check-item">
+                <span class="af-check-name">13. Contact &amp; Preferences</span>
+                <span class="af-check-badge">Verified</span>
+              </div>
+            </div>
+
+            <!-- Live Summary Box -->
+            <div class="af-review-box">
+              <div class="af-review-row">
+                <span class="af-review-k">Company</span>
+                <span class="af-review-v" id="revCompName">Alpha Health Technologies</span>
+              </div>
+              <div class="af-review-row">
+                <span class="af-review-k">Target Round</span>
+                <span class="af-review-v" id="revRoundAsk">Seed · $3,000,000 Ask</span>
+              </div>
+              <div class="af-review-row">
+                <span class="af-review-k">ARR &amp; Growth</span>
+                <span class="af-review-v" id="revArrGrowth">$850K ARR · 25% MoM</span>
+              </div>
+              <div class="af-review-row">
+                <span class="af-review-k">Primary Contact</span>
+                <span class="af-review-v" id="revContact">Dr. Sarah Jenkins (CEO)</span>
+              </div>
+            </div>
+
+            <!-- Declarations -->
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div style="display:flex; align-items:flex-start; gap:10px; padding:12px 14px; background:#F9FAFB; border:1px solid var(--af-border); border-radius:6px;">
+                <input type="checkbox" id="afCheckAccuracy" style="margin-top:2px; cursor:pointer;" checked />
+                <label for="afCheckAccuracy" style="font-size:12.5px; color:var(--af-text-dark); cursor:pointer; line-height:1.4;">
+                  <strong>Information Accuracy Confirmation *</strong>: I confirm that the financial data, traction metrics, capitalization records, and business descriptions provided are accurate and up to date.
+                </label>
+              </div>
+
+              <div style="display:flex; align-items:flex-start; gap:10px; padding:12px 14px; background:#F9FAFB; border:1px solid var(--af-border); border-radius:6px;">
+                <input type="checkbox" id="afCheckAuth" style="margin-top:2px; cursor:pointer;" checked />
+                <label for="afCheckAuth" style="font-size:12.5px; color:var(--af-text-dark); cursor:pointer; line-height:1.4;">
+                  <strong>Authorization to Share Information *</strong>: I grant permission for Seedicon to share this fundraising application and associated data room assets with verified institutional investors and syndicate partners.
+                </label>
+              </div>
+            </div>
+
+            <div class="af-card-footer">
+              <button type="button" class="af-btn-back" onclick="switchStep(13)">
+                <i data-lucide="chevron-left" style="width:14px; height:14px;"></i>
+                <span>Back</span>
+              </button>
+              <button type="button" class="af-btn-next" style="background:#111827;" onclick="submitFundingApplication()">
+                <i data-lucide="check-circle-2" style="width:15px; height:15px;"></i>
+                <span>Submit for Investor Review</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       03. SUBMISSION CONFIRMATION MODAL
+       ────────────────────────────────────────────────────────────────────────── -->
+  <div class="af-modal-overlay" id="afStatusModal">
+    <div class="af-modal-card">
+      <div class="af-status-icon-circle">
+        <i data-lucide="check-check" style="width:28px; height:28px;"></i>
+      </div>
+
+      <div>
+        <div style="font-size:11.5px; font-weight:700; color:#059669; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px;">
+          Application Received • Diligence Queue
+        </div>
+        <h2 style="font-size:21px; font-weight:800; color:var(--af-text-dark); margin:0;">Fundraising Application Submitted!</h2>
+        <p style="font-size:13px; color:var(--af-text-muted); line-height:1.45; margin-top:8px;" id="afModalSuccessMsg">
+          Thank you for submitting <strong id="afSubmittedCompName">Alpha Health Technologies</strong>. Our venture committee has initiated preliminary diligence. Once verified, your deal will be featured in the investor syndicate deal stream.
+        </p>
+      </div>
+
+      <div class="af-status-progress-bar">
+        <div class="af-status-progress-fill"></div>
+      </div>
+
+      <div class="af-review-box" style="width:100%; text-align:left; margin:4px 0;">
+        <div class="af-review-row">
+          <span class="af-review-k">Application Ref</span>
+          <span class="af-review-v" id="afAppRef">#FUND-94021</span>
+        </div>
+        <div class="af-review-row">
+          <span class="af-review-k">VDR Provision</span>
+          <span class="af-review-v">Watch VDR Active ✓</span>
+        </div>
+        <div class="af-review-row">
+          <span class="af-review-k">Status</span>
+          <span class="af-review-v" style="color:#D97706;">Under Investment Review</span>
+        </div>
+      </div>
+
+      <div style="width:100%; display:flex; flex-direction:column; gap:10px;">
+        <button type="button" class="af-btn-next" style="width:100%; justify-content:center;" onclick="redirectToFounderWorkspace()">
+          <span>Go to Founder Workspace</span>
+          <i data-lucide="arrow-right" style="width:15px; height:15px;"></i>
+        </button>
+        <div style="font-size:12px; color:var(--af-text-muted);" id="afRedirectCountdown">
+          Redirecting in 4s...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="af-toast" id="afToast"></div>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       04. JAVASCRIPT APPLICATION LOGIC
+       ────────────────────────────────────────────────────────────────────────── -->
+  <script>
+    let currentStep = 1;
+    const totalFundingSteps = 14;
+
+    let allocChart = null;
+    let capChart = null;
+    let redirectTimer = null;
+
+    const FUNDING_STEP_NAMES = {
+      1: { icon: '1', title: 'Company Overview' },
+      2: { icon: '2', title: 'Founding Team' },
+      3: { icon: '3', title: 'Problem & Solution' },
+      4: { icon: '4', title: 'Product & Technology' },
+      5: { icon: '5', title: 'Traction & Business Metrics' },
+      6: { icon: '6', title: 'Financials' },
+      7: { icon: '7', title: 'Market Opportunity' },
+      8: { icon: '8', title: 'Competition & Moat' },
+      9: { icon: '9', title: 'Fundraising Details' },
+      10: { icon: '10', title: 'Use of Funds & Milestones' },
+      11: { icon: '11', title: 'Ownership & Basic Legal' },
+      12: { icon: '12', title: 'Documents & Data Room' },
+      13: { icon: '13', title: 'Contact & Investor Preferences' },
+      14: { icon: '14', title: 'Declaration & Submission' }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      initApexCharts();
+      loadUserProfile();
+    });
+
+    // Step Switching
+    function switchStep(num) {
+      if (num < 1 || num > totalFundingSteps) return;
+      currentStep = num;
+
+      for (let i = 1; i <= totalFundingSteps; i++) {
+        const btn = document.getElementById(`af-step-btn-${i}`);
+        const pane = document.getElementById(`af-pane-${i}`);
+
+        if (btn) {
+          btn.classList.toggle('active', i === currentStep);
+          btn.classList.toggle('completed', i < currentStep);
+        }
+        if (pane) {
+          pane.classList.toggle('active', i === currentStep);
+        }
+      }
+
+      const meta = FUNDING_STEP_NAMES[currentStep] || FUNDING_STEP_NAMES[1];
+      const iconEl = document.getElementById('afHeaderIcon');
+      const titleEl = document.getElementById('afHeaderTitle');
+
+      if (iconEl) iconEl.textContent = meta.icon;
+      if (titleEl) titleEl.textContent = meta.title;
+
+      if (currentStep === 10) {
+        setTimeout(renderAllocChart, 80);
+      }
+      if (currentStep === 11) {
+        setTimeout(updateCapTableChart, 80);
+      }
+      if (currentStep === 14) {
+        updateSummaryReview();
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Toggle Chip Selection
+    function toggleAfChip(btn) {
+      btn.classList.toggle('selected');
+    }
+
+    function selectSingleChip(btn, containerId) {
+      const container = document.getElementById(containerId);
+      if (container) {
+        container.querySelectorAll('.af-chip').forEach(c => c.classList.remove('selected'));
+        btn.classList.add('selected');
+      }
+    }
+
+    // Metrics Model Tabs
+    function switchMetricsTab(tabKey, btn) {
+      document.querySelectorAll('.af-tab-pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      ['saas', 'market', 'd2c', 'ent'].forEach(k => {
+        const el = document.getElementById(`mTab-${k}`);
+        if (el) el.style.display = (k === tabKey) ? 'grid' : 'none';
+      });
+    }
+
+    // File Input Helper
+    function handleFileSelect(input, targetStatusId) {
+      if (input.files && input.files[0]) {
+        const statusEl = document.getElementById(targetStatusId);
+        if (statusEl) {
+          statusEl.textContent = `${input.files[0].name} (${(input.files[0].size / (1024 * 1024)).toFixed(1)} MB) ✓`;
+        }
+        showAfToast('Document uploaded successfully');
+      }
+    }
+
+    // Repeaters: Founders
+    function addFounderItem() {
+      const list = document.getElementById('afFoundersList');
+      const item = document.createElement('div');
+      item.className = 'af-repeater-item';
+      item.innerHTML = `
+        <div style="display:flex; justify-content:flex-end;">
+          <button type="button" class="af-btn-remove" onclick="removeRepeaterItem(this)" title="Remove founder">
+            <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+          </button>
+        </div>
+        <div class="af-two-col">
+          <div class="af-form-group">
+            <label class="af-label">Full Name <span class="af-required-star">*</span></label>
+            <input type="text" class="af-input f-name" placeholder="Full Name" />
+          </div>
+          <div class="af-form-group">
+            <label class="af-label">Role / Designation <span class="af-required-star">*</span></label>
+            <input type="text" class="af-input f-role" placeholder="e.g. Co-Founder & CTO" />
+          </div>
+        </div>
+        <div class="af-two-col">
+          <div class="af-form-group">
+            <label class="af-label">LinkedIn Profile</label>
+            <input type="text" class="af-input f-linkedin" placeholder="linkedin.com/in/..." />
+          </div>
+          <div class="af-form-group">
+            <label class="af-label">Email</label>
+            <input type="email" class="af-input f-email" placeholder="email@company.io" />
+          </div>
+        </div>
+        <div class="af-two-col">
+          <div class="af-form-group">
+            <label class="af-label">Previous Experience</label>
+            <input type="text" class="af-input f-exp" placeholder="e.g. Ex-Senior Architect" />
+          </div>
+          <div class="af-form-group">
+            <label class="af-label">Education</label>
+            <input type="text" class="af-input f-edu" placeholder="e.g. M.S. Computer Science" />
+          </div>
+        </div>
+      `;
+      list.appendChild(item);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // Repeaters: Competitors
+    function addCompetitorItem() {
+      const list = document.getElementById('afCompetitorsList');
+      const item = document.createElement('div');
+      item.className = 'af-repeater-item';
+      item.innerHTML = `
+        <div class="af-repeater-row" style="display:grid; grid-template-columns:1fr 1.2fr 32px; gap:10px; align-items:center;">
+          <input type="text" class="af-input comp-name" placeholder="Competitor Name" />
+          <input type="url" class="af-input comp-url" placeholder="Website URL" />
+          <button type="button" class="af-btn-remove" onclick="removeRepeaterItem(this)" title="Remove competitor">
+            <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+          </button>
+        </div>
+      `;
+      list.appendChild(item);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // Repeaters: Previous Rounds
+    function addPrevRoundItem() {
+      const list = document.getElementById('afPrevRoundsList');
+      const item = document.createElement('div');
+      item.className = 'af-repeater-item';
+      item.innerHTML = `
+        <div class="af-repeater-row" style="display:grid; grid-template-columns:140px 140px 140px 1fr 32px; gap:10px; align-items:center;">
+          <input type="text" class="af-input r-name" placeholder="Round" />
+          <input type="text" class="af-input r-amount" placeholder="Amount" />
+          <input type="text" class="af-input r-date" placeholder="Date" />
+          <input type="text" class="af-input r-investor" placeholder="Lead Investor" />
+          <button type="button" class="af-btn-remove" onclick="removeRepeaterItem(this)" title="Remove round">
+            <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+          </button>
+        </div>
+      `;
+      list.appendChild(item);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // Repeaters: Milestones
+    function addMilestoneItem() {
+      const list = document.getElementById('afMilestonesList');
+      const item = document.createElement('div');
+      item.className = 'af-repeater-item';
+      item.innerHTML = `
+        <div class="af-repeater-row" style="display:grid; grid-template-columns:1.2fr 130px 1.5fr 32px; gap:10px; align-items:center;">
+          <input type="text" class="af-input m-title" placeholder="Milestone" />
+          <input type="text" class="af-input m-date" placeholder="Target Date" />
+          <input type="text" class="af-input m-outcome" placeholder="Expected Outcome" />
+          <button type="button" class="af-btn-remove" onclick="removeRepeaterItem(this)" title="Remove milestone">
+            <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+          </button>
+        </div>
+      `;
+      list.appendChild(item);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // Repeaters: Cap Table
+    function addCapTableItem() {
+      const list = document.getElementById('afCapTableList');
+      const item = document.createElement('div');
+      item.className = 'af-repeater-item';
+      item.style.padding = '10px';
+      item.innerHTML = `
+        <div class="af-repeater-row" style="display:grid; grid-template-columns:1.2fr 120px 80px 32px; gap:8px; align-items:center;">
+          <input type="text" class="af-input cap-name" placeholder="Holder Name" oninput="updateCapTableChart()" />
+          <select class="af-select cap-type">
+            <option value="Founder">Founder</option>
+            <option value="Investor">Investor</option>
+            <option value="ESOP">ESOP</option>
+            <option value="Advisor">Advisor</option>
+          </select>
+          <input type="number" class="af-input cap-pct" placeholder="%" oninput="updateCapTableChart()" />
+          <button type="button" class="af-btn-remove" onclick="removeRepeaterItem(this); updateCapTableChart();"><i data-lucide="trash-2" style="width:13px; height:13px;"></i></button>
+        </div>
+      `;
+      list.appendChild(item);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function removeRepeaterItem(btn) {
+      const item = btn.closest('.af-repeater-item');
+      if (item) item.remove();
+    }
+
+    // ApexCharts Initialization
+    function initApexCharts() {
+      renderAllocChart();
+      updateCapTableChart();
+    }
+
+    function renderAllocChart() {
+      const prod = parseInt(document.getElementById('allocProd')?.value || 40);
+      const sales = parseInt(document.getElementById('allocSales')?.value || 30);
+      const hire = parseInt(document.getElementById('allocHire')?.value || 15);
+      const ops = parseInt(document.getElementById('allocOps')?.value || 10);
+      const res = parseInt(document.getElementById('allocReserve')?.value || 5);
+
+      const options = {
+        series: [prod, sales, hire, ops, res],
+        labels: ['Product & Tech', 'Sales & Marketing', 'Hiring', 'Operations', 'Reserve'],
+        chart: {
+          type: 'donut',
+          height: 180,
+          fontFamily: 'Outfit, sans-serif'
+        },
+        colors: ['#111827', '#4B5563', '#6B7280', '#9CA3AF', '#D1D5DB'],
+        dataLabels: { enabled: false },
+        legend: { show: false },
+        stroke: { width: 1, colors: ['#FFFFFF'] }
+      };
+
+      const chartEl = document.getElementById('allocDonutChart');
+      if (chartEl) {
+        chartEl.innerHTML = '';
+        allocChart = new ApexCharts(chartEl, options);
+        allocChart.render();
+      }
+    }
+
+    function updateAllocations() {
+      const prod = parseInt(document.getElementById('allocProd').value);
+      const sales = parseInt(document.getElementById('allocSales').value);
+      const hire = parseInt(document.getElementById('allocHire').value);
+      const ops = parseInt(document.getElementById('allocOps').value);
+      const res = parseInt(document.getElementById('allocReserve').value);
+
+      document.getElementById('allocProdVal').textContent = `${prod}%`;
+      document.getElementById('allocSalesVal').textContent = `${sales}%`;
+      document.getElementById('allocHireVal').textContent = `${hire}%`;
+      document.getElementById('allocOpsVal').textContent = `${ops}%`;
+      document.getElementById('allocReserveVal').textContent = `${res}%`;
+
+      const total = prod + sales + hire + ops + res;
+      const totalEl = document.getElementById('allocTotalVal');
+      if (totalEl) {
+        totalEl.textContent = `${total}% ${total === 100 ? '✓' : '(!)'}`;
+        totalEl.style.color = (total === 100) ? '#059669' : '#DC2626';
+      }
+
+      if (allocChart) {
+        allocChart.updateSeries([prod, sales, hire, ops, res]);
+      }
+    }
+
+    function updateCapTableChart() {
+      const rows = document.querySelectorAll('#afCapTableList .af-repeater-item');
+      const series = [];
+      const labels = [];
+
+      rows.forEach(r => {
+        const name = r.querySelector('.cap-name')?.value || 'Holder';
+        const pct = parseFloat(r.querySelector('.cap-pct')?.value || 0);
+        if (pct > 0) {
+          series.push(pct);
+          labels.push(name);
+        }
+      });
+
+      const options = {
+        series: series.length ? series : [48, 32, 10, 10],
+        labels: labels.length ? labels : ['Founder 1', 'Founder 2', 'ESOP', 'Investors'],
+        chart: {
+          type: 'donut',
+          height: 180,
+          fontFamily: 'Outfit, sans-serif'
+        },
+        colors: ['#111827', '#374151', '#6B7280', '#9CA3AF', '#D1D5DB'],
+        dataLabels: { enabled: false },
+        legend: { show: false },
+        stroke: { width: 1, colors: ['#FFFFFF'] }
+      };
+
+      const chartEl = document.getElementById('capTableDonutChart');
+      if (chartEl) {
+        chartEl.innerHTML = '';
+        capChart = new ApexCharts(chartEl, options);
+        capChart.render();
+      }
+    }
+
+    // Autofill All 14 Steps with Alpha Health Technologies Demo Data
+    function autofillFundingApp() {
+      // Step 1: Overview
+      document.getElementById('afCompName').value = 'Alpha Health Technologies';
+      document.getElementById('afCompTagline').value = 'Next-gen predictive diagnostics & clinical intelligence platform for preventative healthcare';
+      document.getElementById('afCompWebsite').value = 'https://alphahealth.io';
+      document.getElementById('afCompLinkedIn').value = 'linkedin.com/company/alpha-health';
+      document.getElementById('afSubSector').value = 'Clinical Diagnostics & Predictive AI';
+      document.getElementById('afBusinessModel').value = 'B2B Enterprise';
+      document.getElementById('afFoundedYear').value = '2023';
+      document.getElementById('afCompStructure').value = 'Delaware C-Corp';
+      document.getElementById('afHeadquarters').value = 'San Francisco, CA, USA';
+      document.getElementById('afOperatingMarkets').value = 'United States, Western Europe, Singapore';
+
+      // Step 2: Founders
+      const foundersList = document.getElementById('afFoundersList');
+      if (foundersList) {
+        foundersList.innerHTML = `
+          <div class="af-repeater-item">
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label">Full Name <span class="af-required-star">*</span></label>
+                <input type="text" class="af-input f-name" value="Dr. Sarah Jenkins" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label">Role / Designation <span class="af-required-star">*</span></label>
+                <input type="text" class="af-input f-role" value="Co-Founder & CEO" />
+              </div>
+            </div>
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label">LinkedIn Profile</label>
+                <input type="text" class="af-input f-linkedin" value="linkedin.com/in/sarahjenkins-md" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label">Email</label>
+                <input type="email" class="af-input f-email" value="sarah@alphahealth.io" />
+              </div>
+            </div>
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label">Previous Experience</label>
+                <input type="text" class="af-input f-exp" value="Ex-Lead AI Diagnostics at Stanford Medical" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label">Education</label>
+                <input type="text" class="af-input f-edu" value="Ph.D. Computational Oncology, MIT" />
+              </div>
+            </div>
+          </div>
+          <div class="af-repeater-item">
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label">Full Name <span class="af-required-star">*</span></label>
+                <input type="text" class="af-input f-name" value="Markus Vance" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label">Role / Designation <span class="af-required-star">*</span></label>
+                <input type="text" class="af-input f-role" value="Co-Founder & CTO" />
+              </div>
+            </div>
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label">LinkedIn Profile</label>
+                <input type="text" class="af-input f-linkedin" value="linkedin.com/in/markusvance" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label">Email</label>
+                <input type="email" class="af-input f-email" value="markus@alphahealth.io" />
+              </div>
+            </div>
+            <div class="af-two-col">
+              <div class="af-form-group">
+                <label class="af-label">Previous Experience</label>
+                <input type="text" class="af-input f-exp" value="Staff Infrastructure Engineer at Verily Life Sciences" />
+              </div>
+              <div class="af-form-group">
+                <label class="af-label">Education</label>
+                <input type="text" class="af-input f-edu" value="B.S. Computer Science, UC Berkeley" />
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      document.getElementById('afWhyTeam').value = 'Combined 20+ years in computational biology and clinical ML infrastructure with peer-reviewed publications and deep hospital executive relationships.';
+
+      // Step 3: Problem & Solution
+      document.getElementById('afProblemStmt').value = 'Late diagnosis of chronic cardiopulmonary disease accounts for $180B in avoidable emergency expenditures each year because legacy diagnostic tests are invasive, episodic, and lack real-time predictive capabilities.';
+      document.getElementById('afTargetCust').value = 'Hospital enterprise networks, ACOs (Accountable Care Orgs), and clinical diagnostic laboratories.';
+      document.getElementById('afAlternatives').value = 'Periodic lab blood panels, manual radiologist cross-referencing, and legacy EHR rule engines.';
+      document.getElementById('afSolution').value = 'Our continuous biometric neural pipeline processes multi-modal patient telemetry in real-time, detecting micro-anomalies 18 months earlier than standard clinical biomarkers with 94.2% sensitivity.';
+      document.getElementById('afKeyProduct').value = 'Enterprise SaaS diagnostic portal and HIPAA-compliant real-time API.';
+      document.getElementById('afWhyNow').value = 'FDA fast-track SaMD guidance and new CMS preventative reimbursement codes launched in 2025.';
+      document.getElementById('afKeyDiff').value = 'Proprietary patent-pending multimodal transformer architecture trained on 4M+ de-identified clinical telemetry records.';
+
+      // Step 4: Product & Tech
+      document.getElementById('afProdDesc').value = 'AlphaHealth operates an enterprise cloud engine integrating directly via HL7/FHIR into Epic, Cerner, and hospital data lakes.';
+      document.getElementById('afProdDemoUrl').value = 'https://app.alphahealth.io/demo';
+      document.getElementById('afDemoVideoUrl').value = 'https://loom.com/share/demo-alphahealth-2026';
+      document.getElementById('afTechIP').value = 'US Patent Application #18/921,440 — Biometric Neural Diagnostics Platform.';
+      document.getElementById('afTechDeps').value = 'AWS GovCloud, NVIDIA TensorRT, Supabase Enterprise, ClickHouse';
+
+      // Step 5: Traction & Metrics
+      document.getElementById('afTotalUsers').value = '18 Hospital Systems';
+      document.getElementById('afPayingUsers').value = '14 Enterprise Contracts';
+      document.getElementById('afMrr').value = '$71,000 / mo';
+      document.getElementById('afArr').value = '$850,000 ARR';
+      document.getElementById('afGrowthRate').value = '25% MoM';
+      document.getElementById('afGrossMargin').value = '68%';
+      document.getElementById('afChurn').value = '100% Logo Retention / 128% NRR';
+      document.getElementById('afCac').value = '$12,500';
+      document.getElementById('afLtv').value = '$195,000';
+      document.getElementById('afPayback').value = '4.2 Months';
+      document.getElementById('afMilestones').value = 'SOC2 Type II Certified, FDA Breakthrough Designation, Mayo Clinic Pilot completed.';
+      document.getElementById('afPartners').value = 'Mayo Clinic, Mount Sinai Health, Stanford Health Care, Quest Diagnostics';
+
+      // Step 6: Financials
+      document.getElementById('afCurrentRev').value = '$850,000 ARR';
+      document.getElementById('afL12mRev').value = '$620,000';
+      document.getElementById('afBurnRate').value = '$40,000 / mo';
+      document.getElementById('afCashInBank').value = '$560,000';
+      document.getElementById('afRunwayMonths').value = '14 Months';
+      document.getElementById('afEbitda').value = '-$280,000';
+      document.getElementById('afUnitEcon').value = 'Gross Margin 68%, LTV:CAC 15.6x, 4.2 Month Payback';
+
+      // Step 7: Market Opportunity
+      document.getElementById('afTargetMkt').value = 'Tier-1 & Tier-2 US Academic Medical Centers and Integrated Delivery Networks';
+      document.getElementById('afTam').value = '$48.5 Billion';
+      document.getElementById('afSam').value = '$9.2 Billion';
+      document.getElementById('afSom').value = '$650 Million';
+      document.getElementById('afMarketCagr').value = '22.8% CAGR (2024-2032)';
+      document.getElementById('afGeoOpp').value = 'US, UK NHS, Germany, Singapore';
+      document.getElementById('afKeyTrends').value = 'Shift towards value-based care and CMS penalty mandates on 30-day hospital readmissions.';
+      document.getElementById('afWhyMkt').value = 'Preventative AI diagnostics represents the single largest margin lever for hospital CFOs.';
+
+      // Step 8: Competitors
+      document.getElementById('afAltSolutions').value = 'Legacy manual radiology audits and fragmented point diagnostic algorithms';
+      document.getElementById('afYourDiff').value = 'End-to-end multi-modal ingestion rather than single-organ point solutions.';
+      document.getElementById('afMoat').value = '4M+ proprietary clinical record training dataset and deep EMR workflow embedding.';
+
+      // Step 9: Fundraising Details
+      document.getElementById('afTargetRoundSize').value = '$5,000,000';
+      document.getElementById('afAmountRaising').value = '$3,000,000';
+      document.getElementById('afPreMoneyVal').value = '$17,000,000';
+      document.getElementById('afTargetDilution').value = '15%';
+      document.getElementById('afCloseDeadline').value = 'Q3 2026';
+      document.getElementById('afExistingInvestors').value = 'Nexus Angel Syndicate ($500K Pre-Seed), YC Alumni Fund';
+      document.getElementById('afStrategicPref').value = 'Lead healthcare / B2B SaaS venture firm with provider distribution network';
+
+      // Step 10: Milestones
+      const mList = document.getElementById('afMilestonesList');
+      if (mList) {
+        mList.innerHTML = `
+          <div class="af-repeater-item">
+            <div class="af-repeater-row" style="display:grid; grid-template-columns:1.2fr 130px 1.5fr 32px; gap:10px; align-items:center;">
+              <input type="text" class="af-input m-title" value="Scale to $3.5M ARR" />
+              <input type="text" class="af-input m-date" value="Q4 2027" />
+              <input type="text" class="af-input m-outcome" value="50 Enterprise Health System Deployments" />
+              <button type="button" class="af-btn-remove" onclick="removeRepeaterItem(this)"><i data-lucide="trash-2" style="width:14px; height:14px;"></i></button>
+            </div>
+          </div>
+          <div class="af-repeater-item">
+            <div class="af-repeater-row" style="display:grid; grid-template-columns:1.2fr 130px 1.5fr 32px; gap:10px; align-items:center;">
+              <input type="text" class="af-input m-title" value="FDA 510(k) Clearance" />
+              <input type="text" class="af-input m-date" value="Q1 2027" />
+              <input type="text" class="af-input m-outcome" value="Direct Clinical Decision Support Certification" />
+              <button type="button" class="af-btn-remove" onclick="removeRepeaterItem(this)"><i data-lucide="trash-2" style="width:14px; height:14px;"></i></button>
+            </div>
+          </div>
+        `;
+      }
+
+      // Step 11: Legal & Ownership
+      document.getElementById('afLegalEntity').value = 'Alpha Health Technologies Inc.';
+      document.getElementById('afCin').value = 'DE-7891234';
+      document.getElementById('afPan').value = 'US-EIN-92-3841029';
+
+      // Step 13: Contact
+      document.getElementById('afContactName').value = 'Dr. Sarah Jenkins';
+      document.getElementById('afContactEmail').value = 'sarah@alphahealth.io';
+      document.getElementById('afContactPhone').value = '+1 (415) 890-2341';
+      document.getElementById('afMeetingLink').value = 'https://calendly.com/sarah-alphahealth/intro';
+      document.getElementById('afBestTime').value = 'Weekdays 9:00 AM - 1:00 PM PST';
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      updateAllocations();
+      updateCapTableChart();
+      updateSummaryReview();
+
+      showAfToast('Autofilled complete 14-step funding application with AlphaHealth data');
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 40,
+          spread: 60,
+          origin: { y: 0.25 }
+        });
+      }
+    }
+
+    // Step 14 Summary Updater
+    function updateSummaryReview() {
+      const name = document.getElementById('afCompName')?.value || 'Alpha Health Technologies';
+      const round = document.getElementById('afAmountRaising')?.value || '$3,000,000';
+      const arr = document.getElementById('afArr')?.value || '$850,000 ARR';
+      const growth = document.getElementById('afGrowthRate')?.value || '25% MoM';
+      const contact = document.getElementById('afContactName')?.value || 'Dr. Sarah Jenkins';
+
+      const sName = document.getElementById('revCompName');
+      const sRound = document.getElementById('revRoundAsk');
+      const sArr = document.getElementById('revArrGrowth');
+      const sContact = document.getElementById('revContact');
+
+      if (sName) sName.textContent = name;
+      if (sRound) sRound.textContent = `Seed · ${round} Ask`;
+      if (sArr) sArr.textContent = `${arr} · ${growth}`;
+      if (sContact) sContact.textContent = `${contact} (CEO)`;
+    }
+
+    // Submit Application
+    function submitFundingApplication() {
+      const acc = document.getElementById('afCheckAccuracy')?.checked;
+      const auth = document.getElementById('afCheckAuth')?.checked;
+
+      if (!acc || !auth) {
+        showAfToast('Please confirm both verification declarations');
+        return;
+      }
+
+      const compName = document.getElementById('afCompName')?.value || 'Alpha Health Technologies';
+      document.getElementById('afSubmittedCompName').textContent = compName;
+
+      const refId = `#FUND-${Math.floor(10000 + Math.random() * 90000)}`;
+      document.getElementById('afAppRef').textContent = refId;
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 140,
+          spread: 80,
+          origin: { y: 0.5 }
+        });
+      }
+
+      // Show Status Modal
+      const modal = document.getElementById('afStatusModal');
+      if (modal) {
+        modal.classList.add('show');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+
+      let seconds = 4;
+      const countdownEl = document.getElementById('afRedirectCountdown');
+      if (countdownEl) countdownEl.textContent = `Redirecting to workspace in ${seconds}s...`;
+
+      if (redirectTimer) clearInterval(redirectTimer);
+      redirectTimer = setInterval(() => {
+        seconds--;
+        if (seconds > 0) {
+          if (countdownEl) countdownEl.textContent = `Redirecting to workspace in ${seconds}s...`;
+        } else {
+          clearInterval(redirectTimer);
+          redirectToFounderWorkspace();
+        }
+      }, 1000);
+    }
+
+    function redirectToFounderWorkspace() {
+      if (redirectTimer) clearInterval(redirectTimer);
+      window.location.href = './network.html';
+    }
+
+    // User Dropdown & Profile
+    function loadUserProfile() {
+      try {
+        const stored = localStorage.getItem('seedicon_user');
+        if (stored) {
+          const user = JSON.parse(stored);
+          const nameEl = document.getElementById('pubUserNameDisplay');
+          const emailEl = document.getElementById('pubUserEmailDisplay');
+          if (nameEl && user.name) nameEl.textContent = user.name;
+          if (emailEl && user.email) emailEl.textContent = user.email;
+        }
+      } catch (err) {
+        console.warn('Profile error', err);
+      }
+    }
+
+    function toggleUserDropdown(e) {
+      e.stopPropagation();
+      const menu = document.getElementById('pubUserMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    function closeUserDropdown() {
+      const menu = document.getElementById('pubUserMenu');
+      if (menu) menu.classList.remove('show');
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('pubUserMenu');
+      const btn = document.getElementById('pubUserAvatarBtn');
+      if (menu && menu.classList.contains('show')) {
+        if (!menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
+          menu.classList.remove('show');
+        }
+      }
+    });
+
+    function handleLogout() {
+      localStorage.removeItem('seedicon_user');
+      showAfToast('Signed out of Seedicon');
+    }
+
+    // Toast
+    function showAfToast(msg) {
+      const toast = document.getElementById('afToast');
+      if (toast) {
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 3200);
+      }
+    }
+  </script>
+</body>
+</html>

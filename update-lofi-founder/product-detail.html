@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Junify — Product Details &amp; Directory | Seedicon</title>
+  <meta name="description" content="Detailed overview of Junify — multi-tenant e-commerce SaaS platform on Seedicon." />
+
+  <!-- Google Font: Outfit ONLY -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Product Detail Stylesheet -->
+  <link rel="stylesheet" href="./css/product-detail.css" />
+</head>
+
+<body>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       01. EXACT NAVIGATION HEADER (REUSED FROM INDEX.HTML & LIST-PRODUCT.HTML)
+       ────────────────────────────────────────────────────────────────────────── -->
+  <header class="pub-header">
+    <div class="pub-header-inner">
+      
+      <!-- Left: Brand Logo & Navigation Links Grouped Together -->
+      <div class="pub-header-left">
+        <a href="./index.html" class="pub-brand" title="Seedicon Home">
+          <div class="pub-brand-logo">
+            <i data-lucide="asterisk" style="width:17px; height:17px; stroke-width:2.8;"></i>
+          </div>
+          <span class="pub-brand-title">Seedicon</span>
+        </a>
+
+        <!-- Center: Nav Items List -->
+        <nav>
+          <ul class="pub-nav-center">
+            
+            <!-- 1. Capital -->
+            <li class="pub-nav-item">
+              <a href="./index.html" class="pub-nav-link" title="Seedicon Capital Solutions">
+                <span>Capital</span>
+              </a>
+            </li>
+
+            <!-- 2. Products -->
+            <li class="pub-nav-item">
+              <a href="./public-product-listing.html" class="pub-nav-link active" title="Seedicon Product Ecosystem">
+                <span>Products</span>
+                <i data-lucide="chevron-down" class="pub-nav-chevron"></i>
+              </a>
+
+              <!-- Popover Dropdown Menu -->
+              <div class="products-dropdown-menu">
+                <div class="dropdown-menu-head">
+                  <span class="dropdown-menu-label">Seedicon Products</span>
+                  <span class="dropdown-menu-count">4 Modules</span>
+                </div>
+                
+                <a href="../lofi-founder/deckwale.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="sparkles" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Deckwale</span>
+                      <span class="badge-tag-pill">PRO</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Expert pitch storytelling, visual decks &amp; venture models.</div>
+                  </div>
+                </a>
+
+                <a href="../lofi-founder/watch-data-rooms.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="folder-lock" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Watch</span>
+                      <span class="badge-tag-pill">VDR</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Secure virtual data rooms &amp; diligence audit monitoring.</div>
+                  </div>
+                </a>
+
+                <a href="../lofi-founder/founder-network.html" class="dropdown-product-row">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="users" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Allbuddy</span>
+                      <span class="badge-tag-pill">NETWORK</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Verified founder, advisor &amp; angel network directory.</div>
+                  </div>
+                </a>
+
+                <div class="dropdown-product-row coming-soon-row" title="Crusrource is currently in active private preview">
+                  <div class="dropdown-prod-icon">
+                    <i data-lucide="compass" style="width:15px; height:15px;"></i>
+                  </div>
+                  <div class="dropdown-prod-content">
+                    <div class="dropdown-prod-top">
+                      <span class="dropdown-prod-title">Crusrource</span>
+                      <span class="badge-tag-pill">SOON</span>
+                    </div>
+                    <div class="dropdown-prod-desc">Curated startup scouting, talent &amp; deal syndication.</div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- 3. Trade -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/real-market-problems.html" class="pub-nav-link" title="Secondary &amp; Asset Trading">
+                <span>Trade</span>
+              </a>
+            </li>
+
+            <!-- 4. Partner with us -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/investor-tracking.html" class="pub-nav-link" title="Syndicate &amp; Venture Partners">
+                <span>Partner with us</span>
+              </a>
+            </li>
+
+            <!-- 5. Insights -->
+            <li class="pub-nav-item">
+              <a href="../lofi-founder/startup-news.html" class="pub-nav-link" title="Venture Intelligence &amp; Market Research">
+                <span>Insights</span>
+              </a>
+            </li>
+
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Right: Search + Apply for funding + List your product + Avatar -->
+      <div class="pub-header-right">
+        
+        <div class="pub-header-search-wrap">
+          <i data-lucide="search" class="pub-header-search-icon"></i>
+          <input type="text" id="pubNavSearchInput" class="pub-header-search-input" placeholder="Search..." onkeydown="if(event.key==='Enter') window.location.href='./public-product-listing.html'" />
+        </div>
+
+        <a href="./apply-funding.html" class="pub-btn-funding" title="Apply for venture funding">
+          <i data-lucide="banknote" style="width:13.5px; height:13.5px;"></i>
+          <span>Apply for funding</span>
+        </a>
+
+        <a href="./list-product.html" class="pub-btn-list-product" title="List your product">
+          <i data-lucide="plus" style="width:14px; height:14px;"></i>
+          <span>List your product</span>
+        </a>
+
+        <!-- User Avatar Dropdown -->
+        <div class="pub-avatar-container">
+          <button type="button" class="pub-avatar-btn" id="pubUserAvatarBtn" onclick="toggleUserDropdown(event)" title="User Account">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="User Profile" class="pub-avatar-img" />
+          </button>
+
+          <!-- User Menu Dropdown -->
+          <div class="pub-user-menu" id="pubUserMenu">
+            <div class="pub-user-menu-head" onclick="window.location.href='./profile.html'" style="cursor:pointer;" title="View Gyan Sharma's profile">
+              <div class="pub-user-menu-user-row">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="User Profile" class="pub-user-menu-avatar" />
+                <div class="pub-user-menu-info">
+                  <div class="pub-user-menu-name" id="pubUserNameDisplay">Gyan Sharma</div>
+                  <div class="pub-user-email" id="pubUserEmailDisplay" style="font-size:11.5px; color:var(--pd-text-muted);">gyan.sharma@seedicon.com</div>
+                </div>
+              </div>
+
+              <!-- Profile Completion Progress Meter -->
+              <div class="pub-profile-progress-wrap" style="margin-top:10px;">
+                <div class="pub-profile-progress-label" style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:700; color:var(--pd-text-dark); margin-bottom:4px;">
+                  <span>Profile Completion</span>
+                  <span style="font-weight:800;">50%</span>
+                </div>
+                <div class="pub-profile-progress-bar" style="height:5px; background:#E5E7EB; border-radius:9999px; overflow:hidden;">
+                  <div class="pub-profile-progress-fill" style="width:50%; height:100%; background:#111827;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Menu Options: Profile, Settings, My Products, Funding requests -->
+            <a href="./profile.html" class="pub-user-menu-link">
+              <i data-lucide="user" style="width:14px; height:14px;"></i>
+              <span>Profile</span>
+            </a>
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="settings" style="width:14px; height:14px;"></i>
+              <span>Settings</span>
+            </a>
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="package" style="width:14px; height:14px;"></i>
+              <span>My products</span>
+            </a>
+            <a href="./apply-funding.html" class="pub-user-menu-link">
+              <i data-lucide="banknote" style="width:14px; height:14px;"></i>
+              <span>Funding requests</span>
+            </a>
+
+            <div style="height:1px; background:var(--pd-border-subtle); margin:4px 0;"></div>
+
+            <!-- Workspaces: Founder & Investor -->
+            <a href="./network.html" class="pub-user-menu-link">
+              <i data-lucide="layout-dashboard" style="width:14px; height:14px;"></i>
+              <span>Founder Workspace</span>
+            </a>
+            <a href="../lofi-investor/index.html" class="pub-user-menu-link">
+              <i data-lucide="trending-up" style="width:14px; height:14px;"></i>
+              <span>Investor Workspace</span>
+            </a>
+
+            <div style="height:1px; background:var(--pd-border-subtle); margin:4px 0;"></div>
+
+            <a href="./index.html" class="pub-user-menu-link" style="color:#DC2626;" onclick="handleLogout()">
+              <i data-lucide="log-out" style="width:14px; height:14px;"></i>
+              <span>Sign out</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       02. 3-COLUMN PRODUCT DETAIL LAYOUT
+       ────────────────────────────────────────────────────────────────────────── -->
+  <main class="pd-detail-container">
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         LEFT COLUMN: TABLE OF CONTENTS (STRICTLY FROM LIST-PRODUCT.HTML STEPS)
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <aside class="pd-toc-sidebar">
+
+      <!-- Group 1: PRODUCT OVERVIEW -->
+      <div class="pd-toc-group">
+        <div class="pd-toc-heading">PRODUCT OVERVIEW</div>
+        <ul class="pd-toc-list">
+          <li class="pd-toc-item active"><a href="#sec-description">1. Description</a></li>
+          <li class="pd-toc-item"><a href="#sec-details">2. Product Details</a></li>
+          <li class="pd-toc-item"><a href="#sec-media">3. Product Media</a></li>
+        </ul>
+      </div>
+
+      <!-- Group 2: TECH & ECOSYSTEM -->
+      <div class="pd-toc-group">
+        <div class="pd-toc-heading">TECH &amp; ECOSYSTEM</div>
+        <ul class="pd-toc-list">
+          <li class="pd-toc-item"><a href="#sec-integrations">4. Integrations &amp; Stack</a></li>
+          <li class="pd-toc-item"><a href="#sec-category">5. Category &amp; Stage</a></li>
+        </ul>
+      </div>
+
+      <!-- Group 3: BUSINESS & VALUATION -->
+      <div class="pd-toc-group">
+        <div class="pd-toc-heading">BUSINESS &amp; VALUATION</div>
+        <ul class="pd-toc-list">
+          <li class="pd-toc-item"><a href="#sec-pricing">6. Pricing &amp; Competitors</a></li>
+          <li class="pd-toc-item"><a href="#sec-links">7. Important Links</a></li>
+          <li class="pd-toc-item"><a href="#sec-discussion">8. Community Discussion</a></li>
+        </ul>
+      </div>
+
+    </aside>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         CENTER COLUMN: MAIN PRODUCT DETAIL CANVAS
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <section class="pd-main-content">
+
+      <!-- ────────────────────────────────────────────────────────────────────────
+           STEP 1: PRODUCT HEADER (WITH REPORT, COMMENT & UPVOTE ACTIONS)
+           ──────────────────────────────────────────────────────────────────────── -->
+      <div class="pd-detail-header" id="sec-description">
+        
+        <div class="pd-header-top-row">
+          
+          <!-- Product Name & Posted Date -->
+          <div class="pd-title-block">
+            <div class="pd-title-row">
+              <h1 class="pd-product-h1">Junify</h1>
+              <span class="pd-posted-date">Posted on August 27, 2026</span>
+            </div>
+            <p class="pd-product-summary-text">Multi-tenant e-commerce SaaS platform for launching scalable online stores with automated Stripe checkout.</p>
+          </div>
+
+          <!-- Header Action Bar: Report, Comment, Upvote -->
+          <div class="pd-header-actions">
+            
+            <!-- 1. Report Action -->
+            <button type="button" class="pd-header-action-btn" onclick="handleReportProduct()" title="Report product">
+              <i data-lucide="flag" style="width:13px; height:13px;"></i>
+              <span>Report</span>
+            </button>
+
+            <!-- 2. Comment Action -->
+            <button type="button" class="pd-header-action-btn" onclick="scrollToComments()" title="View discussion">
+              <i data-lucide="message-square" style="width:13px; height:13px;"></i>
+              <span id="pdCommentCountLabel">2 Comments</span>
+            </button>
+
+            <!-- 3. Upvote Action -->
+            <button type="button" class="pd-header-action-btn upvoted" id="pdHeaderUpvoteBtn" onclick="toggleHeaderUpvote(this, 48)" title="Upvote product">
+              <i data-lucide="triangle" style="width:12px; height:12px;"></i>
+              <span id="pdHeaderUpvoteCount">48 Upvotes</span>
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- Product Category & Tag Badges -->
+        <div class="pd-tags-group">
+          <span class="pd-category-pill">SaaS</span>
+          <span class="pd-category-pill">E-Commerce</span>
+          <span class="pd-category-pill">Online Shopping</span>
+          <span class="pd-category-pill">B2B</span>
+          <span class="pd-category-pill">Marketplaces</span>
+        </div>
+
+      </div>
+
+      <!-- ────────────────────────────────────────────────────────────────────────
+           STEP 3: PRODUCT MEDIA GALLERY (7 THUMBNAILS)
+           ──────────────────────────────────────────────────────────────────────── -->
+      <div class="pd-gallery-card" id="sec-media">
+        
+        <!-- Large Main Feature Preview Container -->
+        <div class="pd-main-preview-wrap">
+          <img src="./assets/slide_1.png" alt="Junify Main Preview" id="pdMainGalleryImg" class="pd-main-preview-img" />
+        </div>
+
+        <!-- 7 Thumbnail Buttons Strip (From assets) -->
+        <div class="pd-thumb-strip" id="pdThumbStrip">
+          <button type="button" class="pd-thumb-btn active" onclick="switchGallerySlide('./assets/slide_1.png', this)" title="Storefront 3D">
+            <img src="./assets/slide_1.png" alt="Slide 1" />
+          </button>
+          <button type="button" class="pd-thumb-btn" onclick="switchGallerySlide('./assets/slide_2.png', this)" title="Analytics Dashboard">
+            <img src="./assets/slide_2.png" alt="Slide 2" />
+          </button>
+          <button type="button" class="pd-thumb-btn" onclick="switchGallerySlide('./assets/slide_3.png', this)" title="Checkout Experience">
+            <img src="./assets/slide_3.png" alt="Slide 3" />
+          </button>
+          <button type="button" class="pd-thumb-btn" onclick="switchGallerySlide('./assets/slide_4.png', this)" title="Order Flow">
+            <img src="./assets/slide_4.png" alt="Slide 4" />
+          </button>
+          <button type="button" class="pd-thumb-btn" onclick="switchGallerySlide('./assets/slide_5.png', this)" title="Settings & Domain">
+            <img src="./assets/slide_5.png" alt="Slide 5" />
+          </button>
+          <button type="button" class="pd-thumb-btn" onclick="switchGallerySlide('./assets/0322cf6d-49b5-4eb7-9272-ab06fd21583c.avif', this)" title="Revenue Metrics">
+            <img src="./assets/0322cf6d-49b5-4eb7-9272-ab06fd21583c.avif" alt="Slide 6" />
+          </button>
+          <button type="button" class="pd-thumb-btn" onclick="switchGallerySlide('./assets/45707f08-f4f9-4a47-9220-ee29360ac6dc.avif', this)" title="Mobile App UI">
+            <img src="./assets/45707f08-f4f9-4a47-9220-ee29360ac6dc.avif" alt="Slide 7" />
+          </button>
+        </div>
+
+      </div>
+
+      <!-- ────────────────────────────────────────────────────────────────────────
+           STEP 1 (CONTINUED): DETAILED DESCRIPTION
+           ──────────────────────────────────────────────────────────────────────── -->
+      <div class="pd-section-card">
+        <h2 class="pd-sec-title">
+          <i data-lucide="file-text" style="width:16px; height:16px;"></i>
+          <span>Detailed Description</span>
+        </h2>
+        <p class="pd-prose-p">
+          Junify is an enterprise-grade multi-tenant e-commerce platform built for high-growth merchants and digital creators. It enables users to deploy custom-branded digital storefronts with sub-second page loads, automated Stripe Connect checkout flows, real-time inventory management, and multi-currency billing.
+        </p>
+        <p class="pd-prose-p">
+          Engineered with an API-first serverless architecture, Junify scales horizontally to manage peak traffic surges during flash sales and product drops with 99.98% historical uptime.
+        </p>
+      </div>
+
+      <!-- ────────────────────────────────────────────────────────────────────────
+           STEP 2: PRODUCT DETAILS & KEY FEATURES
+           ──────────────────────────────────────────────────────────────────────── -->
+      <div class="pd-section-card" id="sec-details">
+        <h2 class="pd-sec-title">
+          <i data-lucide="check-circle-2" style="width:16px; height:16px;"></i>
+          <span>Key Features &amp; Specifications</span>
+        </h2>
+        
+        <ul class="pd-features-list">
+          <li class="pd-feature-item">
+            <i data-lucide="check" class="pd-feature-icon" style="width:15px; height:15px;"></i>
+            <span><strong>Multi-Tenant Architecture:</strong> Instant isolation of client databases and custom domain routing per merchant store.</span>
+          </li>
+          <li class="pd-feature-item">
+            <i data-lucide="check" class="pd-feature-icon" style="width:15px; height:15px;"></i>
+            <span><strong>Automated Stripe Billing:</strong> Integrated subscriptions, one-time checkout, and automated sales tax calculation via Stripe Tax.</span>
+          </li>
+          <li class="pd-feature-item">
+            <i data-lucide="check" class="pd-feature-icon" style="width:15px; height:15px;"></i>
+            <span><strong>Real-Time Analytics &amp; Webhooks:</strong> Event-driven webhooks for order fulfillment, inventory sync, and client CRM tracking.</span>
+          </li>
+          <li class="pd-feature-item">
+            <i data-lucide="check" class="pd-feature-icon" style="width:15px; height:15px;"></i>
+            <span><strong>White-Label Customization:</strong> Full theme engine allowing complete CSS, typography, and layout customization.</span>
+          </li>
+        </ul>
+
+        <div style="margin-top:10px; padding-top:12px; border-top:1px solid var(--pd-border-subtle); display:flex; flex-direction:column; gap:6px;">
+          <div style="font-size:12.5px; color:var(--pd-text-muted);">
+            <strong style="color:var(--pd-text-dark);">Official Website:</strong> <a href="https://junify.io" target="_blank" style="text-decoration:underline;">https://junify.io ↗</a>
+          </div>
+          <div style="font-size:12.5px; color:var(--pd-text-muted);">
+            <strong style="color:var(--pd-text-dark);">Company Address:</strong> 548 Market St, Suite 300, San Francisco, CA 94104
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────────────────────────────────────────────
+           STEP 4: PRODUCT INTEGRATIONS & TECH STACK
+           ──────────────────────────────────────────────────────────────────────── -->
+      <div class="pd-section-card" id="sec-integrations">
+        <h2 class="pd-sec-title">
+          <i data-lucide="cpu" style="width:16px; height:16px;"></i>
+          <span>Product Integrations &amp; Tech Stack</span>
+        </h2>
+        <div class="pd-tech-badges-wrap">
+          <div class="pd-tech-badge"><i data-lucide="code" style="width:13px; height:13px;"></i> Next.js 14 (App Router)</div>
+          <div class="pd-tech-badge"><i data-lucide="server" style="width:13px; height:13px;"></i> Node.js &amp; TypeScript</div>
+          <div class="pd-tech-badge"><i data-lucide="database" style="width:13px; height:13px;"></i> PostgreSQL (Supabase)</div>
+          <div class="pd-tech-badge"><i data-lucide="credit-card" style="width:13px; height:13px;"></i> Stripe Connect</div>
+          <div class="pd-tech-badge"><i data-lucide="cloud" style="width:13px; height:13px;"></i> Vercel Edge Runtime</div>
+          <div class="pd-tech-badge"><i data-lucide="shield-check" style="width:13px; height:13px;"></i> Cloudflare SSL / DNS</div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────────────────────────────────────────────
+           STEPS 5 & 6: CATEGORY, TARGET MARKET & STAGE
+           ──────────────────────────────────────────────────────────────────────── -->
+      <div class="pd-section-card" id="sec-category">
+        <h2 class="pd-sec-title">
+          <i data-lucide="target" style="width:16px; height:16px;"></i>
+          <span>Target Market &amp; Development Stage</span>
+        </h2>
+
+        <div class="pd-key-val-grid">
+          <div class="pd-key-val-box">
+            <span class="pd-key-label">Target Audience</span>
+            <span class="pd-key-val">B2B SMBs &amp; Direct-to-Consumer Brands</span>
+          </div>
+          <div class="pd-key-val-box">
+            <span class="pd-key-label">Development Stage</span>
+            <span class="pd-key-val">Live / Scaling (1,420 active stores)</span>
+          </div>
+          <div class="pd-key-val-box">
+            <span class="pd-key-label">Primary Category</span>
+            <span class="pd-key-val">E-Commerce SaaS &amp; Marketplaces</span>
+          </div>
+          <div class="pd-key-val-box">
+            <span class="pd-key-label">Launch Date</span>
+            <span class="pd-key-val">August 27, 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────────────────────────────────────────────
+           STEP 7: PRICING, ASKING VALUATION & COMPETITORS
+           ──────────────────────────────────────────────────────────────────────── -->
+      <div class="pd-section-card" id="sec-pricing">
+        <h2 class="pd-sec-title">
+          <i data-lucide="tag" style="width:16px; height:16px;"></i>
+          <span>Pricing Model &amp; Valuation</span>
+        </h2>
+
+        <div class="pd-key-val-grid">
+          <div class="pd-key-val-box">
+            <span class="pd-key-label">Pricing Model</span>
+            <span class="pd-key-val">Monthly Subscription ($29 - $199 / mo)</span>
+          </div>
+          <div class="pd-key-val-box">
+            <span class="pd-key-label">Asking Price / Valuation</span>
+            <span class="pd-key-val">$7,000 USD (Negotiable)</span>
+          </div>
+          <div class="pd-key-val-box">
+            <span class="pd-key-label">Annual Recurring Revenue (ARR)</span>
+            <span class="pd-key-val">$48,200 ARR (+28% MoM)</span>
+          </div>
+          <div class="pd-key-val-box">
+            <span class="pd-key-label">Gross Margin</span>
+            <span class="pd-key-val">84% Gross Profit Margin</span>
+          </div>
+        </div>
+
+        <div style="margin-top:4px;">
+          <strong style="font-size:12.5px; color:var(--pd-text-dark);">Key Competitors &amp; Competitive Moat:</strong>
+          <p class="pd-prose-p" style="margin-top:2px;">
+            Differentiates from Shopify Plus and Medusa.js with instant multi-tenant storefront provisioning, native Stripe Connect payouts, and 75% lower monthly infrastructure overhead.
+          </p>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────────────────────────────────────────────
+           STEP 8: IMPORTANT LINKS
+           ──────────────────────────────────────────────────────────────────────── -->
+      <div class="pd-section-card" id="sec-links">
+        <h2 class="pd-sec-title">
+          <i data-lucide="link" style="width:16px; height:16px;"></i>
+          <span>Important Links</span>
+        </h2>
+
+        <div class="pd-links-list">
+          <a href="https://junify.io" target="_blank" class="pd-link-row">
+            <span>Live Web Application &amp; Demo</span>
+            <i data-lucide="external-link" style="width:14px; height:14px;"></i>
+          </a>
+          <a href="https://docs.junify.io" target="_blank" class="pd-link-row">
+            <span>Developer Documentation &amp; API Reference</span>
+            <i data-lucide="external-link" style="width:14px; height:14px;"></i>
+          </a>
+          <a href="https://github.com/junify-core" target="_blank" class="pd-link-row">
+            <span>GitHub Repository (Verified Clean Codebase)</span>
+            <i data-lucide="external-link" style="width:14px; height:14px;"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────────────────────────────────────────────
+           STEP 9: COMMUNITY DISCUSSION & REVIEWS
+           ──────────────────────────────────────────────────────────────────────── -->
+      <div class="pd-section-card" id="sec-discussion">
+        <h2 class="pd-sec-title">
+          <i data-lucide="message-circle" style="width:16px; height:16px;"></i>
+          <span>Community Discussion (2)</span>
+        </h2>
+
+        <div class="pd-comments-wrap">
+          
+          <div class="pd-comment-item">
+            <div class="pd-comment-avatar">M</div>
+            <div class="pd-comment-body">
+              <div class="pd-comment-user">Mahmoud S. · Founder</div>
+              <div class="pd-comment-text">Super clean architecture! How easy is it to migrate 50 existing Shopify stores into Junify's multi-tenant backend?</div>
+            </div>
+          </div>
+
+          <div class="pd-comment-item">
+            <div class="pd-comment-avatar" style="background:#1D4ED8;">J</div>
+            <div class="pd-comment-body">
+              <div class="pd-comment-user">Juny · Product Owner</div>
+              <div class="pd-comment-text">Thanks Mahmoud! We built a one-click CSV &amp; API store importer that transfers all products, collections, and customers in under 2 minutes.</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Post Comment Box -->
+        <div style="display:flex; gap:8px; margin-top:6px;">
+          <input type="text" id="pdNewCommentInput" class="pd-header-search-input" style="width:100%; border-radius:var(--pd-radius-sm); height:36px;" placeholder="Write a comment or question for the founder..." />
+          <button type="button" class="pub-btn-list-product" onclick="postComment()" style="border-radius:var(--pd-radius-sm); height:36px; padding:0 16px;">Send</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         RIGHT COLUMN: PRODUCT SNAPSHOT & SOCIALS (NO VALUATION BOX)
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <aside class="pd-action-sidebar">
+
+      <!-- 1. Product Snapshot Card -->
+      <div class="pd-side-card">
+        <div class="pd-side-title">Product Snapshot</div>
+        
+        <div class="pd-side-info-list">
+          <div class="pd-side-info-row">
+            <span class="pd-side-info-label">Product Name</span>
+            <span class="pd-side-info-val">Junify</span>
+          </div>
+          <div class="pd-side-info-row">
+            <span class="pd-side-info-label">Price / Valuation</span>
+            <span class="pd-side-info-val">$7,000 USD</span>
+          </div>
+          <div class="pd-side-info-row">
+            <span class="pd-side-info-label">Stage</span>
+            <span class="pd-side-info-val">Live / Scaled</span>
+          </div>
+          <div class="pd-side-info-row">
+            <span class="pd-side-info-label">Annual Revenue</span>
+            <span class="pd-side-info-val">$48.2K ARR</span>
+          </div>
+          <div class="pd-side-info-row">
+            <span class="pd-side-info-label">Active Stores</span>
+            <span class="pd-side-info-val">1,420 Stores</span>
+          </div>
+          <div class="pd-side-info-row">
+            <span class="pd-side-info-label">Seller Verified</span>
+            <span class="pd-side-info-val" style="display:flex; align-items:center; gap:3px;">
+              <span>Juny</span>
+              <i data-lucide="badge-check" style="width:14px; height:14px; color:#2563EB;"></i>
+            </span>
+          </div>
+        </div>
+
+        <button type="button" class="pd-side-contact-btn" onclick="handleContactFounder()">
+          <i data-lucide="mail" style="width:14px; height:14px;"></i>
+          <span>Contact Founder</span>
+        </button>
+      </div>
+
+      <!-- 2. Social Handles (From Step 2) -->
+      <div class="pd-side-card">
+        <div class="pd-side-title">Product Socials</div>
+        
+        <div class="pd-social-handles-list">
+          <a href="https://twitter.com/junify_app" target="_blank" class="pd-social-handle-item">
+            <span>𝕏 Twitter</span>
+            <span style="color:var(--pd-text-muted);">@junify_app ↗</span>
+          </a>
+          <a href="https://linkedin.com/company/junify-hq" target="_blank" class="pd-social-handle-item">
+            <span>LinkedIn</span>
+            <span style="color:var(--pd-text-muted);">junify-hq ↗</span>
+          </a>
+          <a href="https://github.com/junify-core" target="_blank" class="pd-social-handle-item">
+            <span>GitHub</span>
+            <span style="color:var(--pd-text-muted);">junify-core ↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 3. Share with Friends -->
+      <div class="pd-social-share-wrap">
+        <span class="pd-share-heading">Share this product</span>
+        <div class="pd-social-icons-row">
+          <button type="button" class="pd-social-btn" onclick="shareSocial('twitter')" title="Share on X">𝕏</button>
+          <button type="button" class="pd-social-btn" onclick="shareSocial('facebook')" title="Share on Facebook">f</button>
+          <button type="button" class="pd-social-btn" onclick="shareSocial('linkedin')" title="Share on LinkedIn">in</button>
+          <button type="button" class="pd-social-btn" onclick="shareSocial('reddit')" title="Share on Reddit">r/</button>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- Toast Notification Alert -->
+  <div class="toast-alert" id="pdToast"></div>
+
+  <!-- ──────────────────────────────────────────────────────────────────────────
+       03. JAVASCRIPT LOGIC
+       ────────────────────────────────────────────────────────────────────────── -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      initScrollSpy();
+      loadUserProfile();
+    });
+
+    // Gallery Slide Switcher
+    function switchGallerySlide(imgSrc, btnEl) {
+      const mainImg = document.getElementById('pdMainGalleryImg');
+      if (mainImg) {
+        mainImg.style.opacity = '0.3';
+        setTimeout(() => {
+          mainImg.src = imgSrc;
+          mainImg.style.opacity = '1';
+        }, 120);
+      }
+
+      const allThumbs = document.querySelectorAll('.pd-thumb-btn');
+      allThumbs.forEach(t => t.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+    }
+
+    // Toggle Header Upvote
+    function toggleHeaderUpvote(btn, baseCount) {
+      const isUpvoted = btn.classList.toggle('upvoted');
+      const countEl = document.getElementById('pdHeaderUpvoteCount');
+      if (isUpvoted) {
+        if (countEl) countEl.textContent = `${baseCount + 1} Upvotes`;
+        showToast('Upvoted Junify!');
+      } else {
+        if (countEl) countEl.textContent = `${baseCount} Upvotes`;
+        showToast('Upvote removed');
+      }
+    }
+
+    // Report Product Handler
+    function handleReportProduct() {
+      const reason = prompt('Please specify the reason for reporting this product (e.g. Inaccurate information, copyright, spam):');
+      if (reason) {
+        showToast('Report submitted for moderator review');
+      }
+    }
+
+    // Scroll To Comments
+    function scrollToComments() {
+      const el = document.getElementById('sec-discussion');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        const input = document.getElementById('pdNewCommentInput');
+        if (input) input.focus();
+      }
+    }
+
+    // Post Comment
+    function postComment() {
+      const input = document.getElementById('pdNewCommentInput');
+      if (!input || !input.value.trim()) {
+        showToast('Please enter a comment');
+        return;
+      }
+      showToast('Comment posted!');
+      input.value = '';
+    }
+
+    // Contact Founder
+    function handleContactFounder() {
+      showToast('Opening inquiry channel with Juny...');
+      setTimeout(() => {
+        alert('Your message has been dispatched to Juny. You will receive replies directly at your registered founder email.');
+      }, 400);
+    }
+
+    // Social Sharing
+    function shareSocial(network) {
+      const url = encodeURIComponent(window.location.href);
+      const title = encodeURIComponent('Check out Junify on Seedicon');
+      let shareUrl = '';
+
+      if (network === 'twitter') shareUrl = `https://twitter.com/intent/tweet?text=${title}&url=${url}`;
+      if (network === 'facebook') shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+      if (network === 'linkedin') shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+      if (network === 'reddit') shareUrl = `https://reddit.com/submit?url=${url}&title=${title}`;
+
+      if (shareUrl) {
+        window.open(shareUrl, '_blank', 'width=600,height=400');
+      }
+    }
+
+    // Scroll Spy for TOC Navigation
+    function initScrollSpy() {
+      const navLinks = document.querySelectorAll('.pd-toc-item a');
+      
+      window.addEventListener('scroll', () => {
+        let currentSection = '';
+        const scrollPosition = window.scrollY + 130;
+
+        navLinks.forEach(link => {
+          const targetId = link.getAttribute('href');
+          if (targetId && targetId.startsWith('#')) {
+            const sec = document.querySelector(targetId);
+            if (sec && sec.offsetTop <= scrollPosition) {
+              currentSection = targetId;
+            }
+          }
+        });
+
+        if (currentSection) {
+          navLinks.forEach(link => {
+            const parentItem = link.parentElement;
+            if (link.getAttribute('href') === currentSection) {
+              parentItem.classList.add('active');
+            } else {
+              parentItem.classList.remove('active');
+            }
+          });
+        }
+      });
+    }
+
+    // User Dropdown & Profile
+    function loadUserProfile() {
+      try {
+        const stored = localStorage.getItem('seedicon_user');
+        if (stored) {
+          const user = JSON.parse(stored);
+          const nameEl = document.getElementById('pubUserNameDisplay');
+          const emailEl = document.getElementById('pubUserEmailDisplay');
+          if (nameEl && user.name) nameEl.textContent = user.name;
+          if (emailEl && user.email) emailEl.textContent = user.email;
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
+    function toggleUserDropdown(e) {
+      e.stopPropagation();
+      const menu = document.getElementById('pubUserMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('pubUserMenu');
+      const btn = document.getElementById('pubUserAvatarBtn');
+      if (menu && menu.classList.contains('show')) {
+        if (!menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
+          menu.classList.remove('show');
+        }
+      }
+    });
+
+    function handleLogout() {
+      localStorage.removeItem('seedicon_user');
+      showToast('Signed out of Seedicon');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('pdToast');
+      if (toast) {
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 3000);
+      }
+    }
+  </script>
+</body>
+</html>
