@@ -1,82 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seedicon — Network</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./css/styles.css">
-<!-- Lucide Icons CDN -->
-<script src="https://unpkg.com/lucide@latest"></script>
-<style>
-  .network-container {
-    max-width: 860px;
-    margin: 0 auto;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Founder &amp; Investor Network — Seedicon</title>
+  <meta name="description" content="Connect with verified founders and explore institutional venture partners on Seedicon." />
 
-  .network-hero-row {
-    margin-bottom: 20px;
-  }
+  <!-- Google Font: Outfit ONLY -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-  .network-hero-titles h1 {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--text-dark);
-    letter-spacing: -0.02em;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+  <!-- Core & Network Stylesheets -->
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="stylesheet" href="./css/network.css" />
+  <link rel="stylesheet" href="./css/messages.css" />
 
-  .network-hero-titles p {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 3px;
-  }
-
-  .network-empty-card {
-    background: #FFFFFF;
-    border: 1px solid var(--border-main);
-    border-radius: 8px;
-    padding: 64px 24px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-  }
-
-  .empty-icon-wrap {
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
-    background: var(--bg-muted);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-dark);
-    margin-bottom: 14px;
-  }
-
-  .empty-title {
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--text-dark);
-    margin-bottom: 5px;
-    letter-spacing: -0.01em;
-  }
-
-  .empty-desc {
-    font-size: 12px;
-    color: var(--text-muted);
-    max-width: 400px;
-    line-height: 1.5;
-    margin-bottom: 18px;
-  }
-</style>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
@@ -84,94 +25,855 @@
 <div class="app-viewport">
   <div class="app-frame">
 
-    <!-- 01. Sidebar Slot -->
+    <!-- 01. Standardized Reusable Sidebar Slot (components.js) -->
     <div id="sidebarSlot"></div>
 
-    <!-- 02. Main Workspace Canvas -->
+    <!-- 02. Main Workspace Canvas (Centered LinkedIn-Style Network Feed) -->
     <main class="founder-workspace-canvas">
       
-      <!-- Top Navigation Header Bar -->
+      <!-- Top Navigation Header Bar (components.js) -->
       <div id="topNavSlot"></div>
 
-      <!-- Scrollable Body -->
+      <!-- Scrollable Workspace Body -->
       <div class="workspace-scroll-body">
-        <div class="network-container">
+        
+        <div class="network-feed-canvas">
           
-          <!-- Header Row -->
-          <div class="network-hero-row">
-            <div class="network-hero-titles">
-              <h1>
-                <span>Network</span>
-                <span class="badge-pill neutral" style="font-size:9px; padding:1px 5px;">0 Contacts</span>
+          <!-- 01. Directory Hero Header with Integrated Search & Filter in Subtitle Row -->
+          <div class="network-header-block">
+            <div class="network-header-top-row">
+              <h1 class="network-header-title">
+                <span>Founder &amp; Investor Network</span>
+                <span class="network-count-pill" id="netCountDisplay">12 Members</span>
               </h1>
-              <p>Connect with verified founders, advisors, and early-stage capital partners.</p>
+            </div>
+
+            <div class="network-header-sub-row">
+              <p class="network-header-desc">
+                Connect with verified startup founders, advisors, and explore accredited institutional venture partners.
+              </p>
+
+              <!-- Inline Compact Search & Filter Controls in the Same Row -->
+              <div class="network-inline-controls">
+                <div class="network-compact-search">
+                  <i data-lucide="search" class="network-compact-search-icon"></i>
+                  <input type="text" id="netSearchInput" class="network-compact-search-input" placeholder="Search members..." oninput="handleSearch(this.value)" />
+                </div>
+
+                <button type="button" class="network-compact-filter-btn" onclick="openFilterDrawer()" title="Filter Network">
+                  <i data-lucide="sliders-horizontal" style="width:13px; height:13px;"></i>
+                  <span>Filter</span>
+                  <span class="network-filter-badge" id="activeFilterBadge" style="display:none;">0</span>
+                </button>
+              </div>
             </div>
           </div>
 
-          <!-- Empty State -->
-          <div class="network-empty-card">
-            <div class="empty-icon-wrap">
-              <i data-lucide="users" style="width:22px; height:22px;"></i>
-            </div>
-            <h3 class="empty-title">No contacts in your network yet</h3>
-            <p class="empty-desc">
-              Grow your venture network by inviting co-founders, team members, advisors, and prospective capital partners.
-            </p>
-            <button class="btn btn-primary" onclick="openInviteModal()">
-              <i data-lucide="user-plus" style="width:13px; height:13px;"></i>
-              <span>Invite Contact</span>
-            </button>
+          <!-- 03. Network Contact Stream (Flat Surface Rows) -->
+          <div class="network-stream" id="networkCardsContainer">
+            <!-- Dynamically populated via JavaScript -->
           </div>
 
         </div>
-      </div>
 
+      </div>
     </main>
+
   </div>
 </div>
 
-<script src="./js/components.js"></script>
-<script>
-  function openInviteModal() {
-    window.openModal('Invite Contact to Network', `
-      <div style="display:flex; flex-direction:column; gap:12px;">
-        <p style="font-size:11.5px; color:var(--text-muted); margin:0;">
-          Invite a founder, advisor, or investor to collaborate and exchange updates with your startup.
-        </p>
-        <div>
-          <label style="display:block; font-size:11px; font-weight:700; color:var(--text-dark); margin-bottom:4px;">Email Address</label>
-          <input type="email" id="inviteEmailInput" placeholder="founder@venture.com" style="width:100%; padding:8px 10px; border:1px solid var(--border-main); border-radius:6px; font-family:inherit; font-size:12px; outline:none;" />
-        </div>
-        <div>
-          <label style="display:block; font-size:11px; font-weight:700; color:var(--text-dark); margin-bottom:4px;">Contact Type</label>
-          <select style="width:100%; padding:8px 10px; border:1px solid var(--border-main); border-radius:6px; font-family:inherit; font-size:12px; outline:none;">
-            <option>Co-Founder</option>
-            <option>Advisor / Mentor</option>
-            <option>Investor / Angel</option>
-            <option>Team Member</option>
-          </select>
-        </div>
-        <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:6px;">
-          <button class="btn btn-secondary" onclick="window.closeModal()">Cancel</button>
-          <button class="btn btn-primary" onclick="sendInvite()">Send Invitation</button>
+<!-- ──────────────────────────────────────────────────────────────────────────
+     04. RIGHT FILTER DRAWER COMPONENT
+     ────────────────────────────────────────────────────────────────────────── -->
+<div class="net-filter-drawer-overlay" id="netFilterDrawerOverlay" onclick="handleFilterBackdropClick(event)">
+  <div class="net-filter-drawer-panel" onclick="event.stopPropagation()">
+    
+    <div class="net-drawer-head">
+      <h2 class="net-drawer-title">Filter Network</h2>
+      <button type="button" class="pad-btn-close" onclick="closeFilterDrawer()" title="Close filters">
+        <i data-lucide="x" style="width:16px; height:16px;"></i>
+      </button>
+    </div>
+
+    <div class="net-drawer-body">
+      
+      <!-- 1. Member Role Filter (Rounded Corner Buttons) -->
+      <div class="net-filter-group">
+        <label class="net-filter-label">Role</label>
+        <div class="net-filter-chips">
+          <button type="button" class="net-chip-btn active" onclick="toggleChip(this, 'role', 'all')">All Roles</button>
+          <button type="button" class="net-chip-btn" onclick="toggleChip(this, 'role', 'founder')">Founders Only</button>
+          <button type="button" class="net-chip-btn" onclick="toggleChip(this, 'role', 'investor')">Institutional Investors</button>
         </div>
       </div>
-    `);
+
+      <!-- 2. Sector & Industry Filter (Dropdown with Checkboxes + External Rounded Chips) -->
+      <div class="net-filter-group">
+        <label class="net-filter-label">Sector / Industry</label>
+        
+        <div class="net-dropdown-wrap" id="sectorDropdownWrap">
+          <button type="button" class="net-dropdown-trigger" id="sectorDropdownTrigger" onclick="toggleSectorDropdown(event)">
+            <span id="sectorDropdownLabel">Select Sectors / Industries</span>
+            <i data-lucide="chevron-down" id="sectorDropdownChevron" style="width:14px; height:14px; transition:transform 0.15s ease;"></i>
+          </button>
+
+          <div class="net-dropdown-menu" id="sectorDropdownMenu" onclick="event.stopPropagation()">
+            <div class="net-dropdown-search-wrap">
+              <input type="text" id="sectorSearchInput" placeholder="Filter sectors..." oninput="filterSectorOptions(this.value)" class="net-dropdown-search-input" />
+            </div>
+            
+            <div class="net-dropdown-list" id="sectorDropdownList">
+              <label class="net-dropdown-item">
+                <input type="checkbox" value="AI / ML" onchange="handleSectorCheckboxChange(this)" />
+                <span>AI / ML</span>
+              </label>
+              <label class="net-dropdown-item">
+                <input type="checkbox" value="B2B SaaS" onchange="handleSectorCheckboxChange(this)" />
+                <span>B2B SaaS</span>
+              </label>
+              <label class="net-dropdown-item">
+                <input type="checkbox" value="Fintech" onchange="handleSectorCheckboxChange(this)" />
+                <span>Fintech</span>
+              </label>
+              <label class="net-dropdown-item">
+                <input type="checkbox" value="DevTools" onchange="handleSectorCheckboxChange(this)" />
+                <span>DevTools</span>
+              </label>
+              <label class="net-dropdown-item">
+                <input type="checkbox" value="Security" onchange="handleSectorCheckboxChange(this)" />
+                <span>Security</span>
+              </label>
+              <label class="net-dropdown-item">
+                <input type="checkbox" value="Enterprise SaaS" onchange="handleSectorCheckboxChange(this)" />
+                <span>Enterprise SaaS</span>
+              </label>
+              <label class="net-dropdown-item">
+                <input type="checkbox" value="E-commerce" onchange="handleSectorCheckboxChange(this)" />
+                <span>E-commerce</span>
+              </label>
+              <label class="net-dropdown-item">
+                <input type="checkbox" value="Infrastructure" onchange="handleSectorCheckboxChange(this)" />
+                <span>Infrastructure</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Outside Selected Sector Rounded Chips with Remove Icon -->
+        <div class="net-selected-tags-wrap" id="selectedSectorsChips"></div>
+      </div>
+
+      <!-- 3. Funding Stage Filter (Rounded Corner Buttons) -->
+      <div class="net-filter-group">
+        <label class="net-filter-label">Funding Stage</label>
+        <div class="net-filter-chips">
+          <button type="button" class="net-chip-btn active" onclick="toggleChip(this, 'stage', 'all')">All Stages</button>
+          <button type="button" class="net-chip-btn" onclick="toggleChip(this, 'stage', 'Pre-Seed')">Pre-Seed</button>
+          <button type="button" class="net-chip-btn" onclick="toggleChip(this, 'stage', 'Seed')">Seed</button>
+          <button type="button" class="net-chip-btn" onclick="toggleChip(this, 'stage', 'Series A')">Series A+</button>
+          <button type="button" class="net-chip-btn" onclick="toggleChip(this, 'stage', 'Bootstrapped')">Bootstrapped</button>
+        </div>
+      </div>
+
+      <!-- 4. Geography / Location (Rounded Corner Buttons) -->
+      <div class="net-filter-group">
+        <label class="net-filter-label">Location</label>
+        <div class="net-filter-chips">
+          <button type="button" class="net-chip-btn active" onclick="toggleChip(this, 'loc', 'all')">Global</button>
+          <button type="button" class="net-chip-btn" onclick="toggleChip(this, 'loc', 'San Francisco')">San Francisco, CA</button>
+          <button type="button" class="net-chip-btn" onclick="toggleChip(this, 'loc', 'New York')">New York, NY</button>
+          <button type="button" class="net-chip-btn" onclick="toggleChip(this, 'loc', 'Austin')">Austin, TX</button>
+          <button type="button" class="net-chip-btn" onclick="toggleChip(this, 'loc', 'London')">London, UK</button>
+          <button type="button" class="net-chip-btn" onclick="toggleChip(this, 'loc', 'Chicago')">Chicago, IL</button>
+        </div>
+      </div>
+
+      <!-- 5. Verified Toggle (Rounded Checkbox) -->
+      <div class="net-filter-group">
+        <label style="display:flex; align-items:center; gap:8px; font-size:12.5px; font-weight:600; color:var(--fn-text-dark); cursor:pointer;">
+          <input type="checkbox" id="verifiedOnlyCheckbox" style="accent-color:#111827; width:15px; height:15px; border-radius:4px;" onchange="applyActiveFilters()" />
+          <span>Seedicon Verified Members Only</span>
+        </label>
+      </div>
+
+    </div>
+
+    <!-- Drawer Footer: Reset All and Show Results at bottom -->
+    <div class="net-drawer-footer">
+      <button type="button" class="btn btn-secondary" onclick="resetFilters()">Reset All</button>
+      <button type="button" class="btn btn-primary" onclick="applyActiveFilters(); closeFilterDrawer();">Show Results</button>
+    </div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+
+<!-- Layout & Interaction Scripts -->
+<script src="./js/components.js"></script>
+<script src="./js/messages-drawer.js"></script>
+<script>
+  // ────────────────────────────────────────────────────────────────────────────
+  // 01. RICH MOCK NETWORK DATA (FOUNDERS & BLURRED INVESTORS)
+  // ────────────────────────────────────────────────────────────────────────────
+  const NETWORK_MEMBERS = [
+    // FOUNDERS
+    {
+      id: 'elena-rostova',
+      kind: 'founder',
+      name: 'Elena Rostova',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&h=160&fit=crop&crop=faces',
+      verified: true,
+      role: 'Founder & CEO',
+      company: 'CloudVector AI',
+      headline: 'Founder & CEO @ CloudVector AI · Ex-Stripe · YC W24',
+      tagline: 'Autonomous AI agents for enterprise workflow optimization and security logging.',
+      location: 'San Francisco, CA',
+      sector: 'AI / ML',
+      stage: 'Seed',
+      traction: '$1.8M ARR',
+      funding: '$2.5M Raised',
+      website: 'https://cloudvector.ai',
+      email: 'elena@cloudvector.ai',
+      linkedin: 'https://linkedin.com/in/elena-rostova'
+    },
+    {
+      id: 'vikram-mehta',
+      kind: 'founder',
+      name: 'Vikram Mehta',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&h=160&fit=crop&crop=faces',
+      verified: true,
+      role: 'Co-founder & CTO',
+      company: 'Junify',
+      headline: 'Co-founder & CTO @ Junify · B2B Cross-Border SaaS',
+      tagline: 'Multi-tenant cross-border e-commerce engine helping modern retail brands scale globally.',
+      location: 'Austin, TX',
+      sector: 'B2B SaaS',
+      stage: 'Seed',
+      traction: '$1.2M ARR',
+      funding: '$1.5M Round Active',
+      website: 'https://junify.io',
+      email: 'vikram@junify.io',
+      linkedin: 'https://linkedin.com/in/vikram-mehta'
+    },
+    {
+      id: 'sarah-lin',
+      kind: 'founder',
+      name: 'Sarah Lin',
+      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=160&h=160&fit=crop&crop=faces',
+      verified: true,
+      role: 'Founder & CEO',
+      company: 'Datasphere Vault',
+      headline: 'Founder & CEO @ Datasphere · Bessemer Venture Fellow',
+      tagline: 'Automated virtual data room with granular access controls and real-time diligence auditing.',
+      location: 'New York, NY',
+      sector: 'Security',
+      stage: 'Pre-Seed',
+      traction: '$920K ARR',
+      funding: '$1.2M Raised',
+      website: 'https://datasphere.tech',
+      email: 'sarah@datasphere.tech',
+      linkedin: 'https://linkedin.com/in/sarah-lin'
+    },
+    {
+      id: 'david-chen',
+      kind: 'founder',
+      name: 'David Chen',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&h=160&fit=crop&crop=faces',
+      verified: true,
+      role: 'Founder & Lead Architect',
+      company: 'HyperGraph',
+      headline: 'Founder @ HyperGraph · High-throughput GraphQL Core',
+      tagline: 'High-throughput GraphQL query optimizer for distributed microservice architectures.',
+      location: 'Seattle, WA',
+      sector: 'DevTools',
+      stage: 'Seed',
+      traction: '$640K ARR',
+      funding: '$800K Seed',
+      website: 'https://hypergraph.dev',
+      email: 'david@hypergraph.dev',
+      linkedin: 'https://linkedin.com/in/david-chen'
+    },
+    {
+      id: 'marcus-vance',
+      kind: 'founder',
+      name: 'Marcus Vance',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=160&h=160&fit=crop&crop=faces',
+      verified: true,
+      role: 'Co-founder & CEO',
+      company: 'NexusPay',
+      headline: 'Co-founder & CEO @ NexusPay · Next-gen Global Rails',
+      tagline: 'Real-time multi-currency settlement rails for global marketplace transactions.',
+      location: 'Miami, FL',
+      sector: 'Fintech',
+      stage: 'Series A',
+      traction: '$2.1M ARR',
+      funding: '$4.5M Raised',
+      website: 'https://nexuspay.io',
+      email: 'marcus@nexuspay.io',
+      linkedin: 'https://linkedin.com/in/marcus-vance'
+    },
+    {
+      id: 'aria-tanaka',
+      kind: 'founder',
+      name: 'Aria Tanaka',
+      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=160&h=160&fit=crop&crop=faces',
+      verified: false,
+      role: 'Founder & Robotics Lead',
+      company: 'Kuro Systems',
+      headline: 'Founder @ Kuro Systems · Computer Vision for Industrial Co-bots',
+      tagline: 'Edge computer vision algorithms for precision assembly automation.',
+      location: 'San Francisco, CA',
+      sector: 'AI / ML',
+      stage: 'Bootstrapped',
+      traction: '$410K ARR',
+      funding: 'Bootstrapped',
+      website: 'https://kurosystems.tech',
+      email: 'aria@kurosystems.tech',
+      linkedin: 'https://linkedin.com/in/aria-tanaka'
+    },
+    {
+      id: 'lucas-vance',
+      kind: 'founder',
+      name: 'Lucas Vance',
+      avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=160&h=160&fit=crop&crop=faces',
+      verified: false,
+      location: 'Chicago, IL',
+      isMinimal: true
+    },
+
+    // BLURRED INSTITUTIONAL INVESTORS
+    {
+      id: 'inv-a16z',
+      kind: 'investor',
+      name: 'Marc A. & Partner Syndicate',
+      firm: 'Andreessen Horowitz (a16z)',
+      role: 'General Partner · Enterprise & AI Lead',
+      headline: 'General Partner @ Andreessen Horowitz (a16z) · $4.5B Fund IX',
+      tagline: 'Actively leading Seed & Series A investments across Autonomous AI, Fintech Rails, and Cloud Infrastructure.',
+      location: 'Menlo Park, CA',
+      sector: 'AI / ML',
+      stage: 'Series A',
+      checkSize: 'Writes $1M – $15M checks',
+      portfolioCount: '340+ Active Portfolios',
+      sectorsInterested: ['AI / ML', 'Fintech', 'Enterprise SaaS', 'Security']
+    },
+    {
+      id: 'inv-sequoia',
+      kind: 'investor',
+      name: 'Roelof B. & Investment Committee',
+      firm: 'Sequoia Capital',
+      role: 'Managing Partner · Early Stage Practice',
+      headline: 'Managing Partner @ Sequoia Capital · Seed & Growth Lead',
+      tagline: 'Backing legendary founders from ideation through IPO across global markets.',
+      location: 'San Francisco, CA',
+      sector: 'B2B SaaS',
+      stage: 'Seed',
+      checkSize: 'Writes $500K – $5M checks',
+      portfolioCount: '500+ Active Portfolios',
+      sectorsInterested: ['B2B SaaS', 'DevTools', 'Fintech', 'AI / ML']
+    },
+    {
+      id: 'inv-usv',
+      kind: 'investor',
+      name: 'Rebecca K. & Venture Team',
+      firm: 'Union Square Ventures',
+      role: 'General Partner',
+      headline: 'General Partner @ USV · Thesis-Driven Early Stage',
+      tagline: 'Investing in network effects, decentralized infrastructure, and knowledge distribution platforms.',
+      location: 'New York, NY',
+      sector: 'Fintech',
+      stage: 'Seed',
+      checkSize: 'Writes $1M – $8M checks',
+      portfolioCount: '180+ Active Portfolios',
+      sectorsInterested: ['Fintech', 'Networks', 'Developer Tools']
+    },
+    {
+      id: 'inv-benchmark',
+      kind: 'investor',
+      name: 'Peter F. & Core Partnership',
+      firm: 'Benchmark Capital',
+      role: 'General Partner',
+      headline: 'General Partner @ Benchmark · High-conviction Lead Investor',
+      tagline: 'Equal partnership investing hands-on in ground-breaking software and cloud architects.',
+      location: 'San Francisco, CA',
+      sector: 'DevTools',
+      stage: 'Seed',
+      checkSize: 'Writes $2M – $10M checks',
+      portfolioCount: '120+ Active Portfolios',
+      sectorsInterested: ['DevTools', 'Infrastructure', 'Open Source', 'Security']
+    },
+    {
+      id: 'inv-london-angels',
+      kind: 'investor',
+      name: 'Cross-Border Angel Syndicate Lead',
+      firm: 'London Fintech Syndicate',
+      role: 'Lead Syndicate Angel',
+      headline: 'Fintech Angel Lead · 140+ Operator LPs',
+      tagline: 'Deploying high-velocity strategic checks into cross-border B2B SaaS and commerce infrastructure.',
+      location: 'London, UK',
+      sector: 'Fintech',
+      stage: 'Pre-Seed',
+      checkSize: 'Writes $100K – $500K checks',
+      portfolioCount: '45+ Operator Deals',
+      sectorsInterested: ['Fintech', 'B2B SaaS', 'E-commerce']
+    }
+  ];
+
+  let currentTab = 'all';
+  let searchQuery = '';
+  let activeFilters = {
+    role: 'all',
+    sectors: [],
+    stage: 'all',
+    loc: 'all',
+    verifiedOnly: false
+  };
+
+  // ────────────────────────────────────────────────────────────────────────────
+  // 02. RENDER NETWORK CARDS
+  // ────────────────────────────────────────────────────────────────────────────
+  function renderNetworkFeed() {
+    const container = document.getElementById('networkCardsContainer');
+    if (!container) return;
+
+    let filtered = NETWORK_MEMBERS.filter(m => {
+      // Tab filter
+      if (currentTab === 'founder' && m.kind !== 'founder') return false;
+      if (currentTab === 'investor' && m.kind !== 'investor') return false;
+      if (currentTab === 'verified' && !m.verified) return false;
+
+      // Drawer filter: role
+      if (activeFilters.role === 'founder' && m.kind !== 'founder') return false;
+      if (activeFilters.role === 'investor' && m.kind !== 'investor') return false;
+
+      // Drawer filter: sectors (multi-select)
+      if (activeFilters.sectors && activeFilters.sectors.length > 0) {
+        if (m.kind === 'founder') {
+          if (!activeFilters.sectors.includes(m.sector)) return false;
+        } else if (m.kind === 'investor') {
+          const hasMatch = m.sectorsInterested && m.sectorsInterested.some(s => activeFilters.sectors.includes(s));
+          if (!hasMatch) return false;
+        }
+      }
+
+      // Drawer filter: stage
+      if (activeFilters.stage !== 'all' && m.stage !== activeFilters.stage) return false;
+
+      // Drawer filter: location
+      if (activeFilters.loc !== 'all' && (!m.location || !m.location.includes(activeFilters.loc))) return false;
+
+      // Drawer filter: verified only
+      if (activeFilters.verifiedOnly && !m.verified) return false;
+
+      // Search query filter
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        const searchStr = `${m.name || ''} ${m.company || ''} ${m.firm || ''} ${m.role || ''} ${m.headline || ''} ${m.tagline || ''} ${m.location || ''} ${m.sector || ''}`.toLowerCase();
+        if (!searchStr.includes(q)) return false;
+      }
+
+      return true;
+    });
+
+    const countPill = document.getElementById('netCountDisplay');
+    if (countPill) {
+      countPill.textContent = `${filtered.length} Member${filtered.length !== 1 ? 's' : ''}`;
+    }
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="background:#FFFFFF; border:1px solid var(--fn-border); border-radius:var(--fn-radius-md); padding:48px 24px; text-align:center;">
+          <div style="width:44px; height:44px; border-radius:10px; background:#F3F4F6; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:var(--fn-text-muted);">
+            <i data-lucide="search-x" style="width:20px; height:20px;"></i>
+          </div>
+          <h3 style="font-size:15px; font-weight:800; color:var(--fn-text-dark); margin-bottom:4px;">No members found</h3>
+          <p style="font-size:12.5px; color:var(--fn-text-muted); max-width:360px; margin:0 auto 16px;">
+            No founder or investor profiles matched your current search and filter settings.
+          </p>
+          <button type="button" class="btn btn-secondary" onclick="resetFilters()">Clear Filters &amp; Search</button>
+        </div>
+      `;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    }
+
+    container.innerHTML = filtered.map(m => m.kind === 'founder' ? renderFounderCard(m) : renderBlurredInvestorCard(m)).join('');
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 
-  function sendInvite() {
-    const input = document.getElementById('inviteEmailInput');
-    const email = input ? input.value.trim() : '';
-    window.closeModal();
-    if (email) {
-      window.showToast(`Invitation sent to ${email}`, 'success');
-    } else {
-      window.showToast('Invitation sent', 'success');
+  // Founder Card HTML (Condensed Flat Surface Row)
+  function renderFounderCard(f) {
+    // Condition Card: Minimal profile (when user only provided avatar, name, location)
+    if (f.isMinimal || (!f.company && !f.tagline && !f.sector)) {
+      return `
+        <div class="fn-row" id="card-${f.id}">
+          <div class="fn-main fn-clickable" onclick="window.location.href='./network-profile.html?id=${f.id}'" title="View profile">
+            <div class="fn-avatar-wrap">
+              <div class="fn-avatar">
+                <img src="${f.avatar}" alt="${f.name}" />
+              </div>
+              ${f.verified ? `<span class="fn-verified-badge" title="Seedicon Verified Founder"><i data-lucide="badge-check"></i></span>` : ''}
+            </div>
+
+            <div class="fn-info">
+              <div class="fn-line1">
+                <span class="fn-name">${f.name}</span>
+                ${f.verified ? `<i data-lucide="badge-check" class="fn-check" title="Verified Founder"></i>` : ''}
+              </div>
+
+              <div class="fn-line2">
+                <span class="fn-loc"><i data-lucide="map-pin"></i> ${f.location || 'Location not specified'}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fn-actions">
+            <button type="button" class="fn-message-btn" onclick="event.stopPropagation(); openMsgDrawer('${f.id}')" title="Message ${f.name}">
+              <i data-lucide="message-square"></i>
+              <span>Message</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    const domain = f.website ? f.website.replace(/^https?:\/\/(www\.)?/, '').split('/')[0] : '';
+    const sectorChip = f.sector ? `<span class="fn-subtle-chip highlight">${f.sector}</span>` : '';
+    const stageChip = f.stage ? `<span class="fn-subtle-chip">${f.stage} Stage</span>` : '';
+
+    const hasLinks = f.website || f.email || f.linkedin;
+    const linksHtml = hasLinks ? `
+      <span class="fn-links-inline">
+        ${f.website ? `
+          <a href="${f.website}" target="_blank" rel="noopener" class="fn-icon-link" title="Visit Website: ${domain}" onclick="event.stopPropagation()">
+            <i data-lucide="globe"></i>
+          </a>` : ''}
+        ${f.email ? `
+          <a href="mailto:${f.email}" class="fn-icon-link" title="Email: ${f.email}" onclick="event.stopPropagation()">
+            <i data-lucide="mail"></i>
+          </a>` : ''}
+        ${f.linkedin ? `
+          <a href="${f.linkedin}" target="_blank" rel="noopener" class="fn-icon-link" title="LinkedIn Profile" onclick="event.stopPropagation()">
+            <i data-lucide="linkedin"></i>
+          </a>` : ''}
+      </span>
+    ` : '';
+
+    return `
+      <div class="fn-row" id="card-${f.id}">
+        <div class="fn-main fn-clickable" onclick="window.location.href='./network-profile.html?id=${f.id}'" title="View profile">
+          
+          <div class="fn-avatar-wrap">
+            <div class="fn-avatar">
+              <img src="${f.avatar}" alt="${f.name}" />
+            </div>
+            ${f.verified ? `<span class="fn-verified-badge" title="Seedicon Verified Founder"><i data-lucide="badge-check"></i></span>` : ''}
+          </div>
+
+          <div class="fn-info">
+            <div class="fn-line1">
+              <span class="fn-name">${f.name}</span>
+              ${f.verified ? `<i data-lucide="badge-check" class="fn-check" title="Verified Founder"></i>` : ''}
+              ${f.company ? `<span class="fn-role">${f.role ? f.role + ' at ' : ''}<span class="fn-company">${f.company}</span></span>` : ''}
+            </div>
+
+            <div class="fn-line2">
+              <span class="fn-loc"><i data-lucide="map-pin"></i> ${f.location}</span>
+              ${f.tagline ? `<span class="fn-dot">&middot;</span><span class="fn-tagline">${f.tagline}</span>` : ''}
+            </div>
+
+            <!-- Condensed Line 3: Sector & Stage Chips (Normal Corner Radius) + Inline Links -->
+            <div class="fn-line3">
+              ${sectorChip}
+              ${stageChip}
+              ${linksHtml}
+            </div>
+          </div>
+
+        </div>
+
+        <div class="fn-actions">
+          <button type="button" class="fn-message-btn" onclick="event.stopPropagation(); openMsgDrawer('${f.id}')" title="Message ${f.name}">
+            <i data-lucide="message-square"></i>
+            <span>Message</span>
+          </button>
+        </div>
+
+      </div>
+    `;
+  }
+
+  // Blurred Investor Card HTML (Condensed Flat Row)
+  function renderBlurredInvestorCard(inv) {
+    const sectorsHtml = inv.sectorsInterested.map(s => `<span>${s}</span>`).join('');
+    const blurText = `${inv.checkSize} · ${inv.portfolioCount} · Managing Partner & Investment Committee · Deal Room Access`;
+
+    return `
+      <div class="fn-row" id="card-${inv.id}">
+        <div class="fn-main">
+          
+          <div class="investor-avatar">VC</div>
+
+          <div class="fn-info">
+            <div class="fn-line1">
+              <span class="fn-name">${inv.name}</span>
+              <span class="investor-tag-chip"><i data-lucide="lock"></i> Investor</span>
+              <span class="fn-role">${inv.firm} · ${inv.role}</span>
+            </div>
+
+            <div class="fn-line2">
+              <span class="investor-sectors-label">Interested in</span>
+              <span class="investor-sectors"><span class="investor-tags">${sectorsHtml}</span></span>
+            </div>
+
+            <div class="fn-line3">
+              <span class="investor-blur-line">
+                <i data-lucide="lock"></i>
+                <span class="investor-blur">${blurText}</span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="fn-actions">
+          <button type="button" class="fn-message-btn unlock" onclick="openPremiumModal('${inv.firm}')">
+            <i data-lucide="lock"></i>
+            <span>Unlock Contact</span>
+          </button>
+        </div>
+
+      </div>
+    `;
+  }
+
+  // ────────────────────────────────────────────────────────────────────────────
+  // 03. FILTERING & SEARCH CONTROLS
+  // ────────────────────────────────────────────────────────────────────────────
+  function handleSearch(val) {
+    searchQuery = (val || '').trim();
+    renderNetworkFeed();
+  }
+
+  function openFilterDrawer() {
+    const overlay = document.getElementById('netFilterDrawerOverlay');
+    if (overlay) {
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
     }
   }
 
+  function closeFilterDrawer() {
+    const overlay = document.getElementById('netFilterDrawerOverlay');
+    if (overlay) {
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function handleFilterBackdropClick(e) {
+    if (e.target.id === 'netFilterDrawerOverlay') {
+      closeFilterDrawer();
+    }
+  }
+
+  // Sector Dropdown Functions
+  function toggleSectorDropdown(e) {
+    if (e) e.stopPropagation();
+    const menu = document.getElementById('sectorDropdownMenu');
+    const chevron = document.getElementById('sectorDropdownChevron');
+    if (!menu) return;
+    const isOpen = menu.classList.contains('show');
+    menu.classList.toggle('show', !isOpen);
+    if (chevron) chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  }
+
+  function filterSectorOptions(val) {
+    const q = (val || '').toLowerCase().trim();
+    document.querySelectorAll('#sectorDropdownList .net-dropdown-item').forEach(item => {
+      const txt = item.textContent.toLowerCase();
+      item.style.display = txt.includes(q) ? 'flex' : 'none';
+    });
+  }
+
+  function handleSectorCheckboxChange(checkbox) {
+    const val = checkbox.value;
+    if (checkbox.checked) {
+      if (!activeFilters.sectors.includes(val)) {
+        activeFilters.sectors.push(val);
+      }
+    } else {
+      activeFilters.sectors = activeFilters.sectors.filter(s => s !== val);
+    }
+    renderSelectedSectorChips();
+    updateActiveFilterBadge();
+  }
+
+  function removeSector(sectorVal) {
+    activeFilters.sectors = activeFilters.sectors.filter(s => s !== sectorVal);
+    const cb = document.querySelector(`#sectorDropdownList input[value="${sectorVal}"]`);
+    if (cb) cb.checked = false;
+    renderSelectedSectorChips();
+    updateActiveFilterBadge();
+    renderNetworkFeed();
+  }
+
+  function renderSelectedSectorChips() {
+    const container = document.getElementById('selectedSectorsChips');
+    const label = document.getElementById('sectorDropdownLabel');
+    if (!container) return;
+
+    if (activeFilters.sectors.length === 0) {
+      container.innerHTML = '';
+      if (label) label.textContent = 'Select Sectors / Industries';
+      return;
+    }
+
+    if (label) label.textContent = `${activeFilters.sectors.length} Sector${activeFilters.sectors.length > 1 ? 's' : ''} Selected`;
+
+    container.innerHTML = activeFilters.sectors.map(s => `
+      <span class="net-selected-tag">
+        <span>${s}</span>
+        <button type="button" class="net-selected-tag-remove" onclick="removeSector('${s}')" title="Remove ${s}">&times;</button>
+      </span>
+    `).join('');
+  }
+
+  // Close sector dropdown when clicked outside
+  document.addEventListener('click', (e) => {
+    const wrap = document.getElementById('sectorDropdownWrap');
+    const menu = document.getElementById('sectorDropdownMenu');
+    const chevron = document.getElementById('sectorDropdownChevron');
+    if (wrap && !wrap.contains(e.target) && menu && menu.classList.contains('show')) {
+      menu.classList.remove('show');
+      if (chevron) chevron.style.transform = 'rotate(0deg)';
+    }
+  });
+
+  function toggleChip(btn, type, val) {
+    const parent = btn.parentElement;
+    parent.querySelectorAll('.net-chip-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilters[type] = val;
+    updateActiveFilterBadge();
+  }
+
+  function applyActiveFilters() {
+    const checkEl = document.getElementById('verifiedOnlyCheckbox');
+    activeFilters.verifiedOnly = checkEl ? checkEl.checked : false;
+    updateActiveFilterBadge();
+    renderNetworkFeed();
+  }
+
+  function resetFilters() {
+    activeFilters = {
+      role: 'all',
+      sectors: [],
+      stage: 'all',
+      loc: 'all',
+      verifiedOnly: false
+    };
+    searchQuery = '';
+    const sInput = document.getElementById('netSearchInput');
+    if (sInput) sInput.value = '';
+
+    const checkEl = document.getElementById('verifiedOnlyCheckbox');
+    if (checkEl) checkEl.checked = false;
+
+    // Reset sector checkboxes
+    document.querySelectorAll('#sectorDropdownList input[type="checkbox"]').forEach(cb => cb.checked = false);
+    renderSelectedSectorChips();
+
+    // Reset button groups
+    document.querySelectorAll('.net-filter-chips').forEach(group => {
+      group.querySelectorAll('.net-chip-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', idx === 0);
+      });
+    });
+
+    updateActiveFilterBadge();
+    closeFilterDrawer();
+    renderNetworkFeed();
+  }
+
+  function updateActiveFilterBadge() {
+    let count = 0;
+    if (activeFilters.role !== 'all') count++;
+    if (activeFilters.sectors && activeFilters.sectors.length > 0) count += activeFilters.sectors.length;
+    if (activeFilters.stage !== 'all') count++;
+    if (activeFilters.loc !== 'all') count++;
+    if (activeFilters.verifiedOnly) count++;
+
+    const badge = document.getElementById('activeFilterBadge');
+    if (badge) {
+      badge.textContent = count;
+      badge.style.display = count > 0 ? 'inline-block' : 'none';
+    }
+  }
+
+  // ────────────────────────────────────────────────────────────────────────────
+  // 04. DIRECT MESSAGING DELEGATION (messages-drawer.js)
+  // ────────────────────────────────────────────────────────────────────────────
+  function openMsgDrawer(founderId) {
+    if (window.openMessagesDrawer) {
+      window.openMessagesDrawer(founderId);
+    }
+  }
+
+  function closeMsgDrawer() {
+    if (window.closeMessagesDrawer) {
+      window.closeMessagesDrawer();
+    }
+  }
+
+  function openPremiumModal(firmName) {
+    if (window.openModal) {
+      window.openModal(`Unlock ${firmName} Contact`, `
+        <div style="display:flex; flex-direction:column; gap:14px; text-align:center; padding:10px 4px;">
+          <div style="width:48px; height:48px; border-radius:50%; background:#111827; color:#FFFFFF; display:flex; align-items:center; justify-content:center; margin:0 auto;">
+            <i data-lucide="crown" style="width:24px; height:24px;"></i>
+          </div>
+          <div>
+            <h3 style="font-size:16px; font-weight:800; color:var(--text-dark); margin-bottom:4px;">Seedicon Pro Investor Access</h3>
+            <p style="font-size:12.5px; color:var(--text-muted); margin:0;">
+              Connect directly with partners at ${firmName} and 450+ accredited venture syndicates evaluating Seedicon deals.
+            </p>
+          </div>
+
+          <div style="background:#FAFAF9; border:1px solid var(--border-main); border-radius:8px; padding:12px; text-align:left; font-size:12px; display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; align-items:center; gap:6px;">✓ <span>Direct partner inbox delivery with high open rates</span></div>
+            <div style="display:flex; align-items:center; gap:6px;">✓ <span>Integrated NDA &amp; virtual data room diligence room</span></div>
+            <div style="display:flex; align-items:center; gap:6px;">✓ <span>Real-time pitch review &amp; syndicate syndication</span></div>
+          </div>
+
+          <button class="btn btn-primary" style="height:38px; width:100%;" onclick="window.closeModal(); window.showToast('Upgraded to Pro Preview!', 'success');">
+            <span>Upgrade to Pro ($49/mo)</span>
+          </button>
+        </div>
+      `);
+    }
+  }
+
+  // Keyboard shortcut (Escape to close)
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeFilterDrawer();
+      closeMsgDrawer();
+    }
+  });
+
+  // ────────────────────────────────────────────────────────────────────────────
+  // 05. INITIALIZE PAGE LAYOUT & FEED
+  // ────────────────────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
-    FounderLayout.init('network', 'Network');
+    if (typeof FounderLayout !== 'undefined') {
+      FounderLayout.init('network', 'Founder & Investor Network');
+    }
+    renderNetworkFeed();
   });
 </script>
 </body>

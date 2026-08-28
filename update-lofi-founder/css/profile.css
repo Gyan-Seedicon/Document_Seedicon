@@ -556,11 +556,10 @@ body.edit-mode .profile-role-select {
 
 /* Profile Completion Card */
 .profile-completion-meter-card {
-  margin-top: 8px;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  max-width: 220px;
+  max-width: 290px;
 }
 
 .profile-completion-head {
@@ -592,6 +591,28 @@ body.edit-mode .profile-role-select {
   transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.profile-completion-hint {
+  font-size: 11.5px;
+  color: #6B7280;
+  line-height: 1.35;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 1px;
+}
+
+.profile-completion-hint svg,
+.profile-completion-hint i {
+  width: 12px !important;
+  height: 12px !important;
+  flex-shrink: 0;
+}
+
+.profile-completion-hint.verified {
+  color: #059669;
+  font-weight: 600;
+}
+
 /* Action Controls Header Right */
 .profile-header-actions {
   display: flex;
@@ -599,6 +620,34 @@ body.edit-mode .profile-role-select {
   gap: 8px;
   align-self: flex-start;
   padding-top: 2px;
+}
+
+/* Reset to Initial Empty State Icon Button */
+.profile-reset-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid var(--pub-border);
+  color: #6B7280;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.profile-reset-btn:hover {
+  background: #F3F4F6;
+  color: var(--pub-text-dark);
+  border-color: #CBD5E1;
+  transform: rotate(-30deg);
+}
+
+body.edit-mode .profile-reset-btn {
+  display: none;
 }
 
 /* Subtle Flash Auto-Fill Icon Button */
@@ -873,7 +922,7 @@ body.edit-mode .profile-cancel-btn {
 
 .profile-detail-value.placeholder {
   color: var(--pub-text-light);
-  font-style: italic;
+  font-style: normal;
   font-weight: 400;
 }
 

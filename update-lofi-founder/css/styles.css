@@ -450,6 +450,75 @@ html, body {
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
+   06. WORKSPACE USER MENU DROPDOWN
+   ────────────────────────────────────────────────────────────────────────── */
+.pub-avatar-container,
+.workspace-avatar-container {
+  position: relative;
+}
+
+.pub-avatar-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1.5px solid var(--border-main);
+  cursor: pointer;
+  background: #FFFFFF;
+  padding: 0;
+  display: block;
+}
+
+.pub-avatar-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pub-user-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 240px;
+  background: #FFFFFF;
+  border: 1px solid #E5E5DF;
+  border-radius: 14px;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+  display: none;
+  flex-direction: column;
+  padding: 6px 0;
+  z-index: 10000;
+}
+
+.pub-user-menu.show {
+  display: flex;
+}
+
+.pub-user-menu-head {
+  padding: 10px 14px;
+  border-bottom: 1px solid #F0F0EB;
+}
+
+.pub-user-menu-link {
+  padding: 8px 14px;
+  font-size: 12.5px;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.12s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.pub-user-menu-link:hover,
+.pub-user-menu-link.active {
+  background: #F4F4F2;
+  color: #111827;
+  font-weight: 600;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
    09. REUSABLE PRODUCT ANALYTICS RIGHT DRAWER COMPONENT
    ────────────────────────────────────────────────────────────────────────── */
 .pad-drawer-overlay {

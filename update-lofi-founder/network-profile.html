@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Founder Profile — Seedicon</title>
+  <meta name="description" content="View verified founder details, contact info, and team on Seedicon." />
+
+  <!-- Google Font: Outfit ONLY -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Workspace & Profile Stylesheets -->
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="stylesheet" href="./css/network-profile.css" />
+</head>
+<body>
+
+<!-- Outer Ambient Viewport Frame -->
+<div class="app-viewport">
+  <div class="app-frame">
+
+    <!-- 01. Standardized Reusable Sidebar Slot (components.js) -->
+    <div id="sidebarSlot"></div>
+
+    <!-- 02. Main Workspace Canvas -->
+    <main class="founder-workspace-canvas">
+      
+      <!-- Top Navigation Header Bar (components.js) -->
+      <div id="topNavSlot"></div>
+
+      <!-- Scrollable Workspace Body -->
+      <div class="workspace-scroll-body">
+        
+        <div class="profile-page-container" style="max-width: 860px;">
+          
+          <!-- Breadcrumb Navigation -->
+          <div class="profile-breadcrumb">
+            <a href="./network.html">Network</a>
+            <span>/</span>
+            <span id="npBreadcrumbName">Founder Profile</span>
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════════════
+               TOP PROFILE IDENTITY HEADER (CLEAN SURFACE LAYOUT — NO BORDER-BOTTOM)
+               ══════════════════════════════════════════════════════════════════════════ -->
+          <div class="profile-header-card">
+            
+            <!-- Left: Large Round Avatar + Identity Info -->
+            <div class="profile-header-left">
+              
+              <!-- Large Round Avatar Frame -->
+              <div class="profile-avatar-wrap">
+                <img id="profileMainAvatar" src="" alt="Founder Avatar" class="profile-avatar-img" />
+              </div>
+
+              <!-- Identity & Role Block -->
+              <div class="profile-info-block">
+                <div>
+                  <h1 class="profile-name" id="profileNameDisplay">Founder Name</h1>
+                </div>
+
+                <div>
+                  <div class="profile-role-text" id="profileRoleText">Founder</div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right: Action Control (Message ONLY — NO Connect Option) -->
+            <div class="profile-header-actions">
+              <button type="button" class="profile-msg-btn" onclick="openMsgDrawer()" title="Send direct message">
+                <i data-lucide="message-square" style="width:13.5px; height:13.5px;"></i>
+                <span>Message</span>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════════════
+               NAVIGATION PILL TABS (ABOUT & PRODUCTS ONLY — NO BORDER-BOTTOM)
+               ══════════════════════════════════════════════════════════════════════════ -->
+          <nav class="profile-nav-tabs" aria-label="Profile navigation">
+            <button type="button" class="profile-tab-btn active" onclick="switchProfileTab('about', this)">About</button>
+            <button type="button" class="profile-tab-btn" onclick="switchProfileTab('products', this)">Products</button>
+          </nav>
+
+          <!-- ══════════════════════════════════════════════════════════════════════════
+               TAB 1: ABOUT
+               ══════════════════════════════════════════════════════════════════════════ -->
+          <div class="profile-tab-pane active" id="pane-about">
+            
+            <!-- 1. ABOUT BIO SECTION -->
+            <div class="profile-section-block">
+              <h2 class="profile-section-title">About</h2>
+              <p class="profile-surface-bio" id="profileBioText">
+                Building high-velocity venture technology. Passionate about multi-tenant architectures, seamless APIs, and developer experience.
+              </p>
+            </div>
+
+            <!-- 2. FOUNDER DETAILS (CANONICAL 8 FIELDS) -->
+            <div class="profile-section-block">
+              <h2 class="profile-section-title">Founder Details</h2>
+              
+              <div class="profile-surface-details-grid" id="profileDetailsViewGrid">
+                
+                <div class="profile-detail-item">
+                  <span class="profile-detail-label">LINKEDIN PROFILE URL</span>
+                  <span class="profile-detail-value" id="viewLinkedIn">
+                    <a id="linkLinkedIn" href="#" target="_blank">https://linkedin.com/in/founder ↗</a>
+                  </span>
+                </div>
+
+                <div class="profile-detail-item">
+                  <span class="profile-detail-label">OFFICIAL EMAIL</span>
+                  <span class="profile-detail-value" id="viewEmail">founder@company.com</span>
+                </div>
+
+                <div class="profile-detail-item">
+                  <span class="profile-detail-label">COMPANY NAME</span>
+                  <span class="profile-detail-value" id="viewCompany">Company Name</span>
+                </div>
+
+                <div class="profile-detail-item">
+                  <span class="profile-detail-label">COMPANY WEBSITE</span>
+                  <span class="profile-detail-value" id="viewCompanyWebsite">
+                    <a id="linkCompanyWebsite" href="#" target="_blank">https://company.com ↗</a>
+                  </span>
+                </div>
+
+                <div class="profile-detail-item">
+                  <span class="profile-detail-label">ROLE IN COMPANY</span>
+                  <span class="profile-detail-value" id="viewRoleInCompany">Founder &amp; CEO</span>
+                </div>
+
+                <div class="profile-detail-item">
+                  <span class="profile-detail-label">CONTACT NUMBER</span>
+                  <span class="profile-detail-value" id="viewPhone">+1 (415) 555-0192</span>
+                </div>
+
+                <div class="profile-detail-item">
+                  <span class="profile-detail-label">COUNTRY</span>
+                  <span class="profile-detail-value" id="viewCountry">United States</span>
+                </div>
+
+                <div class="profile-detail-item">
+                  <span class="profile-detail-label">CITY</span>
+                  <span class="profile-detail-value" id="viewCity">San Francisco</span>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- 3. FOUNDING TEAM (SURFACE ROWS) -->
+            <div class="profile-section-block">
+              <h2 class="profile-section-title">Founding Team</h2>
+              
+              <div class="profile-team-list" id="profileTeamContainer">
+                <!-- Populated via JS -->
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ══════════════════════════════════════════════════════════════════════════
+               TAB 2: PRODUCTS (FOUNDER'S LISTED PRODUCTS)
+               ══════════════════════════════════════════════════════════════════════════ -->
+          <div class="profile-tab-pane" id="pane-products">
+            <div class="profile-section-block">
+              <h2 class="profile-section-title">Products</h2>
+              <div class="profile-products-list" id="profileProductsContainer" style="display:flex; flex-direction:column; gap:10px; margin-top:4px;">
+                <!-- Populated via JS -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────────────────────────────────────────
+     03. DIRECT MESSAGE DRAWER
+     ────────────────────────────────────────────────────────────────────────── -->
+<div class="net-msg-drawer-overlay" id="npMsgDrawerOverlay" onclick="handleMsgBackdrop(event)">
+  <div class="net-msg-drawer-panel" onclick="event.stopPropagation()">
+    <div class="net-msg-head">
+      <div class="net-msg-recipient">
+        <img id="drawerRecipientAvatar" src="" alt="" class="net-msg-avatar" />
+        <div>
+          <div style="font-size:14px; font-weight:800; color:var(--np-text-dark);" id="drawerRecipientName">Recipient Name</div>
+          <div style="font-size:12px; color:var(--np-text-muted);" id="drawerRecipientRole">Founder</div>
+        </div>
+      </div>
+      <button type="button" class="pad-btn-close" onclick="closeMsgDrawer()" title="Close message">
+        <i data-lucide="x" style="width:16px; height:16px;"></i>
+      </button>
+    </div>
+
+    <div class="net-msg-body">
+      <div class="net-msg-quick-prompts">
+        <span style="font-size:12px; font-weight:700; color:var(--np-text-muted); text-transform:uppercase;">Quick prompts:</span>
+        <button type="button" class="net-prompt-chip" onclick="insertPrompt('Hey! I saw what you are building on Seedicon. Would love to connect and share notes on go-to-market!')">
+          👋 Intro &amp; GTM Knowledge Share
+        </button>
+        <button type="button" class="net-prompt-chip" onclick="insertPrompt('Hi, we are currently gearing up for our Seed round and loved your diligence metrics. Could we grab a quick 10m virtual coffee?')">
+          ☕ Advice on Seed Round Strategy
+        </button>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label class="net-filter-label" for="npMsgTextarea">Your Message</label>
+        <textarea id="npMsgTextarea" class="net-msg-textarea" placeholder="Write a direct message to start a conversation..."></textarea>
+      </div>
+    </div>
+
+    <div class="net-drawer-footer">
+      <button type="button" class="btn btn-secondary" onclick="closeMsgDrawer()">Cancel</button>
+      <button type="button" class="btn btn-primary" onclick="sendMessage()">
+        <i data-lucide="send" style="width:13px; height:13px;"></i>
+        <span>Send Message</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Layout & Interaction Scripts -->
+<script src="./js/components.js"></script>
+<script>
+  const PROFILES_DB = {
+    'elena-rostova': {
+      id: 'elena-rostova',
+      name: 'Elena Rostova',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&h=240&fit=crop&crop=faces',
+      role: 'Founder',
+      company: 'CloudVector AI',
+      companyWebsite: 'https://cloudvector.ai',
+      roleInCompany: 'Founder & CEO',
+      bio: 'Elena is the founder & CEO of CloudVector AI, building autonomous AI agents for enterprise workflow optimization and security audit logs. Previously early engineering lead at Stripe with focus on global identity systems.',
+      linkedin: 'https://linkedin.com/in/elena-rostova',
+      email: 'elena@cloudvector.ai',
+      phone: '+1 (415) 555-0192',
+      country: 'United States',
+      city: 'San Francisco',
+      products: [
+        {
+          id: 'cloudvector',
+          name: 'CloudVector AI',
+          logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=120&h=120&fit=crop',
+          tagline: 'Autonomous AI workflow optimization and security audit logs for enterprise clouds.',
+          upvotes: '248',
+          traction: '$1.8M ARR',
+          funding: '$2.5M Seed',
+          stage: 'Seed Stage',
+          sector: 'AI / ML'
+        }
+      ],
+      team: [
+        { name: 'Alex Thorne', role: 'Co-Founder & CTO', email: 'alex@cloudvector.ai', linkedin: 'https://linkedin.com/in/alexthorne' },
+        { name: 'Marcus Vance', role: 'Co-Founder & COO', email: 'marcus@cloudvector.ai', linkedin: 'https://linkedin.com/in/marcusvance' }
+      ]
+    },
+    'vikram-mehta': {
+      id: 'vikram-mehta',
+      name: 'Vikram Mehta',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=240&h=240&fit=crop&crop=faces',
+      role: 'Founder',
+      company: 'Junify',
+      companyWebsite: 'https://junify.io',
+      roleInCompany: 'Co-founder & CTO',
+      bio: 'Vikram is the technical co-founder & CTO of Junify, scaling high-concurrency cross-border multi-tenant checkout engines across 40+ countries.',
+      linkedin: 'https://linkedin.com/in/vikram-mehta',
+      email: 'vikram@junify.io',
+      phone: '+1 (512) 555-0187',
+      country: 'United States',
+      city: 'Austin',
+      products: [
+        {
+          id: 'junify',
+          name: 'Junify',
+          logo: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=120&h=120&fit=crop',
+          tagline: 'Multi-tenant high-concurrency checkout and merchant payments platform.',
+          upvotes: '48',
+          traction: '$850k ARR',
+          funding: '$1.2M Pre-Seed',
+          stage: 'Early Stage',
+          sector: 'Fintech'
+        }
+      ],
+      team: [
+        { name: 'Sarah Jenkins', role: 'Co-Founder & CEO', email: 'sarah@junify.io', linkedin: 'https://linkedin.com/in/sarahjenkins' }
+      ]
+    },
+    'sarah-lin': {
+      id: 'sarah-lin',
+      name: 'Sarah Lin',
+      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=240&h=240&fit=crop&crop=faces',
+      role: 'Founder',
+      company: 'Datasphere Vault',
+      companyWebsite: 'https://datasphere.tech',
+      roleInCompany: 'Founder & CEO',
+      bio: 'Sarah leads Datasphere Vault, modernizing data rooms with real-time audit logs and zero-knowledge encryption for private capital rounds. Bessemer Venture Fellow.',
+      linkedin: 'https://linkedin.com/in/sarah-lin',
+      email: 'sarah@datasphere.tech',
+      phone: '+1 (212) 555-0144',
+      country: 'United States',
+      city: 'New York',
+      products: [
+        {
+          id: 'datasphere',
+          name: 'Datasphere Vault',
+          logo: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=120&h=120&fit=crop',
+          tagline: 'Zero-knowledge virtual data rooms and real-time investor diligence audit trails.',
+          upvotes: '185',
+          traction: '$1.2M ARR',
+          funding: '$3.0M Seed',
+          stage: 'Seed Stage',
+          sector: 'Security'
+        }
+      ],
+      team: [
+        { name: 'David Cho', role: 'Lead Architect', email: 'david@datasphere.tech', linkedin: 'https://linkedin.com/in/davidcho' }
+      ]
+    },
+    'david-chen': {
+      id: 'david-chen',
+      name: 'David Chen',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=240&h=240&fit=crop&crop=faces',
+      role: 'Founder',
+      company: 'HyperGraph',
+      companyWebsite: 'https://hypergraph.dev',
+      roleInCompany: 'Founder & Lead Architect',
+      bio: 'Founder at HyperGraph, building high-throughput GraphQL core runtime engines for distributed microservice architectures.',
+      linkedin: 'https://linkedin.com/in/david-chen',
+      email: 'david@hypergraph.dev',
+      phone: '+1 (206) 555-0138',
+      country: 'United States',
+      city: 'Seattle',
+      products: [
+        {
+          id: 'hypergraph',
+          name: 'HyperGraph Runtime',
+          logo: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=120&h=120&fit=crop',
+          tagline: 'Ultra high-throughput GraphQL microservice router and low-latency cache fabric.',
+          upvotes: '312',
+          traction: '$2.1M ARR',
+          funding: '$4.2M Seed',
+          stage: 'Growth',
+          sector: 'DevTools'
+        }
+      ],
+      team: [
+        { name: 'Liam Ross', role: 'Systems Engineer', email: 'liam@hypergraph.dev', linkedin: 'https://linkedin.com/in/liamross' }
+      ]
+    }
+  };
+
+  let activeProfile = null;
+
+  function initProfilePage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const profileId = urlParams.get('id') || 'elena-rostova';
+    activeProfile = PROFILES_DB[profileId] || PROFILES_DB['elena-rostova'];
+
+    document.title = `${activeProfile.name} — Profile | Seedicon`;
+    document.getElementById('npBreadcrumbName').textContent = activeProfile.name;
+    document.getElementById('profileMainAvatar').src = activeProfile.avatar;
+    document.getElementById('profileNameDisplay').textContent = activeProfile.name;
+    document.getElementById('profileRoleText').textContent = activeProfile.role;
+    document.getElementById('profileBioText').textContent = activeProfile.bio;
+
+    // 8 Founder Details
+    const linkEl = document.getElementById('linkLinkedIn');
+    linkEl.href = activeProfile.linkedin;
+    linkEl.textContent = `${activeProfile.linkedin} ↗`;
+
+    document.getElementById('viewEmail').textContent = activeProfile.email;
+    document.getElementById('viewCompany').textContent = activeProfile.company || '—';
+    
+    const compWebEl = document.getElementById('linkCompanyWebsite');
+    if (activeProfile.companyWebsite) {
+      compWebEl.href = activeProfile.companyWebsite;
+      compWebEl.textContent = `${activeProfile.companyWebsite} ↗`;
+    } else {
+      document.getElementById('viewCompanyWebsite').textContent = '—';
+    }
+
+    document.getElementById('viewRoleInCompany').textContent = activeProfile.roleInCompany || activeProfile.role || '—';
+    document.getElementById('viewPhone').textContent = activeProfile.phone || '—';
+    document.getElementById('viewCountry').textContent = activeProfile.country || '—';
+    document.getElementById('viewCity').textContent = activeProfile.city || '—';
+
+    // Founding Team
+    renderFoundingTeam(activeProfile.team || []);
+
+    // Products Tab
+    renderFounderProducts(activeProfile.products || []);
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function renderFoundingTeam(team) {
+    const container = document.getElementById('profileTeamContainer');
+    if (!container) return;
+
+    if (!team || team.length === 0) {
+      container.innerHTML = `<p style="font-size:13px; color:var(--np-text-muted); font-style:italic;">No team members added yet.</p>`;
+      return;
+    }
+
+    container.innerHTML = team.map(m => `
+      <div class="profile-team-surface-row">
+        <div class="profile-team-info">
+          <div class="profile-team-name">${m.name}</div>
+          <div class="profile-team-role">${m.role}</div>
+        </div>
+        <div class="profile-team-meta">
+          <a href="mailto:${m.email}">${m.email}</a>
+          <span>&bull;</span>
+          <a href="${m.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderFounderProducts(products) {
+    const container = document.getElementById('profileProductsContainer');
+    if (!container) return;
+
+    if (!products || products.length === 0) {
+      container.innerHTML = `<p style="font-size:13px; color:var(--np-text-muted); font-style:italic;">No products listed yet.</p>`;
+      return;
+    }
+
+    container.innerHTML = products.map(p => `
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border:1px solid var(--np-border); border-radius:var(--np-radius-md); background:#FAFAF9; cursor:pointer; transition:background 0.12s ease;" onclick="window.location.href='./product-detail.html'" onmouseover="this.style.background='#F4F4F2'" onmouseout="this.style.background='#FAFAF9'">
+        <div style="display:flex; align-items:center; gap:14px; min-width:0;">
+          <img src="${p.logo}" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(p.name)}'" style="width:40px; height:40px; border-radius:10px; object-fit:cover; border:1px solid var(--np-border-subtle); flex-shrink:0;" alt="${p.name}" />
+          <div style="display:flex; flex-direction:column; gap:2px; min-width:0;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-weight:700; font-size:14px; color:var(--np-text-dark);">${p.name}</span>
+              <span style="font-size:10px; font-weight:700; padding:1px 6px; border-radius:9999px; background:#E5E7EB; color:#111827;">${p.sector}</span>
+              <span style="font-size:10px; font-weight:600; padding:1px 6px; border-radius:9999px; background:#FFFFFF; border:1px solid var(--np-border); color:var(--np-text-muted);">${p.stage}</span>
+            </div>
+            <div style="font-size:12px; color:var(--np-text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:480px;">${p.tagline}</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:14px; flex-shrink:0;">
+          <span style="font-size:12px; font-weight:700; color:var(--np-text-dark);">${p.traction}</span>
+          <span style="display:inline-flex; align-items:center; gap:4px; font-size:12.5px; font-weight:700; color:var(--np-text-dark); background:#FFFFFF; border:1px solid var(--np-border); padding:3px 8px; border-radius:var(--np-radius-sm);">
+            ▲ ${p.upvotes}
+          </span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function switchProfileTab(tabId, btn) {
+    document.querySelectorAll('.profile-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.profile-tab-pane').forEach(p => p.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const target = document.getElementById(`pane-${tabId}`);
+    if (target) target.classList.add('active');
+  }
+
+  function openMsgDrawer() {
+    if (!activeProfile) return;
+    document.getElementById('drawerRecipientAvatar').src = activeProfile.avatar;
+    document.getElementById('drawerRecipientName').textContent = activeProfile.name;
+    document.getElementById('drawerRecipientRole').textContent = `${activeProfile.role} @ Seedicon`;
+    document.getElementById('npMsgTextarea').value = '';
+
+    const overlay = document.getElementById('npMsgDrawerOverlay');
+    if (overlay) {
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeMsgDrawer() {
+    const overlay = document.getElementById('npMsgDrawerOverlay');
+    if (overlay) {
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function handleMsgBackdrop(e) {
+    if (e.target.id === 'npMsgDrawerOverlay') {
+      closeMsgDrawer();
+    }
+  }
+
+  function insertPrompt(txt) {
+    const area = document.getElementById('npMsgTextarea');
+    if (area) {
+      area.value = txt;
+      area.focus();
+    }
+  }
+
+  function sendMessage() {
+    const area = document.getElementById('npMsgTextarea');
+    const val = area ? area.value.trim() : '';
+    if (!val) {
+      if (window.showToast) window.showToast('Please type a message before sending.', 'error');
+      return;
+    }
+    closeMsgDrawer();
+    if (window.showToast) window.showToast(`✨ Direct message delivered to ${activeProfile.name}!`, 'success');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof FounderLayout !== 'undefined') {
+      FounderLayout.init('network', 'Founder Profile');
+    }
+    initProfilePage();
+  });
+</script>
+</body>
+</html>

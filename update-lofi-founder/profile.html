@@ -17,6 +17,7 @@
 
   <!-- Profile Stylesheet -->
   <link rel="stylesheet" href="./css/profile.css" />
+  <link rel="stylesheet" href="./css/messages.css" />
 </head>
 
 <body>
@@ -40,14 +41,12 @@
         <nav>
           <ul class="pub-nav-center">
             
-            <!-- 1. Capital -->
             <li class="pub-nav-item">
               <a href="./index.html" class="pub-nav-link" title="Seedicon Capital Solutions">
                 <span>Capital</span>
               </a>
             </li>
 
-            <!-- 2. Products -->
             <li class="pub-nav-item">
               <a href="./public-product-listing.html" class="pub-nav-link" title="Seedicon Product Ecosystem">
                 <span>Products</span>
@@ -87,7 +86,7 @@
                   </div>
                 </a>
 
-                <a href="../lofi-founder/founder-network.html" class="dropdown-product-row">
+                <a href="./network.html" class="dropdown-product-row">
                   <div class="dropdown-prod-icon">
                     <i data-lucide="users" style="width:15px; height:15px;"></i>
                   </div>
@@ -115,21 +114,18 @@
               </div>
             </li>
 
-            <!-- 3. Trade -->
             <li class="pub-nav-item">
               <a href="../lofi-founder/real-market-problems.html" class="pub-nav-link" title="Secondary &amp; Asset Trading">
                 <span>Trade</span>
               </a>
             </li>
 
-            <!-- 4. Partner with us -->
             <li class="pub-nav-item">
               <a href="../lofi-founder/investor-tracking.html" class="pub-nav-link" title="Syndicate &amp; Venture Partners">
                 <span>Partner with us</span>
               </a>
             </li>
 
-            <!-- 5. Insights -->
             <li class="pub-nav-item">
               <a href="../lofi-founder/startup-news.html" class="pub-nav-link" title="Venture Intelligence &amp; Market Research">
                 <span>Insights</span>
@@ -161,13 +157,13 @@
         <!-- User Avatar Dropdown -->
         <div class="pub-avatar-container">
           <button type="button" class="pub-avatar-btn" id="pubUserAvatarBtn" onclick="toggleUserDropdown(event)" title="User Account">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="Gyan Sharma" class="pub-avatar-img" id="pubNavAvatarImg" />
+            <img src="https://api.dicebear.com/7.x/initials/svg?seed=Gyan%20Sharma&backgroundColor=111827&textColor=ffffff" alt="Gyan Sharma" class="pub-avatar-img" id="pubNavAvatarImg" />
           </button>
 
           <div class="pub-user-menu" id="pubUserMenu">
             <div class="pub-user-menu-head" onclick="window.location.href='./profile.html'" style="cursor:pointer;" title="View Gyan Sharma's profile">
               <div class="pub-user-menu-user-row">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="Gyan Sharma" class="pub-user-menu-avatar" id="pubMenuAvatarImg" />
+                <img src="https://api.dicebear.com/7.x/initials/svg?seed=Gyan%20Sharma&backgroundColor=111827&textColor=ffffff" alt="Gyan Sharma" class="pub-user-menu-avatar" id="pubMenuAvatarImg" />
                 <div class="pub-user-menu-info">
                   <div class="pub-user-menu-name" id="pubUserNameDisplay">Gyan Sharma</div>
                   <div class="pub-user-email" id="pubUserEmailDisplay" style="font-size:11.5px; color:var(--pub-text-muted);">gyan.sharma@seedicon.com</div>
@@ -178,22 +174,30 @@
               <div class="pub-profile-progress-wrap" style="margin-top:10px;">
                 <div class="pub-profile-progress-label" style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:700; color:var(--pub-text-dark); margin-bottom:4px;">
                   <span>Profile Completion</span>
-                  <span style="font-weight:800;" id="pubDropdownProgressText">50%</span>
+                  <span style="font-weight:800;" id="pubDropdownProgressText">40%</span>
                 </div>
                 <div class="pub-profile-progress-bar" style="height:5px; background:#E5E7EB; border-radius:9999px; overflow:hidden;">
-                  <div class="pub-profile-progress-fill" id="pubDropdownProgressBarFill" style="width:50%; height:100%; background:#111827;"></div>
+                  <div class="pub-profile-progress-fill" id="pubDropdownProgressBarFill" style="width:40%; height:100%; background:#111827;"></div>
+                </div>
+                <div style="font-size:11px; color:var(--pub-text-muted); margin-top:5px; display:flex; align-items:center; gap:4px;" id="pubDropdownVerificationHint">
+                  <i data-lucide="badge-check" style="width:12px; height:12px;"></i>
+                  <span>Complete your profile to get verified by Seedicon</span>
                 </div>
               </div>
             </div>
 
-            <!-- Menu Options: Profile, Settings, My Products, Funding requests -->
+            <!-- Menu Options -->
             <a href="./profile.html" class="pub-user-menu-link active" onclick="window.location.href='./profile.html'">
               <i data-lucide="user" style="width:14px; height:14px;"></i>
               <span>Profile</span>
             </a>
             <a href="./network.html" class="pub-user-menu-link" onclick="window.location.href='./network.html'">
-              <i data-lucide="settings" style="width:14px; height:14px;"></i>
-              <span>Settings</span>
+              <i data-lucide="users" style="width:14px; height:14px;"></i>
+              <span>Network</span>
+            </a>
+            <a href="./messages.html" class="pub-user-menu-link" onclick="window.location.href='./messages.html'">
+              <i data-lucide="message-square" style="width:14px; height:14px;"></i>
+              <span>Messages</span>
             </a>
             <a href="./my-products.html" class="pub-user-menu-link" onclick="window.location.href='./my-products.html'">
               <i data-lucide="package" style="width:14px; height:14px;"></i>
@@ -206,7 +210,6 @@
 
             <div style="height:1px; background:var(--pub-border-subtle); margin:4px 0;"></div>
 
-            <!-- Workspaces: Founder & Investor -->
             <a href="./network.html" class="pub-user-menu-link" onclick="window.location.href='./network.html'">
               <i data-lucide="layout-dashboard" style="width:14px; height:14px;"></i>
               <span>Founder Workspace</span>
@@ -236,7 +239,7 @@
   <main class="profile-page-container">
 
     <!-- ══════════════════════════════════════════════════════════════════════════
-         TOP PROFILE IDENTITY HEADER (CLEAN SURFACE LAYOUT)
+         TOP PROFILE IDENTITY HEADER (CLEAN SURFACE LAYOUT — NO BORDER BOTTOM)
          ══════════════════════════════════════════════════════════════════════════ -->
     <div class="profile-header-card">
       
@@ -245,7 +248,7 @@
         
         <!-- Large Round Avatar Frame -->
         <div class="profile-avatar-wrap" onclick="if(isEditMode) document.getElementById('profileAvatarFileInput').click()" title="Profile Photo">
-          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&h=240&fit=crop&crop=faces" alt="Gyan Sharma" class="profile-avatar-img" id="profileMainAvatar" />
+          <img src="https://api.dicebear.com/7.x/initials/svg?seed=Gyan%20Sharma&backgroundColor=111827&textColor=ffffff" alt="Gyan Sharma" class="profile-avatar-img" id="profileMainAvatar" />
           <div class="profile-avatar-edit-overlay">
             <i data-lucide="camera" style="width:16px; height:16px;"></i>
           </div>
@@ -255,13 +258,11 @@
         <!-- Identity & Role Block -->
         <div class="profile-info-block">
           
-          <!-- Full Name (Clean compact text in view & edit mode) -->
           <div>
             <h1 class="profile-name" id="profileNameDisplay">Gyan Sharma</h1>
             <input type="text" id="profileNameInput" class="profile-name-edit-input" value="Gyan Sharma" placeholder="Full Name" />
           </div>
 
-          <!-- Role as Normal Text Below Name -->
           <div>
             <div class="profile-role-text" id="profileRoleText">Founder</div>
             <select class="profile-role-select" id="profileRoleSelect" onchange="handleRoleChange(this.value)">
@@ -271,14 +272,18 @@
             </select>
           </div>
 
-          <!-- Profile Completion Meter Card (Smartly placed right here) -->
+          <!-- Profile Completion Meter Card -->
           <div class="profile-completion-meter-card">
             <div class="profile-completion-head">
               <span>Profile Completion</span>
-              <span class="profile-completion-percent" id="profileCompletionPercentText">50%</span>
+              <span class="profile-completion-percent" id="profileCompletionPercentText">40%</span>
             </div>
             <div class="profile-completion-bar-track">
-              <div class="profile-completion-bar-fill" id="profileCompletionFill" style="width: 50%;"></div>
+              <div class="profile-completion-bar-fill" id="profileCompletionFill" style="width: 40%;"></div>
+            </div>
+            <div class="profile-completion-hint" id="profileCompletionHint">
+              <i data-lucide="badge-check" style="width:13px; height:13px;"></i>
+              <span>Complete your profile to get verified by Seedicon</span>
             </div>
           </div>
 
@@ -286,17 +291,22 @@
 
       </div>
 
-      <!-- Right: Action Controls (In-Place Edit Toggle + Subtle Flash Auto-Fill Icon) -->
+      <!-- Right: Action Controls (In-Place Edit Toggle + Reset Icon + Subtle Flash Auto-Fill Icon) -->
       <div class="profile-header-actions">
         
-        <!-- Subtle Flash Auto-Fill Icon Button (Visible in Edit Mode) -->
-        <button type="button" class="profile-flash-autofill-btn" id="btnAutoFillIcon" onclick="triggerOneClickAutoFill()" title="⚡ Auto-fill profile from LinkedIn">
-          <i data-lucide="zap" style="width:16px; height:16px;"></i>
+        <!-- Reset to Initial Empty State Icon Button (Visible in View Mode, placed to the left of Edit my profile) -->
+        <button type="button" class="profile-reset-btn" id="btnResetEmptyState" onclick="resetToInitialEmptyState()" title="Reset profile to initial empty state">
+          <i data-lucide="rotate-ccw" style="width:15px; height:15px;"></i>
         </button>
 
         <!-- View Mode: Edit Button -->
         <button type="button" class="profile-edit-btn" id="btnEnterEditMode" onclick="toggleEditMode(true)">
           <span>Edit my profile</span>
+        </button>
+
+        <!-- Subtle Flash Auto-Fill Icon Button (Visible in Edit Mode) -->
+        <button type="button" class="profile-flash-autofill-btn" id="btnAutoFillIcon" onclick="triggerOneClickAutoFill()" title="⚡ Auto-fill profile from LinkedIn">
+          <i data-lucide="zap" style="width:16px; height:16px;"></i>
         </button>
 
         <!-- Edit Mode: Cancel & Save Buttons -->
@@ -314,7 +324,7 @@
     </div>
 
     <!-- ══════════════════════════════════════════════════════════════════════════
-         NAVIGATION PILL TABS (ABOUT, SAVED, SETTING ONLY)
+         NAVIGATION PILL TABS (ABOUT, SAVED, SETTING)
          ══════════════════════════════════════════════════════════════════════════ -->
     <nav class="profile-nav-tabs" aria-label="Profile navigation">
       <button type="button" class="profile-tab-btn active" onclick="switchProfileTab('about', this)">About</button>
@@ -323,7 +333,7 @@
     </nav>
 
     <!-- ══════════════════════════════════════════════════════════════════════════
-         TAB 1: ABOUT (INCLUDES ALL REFER.MD DETAILS ON SURFACE)
+         TAB 1: ABOUT
          ══════════════════════════════════════════════════════════════════════════ -->
     <div class="profile-tab-pane active" id="pane-about">
       
@@ -348,7 +358,7 @@
       <div class="profile-section-block">
         <h2 class="profile-section-title">Founder Details</h2>
         
-        <!-- View Mode: Surface Details Grid (No box enclosure) -->
+        <!-- View Mode: Surface Details Grid -->
         <div class="profile-surface-details-grid" id="profileDetailsViewGrid">
           
           <div class="profile-detail-item">
@@ -361,6 +371,21 @@
           <div class="profile-detail-item">
             <span class="profile-detail-label">OFFICIAL EMAIL</span>
             <span class="profile-detail-value" id="viewEmail">gyan.sharma@seedicon.com</span>
+          </div>
+
+          <div class="profile-detail-item">
+            <span class="profile-detail-label">COMPANY NAME</span>
+            <span class="profile-detail-value placeholder" id="viewCompany">Add company name</span>
+          </div>
+
+          <div class="profile-detail-item">
+            <span class="profile-detail-label">COMPANY WEBSITE</span>
+            <span class="profile-detail-value placeholder" id="viewCompanyWebsite">Add company website</span>
+          </div>
+
+          <div class="profile-detail-item">
+            <span class="profile-detail-label">ROLE IN COMPANY</span>
+            <span class="profile-detail-value placeholder" id="viewRoleInCompany">Add role in company</span>
           </div>
 
           <div class="profile-detail-item">
@@ -383,7 +408,7 @@
         <!-- Edit Mode: Details Inputs Grid -->
         <div class="profile-edit-details-grid" id="profileDetailsEditGrid" style="display:none;">
           
-          <div class="profile-detail-item" style="grid-column: 1 / -1;">
+          <div class="profile-detail-item">
             <label class="profile-detail-label" for="inputLinkedIn">LINKEDIN PROFILE URL</label>
             <input type="url" id="inputLinkedIn" class="profile-form-input" value="https://linkedin.com/in/gyansharma" placeholder="https://linkedin.com/in/username" oninput="updateCompletionMeter()" />
           </div>
@@ -394,8 +419,37 @@
           </div>
 
           <div class="profile-detail-item">
+            <label class="profile-detail-label" for="inputCompany">COMPANY NAME</label>
+            <input type="text" id="inputCompany" class="profile-form-input" placeholder="e.g. Seedicon Labs" oninput="updateCompletionMeter()" />
+          </div>
+
+          <div class="profile-detail-item">
+            <label class="profile-detail-label" for="inputCompanyWebsite">COMPANY WEBSITE</label>
+            <input type="url" id="inputCompanyWebsite" class="profile-form-input" placeholder="https://seedicon.com" oninput="updateCompletionMeter()" />
+          </div>
+
+          <div class="profile-detail-item">
+            <label class="profile-detail-label" for="inputRoleInCompany">ROLE IN COMPANY</label>
+            <input type="text" id="inputRoleInCompany" class="profile-form-input" placeholder="e.g. Founder &amp; CEO" oninput="updateCompletionMeter()" />
+          </div>
+
+          <!-- Contact Number Field with Inline Send OTP Action -->
+          <div class="profile-detail-item">
             <label class="profile-detail-label" for="inputPhone">CONTACT NUMBER</label>
-            <input type="tel" id="inputPhone" class="profile-form-input" placeholder="e.g. +1 (555) 019-2834" oninput="updateCompletionMeter()" />
+            <div style="display:flex; gap:8px; align-items:center;">
+              <input type="tel" id="inputPhone" class="profile-form-input" placeholder="e.g. +1 (555) 019-2834" oninput="updateCompletionMeter()" style="flex:1;" />
+              <button type="button" class="btn-send-otp" id="btnSendOtp" onclick="handleSendOtp()" style="height:36px; padding:0 12px; border-radius:6px; background:#111827; color:#FFFFFF; border:none; font-family:var(--pub-font); font-size:12px; font-weight:600; cursor:pointer; white-space:nowrap; flex-shrink:0; transition:all 0.12s ease;">
+                Send OTP
+              </button>
+            </div>
+            
+            <!-- Inline OTP Verification Box -->
+            <div id="otpInputWrap" style="display:none; margin-top:6px; gap:8px; align-items:center;">
+              <input type="text" id="inputOtpCode" class="profile-form-input" placeholder="Enter OTP (1234)" style="width:130px; font-weight:700; letter-spacing:0.08em; text-align:center;" maxlength="4" />
+              <button type="button" onclick="handleVerifyOtp()" style="height:34px; padding:0 12px; border-radius:6px; background:#059669; color:#FFFFFF; border:none; font-family:var(--pub-font); font-size:12px; font-weight:600; cursor:pointer;">
+                Verify OTP
+              </button>
+            </div>
           </div>
 
           <div class="profile-detail-item">
@@ -421,7 +475,6 @@
           </button>
         </div>
 
-        <!-- Team List Container (Surface Rows in View Mode, Cards in Edit Mode) -->
         <div class="profile-team-list" id="profileTeamContainer">
           <!-- Populated via JS -->
         </div>
@@ -449,20 +502,6 @@
               <i data-lucide="bookmark" style="width:16px; height:16px; color:#111827; fill:#111827;"></i>
             </div>
           </div>
-
-          <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border:1px solid #E5E5DF; border-radius:10px; background:#FAFAF9; cursor:pointer;" onclick="window.location.href='./product-detail.html'">
-            <div style="display:flex; align-items:center; gap:14px;">
-              <img src="https://www.google.com/s2/favicons?domain=viktor.ai&sz=128" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=Viktor'" style="width:32px; height:32px; border-radius:8px;" alt="Viktor" />
-              <div>
-                <div style="font-weight:700; font-size:14px; color:#111827;">Viktor.com</div>
-                <div style="font-size:12px; color:#6B7280;">An AI coworker that actually does the work</div>
-              </div>
-            </div>
-            <div style="display:flex; align-items:center; gap:12px;">
-              <span style="font-size:12.5px; font-weight:700; color:#111827;">▲ 696</span>
-              <i data-lucide="bookmark" style="width:16px; height:16px; color:#111827; fill:#111827;"></i>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -473,7 +512,6 @@
     <div class="profile-tab-pane" id="pane-setting">
       <div class="profile-section-block">
         <h2 class="profile-section-title">Account Settings</h2>
-        
         <div class="profile-surface-details-grid" style="margin-top:8px;">
           <div class="profile-detail-item">
             <span class="profile-detail-label">ACCOUNT EMAIL</span>
@@ -484,23 +522,12 @@
             <span class="profile-detail-label">PROFILE VISIBILITY</span>
             <span class="profile-detail-value">Public (Marketplace &amp; Investors)</span>
           </div>
-
-          <div class="profile-detail-item">
-            <span class="profile-detail-label">EMAIL NOTIFICATIONS</span>
-            <span class="profile-detail-value">Investor Inquiries, Product Upvotes</span>
-          </div>
-
-          <div class="profile-detail-item">
-            <span class="profile-detail-label">TWO-FACTOR AUTHENTICATION</span>
-            <span class="profile-detail-value" style="color:#059669;">Enabled (Authenticator App)</span>
-          </div>
         </div>
 
         <div style="margin-top:16px; display:flex; gap:10px;">
           <button type="button" class="profile-edit-btn" onclick="showToast('Settings saved')">Save Preferences</button>
         </div>
       </div>
-    </div>
     </div>
 
   </main>
@@ -514,16 +541,21 @@
   <script>
     let isEditMode = false;
 
-    // Profile Data Model (Strictly structured from refer.md)
+    // Default Empty/Initial Profile Model (Name, Role, Email, LinkedIn provided; rest empty)
     let profileData = {
       name: 'Gyan Sharma',
       role: 'Founder',
       email: 'gyan.sharma@seedicon.com',
       linkedIn: 'https://linkedin.com/in/gyansharma',
+      company: '',
+      companyWebsite: '',
+      roleInCompany: '',
       phone: '',
+      phoneVerified: false,
       country: '',
       city: '',
       about: '',
+      avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Gyan%20Sharma&backgroundColor=111827&textColor=ffffff',
       teamMembers: []
     };
 
@@ -533,7 +565,6 @@
       if (typeof lucide !== 'undefined') lucide.createIcons();
     });
 
-    // Load from localStorage
     function loadProfileData() {
       try {
         const stored = localStorage.getItem('seedicon_profile_data');
@@ -546,7 +577,6 @@
       }
     }
 
-    // Save to localStorage
     function persistProfileData() {
       localStorage.setItem('seedicon_profile_data', JSON.stringify(profileData));
       localStorage.setItem('seedicon_user', JSON.stringify({
@@ -556,13 +586,15 @@
       }));
     }
 
-    // Dynamic Profile Completion Meter Calculation
     function updateCompletionMeter() {
       let temp = { ...profileData };
       if (isEditMode) {
         temp.name = document.getElementById('profileNameInput')?.value || '';
         temp.email = document.getElementById('inputEmail')?.value || '';
         temp.linkedIn = document.getElementById('inputLinkedIn')?.value || '';
+        temp.company = document.getElementById('inputCompany')?.value || '';
+        temp.companyWebsite = document.getElementById('inputCompanyWebsite')?.value || '';
+        temp.roleInCompany = document.getElementById('inputRoleInCompany')?.value || '';
         temp.phone = document.getElementById('inputPhone')?.value || '';
         temp.country = document.getElementById('inputCountry')?.value || '';
         temp.city = document.getElementById('inputCity')?.value || '';
@@ -570,13 +602,16 @@
       }
       
       let score = 0;
-      if (temp.name && temp.name.trim()) score += 15;
+      if (temp.name && temp.name.trim()) score += 10;
       if (temp.role && temp.role.trim()) score += 10;
-      if (temp.email && temp.email.trim()) score += 15;
+      if (temp.email && temp.email.trim()) score += 10;
       if (temp.linkedIn && temp.linkedIn.trim()) score += 10;
+      if (temp.company && temp.company.trim()) score += 10;
+      if (temp.companyWebsite && temp.companyWebsite.trim()) score += 10;
+      if (temp.roleInCompany && temp.roleInCompany.trim()) score += 10;
       if (temp.phone && temp.phone.trim()) score += 10;
-      if (temp.country && temp.country.trim()) score += 10;
-      if (temp.city && temp.city.trim()) score += 10;
+      if (temp.country && temp.country.trim()) score += 5;
+      if (temp.city && temp.city.trim()) score += 5;
       if (temp.about && temp.about.trim()) score += 10;
       if (temp.teamMembers && temp.teamMembers.length > 0) score += 10;
       score = Math.min(100, Math.max(0, score));
@@ -591,10 +626,40 @@
       if (textEl) textEl.textContent = pctStr;
       if (dropFillEl) dropFillEl.style.width = pctStr;
       if (dropTextEl) dropTextEl.textContent = pctStr;
+
+      const hintEl = document.getElementById('profileCompletionHint');
+      const dropHintEl = document.getElementById('pubDropdownVerificationHint');
+
+      if (hintEl) {
+        if (score === 100) {
+          hintEl.className = 'profile-completion-hint verified';
+          hintEl.innerHTML = `<i data-lucide="badge-check" style="width:13px; height:13px;"></i><span>Verified Founder on Seedicon</span>`;
+        } else {
+          hintEl.className = 'profile-completion-hint';
+          hintEl.innerHTML = `<i data-lucide="badge-check" style="width:13px; height:13px;"></i><span>Complete your profile to get verified by Seedicon</span>`;
+        }
+      }
+
+      if (dropHintEl) {
+        if (score === 100) {
+          dropHintEl.style.color = '#059669';
+          dropHintEl.innerHTML = `<i data-lucide="badge-check" style="width:12px; height:12px;"></i><span>Verified Founder on Seedicon</span>`;
+        } else {
+          dropHintEl.style.color = 'var(--pub-text-muted)';
+          dropHintEl.innerHTML = `<i data-lucide="badge-check" style="width:12px; height:12px;"></i><span>Complete your profile to get verified by Seedicon</span>`;
+        }
+      }
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 
-    // Render Clean Surface UI in View Mode
     function renderProfileUI() {
+      // Main Avatar
+      const avatarSrc = profileData.avatar || 'https://api.dicebear.com/7.x/initials/svg?seed=Gyan%20Sharma&backgroundColor=111827&textColor=ffffff';
+      document.getElementById('profileMainAvatar').src = avatarSrc;
+      document.getElementById('pubNavAvatarImg').src = avatarSrc;
+      document.getElementById('pubMenuAvatarImg').src = avatarSrc;
+
       // Full Name
       document.getElementById('profileNameDisplay').textContent = profileData.name;
       document.getElementById('profileNameInput').value = profileData.name;
@@ -615,7 +680,7 @@
       }
       document.getElementById('profileBioInput').value = profileData.about || '';
 
-      // Contact & Location Surface Fields
+      // LinkedIn & Email
       const linkedInEl = document.getElementById('viewLinkedIn');
       if (profileData.linkedIn && profileData.linkedIn.trim()) {
         linkedInEl.innerHTML = `<a href="${profileData.linkedIn}" target="_blank" style="color:#0A66C2; text-decoration:underline;">${profileData.linkedIn} ↗</a>`;
@@ -630,9 +695,43 @@
       emailEl.textContent = profileData.email || 'gyan.sharma@seedicon.com';
       document.getElementById('inputEmail').value = profileData.email || '';
 
+      // Company Name
+      const compEl = document.getElementById('viewCompany');
+      if (profileData.company && profileData.company.trim()) {
+        compEl.textContent = profileData.company;
+        compEl.classList.remove('placeholder');
+      } else {
+        compEl.textContent = 'Add company name';
+        compEl.classList.add('placeholder');
+      }
+      document.getElementById('inputCompany').value = profileData.company || '';
+
+      // Company Website
+      const compWebEl = document.getElementById('viewCompanyWebsite');
+      if (profileData.companyWebsite && profileData.companyWebsite.trim()) {
+        compWebEl.innerHTML = `<a href="${profileData.companyWebsite}" target="_blank" style="color:#111827; text-decoration:underline;">${profileData.companyWebsite} ↗</a>`;
+        compWebEl.classList.remove('placeholder');
+      } else {
+        compWebEl.textContent = 'Add company website';
+        compWebEl.classList.add('placeholder');
+      }
+      document.getElementById('inputCompanyWebsite').value = profileData.companyWebsite || '';
+
+      // Role in Company
+      const roleInCompEl = document.getElementById('viewRoleInCompany');
+      if (profileData.roleInCompany && profileData.roleInCompany.trim()) {
+        roleInCompEl.textContent = profileData.roleInCompany;
+        roleInCompEl.classList.remove('placeholder');
+      } else {
+        roleInCompEl.textContent = 'Add role in company';
+        roleInCompEl.classList.add('placeholder');
+      }
+      document.getElementById('inputRoleInCompany').value = profileData.roleInCompany || '';
+
+      // Contact Number
       const phoneEl = document.getElementById('viewPhone');
       if (profileData.phone && profileData.phone.trim()) {
-        phoneEl.textContent = profileData.phone;
+        phoneEl.innerHTML = `${profileData.phone} ${profileData.phoneVerified ? '<span style="font-size:11px; font-weight:700; color:#059669; background:#ECFDF5; padding:1px 6px; border-radius:4px; margin-left:6px;">Verified ✓</span>' : ''}`;
         phoneEl.classList.remove('placeholder');
       } else {
         phoneEl.textContent = 'Add contact number';
@@ -640,6 +739,7 @@
       }
       document.getElementById('inputPhone').value = profileData.phone || '';
 
+      // Country & City
       const countryEl = document.getElementById('viewCountry');
       if (profileData.country && profileData.country.trim()) {
         countryEl.textContent = profileData.country;
@@ -663,16 +763,14 @@
       // Render Team
       renderTeamMembersList();
 
-      // Update Meter
+      // Update Completion Meter
       updateCompletionMeter();
     }
 
-    // Toggle In-Place Edit Mode
     function toggleEditMode(enable) {
       isEditMode = enable;
       document.body.classList.toggle('edit-mode', enable);
 
-      // Section Views vs Form Inputs
       document.getElementById('viewModeBio').style.display = enable ? 'none' : 'block';
       document.getElementById('editModeBio').style.display = enable ? 'block' : 'none';
 
@@ -688,18 +786,19 @@
       }
     }
 
-    // Save Profile Inline
     function saveProfileInline() {
       profileData.name = document.getElementById('profileNameInput').value.trim() || 'Gyan Sharma';
       profileData.role = document.getElementById('profileRoleSelect').value;
       profileData.about = document.getElementById('profileBioInput').value.trim();
       profileData.linkedIn = document.getElementById('inputLinkedIn').value.trim();
       profileData.email = document.getElementById('inputEmail').value.trim();
+      profileData.company = document.getElementById('inputCompany').value.trim();
+      profileData.companyWebsite = document.getElementById('inputCompanyWebsite').value.trim();
+      profileData.roleInCompany = document.getElementById('inputRoleInCompany').value.trim();
       profileData.phone = document.getElementById('inputPhone').value.trim();
       profileData.country = document.getElementById('inputCountry').value.trim();
       profileData.city = document.getElementById('inputCity').value.trim();
 
-      // Collect team members
       const teamCards = document.querySelectorAll('.team-member-edit-card');
       profileData.teamMembers = Array.from(teamCards).map(card => ({
         name: card.querySelector('.team-name-input')?.value || '',
@@ -714,6 +813,73 @@
       showToast('Profile updated successfully!');
     }
 
+    // Reset Profile to Initial Empty State
+    function resetToInitialEmptyState() {
+      profileData = {
+        name: 'Gyan Sharma',
+        role: 'Founder',
+        email: 'gyan.sharma@seedicon.com',
+        linkedIn: 'https://linkedin.com/in/gyansharma',
+        company: '',
+        companyWebsite: '',
+        roleInCompany: '',
+        phone: '',
+        phoneVerified: false,
+        country: '',
+        city: '',
+        about: '',
+        avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Gyan%20Sharma&backgroundColor=111827&textColor=ffffff',
+        teamMembers: []
+      };
+
+      localStorage.removeItem('seedicon_profile_data');
+      persistProfileData();
+
+      if (isEditMode) {
+        toggleEditMode(false);
+      } else {
+        renderProfileUI();
+      }
+
+      const btnOtp = document.getElementById('btnSendOtp');
+      if (btnOtp) {
+        btnOtp.textContent = 'Send OTP';
+        btnOtp.style.background = '#111827';
+      }
+      const otpWrap = document.getElementById('otpInputWrap');
+      if (otpWrap) otpWrap.style.display = 'none';
+
+      showToast('Profile reset to initial empty state');
+    }
+
+    // OTP Handlers
+    function handleSendOtp() {
+      const phoneVal = document.getElementById('inputPhone').value.trim();
+      if (!phoneVal) {
+        showToast('Please enter a valid contact number first');
+        return;
+      }
+      const wrap = document.getElementById('otpInputWrap');
+      if (wrap) wrap.style.display = 'flex';
+      showToast(`📲 OTP sent to ${phoneVal}! Use 1234 to verify`);
+    }
+
+    function handleVerifyOtp() {
+      const code = document.getElementById('inputOtpCode').value.trim();
+      if (code === '1234' || code.length === 4) {
+        profileData.phoneVerified = true;
+        const btn = document.getElementById('btnSendOtp');
+        if (btn) {
+          btn.textContent = 'Verified ✓';
+          btn.style.background = '#059669';
+        }
+        document.getElementById('otpInputWrap').style.display = 'none';
+        showToast('✅ Contact number verified!');
+      } else {
+        showToast('Invalid OTP. Enter 1234 to verify');
+      }
+    }
+
     // One-Click Flash Auto-Fill Icon Handler (⚡)
     function triggerOneClickAutoFill() {
       const btn = document.getElementById('btnAutoFillIcon');
@@ -721,7 +887,15 @@
       if (typeof lucide !== 'undefined') lucide.createIcons();
 
       setTimeout(() => {
+        profileData.avatar = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&h=240&fit=crop&crop=faces';
+        document.getElementById('profileMainAvatar').src = profileData.avatar;
+        document.getElementById('pubNavAvatarImg').src = profileData.avatar;
+        document.getElementById('pubMenuAvatarImg').src = profileData.avatar;
+
         document.getElementById('profileBioInput').value = 'Founder & Product Engineer building scalable AI applications and unified venture infrastructure for startups. Ex-Stripe ecosystem partner with 8+ years of engineering leadership.';
+        document.getElementById('inputCompany').value = 'Seedicon Labs';
+        document.getElementById('inputCompanyWebsite').value = 'https://seedicon.com';
+        document.getElementById('inputRoleInCompany').value = 'Founder & CEO';
         document.getElementById('inputPhone').value = '+1 (555) 382-9102';
         document.getElementById('inputCountry').value = 'United States';
         document.getElementById('inputCity').value = 'San Francisco';
@@ -741,14 +915,12 @@
       }, 400);
     }
 
-    // Role Switching
     function handleRoleChange(newRole) {
       profileData.role = newRole;
       document.getElementById('profileRoleText').textContent = newRole;
       showToast(`Role set to ${newRole}`);
     }
 
-    // Tab Switcher
     function switchProfileTab(tabKey, btnEl) {
       const allBtns = document.querySelectorAll('.profile-tab-btn');
       allBtns.forEach(b => b.classList.remove('active'));
@@ -761,9 +933,6 @@
       if (activePane) activePane.classList.add('active');
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
-    // FOUNDING TEAM (CO-FOUNDERS)
-    // ──────────────────────────────────────────────────────────────────────────
     function renderTeamMembersList() {
       const container = document.getElementById('profileTeamContainer');
       if (!container) return;
@@ -793,7 +962,7 @@
                 </div>
                 <div class="profile-detail-item">
                   <label class="profile-detail-label">ROLE</label>
-                  <input type="text" class="profile-form-input team-role-input" value="${member.role || ''}" placeholder="e.g. Co-Founder & CTO" oninput="updateCompletionMeter()" />
+                  <input type="text" class="profile-form-input team-role-input" value="${member.role || ''}" placeholder="e.g. Co-Founder &amp; CTO" oninput="updateCompletionMeter()" />
                 </div>
                 <div class="profile-detail-item">
                   <label class="profile-detail-label">OFFICIAL EMAIL</label>
@@ -837,11 +1006,11 @@
       updateCompletionMeter();
     }
 
-    // Avatar Upload
     function handleAvatarUpload(input) {
       if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = (e) => {
+          profileData.avatar = e.target.result;
           document.getElementById('profileMainAvatar').src = e.target.result;
           document.getElementById('pubNavAvatarImg').src = e.target.result;
           document.getElementById('pubMenuAvatarImg').src = e.target.result;
@@ -851,7 +1020,6 @@
       }
     }
 
-    // User Dropdown Handlers
     function toggleUserDropdown(e) {
       e.stopPropagation();
       const menu = document.getElementById('pubUserMenu');
@@ -874,7 +1042,6 @@
       showToast('Signed out of Seedicon');
     }
 
-    // Toast
     function showToast(msg) {
       const toast = document.getElementById('pubToast');
       if (toast) {
@@ -886,5 +1053,7 @@
       }
     }
   </script>
+  <script src="./js/messages-drawer.js"></script>
 </body>
+
 </html>

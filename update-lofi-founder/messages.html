@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages · Seedicon Founder Workspace</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+
+  <!-- Google Font: Outfit (Strict Rule) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Core & Messages Stylesheets -->
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="stylesheet" href="./css/messages.css" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="founder-workspace-body">
+
+<div class="founder-app-layout" id="appLayout">
+  
+  <!-- 01. Reusable Left Sidebar Slot -->
+  <div id="sidebarSlot"></div>
+
+  <!-- 02. Main Workspace Canvas -->
+  <div class="founder-main-wrapper">
+    
+    <!-- Top Navigation Header Bar -->
+    <div id="topNavSlot"></div>
+
+    <!-- Full 2-Pane Messages Layout -->
+    <main class="messages-full-workspace">
+      
+      <!-- Left Pane: Conversations Inbox List -->
+      <section class="messages-full-left-pane">
+        <div class="msg-inbox-head">
+          <div class="msg-inbox-title-wrap">
+            <h1 class="msg-inbox-title" style="font-size:16px;">Direct Messages</h1>
+            <span class="msg-inbox-count-badge" id="fullInboxCount">7</span>
+          </div>
+        </div>
+
+        <div class="msg-inbox-search-wrap">
+          <div class="msg-inbox-search-box">
+            <i data-lucide="search" class="msg-inbox-search-icon"></i>
+            <input type="text" id="fullSearchInput" class="msg-inbox-search-input" placeholder="Search conversations..." oninput="handleFullSearch(this.value)" />
+          </div>
+        </div>
+
+        <div class="msg-conv-list" id="fullConvList" style="flex:1;"></div>
+      </section>
+
+      <!-- Right Pane: Active Chat Conversation -->
+      <section class="messages-full-right-pane" id="fullRightPane">
+        
+        <!-- Active Chat Container -->
+        <div id="fullActiveChatWrap" style="display:flex; flex-direction:column; height:100%;">
+          
+          <!-- Chat Header -->
+          <div class="msg-chat-head" style="padding:14px 20px;">
+            <div class="msg-chat-head-left">
+              <div class="msg-conv-avatar-wrap">
+                <img id="fullChatAvatar" src="" alt="" class="msg-conv-avatar" style="width:40px; height:40px;" />
+                <span class="msg-online-dot" id="fullChatOnlineDot"></span>
+              </div>
+              <div class="msg-chat-recipient-info">
+                <div class="msg-chat-name-row">
+                  <span class="msg-chat-name" id="fullChatName" style="font-size:14px;">Elena Rostova</span>
+                  <i data-lucide="badge-check" style="width:13.5px; height:13.5px; color:#111827;"></i>
+                </div>
+                <div class="msg-chat-role" id="fullChatRole">CEO &amp; Co-founder @ SynthFlow AI · San Francisco, CA</div>
+              </div>
+            </div>
+
+            <div class="msg-chat-head-right">
+              <a href="javascript:void(0)" class="msg-profile-link-btn" id="fullChatProfileLink">
+                <i data-lucide="user" style="width:12.5px; height:12.5px;"></i>
+                <span>View Profile</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Chat Message Feed -->
+          <div class="msg-chat-body" id="fullChatBody">
+            <div class="msg-date-pill">
+              <span>Today</span>
+            </div>
+            <div id="fullChatBubbles" style="display:flex; flex-direction:column; gap:12px;"></div>
+          </div>
+
+          <!-- Chat Composer -->
+          <div class="msg-composer-wrap" style="padding:14px 20px;">
+            
+            <!-- Attachment Previews (Max 2) -->
+            <div class="msg-attachments-preview-bar" id="fullAttachmentsBar" style="display:none;">
+              <div id="fullAttachmentsList" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
+              <span class="msg-attachment-count-hint" id="fullAttachmentCountHint">(0/2)</span>
+            </div>
+
+            <!-- Input Row -->
+            <div class="msg-input-row">
+              <input type="file" id="fullFileInput" multiple accept="image/*,.pdf,.doc,.docx" style="display:none;" onchange="handleFullAttachmentSelect(this)" />
+              
+              <button type="button" class="msg-attach-btn" onclick="document.getElementById('fullFileInput').click()" title="Attach file (Max 2 files)">
+                <i data-lucide="paperclip" style="width:14px; height:14px;"></i>
+              </button>
+
+              <textarea id="fullChatInput" class="msg-textarea" rows="1" placeholder="Write a message... (Press Enter to send)" onkeydown="handleFullKeyDown(event)" oninput="autoResizeFullInput(this)"></textarea>
+
+              <button type="button" class="msg-send-btn" onclick="sendFullMessage()" title="Send Message">
+                <i data-lucide="send" style="width:13.5px; height:13.5px;"></i>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+</div>
+
+<!-- Layout & Interaction Scripts -->
+<script src="./js/components.js"></script>
+<script src="./js/messages-drawer.js"></script>
+<script>
+  let currentActiveId = 'fnd-elena-synthflow';
+  let fullAttachments = [];
+
+  function initFullPage() {
+    renderFullConvList();
+    loadFullConversation(currentActiveId);
+  }
+
+  function renderFullConvList(query = '') {
+    const listEl = document.getElementById('fullConvList');
+    if (!listEl || !window.SEEDICON_MESSAGES_DB) return;
+
+    const q = (query || '').toLowerCase().trim();
+    const convs = Object.values(window.SEEDICON_MESSAGES_DB).filter(c => {
+      if (!q) return true;
+      const lastMsg = c.messages[c.messages.length - 1]?.text || '';
+      return c.name.toLowerCase().includes(q) || (c.company && c.company.toLowerCase().includes(q)) || lastMsg.toLowerCase().includes(q);
+    });
+
+    document.getElementById('fullInboxCount').textContent = convs.length;
+
+    listEl.innerHTML = convs.map(c => {
+      const lastMsgObj = c.messages[c.messages.length - 1];
+      const lastMsg = lastMsgObj ? (lastMsgObj.sender === 'me' ? `You: ${lastMsgObj.text}` : lastMsgObj.text) : 'Started a conversation';
+      const time = lastMsgObj ? lastMsgObj.time : '';
+      const isSelected = c.id === currentActiveId;
+
+      return `
+        <div class="msg-conv-item ${isSelected ? 'active' : ''} ${c.unread ? 'unread' : ''}" onclick="loadFullConversation('${c.id}')">
+          <div class="msg-conv-avatar-wrap">
+            <img src="${c.avatar}" alt="${c.name}" class="msg-conv-avatar" />
+            ${c.online ? '<span class="msg-online-dot"></span>' : ''}
+          </div>
+          <div class="msg-conv-content">
+            <div class="msg-conv-top-row">
+              <div class="msg-conv-name-row">
+                <span class="msg-conv-name">${c.name}</span>
+                <i data-lucide="badge-check" style="width:12px; height:12px; color:#111827; flex-shrink:0;"></i>
+              </div>
+              <span class="msg-conv-time">${time}</span>
+            </div>
+            <div class="msg-conv-sub-row">
+              <span class="msg-conv-preview">${lastMsg}</span>
+              ${c.unread ? '<span class="msg-unread-dot"></span>' : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function loadFullConversation(id) {
+    const conv = window.SEEDICON_MESSAGES_DB[id];
+    if (!conv) return;
+
+    currentActiveId = id;
+    conv.unread = false;
+    fullAttachments = [];
+    renderFullAttachments();
+
+    document.getElementById('fullChatAvatar').src = conv.avatar;
+    document.getElementById('fullChatName').textContent = conv.name;
+    document.getElementById('fullChatRole').textContent = `${conv.role} @ ${conv.company} · ${conv.location}`;
+    document.getElementById('fullChatOnlineDot').style.display = conv.online ? 'block' : 'none';
+    document.getElementById('fullChatProfileLink').href = `./network-profile.html?id=${conv.id}`;
+
+    renderFullChatBubbles();
+    renderFullConvList(document.getElementById('fullSearchInput')?.value || '');
+
+    const input = document.getElementById('fullChatInput');
+    if (input) {
+      input.value = '';
+      input.style.height = 'auto';
+      input.focus();
+    }
+  }
+
+  function renderFullChatBubbles() {
+    const container = document.getElementById('fullChatBubbles');
+    const conv = window.SEEDICON_MESSAGES_DB[currentActiveId];
+    if (!container || !conv) return;
+
+    container.innerHTML = conv.messages.map(m => {
+      const isMe = m.sender === 'me';
+      const rowClass = isMe ? 'outgoing' : 'incoming';
+      let atts = '';
+      if (m.attachments && m.attachments.length > 0) {
+        atts = m.attachments.map(a => `
+          <div class="msg-bubble-attachment">
+            <i data-lucide="paperclip" style="width:12px; height:12px;"></i>
+            <span>${a.name}</span>
+          </div>
+        `).join('');
+      }
+
+      return `
+        <div class="msg-bubble-row ${rowClass}">
+          <div class="msg-bubble-box">
+            <div>${m.text}</div>
+            ${atts}
+          </div>
+          <div class="msg-bubble-time">${m.time}${isMe ? ' · Sent' : ''}</div>
+        </div>
+      `;
+    }).join('');
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    const feed = document.getElementById('fullChatBody');
+    if (feed) feed.scrollTop = feed.scrollHeight;
+  }
+
+  function handleFullSearch(val) {
+    renderFullConvList(val);
+  }
+
+  function handleFullAttachmentSelect(input) {
+    if (!input.files || input.files.length === 0) return;
+    const selected = Array.from(input.files);
+    const slots = 2 - fullAttachments.length;
+    if (slots <= 0) {
+      if (window.showToast) window.showToast('Maximum 2 attachments allowed.', 'error');
+      return;
+    }
+    selected.slice(0, slots).forEach(f => {
+      fullAttachments.push({ name: f.name, size: (f.size / 1024).toFixed(1) + ' KB' });
+    });
+    renderFullAttachments();
+  }
+
+  function removeFullAttachment(idx) {
+    fullAttachments.splice(idx, 1);
+    renderFullAttachments();
+  }
+
+  function renderFullAttachments() {
+    const bar = document.getElementById('fullAttachmentsBar');
+    const list = document.getElementById('fullAttachmentsList');
+    const count = document.getElementById('fullAttachmentCountHint');
+    if (!bar || !list) return;
+
+    if (fullAttachments.length === 0) {
+      bar.style.display = 'none';
+      list.innerHTML = '';
+      return;
+    }
+
+    bar.style.display = 'flex';
+    if (count) count.textContent = `(${fullAttachments.length}/2)`;
+    list.innerHTML = fullAttachments.map((a, i) => `
+      <div class="msg-attachment-chip">
+        <i data-lucide="paperclip" style="width:11.5px; height:11.5px;"></i>
+        <span>${a.name}</span>
+        <button type="button" class="msg-attachment-remove" onclick="removeFullAttachment(${i})">&times;</button>
+      </div>
+    `).join('');
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function sendFullMessage() {
+    const input = document.getElementById('fullChatInput');
+    const text = input ? input.value.trim() : '';
+    if (!text && fullAttachments.length === 0) return;
+
+    const conv = window.SEEDICON_MESSAGES_DB[currentActiveId];
+    if (!conv) return;
+
+    conv.messages.push({
+      sender: 'me',
+      text: text || '(Attachment)',
+      attachments: [...fullAttachments],
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    });
+
+    fullAttachments = [];
+    renderFullAttachments();
+    if (input) {
+      input.value = '';
+      input.style.height = 'auto';
+    }
+
+    renderFullChatBubbles();
+    renderFullConvList(document.getElementById('fullSearchInput')?.value || '');
+
+    const rId = currentActiveId;
+    setTimeout(() => {
+      if (currentActiveId === rId) {
+        conv.messages.push({
+          sender: 'them',
+          text: 'Thanks for the message! Let me review and follow up shortly.',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        });
+        renderFullChatBubbles();
+        renderFullConvList(document.getElementById('fullSearchInput')?.value || '');
+      }
+    }, 900);
+  }
+
+  function handleFullKeyDown(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendFullMessage();
+    }
+  }
+
+  function autoResizeFullInput(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 90) + 'px';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof FounderLayout !== 'undefined') {
+      FounderLayout.init('network', 'Messages');
+    }
+    initFullPage();
+  });
+</script>
+</body>
+</html>

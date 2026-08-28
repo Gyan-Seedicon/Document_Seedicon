@@ -32,26 +32,15 @@ const FounderLayout = {
               <span>Network</span>
             </div>
           </a>
-          <a href="./product-listing.html" class="sidebar-nav-item ${isActive('listing')}" title="Product Listing">
+          <a href="./messages.html" class="sidebar-nav-item ${isActive('messages')}" title="Messages">
             <div class="sidebar-nav-item-left">
-              <i data-lucide="store" style="width:13.5px; height:13.5px;"></i>
-              <span>Product Listing</span>
+              <i data-lucide="message-square" style="width:13.5px; height:13.5px;"></i>
+              <span>Messages</span>
             </div>
           </a>
         </div>
 
-        <!-- 02. Applications -->
-        <div class="nav-group-section">
-          <div class="nav-group-label">Applications</div>
-          <a href="./my-applications.html" class="sidebar-nav-item ${isActive('my-applications')}" title="My Application">
-            <div class="sidebar-nav-item-left">
-              <i data-lucide="file-text" style="width:13.5px; height:13.5px;"></i>
-              <span>My Application</span>
-            </div>
-          </a>
-        </div>
-
-        <!-- 03. Network & CRM -->
+        <!-- 02. Network & CRM -->
         <div class="nav-group-section">
           <div class="nav-group-label">VDR &amp; CRM</div>
           <a href="./watch-data-rooms.html" class="sidebar-nav-item ${isActive('data-rooms')}" title="Watch Data Rooms">
@@ -68,7 +57,7 @@ const FounderLayout = {
           </a>
         </div>
 
-        <!-- 04. Pitch & Review -->
+        <!-- 03. Pitch & Review -->
         <div class="nav-group-section">
           <div class="nav-group-label">Pitch &amp; Review</div>
           <a href="./deckwale.html" class="sidebar-nav-item ${isActive('deckwale')}" title="Deckwale">
@@ -87,7 +76,7 @@ const FounderLayout = {
           </a>
         </div>
 
-        <!-- 05. Ecosystem & Intelligence -->
+        <!-- 04. Ecosystem & Intelligence -->
         <div class="nav-group-section">
           <div class="nav-group-label">Ecosystem &amp; Intelligence</div>
           <a href="./startup-news.html" class="sidebar-nav-item ${isActive('news')}" title="Startup News">
@@ -150,19 +139,83 @@ const FounderLayout = {
             <i data-lucide="bell" style="width:15px; height:15px;"></i>
           </button>
 
-          <!-- Documentation -->
-          <button class="nav-ghost-icon-btn" title="Documentation" onclick="window.showToast('Opening Founder Guide', 'info')">
-            <i data-lucide="file-text" style="width:15px; height:15px;"></i>
+          <!-- Direct Messages Drawer Trigger -->
+          <button class="nav-ghost-icon-btn nav-messages-trigger-btn" id="navMessagesBtn" title="Direct Messages" onclick="window.openMessagesDrawer()" style="position:relative;">
+            <i data-lucide="message-square" style="width:15px; height:15px;"></i>
+            <span class="nav-msg-unread-dot" id="navMsgUnreadDot" style="position:absolute; top:5px; right:5px; width:7px; height:7px; background:#111827; border-radius:50%; border:1.5px solid #FFFFFF;"></span>
           </button>
 
-          <!-- List Products Button -->
-          <a href="./product-listing.html" class="nav-invite-btn" style="background:#141413; color:#FFFFFF; border:none; text-decoration:none;" title="List your products">
+          <!-- List your product Button -->
+          <a href="./list-product.html" class="nav-invite-btn" style="background:#141413; color:#FFFFFF; border:none; text-decoration:none; display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 12px; border-radius:9999px; font-size:12px; font-weight:600;" title="List your product">
             <i data-lucide="plus" style="width:13px; height:13px;"></i>
-            <span>List your products</span>
+            <span>List your product</span>
           </a>
 
-          <!-- Profile Avatar -->
-          <div class="avatar-gradient-circle" title="Dr. Sarah Chen (Founder)">SC</div>
+          <!-- User Profile Dropdown -->
+          <div class="workspace-avatar-container" style="position:relative;">
+            <button type="button" class="pub-avatar-btn" id="workspaceUserAvatarBtn" onclick="window.toggleWorkspaceUserDropdown(event)" title="User Account" style="width:32px; height:32px; border-radius:50%; overflow:hidden; border:1.5px solid var(--border-main); cursor:pointer; background:#FFFFFF; padding:0; display:block;">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="Alex Thorne" style="width:100%; height:100%; object-fit:cover;" />
+            </button>
+
+            <div class="pub-user-menu" id="workspaceUserMenu">
+              <div class="pub-user-menu-head" onclick="window.location.href='./profile.html'" style="cursor:pointer;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces" alt="Alex Thorne" style="width:32px; height:32px; border-radius:50%; object-fit:cover;" />
+                  <div>
+                    <div style="font-size:13px; font-weight:700; color:#111827;" id="workspaceUserNameDisplay">Alex Thorne</div>
+                    <div style="font-size:11.5px; color:#6B7280;" id="workspaceUserEmailDisplay">alex.thorne@seedicon.com</div>
+                  </div>
+                </div>
+
+                <div style="margin-top:10px;">
+                  <div style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:700; color:#111827; margin-bottom:4px;">
+                    <span>Profile Completion</span>
+                    <span style="font-weight:800;">50%</span>
+                  </div>
+                  <div style="height:5px; background:#E5E7EB; border-radius:9999px; overflow:hidden;">
+                    <div style="width:50%; height:100%; background:#111827;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Menu Links -->
+              <a href="./profile.html" class="pub-user-menu-link" onclick="window.location.href='./profile.html'">
+                <i data-lucide="user" style="width:14px; height:14px;"></i>
+                <span>Profile</span>
+              </a>
+              <a href="./network.html" class="pub-user-menu-link" onclick="window.location.href='./network.html'">
+                <i data-lucide="settings" style="width:14px; height:14px;"></i>
+                <span>Settings</span>
+              </a>
+              <a href="./my-products.html" class="pub-user-menu-link" onclick="window.location.href='./my-products.html'">
+                <i data-lucide="package" style="width:14px; height:14px;"></i>
+                <span>My products</span>
+              </a>
+              <a href="./funding-requests.html" class="pub-user-menu-link" onclick="window.location.href='./funding-requests.html'">
+                <i data-lucide="banknote" style="width:14px; height:14px;"></i>
+                <span>Funding requests</span>
+              </a>
+
+              <div style="height:1px; background:#F0F0EB; margin:4px 0;"></div>
+
+              <!-- Workspaces -->
+              <a href="./network.html" class="pub-user-menu-link active" onclick="window.location.href='./network.html'">
+                <i data-lucide="layout-dashboard" style="width:14px; height:14px;"></i>
+                <span>Founder Workspace</span>
+              </a>
+              <a href="../lofi-investor/index.html" class="pub-user-menu-link" onclick="window.location.href='../lofi-investor/index.html'">
+                <i data-lucide="trending-up" style="width:14px; height:14px;"></i>
+                <span>Investor Workspace</span>
+              </a>
+
+              <div style="height:1px; background:#F0F0EB; margin:4px 0;"></div>
+
+              <a href="./index.html" class="pub-user-menu-link" style="color:#DC2626;" onclick="localStorage.removeItem('seedicon_user'); window.showToast('Signed out', 'info');">
+                <i data-lucide="log-out" style="width:14px; height:14px;"></i>
+                <span>Sign out</span>
+              </a>
+            </div>
+          </div>
         </div>
       </header>
     `;
@@ -178,6 +231,22 @@ const FounderLayout = {
     if (topNavSlot) {
       topNavSlot.innerHTML = this.renderTopNav(pageTitle, actionsHtml);
     }
+
+    // Auto-inject messages stylesheet if not already on page
+    if (!document.querySelector('link[href*="messages.css"]')) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = './css/messages.css';
+      document.head.appendChild(link);
+    }
+
+    // Auto-inject messages drawer script if not already on page
+    if (!window.openMessagesDrawer && !document.querySelector('script[src*="messages-drawer.js"]')) {
+      const s = document.createElement('script');
+      s.src = './js/messages-drawer.js';
+      document.body.appendChild(s);
+    }
+
     if (typeof lucide !== 'undefined') {
       lucide.createIcons();
     }
@@ -280,6 +349,24 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+window.toggleWorkspaceUserDropdown = function(e) {
+  if (e) e.stopPropagation();
+  const menu = document.getElementById('workspaceUserMenu');
+  if (menu) {
+    menu.classList.toggle('show');
+  }
+};
+
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('workspaceUserMenu');
+  const btn = document.getElementById('workspaceUserAvatarBtn');
+  if (menu && menu.classList.contains('show')) {
+    if (!menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
+      menu.classList.remove('show');
+    }
+  }
+});
+
 /* ──────────────────────────────────────────────────────────────────────────
    10. GLOBAL PRODUCT ANALYTICS DRAWER COMPONENT
    ────────────────────────────────────────────────────────────────────────── */
@@ -288,4 +375,5 @@ window.openProductAnalyticsDrawer = window.openProductAnalyticsDrawer || functio
     window.ensureProductAnalyticsDrawerInDOM();
   }
 };
+
 

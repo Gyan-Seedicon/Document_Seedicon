@@ -1,0 +1,476 @@
+/* ==========================================================================
+   NETWORK MEMBER PROFILE PAGE STYLESHEET (Seedicon Platform)
+   Integrated for Workspace Frame (components.js sidebar + workspace-top-nav)
+   Strict Font Rule: Outfit Only · Clean Surface Design · No Border-Bottoms
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --np-font: 'Outfit', sans-serif;
+  --np-surface: #FFFFFF;
+  --np-surface-subtle: #FAFAF9;
+  --np-border: #E5E5DF;
+  --np-border-subtle: #F0F0EB;
+  
+  --np-text-dark: #111827;
+  --np-text-main: #374151;
+  --np-text-muted: #6B7280;
+  --np-text-light: #9CA3AF;
+  
+  --np-radius-xs: 4px;
+  --np-radius-sm: 6px;
+  --np-radius-md: 10px;
+  --np-radius-lg: 14px;
+  --np-radius-pill: 9999px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   01. PAGE SURFACE CONTAINER INSIDE WORKSPACE
+   ────────────────────────────────────────────────────────────────────────── */
+.profile-page-container {
+  max-width: 860px;
+  width: 100%;
+  margin: 16px auto 80px;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--np-font) !important;
+}
+
+/* Breadcrumb Navigation */
+.profile-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--np-text-muted);
+  margin-bottom: 20px;
+}
+
+.profile-breadcrumb a {
+  color: var(--np-text-muted);
+  text-decoration: none;
+  transition: color 0.12s ease;
+}
+
+.profile-breadcrumb a:hover {
+  color: var(--np-text-dark);
+  text-decoration: underline;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   02. IDENTITY HEADER ROW (NO BORDER-BOTTOM)
+   ────────────────────────────────────────────────────────────────────────── */
+.profile-header-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+.profile-header-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex: 1;
+}
+
+/* Avatar Frame */
+.profile-avatar-wrap {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+  padding: 3px;
+  background: #F4F4F2;
+  border: 1px solid var(--np-border);
+}
+
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Profile Info Block */
+.profile-info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--np-text-dark);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.profile-role-text {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--np-text-muted);
+  line-height: 1.3;
+}
+
+/* Profile Completion Card */
+.profile-completion-meter-card {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 220px;
+}
+
+.profile-completion-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--np-text-muted);
+}
+
+.profile-completion-percent {
+  font-weight: 800;
+  color: var(--np-text-dark);
+}
+
+.profile-completion-bar-track {
+  width: 100%;
+  height: 6px;
+  background: #E5E7EB;
+  border-radius: var(--np-radius-pill);
+  overflow: hidden;
+}
+
+.profile-completion-bar-fill {
+  height: 100%;
+  background: #111827;
+  border-radius: var(--np-radius-pill);
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Action Controls Header Right (Message Button Only) */
+.profile-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  padding-top: 2px;
+}
+
+.profile-msg-btn {
+  height: 38px;
+  padding: 0 18px;
+  border-radius: var(--np-radius-pill);
+  background: #111827;
+  border: 1px solid #111827;
+  font-family: var(--np-font);
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.profile-msg-btn:hover {
+  background: #000000;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   03. NAVIGATION PILL TABS (NO BORDER-BOTTOM)
+   ────────────────────────────────────────────────────────────────────────── */
+.profile-nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 28px;
+  border-bottom: none !important;
+  padding-bottom: 4px;
+  overflow-x: auto;
+}
+
+.profile-tab-btn {
+  padding: 6px 16px;
+  border-radius: var(--np-radius-pill);
+  font-family: var(--np-font);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--np-text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  white-space: nowrap;
+}
+
+.profile-tab-btn:hover {
+  color: var(--np-text-dark);
+}
+
+.profile-tab-btn.active {
+  background: #F3F4F6;
+  color: var(--np-text-dark);
+  font-weight: 700;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   04. ABOUT TAB CONTENT SECTIONS (CLEAN SURFACE DESIGN)
+   ────────────────────────────────────────────────────────────────────────── */
+.profile-tab-pane {
+  display: none;
+  flex-direction: column;
+  margin-top: 14px;
+}
+
+.profile-tab-pane.active {
+  display: flex;
+}
+
+.profile-section-block {
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--np-text-dark);
+  letter-spacing: -0.01em;
+}
+
+/* Surface Clean Bio */
+.profile-surface-bio {
+  font-size: 14px;
+  color: var(--np-text-main);
+  line-height: 1.6;
+}
+
+/* Clean Surface 2-Column Details Layout (Exact Same 5 Fields as profile.html) */
+.profile-surface-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 32px;
+  padding: 4px 0;
+}
+
+@media (max-width: 680px) {
+  .profile-surface-details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.profile-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.profile-detail-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--np-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.profile-detail-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--np-text-dark);
+  word-break: break-word;
+}
+
+.profile-detail-value a {
+  color: #111827;
+  text-decoration: underline;
+}
+
+/* Founding Team Surface Rows */
+.profile-team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-team-surface-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--np-border-subtle);
+}
+
+.profile-team-surface-row:last-child {
+  border-bottom: none;
+}
+
+.profile-team-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-team-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--np-text-dark);
+}
+
+.profile-team-role {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--np-text-muted);
+}
+
+.profile-team-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12.5px;
+  color: var(--np-text-muted);
+}
+
+.profile-team-meta a {
+  color: var(--np-text-muted);
+  transition: color 0.12s ease;
+}
+
+.profile-team-meta a:hover {
+  color: var(--np-text-dark);
+}
+
+/* Direct Message Drawer Overlay & Panel */
+.net-msg-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 99990;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.22s ease, visibility 0.22s;
+}
+
+.net-msg-drawer-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.net-msg-drawer-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 460px;
+  max-width: 92vw;
+  background: #FFFFFF;
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.08);
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--np-font) !important;
+}
+
+.net-msg-drawer-overlay.show .net-msg-drawer-panel {
+  transform: translateX(0);
+}
+
+.net-msg-head {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--np-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.net-msg-recipient {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.net-msg-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid var(--np-border);
+}
+
+.net-msg-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.net-msg-quick-prompts {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.net-prompt-chip {
+  padding: 6px 9px;
+  border-radius: var(--np-radius-sm);
+  background: #FAFAF9;
+  border: 1px solid var(--np-border);
+  font-size: 12px;
+  color: var(--np-text-main);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.12s ease;
+}
+
+.net-prompt-chip:hover {
+  background: #F4F4F2;
+  border-color: var(--np-text-dark);
+}
+
+.net-msg-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 9px 11px;
+  border-radius: var(--np-radius-md);
+  border: 1px solid var(--np-border);
+  font-family: var(--np-font);
+  font-size: 12px;
+  color: var(--np-text-dark);
+  outline: none;
+  resize: vertical;
+}
+
+.net-msg-textarea:focus {
+  border-color: var(--np-text-dark);
+}
+
+.net-drawer-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--np-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
