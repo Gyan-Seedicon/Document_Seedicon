@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Watch Data Rooms (VDR) · Seedicon Founder Workspace</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+
+  <!-- Google Font: Outfit (Strict Rule) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Core, Network, Messages & VDR Stylesheets -->
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="stylesheet" href="./css/messages.css" />
+  <link rel="stylesheet" href="./css/watch-data-rooms.css" />
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- ApexCharts CDN for Document Reading Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+
+<!-- Outer Ambient Viewport Frame -->
+<div class="app-viewport">
+  <div class="app-frame">
+
+    <!-- 01. Standardized Reusable Sidebar Slot (components.js) -->
+    <div id="sidebarSlot"></div>
+
+    <!-- 02. Main Workspace Canvas -->
+    <main class="founder-workspace-canvas">
+      
+      <!-- Top Navigation Header Bar Slot (components.js) -->
+      <div id="topNavSlot"></div>
+
+      <!-- Scrollable Workspace Body -->
+      <div class="workspace-scroll-body">
+        <div class="vdr-page-root" id="vdrRoot">
+          <!-- Dynamically populated via watch-data-rooms.js -->
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+</div>
+
+<!-- Modal & Toast Dynamic Slot -->
+<div id="modalSlot"></div>
+
+<!-- Layout & Interaction Scripts -->
+<script src="./js/components.js"></script>
+<script src="./js/messages-drawer.js"></script>
+<script src="./js/watch-data-rooms.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof FounderLayout !== 'undefined') {
+      FounderLayout.init('data-rooms', 'Watch Data Rooms');
+    }
+    if (window.renderWatchDataRooms) {
+      window.renderWatchDataRooms();
+    }
+  });
+</script>
+</body>
+</html>

@@ -287,25 +287,30 @@ window.showToast = function(msg, type = 'info') {
   }, 3200);
 };
 
-window.openModal = function(title, bodyHtml) {
+window.openModal = function(title, bodyHtml, maxWidth = '540px') {
   let overlay = document.getElementById('globalModalOverlay');
   if (!overlay) {
     overlay = document.createElement('div');
     overlay.id = 'globalModalOverlay';
-    overlay.style.cssText = 'position:fixed; inset:0; z-index:99990; background:rgba(0,0,0,0.4); backdrop-filter:blur(3px); display:none; align-items:center; justify-content:center; padding:16px;';
+    overlay.style.cssText = 'position:fixed; inset:0; z-index:99990; background:rgba(0,0,0,0.45); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); display:none; align-items:center; justify-content:center; padding:16px;';
+    overlay.onclick = function(e) {
+      if (e.target.id === 'globalModalOverlay') window.closeModal();
+    };
     overlay.innerHTML = `
-      <div style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:10px; width:100%; max-width:520px; box-shadow:0 20px 40px rgba(0,0,0,0.18); overflow:hidden; display:flex; flex-direction:column;">
-        <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid var(--border-main);">
+      <div id="globalModalCard" style="background:#FFFFFF; border:1px solid var(--border-main); border-radius:12px; width:100%; max-width:${maxWidth}; box-shadow:0 24px 50px rgba(0,0,0,0.2); overflow:hidden; display:flex; flex-direction:column; animation:modalPop 0.16s cubic-bezier(0.16, 1, 0.3, 1);">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-bottom:1px solid var(--border-main); background:#FAFAF9;">
           <h3 id="globalModalTitle" style="font-size:14px; font-weight:800; color:var(--text-dark); margin:0;"></h3>
-          <button onclick="window.closeModal()" style="background:none; border:none; cursor:pointer; color:var(--text-muted); display:flex; align-items:center; padding:2px;">
+          <button onclick="window.closeModal()" style="background:none; border:none; cursor:pointer; color:var(--text-muted); display:flex; align-items:center; padding:4px; border-radius:4px;">
             <i data-lucide="x" style="width:16px; height:16px;"></i>
           </button>
         </div>
-        <div id="globalModalBody" style="padding:18px; max-height:80vh; overflow-y:auto;"></div>
+        <div id="globalModalBody" style="padding:20px; max-height:82vh; overflow-y:auto;"></div>
       </div>
     `;
     document.body.appendChild(overlay);
   }
+  const card = document.getElementById('globalModalCard');
+  if (card) card.style.maxWidth = maxWidth;
   document.getElementById('globalModalTitle').textContent = title;
   document.getElementById('globalModalBody').innerHTML = bodyHtml;
   overlay.style.display = 'flex';
